@@ -1,4 +1,4 @@
-Registro, Segumiento y Control
+Registro, Seguimiento y Control
 ============================
 Sistema para el registro, seguimiento y control de proyectos y acciones centralizadas.
 
