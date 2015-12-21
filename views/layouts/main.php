@@ -37,13 +37,14 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
+            ['label' => 'Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],
             ['label' => 'Usuarios', 'url' => ['/user/manager'], 'visible' => !Yii::$app->user->isGuest],
             ['label' => 'Roles', 'url' => ['/rbac/role'], 'visible' => !Yii::$app->user->isGuest],
             ['label' => 'Reglas', 'url' => ['/rbac/rule'], 'visible' => !Yii::$app->user->isGuest],
             ['label' => 'Permisos', 'url' => ['/rbac/permission'], 'visible' => !Yii::$app->user->isGuest],
             ['label' => 'Asignacion de Rol', 'url' => ['/rbac/assignment'], 'visible' => !Yii::$app->user->isGuest],
-            ['label' => 'Acerca de', 'url' => ['/site/about']],
-            ['label' => 'Contacto', 'url' => ['/site/contact']],
+            //['label' => 'Acerca de', 'url' => ['/site/about']],
+            //['label' => 'Contacto', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ?
                 ['label' => 'Entrar', 'url' => ['/user/security/login']] :
                 [
@@ -67,7 +68,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; MINPPPST <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

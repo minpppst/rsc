@@ -11,30 +11,36 @@
 	    {
 	        $auth = Yii::$app->authManager;
 
-	        //Crear usuarios
-	        $crearUsuario = $auth->createPermission('crearUsuario');
-	        $crearUsuario->description = 'Crear usuario';
-	        $auth->add($crearUsuario);
+	        //Ver Proyectos
+	        $verProyecto = $auth->createPermission('verProyecto');
+	        $verProyecto->description = 'Ver Proyecto';
+	        $auth->add($verProyecto);
 
-	        //Editar usuarios
-	        $editarUsuario = $auth->createPermission('editarUsuario');
-	        $editarUsuario->description = 'Editar usuario';
-	        $auth->add($editarUsuario);
+	        //Crear Proyectos
+	        $crearProyecto = $auth->createPermission('crearProyecto');
+	        $crearProyecto->description = 'Crear Proyecto';
+	        $auth->add($crearProyecto);
 
-	        //Eliminar usuarios
-	        $eliminarUsuario = $auth->createPermission('eliminarUsuario');
-	        $eliminarUsuario->description = 'Eliminar usuario';
-	        $auth->add($eliminarUsuario);
+	        //Editar Proyectos
+	        $editarProyecto = $auth->createPermission('editarProyecto');
+	        $editarProyecto->description = 'Editar Proyecto';
+	        $auth->add($editarProyecto);
+
+	        //Eliminar Proyectos
+	        $eliminarProyecto = $auth->createPermission('eliminarProyecto');
+	        $eliminarProyecto->description = 'Eliminar Proyecto';
+	        $auth->add($eliminarProyecto);
 
 	        // add "admin" role and give this role the "updatePost" permission
 	        // as well as the permissions of the "author" role
-	        $admin = $auth->createRole('admin');
+	        $admin = $auth->createRole('registrador');
 	        $auth->add($admin);
-	        $auth->addChild($admin, $crearUsuario);
-	        $auth->addChild($admin, $editarUsuario);
-	        $auth->addChild($admin, $eliminarUsuario);
+	        $auth->addChild($admin, $verProyecto);
+	        $auth->addChild($admin, $crearProyecto);
+	        $auth->addChild($admin, $editarProyecto);
+	        $auth->addChild($admin, $eliminarProyecto);
 
-	        // Assign roles to users. 1 and 2 are IDs returned by IdentityInterface::getId()
+	        // Assign roles to users. 1 is ID returned by IdentityInterface::getId()
 	        // usually implemented in your User model.
 	        $auth->assign($admin, 1);
 	    }

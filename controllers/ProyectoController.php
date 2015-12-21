@@ -3,11 +3,15 @@
 namespace app\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use app\models\Proyecto;
 use app\models\ProyectoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\models\EstatusProyecto;
+use app\models\SituacionPresupuestaria;
 
 /**
  * ProyectoController implements the CRUD actions for Proyecto model.
@@ -23,6 +27,25 @@ class ProyectoController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rule,$action)
+                        {
+                            $controller = Yii::$app->controller->id;
+                            $action = Yii:: $app->controller->action->id;                    
+                            $route = "$controller/$action";
+                            if(\Yii::$app->user->can($route))
+                            {
+                                return true;
+                            }
+                        }
+                    ],
+                ],
+            ]
         ];
     }
 
@@ -62,11 +85,17 @@ class ProyectoController extends Controller
     {
         $model = new Proyecto();
 
+        //Datos para listas desplegables
+        $estatus_proyecto = EstatusProyecto::find()->all();
+        $situacion_presupuestaria = SituacionPresupuestaria::find()->all();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'estatus_proyecto' => $estatus_proyecto,
+                'situacion_presupuestaria' => $situacion_presupuestaria
             ]);
         }
     }
