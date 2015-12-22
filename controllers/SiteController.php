@@ -17,12 +17,25 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','index'],
                 'rules' => [
                     [
                         'actions' => ['logout','index'],
                         'allow' => true,
                         'roles' => ['@'], //autenticados
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rule,$action)
+                        {
+                            $controller = Yii::$app->controller->id;
+                            $action = Yii:: $app->controller->action->id;                    
+                            $route = "$controller/$action";
+                            if(\Yii::$app->user->can($route))
+                            {
+                                return true;
+                            }
+                        }
                     ],
                 ],
             ],
@@ -93,9 +106,9 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionSay($message='Hola')
-    {
-        return $this->render('say', ['message'=>$message]);
-    }
+   public function actionConfiguracion()
+   {
+        return $this->render('configuracion');
+   }
 
 }

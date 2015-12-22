@@ -33,22 +33,23 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    $icons=[
+        'config'=>'<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>',
+        'salir'=>'<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>',
+    ];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
+        'encodeLabels'=>false,
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
-            ['label' => 'Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],
-            ['label' => 'Usuarios', 'url' => ['/user/manager'], 'visible' => !Yii::$app->user->isGuest],
-            ['label' => 'Roles', 'url' => ['/rbac/role'], 'visible' => !Yii::$app->user->isGuest],
-            ['label' => 'Reglas', 'url' => ['/rbac/rule'], 'visible' => !Yii::$app->user->isGuest],
-            ['label' => 'Permisos', 'url' => ['/rbac/permission'], 'visible' => !Yii::$app->user->isGuest],
-            ['label' => 'Asignacion de Rol', 'url' => ['/rbac/assignment'], 'visible' => !Yii::$app->user->isGuest],
+            ['label' => 'Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],            
+            ['label' => $icons['config'].' Configuración', 'url' => ['/site/configuracion'], 'visible' => Yii::$app->user->can('site/configuracion')],
             //['label' => 'Acerca de', 'url' => ['/site/about']],
             //['label' => 'Contacto', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ?
                 ['label' => 'Entrar', 'url' => ['/user/security/login']] :
                 [
-                    'label' => 'Salir (' . Yii::$app->user->identity->username . ')',
+                    'label' => $icons['salir'].' Salir (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/user/security/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ],

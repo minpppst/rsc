@@ -12,6 +12,13 @@ use yii\filters\VerbFilter;
 
 use app\models\EstatusProyecto;
 use app\models\SituacionPresupuestaria;
+use app\models\Sector;
+use app\models\SubSector;
+use app\models\PlanOperativo;
+use app\models\ObjetivosHistoricos;
+use app\models\ObjetivosNacionales;
+use app\models\ObjetivosEstrategicos;
+use app\models\ObjetivosGenerales;
 
 /**
  * ProyectoController implements the CRUD actions for Proyecto model.
@@ -88,6 +95,13 @@ class ProyectoController extends Controller
         //Datos para listas desplegables
         $estatus_proyecto = EstatusProyecto::find()->all();
         $situacion_presupuestaria = SituacionPresupuestaria::find()->all();
+        $sector = Sector::find()->all();
+        $sub_sector = SubSector::find()->all();
+        $plan_operativo = PlanOperativo::find()->all();
+        $objetivo_general = ObjetivosGenerales::find()
+                ->select(['objetivo_general as value', 'id as id'])
+                ->asArray()
+                ->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -95,7 +109,11 @@ class ProyectoController extends Controller
             return $this->render('create', [
                 'model' => $model,
                 'estatus_proyecto' => $estatus_proyecto,
-                'situacion_presupuestaria' => $situacion_presupuestaria
+                'situacion_presupuestaria' => $situacion_presupuestaria,
+                'sector' => $sector,
+                'sub_sector' => $sub_sector,
+                'plan_operativo' => $plan_operativo,
+                'objetivo_general' => $objetivo_general
             ]);
         }
     }

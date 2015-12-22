@@ -18,7 +18,7 @@ class ProyectoSearch extends Proyecto
     public function rules()
     {
         return [
-            [['id', 'estatus_proyecto', 'situacion_presupuestaria', 'clasificacion_sector', 'sub_sector', 'plan_operativo', 'objetivo_estrategico'], 'integer'],
+            [['id', 'estatus_proyecto', 'situacion_presupuestaria', 'clasificacion_sector', 'sub_sector', 'plan_operativo', 'objetivo_general'], 'integer'],
             [['codigo_proyecto', 'codigo_sne', 'nombre', 'descripcion'], 'safe'],
             [['monto_proyecto'], 'number'],
         ];
@@ -64,7 +64,7 @@ class ProyectoSearch extends Proyecto
             'clasificacion_sector' => $this->clasificacion_sector,
             'sub_sector' => $this->sub_sector,
             'plan_operativo' => $this->plan_operativo,
-            'objetivo_estrategico' => $this->objetivo_estrategico,
+            'objetivo_general' => $this->objetivo_general,
         ]);
 
         $query->andFilterWhere(['like', 'codigo_proyecto', $this->codigo_proyecto])

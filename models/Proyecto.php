@@ -18,11 +18,10 @@ use Yii;
  * @property integer $clasificacion_sector
  * @property integer $sub_sector
  * @property integer $plan_operativo
- * @property integer $objetivo_estrategico
+ * @property integer $objetivo_general
  *
  * @property AccionEspecificaProyecto[] $accionEspecificaProyectos
  * @property Localizacion[] $localizacions
- * @property Registrador[] $registradors
  * @property ResponsableAdministrativo[] $responsableAdministrativos
  * @property ResponsableProyecto[] $responsableProyectos
  * @property ResponsableTecnico[] $responsableTecnicos
@@ -43,8 +42,8 @@ class Proyecto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_estrategico'], 'required'],
-            [['estatus_proyecto', 'situacion_presupuestaria', 'clasificacion_sector', 'sub_sector', 'plan_operativo', 'objetivo_estrategico'], 'integer'],
+            [['nombre', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general'], 'required'],
+            [['estatus_proyecto', 'situacion_presupuestaria', 'clasificacion_sector', 'sub_sector', 'plan_operativo', 'objetivo_general'], 'integer'],
             [['monto_proyecto'], 'number'],
             [['descripcion'], 'string'],
             [['codigo_proyecto', 'codigo_sne', 'nombre'], 'string', 'max' => 45],
@@ -60,17 +59,17 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'codigo_proyecto' => 'Código Proyecto',
-            'codigo_sne' => 'Código SNE',
+            'codigo_proyecto' => 'Codigo Proyecto',
+            'codigo_sne' => 'Codigo Sne',
             'nombre' => 'Nombre',
             'estatus_proyecto' => 'Estatus Proyecto',
             'situacion_presupuestaria' => 'Situacion Presupuestaria',
             'monto_proyecto' => 'Monto Proyecto',
-            'descripcion' => 'Descripción',
-            'clasificacion_sector' => 'Clasificación Sector',
+            'descripcion' => 'Descripcion',
+            'clasificacion_sector' => 'Clasificacion Sector',
             'sub_sector' => 'Sub Sector',
             'plan_operativo' => 'Plan Operativo',
-            'objetivo_estrategico' => 'Objetivo Estratégico',
+            'objetivo_general' => 'Objetivo General',
         ];
     }
 
@@ -88,14 +87,6 @@ class Proyecto extends \yii\db\ActiveRecord
     public function getLocalizacions()
     {
         return $this->hasMany(Localizacion::className(), ['id_proyecto' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRegistradors()
-    {
-        return $this->hasMany(Registrador::className(), ['id_proyecto' => 'id']);
     }
 
     /**

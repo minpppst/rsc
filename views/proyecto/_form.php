@@ -3,11 +3,12 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+use yii\jui\AutoComplete;
+use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Proyecto */
 /* @var $form yii\widgets\ActiveForm */
-
 ?>
 
 <div class="proyecto-form">
@@ -28,13 +29,31 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'clasificacion_sector')->textInput() ?>
+    <?= $form->field($model, 'clasificacion_sector')->dropDownList(ArrayHelper::map($sector,'id','sector'),['prompt'=>'Seleccione']) ?>
 
-    <?= $form->field($model, 'sub_sector')->textInput() ?>
+    <?= $form->field($model, 'sub_sector')->dropDownList(ArrayHelper::map($sub_sector,'id','sub_sector'),['prompt'=>'Seleccione']) ?>
 
-    <?= $form->field($model, 'plan_operativo')->textInput() ?>
+    <?= $form->field($model, 'plan_operativo')->dropDownList(ArrayHelper::map($plan_operativo,'id','plan_operativo'),['prompt'=>'Seleccione']) ?>
 
-    <?= $form->field($model, 'objetivo_estrategico')->textInput() ?>
+    <?= $form->field($model, 'objetivo_general')->hiddenInput() ?>
+
+    <div class="form-group">
+        <?= AutoComplete::widget([
+                'model' => $model,
+                'name' => 'general',
+                'options'=> [
+                    'class' => 'form-control',
+                ],
+                'clientOptions' => [                
+                    'source' => $objetivo_general,
+                    'autoFill' => true,
+                    'select' => new JsExpression("function(event, ui) {
+                        $('#proyecto-objetivo_general').val(ui.item.id);
+                    }"),
+                ],
+            ])
+        ?>
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
