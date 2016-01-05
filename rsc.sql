@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 21-12-2015 a las 20:59:18
+-- Tiempo de generación: 05-01-2016 a las 16:26:32
 -- Versión del servidor: 5.6.27-0ubuntu1
 -- Versión de PHP: 5.6.11-1ubuntu3.1
 
@@ -33,6 +33,31 @@ CREATE TABLE IF NOT EXISTS `accion_especifica_proyecto` (
   `nombre` text,
   `id_unidad_ejecutora` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ambito`
+--
+
+CREATE TABLE IF NOT EXISTS `ambito` (
+  `id` int(11) NOT NULL,
+  `ambito` varchar(30) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `ambito`
+--
+
+INSERT INTO `ambito` (`id`, `ambito`) VALUES
+(1, 'Internacional'),
+(2, 'Nacional'),
+(3, 'Regional'),
+(4, 'Estadal'),
+(5, 'Municipal'),
+(6, 'Parroquial'),
+(7, 'Comunal'),
+(8, 'Otros');
 
 -- --------------------------------------------------------
 
@@ -75,13 +100,40 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('proyecto-internacional/create', 2, 'Ámbito internacional crear', NULL, NULL, 1451487147, 1451487539),
+('proyecto-internacional/delete', 2, 'Ámbito internacional eliminar', NULL, NULL, 1451487197, 1451487564),
+('proyecto-internacional/index', 2, 'Ámbito internacional lista', NULL, NULL, 1451487641, 1451487656),
+('proyecto-internacional/update', 2, 'Ámbito internacional editar', NULL, NULL, 1451487172, 1451487587),
+('proyecto-internacional/view', 2, 'Ámbito internacional ver', NULL, NULL, 1451487215, 1451487602),
+('proyecto-localizacion/create', 2, 'Localización estadal, municipal, parroquial - crear', NULL, NULL, 1451505242, 1451505242),
+('proyecto-localizacion/index', 2, 'Localización estadal, municipal, parroquial - lista', NULL, NULL, 1451499354, 1451499354),
+('proyecto-localizacion/update', 2, 'Localización estadal, municipal, parroquial - modificar', NULL, NULL, 1451967049, 1451967049),
+('proyecto-localizacion/view', 2, 'Localización estadal, municipal, parroquial - ver', NULL, NULL, 1451968567, 1451968567),
+('proyecto-registrador/create', 2, 'Crear registrador de proyecto', NULL, NULL, 1451931943, 1451931943),
+('proyecto-registrador/create-alt', 2, 'Crear registrador de proyecto - método alternativo', NULL, NULL, 1452023090, 1452023090),
+('proyecto-registrador/delete', 2, 'Eliminar registrador de proyecto', NULL, NULL, 1451931989, 1451931989),
+('proyecto-registrador/index', 2, 'Lista de registrador de proyecto', NULL, NULL, 1451932055, 1451932055),
+('proyecto-registrador/update', 2, 'Editar registrador de proyecto', NULL, NULL, 1451931966, 1451931966),
+('proyecto-registrador/view', 2, 'Ver registrador de proyecto', NULL, NULL, 1451937934, 1451937934),
+('proyecto-responsable-administrativo/create', 2, 'Crear responsable administrativo de proyecto', NULL, NULL, 1452006664, 1452006664),
+('proyecto-responsable-administrativo/create-alt', 2, 'Crear responsable administrativo de proyecto - método alternativo', NULL, NULL, 1452023021, 1452023098),
+('proyecto-responsable-administrativo/delete', 2, 'Eliminar responsable administrativo de proyecto', NULL, NULL, 1452006754, 1452006754),
+('proyecto-responsable-administrativo/update', 2, 'Editar responsable administrativo de proyecto', NULL, NULL, 1452006689, 1452006689),
+('proyecto-responsable-administrativo/view', 2, 'Ver responsable administrativo de proyecto', NULL, NULL, 1452006722, 1452006722),
+('proyecto-responsable-tecnico/create', 2, 'Crear responsable técnico de proyecto', NULL, NULL, 1452011058, 1452011058),
+('proyecto-responsable-tecnico/create-alt', 2, 'Crear responsable de proyecto - método alternativo', NULL, NULL, 1452022995, 1452023110),
+('proyecto-responsable-tecnico/update', 2, 'Editar responsable técnico de proyecto', NULL, NULL, 1452011082, 1452011082),
+('proyecto-responsable/create', 2, 'Crear responsable de proyecto', NULL, NULL, 1452005727, 1452005727),
+('proyecto-responsable/create-alt', 2, 'Crear responsable de proyecto - método alternativo', NULL, NULL, 1452022162, 1452023117),
+('proyecto-responsable/delete', 2, 'Eliminar responsable de proyecto', NULL, NULL, 1452019408, 1452019408),
+('proyecto-responsable/update', 2, 'Editar responsable de proyecto', NULL, NULL, 1452005753, 1452005753),
+('proyecto-responsable/view', 2, 'Ver responsable de proyecto', NULL, NULL, 1452006168, 1452006168),
 ('proyecto/create', 2, 'Crear Proyecto', NULL, NULL, 1450393912, 1450645199),
 ('proyecto/delete', 2, 'Eliminar Proyecto', NULL, NULL, 1450393912, 1450645229),
 ('proyecto/index', 2, 'Lista de proyectos', NULL, NULL, 1450646779, 1450646779),
 ('proyecto/update', 2, 'Editar Proyecto', NULL, NULL, 1450393912, 1450645214),
 ('proyecto/view', 2, 'Ver Proyecto', NULL, NULL, 1450393912, 1450645173),
-('registrador', 1, 'Crea, Edita y Elimina proyectos', NULL, NULL, 1450393912, 1450661292),
-('reporte', 1, 'Usuarios que generan reportes', NULL, NULL, 1449861743, 1450660283),
+('registrador', 1, 'Crea, Edita y Elimina proyectos', NULL, NULL, 1450393912, 1452023706),
 ('site/configuracion', 2, 'Configurar el sistema', NULL, NULL, 1450736795, 1450736795),
 ('sysadmin', 1, 'Administrador del sistema', NULL, NULL, 1450736017, 1450736808);
 
@@ -101,12 +153,39 @@ CREATE TABLE IF NOT EXISTS `auth_item_child` (
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('registrador', 'proyecto-internacional/create'),
+('registrador', 'proyecto-internacional/delete'),
+('registrador', 'proyecto-internacional/index'),
+('registrador', 'proyecto-internacional/update'),
+('registrador', 'proyecto-internacional/view'),
+('registrador', 'proyecto-localizacion/create'),
+('registrador', 'proyecto-localizacion/index'),
+('registrador', 'proyecto-localizacion/update'),
+('registrador', 'proyecto-localizacion/view'),
+('registrador', 'proyecto-registrador/create'),
+('registrador', 'proyecto-registrador/create-alt'),
+('registrador', 'proyecto-registrador/delete'),
+('registrador', 'proyecto-registrador/index'),
+('registrador', 'proyecto-registrador/update'),
+('registrador', 'proyecto-registrador/view'),
+('registrador', 'proyecto-responsable-administrativo/create'),
+('registrador', 'proyecto-responsable-administrativo/create-alt'),
+('registrador', 'proyecto-responsable-administrativo/delete'),
+('registrador', 'proyecto-responsable-administrativo/update'),
+('registrador', 'proyecto-responsable-administrativo/view'),
+('registrador', 'proyecto-responsable-tecnico/create'),
+('registrador', 'proyecto-responsable-tecnico/create-alt'),
+('registrador', 'proyecto-responsable-tecnico/update'),
+('registrador', 'proyecto-responsable/create'),
+('registrador', 'proyecto-responsable/create-alt'),
+('registrador', 'proyecto-responsable/delete'),
+('registrador', 'proyecto-responsable/update'),
+('registrador', 'proyecto-responsable/view'),
 ('registrador', 'proyecto/create'),
 ('registrador', 'proyecto/delete'),
 ('registrador', 'proyecto/index'),
 ('registrador', 'proyecto/update'),
 ('registrador', 'proyecto/view'),
-('reporte', 'proyecto/view'),
 ('sysadmin', 'site/configuracion');
 
 -- --------------------------------------------------------
@@ -137,8 +216,40 @@ INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE IF NOT EXISTS `estados` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `nombre` varchar(45) CHARACTER SET utf8 NOT NULL,
+  `id_pais` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `estados`
+--
+
+INSERT INTO `estados` (`id`, `nombre`, `id_pais`) VALUES
+(1, 'Amazonas', 862),
+(2, 'Anzoátegui', 862),
+(3, 'Apure', 862),
+(4, 'Aragua', 862),
+(5, 'Barinas', 862),
+(6, 'Bolívar', 862),
+(7, 'Carabobo', 862),
+(8, 'Cojedes', 862),
+(9, 'Delta Amacuro', 862),
+(10, 'Falcón', 862),
+(11, 'Guárico', 862),
+(12, 'Lara', 862),
+(13, 'Mérida', 862),
+(14, 'Miranda', 862),
+(15, 'Monagas', 862),
+(16, 'Nueva Esparta', 862),
+(17, 'Portuguesa', 862),
+(18, 'Sucre', 862),
+(19, 'Táchira', 862),
+(20, 'Trujillo', 862),
+(21, 'Vargas', 862),
+(22, 'Yaracuy', 862),
+(23, 'Zulia', 862),
+(24, 'Distrito Capital', 862),
+(25, 'Dependencias Federales', 862);
 
 -- --------------------------------------------------------
 
@@ -163,17 +274,23 @@ INSERT INTO `estatus_proyecto` (`id`, `estatus`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `localizacion`
+-- Estructura de tabla para la tabla `historial`
 --
 
-CREATE TABLE IF NOT EXISTS `localizacion` (
+CREATE TABLE IF NOT EXISTS `historial` (
   `id` int(11) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  `id_estado` int(11) DEFAULT NULL,
-  `id_municipio` int(11) DEFAULT NULL,
-  `id_parroquia` int(11) DEFAULT NULL,
-  `nacional` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idPadre` int(11) NOT NULL COMMENT 'Id del registro en la tabla',
+  `tablaPadre` int(11) NOT NULL COMMENT 'nombre de la tabla',
+  `creadoPor` int(11) NOT NULL COMMENT 'id del usuario',
+  `fechaCreado` int(11) NOT NULL COMMENT 'fecha de los cambios',
+  `nombreCampo` int(11) NOT NULL COMMENT 'nombre del campo en la tabla',
+  `tipoDato` int(11) NOT NULL COMMENT 'tipo de dato del campo',
+  `valorAnterior` int(11) NOT NULL COMMENT 'valor anterior',
+  `valorNuevo` int(11) NOT NULL COMMENT 'valor nuevo',
+  `textoAnterior` int(11) NOT NULL COMMENT 'valor para datos largos',
+  `textoNuevo` int(11) NOT NULL COMMENT 'valor nuevo para datos largos',
+  `operacion` int(11) NOT NULL COMMENT 'tipo de operacion'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -203,8 +320,9 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 
 CREATE TABLE IF NOT EXISTS `municipio` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `nombre` varchar(45) NOT NULL,
+  `id_estado` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -480,13 +598,272 @@ INSERT INTO `objetivos_nacionales` (`id`, `objetivo_nacional`, `objetivo_histori
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `pais`
+--
+
+CREATE TABLE IF NOT EXISTS `pais` (
+  `id` smallint(3) unsigned zerofill NOT NULL,
+  `nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `pais`
+--
+
+INSERT INTO `pais` (`id`, `nombre`) VALUES
+(004, 'Afganistán'),
+(008, 'Albania'),
+(010, 'Antártida'),
+(012, 'Argelia'),
+(016, 'Samoa Americana'),
+(020, 'Andorra'),
+(024, 'Angola'),
+(028, 'Antigua y Barbuda'),
+(031, 'Azerbaiyán'),
+(032, 'Argentina'),
+(036, 'Australia'),
+(040, 'Austria'),
+(044, 'Bahamas'),
+(048, 'Bahréin'),
+(050, 'Bangladesh'),
+(051, 'Armenia'),
+(052, 'Barbados'),
+(056, 'Bélgica'),
+(060, 'Bermudas'),
+(064, 'Bhután'),
+(068, 'Bolivia'),
+(070, 'Bosnia y Herzegovina'),
+(072, 'Botsuana'),
+(074, 'Isla Bouvet'),
+(076, 'Brasil'),
+(084, 'Belice'),
+(086, 'Territorio Británico del Océano Índico'),
+(090, 'Islas Salomón'),
+(092, 'Islas Vírgenes Británicas'),
+(096, 'Brunéi'),
+(100, 'Bulgaria'),
+(104, 'Myanmar'),
+(108, 'Burundi'),
+(112, 'Bielorrusia'),
+(116, 'Camboya'),
+(120, 'Camerún'),
+(124, 'Canadá'),
+(132, 'Cabo Verde'),
+(136, 'Islas Caimán'),
+(140, 'República Centroafricana'),
+(144, 'Sri Lanka'),
+(148, 'Chad'),
+(152, 'Chile'),
+(156, 'China'),
+(158, 'Taiwán'),
+(162, 'Isla de Navidad'),
+(166, 'Islas Cocos'),
+(170, 'Colombia'),
+(174, 'Comoras'),
+(175, 'Mayotte'),
+(178, 'Congo'),
+(180, 'República Democrática del Congo'),
+(184, 'Islas Cook'),
+(188, 'Costa Rica'),
+(191, 'Croacia'),
+(192, 'Cuba'),
+(196, 'Chipre'),
+(203, 'República Checa'),
+(204, 'Benín'),
+(208, 'Dinamarca'),
+(212, 'Dominica'),
+(214, 'República Dominicana'),
+(218, 'Ecuador'),
+(222, 'El Salvador'),
+(226, 'Guinea Ecuatorial'),
+(231, 'Etiopía'),
+(232, 'Eritrea'),
+(233, 'Estonia'),
+(234, 'Islas Feroe'),
+(238, 'Islas Malvinas'),
+(239, 'Islas Georgias del Sur y Sandwich del Sur'),
+(242, 'Fiyi'),
+(246, 'Finlandia'),
+(248, 'Islas Gland'),
+(250, 'Francia'),
+(254, 'Guayana Francesa'),
+(258, 'Polinesia Francesa'),
+(260, 'Territorios Australes Franceses'),
+(262, 'Yibuti'),
+(266, 'Gabón'),
+(268, 'Georgia'),
+(270, 'Gambia'),
+(275, 'Palestina'),
+(276, 'Alemania'),
+(288, 'Ghana'),
+(292, 'Gibraltar'),
+(296, 'Kiribati'),
+(300, 'Grecia'),
+(304, 'Groenlandia'),
+(308, 'Granada'),
+(312, 'Guadalupe'),
+(316, 'Guam'),
+(320, 'Guatemala'),
+(324, 'Guinea'),
+(328, 'Guyana'),
+(332, 'Haití'),
+(334, 'Islas Heard y McDonald'),
+(336, 'Ciudad del Vaticano'),
+(340, 'Honduras'),
+(344, 'Hong Kong'),
+(348, 'Hungría'),
+(352, 'Islandia'),
+(356, 'India'),
+(360, 'Indonesia'),
+(364, 'Irán'),
+(368, 'Iraq'),
+(372, 'Irlanda'),
+(376, 'Israel'),
+(380, 'Italia'),
+(384, 'Costa de Marfil'),
+(388, 'Jamaica'),
+(392, 'Japón'),
+(398, 'Kazajstán'),
+(400, 'Jordania'),
+(404, 'Kenia'),
+(408, 'Corea del Norte'),
+(410, 'Corea del Sur'),
+(414, 'Kuwait'),
+(417, 'Kirguistán'),
+(418, 'Laos'),
+(422, 'Líbano'),
+(426, 'Lesotho'),
+(428, 'Letonia'),
+(430, 'Liberia'),
+(434, 'Libia'),
+(438, 'Liechtenstein'),
+(440, 'Lituania'),
+(442, 'Luxemburgo'),
+(446, 'Macao'),
+(450, 'Madagascar'),
+(454, 'Malaui'),
+(458, 'Malasia'),
+(462, 'Maldivas'),
+(466, 'Malí'),
+(470, 'Malta'),
+(474, 'Martinica'),
+(478, 'Mauritania'),
+(480, 'Mauricio'),
+(484, 'México'),
+(492, 'Mónaco'),
+(496, 'Mongolia'),
+(498, 'Moldavia'),
+(499, 'Montenegro'),
+(500, 'Montserrat'),
+(504, 'Marruecos'),
+(508, 'Mozambique'),
+(512, 'Omán'),
+(516, 'Namibia'),
+(520, 'Nauru'),
+(524, 'Nepal'),
+(528, 'Países Bajos'),
+(530, 'Antillas Holandesas'),
+(533, 'Aruba'),
+(540, 'Nueva Caledonia'),
+(548, 'Vanuatu'),
+(554, 'Nueva Zelanda'),
+(558, 'Nicaragua'),
+(562, 'Níger'),
+(566, 'Nigeria'),
+(570, 'Niue'),
+(574, 'Isla Norfolk'),
+(578, 'Noruega'),
+(580, 'Islas Marianas del Norte'),
+(581, 'Islas Ultramarinas de Estados Unidos'),
+(583, 'Micronesia'),
+(584, 'Islas Marshall'),
+(585, 'Palaos'),
+(586, 'Pakistán'),
+(591, 'Panamá'),
+(598, 'Papúa Nueva Guinea'),
+(600, 'Paraguay'),
+(604, 'Perú'),
+(608, 'Filipinas'),
+(612, 'Islas Pitcairn'),
+(616, 'Polonia'),
+(620, 'Portugal'),
+(624, 'Guinea-Bissau'),
+(626, 'Timor Oriental'),
+(630, 'Puerto Rico'),
+(634, 'Qatar'),
+(638, 'Reunión'),
+(642, 'Rumania'),
+(643, 'Rusia'),
+(646, 'Ruanda'),
+(654, 'Santa Helena'),
+(659, 'San Cristóbal y Nieves'),
+(660, 'Anguila'),
+(662, 'Santa Lucía'),
+(666, 'San Pedro y Miquelón'),
+(670, 'San Vicente y las Granadinas'),
+(674, 'San Marino'),
+(678, 'Santo Tomé y Príncipe'),
+(682, 'Arabia Saudí'),
+(686, 'Senegal'),
+(688, 'Serbia'),
+(690, 'Seychelles'),
+(694, 'Sierra Leona'),
+(702, 'Singapur'),
+(703, 'Eslovaquia'),
+(704, 'Vietnam'),
+(705, 'Eslovenia'),
+(706, 'Somalia'),
+(710, 'Sudáfrica'),
+(716, 'Zimbabue'),
+(724, 'España'),
+(732, 'Sahara Occidental'),
+(736, 'Sudán'),
+(740, 'Surinam'),
+(744, 'Svalbard y Jan Mayen'),
+(748, 'Suazilandia'),
+(752, 'Suecia'),
+(756, 'Suiza'),
+(760, 'Siria'),
+(762, 'Tayikistán'),
+(764, 'Tailandia'),
+(768, 'Togo'),
+(772, 'Tokelau'),
+(776, 'Tonga'),
+(780, 'Trinidad y Tobago'),
+(784, 'Emiratos Árabes Unidos'),
+(788, 'Túnez'),
+(792, 'Turquía'),
+(795, 'Turkmenistán'),
+(796, 'Islas Turcas y Caicos'),
+(798, 'Tuvalu'),
+(800, 'Uganda'),
+(804, 'Ucrania'),
+(807, 'Macedonia'),
+(818, 'Egipto'),
+(826, 'Reino Unido'),
+(834, 'Tanzania'),
+(840, 'Estados Unidos'),
+(850, 'Islas Vírgenes de los Estados Unidos'),
+(854, 'Burkina Faso'),
+(858, 'Uruguay'),
+(860, 'Uzbekistán'),
+(862, 'Venezuela'),
+(876, 'Wallis y Futuna'),
+(882, 'Samoa'),
+(887, 'Yemen'),
+(894, 'Zambia');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `parroquia`
 --
 
 CREATE TABLE IF NOT EXISTS `parroquia` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `nombre` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `id_municipio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -529,7 +906,7 @@ CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
   `octubre` decimal(10,0) DEFAULT NULL,
   `noviembre` decimal(10,0) DEFAULT NULL,
   `diciembre` decimal(10,0) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -546,58 +923,132 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
   `situacion_presupuestaria` int(11) NOT NULL,
   `monto_proyecto` decimal(10,0) DEFAULT NULL,
   `descripcion` text,
-  `clasificacion_sector` int(11) DEFAULT '1',
+  `sector` int(11) DEFAULT '1',
   `sub_sector` int(11) DEFAULT '1',
   `plan_operativo` int(11) NOT NULL,
-  `objetivo_general` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `objetivo_general` int(11) NOT NULL,
+  `objetivo_estrategico_institucional` text NOT NULL,
+  `ambito` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `proyecto`
+--
+
+INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `estatus_proyecto`, `situacion_presupuestaria`, `monto_proyecto`, `descripcion`, `sector`, `sub_sector`, `plan_operativo`, `objetivo_general`, `objetivo_estrategico_institucional`, `ambito`) VALUES
+(1, '0001', '0001', 'Proyecto Lorem ipsum dolor sit amet, consec', 1, 1, 99999, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Aliquam aliquam lectus orci, rhoncus ultricies quam cursus at. Pellentesque ac ultrices est. Sed at cursus ante. Nunc molestie facilisis nisi quis congue. Donec vel vulputate leo. Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 4);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `responsable_administrativo`
+-- Estructura de tabla para la tabla `proyecto_localizacion`
 --
 
-CREATE TABLE IF NOT EXISTS `responsable_administrativo` (
+CREATE TABLE IF NOT EXISTS `proyecto_localizacion` (
+  `id` int(11) NOT NULL,
+  `id_proyecto` int(11) NOT NULL,
+  `id_pais` int(11) NOT NULL,
+  `id_estado` int(11) DEFAULT NULL,
+  `id_municipio` int(11) DEFAULT NULL,
+  `id_parroquia` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `proyecto_localizacion`
+--
+
+INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
+(1, 1, 862, 12, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `proyecto_registrador`
+--
+
+CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(30) NOT NULL,
+  `cedula` int(10) NOT NULL,
+  `email` varchar(80) DEFAULT NULL,
+  `telefono` varchar(14) NOT NULL,
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `proyecto_registrador`
+--
+
+INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono`, `id_proyecto`) VALUES
+(1, 'Carlos Samaniego', 16344539, 'catu52@yahoo.com', '+584262130565', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `proyecto_responsable`
+--
+
+CREATE TABLE IF NOT EXISTS `proyecto_responsable` (
   `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
-  `cedula_identidad` varchar(45) NOT NULL,
-  `correo_electronico` varchar(45) NOT NULL,
+  `cedula` int(10) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `telefono` varchar(14) NOT NULL,
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `proyecto_responsable`
+--
+
+INSERT INTO `proyecto_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono`, `id_proyecto`) VALUES
+(3, 'Pedro Perez', 98451321, 'pedro@correo.com', '(212)1234589', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `proyecto_responsable_administrativo`
+--
+
+CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(45) NOT NULL,
+  `cedula` int(10) NOT NULL,
+  `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_administradora` varchar(45) NOT NULL,
   `id_proyecto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `proyecto_responsable_administrativo`
+--
+
+INSERT INTO `proyecto_responsable_administrativo` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_administradora`, `id_proyecto`) VALUES
+(1, 'John Doe', 87654321, 'john@correo.com', '(212)1234567', 'Unidad', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `responsable_proyecto`
+-- Estructura de tabla para la tabla `proyecto_responsable_tecnico`
 --
 
-CREATE TABLE IF NOT EXISTS `responsable_proyecto` (
+CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
   `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
-  `cedula_identidad` varchar(45) NOT NULL,
-  `correo_electronico` varchar(45) NOT NULL,
-  `telefono` varchar(45) NOT NULL,
-  `id_proyecto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `responsable_tecnico`
---
-
-CREATE TABLE IF NOT EXISTS `responsable_tecnico` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(45) NOT NULL,
-  `cedula_identidad` varchar(45) NOT NULL,
-  `correo_electronico` varchar(45) NOT NULL,
+  `cedula` int(10) NOT NULL,
+  `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_tecnica` varchar(45) NOT NULL,
   `id_proyecto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `proyecto_responsable_tecnico`
+--
+
+INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_tecnica`, `id_proyecto`) VALUES
+(2, 'Jane', 65498732, 'jane@correo.com', '(212)9876543', 'Tecnica', 1);
 
 -- --------------------------------------------------------
 
@@ -662,8 +1113,8 @@ INSERT INTO `sub_sector` (`id`, `sub_sector`) VALUES
 
 CREATE TABLE IF NOT EXISTS `tipo_distribucion` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `nombre` varchar(45) CHARACTER SET latin1 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -673,9 +1124,9 @@ CREATE TABLE IF NOT EXISTS `tipo_distribucion` (
 
 CREATE TABLE IF NOT EXISTS `unidad_ejecutora` (
   `id` int(11) NOT NULL,
-  `codigo_ue` varchar(5) NOT NULL,
-  `nombre` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `codigo_ue` varchar(5) CHARACTER SET latin1 NOT NULL,
+  `nombre` text CHARACTER SET latin1 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -721,6 +1172,12 @@ ALTER TABLE `accion_especifica_proyecto`
   ADD KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`);
 
 --
+-- Indices de la tabla `ambito`
+--
+ALTER TABLE `ambito`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `auth_assignment`
 --
 ALTER TABLE `auth_assignment`
@@ -751,7 +1208,8 @@ ALTER TABLE `auth_rule`
 -- Indices de la tabla `estados`
 --
 ALTER TABLE `estados`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pais` (`id_pais`);
 
 --
 -- Indices de la tabla `estatus_proyecto`
@@ -760,14 +1218,12 @@ ALTER TABLE `estatus_proyecto`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `localizacion`
+-- Indices de la tabla `historial`
 --
-ALTER TABLE `localizacion`
+ALTER TABLE `historial`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `estados_fk_idx` (`id_estado`),
-  ADD KEY `municipio_fk_idx` (`id_municipio`),
-  ADD KEY `parroquia_fk_idx` (`id_parroquia`),
-  ADD KEY `proyecto_fk_idx` (`id_proyecto`);
+  ADD KEY `idPadre` (`idPadre`),
+  ADD KEY `creadoPor` (`creadoPor`);
 
 --
 -- Indices de la tabla `migration`
@@ -779,7 +1235,8 @@ ALTER TABLE `migration`
 -- Indices de la tabla `municipio`
 --
 ALTER TABLE `municipio`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_estado` (`id_estado`);
 
 --
 -- Indices de la tabla `objetivos_estrategicos`
@@ -809,10 +1266,17 @@ ALTER TABLE `objetivos_nacionales`
   ADD KEY `directriz` (`objetivo_historico`);
 
 --
+-- Indices de la tabla `pais`
+--
+ALTER TABLE `pais`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `parroquia`
 --
 ALTER TABLE `parroquia`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_municipio` (`id_municipio`);
 
 --
 -- Indices de la tabla `plan_operativo`
@@ -837,29 +1301,49 @@ ALTER TABLE `proyecto`
   ADD UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
   ADD KEY `estatus_proyecto_fk` (`estatus_proyecto`),
   ADD KEY `situacion_presupuestaria_fk` (`situacion_presupuestaria`),
-  ADD KEY `clasificacion_sector_fk` (`clasificacion_sector`) USING BTREE,
+  ADD KEY `clasificacion_sector_fk` (`sector`) USING BTREE,
   ADD KEY `sub_sector_fk` (`sub_sector`) USING BTREE,
   ADD KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
-  ADD KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE;
+  ADD KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
+  ADD KEY `ambito_fk` (`ambito`) USING BTREE;
 
 --
--- Indices de la tabla `responsable_administrativo`
+-- Indices de la tabla `proyecto_localizacion`
 --
-ALTER TABLE `responsable_administrativo`
+ALTER TABLE `proyecto_localizacion`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_id_proyecto_idx` (`id_proyecto`);
+  ADD KEY `estados_fk_idx` (`id_estado`),
+  ADD KEY `municipio_fk_idx` (`id_municipio`),
+  ADD KEY `parroquia_fk_idx` (`id_parroquia`),
+  ADD KEY `proyecto_fk_idx` (`id_proyecto`),
+  ADD KEY `id_pais` (`id_pais`);
 
 --
--- Indices de la tabla `responsable_proyecto`
+-- Indices de la tabla `proyecto_registrador`
 --
-ALTER TABLE `responsable_proyecto`
+ALTER TABLE `proyecto_registrador`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_proyecto_2` (`id_proyecto`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
   ADD PRIMARY KEY (`id`),
   ADD KEY `proyecto_fk` (`id_proyecto`);
 
 --
--- Indices de la tabla `responsable_tecnico`
+-- Indices de la tabla `proyecto_responsable_administrativo`
 --
-ALTER TABLE `responsable_tecnico`
+ALTER TABLE `proyecto_responsable_administrativo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_proyecto_idx` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_proyecto_fk` (`id_proyecto`);
 
@@ -907,19 +1391,24 @@ ALTER TABLE `user_accounts`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `ambito`
+--
+ALTER TABLE `ambito`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
 -- AUTO_INCREMENT de la tabla `estados`
 --
 ALTER TABLE `estados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT de la tabla `estatus_proyecto`
 --
 ALTER TABLE `estatus_proyecto`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT de la tabla `localizacion`
+-- AUTO_INCREMENT de la tabla `historial`
 --
-ALTER TABLE `localizacion`
+ALTER TABLE `historial`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `municipio`
@@ -960,7 +1449,32 @@ ALTER TABLE `plan_operativo`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_localizacion`
+--
+ALTER TABLE `proyecto_localizacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_registrador`
+--
+ALTER TABLE `proyecto_registrador`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable_administrativo`
+--
+ALTER TABLE `proyecto_responsable_administrativo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `sector`
 --
@@ -1022,15 +1536,6 @@ ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `localizacion`
---
-ALTER TABLE `localizacion`
-  ADD CONSTRAINT `estados_fk` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `municipio_fk` FOREIGN KEY (`id_municipio`) REFERENCES `municipio` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `parroquia_fk` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `proyecto_fk` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Filtros para la tabla `objetivos_generales`
 --
 ALTER TABLE `objetivos_generales`
@@ -1044,21 +1549,30 @@ ALTER TABLE `programacion_fisica_presupuestaria`
   ADD CONSTRAINT `fk_programacion_fisica_presupuestaria_2` FOREIGN KEY (`id_accion_especifica_proyecto`) REFERENCES `accion_especifica_proyecto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `responsable_administrativo`
+-- Filtros para la tabla `proyecto_localizacion`
 --
-ALTER TABLE `responsable_administrativo`
-  ADD CONSTRAINT `idx_id_proyecto_fk` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `proyecto_localizacion`
+  ADD CONSTRAINT `estado_fk` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `municipio_fk` FOREIGN KEY (`id_municipio`) REFERENCES `municipio` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `parroquia_fk` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `proyecto_fk` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `responsable_proyecto`
+-- Filtros para la tabla `proyecto_responsable`
 --
-ALTER TABLE `responsable_proyecto`
+ALTER TABLE `proyecto_responsable`
   ADD CONSTRAINT `fk_responsable_proyecto_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `responsable_tecnico`
+-- Filtros para la tabla `proyecto_responsable_administrativo`
 --
-ALTER TABLE `responsable_tecnico`
+ALTER TABLE `proyecto_responsable_administrativo`
+  ADD CONSTRAINT `idx_id_proyecto_fk` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
   ADD CONSTRAINT `fk_id_proyecto` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
