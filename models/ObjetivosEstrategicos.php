@@ -50,8 +50,8 @@ class ObjetivosEstrategicos extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getObjetivosGenerales()
+    public function getObjetivoNacional()
     {
-        return $this->hasMany(ObjetivosGenerales::className(), ['objetivo_estrategico' => 'id']);
+        return $this->hasOne(ObjetivosNacionales::className(), ['id' => 'objetivo_nacional']);
     }
 }

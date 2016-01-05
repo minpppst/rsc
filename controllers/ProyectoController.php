@@ -9,6 +9,7 @@ use app\models\ProyectoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 use app\models\EstatusProyecto;
 use app\models\SituacionPresupuestaria;
@@ -19,6 +20,8 @@ use app\models\ObjetivosHistoricos;
 use app\models\ObjetivosNacionales;
 use app\models\ObjetivosEstrategicos;
 use app\models\ObjetivosGenerales;
+use app\models\Ambito;
+use app\models\ProyectoLocalizacion;
 
 /**
  * ProyectoController implements the CRUD actions for Proyecto model.
@@ -52,7 +55,7 @@ class ProyectoController extends Controller
                         }
                     ],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -78,8 +81,29 @@ class ProyectoController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+
+        //Objetivos
+        $general = ObjetivosGenerales::find()->where(['id'=>$model->objetivo_general])->one();
+        $estrategico = $general->objetivoEstrategico;
+        $nacional = $estrategico->objetivoNacional;
+        $historico = $nacional->objetivoHistorico;
+
+        //Tablas relacionadas
+        $localizacion = new ActiveDataProvider([
+            'query' => ProyectoLocalizacion::find()->where(['id_proyecto'=>$model->id]),
+            'pagination' => [
+                'pageSize' => 5,
+            ]
+        ]);
+
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'estrategico' => $estrategico,
+            'nacional' => $nacional,
+            'historico' => $historico,
+            'localizacion' => $localizacion,
         ]);
     }
 
@@ -102,9 +126,10 @@ class ProyectoController extends Controller
                 ->select(['objetivo_general as value', 'id as id'])
                 ->asArray()
                 ->all();
+        $ambito = Ambito::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['proyecto-localizacion/create', 'proyecto' => $model->id, 'ambito' => $model->ambito]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -113,7 +138,8 @@ class ProyectoController extends Controller
                 'sector' => $sector,
                 'sub_sector' => $sub_sector,
                 'plan_operativo' => $plan_operativo,
-                'objetivo_general' => $objetivo_general
+                'objetivo_general' => $objetivo_general,
+                'ambito' =>$ambito
             ]);
         }
     }
@@ -128,11 +154,29 @@ class ProyectoController extends Controller
     {
         $model = $this->findModel($id);
 
+        $estatus_proyecto = EstatusProyecto::find()->all();
+        $situacion_presupuestaria = SituacionPresupuestaria::find()->all();
+        $sector = Sector::find()->all();
+        $sub_sector = SubSector::find()->all();
+        $plan_operativo = PlanOperativo::find()->all();
+        $objetivo_general = ObjetivosGenerales::find()
+                ->select(['objetivo_general as value', 'id as id'])
+                ->asArray()
+                ->all();
+        $ambito = Ambito::find()->all();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'estatus_proyecto' => $estatus_proyecto,
+                'situacion_presupuestaria' => $situacion_presupuestaria,
+                'sector' => $sector,
+                'sub_sector' => $sub_sector,
+                'plan_operativo' => $plan_operativo,
+                'objetivo_general' => $objetivo_general,
+                'ambito' =>$ambito
             ]);
         }
     }
@@ -148,7 +192,7 @@ class ProyectoController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
+    }    
 
     /**
      * Finds the Proyecto model based on its primary key value.

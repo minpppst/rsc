@@ -43,6 +43,8 @@ $icons = [
             <div class="panel-body">
                 <div class="list-group">                                
                     <?= Html::a('Item',null,['class' => 'list-group-item']) ?>
+                    <?= Html::a('Item',null,['class' => 'list-group-item']) ?>
+                    <?= Html::a('Item',null,['class' => 'list-group-item']) ?>
                 </div>
             </div>
         </div>

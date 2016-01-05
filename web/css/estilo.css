@@ -7,3 +7,7 @@
 	float:left;
 	width:300px;
 }
+
+.off {
+	display:none;
+}

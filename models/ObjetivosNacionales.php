@@ -44,4 +44,12 @@ class ObjetivosNacionales extends \yii\db\ActiveRecord
             'objetivo_historico' => 'Objetivo Historico',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjetivoHistorico()
+    {
+        return $this->hasOne(ObjetivosHistoricos::className(), ['id' => 'objetivo_historico']);
+    }
 }

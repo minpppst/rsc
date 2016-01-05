@@ -54,4 +54,13 @@ class ObjetivosGenerales extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ObjetivosEstrategicos::className(), ['id' => 'objetivo_estrategico']);
     }
+
+    /**
+     * @inheritdoc
+     * @return ObjetivosGeneralesQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new ObjetivosGeneralesQuery(get_called_class());
+    }
 }

@@ -22,7 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'sector' => $sector,
         'sub_sector' => $sub_sector,
         'plan_operativo' => $plan_operativo,
-        'objetivo_general' => $objetivo_general
+        'objetivo_general' => $objetivo_general,
+        'ambito' => $ambito
     ]) ?>
 
 </div>
