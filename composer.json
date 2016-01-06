@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "*",
         "johnitvn/yii2-rbac-plus": "*",
         "fxp/composer-asset-plugin": "~1.0",
-        "yiisoft/yii2-jui": "^2.0"
+        "yiisoft/yii2-jui": "^2.0",
+        "kartik-v/yii2-tabs-x": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

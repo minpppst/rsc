@@ -1,31 +1,46 @@
 <?php
+use yii\helpers\Url;
 
-use yii\helpers\Html;
-use yii\helpers\HtmlPurifier;
+return [
+    [
+        'class' => 'kartik\grid\CheckboxColumn',
+        'width' => '20px',
+    ],
+    [
+        'class' => 'kartik\grid\SerialColumn',
+        'width' => '30px',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nombrePais',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nombreEstado',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nombreMunicipio',
+    ],    
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nombreParroquia',
+    ],
+    [
+        'class' => 'kartik\grid\ActionColumn',
+        'dropdown' => false,
+        'vAlign'=>'middle',
+        'urlCreator' => function($action, $model, $key, $index) { 
+                return Url::to(['proyecto-localizacion/'.$action,'id'=>$key]);
+        },
+        'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
+        'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
+        'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+                          'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                          'data-request-method'=>'post',
+                          'data-toggle'=>'tooltip',
+                          'data-confirm-title'=>'Are you sure?',
+                          'data-confirm-message'=>'Are you sure want to delete this item'], 
+    ],
 
-?>
-
-<div class="panel panel-default">
-    <div class="panel-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>País</th>
-                    <th>Estado</th>
-                    <th>Municipio</th>
-                    <th>Parroquia</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><?= HtmlPurifier::process($key) ?></td>
-                    <td><?= HtmlPurifier::process($model->nombrePais) ?></td>
-                    <td><?= HtmlPurifier::process($model->nombreEstado) ?></td>
-                    <td><?= HtmlPurifier::process($model->nombreMunicipio) ?></td>
-                    <td><?= HtmlPurifier::process($model->nombreParroquia) ?></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+];   

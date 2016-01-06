@@ -133,9 +133,11 @@ class ProyectoRegistradorController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $proyecto = $model->id_proyecto;
+        $model->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['proyecto/view', 'id' => $proyecto]);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Json;
 use yii\filters\AccessControl;
 use app\models\Proyecto;
 use app\models\ProyectoSearch;
@@ -96,7 +97,6 @@ class ProyectoController extends Controller
                 'pageSize' => 5,
             ]
         ]);
-
 
         return $this->render('view', [
             'model' => $model,
@@ -192,7 +192,7 @@ class ProyectoController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }    
+    }
 
     /**
      * Finds the Proyecto model based on its primary key value.
