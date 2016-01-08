@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 05-01-2016 a las 16:26:32
+-- Tiempo de generación: 08-01-2016 a las 00:52:08
 -- Versión del servidor: 5.6.27-0ubuntu1
 -- Versión de PHP: 5.6.11-1ubuntu3.1
 
@@ -33,6 +33,25 @@ CREATE TABLE IF NOT EXISTS `accion_especifica_proyecto` (
   `nombre` text,
   `id_unidad_ejecutora` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `alcance_unidad_medida`
+--
+
+CREATE TABLE IF NOT EXISTS `alcance_unidad_medida` (
+  `id` int(11) NOT NULL,
+  `unidad_medida` varchar(45) NOT NULL COMMENT 'Unidad de medida'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Unidad de medida para el alcance e impacto del proyecto';
+
+--
+-- Volcado de datos para la tabla `alcance_unidad_medida`
+--
+
+INSERT INTO `alcance_unidad_medida` (`id`, `unidad_medida`) VALUES
+(1, 'Accion(es)'),
+(2, 'Trabajador(es)');
 
 -- --------------------------------------------------------
 
@@ -76,8 +95,10 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('registrador', '1', 1450736035),
-('sysadmin', '1', 1450736035);
+('registrador_alcance', '1', 1452221972),
+('registrador_basico', '1', 1452221972),
+('registrador_basico', '2', 1452222004),
+('sysadmin', '1', 1452221972);
 
 -- --------------------------------------------------------
 
@@ -100,6 +121,10 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('proyecto-alcance/create', 2, 'Crear alcance de proyecto', NULL, NULL, 1452221668, 1452221668),
+('proyecto-alcance/delete', 2, 'Eliminar alcance de proyecto', NULL, NULL, 1452221699, 1452221699),
+('proyecto-alcance/update', 2, 'Editar alcance de proyecto', NULL, NULL, 1452221681, 1452221681),
+('proyecto-alcance/view', 2, 'Ver alcance de proyecto', NULL, NULL, 1452223025, 1452223025),
 ('proyecto-internacional/create', 2, 'Ámbito internacional crear', NULL, NULL, 1451487147, 1451487539),
 ('proyecto-internacional/delete', 2, 'Ámbito internacional eliminar', NULL, NULL, 1451487197, 1451487564),
 ('proyecto-internacional/index', 2, 'Ámbito internacional lista', NULL, NULL, 1451487641, 1451487656),
@@ -133,7 +158,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto/index', 2, 'Lista de proyectos', NULL, NULL, 1450646779, 1450646779),
 ('proyecto/update', 2, 'Editar Proyecto', NULL, NULL, 1450393912, 1450645214),
 ('proyecto/view', 2, 'Ver Proyecto', NULL, NULL, 1450393912, 1450645173),
-('registrador', 1, 'Crea, Edita y Elimina proyectos', NULL, NULL, 1450393912, 1452023706),
+('registrador_alcance', 1, 'Crea, edita y elimina "alcance e impacto" de proyecto', NULL, NULL, 1452221931, 1452223040),
+('registrador_basico', 1, 'Crea, edita y elimina datos básicos de proyecto', NULL, NULL, 1450393912, 1452221947),
 ('site/configuracion', 2, 'Configurar el sistema', NULL, NULL, 1450736795, 1450736795),
 ('sysadmin', 1, 'Administrador del sistema', NULL, NULL, 1450736017, 1450736808);
 
@@ -153,39 +179,43 @@ CREATE TABLE IF NOT EXISTS `auth_item_child` (
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
-('registrador', 'proyecto-internacional/create'),
-('registrador', 'proyecto-internacional/delete'),
-('registrador', 'proyecto-internacional/index'),
-('registrador', 'proyecto-internacional/update'),
-('registrador', 'proyecto-internacional/view'),
-('registrador', 'proyecto-localizacion/create'),
-('registrador', 'proyecto-localizacion/index'),
-('registrador', 'proyecto-localizacion/update'),
-('registrador', 'proyecto-localizacion/view'),
-('registrador', 'proyecto-registrador/create'),
-('registrador', 'proyecto-registrador/create-alt'),
-('registrador', 'proyecto-registrador/delete'),
-('registrador', 'proyecto-registrador/index'),
-('registrador', 'proyecto-registrador/update'),
-('registrador', 'proyecto-registrador/view'),
-('registrador', 'proyecto-responsable-administrativo/create'),
-('registrador', 'proyecto-responsable-administrativo/create-alt'),
-('registrador', 'proyecto-responsable-administrativo/delete'),
-('registrador', 'proyecto-responsable-administrativo/update'),
-('registrador', 'proyecto-responsable-administrativo/view'),
-('registrador', 'proyecto-responsable-tecnico/create'),
-('registrador', 'proyecto-responsable-tecnico/create-alt'),
-('registrador', 'proyecto-responsable-tecnico/update'),
-('registrador', 'proyecto-responsable/create'),
-('registrador', 'proyecto-responsable/create-alt'),
-('registrador', 'proyecto-responsable/delete'),
-('registrador', 'proyecto-responsable/update'),
-('registrador', 'proyecto-responsable/view'),
-('registrador', 'proyecto/create'),
-('registrador', 'proyecto/delete'),
-('registrador', 'proyecto/index'),
-('registrador', 'proyecto/update'),
-('registrador', 'proyecto/view'),
+('registrador_alcance', 'proyecto-alcance/create'),
+('registrador_alcance', 'proyecto-alcance/delete'),
+('registrador_alcance', 'proyecto-alcance/update'),
+('registrador_alcance', 'proyecto-alcance/view'),
+('registrador_basico', 'proyecto-internacional/create'),
+('registrador_basico', 'proyecto-internacional/delete'),
+('registrador_basico', 'proyecto-internacional/index'),
+('registrador_basico', 'proyecto-internacional/update'),
+('registrador_basico', 'proyecto-internacional/view'),
+('registrador_basico', 'proyecto-localizacion/create'),
+('registrador_basico', 'proyecto-localizacion/index'),
+('registrador_basico', 'proyecto-localizacion/update'),
+('registrador_basico', 'proyecto-localizacion/view'),
+('registrador_basico', 'proyecto-registrador/create'),
+('registrador_basico', 'proyecto-registrador/create-alt'),
+('registrador_basico', 'proyecto-registrador/delete'),
+('registrador_basico', 'proyecto-registrador/index'),
+('registrador_basico', 'proyecto-registrador/update'),
+('registrador_basico', 'proyecto-registrador/view'),
+('registrador_basico', 'proyecto-responsable-administrativo/create'),
+('registrador_basico', 'proyecto-responsable-administrativo/create-alt'),
+('registrador_basico', 'proyecto-responsable-administrativo/delete'),
+('registrador_basico', 'proyecto-responsable-administrativo/update'),
+('registrador_basico', 'proyecto-responsable-administrativo/view'),
+('registrador_basico', 'proyecto-responsable-tecnico/create'),
+('registrador_basico', 'proyecto-responsable-tecnico/create-alt'),
+('registrador_basico', 'proyecto-responsable-tecnico/update'),
+('registrador_basico', 'proyecto-responsable/create'),
+('registrador_basico', 'proyecto-responsable/create-alt'),
+('registrador_basico', 'proyecto-responsable/delete'),
+('registrador_basico', 'proyecto-responsable/update'),
+('registrador_basico', 'proyecto-responsable/view'),
+('registrador_basico', 'proyecto/create'),
+('registrador_basico', 'proyecto/delete'),
+('registrador_basico', 'proyecto/index'),
+('registrador_basico', 'proyecto/update'),
+('registrador_basico', 'proyecto/view'),
 ('sysadmin', 'site/configuracion');
 
 -- --------------------------------------------------------
@@ -291,6 +321,26 @@ CREATE TABLE IF NOT EXISTS `historial` (
   `textoNuevo` int(11) NOT NULL COMMENT 'valor nuevo para datos largos',
   `operacion` int(11) NOT NULL COMMENT 'tipo de operacion'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `instancia_institucion`
+--
+
+CREATE TABLE IF NOT EXISTS `instancia_institucion` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(45) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Tipo de instancia o institución';
+
+--
+-- Volcado de datos para la tabla `instancia_institucion`
+--
+
+INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
+(1, 'Institución'),
+(2, 'Instancia del Poder Popular'),
+(3, 'Ambas');
 
 -- --------------------------------------------------------
 
@@ -941,6 +991,62 @@ INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `estatu
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `proyecto_alcance`
+--
+
+CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
+  `id` int(11) NOT NULL,
+  `id_proyecto` int(11) NOT NULL,
+  `enunciado_problema` text NOT NULL COMMENT 'Enunciado del problema o necesidad',
+  `poblacion_afectada` text NOT NULL COMMENT 'Población afectada',
+  `indicador_situacion` text NOT NULL COMMENT 'Indicador de la situación inicial',
+  `formula_indicador` text NOT NULL COMMENT 'Fórmula del indicador',
+  `fuente_indicador` varchar(45) NOT NULL COMMENT 'Fuente del indicador',
+  `fecha_indicador_inicial` date NOT NULL COMMENT 'Fecha del indicador de la situación inicial',
+  `enunciado_situacion_deseada` text NOT NULL COMMENT 'Enunciado de la situación deseada',
+  `poblacion_objetivo` text NOT NULL COMMENT 'Población objetivo',
+  `indicador_situacion_deseada` text NOT NULL COMMENT 'Indicador de la situación deseada',
+  `resultado_esperado` text NOT NULL COMMENT 'Resultado esperado',
+  `unidad_medida` int(11) NOT NULL COMMENT 'Unidad de medida',
+  `meta_proyecto` text NOT NULL COMMENT 'Meta del proyecto',
+  `benficiarios_femeninos` float NOT NULL COMMENT 'Número de beneficiarios femeninos',
+  `beneficiarios_masculinos` float NOT NULL COMMENT 'Número de beneficiarios masculinos',
+  `denominacion_beneficiario` varchar(45) NOT NULL COMMENT 'Denominación del beneficiario',
+  `total_empleos_directos_femeninos` float NOT NULL COMMENT 'Total de empleos directos femeninos',
+  `total_empleos_directos_masculino` float NOT NULL COMMENT 'Total de empleos directos masculinos',
+  `empleos_directos_nuevos_femeninos` float NOT NULL COMMENT 'Empleos directos nuevos femeninos',
+  `empleos_directos_nuevos_masculino` float NOT NULL COMMENT 'Empleos directos nuevos masculinos',
+  `empleos_directos_sostenidos_femeninos` float NOT NULL COMMENT 'Empleos directos sostenidos femeninos',
+  `empleos_directos_sostenidos_masculino` float NOT NULL COMMENT 'Empleos directos sostenidos masculinos',
+  `requiere_accion_no_financiera` tinyint(1) NOT NULL COMMENT '¿Este proyecto requiere acciones no financieras de otra institución o instancia del Poder Popular?',
+  `especifique_con_cual` int(11) DEFAULT NULL COMMENT 'Si es si, especifique con cual',
+  `requiere_nombre_institucion` varchar(80) DEFAULT NULL COMMENT 'Nombre de la institución',
+  `requiere_nombre_instancia` varchar(80) DEFAULT NULL COMMENT 'Nombre de la instancia',
+  `requiere_mencione_acciones` text COMMENT 'Mencione las acciones',
+  `contribuye_complementa` tinyint(1) NOT NULL COMMENT '¿Contribuye o complementa acciones de otra institución o instancia del Poder Popular?',
+  `especifique_complementa_cual` int(11) DEFAULT NULL COMMENT 'Si es si, especifique',
+  `contribuye_nombre_institucion` varchar(80) DEFAULT NULL COMMENT 'Nombre de la institución',
+  `contribuye_nombre_instancia` varchar(80) DEFAULT NULL COMMENT 'Nombre de la instancia',
+  `contribuye_mencione_acciones` text COMMENT 'Mencione las acciones',
+  `vinculado_otro` tinyint(1) NOT NULL COMMENT '¿Este proyecto está vinculado a otro?',
+  `vinculado_especifique` int(11) DEFAULT NULL COMMENT 'Si es si, especifique',
+  `vinculado_nombre_institucion` varchar(80) DEFAULT NULL COMMENT 'Nombre de la institución responsable del proyecto con el que este se encuentra vinculado',
+  `vinculado_nombre_instancia` varchar(80) DEFAULT NULL COMMENT 'Nombre de la instancia responsable del proyecto con el que este se encuentra vinculado',
+  `vinculado_nombre_proyecto` text COMMENT 'Nombre del proyecto con el que se encuentra vinculado',
+  `vinculado_medida` text COMMENT '¿En que medida se encuentran vinculados los proyectos?',
+  `obstaculos` text NOT NULL COMMENT ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto';
+
+--
+-- Volcado de datos para la tabla `proyecto_alcance`
+--
+
+INSERT INTO `proyecto_alcance` (`id`, `id_proyecto`, `enunciado_problema`, `poblacion_afectada`, `indicador_situacion`, `formula_indicador`, `fuente_indicador`, `fecha_indicador_inicial`, `enunciado_situacion_deseada`, `poblacion_objetivo`, `indicador_situacion_deseada`, `resultado_esperado`, `unidad_medida`, `meta_proyecto`, `benficiarios_femeninos`, `beneficiarios_masculinos`, `denominacion_beneficiario`, `total_empleos_directos_femeninos`, `total_empleos_directos_masculino`, `empleos_directos_nuevos_femeninos`, `empleos_directos_nuevos_masculino`, `empleos_directos_sostenidos_femeninos`, `empleos_directos_sostenidos_masculino`, `requiere_accion_no_financiera`, `especifique_con_cual`, `requiere_nombre_institucion`, `requiere_nombre_instancia`, `requiere_mencione_acciones`, `contribuye_complementa`, `especifique_complementa_cual`, `contribuye_nombre_institucion`, `contribuye_nombre_instancia`, `contribuye_mencione_acciones`, `vinculado_otro`, `vinculado_especifique`, `vinculado_nombre_institucion`, `vinculado_nombre_instancia`, `vinculado_nombre_proyecto`, `vinculado_medida`, `obstaculos`) VALUES
+(1, 1, 'Según indican los últimos datos del INE correspondiente a enero de 2015,  en torno a la situación de la fuerza de trabajo, en Venezuela existe una población ocupada en el sector informal de 5.394.922  trabajadores  y trabajadoras que no disfrutan de ningún tipo de protección social o tienen una cobertura de seguridad social muy limitada por lo que se hace necesario la ejecución de un conjunto de acciones que permitan su inclusión al régimen de pensiones y otras asignaciones económicas.', '4.157.726  trabajadores y trabajadoras no dependientes se encuentran fuera del sistema de seguridad social.', 'El 77% de trabajadores no dependientes se encuentran fuera del sistema de seguridad social.', 'Trab. No dependientes excluidos SS= Trab. No dependientes excluidos SS/Total trab. No dependiente X100', 'INE', '2015-01-01', '1.338.496 de trabajadores y trabajadoras no dependientes incorporados al sistema de seguridad social.', '101.300 trabajadores y trabajadoras no incorporados al regimen de pensiones y otras asignaciones económicas.', '74,57%  de trabajadores no dependientes se encuentran fuera del sistema de seguridad social para el año 2015.', 'Trabajadores y trabajadoras no dependientes orientados en cuanto sus deberes y derechos de la Seguridad Social.', 2, '101.300', 50, 50, 'Trabajadores', 0, 0, 0, 0, 0, 0, 0, NULL, '', '', '', 0, NULL, '', '', '', 0, NULL, '', '', '', '', 'Ninguno.');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `proyecto_localizacion`
 --
 
@@ -958,7 +1064,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_localizacion` (
 --
 
 INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
-(1, 1, 862, 12, NULL, NULL);
+(1, 1, 862, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -973,14 +1079,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
   `email` varchar(80) DEFAULT NULL,
   `telefono` varchar(14) NOT NULL,
   `id_proyecto` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_registrador`
 --
 
 INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono`, `id_proyecto`) VALUES
-(1, 'Carlos Samaniego', 16344539, 'catu52@yahoo.com', '+584262130565', 1);
+(3, 'Carlos Samaniego', 16344539, 'catu52@yahoo.com', '+584262130565', 1);
 
 -- --------------------------------------------------------
 
@@ -1018,14 +1124,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
   `telefono` varchar(45) NOT NULL,
   `unidad_administradora` varchar(45) NOT NULL,
   `id_proyecto` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable_administrativo`
 --
 
 INSERT INTO `proyecto_responsable_administrativo` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_administradora`, `id_proyecto`) VALUES
-(1, 'John Doe', 87654321, 'john@correo.com', '(212)1234567', 'Unidad', 1);
+(2, 'John Doe', 6841321, 'john@correo.com', '(212)1234567', 'Unidad', 1);
 
 -- --------------------------------------------------------
 
@@ -1172,6 +1278,12 @@ ALTER TABLE `accion_especifica_proyecto`
   ADD KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`);
 
 --
+-- Indices de la tabla `alcance_unidad_medida`
+--
+ALTER TABLE `alcance_unidad_medida`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `ambito`
 --
 ALTER TABLE `ambito`
@@ -1224,6 +1336,12 @@ ALTER TABLE `historial`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idPadre` (`idPadre`),
   ADD KEY `creadoPor` (`creadoPor`);
+
+--
+-- Indices de la tabla `instancia_institucion`
+--
+ALTER TABLE `instancia_institucion`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `migration`
@@ -1306,6 +1424,13 @@ ALTER TABLE `proyecto`
   ADD KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
   ADD KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
   ADD KEY `ambito_fk` (`ambito`) USING BTREE;
+
+--
+-- Indices de la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
 
 --
 -- Indices de la tabla `proyecto_localizacion`
@@ -1391,6 +1516,11 @@ ALTER TABLE `user_accounts`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `alcance_unidad_medida`
+--
+ALTER TABLE `alcance_unidad_medida`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT de la tabla `ambito`
 --
 ALTER TABLE `ambito`
@@ -1410,6 +1540,11 @@ ALTER TABLE `estatus_proyecto`
 --
 ALTER TABLE `historial`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `instancia_institucion`
+--
+ALTER TABLE `instancia_institucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `municipio`
 --
@@ -1451,6 +1586,11 @@ ALTER TABLE `plan_operativo`
 ALTER TABLE `proyecto`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT de la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT de la tabla `proyecto_localizacion`
 --
 ALTER TABLE `proyecto_localizacion`
@@ -1459,7 +1599,7 @@ ALTER TABLE `proyecto_localizacion`
 -- AUTO_INCREMENT de la tabla `proyecto_registrador`
 --
 ALTER TABLE `proyecto_registrador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `proyecto_responsable`
 --
@@ -1469,7 +1609,7 @@ ALTER TABLE `proyecto_responsable`
 -- AUTO_INCREMENT de la tabla `proyecto_responsable_administrativo`
 --
 ALTER TABLE `proyecto_responsable_administrativo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `proyecto_responsable_tecnico`
 --

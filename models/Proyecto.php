@@ -181,4 +181,12 @@ class Proyecto extends \yii\db\ActiveRecord
         return $this->hasOne(ProyectoResponsableTecnico::className(), ['id_proyecto' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAlcance()
+    {
+        return $this->hasOne(ProyectoAlcance::className(), ['id_proyecto' => 'id']);
+    }
+
 }

@@ -30,6 +30,18 @@ CrudAsset::register($this);
 
 ?>
 
+<!-- BOTONES -->
+<p>
+    <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => '¿Está seguro que desea eliminar el Proyecto? (Todos los datos asociados serán eliminados)',
+            'method' => 'post',
+        ],
+    ]) ?>
+</p>
+
 <!-- Widget con los datos -->
 <?= DetailView::widget([
     'model' => $model,

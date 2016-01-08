@@ -23,27 +23,10 @@ $datos_basicos = Yii::$app->controller->renderPartial('_datos-basicos',[
     'localizacion' => $localizacion,
 ]);
 
-$alcance_impacto = '';
-$acciones_especificas = '';
-$distribucion_presupuestaria = '';
-$fuentes_financiamiento = '';
-
 ?>
 <div class="proyecto-view">
 
     <h1>Proyecto #<?= Html::encode($this->title) ?></h1>
-
-    <!-- BOTONES -->
-    <p>
-        <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
 
     <!-- TABS -->
     <?= TabsX::widget([
@@ -59,6 +42,9 @@ $fuentes_financiamiento = '';
             [
                 'label' => 'Alcance e Impacto',
                 'content' => '',
+                'linkOptions' => [
+                    'data-url' => Url::to(['proyecto-alcance/view', 'id' => $model->alcance->id]),
+                ],
             ],
             [
                 'label' => 'Acciones Específicas',
