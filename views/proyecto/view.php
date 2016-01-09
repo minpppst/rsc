@@ -6,6 +6,7 @@ use kartik\tabs\TabsX; //plugin
 use yii\web\JsExpression;
 use yii\bootstrap\Modal;
 use yii\bootstrap\Button;
+use yii\bootstrap\Alert;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Proyecto */
@@ -22,6 +23,30 @@ $datos_basicos = Yii::$app->controller->renderPartial('_datos-basicos',[
     'historico' => $historico,
     'localizacion' => $localizacion,
 ]);
+$alcanceImpacto = 
+    '<p>'.
+    Html::a('Agregar', ['proyecto-alcance/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
+    '</p>'.
+    '<div class="well">No hay datos.</div>'
+;
+$accionesEspecificas = 
+    '<p>'.
+    Html::a('Agregar', ['proyecto-accion-especifica/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
+    '</p>'.
+    '<div class="well">No hay datos.</div>'
+;
+$distribucionPresupuestaria = 
+    '<p>'.
+    Html::a('Agregar', ['proyecto-dsitribucion-presupuestaria/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
+    '</p>'.
+    '<div class="well">No hay datos.</div>'
+;
+$fuenteFinanciamiento = 
+    '<p>'.
+    Html::a('Agregar', ['proyecto-fuente-financiamiento/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
+    '</p>'.
+    '<div class="well">No hay datos.</div>'
+;
 
 ?>
 <div class="proyecto-view">
@@ -41,22 +66,31 @@ $datos_basicos = Yii::$app->controller->renderPartial('_datos-basicos',[
             ],
             [
                 'label' => 'Alcance e Impacto',
-                'content' => '',
+                'content' => $alcanceImpacto,
                 'linkOptions' => [
-                    'data-url' => Url::to(['proyecto-alcance/view', 'id' => $model->alcance->id]),
+                    'data-url' => $model->alcance == null ? '' : Url::to(['proyecto-alcance/view', 'id' => $model->alcance->id]),
                 ],
             ],
             [
                 'label' => 'Acciones Específicas',
-                'content' => '',
+                'content' => $accionesEspecificas,
+                'linkOptions' => [
+                    'data-url' => '',
+                ],
             ],
             [
                 'label' => 'Distribución Presupuestaria',
-                'content' => '',
+                'content' => $distribucionPresupuestaria,
+                'linkOptions' => [
+                    'data-url' => '',
+                ],
             ],
             [
                 'label' => 'Fuentes de Financiamiento',
-                'content' => '',
+                'content' => $fuenteFinanciamiento,
+                'linkOptions' => [
+                    'data-url' => '',
+                ],
             ],
         ]
     ]) ?>
@@ -65,6 +99,7 @@ $datos_basicos = Yii::$app->controller->renderPartial('_datos-basicos',[
 
 </div>
 
+<!-- Ventana modal -->
 <?php Modal::begin([
     "id"=>"ajaxCrubModal",
     "footer"=>"",// always need it for jquery plugin

@@ -84,7 +84,7 @@ class ProyectoRegistradorController extends Controller
         $model->id_proyecto = $proyecto;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['proyecto/view', 'id' => $model->id_proyecto]);
         } else {
             return $this->render('create', [
                 'model' => $model,

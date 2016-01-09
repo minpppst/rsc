@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectoAlcance */
 
-$this->title = 'Update Proyecto Alcance: ' . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Proyecto Alcances', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Editar Alcance e Impacto';
+$this->params['breadcrumbs'][] = ['label' => 'Proyectos', 'url' => ['proyecto/index']];
+$this->params['breadcrumbs'][] = ['label' => $model->id_proyecto, 'url' => ['proyecto/view', 'id' => $model->id_proyecto]];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="proyecto-alcance-update">
 

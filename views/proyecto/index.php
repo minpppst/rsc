@@ -1,7 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\helpers\Url;
+use kartik\grid\GridView;
+use yii\bootstrap\Modal;
+
+use johnitvn\ajaxcrud\CrudAsset; 
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProyectoSearch */
@@ -9,6 +13,8 @@ use yii\grid\GridView;
 
 $this->title = 'Proyectos';
 $this->params['breadcrumbs'][] = $this->title;
+
+CrudAsset::register($this);
 ?>
 <div class="proyecto-index">
 
@@ -16,30 +22,62 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Proyecto', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Proyecto', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <div id="ajaxCrudDatatable">
+        <?= GridView::widget([
+            'id' => 'crud-datatable',
+            'pjax'=>true,
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'kartik\grid\SerialColumn'],
 
-            'id',
-            'codigo_proyecto',
-            'codigo_sne',
-            'nombre',
-            'estatus_proyecto',
-            // 'situacion_presupuestaria',
-            // 'monto_proyecto',
-            // 'descripcion:ntext',
-            // 'clasificacion_sector',
-            // 'sub_sector',
-            // 'plan_operativo',
-            // 'objetivo_estrategico',
+                [
+                    'class'=>'\kartik\grid\DataColumn',
+                    'attribute'=>'id',
+                ],
+                [
+                    'class'=>'\kartik\grid\DataColumn',
+                    'attribute'=>'codigo_proyecto',
+                ],
+                [
+                    'class'=>'\kartik\grid\DataColumn',
+                    'attribute'=>'codigo_sne',
+                ],
+                [
+                    'class'=>'\kartik\grid\DataColumn',
+                    'attribute'=>'nombre',
+                ],
+                [
+                    'class'=>'\kartik\grid\DataColumn',
+                    'attribute'=>'estatus_proyecto',
+                ],
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                [
+                    'class' => 'kartik\grid\ActionColumn',
+                    'dropdown' => false,
+                    'vAlign'=>'middle',
+                    'urlCreator' => function($action, $model, $key, $index) { 
+                            return Url::to([$action,'id'=>$key]);
+                    },
+                    'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+                                      'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                      'data-request-method'=>'post',
+                                      'data-toggle'=>'tooltip',
+                                      'data-confirm-title'=>'Are you sure?',
+                                      'data-confirm-message'=>'Are you sure want to delete this item'], 
+                ],
+            ],
+        ]); ?>
+    </div>
 
 </div>
+
+<!-- Ventana modal -->
+<?php Modal::begin([
+    "id"=>"ajaxCrubModal",
+    "footer"=>"",// always need it for jquery plugin
+])?>
+<?php Modal::end(); ?>

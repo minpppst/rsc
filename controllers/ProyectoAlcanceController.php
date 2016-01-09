@@ -98,6 +98,7 @@ class ProyectoAlcanceController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'alcanceUnidadMedida' => $alcanceUnidadMedida,
                 'instanciaInstitucion' => $instanciaInstitucion,
             ]);
         }

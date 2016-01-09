@@ -181,7 +181,7 @@ class ProyectoLocalizacionController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['proyecto-responsable/create', 'proyecto' => $model->id_proyecto]);
             } else {
                 return $this->render('create', [
                     'model' => $model,

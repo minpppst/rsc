@@ -10,6 +10,7 @@ use app\models\ProyectoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use \yii\web\Response;
 use yii\data\ActiveDataProvider;
 
 use app\models\EstatusProyecto;
@@ -187,13 +188,34 @@ class ProyectoController extends Controller
      * @param integer $id
      * @return mixed
      */
+    /*
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
+    */
+    public function actionDelete($id)
+    {
+        $request = Yii::$app->request;
+        $this->findModel($id)->delete();
 
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>true];    
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['index']);
+        }
+
+
+    }
     /**
      * Finds the Proyecto model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
