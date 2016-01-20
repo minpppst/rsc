@@ -29,18 +29,7 @@ $alcanceImpacto =
     '</p>'.
     '<div class="well">No hay datos.</div>'
 ;
-$accionesEspecificas = 
-    '<p>'.
-    Html::a('Agregar', ['proyecto-accion-especifica/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
-    '</p>'.
-    '<div class="well">No hay datos.</div>'
-;
-$distribucionPresupuestaria = 
-    '<p>'.
-    Html::a('Agregar', ['proyecto-dsitribucion-presupuestaria/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
-    '</p>'.
-    '<div class="well">No hay datos.</div>'
-;
+$distribucionPresupuestaria = '<div class="well">Debe agregar al menos una Acción Específica.</div>';
 $fuenteFinanciamiento = 
     '<p>'.
     Html::a('Agregar', ['proyecto-fuente-financiamiento/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
@@ -57,6 +46,7 @@ $fuenteFinanciamiento =
     <?= TabsX::widget([
         'options' => [
             'class' => 'nav-justified',
+            'containerOptions' => ['id' => 'contenedorTabs'],
         ],
         'items' => [
             [
@@ -73,16 +63,15 @@ $fuenteFinanciamiento =
             ],
             [
                 'label' => 'Acciones Específicas',
-                'content' => $accionesEspecificas,
                 'linkOptions' => [
-                    'data-url' => '',
+                    'data-url' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id]),
                 ],
             ],
             [
                 'label' => 'Distribución Presupuestaria',
                 'content' => $distribucionPresupuestaria,
                 'linkOptions' => [
-                    'data-url' => '',
+                    'data-url' => $model->accionesEspecificas == null ? '' : Url::to(['proyecto-distribucion-presupuestaria/index', 'proyecto' => $model->id]),
                 ],
             ],
             [
@@ -94,8 +83,6 @@ $fuenteFinanciamiento =
             ],
         ]
     ]) ?>
-    
-    
 
 </div>
 

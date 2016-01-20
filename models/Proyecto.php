@@ -189,4 +189,12 @@ class Proyecto extends \yii\db\ActiveRecord
         return $this->hasOne(ProyectoAlcance::className(), ['id_proyecto' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccionesEspecificas()
+    {
+        return $this->hasMany(ProyectoAccionEspecifica::className(), ['id_proyecto' => 'id']);
+    }
+
 }

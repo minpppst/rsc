@@ -3,26 +3,23 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Json;
 use yii\filters\AccessControl;
-use app\models\Proyecto;
-use app\models\ProyectoLocalizacion;
-use app\models\ProyectoLocalizacionSearch;
+use app\models\ProyectoDistribucionPresupuestaria;
+use app\models\ProyectoDistribucionPresupuestariaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use \yii\web\Response;
+use yii\web\Response;
 use yii\helpers\Html;
-
-use app\models\Ambito;
-use app\models\Pais;
-use app\models\Estados;
-use app\models\Municipio;
-use app\models\Parroquia;
+use yii\data\SqlDataProvider;
+use app\models\ProyectoAccionEspecifica;
+use app\models\Partida;
 
 /**
- * ProyectoLocalizacionController implements the CRUD actions for ProyectoLocalizacion model.
+ * ProyectoDistribucionPresupuestariaController implements the CRUD actions for ProyectoDistribucionPresupuestaria model.
  */
-class ProyectoLocalizacionController extends Controller
+class ProyectoDistribucionPresupuestariaController extends Controller
 {
     /**
      * @inheritdoc
@@ -60,24 +57,35 @@ class ProyectoLocalizacionController extends Controller
     }
 
     /**
-     * Lists all ProyectoLocalizacion models.
+     * Lists all ProyectoDistribucionPresupuestaria models.
      * @return mixed
      */
-    public function actionIndex($proyecto,$ambito)
-    {    
-        $searchModel = new ProyectoLocalizacionSearch(['id_proyecto'=>$proyecto]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    public function actionIndex($proyecto)
+    {
+        $accionesEspecificas = ProyectoAccionEspecifica::find(['id_proyecto' => $proyecto])->all();
+        $partidas = Partida::find()->all();
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'ambito' => $ambito
+        $modelos = [];
+
+        foreach ($accionesEspecificas as $key => $value) 
+        {
+            $modelos[$value->id] = ProyectoDistribucionPresupuestaria::find([
+                'id_accion_especifica' => $value->id
+            ])->all();
+        }
+
+        $html = $this->renderPartial('index', [
+            'modelos' => $modelos,
+            'partidas' => $partidas,
+            'proyecto' => $proyecto,
         ]);
+
+        return Json::encode($html);
     }
 
 
     /**
-     * Displays a single ProyectoLocalizacion model.
+     * Displays a single ProyectoDistribucionPresupuestaria model.
      * @param integer $id
      * @return mixed
      */
@@ -87,7 +95,7 @@ class ProyectoLocalizacionController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "ProyectoLocalizacion #".$id,
+                    'title'=> "ProyectoDistribucionPresupuestaria #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -102,34 +110,16 @@ class ProyectoLocalizacionController extends Controller
     }
 
     /**
-     * Creates a new ProyectoLocalizacion model.
+     * Creates a new ProyectoDistribucionPresupuestaria model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($proyecto,$ambito)
+    public function actionCreate($proyecto)
     {
         $request = Yii::$app->request;
-        $model = new ProyectoLocalizacion(); 
-        $model->id_proyecto = $proyecto;
-        //Escenario
-        $model->scenario = Ambito::findOne(['id'=>$ambito])->ambito;
-
-        switch ($model->scenario) {
-            case 'Nacional':
-                $model->id_pais = Pais::findOne(['nombre'=>'Venezuela'])->id;
-                break;
-            
-            default:
-                $model->id_pais = Pais::findOne(['nombre'=>'Venezuela'])->id;
-                break;
-        }
-
-        //Listas desplegables
-        $paises = Pais::find()->all();
-        $estados = Estados::find()->all();
-        $parroquias = Parroquia::find()->all();
-        $municipios = Municipio::find()->all(); 
+        $model = new ProyectoDistribucionPresupuestaria();
+        $model->id_proyecto = $proyecto; 
 
         if($request->isAjax){
             /*
@@ -138,14 +128,9 @@ class ProyectoLocalizacionController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new ProyectoLocalizacion",
+                    'title'=> "Create new ProyectoDistribucionPresupuestaria",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'paises' => $paises,
-                        'estados' => $estados,
-                        'municipios' => $municipios,
-                        'parroquias' => $parroquias,
-                        'ambito' => $ambito
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -154,125 +139,22 @@ class ProyectoLocalizacionController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'contenedorId' => '#localizacion-pjax', //Id del contenedor
-                    'title'=> "Create new ProyectoLocalizacion",
-                    'content'=>'<span class="text-success">Create ProyectoLocalizacion success</span>',
+                    'title'=> "Create new ProyectoDistribucionPresupuestaria",
+                    'content'=>'<span class="text-success">Create ProyectoDistribucionPresupuestaria success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new ProyectoLocalizacion",
+                    'title'=> "Create new ProyectoDistribucionPresupuestaria",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'paises' => $paises,
-                        'estados' => $estados,
-                        'municipios' => $municipios,
-                        'parroquias' => $parroquias,
-                        'ambito' => $ambito
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['proyecto-responsable/create', 'proyecto' => $model->id_proyecto]);
-            } else {
-                return $this->render('create', [
-                    'model' => $model,
-                    'paises' => $paises,
-                    'estados' => $estados,
-                    'municipios' => $municipios,
-                    'parroquias' => $parroquias,
-                    'ambito' => $ambito
-                ]);
-            }
-        }
-       
-    }
-
-    /**
-     * Updates an existing ProyectoLocalizacion model.
-     * For ajax request will return json object
-     * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $request = Yii::$app->request;
-        $model = $this->findModel($id);
-        //Escenario
-        $model->scenario = $this->findAmbito($model->id_proyecto);
-
-        switch ($model->scenario) {
-            case 'Nacional':
-                $model->id_pais = Pais::findOne(['nombre'=>'Venezuela'])->id;
-                break;
-            
-            default:
-                $model->id_pais = Pais::findOne(['nombre'=>'Venezuela'])->id;
-                break;
-        }
-
-        //Listas desplegables
-        $paises = Pais::find()->all();
-        $estados = Estados::find()->all();
-        $parroquias = Parroquia::find()->all();
-        $municipios = Municipio::find()->all();       
-
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> "Update ProyectoLocalizacion #".$id,
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $model,
-                        'paises' => $paises,
-                        'estados' => $estados,
-                        'municipios' => $municipios,
-                        'parroquias' => $parroquias
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'true',
-                    'contenedorId' => '#localizacion-pjax', //Id del contenedor
-                    'title'=> "ProyectoLocalizacion #".$id,
-                    'content'=>$this->renderPartial('view', [
-                        'model' => $model,
-                        'paises' => $paises,
-                        'estados' => $estados,
-                        'municipios' => $municipios,
-                        'parroquias' => $parroquias
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-            }else{
-                 return [
-                    'title'=> "Update ProyectoLocalizacion #".$id,
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $model,
-                        'paises' => $paises,
-                        'estados' => $estados,
-                        'municipios' => $municipios,
-                        'parroquias' => $parroquias
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-                ];        
             }
         }else{
             /*
@@ -281,19 +163,71 @@ class ProyectoLocalizacionController extends Controller
             if ($model->load($request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+        }
+       
+    }
+
+    /**
+     * Updates an existing ProyectoDistribucionPresupuestaria model.
+     * For ajax request will return json object
+     * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    /*
+    public function actionUpdate($id)
+    {
+        $request = Yii::$app->request;
+        $model = $this->findModel($id);       
+
+        if($request->isAjax){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Update ProyectoDistribucionPresupuestaria #".$id,
+                    'content'=>$this->renderPartial('update', [
+                        'model' => $this->findModel($id),
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                ];         
+            }else if($model->load($request->post()) && $model->save()){
+                return [
+                    'forceReload'=>'true',
+                    'title'=> "ProyectoDistribucionPresupuestaria #".$id,
+                    'content'=>$this->renderPartial('view', [
+                        'model' => $this->findModel($id),
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                ];    
+            }else{
+                 return [
+                    'title'=> "Update ProyectoDistribucionPresupuestaria #".$id,
+                    'content'=>$this->renderPartial('update', [
+                        'model' => $this->findModel($id),
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                ];        
+            }
+        }else{
+            if ($model->load($request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
                 return $this->render('update', [
                     'model' => $model,
-                    'paises' => $paises,
-                    'estados' => $estados,
-                    'municipios' => $municipios,
-                    'parroquias' => $parroquias,
                 ]);
             }
         }
     }
-
+    */
     /**
-     * Delete an existing ProyectoLocalizacion model.
+     * Delete an existing ProyectoDistribucionPresupuestaria model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -309,7 +243,7 @@ class ProyectoLocalizacionController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true,'contenedorId' => '#localizacion-pjax'];    
+            return ['forceClose'=>true,'forceReload'=>true];    
         }else{
             /*
             *   Process for non-ajax request
@@ -321,7 +255,7 @@ class ProyectoLocalizacionController extends Controller
     }
 
      /**
-     * Delete multiple existing ProyectoLocalizacion model.
+     * Delete multiple existing ProyectoDistribucionPresupuestaria model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -331,7 +265,7 @@ class ProyectoLocalizacionController extends Controller
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (ProyectoLocalizacion::findAll(json_decode($pks)) as $model) {
+        foreach (ProyectoDistribucionPresupuestaria::findAll(json_decode($pks)) as $model) {
             $model->delete();
         }
         
@@ -351,23 +285,36 @@ class ProyectoLocalizacionController extends Controller
        
     }
 
-    protected function findAmbito($proyecto)
+    /**
+     * Acción AJAX para editar campos
+     */
+    public function actionUpdate($proyecto)
     {
-        $proyecto = Proyecto::findOne($proyecto);
+        $accionesEspecificas = ProyectoAccionEspecifica::find(['id_proyecto' => $proyecto])->all();
+        $modelos = [];
 
-        return $proyecto->nombreAmbito;
+        foreach ($accionesEspecificas as $key => $value) 
+        {
+            $modelos[] = ProyectoDistribucionPresupuestaria::find(['id_accion_especifica'=>$value->id])->all();
+        }
+
+        return $this->render('editable', [
+            'modelos' => $modelos,
+            'proyecto' => $proyecto,
+            'accionesEspecificas' => $accionesEspecificas,
+        ]);
     }
 
     /**
-     * Finds the ProyectoLocalizacion model based on its primary key value.
+     * Finds the ProyectoDistribucionPresupuestaria model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ProyectoLocalizacion the loaded model
+     * @return ProyectoDistribucionPresupuestaria the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ProyectoLocalizacion::findOne($id)) !== null) {
+        if (($model = ProyectoDistribucionPresupuestaria::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

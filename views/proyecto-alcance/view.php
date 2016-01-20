@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'resultado_esperado:ntext',
             [
                 'label' => 'Unidad de Medida',
-                'value' => $model->alcanceUnidadMedida->unidad_medida,
+                'value' => $model->unidadMedida->unidad_medida,
             ],
             'meta_proyecto:ntext',
             'benficiarios_femeninos',

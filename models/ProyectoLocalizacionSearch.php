@@ -59,20 +59,20 @@ class ProyectoLocalizacionSearch extends ProyectoLocalizacion
 
         //Ordenamiento
         $dataProvider->sort->attributes['nombrePais'] = [
-            'asc' => ['tbl_pais.nombre' => SORT_ASC],
-            'desc' => ['tbl_pais.nombre' => SORT_DESC],
+            'asc' => ['pais.nombre' => SORT_ASC],
+            'desc' => ['pais.nombre' => SORT_DESC],
         ];
         $dataProvider->sort->attributes['nombreEstado'] = [
-            'asc' => ['tbl_estados.nombre' => SORT_ASC],
-            'desc' => ['tbl_estados.nombre' => SORT_DESC],
+            'asc' => ['estados.nombre' => SORT_ASC],
+            'desc' => ['estados.nombre' => SORT_DESC],
         ];
         $dataProvider->sort->attributes['nombreMunicipio'] = [
-            'asc' => ['tbl_municipio.nombre' => SORT_ASC],
-            'desc' => ['tbl_municipio.nombre' => SORT_DESC],
+            'asc' => ['municipio.nombre' => SORT_ASC],
+            'desc' => ['municipio.nombre' => SORT_DESC],
         ];
         $dataProvider->sort->attributes['nombreParroquia'] = [
-            'asc' => ['tbl_parroquia.nombre' => SORT_ASC],
-            'desc' => ['tbl_parroquia.nombre' => SORT_DESC],
+            'asc' => ['parroquia.nombre' => SORT_ASC],
+            'desc' => ['parroquia.nombre' => SORT_DESC],
         ];
 
         $this->load($params);

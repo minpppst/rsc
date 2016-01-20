@@ -126,9 +126,9 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAlcanceUnidadMedida()
+    public function getUnidadMedida()
     {
-        return $this->hasOne(AlcanceUnidadMedida::className(), ['id' => 'unidad_medida']);
+        return $this->hasOne(UnidadMedida::className(), ['id' => 'unidad_medida']);
     }
 
     /**

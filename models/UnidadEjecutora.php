@@ -11,7 +11,7 @@ use Yii;
  * @property string $codigo_ue
  * @property string $nombre
  *
- * @property AccionEspecificaProyecto[] $accionEspecificaProyectos
+ * @property ProyectoAccionEspecifica[] $proyectoAccionEspecificas
  */
 class UnidadEjecutora extends \yii\db\ActiveRecord
 {
@@ -43,7 +43,7 @@ class UnidadEjecutora extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'codigo_ue' => 'Código UE',
+            'codigo_ue' => 'Codigo Ue',
             'nombre' => 'Nombre',
         ];
     }
@@ -51,8 +51,8 @@ class UnidadEjecutora extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAccionEspecificaProyectos()
+    public function getProyectoAccionEspecificas()
     {
-        return $this->hasMany(AccionEspecificaProyecto::className(), ['id_unidad_ejecutora' => 'id']);
+        return $this->hasMany(ProyectoAccionEspecifica::className(), ['id_unidad_ejecutora' => 'id']);
     }
 }

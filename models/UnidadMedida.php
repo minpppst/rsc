@@ -10,14 +10,14 @@ use Yii;
  * @property integer $id
  * @property string $unidad_medida
  */
-class AlcanceUnidadMedida extends \yii\db\ActiveRecord
+class UnidadMedida extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'alcance_unidad_medida';
+        return 'unidad_medida';
     }
 
     /**

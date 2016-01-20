@@ -8,6 +8,7 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Objetivos Estrategicos';
+$this->params['breadcrumbs'][] = ['label' => 'Configuración', 'url' => ['site/configuracion']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="objetivos-estrategicos-index">

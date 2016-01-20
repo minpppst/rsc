@@ -11,7 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-use app\models\AlcanceUnidadMedida;
+use app\models\UnidadMedida;
 use app\models\InstanciaInstitucion;
 
 /**
@@ -90,7 +90,7 @@ class ProyectoAlcanceController extends Controller
         $model->id_proyecto = $proyecto;
 
         //Listas desplegables
-        $alcanceUnidadMedida = AlcanceUnidadMedida::find()->all();
+        $unidadMedida = UnidadMedida::find()->all();
         $instanciaInstitucion = InstanciaInstitucion::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -98,7 +98,7 @@ class ProyectoAlcanceController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'alcanceUnidadMedida' => $alcanceUnidadMedida,
+                'unidadMedida' => $unidadMedida,
                 'instanciaInstitucion' => $instanciaInstitucion,
             ]);
         }
@@ -115,7 +115,7 @@ class ProyectoAlcanceController extends Controller
         $model = $this->findModel($id);
 
         //Listas desplegables
-        $alcanceUnidadMedida = AlcanceUnidadMedida::find()->all();
+        $unidadMedida = UnidadMedida::find()->all();
         $instanciaInstitucion = InstanciaInstitucion::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -123,7 +123,7 @@ class ProyectoAlcanceController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'alcanceUnidadMedida' => $alcanceUnidadMedida,
+                'unidadMedida' => $unidadMedida,
                 'instanciaInstitucion' => $instanciaInstitucion,
             ]);
         }

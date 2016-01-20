@@ -36,7 +36,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'resultado_esperado')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'unidad_medida')->dropDownList(ArrayHelper::map($alcanceUnidadMedida, 'id', 'unidad_medida'), ['prompt' => 'Seleccione']) ?>
+    <?= $form->field($model, 'unidad_medida')->dropDownList(ArrayHelper::map($unidadMedida, 'id', 'unidad_medida'), ['prompt' => 'Seleccione']) ?>
 
     <?= $form->field($model, 'meta_proyecto')->textarea(['rows' => 6]) ?>
 

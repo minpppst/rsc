@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use kartik\grid\GridView;
 use yii\bootstrap\Modal;
 
-use johnitvn\ajaxcrud\CrudAsset; 
+use johnitvn\ajaxcrud\CrudAsset;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProyectoSearch */
@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 CrudAsset::register($this);
 ?>
 <div class="proyecto-index">
-
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

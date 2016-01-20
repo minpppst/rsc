@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "692fd4bbb0de316a994af1284bbc4f7e",
-    "content-hash": "3c835443859b852c397bb70c2769ab46",
+    "hash": "94e9f4d9aee9fd828c1b17c694284891",
+    "content-hash": "57d0b58514ca7200cc5d75c4e72ae962",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1556,7 +1556,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "kartik-v/yii2-editable": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
