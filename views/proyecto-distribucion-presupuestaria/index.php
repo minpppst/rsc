@@ -35,13 +35,13 @@ $this->params['breadcrumbs'][] = $this->title;
             </tr>
         </thead>
         <tbody>
-            <?php
+            <?php                
                 foreach ($modelos as $key => $value) 
-                {
+                {                     
                     echo Yii::$app->controller->renderPartial('_datos',[
                         'model' => $value,
-                        'accionEspecifica' => ProyectoAccionEspecifica::findOne($key),
-                    ]);
+                    ]);                    
+                    
                 }
             ?>
         </tbody>

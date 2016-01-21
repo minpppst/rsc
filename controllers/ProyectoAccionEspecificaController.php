@@ -12,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 use app\models\UnidadEjecutora;
 
@@ -131,7 +132,7 @@ class ProyectoAccionEspecificaController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'true',
+                    'forceReload'=>'false',                    
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'title'=> "Create new ProyectoAccionEspecifica",
                     'content'=>'<span class="text-success">Create ProyectoAccionEspecifica success</span>',

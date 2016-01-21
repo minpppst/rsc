@@ -62,14 +62,14 @@ class ProyectoDistribucionPresupuestariaController extends Controller
      */
     public function actionIndex($proyecto)
     {
-        $accionesEspecificas = ProyectoAccionEspecifica::find(['id_proyecto' => $proyecto])->all();
+        $accionesEspecificas = ProyectoAccionEspecifica::find()->where(['id_proyecto' => $proyecto])->all();
         $partidas = Partida::find()->all();
 
         $modelos = [];
 
         foreach ($accionesEspecificas as $key => $value) 
         {
-            $modelos[$value->id] = ProyectoDistribucionPresupuestaria::find([
+            $modelos[] = ProyectoDistribucionPresupuestaria::find()->where([
                 'id_accion_especifica' => $value->id
             ])->all();
         }
@@ -226,6 +226,56 @@ class ProyectoDistribucionPresupuestariaController extends Controller
         }
     }
     */
+
+    /**
+     * Acción AJAX para editar campos
+     */
+    public function actionUpdate($proyecto)
+    {
+        $accionesEspecificas = ProyectoAccionEspecifica::find()->where(['id_proyecto' => $proyecto])->all();
+        $partidas = Partida::find()->all();
+        $modelos = [];
+
+        foreach ($accionesEspecificas as $key => $value) 
+        {
+            $modelos[] = ProyectoDistribucionPresupuestaria::find()->where(['id_accion_especifica'=>$value->id])->all();
+        }
+
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            if(isset($_POST['hasEditable']))
+            {
+
+                $model = $this->findModel($_POST['ProyectoDistribucionPresupuestaria']['id']);
+                $model->cantidad = $_POST['cantidad_'.$model->id];
+
+                if($model->save())
+                {
+                    return ['output'=>$model->cantidad, 'message'=>''];
+                }
+                else
+                {
+                    return ['output'=>'', 'message'=>$model->getErrors('cantidad')];
+                }
+
+                
+            }
+
+        }
+
+
+        return $this->render('editable', [
+            'modelos' => $modelos,
+            'proyecto' => $proyecto,
+            'accionesEspecificas' => $accionesEspecificas,
+            'partidas' => $partidas
+        ]);
+    }
+
     /**
      * Delete an existing ProyectoDistribucionPresupuestaria model.
      * For ajax request will return json object
@@ -285,25 +335,6 @@ class ProyectoDistribucionPresupuestariaController extends Controller
        
     }
 
-    /**
-     * Acción AJAX para editar campos
-     */
-    public function actionUpdate($proyecto)
-    {
-        $accionesEspecificas = ProyectoAccionEspecifica::find(['id_proyecto' => $proyecto])->all();
-        $modelos = [];
-
-        foreach ($accionesEspecificas as $key => $value) 
-        {
-            $modelos[] = ProyectoDistribucionPresupuestaria::find(['id_accion_especifica'=>$value->id])->all();
-        }
-
-        return $this->render('editable', [
-            'modelos' => $modelos,
-            'proyecto' => $proyecto,
-            'accionesEspecificas' => $accionesEspecificas,
-        ]);
-    }
 
     /**
      * Finds the ProyectoDistribucionPresupuestaria model based on its primary key value.

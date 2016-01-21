@@ -4,8 +4,16 @@ use yii\helpers\HtmlPurifier;
 
 ?>
 <tr>
-	<td><?= $accionEspecifica->nombre ?></td>
-<?php foreach($model as $value){ ?>
+	<?php foreach($model as $key => $value){ ?>
+
+	<?php 
+		if($value == array_values($model)[0])
+		{
+	?>
+	<td><?= Html::encode($value->nombreAccionEspecifica) ?></td>
+	<?php
+		}
+	?>	
 	<td><?= $value->cantidad ?></td>
-<?php } ?>
+	<?php } ?>
 </tr>

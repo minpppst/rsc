@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 CrudAsset::register($this);
 
 $icons = [
-    'siguiente'=>'<span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>',
+    'siguiente'=>'<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>',
 ];
 
 ?>
