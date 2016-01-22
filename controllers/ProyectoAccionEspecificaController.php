@@ -138,7 +138,7 @@ class ProyectoAccionEspecificaController extends Controller
                     'title'=> "Create new ProyectoAccionEspecifica",
                     'content'=>'<span class="text-success">Create ProyectoAccionEspecifica success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Create More',['create', 'proyecto' => $proyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
