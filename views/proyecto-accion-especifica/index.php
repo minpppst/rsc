@@ -13,6 +13,13 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 $this->title = 'Proyecto Accion Especificas';
 $this->params['breadcrumbs'][] = $this->title;
 
+//Iconos
+$icons=[
+    'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+    'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+    'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
+];
+
 CrudAsset::register($this);
 
 ?>
@@ -30,10 +37,8 @@ CrudAsset::register($this);
         'columns' => require(__DIR__.'/_columns.php'),
         'toolbar'=> [
             ['content'=>
-                Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create','proyecto'=>$searchModel->id_proyecto],
-                ['role'=>'modal-remote','title'=> 'Create new Proyecto Accion Especificas','class'=>'btn btn-default']).
-                Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['proyecto/view', 'id' => $searchModel->id_proyecto],
-                ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                Html::a($icons['crear'].' Agregar', ['create','proyecto'=>$searchModel->id_proyecto],
+                ['role'=>'modal-remote','title'=> 'Create new Proyecto Accion Especificas','class'=>'btn btn-default']).                
                 '{toggleData}'.
                 '{export}'
             ],

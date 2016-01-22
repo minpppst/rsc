@@ -25,6 +25,7 @@ $icons=[
     'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
     'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
     'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
+    'recargar' => '<span class="glyphicon glyphicon-repeat"></span>'
 ];
 
 CrudAsset::register($this);
@@ -33,8 +34,8 @@ CrudAsset::register($this);
 
 <!-- BOTONES -->
 <p>
-    <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
+    <?= Html::a($icons['editar'].' Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a($icons['eliminar'].' Eliminar', ['delete', 'id' => $model->id], [
         'class' => 'btn btn-danger',
         'data' => [
             'confirm' => '¿Está seguro que desea eliminar el Proyecto? (Todos los datos asociados serán eliminados)',
@@ -115,9 +116,9 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_localizacion.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus">Agregar</i>', ['proyecto-localizacion/create', 'proyecto' => $model->id, 'ambito' => $model->ambito],
+                    Html::a($icons['crear'].' Agregar', ['proyecto-localizacion/create', 'proyecto' => $model->id, 'ambito' => $model->ambito],
                     ['role'=>'modal-remote','title'=> 'Create new Proyecto Localizacions','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat">Refrescar</i>', ['proyecto/view', 'id' => $model->id],
+                    Html::a($icons['recargar'].' Refrescar', ['proyecto/view', 'id' => $model->id],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'

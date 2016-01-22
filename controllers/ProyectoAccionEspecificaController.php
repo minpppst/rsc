@@ -134,6 +134,7 @@ class ProyectoAccionEspecificaController extends Controller
                 return [
                     'forceReload'=>'false',                    
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
+                    'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
                     'title'=> "Create new ProyectoAccionEspecifica",
                     'content'=>'<span class="text-success">Create ProyectoAccionEspecifica success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -202,6 +203,7 @@ class ProyectoAccionEspecificaController extends Controller
                 return [
                     'forceReload'=>'true',
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
+                    'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
                     'title'=> "ProyectoAccionEspecifica #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $model,
@@ -246,14 +248,16 @@ class ProyectoAccionEspecificaController extends Controller
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $proyecto = $model->id_proyecto;
+        $model->delete();
 
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true,'contenedorId' => '#especifica-pjax'];    
+            return ['forceClose'=>true,'forceReload'=>true,'contenedorId' => '#especifica-pjax','contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $proyecto]),];    
         }else{
             /*
             *   Process for non-ajax request

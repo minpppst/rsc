@@ -8,9 +8,10 @@ $this->title = 'Registro, Segumiento y Control';
 
     <div class="jumbotron">
         <h1>¡Bienvenido <?= Yii::$app->user->identity->username ?>!</h1>
+        <p>Resumen de actividades</p>
     </div>
 
     <div class="body-content">
-    	
+    	<?= Yii::$app->controller->renderPartial('_sysadmin') ?>
     </div>
 </div>

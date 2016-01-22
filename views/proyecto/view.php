@@ -15,6 +15,13 @@ $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Proyectos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
+//Iconos
+$icons=[
+    'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+    'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+    'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
+];
+
 //Contenido de TABS
 $datos_basicos = Yii::$app->controller->renderPartial('_datos-basicos',[
     'model' => $model,
@@ -25,14 +32,14 @@ $datos_basicos = Yii::$app->controller->renderPartial('_datos-basicos',[
 ]);
 $alcanceImpacto = 
     '<p>'.
-    Html::a('Agregar', ['proyecto-alcance/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
+    Html::a($icons['crear'].' Agregar', ['proyecto-alcance/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
     '</p>'.
     '<div class="well">No hay datos.</div>'
 ;
-$distribucionPresupuestaria = '<div class="well">Debe agregar al menos una Acción Específica.</div>';
+$distribucionPresupuestaria = '<div class="alert alert-warning">Debe agregar al menos una Acción Específica.</div>';
 $fuenteFinanciamiento = 
     '<p>'.
-    Html::a('Agregar', ['proyecto-fuente-financiamiento/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
+    Html::a($icons['crear'].' Agregar', ['proyecto-fuente-financiamiento/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
     '</p>'.
     '<div class="well">No hay datos.</div>'
 ;

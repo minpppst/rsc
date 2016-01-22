@@ -12,11 +12,16 @@ use app\models\ProyectoAccionEspecifica;
 $this->title = 'Proyecto Distribucion Presupuestarias';
 $this->params['breadcrumbs'][] = $this->title;
 
+//Iconos
+$icons=[
+    'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>'
+];
+
 ?>
 
 <!-- BOTONES -->
 <p>
-    <?= Html::a('Editar', ['proyecto-distribucion-presupuestaria/update', 'proyecto' => $proyecto], ['class' => 'btn btn-primary']) ?>    
+    <?= Html::a($icons['editar'].' Editar', ['proyecto-distribucion-presupuestaria/update', 'proyecto' => $proyecto], ['class' => 'btn btn-primary']) ?>    
 </p>
 
 <div>
