@@ -38,7 +38,7 @@ CrudAsset::register($this);
         'toolbar'=> [
             ['content'=>
                 Html::a($icons['crear'].' Agregar', ['create','proyecto'=>$searchModel->id_proyecto],
-                ['role'=>'modal-remote','title'=> 'Create new Proyecto Accion Especificas','class'=>'btn btn-default']).                
+                ['role'=>'modal-remote','title'=> 'Create new Proyecto Accion Especificas','class'=>'btn btn-success']).                
                 '{toggleData}'.
                 '{export}'
             ],

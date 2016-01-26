@@ -117,7 +117,7 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a($icons['crear'].' Agregar', ['proyecto-localizacion/create', 'proyecto' => $model->id, 'ambito' => $model->ambito],
-                    ['role'=>'modal-remote','title'=> 'Create new Proyecto Localizacions','class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> 'Create new Proyecto Localizacions','class'=>'btn btn-success']).
                     Html::a($icons['recargar'].' Refrescar', ['proyecto/view', 'id' => $model->id],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.

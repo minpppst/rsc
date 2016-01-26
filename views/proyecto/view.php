@@ -32,14 +32,14 @@ $datos_basicos = Yii::$app->controller->renderPartial('_datos-basicos',[
 ]);
 $alcanceImpacto = 
     '<p>'.
-    Html::a($icons['crear'].' Agregar', ['proyecto-alcance/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
+    Html::a($icons['crear'].' Agregar', ['proyecto-alcance/create', 'proyecto' => $model->id], ['class' => 'btn btn-success']).
     '</p>'.
     '<div class="well">No hay datos.</div>'
 ;
 $distribucionPresupuestaria = '<div class="alert alert-warning">Debe agregar al menos una Acción Específica.</div>';
 $fuenteFinanciamiento = 
     '<p>'.
-    Html::a($icons['crear'].' Agregar', ['proyecto-fuente-financiamiento/create', 'proyecto' => $model->id], ['class' => 'btn btn-primary']).
+    Html::a($icons['crear'].' Agregar', ['proyecto-fuente-financiamiento/create', 'proyecto' => $model->id], ['class' => 'btn btn-success']).
     '</p>'.
     '<div class="well">No hay datos.</div>'
 ;

@@ -61,19 +61,20 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'codigo_proyecto' => 'Codigo Proyecto',
-            'codigo_sne' => 'Codigo Sne',
+            'codigo_proyecto' => 'Código Proyecto',
+            'codigo_sne' => 'Código SNE',
             'nombre' => 'Nombre',
-            'estatus_proyecto' => 'Estatus Proyecto',
-            'situacion_presupuestaria' => 'Situacion Presupuestaria',
+            'estatus_proyecto' => 'Estatus',
+            'situacion_presupuestaria' => 'Situación Presupuestaria',
             'monto_proyecto' => 'Monto Proyecto',
-            'descripcion' => 'Descripcion',
+            'descripcion' => 'Descripción',
             'sector' => 'Sector',
             'sub_sector' => 'Sub Sector',
             'plan_operativo' => 'Plan Operativo',
             'objetivo_general' => 'Objetivo General',
             'objetivo_estrategico_institucional' => 'Objetivo Estrategico Institucional',
             'ambito' => 'Ambito',
+            'nombreEstatus' => 'Estatus'
         ];
     }
 

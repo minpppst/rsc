@@ -15,6 +15,9 @@ $icons = [
     'partidas' => '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>',
     'objetivos' => '<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>',
     'unidadEjecutora' => '<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>',
+    'respaldos' => '<span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>',
+    'medida' => '<span class="glyphicon glyphicon-scale" aria-hidden="true"></span>',
+
 ];
 
 $caret = '<p style="float:right"><span class="caret"></span></p>';
@@ -42,7 +45,7 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
 				</div>
     		</div>
 		</div>
-        <!-- Propiedades -->
+        <!-- PROPIEDADES -->
         <div class="panel panel-info estilo-panel">
             <div class="panel-heading">
                 <h1 class="panel-title">Propiedades</h1>
@@ -66,7 +69,22 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                         </ul>
                     </div>                    
                     <?= Html::a($icons['unidadEjecutora'].' Unidades Ejecutoras',Url::to(['unidad-ejecutora/index']),['class' => 'list-group-item']) ?>
-                    <?= Html::a($icons['info'].' Item',null,['class' => 'list-group-item']) ?>
+                    <?= Html::a($icons['medida'].' Unidades de Medida',Url::to(['unidad-medida/index']),['class' => 'list-group-item']) ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- SISTEMA -->
+        <div class="panel panel-warning estilo-panel">
+            <div class="panel-heading">
+                <h1 class="panel-title">Sistema</h1>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <?= Html::a($icons['respaldos'].' Respaldos', Url::to(['backuprestore/default/index']),['class' => 'list-group-item']) ?>
+                    <?= Html::a($icons['info'].' Item', null,['class' => 'list-group-item']) ?>
+                    <?= Html::a($icons['info'].' Item', null,['class' => 'list-group-item']) ?>
+                    <?= Html::a($icons['info'].' Item', null,['class' => 'list-group-item']) ?>
                 </div>
             </div>
         </div>

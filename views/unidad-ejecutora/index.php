@@ -10,7 +10,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 /* @var $searchModel app\models\UnidadEjecutoraSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Unidad Ejecutoras';
+$this->title = 'Unidades Ejecutoras';
 $this->params['breadcrumbs'][] = ['label' => 'Configuración', 'url' => ['site/configuracion']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -27,9 +27,9 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Unidad Ejecutoras','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
+                    Html::a('<span class="glyphicon glyphicon-plus"></span> Agregar', ['create'],
+                    ['role'=>'modal-remote','title'=> 'Create new Unidad Ejecutoras','class'=>'btn btn-success']).
+                    Html::a('<span class="glyphicon glyphicon-repeat"></span> Refrescar', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'
@@ -40,7 +40,7 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Unidad Ejecutoras listing',
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Unidades Ejecutoras',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',

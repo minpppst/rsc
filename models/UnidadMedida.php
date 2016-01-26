@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "alcance_unidad_medida".
+ * This is the model class for table "unidad_medida".
  *
  * @property integer $id
  * @property string $unidad_medida

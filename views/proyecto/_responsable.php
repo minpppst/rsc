@@ -12,7 +12,7 @@ use yii\bootstrap\Modal;
 
     <h4><span class="label label-default"><?= $nombre ?></span></h4>
     <div class="well well-sm">No hay datos.</div>
-    <?= Html::a($icons['crear'].' Agregar', [$url.'/create-alt', 'proyecto' => $proyecto], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a($icons['crear'].' Agregar', [$url.'/create-alt', 'proyecto' => $proyecto], ['class' => 'btn btn-success']) ?>
 
 <?php else: ?> <!-- Existe -->
     <h4>

@@ -6,7 +6,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'components' => [
+    'components' => [        
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
@@ -44,6 +44,9 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
     ],
     'modules' => [
+        'backuprestore' => [
+            'class' => '\oe\modules\backuprestore\Module',
+        ],
         'user' => [
             'class' => 'johnitvn\userplus\basic\Module',
         ],

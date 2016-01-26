@@ -14,6 +14,11 @@ use johnitvn\ajaxcrud\CrudAsset;
 $this->title = 'Proyectos';
 $this->params['breadcrumbs'][] = $this->title;
 
+//Iconos
+$icons=[
+    'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+];
+
 CrudAsset::register($this);
 ?>
 <div class="proyecto-index">
@@ -21,7 +26,7 @@ CrudAsset::register($this);
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Crear Proyecto', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a($icons['crear'].' Crear Proyecto', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <div id="ajaxCrudDatatable">
@@ -32,11 +37,6 @@ CrudAsset::register($this);
             'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'kartik\grid\SerialColumn'],
-
-                [
-                    'class'=>'\kartik\grid\DataColumn',
-                    'attribute'=>'id',
-                ],
                 [
                     'class'=>'\kartik\grid\DataColumn',
                     'attribute'=>'codigo_proyecto',
@@ -48,10 +48,6 @@ CrudAsset::register($this);
                 [
                     'class'=>'\kartik\grid\DataColumn',
                     'attribute'=>'nombre',
-                ],
-                [
-                    'class'=>'\kartik\grid\DataColumn',
-                    'attribute'=>'estatus_proyecto',
                 ],
 
                 [
@@ -66,7 +62,8 @@ CrudAsset::register($this);
                                       'data-request-method'=>'post',
                                       'data-toggle'=>'tooltip',
                                       'data-confirm-title'=>'Are you sure?',
-                                      'data-confirm-message'=>'Are you sure want to delete this item'], 
+                                      'data-confirm-message'=>'Are you sure want to delete this item',
+                                      'class' => 'text-danger'], 
                 ],
             ],
         ]); ?>
