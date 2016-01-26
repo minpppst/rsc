@@ -50,6 +50,14 @@ use Yii;
  */
 class ProyectoAlcance extends \yii\db\ActiveRecord
 {
+
+   
+
+    
+
+
+
+
     /**
      * @inheritdoc
      */
@@ -58,18 +66,41 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
         return 'proyecto_alcance';
     }
 
+
+   
+
+
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id_proyecto', 'enunciado_problema', 'poblacion_afectada', 'indicador_situacion', 'formula_indicador', 'fuente_indicador', 'fecha_indicador_inicial', 'enunciado_situacion_deseada', 'poblacion_objetivo', 'indicador_situacion_deseada', 'resultado_esperado', 'unidad_medida', 'meta_proyecto', 'benficiarios_femeninos', 'beneficiarios_masculinos', 'denominacion_beneficiario', 'total_empleos_directos_femeninos', 'total_empleos_directos_masculino', 'empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino', 'requiere_accion_no_financiera', 'contribuye_complementa', 'vinculado_otro', 'obstaculos'], 'required'],
-            [['id_proyecto', 'unidad_medida', 'requiere_accion_no_financiera', 'especifique_con_cual', 'contribuye_complementa', 'especifique_complementa_cual', 'vinculado_otro', 'vinculado_especifique'], 'integer'],
+            [['id_proyecto', 'enunciado_problema', 'poblacion_afectada', 'indicador_situacion', 'formula_indicador', 'fuente_indicador', 'fecha_indicador_inicial', 'enunciado_situacion_deseada', 'poblacion_objetivo', 'indicador_situacion_deseada', 'resultado_esperado', 'unidad_medida', 'meta_proyecto', 'benficiarios_femeninos', 'beneficiarios_masculinos', 'denominacion_beneficiario', 'total_empleos_directos_femeninos', 'total_empleos_directos_masculino', 'empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino','requiere_accion_no_financiera','contribuye_complementa','vinculado_otro', 'obstaculos'], 'required'],
+            [['id_proyecto', 'unidad_medida', 'requiere_accion_no_financiera',  'contribuye_complementa', 'especifique_complementa_cual', 'vinculado_otro', 'vinculado_especifique'], 'integer'],
             [['enunciado_problema', 'poblacion_afectada', 'indicador_situacion', 'formula_indicador', 'enunciado_situacion_deseada', 'poblacion_objetivo', 'indicador_situacion_deseada', 'resultado_esperado', 'meta_proyecto', 'requiere_mencione_acciones', 'contribuye_mencione_acciones', 'vinculado_nombre_proyecto', 'vinculado_medida', 'obstaculos'], 'string'],
             [['fecha_indicador_inicial'], 'safe'],
             [['benficiarios_femeninos', 'beneficiarios_masculinos', 'total_empleos_directos_femeninos', 'total_empleos_directos_masculino', 'empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino'], 'number'],
             [['fuente_indicador', 'denominacion_beneficiario'], 'string', 'max' => 45],
+            //reglas de campo que dependen
+            [['especifique_con_cual','requiere_nombre_institucion','requiere_nombre_instancia','requiere_mencione_acciones'], 'required', 'when' => function ($model) {
+            return $model->requiere_accion_no_financiera == 1;
+            }, 'whenClient' => "function (attribute, value) {
+            return $('#requiere_accion_no_financiera').val() ==1;
+            }"],
+            [['contribuye_complementa', 'especifique_complementa_cual','contribuye_nombre_institucion','contribuye_nombre_instancia'], 'required', 'when' => function ($model) {
+            return $model->contribuye_complementa == 1;
+            }, 'whenClient' => "function (attribute, value) {
+            return $('#contribuye_complementa').val() ==1;
+            }"],
+             [['vinculado_especifique', 'vinculado_nombre_institucion','vinculado_nombre_instancia','vinculado_nombre_proyecto','vinculado_medida'], 'required', 'when' => function ($model) {
+            return $model->vinculado_otro == 1;
+            }, 'whenClient' => "function (attribute, value) {
+            return $('#vinculado_otro').val() ==1;
+            }"],
+            //fin de las reglas de campos dependientes
+            
             [['requiere_nombre_institucion', 'requiere_nombre_instancia', 'contribuye_nombre_institucion', 'contribuye_nombre_instancia', 'vinculado_nombre_institucion', 'vinculado_nombre_instancia'], 'string', 'max' => 80]
         ];
     }
