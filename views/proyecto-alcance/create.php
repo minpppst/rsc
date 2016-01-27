@@ -1,5 +1,14 @@
 <?php
 
+// colocar el include de js al final para que funcione con jquery
+$this->registerJsFile('@web/js/hidden_field.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+ 
+//$this->registerJsFile('@web/js/hidden_field.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+ //$this->registerJs("var options = ".json_encode($options).";", View::POS_LOAD , 'my-options');
+use yii\helpers\Html;
+
+
+
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -9,8 +18,6 @@ $this->title = 'Crear Alcance e Impacto';
 $this->params['breadcrumbs'][] = ['label' => 'Proyectos', 'url' => ['proyecto/index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_proyecto, 'url' => ['proyecto/view', 'id' => $model->id_proyecto]];
 $this->params['breadcrumbs'][] = $this->title;
-
-$this->registerJsFile('@web/js/hidden_field.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <div class="proyecto-alcance-create">
 

@@ -1,5 +1,4 @@
 <?php
-namespace app\assets;
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
@@ -60,6 +59,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'empleos_directos_sostenidos_masculino')->textInput() ?>
 
+    <!-- divs para el manejo de los campos ocultos -->
     <div id='1accion_no_financiera'>
 
     <?= $form->field($model, 'requiere_accion_no_financiera')->dropDownList([false => 'No', true => 'Si'],['prompt' => 'Seleccione',
@@ -121,6 +121,9 @@ use yii\widgets\ActiveForm;
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
+
+
+    <!-- fin de los divs de campos ocultos -->
 
     <?php ActiveForm::end(); ?>
 
