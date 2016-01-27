@@ -1,5 +1,9 @@
 <?php
-
+// colocar el include de js al final para que funcione con jquery
+$this->registerJsFile('@web/js/hidden_field.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+ 
+//$this->registerJsFile('@web/js/hidden_field.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+ //$this->registerJs("var options = ".json_encode($options).";", View::POS_LOAD , 'my-options');
 use yii\helpers\Html;
 
 
