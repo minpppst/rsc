@@ -89,7 +89,7 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
             }, 'whenClient' => "function (attribute, value) {
             return $('#requiere_accion_no_financiera').val() ==1;
             }"],
-            [['contribuye_complementa', 'especifique_complementa_cual','contribuye_nombre_institucion','contribuye_nombre_instancia'], 'required', 'when' => function ($model) {
+            [['contribuye_complementa', 'especifique_complementa_cual','contribuye_nombre_institucion','contribuye_nombre_instancia','contribuye_mencione_acciones'], 'required', 'when' => function ($model) {
             return $model->contribuye_complementa == 1;
             }, 'whenClient' => "function (attribute, value) {
             return $('#contribuye_complementa').val() ==1;
