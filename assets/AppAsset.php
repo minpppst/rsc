@@ -21,7 +21,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/estilo.css', //Hoja de estilo personalizada
     ];
-    public $js = ['js/hidden_field.js',
+    public $js = [
     ];
     public $depends = [
         'yii\web\YiiAsset',
