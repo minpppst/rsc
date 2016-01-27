@@ -21,10 +21,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/estilo.css', //Hoja de estilo personalizada
     ];
-<<<<<<< HEAD
-=======
     // se agrega js para ocultar campos en formulario alcance del proyecto
->>>>>>> origin/rsc_w1
     public $js = [
     ];
     public $depends = [
