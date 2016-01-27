@@ -87,17 +87,17 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
             [['especifique_con_cual','requiere_nombre_institucion','requiere_nombre_instancia','requiere_mencione_acciones'], 'required', 'when' => function ($model) {
             return $model->requiere_accion_no_financiera == 1;
             }, 'whenClient' => "function (attribute, value) {
-            return $('#requiere_accion_no_financiera').val() ==1;
+            return $('#proyectoalcance-requiere_accion_no_financiera').val() ==1;
             }"],
             [['contribuye_complementa', 'especifique_complementa_cual','contribuye_nombre_institucion','contribuye_nombre_instancia','contribuye_mencione_acciones'], 'required', 'when' => function ($model) {
             return $model->contribuye_complementa == 1;
             }, 'whenClient' => "function (attribute, value) {
-            return $('#contribuye_complementa').val() ==1;
+            return $('#proyectoalcance-contribuye_complementa').val() ==1;
             }"],
              [['vinculado_especifique', 'vinculado_nombre_institucion','vinculado_nombre_instancia','vinculado_nombre_proyecto','vinculado_medida'], 'required', 'when' => function ($model) {
             return $model->vinculado_otro == 1;
             }, 'whenClient' => "function (attribute, value) {
-            return $('#vinculado_otro').val() ==1;
+            return $('#proyectoalcance-vinculado_otro').val() ==1;
             }"],
             //fin de las reglas de campos dependientes
             
