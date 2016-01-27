@@ -1,5 +1,5 @@
 <?php
-$this->registerJsFile('/js/hidden_field.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
 use yii\helpers\Html;
 
 
