@@ -20,6 +20,7 @@ $icons=[
     'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
     'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
     'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
+    'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
 ];
 
 //Contenido de TABS
@@ -90,6 +91,10 @@ $fuenteFinanciamiento =
             ],
         ]
     ]) ?>
+
+    <div class="btn-group">
+        <?= Html::a($icons['volver'].' Volver', ['proyecto/index'], ['class' => 'btn btn-primary']) ?>        
+    </div>
 
 </div>
 

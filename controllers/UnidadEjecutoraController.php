@@ -8,8 +8,11 @@ use app\models\UnidadEjecutoraSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use \yii\web\Response;
+use yii\web\Response;
 use yii\helpers\Html;
+use yii\web\UploadedFile;
+
+use app\models\UploadForm;
 
 /**
  * UnidadEjecutoraController implements the CRUD actions for UnidadEjecutora model.
@@ -95,8 +98,8 @@ class UnidadEjecutoraController extends Controller
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cancelar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Crear',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -192,6 +195,57 @@ class UnidadEjecutoraController extends Controller
                 ]);
             }
         }
+    }
+
+    /**
+     * Importar modelos.
+     */
+    public function actionImportar()
+    {
+        $request = Yii::$app->request;
+        $modelo = new UploadForm();
+
+        if($request->isPost)
+        {
+            $archivo = file($_FILES['UploadForm']['tmp_name']['importFile']);
+
+            $transaccion = UnidadEjecutora::getDb()->beginTransaction();
+
+            try
+            {
+                foreach ($archivo as $llave => $valor) 
+                {
+                    $exploded = explode(',', str_replace('"', '',$valor));
+
+                    $ue = UnidadEjecutora::find()
+                        ->where(['codigo_ue' => $exploded[0]])
+                        ->one();
+
+                    if($ue == null)
+                    {
+                        $ue = new UnidadEjecutora;
+                    }
+
+                    $ue->codigo_ue = $exploded[0];
+                    $ue->nombre = $exploded[1];
+                    $ue->save();
+                }
+                
+                $transaccion->commit();
+
+                Yii::$app->session->setFlash('importado', '<div class="alert alert-success">Registros importados exitosamente.</div>');
+                return $this->refresh();
+
+            }catch(\Exception $e){
+                $transaccion->rollBack();
+                Yii::$app->session->setFlash('importado', '<div class="alert alert-danger">'.$e.'</div>');
+            }
+                        
+        }
+
+        return $this->render('importar', [
+            'modelo' => $modelo,
+        ]);
     }
 
     /**

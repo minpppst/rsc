@@ -34,20 +34,23 @@ AppAsset::register($this);
         ],
     ]);
     $icons=[
+        'inicio'=>'<span class="glyphicon glyphicon-home" aria-hidden="true"></span>',
+        'proyecto'=>'<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>',
         'config'=>'<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>',
+        'entrar'=>'<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>',
         'salir'=>'<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>',
     ];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'encodeLabels'=>false,
         'items' => [
-            ['label' => 'Inicio', 'url' => ['/site/index']],
-            ['label' => 'Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],            
+            ['label' => $icons['inicio'].' Inicio', 'url' => ['/site/index']],
+            ['label' => $icons['proyecto'].' Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],            
             ['label' => $icons['config'].' Configuración', 'url' => ['/site/configuracion'], 'visible' => Yii::$app->user->can('site/configuracion')],
             //['label' => 'Acerca de', 'url' => ['/site/about']],
             //['label' => 'Contacto', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ?
-                ['label' => 'Entrar', 'url' => ['/user/security/login']] :
+                ['label' => $icons['entrar'].' Entrar', 'url' => ['/user/security/login']] :
                 [
                     'label' => $icons['salir'].' Salir (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/user/security/logout'],

@@ -14,9 +14,15 @@ $icons = [
     'reglas' => '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>',
     'partidas' => '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>',
     'objetivos' => '<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>',
+    'historico' => '<span class="glyphicon glyphicon-time" aria-hidden="true"></span>',
+    'nacional' => '<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>',
+    'estrategico' => '<span class="glyphicon glyphicon-knight" aria-hidden="true"></span>',
+    'general' => '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>',
     'unidadEjecutora' => '<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>',
     'respaldos' => '<span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>',
     'medida' => '<span class="glyphicon glyphicon-scale" aria-hidden="true"></span>',
+    'cargar' => '<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>',
+    'lista' => '<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>',
 
 ];
 
@@ -62,13 +68,26 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                             'aria-expanded'=>false,
                         ]) ?>
                         <ul class="dropdown-menu pull-right">
-                            <li><?= Html::a('Historicos',Url::to(['objetivos-historicos/index'])) ?></li>
-                            <li><?= Html::a('Nacionales',Url::to(['objetivos-nacionales/index'])) ?></li>
-                            <li><?= Html::a('Estratégicos',Url::to(['objetivos-estrategicos/index'])) ?></li>
-                            <li><?= Html::a('Generales',Url::to(['objetivos-generales/index'])) ?></li>
+                            <li><?= Html::a($icons['historico'].' Historicos',Url::to(['objetivos-historicos/index'])) ?></li>
+                            <li><?= Html::a($icons['nacional'].' Nacionales',Url::to(['objetivos-nacionales/index'])) ?></li>
+                            <li><?= Html::a($icons['estrategico'].' Estratégicos',Url::to(['objetivos-estrategicos/index'])) ?></li>
+                            <li><?= Html::a($icons['general'].' Generales',Url::to(['objetivos-generales/index'])) ?></li>
                         </ul>
-                    </div>                    
-                    <?= Html::a($icons['unidadEjecutora'].' Unidades Ejecutoras',Url::to(['unidad-ejecutora/index']),['class' => 'list-group-item']) ?>
+                    </div> 
+                    <div class="list-group-item" style="padding:0px">
+                        <?= Html::a($icons['unidadEjecutora'].' Unidades Ejecutoras'.$caret,'#',[
+                            'class' => 'list-group-item dropdown-toggle',
+                            'style' => 'border:0px',
+                            'data-toggle'=>'dropdown',
+                            'aria-haspopup'=>true, 
+                            'aria-expanded'=>false,
+                        ]) ?>
+                        <ul class="dropdown-menu pull-right">
+                            <li><?= Html::a($icons['lista'].' Lista',Url::to(['unidad-ejecutora/index'])) ?></li>
+                            <li><?= Html::a($icons['cargar'].' Importar',Url::to(['unidad-ejecutora/importar'])) ?></li>                            
+                        </ul>
+                    </div>                   
+                    
                     <?= Html::a($icons['medida'].' Unidades de Medida',Url::to(['unidad-medida/index']),['class' => 'list-group-item']) ?>
                 </div>
             </div>

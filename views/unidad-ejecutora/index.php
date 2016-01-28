@@ -14,6 +14,11 @@ $this->title = 'Unidades Ejecutoras';
 $this->params['breadcrumbs'][] = ['label' => 'Configuración', 'url' => ['site/configuracion']];
 $this->params['breadcrumbs'][] = $this->title;
 
+//Iconos
+$icons=[
+    'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
+];
+
 CrudAsset::register($this);
 
 ?>
@@ -57,6 +62,10 @@ CrudAsset::register($this);
                         '<div class="clearfix"></div>',
             ]
         ])?>
+    </div>
+
+    <div class="btn-group">
+        <?= Html::a($icons['volver'].' Volver', ['site/configuracion'], ['class' => 'btn btn-primary']) ?>
     </div>
 </div>
 <?php Modal::begin([

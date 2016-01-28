@@ -50,14 +50,6 @@ use Yii;
  */
 class ProyectoAlcance extends \yii\db\ActiveRecord
 {
-
-   
-
-    
-
-
-
-
     /**
      * @inheritdoc
      */
@@ -65,11 +57,6 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
     {
         return 'proyecto_alcance';
     }
-
-
-   
-
-
 
     /**
      * @inheritdoc

@@ -1,51 +1,49 @@
 $(document).ready(function(){
                     // verificamos que al principio se muestra o no se muestra
         if($('#proyectoalcance-requiere_accion_no_financiera').val()!='1'){
-                         $('#1especifique_con_cual').css('display','none');
-                        $('#1requiere_nombre_institucion').css('display','none');
-                        $('#1requiere_nombre_instancia').css('display','none');
-                        $('#1requiere_mencione_acciones').css('display','none');
+            $('#1especifique_con_cual').css('display','none');
+            $('#1requiere_nombre_institucion').css('display','none');
+            $('#1requiere_nombre_instancia').css('display','none');
+            $('#1requiere_mencione_acciones').css('display','none');
         }
         if($('#proyectoalcance-contribuye_complementa').val()!='1'){
-                        $('#2especifique_complementa_cual').css('display','none');
-                        $('#2contribuye_nombre_institucion').css('display','none');
-                        $('#2contribuye_nombre_instancia').css('display','none');
-                        $('#2contribuye_mencione_acciones').css('display','none');
+            $('#2especifique_complementa_cual').css('display','none');
+            $('#2contribuye_nombre_institucion').css('display','none');
+            $('#2contribuye_nombre_instancia').css('display','none');
+            $('#2contribuye_mencione_acciones').css('display','none');
 
         }
 
         if($('#proyectoalcance-vinculado_otro').val()!='1'){
-
-
-                        $("#3vinculado_especifique").css('display','none');
-                         $("#3vinculado_nombre_institucion").css('display','none');
-                         $("#3vinculado_nombre_instancia").css('display','none');
-                         $("#3vinculado_nombre_proyecto").css('display','none');
-                         $("#3vinculado_medida").css('display','none');
+            $("#3vinculado_especifique").css('display','none');
+            $("#3vinculado_nombre_institucion").css('display','none');
+            $("#3vinculado_nombre_instancia").css('display','none');
+            $("#3vinculado_nombre_proyecto").css('display','none');
+            $("#3vinculado_medida").css('display','none');
 
         }
 
        $("select[name='ProyectoAlcance[requiere_accion_no_financiera]']").change(function(){
         if ($(this).val()== '0') { // Muestra el campo de portatil y oculta los campos de escritorio.
             
-                        $('#1especifique_con_cual').css('display','none');
-                        $('#1requiere_nombre_institucion').css('display','none');
-                        $('#1requiere_nombre_instancia').css('display','none');
-                        $('#1requiere_mencione_acciones').css('display','none');
-                        //borramos datos
+            $('#1especifique_con_cual').css('display','none');
+            $('#1requiere_nombre_institucion').css('display','none');
+            $('#1requiere_nombre_instancia').css('display','none');
+            $('#1requiere_mencione_acciones').css('display','none');
+            //borramos datos
 
-                         $('#proyectoalcance-especifique_con_cual').val(null); 
-                        $('#proyectoalcance-requiere_nombre_institucion').val('');
-                        $('#proyectoalcance-requiere_nombre_instancia').val('');
-                        $('#proyectoalcance-requiere_mencione_acciones').val('');
+             $('#proyectoalcance-especifique_con_cual').val(null); 
+            $('#proyectoalcance-requiere_nombre_institucion').val('');
+            $('#proyectoalcance-requiere_nombre_instancia').val('');
+            $('#proyectoalcance-requiere_mencione_acciones').val('');
                         
-    }
-    if  ($(this).val()== '1') { // Muestra los campos de escritorio y oculta el de portatil
-                        $('#1especifique_con_cual').css('display','block');
-                        $('#1requiere_nombre_institucion').css('display','block');
-                        $('#1requiere_nombre_instancia').css('display','block');
-                        $('#1requiere_mencione_acciones').css('display','block');
-                    }
+        }
+        if  ($(this).val()== '1') { // Muestra los campos de escritorio y oculta el de portatil
+            $('#1especifique_con_cual').css('display','block');
+            $('#1requiere_nombre_institucion').css('display','block');
+            $('#1requiere_nombre_instancia').css('display','block');
+            $('#1requiere_mencione_acciones').css('display','block');
+        }
     });
 
        $("select[name='ProyectoAlcance[contribuye_complementa]']").change(function(){

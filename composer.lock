@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "41081e545c8faf5061453f941dfbd740",
-    "content-hash": "9d086dcb646619e2854cd14977859f37",
+    "hash": "d398b0fd722dc5b48927174a0536e26a",
+    "content-hash": "3d895e1258b79a68efd8bb25c9036e32",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -525,7 +525,7 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v4.3.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
@@ -1048,7 +1048,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/miloschuman/yii2-highcharts/zipball/a62c1259ff97bc5ada0960ed50b9ddc00c9745b1",
+                "url": "https://api.github.com/repos/miloschuman/yii2-highcharts/zipball/5d4cd1cc7b5d7ab482565035eeab8a359512aa02",
                 "reference": "a62c1259ff97bc5ada0960ed50b9ddc00c9745b1",
                 "shasum": ""
             },
@@ -1750,7 +1750,8 @@
         "kartik-v/yii2-editable": 20,
         "miloschuman/yii2-highcharts-widget": 20,
         "open-ecommerce/yii2-backuprestore": 20,
-        "kartik-v/yii2-widget-fileinput": 20
+        "kartik-v/yii2-widget-fileinput": 20,
+        "kartik-v/bootstrap-fileinput": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
