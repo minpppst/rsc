@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //Iconos
 $icons=[
     'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
-    'cargar' => '<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>',
+    'importar' => '<span class="glyphicon glyphicon-import" aria-hidden="true"></span>',
 ];
 
 ?>
@@ -26,7 +26,7 @@ $icons=[
 	<?php if (Yii::$app->session->hasFlash('importado')): ?>
 
         <?= Yii::$app->session->getFlash('importado') ?>
-        
+
     <?php endif; ?>
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
@@ -44,7 +44,7 @@ $icons=[
 
     <div class="form-group">
     	<?= Html::a($icons['volver'].' Volver', ['site/configuracion'], ['class' => 'btn btn-primary']) ?>
-        <?= Html::submitButton($icons['cargar'].' Importar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton($icons['importar'].' Importar', ['class' => 'btn btn-success']) ?>
     </div>
 
 	<?php ActiveForm::end() ?>

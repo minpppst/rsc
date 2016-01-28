@@ -18,11 +18,12 @@ $icons = [
     'nacional' => '<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>',
     'estrategico' => '<span class="glyphicon glyphicon-knight" aria-hidden="true"></span>',
     'general' => '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>',
-    'unidadEjecutora' => '<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>',
-    'respaldos' => '<span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>',
+    'unidadEjecutora' => '<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>',    
     'medida' => '<span class="glyphicon glyphicon-scale" aria-hidden="true"></span>',
-    'cargar' => '<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>',
+    'importar' => '<span class="glyphicon glyphicon-import" aria-hidden="true"></span>',
     'lista' => '<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>',
+    'respaldos' => '<span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>',
+    'migracion' => '<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>',
 
 ];
 
@@ -84,7 +85,7 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                         ]) ?>
                         <ul class="dropdown-menu pull-right">
                             <li><?= Html::a($icons['lista'].' Lista',Url::to(['unidad-ejecutora/index'])) ?></li>
-                            <li><?= Html::a($icons['cargar'].' Importar',Url::to(['unidad-ejecutora/importar'])) ?></li>                            
+                            <li><?= Html::a($icons['importar'].' Importar',Url::to(['unidad-ejecutora/importar'])) ?></li>                            
                         </ul>
                     </div>                   
                     
@@ -101,7 +102,7 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
             <div class="panel-body">
                 <div class="list-group">
                     <?= Html::a($icons['respaldos'].' Respaldos', Url::to(['backuprestore/default/index']),['class' => 'list-group-item']) ?>
-                    <?= Html::a($icons['info'].' Item', null,['class' => 'list-group-item']) ?>
+                    <?= Html::a($icons['migracion'].' Migraciones', Url::to(['migration/index']),['class' => 'list-group-item']) ?>
                     <?= Html::a($icons['info'].' Item', null,['class' => 'list-group-item']) ?>
                     <?= Html::a($icons['info'].' Item', null,['class' => 'list-group-item']) ?>
                 </div>

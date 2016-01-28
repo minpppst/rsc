@@ -36,6 +36,7 @@ AppAsset::register($this);
     $icons=[
         'inicio'=>'<span class="glyphicon glyphicon-home" aria-hidden="true"></span>',
         'proyecto'=>'<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>',
+        'acc'=>'<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>',
         'config'=>'<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>',
         'entrar'=>'<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>',
         'salir'=>'<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>',
@@ -45,7 +46,8 @@ AppAsset::register($this);
         'encodeLabels'=>false,
         'items' => [
             ['label' => $icons['inicio'].' Inicio', 'url' => ['/site/index']],
-            ['label' => $icons['proyecto'].' Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],            
+            ['label' => $icons['proyecto'].' Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],
+            ['label' => $icons['acc'].' Acción Centralizada', 'url' => '#', 'visible' => Yii::$app->user->can('accion-centralizada/index')],            
             ['label' => $icons['config'].' Configuración', 'url' => ['/site/configuracion'], 'visible' => Yii::$app->user->can('site/configuracion')],
             //['label' => 'Acerca de', 'url' => ['/site/about']],
             //['label' => 'Contacto', 'url' => ['/site/contact']],
