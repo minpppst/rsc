@@ -89,6 +89,9 @@ $fuenteFinanciamiento =
                     'data-url' => '',
                 ],
             ],
+        ],
+        'pluginOptions' => [
+            'enableCache' => false //Refrescar la pestaña
         ]
     ]) ?>
 
