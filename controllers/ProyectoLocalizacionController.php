@@ -12,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 use app\models\Ambito;
 use app\models\Pais;
@@ -153,8 +154,7 @@ class ProyectoLocalizacionController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'true',
-                    'contenedorId' => '#localizacion-pjax', //Id del contenedor
+                    'forceReload'=>'true',                   
                     'title'=> "Create new ProyectoLocalizacion",
                     'content'=>'<span class="text-success">Create ProyectoLocalizacion success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -248,7 +248,6 @@ class ProyectoLocalizacionController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'contenedorId' => '#localizacion-pjax', //Id del contenedor
                     'title'=> "ProyectoLocalizacion #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $model,
@@ -302,14 +301,17 @@ class ProyectoLocalizacionController extends Controller
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id)->delete();
 
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true,'contenedorId' => '#localizacion-pjax'];    
+            return [
+                'forceClose'=>true,
+                'forceReload'=>true,
+            ];
         }else{
             /*
             *   Process for non-ajax request

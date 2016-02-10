@@ -105,14 +105,9 @@ CrudAsset::register($this);
     </div>
     <div class="panel-body">
         <?= GridView::widget([
-            'id' => 'localizacion',
+            'id' => 'crud-datatable', //IMPORTANTE
             'dataProvider'=>$localizacion,
             'pjax'=>true,
-            'pjaxSettings' => [
-                'options' => [
-                    'id' => 'localizacion-pjax',
-                ],
-            ],
             'columns' => require(__DIR__.'/_localizacion.php'),
             'toolbar'=> [
                 ['content'=>
