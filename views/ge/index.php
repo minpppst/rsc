@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\GeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Partidas Generales';
+$this->title = 'Ges';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ge-index">
