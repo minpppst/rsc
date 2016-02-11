@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-01-2016 a las 21:29:17
+-- Tiempo de generación: 02-02-2016 a las 22:51:07
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -250,6 +250,22 @@ INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `es`
+--
+
+CREATE TABLE IF NOT EXISTS `es` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_ge` int(11) NOT NULL,
+  `codigo_es` int(4) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `id_ge` (`id_ge`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `estados`
 --
 
@@ -345,6 +361,22 @@ INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ge`
+--
+
+CREATE TABLE IF NOT EXISTS `ge` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_partida` int(11) NOT NULL,
+  `codigo_ge` int(4) NOT NULL,
+  `nombre_ge` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `id_partidad` (`id_partida`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `historial`
 --
 
@@ -386,6 +418,27 @@ INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
 (1, 'Institución'),
 (2, 'Instancia del Poder Popular'),
 (3, 'Ambas');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `materiales_servicios`
+--
+
+CREATE TABLE IF NOT EXISTS `materiales_servicios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_se` int(11) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `unidad_medida` int(11) NOT NULL,
+  `presentacion` int(11) NOT NULL,
+  `precio` decimal(12,2) NOT NULL,
+  `iva` int(11) NOT NULL,
+  `estatus` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_se` (`id_se`),
+  KEY `unidad_medida` (`unidad_medida`),
+  KEY `presentacion` (`presentacion`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -983,6 +1036,7 @@ CREATE TABLE IF NOT EXISTS `partida` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `partida` int(4) NOT NULL,
   `nombre` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
@@ -990,19 +1044,48 @@ CREATE TABLE IF NOT EXISTS `partida` (
 -- Volcado de datos para la tabla `partida`
 --
 
-INSERT INTO `partida` (`id`, `partida`, `nombre`) VALUES
-(1, 401, 'Gastos de Personal'),
-(2, 402, 'Materiales, Suministros y Mercancías'),
-(3, 403, 'Servicios No Personales'),
-(4, 404, 'Activos Reales'),
-(5, 405, 'Activos Financieros'),
-(6, 406, 'Gastos de Defensa y Seguridad del Estado'),
-(7, 407, 'Transferencias y Donaciones'),
-(8, 408, 'Otros Gastos'),
-(9, 409, 'Asignaciones No Distribuidas'),
-(10, 410, 'Servicio de la Deuda Pública'),
-(11, 411, 'Disminución de pasivos'),
-(12, 412, 'Disminución del Patrimonio');
+INSERT INTO `partida` (`id`, `partida`, `nombre`, `estatus`) VALUES
+(1, 401, 'Gastos de Personal', 0),
+(2, 402, 'Materiales, Suministros y Mercancías', 0),
+(3, 403, 'Servicios No Personales', 0),
+(4, 404, 'Activos Reales', 0),
+(5, 405, 'Activos Financieros', 0),
+(6, 406, 'Gastos de Defensa y Seguridad del Estado', 0),
+(7, 407, 'Transferencias y Donaciones', 0),
+(8, 408, 'Otros Gastos', 0),
+(9, 409, 'Asignaciones No Distribuidas', 0),
+(10, 410, 'Servicio de la Deuda Pública', 0),
+(11, 411, 'Disminución de pasivos', 0),
+(12, 412, 'Disminución del Patrimonio', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pedido_material_servicio`
+--
+
+CREATE TABLE IF NOT EXISTS `pedido_material_servicio` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_material` int(11) NOT NULL,
+  `enero` int(11) NOT NULL,
+  `febrero` int(11) NOT NULL,
+  `marzo` int(11) NOT NULL,
+  `abril` int(11) NOT NULL,
+  `mayo` int(11) NOT NULL,
+  `junio` int(11) NOT NULL,
+  `julio` int(11) NOT NULL,
+  `agosto` int(11) NOT NULL,
+  `septiembre` int(11) NOT NULL,
+  `octubre` int(11) NOT NULL,
+  `noviembre` int(11) NOT NULL,
+  `diciembre` int(11) NOT NULL,
+  `precio` decimal(12,2) NOT NULL,
+  `fecha_creacion` timestamp NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_material` (`id_material`),
+  KEY `id_usuario` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1023,6 +1106,18 @@ CREATE TABLE IF NOT EXISTS `plan_operativo` (
 INSERT INTO `plan_operativo` (`id`, `plan_operativo`) VALUES
 (1, 'POA'),
 (2, 'POAN');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `presentacion`
+--
+
+CREATE TABLE IF NOT EXISTS `presentacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(60) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1082,7 +1177,7 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
   KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
   KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
   KEY `ambito_fk` (`ambito`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000000 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000001 ;
 
 --
 -- Volcado de datos para la tabla `proyecto`
@@ -1090,7 +1185,8 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
 
 INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `estatus_proyecto`, `situacion_presupuestaria`, `monto_proyecto`, `descripcion`, `sector`, `sub_sector`, `plan_operativo`, `objetivo_general`, `objetivo_estrategico_institucional`, `ambito`) VALUES
 (1, '0001', '0001', 'Proyecto Lorem ipsum dolor sit amet, consec', 1, 1, '99999', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Aliquam aliquam lectus orci, rhoncus ultricies quam cursus at. Pellentesque ac ultrices est. Sed at cursus ante. Nunc molestie facilisis nisi quis congue. Donec vel vulputate leo. Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 4),
-(999999, '9999', '9999', 'Proyecto de prueba', 1, 1, '9999', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 1);
+(999999, '9999', '9999', 'Proyecto de prueba', 1, 1, '9999', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 1),
+(1000000, '12121212', '52365222211', 'PROYECTO ANTONIO', 3, 1, '6', 'SIN DESCRIPCIÓN', 1, 1, 1, 15, 'no se', 1);
 
 -- --------------------------------------------------------
 
@@ -1107,14 +1203,21 @@ CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
   PRIMARY KEY (`id`),
   KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
   KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_accion_especifica`
 --
 
 INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_especifica`, `nombre`, `id_unidad_ejecutora`) VALUES
-(20, 999999, '123', 'Acción Específica', 1);
+(20, 999999, '123', 'Acción Específica', 1),
+(21, 999999, '1', 'probadno', 600),
+(22, 999999, '2', 'probando2', 602),
+(23, 999999, '4', 'probadno', 601),
+(24, 999999, '4', 'probadno', 600),
+(25, 999999, '6', 'probadno3', 600),
+(26, 999999, '7', 'probando', 600),
+(27, 1, '10', 'hjhjjj', 600);
 
 -- --------------------------------------------------------
 
@@ -1188,7 +1291,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_distribucion_presupuestaria` (
   PRIMARY KEY (`id`),
   KEY `id_accion_especifica` (`id_accion_especifica`),
   KEY `id_partida` (`id_partida`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Distribución presupuestaria de proyecto' AUTO_INCREMENT=62 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Distribución presupuestaria de proyecto' AUTO_INCREMENT=122 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_distribucion_presupuestaria`
@@ -1206,7 +1309,67 @@ INSERT INTO `proyecto_distribucion_presupuestaria` (`id`, `id_accion_especifica`
 (58, 20, 9, '0'),
 (59, 20, 10, '0'),
 (60, 20, 11, '0'),
-(61, 20, 12, '0');
+(61, 20, 12, '0'),
+(62, 23, 1, '0'),
+(63, 23, 2, '0'),
+(64, 23, 3, '0'),
+(65, 23, 4, '0'),
+(66, 23, 5, '0'),
+(67, 23, 6, '0'),
+(68, 23, 7, '0'),
+(69, 23, 8, '0'),
+(70, 23, 9, '0'),
+(71, 23, 10, '0'),
+(72, 23, 11, '0'),
+(73, 23, 12, '0'),
+(74, 24, 1, '0'),
+(75, 24, 2, '0'),
+(76, 24, 3, '0'),
+(77, 24, 4, '0'),
+(78, 24, 5, '0'),
+(79, 24, 6, '0'),
+(80, 24, 7, '0'),
+(81, 24, 8, '0'),
+(82, 24, 9, '0'),
+(83, 24, 10, '0'),
+(84, 24, 11, '0'),
+(85, 24, 12, '0'),
+(86, 25, 1, '0'),
+(87, 25, 2, '0'),
+(88, 25, 3, '0'),
+(89, 25, 4, '0'),
+(90, 25, 5, '0'),
+(91, 25, 6, '0'),
+(92, 25, 7, '0'),
+(93, 25, 8, '0'),
+(94, 25, 9, '0'),
+(95, 25, 10, '0'),
+(96, 25, 11, '0'),
+(97, 25, 12, '0'),
+(98, 26, 1, '0'),
+(99, 26, 2, '0'),
+(100, 26, 3, '0'),
+(101, 26, 4, '0'),
+(102, 26, 5, '0'),
+(103, 26, 6, '0'),
+(104, 26, 7, '0'),
+(105, 26, 8, '0'),
+(106, 26, 9, '0'),
+(107, 26, 10, '0'),
+(108, 26, 11, '0'),
+(109, 26, 12, '0'),
+(110, 27, 1, '0'),
+(111, 27, 2, '0'),
+(112, 27, 3, '0'),
+(113, 27, 4, '0'),
+(114, 27, 5, '0'),
+(115, 27, 6, '0'),
+(116, 27, 7, '0'),
+(117, 27, 8, '0'),
+(118, 27, 9, '0'),
+(119, 27, 10, '0'),
+(120, 27, 11, '0'),
+(121, 27, 12, '0');
 
 -- --------------------------------------------------------
 
@@ -1238,14 +1401,17 @@ CREATE TABLE IF NOT EXISTS `proyecto_localizacion` (
   KEY `parroquia_fk_idx` (`id_parroquia`),
   KEY `proyecto_fk_idx` (`id_proyecto`),
   KEY `id_pais` (`id_pais`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_localizacion`
 --
 
 INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
-(1, 1, 862, 2, NULL, NULL);
+(1, 1, 862, 2, NULL, NULL),
+(2, 1000000, 862, NULL, NULL, NULL),
+(3, 1, 862, 16, NULL, NULL),
+(4, 1, 862, 5, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1263,7 +1429,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_proyecto_2` (`id_proyecto`),
   KEY `id_proyecto` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_registrador`
@@ -1271,7 +1437,8 @@ CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
 
 INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono`, `id_proyecto`) VALUES
 (3, 'Carlos Samaniego', 16344539, 'catu52@yahoo.com', '+584262130565', 1),
-(4, 'qwriujhqwriojk', 2147483647, 'asfashk@casfljl.com', '68413513', 2);
+(4, 'qwriujhqwriojk', 2147483647, 'asfashk@casfljl.com', '68413513', 2),
+(5, 'ss', 12, 's@sa.com', '4545', 1000000);
 
 -- --------------------------------------------------------
 
@@ -1288,14 +1455,15 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable` (
   `id_proyecto` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `proyecto_fk` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable`
 --
 
 INSERT INTO `proyecto_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono`, `id_proyecto`) VALUES
-(3, 'Pedro Perez', 98451321, 'pedro@correo.com', '(212)1234589', 1);
+(3, 'Pedro Perez', 98451321, 'pedro@correo.com', '(212)1234589', 1),
+(4, 'antonio monasyerio', 1593165454, 'a@gmail.com', '4148188863', 1000000);
 
 -- --------------------------------------------------------
 
@@ -1313,14 +1481,15 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
   `id_proyecto` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_id_proyecto_idx` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable_administrativo`
 --
 
 INSERT INTO `proyecto_responsable_administrativo` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_administradora`, `id_proyecto`) VALUES
-(2, 'John Doe', 6841321, 'john@correo.com', '(212)1234567', 'Unidad', 1);
+(2, 'John Doe', 6841321, 'john@correo.com', '(212)1234567', 'Unidad', 1),
+(3, 'we', 1596541, '55@gmail.com', '14141411', 'we', 1000000);
 
 -- --------------------------------------------------------
 
@@ -1338,14 +1507,31 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
   `id_proyecto` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_proyecto_fk` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable_tecnico`
 --
 
 INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_tecnica`, `id_proyecto`) VALUES
-(2, 'Jane', 65498732, 'jane@correo.com', '(212)9876543', 'Tecnica', 1);
+(2, 'Jane', 65498732, 'jane@correo.com', '(212)9876543', 'Tecnica', 1),
+(3, 'ee', 45, '45@gmail.com', '874141', 'cacaas', 1000000);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `se`
+--
+
+CREATE TABLE IF NOT EXISTS `se` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_es` int(11) NOT NULL,
+  `codigo_se` int(4) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `id_se` (`id_es`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1463,14 +1649,102 @@ CREATE TABLE IF NOT EXISTS `unidad_ejecutora` (
   `nombre` text CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `codigo_ue_UNIQUE` (`codigo_ue`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=688 ;
 
 --
 -- Volcado de datos para la tabla `unidad_ejecutora`
 --
 
 INSERT INTO `unidad_ejecutora` (`id`, `codigo_ue`, `nombre`) VALUES
-(1, '9999', 'Unidad Ejecutora');
+(1, '9999', 'Unidad Ejecutora'),
+(600, '10000', 'OFICINA DE ADMINISTRACIÓN Y SERVICIOS '),
+(601, '10001', 'DESPACHO DE LA MINISTRO '),
+(602, '10002', 'DESPACHO DEL VICEMINISTRO DEL TRABAJO '),
+(603, '10003', 'DIRECCIÓN GENERAL DEL DESPACHO '),
+(604, '10004', 'OFICINA DE AUDITORÍA INTERNA '),
+(605, '10005', 'OFICINA DE PLANIFICACIÓN Y PRESUPUESTO '),
+(606, '10006', 'CONSULTORÍA JURÍDICA '),
+(607, '10007', 'DIRECCIÓN DE PERSONAL '),
+(608, '10008', 'OFICINA DE ESTADÍSTICA E INFORMÁTICA '),
+(609, '10011', 'OFICINA DE ADMINISTRACIÓN Y GESTIÓN INTERNA '),
+(610, '10013', 'DIRECCIÓN DE DOCUMENTACIÓN E INFORMACIÓN '),
+(611, '10014', 'DIRECCIÓN DE RELACIONES PÚBLICAS '),
+(612, '10015', 'DIRECCIÓN DE RELACIONES INTERNACIONALES Y ENLACE CON LA OIT '),
+(613, '10016', 'DIRECCIÓN DE ESTADÍSTICA '),
+(614, '10017', 'DIRECCIÓN DE INFORMÁTICA '),
+(615, '10018', 'COORDINACIÓN ZONA METROPOLITANA '),
+(616, '10019', 'COORDINACIÓN ZONA MIRANDA '),
+(617, '10020', 'COORDINACIÓN ZONA CENTRAL '),
+(618, '10021', 'COORDINACIÓN ZONA CENTRO OCCIDENTAL '),
+(619, '10022', 'COORDINACIÓN ZONA ZULIA '),
+(620, '10023', 'COORDINACIÓN ZONA FALCÓN '),
+(621, '10024', 'COORDINACIÓN ZONA ANDINA '),
+(622, '10025', 'COORDINACIÓN ZONA LLANOS OCCIDENTALES '),
+(623, '10026', 'COORDINACIÓN ZONA CENTRO SUR '),
+(624, '10027', 'COORDINACIÓN ZONA NOR-ORIENTAL '),
+(625, '10028', 'COORDINACIÓN ZONA ORIENTAL '),
+(626, '10029', 'COORDINACIÓN ZONA GUAYANA '),
+(627, '10030', 'DESPACHO DEL VICEMINISTRO DE SEGURIDAD SOCIAL '),
+(628, '10031', 'UNIDAD ESTRATÉGICA DE SEGUIMIENTO Y EVALUACIÓN DE POLÍTICAS PÚBLICAS '),
+(629, '10032', 'OFICINA DE PLANIFICACIÓN ESTRATÉGICA Y CONTROL DE GESTIÓN '),
+(630, '10033', 'DIRECCIÓN DE PRESUPUESTO '),
+(631, '20001', 'DIRECCIÓN GENERAL DE RELACIONES LABORALES '),
+(632, '20004', 'DIRECCIÓN DE INSPECTORÍA NACIONAL Y OTROS ASUNTOS COLECTIVOS DE TRABAJO (SECTOR PRIVADO) '),
+(633, '20007', 'DIRECCIÓN DE INSPECTORÍA NACIONAL Y OTROS ASUNTOS COLECTIVOS DE TRABAJO (SECTOR PÚBLICO) '),
+(634, '20009', 'DIRECCIÓN DE INSPECCIÓN Y CONDICIONES DE TRABAJO '),
+(635, '20010', 'DIRECCIÓN DE NEGOCIACIÓN'),
+(636, '30004', 'INSTITUTO VENEZOLANO DE LOS SEGUROS SOCIALES (IVSS) '),
+(637, '30005', 'DIRECCIÓN GENERAL DE PREVISIÓN SOCIAL '),
+(638, '30006', 'DIRECCIÓN DE HIGIENE Y SEGURIDAD INDUSTRIAL '),
+(639, '30007', 'DIRECCIÓN DE SEGURIDAD SOCIAL '),
+(640, '30008', 'INSTITUTO NACIONAL PARA LA CAPACITACIÓN Y RECREACIÓN DE LOS '),
+(641, '30010', 'INSTITUTO NACIONAL DE PREVENCIÓN'),
+(642, '30011', 'FUNDACIÓN MADRES DE BARRIO '),
+(643, '30012', 'TESORERIA DE SEGURIDAD SOCIAL (TSS) '),
+(644, '40001', 'DIRECCIÓN GENERAL DE EMPLEO '),
+(645, '40002', 'DIRECCIÓN DE ESTUDIOS Y ANÁLISIS DE EMPLEO Y MERCADO DE TRABAJO '),
+(646, '40003', 'DIRECCIÓN DE MIGRACIONES LABORALES '),
+(647, '40004', 'DIRECCIÓN DE FORMACIÓN PROFESIONAL '),
+(648, '40017', 'INTERMEDIACIÓN DISTRITO CAPITAL - VARGAS '),
+(649, '40018', 'INTERMEDIACIÓN ESTADO MIRANDA '),
+(650, '40019', 'INTERMEDIACIÓN ESTADOS ARAGUA - CARABOBO '),
+(651, '40020', 'INTERMEDIACIÓN ESTADOS LARA -TRUJILLO -YARACUY '),
+(652, '40021', 'INTERMEDIACIÓN ESTADO ZULIA '),
+(653, '40022', 'INTERMEDIACIÓN ESTADO FALCÓN '),
+(654, '40023', 'INTERMEDIACIÓN ESTADOS TÁCHIRA - MÉRIDA '),
+(655, '40024', 'INTERMEDIACIÓN ESTADOS BARINAS - PORTUGUESA - COJEDES '),
+(656, '40025', 'INTERMEDIACIÓN ESTADOS APURE - GUÁRICO - AMAZONAS '),
+(657, '40026', 'INTERMEDIACIÓN ESTADOS NUEVA ESPARTA - ANZOÁTEGUI '),
+(658, '40027', 'INTERMEDIACIÓN ESTADOS SUCRE - MONAGAS - DELTA AMACURO '),
+(659, '40028', 'INTERMEDIACIÓN ESTADO BOLÍVAR '),
+(660, '40029', 'DIVISIÓN DE REHABILITACIÓN OCUPACIONAL '),
+(661, '50001', 'DIRECCIÓN GENERAL DE PROCURADURÍA NACIONAL DE TRABAJADORES '),
+(662, '50003', 'DIRECCIÓN DE PROCURADURÍA '),
+(663, '50016', 'DEFENSORÍA DISTRITO CAPITAL - VARGAS '),
+(664, '50017', 'DEFENSORÍA ESTADO MIRANDA '),
+(665, '50018', 'DEFENSORÍA ESTADOS ARAGUA - CARABOBO '),
+(666, '50019', 'DEFENSORÍA ESTADOS LARA - TRUJILLO- YARACUY '),
+(667, '50020', 'DEFENSORÍA ESTADO ZULIA '),
+(668, '50021', 'DEFENSORÍA ESTADO FALCÓN '),
+(669, '50022', 'DEFENSORÍA ESTADOS TÁCHIRA - MÉRIDA '),
+(670, '50023', 'DEFENSORÍA ESTADOS BARINAS - PORTUGUESA - COJEDES '),
+(671, '50024', 'DEFENSORÍA ESTADOS APURE - GUÁRICO - AMAZONAS '),
+(672, '50025', 'DEFENSORÍA ESTADOS NUEVA ESPARTA - ANZOÁTEGUI '),
+(673, '50026', 'DEFENSORÍA ESTADOS SUCRE - MONAGAS - DELTA AMACURO '),
+(674, '50027', 'DEFENSORÍA ESTADO BOLÍVAR '),
+(675, '50028', 'DIRECCIÓN DE INVESTIGACIÓN Y ASUNTOS LABORALES '),
+(676, '60022', 'INSPECCIÓN DISTRITO CAPITAL - VARGAS '),
+(677, '60023', 'INSPECCIÓN ESTADO MIRANDA '),
+(678, '60024', 'INSPECCIÓN ESTADOS ARAGUA - CARABOBO '),
+(679, '60025', 'INSPECCIÓN ESTADOS LARA - TRUJILLO - YARACUY '),
+(680, '60026', 'INSPECCIÓN ESTADO ZULIA '),
+(681, '60027', 'INSPECCIÓN ESTADO FALCÓN '),
+(682, '60028', 'INSPECCIÓN ESTADOS TÁCHIRA - MÉRIDA '),
+(683, '60029', 'INSPECCIÓN ESTADOS BARINAS - PORTUGUESA - COJEDES '),
+(684, '60030', 'INSPECCIÓN ESTADOS APURE - GUÁRICO - AMAZONAS '),
+(685, '60031', 'INSPECCIÓN ESTADOS NUEVA ESPARTA - ANZOÁTEGUI '),
+(686, '60032', 'INSPECCIÓN ESTADOS SUCRE - MONAGAS - DELTA AMACURO '),
+(687, '60033', 'INSPECCIÓN ESTADO BOLÍVAR ');
 
 -- --------------------------------------------------------
 
@@ -2170,10 +2444,37 @@ ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `es`
+--
+ALTER TABLE `es`
+  ADD CONSTRAINT `frk_ge_es` FOREIGN KEY (`id_ge`) REFERENCES `ge` (`id`);
+
+--
+-- Filtros para la tabla `ge`
+--
+ALTER TABLE `ge`
+  ADD CONSTRAINT `frk_id_partida_ge` FOREIGN KEY (`id_partida`) REFERENCES `partida` (`id`);
+
+--
+-- Filtros para la tabla `materiales_servicios`
+--
+ALTER TABLE `materiales_servicios`
+  ADD CONSTRAINT `frk_pre_materiales` FOREIGN KEY (`presentacion`) REFERENCES `presentacion` (`id`),
+  ADD CONSTRAINT `frk_se_materiales` FOREIGN KEY (`id_se`) REFERENCES `se` (`id`),
+  ADD CONSTRAINT `frk_um_materiales` FOREIGN KEY (`unidad_medida`) REFERENCES `unidad_medida` (`id`);
+
+--
 -- Filtros para la tabla `objetivos_generales`
 --
 ALTER TABLE `objetivos_generales`
   ADD CONSTRAINT `objetivos_generales_ibfk_1` FOREIGN KEY (`objetivo_estrategico`) REFERENCES `objetivos_estrategicos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `pedido_material_servicio`
+--
+ALTER TABLE `pedido_material_servicio`
+  ADD CONSTRAINT `frk_user_pedido` FOREIGN KEY (`id_usuario`) REFERENCES `user_accounts` (`id`),
+  ADD CONSTRAINT `frk_materiales_pedido` FOREIGN KEY (`id_material`) REFERENCES `materiales_servicios` (`id`);
 
 --
 -- Filtros para la tabla `programacion_fisica_presupuestaria`
@@ -2221,6 +2522,12 @@ ALTER TABLE `proyecto_responsable_administrativo`
 --
 ALTER TABLE `proyecto_responsable_tecnico`
   ADD CONSTRAINT `fk_id_proyecto` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `se`
+--
+ALTER TABLE `se`
+  ADD CONSTRAINT `frk_es_se` FOREIGN KEY (`id_es`) REFERENCES `es` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
