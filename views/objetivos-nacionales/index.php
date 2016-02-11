@@ -10,6 +10,14 @@ use yii\grid\GridView;
 $this->title = 'Objetivos Nacionales';
 $this->params['breadcrumbs'][] = ['label' => 'Configuración', 'url' => ['site/configuracion']];
 $this->params['breadcrumbs'][] = $this->title;
+
+//Iconos
+$icons=[
+    'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+    'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+    'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
+    'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
+];
 ?>
 <div class="objetivos-nacionales-index">
 
@@ -34,4 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+</div>
+<div class="btn-group">
+    <?= Html::a($icons['volver'].' Volver', ['/site/configuracion'], ['class' => 'btn btn-primary']) ?>        
 </div>

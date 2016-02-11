@@ -16,6 +16,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
 
+//Iconos
+$icons=[
+    'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+    'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+    'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
+    'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
+];
+
 ?>
 <div class="unidad-medida-index">
     <div id="ajaxCrudDatatable">
@@ -58,6 +66,9 @@ CrudAsset::register($this);
             ]
         ])?>
     </div>
+</div>
+<div class="btn-group">
+    <?= Html::a($icons['volver'].' Volver', ['/site/configuracion'], ['class' => 'btn btn-primary']) ?>        
 </div>
 <?php Modal::begin([
     "id"=>"ajaxCrubModal",
