@@ -58,8 +58,24 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                 <h1 class="panel-title">Propiedades</h1>
             </div>
             <div class="panel-body">
-                <div class="list-group">                                
-                    <?= Html::a($icons['partidas'].' Partidas',Url::to(['partida/index']),['class' => 'list-group-item']) ?>
+                <!-- PARTIDAS -->
+                <div class="list-group">
+                    <div class="list-group-item" style="padding:0px">
+                        <?= Html::a($icons['partidas'].' Partidas'.$caret,'#',[
+                            'class' => 'list-group-item dropdown-toggle',
+                            'style' => 'border:0px',
+                            'data-toggle'=>'dropdown',
+                            'aria-haspopup'=>true, 
+                            'aria-expanded'=>false,
+                        ]) ?>
+                        <ul class="dropdown-menu pull-right">
+                            <li><?= Html::a($icons['partidas'].' Partida',Url::to(['partida/index'])) ?></li>
+                            <li><?= Html::a($icons['nacional'].' GE',Url::to(['ge/index'])) ?></li>
+                            <li><?= Html::a($icons['estrategico'].' ES',Url::to(['es/index'])) ?></li>
+                            <li><?= Html::a($icons['general'].' SE',Url::to(['se/index'])) ?></li>
+                        </ul>
+                    </div>
+                    <!-- OBJETIVOS --> 
                     <div class="list-group-item" style="padding:0px">
                         <?= Html::a($icons['objetivos'].' Objetivos'.$caret,'#',[
                             'class' => 'list-group-item dropdown-toggle',
@@ -75,6 +91,7 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                             <li><?= Html::a($icons['general'].' Generales',Url::to(['objetivos-generales/index'])) ?></li>
                         </ul>
                     </div> 
+                    <!-- UNIDADES EJECUTORAS -->
                     <div class="list-group-item" style="padding:0px">
                         <?= Html::a($icons['unidadEjecutora'].' Unidades Ejecutoras'.$caret,'#',[
                             'class' => 'list-group-item dropdown-toggle',
@@ -88,7 +105,7 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                             <li><?= Html::a($icons['importar'].' Importar',Url::to(['unidad-ejecutora/importar'])) ?></li>                            
                         </ul>
                     </div>                   
-                    
+                    <!-- UNIDADES DE MEDIDA -->
                     <?= Html::a($icons['medida'].' Unidades de Medida',Url::to(['unidad-medida/index']),['class' => 'list-group-item']) ?>
                 </div>
             </div>
