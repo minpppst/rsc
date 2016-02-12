@@ -10,7 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $partida
  * @property string $nombre
- *
+ * @property integer $estatus
  * @property ProyectoDistribucionPresupuestaria[] $proyectoDistribucionPresupuestarias
  */
 class Partida extends \yii\db\ActiveRecord
@@ -29,7 +29,7 @@ class Partida extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['partida', 'nombre'], 'required'],
+            [['partida', 'nombre','estatus'], 'required'],
             [['partida'], 'integer'],
             [['nombre'], 'string', 'max' => 60]
         ];
@@ -44,6 +44,7 @@ class Partida extends \yii\db\ActiveRecord
             'id' => 'ID',
             'partida' => 'Partida',
             'nombre' => 'Nombre',
+            'estatus' => 'Estatus',
         ];
     }
 
