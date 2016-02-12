@@ -24,6 +24,9 @@ $icons = [
     'lista' => '<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>',
     'respaldos' => '<span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>',
     'migracion' => '<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>',
+    'es' => '<span class="glyphicon glyphicon-bishop" aria-hidden="true"></span>',
+    'se' => '<span class="glyphicon glyphicon-pawn" aria-hidden="true"></span>',
+    'materiales' => '<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>',
 
 ];
 
@@ -69,10 +72,10 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                             'aria-expanded'=>false,
                         ]) ?>
                         <ul class="dropdown-menu pull-right">
-                            <li><?= Html::a($icons['partidas'].' Partida',Url::to(['partida/index'])) ?></li>
-                            <li><?= Html::a($icons['nacional'].' GE',Url::to(['ge/index'])) ?></li>
-                            <li><?= Html::a($icons['estrategico'].' ES',Url::to(['es/index'])) ?></li>
-                            <li><?= Html::a($icons['general'].' SE',Url::to(['se/index'])) ?></li>
+                            <li><?= Html::a($icons['partidas'].' Partidas',Url::to(['partida/index'])) ?></li>
+                            <li><?= Html::a($icons['general'].' General',Url::to(['ge/index'])) ?></li>
+                            <li><?= Html::a($icons['es'].' Específica',Url::to(['es/index'])) ?></li>
+                            <li><?= Html::a($icons['se'].' Sub-específica',Url::to(['se/index'])) ?></li>
                         </ul>
                     </div>
                     <!-- OBJETIVOS --> 
@@ -107,6 +110,8 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                     </div>                   
                     <!-- UNIDADES DE MEDIDA -->
                     <?= Html::a($icons['medida'].' Unidades de Medida',Url::to(['unidad-medida/index']),['class' => 'list-group-item']) ?>
+                    <!-- MATERIALES Y SERVICIOS -->
+                    <?= Html::a($icons['materiales'].' Materiales y Servicios',Url::to(['materiales-servicios/index']),['class' => 'list-group-item']) ?>
                 </div>
             </div>
         </div>

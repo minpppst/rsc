@@ -45,9 +45,9 @@ class Ge extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_partida' => 'Id Partida',
-            'codigo_ge' => 'Codigo Ge',
-            'nombre_ge' => 'Nombre Ge',
+            'id_partida' => 'Partida',
+            'codigo_ge' => 'Código',
+            'nombre_ge' => 'Nombre',
             'estatus' => 'Estatus',
         ];
     }

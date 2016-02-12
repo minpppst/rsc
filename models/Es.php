@@ -45,8 +45,8 @@ class Es extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_ge' => 'Id Ge',
-            'codigo_es' => 'Codigo Es',
+            'id_ge' => 'Partida General',
+            'codigo_es' => 'Código',
             'nombre' => 'Nombre',
             'estatus' => 'Estatus',
         ];
