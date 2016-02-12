@@ -29,5 +29,11 @@ phpunit.phar
 # assets
 /web/assets
 
+# bd
+/config/db
+
+# .gitignore
+/.gitignore
+
 # backup
 /_backup

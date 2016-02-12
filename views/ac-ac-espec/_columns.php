@@ -37,7 +37,7 @@ return [
 
         'buttons'       => [
    "activeOptions" => function ($url, $model) {
-        if ($model->active == 1) $icon = "create";
+        if ($model->active == 1) $icon = "create1";
         else $icon = "create";
 
         return Html::a(\kartik\helpers\Html::icon($icon), $url, [
