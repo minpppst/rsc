@@ -27,6 +27,7 @@ $icons = [
     'es' => '<span class="glyphicon glyphicon-bishop" aria-hidden="true"></span>',
     'se' => '<span class="glyphicon glyphicon-pawn" aria-hidden="true"></span>',
     'materiales' => '<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>',
+    'presentacion' => '<span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>',
 
 ];
 
@@ -110,6 +111,8 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                     </div>                   
                     <!-- UNIDADES DE MEDIDA -->
                     <?= Html::a($icons['medida'].' Unidades de Medida',Url::to(['unidad-medida/index']),['class' => 'list-group-item']) ?>
+                    <!-- PRESENTACIONES -->
+                    <?= Html::a($icons['presentacion'].' Presentaciones',Url::to(['presentacion/index']),['class' => 'list-group-item']) ?>
                     <!-- MATERIALES Y SERVICIOS -->
                     <?= Html::a($icons['materiales'].' Materiales y Servicios',Url::to(['materiales-servicios/index']),['class' => 'list-group-item']) ?>
                 </div>
@@ -124,9 +127,7 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
             <div class="panel-body">
                 <div class="list-group">
                     <?= Html::a($icons['respaldos'].' Respaldos', Url::to(['backuprestore/default/index']),['class' => 'list-group-item']) ?>
-                    <?= Html::a($icons['migracion'].' Migraciones', Url::to(['migration/index']),['class' => 'list-group-item']) ?>
-                    <?= Html::a($icons['info'].' Item', null,['class' => 'list-group-item']) ?>
-                    <?= Html::a($icons['info'].' Item', null,['class' => 'list-group-item']) ?>
+                    <?= Html::a($icons['migracion'].' Migraciones', Url::to(['migration/index']),['class' => 'list-group-item']) ?>                    
                 </div>
             </div>
         </div>

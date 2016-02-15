@@ -3,22 +3,18 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\MaterialesServicios;
-use app\models\MaterialesServiciosSearch;
+use app\models\Presentacion;
+use app\models\PresentacionSearch;
 use yii\web\Controller;
-use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 
-use app\models\UnidadMedida;
-use app\models\Presentacion;
-
 /**
- * MaterialesServiciosController implements the CRUD actions for MaterialesServicios model.
+ * PresentacionController implements the CRUD actions for Presentacion model.
  */
-class MaterialesServiciosController extends Controller
+class PresentacionController extends Controller
 {
     /**
      * @inheritdoc
@@ -33,35 +29,16 @@ class MaterialesServiciosController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'matchCallback' => function($rule,$action)
-                        {
-                            $controller = Yii::$app->controller->id;
-                            $action = Yii:: $app->controller->action->id;                    
-                            $route = "$controller/$action";
-                            if(\Yii::$app->user->can($route))
-                            {
-                                return true;
-                            }
-                        }
-                    ],
-                ],
-            ],
         ];
     }
 
     /**
-     * Lists all MaterialesServicios models.
+     * Lists all Presentacion models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new MaterialesServiciosSearch();
+        $searchModel = new PresentacionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -72,7 +49,7 @@ class MaterialesServiciosController extends Controller
 
 
     /**
-     * Displays a single MaterialesServicios model.
+     * Displays a single Presentacion model.
      * @param integer $id
      * @return mixed
      */
@@ -82,7 +59,7 @@ class MaterialesServiciosController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "MaterialesServicios #".$id,
+                    'title'=> "Presentacion #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -97,7 +74,7 @@ class MaterialesServiciosController extends Controller
     }
 
     /**
-     * Creates a new MaterialesServicios model.
+     * Creates a new Presentacion model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -105,11 +82,7 @@ class MaterialesServiciosController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new MaterialesServicios();
-
-        // Otras listas
-        $unidadMedida = UnidadMedida::find()->all();
-        $presentacion = Presentacion::find()->all();
+        $model = new Presentacion();  
 
         if($request->isAjax){
             /*
@@ -118,11 +91,9 @@ class MaterialesServiciosController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new MaterialesServicios",
+                    'title'=> "Create new Presentacion",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'unidadMedida' => $unidadMedida,
-                        'presentacion' => $presentacion
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -131,19 +102,17 @@ class MaterialesServiciosController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Create new MaterialesServicios",
-                    'content'=>'<span class="text-success">Create MaterialesServicios success</span>',
+                    'title'=> "Create new Presentacion",
+                    'content'=>'<span class="text-success">Create Presentacion success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new MaterialesServicios",
+                    'title'=> "Create new Presentacion",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'unidadMedida' => $unidadMedida,
-                        'presentacion' => $presentacion
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -166,7 +135,7 @@ class MaterialesServiciosController extends Controller
     }
 
     /**
-     * Updates an existing MaterialesServicios model.
+     * Updates an existing Presentacion model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -184,7 +153,7 @@ class MaterialesServiciosController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update MaterialesServicios #".$id,
+                    'title'=> "Update Presentacion #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                     ]),
@@ -194,7 +163,7 @@ class MaterialesServiciosController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "MaterialesServicios #".$id,
+                    'title'=> "Presentacion #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -203,7 +172,7 @@ class MaterialesServiciosController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update MaterialesServicios #".$id,
+                    'title'=> "Update Presentacion #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                     ]),
@@ -226,7 +195,7 @@ class MaterialesServiciosController extends Controller
     }
 
     /**
-     * Delete an existing MaterialesServicios model.
+     * Delete an existing Presentacion model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -254,7 +223,7 @@ class MaterialesServiciosController extends Controller
     }
 
      /**
-     * Delete multiple existing MaterialesServicios model.
+     * Delete multiple existing Presentacion model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -264,7 +233,7 @@ class MaterialesServiciosController extends Controller
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (MaterialesServicios::findAll(json_decode($pks)) as $model) {
+        foreach (Presentacion::findAll(json_decode($pks)) as $model) {
             $model->delete();
         }
         
@@ -285,15 +254,15 @@ class MaterialesServiciosController extends Controller
     }
 
     /**
-     * Finds the MaterialesServicios model based on its primary key value.
+     * Finds the Presentacion model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return MaterialesServicios the loaded model
+     * @return Presentacion the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = MaterialesServicios::findOne($id)) !== null) {
+        if (($model = Presentacion::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

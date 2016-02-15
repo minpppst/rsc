@@ -10,5 +10,7 @@ use yii\helpers\Html;
 <div class="materiales-servicios-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'unidadMedida' => $unidadMedida,
+        'presentacion' => $presentacion
     ]) ?>
 </div>
