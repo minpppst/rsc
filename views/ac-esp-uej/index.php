@@ -6,6 +6,23 @@ use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 
+use kartik\select2\Select2;
+\kartik\select2\Select2Asset::register($this);
+$js = <<< 'JS'
+$("#unique-pjax-id").on("pjax:complete", function() {
+alert('ssss');
+var $el = $("#unique-select2-id"), 
+ ll=$("#unique-select2-id");
+alert(ll.data);
+    options = $el.data('pluginOptions'); // select2 plugin settings saved
+ jQuery.when($el.select2(window[options])).done(initSelect2Loading('unique-select2-id'));
+});
+JS;
+// Call the above js script in your view
+$this->registerJs($js);
+
+
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AcEspUejSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -17,12 +34,15 @@ CrudAsset::register($this);
 
 ?>
 <div class="ac-esp-uej-index">
-    <div id="ajaxCrudDatatable">
+    <div id="unique-pjax-id">
         <?=GridView::widget([
             'id'=>'crud-datatable',
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'pjax'=>true,
+            'pjaxSettings' => [
+    'options' => ['id' => 'unique-pjax-id'] // UNIQUE PJAX CONTAINER ID
+],
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
@@ -57,7 +77,8 @@ CrudAsset::register($this);
             ]
         ])?>
     </div>
-</div>
+
+
 <?php Modal::begin([
     "id"=>"ajaxCrubModal",
     "footer"=>"",// always need it for jquery plugin

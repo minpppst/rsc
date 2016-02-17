@@ -30,8 +30,9 @@ class AccionCentralizada extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['codigo_accion', 'codigo_accion_sne'],'unique'],
             [['codigo_accion', 'codigo_accion_sne', 'nombre_accion'], 'required'],
-            [['codigo_accion', 'codigo_accion_sne', 'nombre_accion'], 'string', 'max' => 45]
+            [['codigo_accion', 'codigo_accion_sne'], 'string', 'max' => 45]
         ];
     }
 
@@ -43,7 +44,7 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'codigo_accion' => 'Codigo Accion',
-            'codigo_accion_sne' => 'Codigo Accion Sne',
+            'codigo_accion_sne' => 'Codigo Accion SNE',
             'nombre_accion' => 'Nombre Accion',
         ];
     }

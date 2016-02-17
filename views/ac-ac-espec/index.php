@@ -5,6 +5,22 @@ use yii\bootstrap\Modal;
 use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
+use kartik\select2\Select2;
+\kartik\select2\Select2Asset::register($this);
+$js = <<< 'JS'
+$("#unique-pjax-id").on("pjax:complete", function() {
+alert('ssss');
+var $el = $("#unique-select2-id"), 
+ ll=$("#unique-select2-id");
+alert(ll.data);
+    options = $el.data('pluginOptions'); // select2 plugin settings saved
+ jQuery.when($el.select2(window[options])).done(initSelect2Loading('unique-select2-id'));
+});
+JS;
+// Call the above js script in your view
+$this->registerJs($js);
+
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AcAcEspecSearch */
@@ -20,6 +36,8 @@ $icons=[
 CrudAsset::register($this);
 ?>
 <div class="ac-ac-espec-index">
+
+
            <?=GridView::widget([
             'id'=>'especifica',
             'dataProvider' => $dataProvider,
@@ -33,7 +51,7 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>                  
-                    Html::a($icons['crear'].' Agregar', ['create'],
+                    Html::a($icons['crear'].' Agregar', ['create','ac_centralizada' => $searchModel['id_ac_centr']],
                     ['role'=>'modal-remote','title'=> 'Crear Nueva  Accion Especifica','class'=>'btn btn-success']).
                     '{toggleData}'.
                     '{export}'
@@ -62,3 +80,13 @@ CrudAsset::register($this);
             ]
         ])?>
     </div>
+ <?php  $data = [
+    "1" => "1"
+            ];
+    $filterwidget=\kartik\select2\Select2::widget([
+        'name' => 'id_ue',
+        'value' => '',
+        'data' => $data,
+        'options' => ['multiple' => true, 'placeholder' => 'Select states ...', 'id' => 'unique-select23-id']
+    ]);
+    ?>

@@ -201,7 +201,7 @@ class ProyectoAccionEspecificaController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'true',
+                    'forceReload'=>'false',
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
                     'title'=> "ProyectoAccionEspecifica #".$id,

@@ -10,6 +10,12 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use app\models\UnidadEjecutora;
+
+
+
 
 /**
  * AcEspUejController implements the CRUD actions for AcEspUej model.
@@ -79,40 +85,102 @@ class AcEspUejController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($accion_central, $accion_especifica)
     {
         $request = Yii::$app->request;
         $model = new AcEspUej();  
-
+       // $unidades_ejecutoras = UnidadEjecutora::find()->asArray('id','nombre')->all();
+        $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre');
+        $verificar =ArrayHelper::map(AcEspUej::find()->where('id_ac_esp= :id', ['id'=>$accion_especifica])->all(),'id','id_ue');
+       
+        
+       // print_r($unidades_ejecutoras); exit();
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
-            Yii::$app->response->format = Response::FORMAT_JSON;
+
+           Yii::$app->response->format = Response::FORMAT_JSON;
+
+           // if(count($verificar)>0){
+
+                  
+                      /* return [
+                                'title'=> "Editar Unidades Ejecutoras",
+                                'content'=>$this->renderAjax('_form', [
+                                    'model' => $model , 'accion_central'=>$accion_central,
+                                     'accion_especifica'=>$accion_especifica,
+                                     'unidades_ejecutoras'=>$unidades_ejecutoras,
+                                     'precarga'=>$verificar,
+                                ]),
+                                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                            Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    
+                            ];
+                        exit();
+                    }*/
+
             if($request->isGet){
+              
                 return [
-                    'title'=> "Create new AcEspUej",
-                    'content'=>$this->renderPartial('create', [
-                        'model' => $model,
+                    'title'=> "Agregar Unidades Ejecutoras",
+                    'content'=>$this->renderAjax('_form', [
+                        'model' => $model , 'accion_central'=>$accion_central,
+                         'accion_especifica'=>$accion_especifica,
+                         'unidades_ejecutoras'=>$unidades_ejecutoras
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else //if($model->load($request->post()) && $model->save()){ 
+                    if($model->load($request->post())){
+                        //se cuenta las unidades ejecutoras seleccionadas y se van guardando de una a una
+                       $uni_eje=$request->post('id_ue');
+                       $i=0;
+
+                       $connection = \Yii::$app->db;
+                       $transaction = $connection->beginTransaction();
+                       try { 
+                        while(count($request->post('id_ue'))!=$i){
+                        $model->id_ue=$uni_eje[$i];
+                        $id_ac_esp=$request->post('AcEspUej');
+                        $model->id_ac_esp=$id_ac_esp['id_ac_esp'];
+                        $i++;
+                        $model->id = NULL; 
+                        $model->isNewRecord = true;
+                        if($model->save()){
+                        }else{
+                            $transaction->rollback();
+                            $i=count($request->post('id_ue'));
+                            //print_r($model->errors);
+                        }
+                        }
+
+                        
+                        $transaction->commit();
+
                 return [
-                    'forceReload'=>'true',
-                    'title'=> "Create new AcEspUej",
-                    'content'=>'<span class="text-success">Create AcEspUej success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'forceReload'=>'false',
+                    'title'=> "Agregar Unidades Ejecutoras",
+                    'contenedorId' => '#especifica-pjax', //Id del contenedor
+                    'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $request->post('accion_central')]),
+                    'content'=>'<span class="text-success">Se Ha Guardado Satisfactoriamente!</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+                            //Html::a('Seguir Creando',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
-                ];         
+                ];   
+                } catch(Exception $e) {
+                    $transaction->rollback();
+                    }
+
             }else{           
                 return [
-                    'title'=> "Create new AcEspUej",
-                    'content'=>$this->renderPartial('create', [
+                    'title'=> "Create new AcEspUej3",
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
+                        'accion_especifica'=>$accion_especifica,
+                         'unidades_ejecutoras'=>$unidades_ejecutoras
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -141,26 +209,99 @@ class AcEspUejController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id, $accion_centralizada)
+    {   
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
-
+          
+        $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre');
+        $verificar =ArrayHelper::map(AcEspUej::find()->where('id_ac_esp= :id', ['id'=>$id])->all(),'id','id_ue');
+         
+         $model = new AcEspUej();
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
+ 
+           
+
+
+
             if($request->isGet){
-                return [
+
+
+                 if(count($verificar)>0){
+
+                  
+                      return [
+                                'title'=> "Editar Unidades Ejecutoras",
+                                'content'=>$this->renderAjax('_form', [
+                                    'model' => $model , 'accion_central'=>$accion_centralizada,
+                                     'accion_especifica'=>$id,
+                                     'unidades_ejecutoras'=>$unidades_ejecutoras,
+                                     'precarga'=>$verificar,
+                                ]),
+                                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                            Html::button('Editar',['class'=>'btn btn-primary','type'=>"submit"])
+                    
+                            ];
+                        exit();
+                    }
+
+               /* return [
                     'title'=> "Update AcEspUej #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
+                ];*/         
+            }else 
+
+            if($model->load($request->post())){
+                        //se cuenta las unidades ejecutoras seleccionadas y se van guardando de una a una
+                       $uni_eje=$request->post('id_ue');
+                       $i=0;
+                       $id_ac_esp=$request->post('AcEspUej');
+                       $connection = \Yii::$app->db;
+                       $transaction = $connection->beginTransaction();
+                       try {
+                        AcEspUej::deleteAll("id_ac_esp='".$id_ac_esp['id_ac_esp']."'");
+                        while(count($request->post('id_ue'))!=$i){
+                             $model = new AcEspUej();
+                        $model->id_ue=$uni_eje[$i];
+                        $model->id_ac_esp=$id_ac_esp['id_ac_esp'];
+                        $i++;
+                        
+                        $model->isNewRecord = true;
+                        $model->id = NULL; 
+                        if($model->save()){
+                        }else{
+                            $transaction->rollback();
+                            $i=count($request->post('id_ue'));
+                            //print_r($model->errors);
+                        }
+                        }
+
+                        
+                        $transaction->commit();
+
+                return [
+                    'forceReload'=>'false',
+                    'title'=> "Editando Unidades Ejecutoras",
+                    'contenedorId' => '#especifica-pjax', //Id del contenedor
+                    'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $request->post('accion_central')]),
+                    'content'=>'<span class="text-success">Se Edito Correctamente</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+                            //Html::a('Seguir Creando',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        
+                ];   
+                } catch(Exception $e) {
+                    $transaction->rollback();
+                    }
+
+            }
+            /* if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
                     'title'=> "AcEspUej #".$id,
@@ -170,7 +311,7 @@ class AcEspUejController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
-            }else{
+            }*/else{
                  return [
                     'title'=> "Update AcEspUej #".$id,
                     'content'=>$this->renderPartial('update', [
@@ -185,6 +326,8 @@ class AcEspUejController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
+
+
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('update', [

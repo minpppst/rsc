@@ -26,7 +26,8 @@
         "miloschuman/yii2-highcharts-widget": "dev-master",
         "open-ecommerce/yii2-backuprestore": "dev-master",
         "kartik-v/yii2-widget-fileinput": "@dev",
-        "kartik-v/bootstrap-fileinput": "dev-master"
+        "kartik-v/bootstrap-fileinput": "dev-master",
+        "kartik-v/yii2-widget-select2": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -43,8 +43,8 @@ class AcEspUej extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_ue' => 'Id Ue',
-            'id_ac_esp' => 'Id Ac Esp',
+            'id_ue' => 'Unidad Ejecutora',
+            'id_ac_esp' => 'Accion Especifica',
         ];
     }
 

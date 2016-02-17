@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "ac_ac_espec".
  *
@@ -65,5 +65,15 @@ class AcAcEspec extends \yii\db\ActiveRecord
     public function getAcVariables()
     {
         return $this->hasMany(AcVariable::className(), ['id_ac_esp' => 'id']);
+    }
+
+    public function existe_uej(){
+        //$resultado=AcEspUej::find()->select('id')->where('=','id_ac_esp',$this->id);
+        $resultado =ArrayHelper::map(AcEspUej::find()->limit(1)->where('id_ac_esp= :id', ['id'=>$this->id])->all(),'id','id_ue');
+        if(count($resultado)>0){
+        return(1);}
+    else{
+        return(0);
+    }
     }
 }

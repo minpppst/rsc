@@ -38,7 +38,7 @@ CrudAsset::register($this);
         'columns' => [
             ['class' => 'kartik\grid\SerialColumn'],
 
-            'id',
+            
             'codigo_accion',
             'codigo_accion_sne',
             'nombre_accion',

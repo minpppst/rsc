@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-02-2016 a las 20:25:29
+-- Tiempo de generación: 17-02-2016 a las 20:43:53
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -30,16 +30,19 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_accion` varchar(45) NOT NULL,
   `codigo_accion_sne` varchar(45) NOT NULL,
-  `nombre_accion` varchar(45) NOT NULL,
+  `nombre_accion` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada`
 --
 
 INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `nombre_accion`) VALUES
-(1, '1', '1234', 'probadno');
+(1, '1', '1234', 'probadno'),
+(2, '2', '2', 'numero2'),
+(4, '3', '3', 'probadno'),
+(5, '12', '12', 'probando333');
 
 -- --------------------------------------------------------
 
@@ -54,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `ac_ac_espec` (
   `nombre` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_ac_centr` (`id_ac_centr`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Volcado de datos para la tabla `ac_ac_espec`
@@ -62,7 +65,13 @@ CREATE TABLE IF NOT EXISTS `ac_ac_espec` (
 
 INSERT INTO `ac_ac_espec` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`) VALUES
 (1, 1, '1', 'probadno1'),
-(2, 1, '2', 'probassdno');
+(2, 1, '2', 'probassdno'),
+(5, 1, '12', 'ropbadno3'),
+(6, 1, '4', 'asdasdas'),
+(7, 1, '24', 'probando otra '),
+(8, 1, '3', 'arreglando24d'),
+(9, 4, '2', 'probando2'),
+(10, 5, '1', 'probando333');
 
 -- --------------------------------------------------------
 
@@ -77,7 +86,108 @@ CREATE TABLE IF NOT EXISTS `ac_esp_uej` (
   PRIMARY KEY (`id`),
   KEY `id_ue` (`id_ue`),
   KEY `id_v` (`id_ac_esp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=118 ;
+
+--
+-- Volcado de datos para la tabla `ac_esp_uej`
+--
+
+INSERT INTO `ac_esp_uej` (`id`, `id_ue`, `id_ac_esp`) VALUES
+(4, 1, 1),
+(5, 600, 1),
+(6, 601, 1),
+(7, 602, 1),
+(8, 603, 1),
+(9, 604, 1),
+(10, 605, 1),
+(11, 606, 1),
+(12, 607, 1),
+(13, 608, 1),
+(14, 609, 1),
+(15, 610, 1),
+(16, 611, 1),
+(17, 612, 1),
+(18, 613, 1),
+(19, 614, 1),
+(20, 615, 1),
+(21, 616, 1),
+(22, 617, 1),
+(23, 618, 1),
+(24, 619, 1),
+(25, 620, 1),
+(26, 621, 1),
+(27, 622, 1),
+(28, 623, 1),
+(29, 624, 1),
+(30, 625, 1),
+(31, 626, 1),
+(32, 627, 1),
+(33, 628, 1),
+(34, 629, 1),
+(35, 630, 1),
+(36, 631, 1),
+(37, 632, 1),
+(38, 633, 1),
+(39, 634, 1),
+(40, 635, 1),
+(41, 636, 1),
+(42, 637, 1),
+(43, 638, 1),
+(44, 639, 1),
+(45, 640, 1),
+(46, 641, 1),
+(47, 642, 1),
+(48, 643, 1),
+(49, 644, 1),
+(50, 645, 1),
+(51, 646, 1),
+(52, 647, 1),
+(53, 648, 1),
+(54, 649, 1),
+(55, 650, 1),
+(56, 651, 1),
+(57, 652, 1),
+(58, 653, 1),
+(59, 654, 1),
+(60, 655, 1),
+(61, 656, 1),
+(62, 657, 1),
+(63, 658, 1),
+(64, 659, 1),
+(65, 660, 1),
+(66, 661, 1),
+(67, 662, 1),
+(68, 663, 1),
+(69, 664, 1),
+(70, 665, 1),
+(71, 666, 1),
+(72, 667, 1),
+(73, 668, 1),
+(74, 669, 1),
+(75, 670, 1),
+(76, 671, 1),
+(77, 672, 1),
+(78, 673, 1),
+(79, 674, 1),
+(80, 675, 1),
+(81, 676, 1),
+(82, 677, 1),
+(83, 678, 1),
+(84, 679, 1),
+(85, 680, 1),
+(86, 681, 1),
+(87, 682, 1),
+(88, 683, 1),
+(89, 684, 1),
+(90, 685, 1),
+(91, 686, 1),
+(92, 687, 1),
+(93, 600, 2),
+(97, 1, 5),
+(110, 600, 9),
+(111, 601, 9),
+(112, 600, 6),
+(117, 600, 10);
 
 -- --------------------------------------------------------
 
@@ -1300,7 +1410,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
   PRIMARY KEY (`id`),
   KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
   KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_accion_especifica`
@@ -1322,7 +1432,9 @@ INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_es
 (32, 1000001, '2', 'ASDAS', 1),
 (33, 1000001, '2', 'asddas', 1),
 (34, 1000001, '3', 'asdasd', 1),
-(35, 1000001, '4', 'asdasd', 600);
+(35, 1000001, '4', 'asdasd', 600),
+(36, 1, '1', 'adasd', 616),
+(37, 1, '3', 'asdasdddd', 1);
 
 -- --------------------------------------------------------
 
@@ -1397,7 +1509,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_distribucion_presupuestaria` (
   PRIMARY KEY (`id`),
   KEY `id_accion_especifica` (`id_accion_especifica`),
   KEY `id_partida` (`id_partida`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Distribución presupuestaria de proyecto' AUTO_INCREMENT=218 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Distribución presupuestaria de proyecto' AUTO_INCREMENT=242 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_distribucion_presupuestaria`
@@ -1571,7 +1683,31 @@ INSERT INTO `proyecto_distribucion_presupuestaria` (`id`, `id_accion_especifica`
 (214, 35, 9, '0'),
 (215, 35, 10, '0'),
 (216, 35, 11, '0'),
-(217, 35, 12, '0');
+(217, 35, 12, '0'),
+(218, 36, 1, '0'),
+(219, 36, 2, '0'),
+(220, 36, 3, '0'),
+(221, 36, 4, '0'),
+(222, 36, 5, '0'),
+(223, 36, 6, '0'),
+(224, 36, 7, '0'),
+(225, 36, 8, '0'),
+(226, 36, 9, '0'),
+(227, 36, 10, '0'),
+(228, 36, 11, '0'),
+(229, 36, 12, '0'),
+(230, 37, 1, '0'),
+(231, 37, 2, '0'),
+(232, 37, 3, '0'),
+(233, 37, 4, '0'),
+(234, 37, 5, '0'),
+(235, 37, 6, '0'),
+(236, 37, 7, '0'),
+(237, 37, 8, '0'),
+(238, 37, 9, '0'),
+(239, 37, 10, '0'),
+(240, 37, 11, '0'),
+(241, 37, 12, '0');
 
 -- --------------------------------------------------------
 
@@ -2626,7 +2762,7 @@ CREATE TABLE IF NOT EXISTS `user_accounts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_unique_login` (`login`),
   UNIQUE KEY `user_unique_username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `user_accounts`
@@ -2635,7 +2771,8 @@ CREATE TABLE IF NOT EXISTS `user_accounts` (
 INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_key`, `administrator`, `creator`, `creator_ip`, `confirm_token`, `recovery_token`, `blocked_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES
 (1, 'catu52@gmail.com', 'admin', '$2y$13$93TebP1Z2QcqANsVIzAwrON2lrPaFFXqUoJswU0VHa63avQoNS6G6', '', 1, -2, 'Local', NULL, NULL, NULL, 1449790220, 1449790220, 1449864304),
 (2, 'antonioluismonasterio@gmail.com', 'antonio', '$2y$13$Yl3RUN/f9jI.YoHsDHzwsurB3o10UVv1mDHYgoZjGs9xpum2u0wia', '', 1, 1, '127.0.0.1', NULL, NULL, NULL, 1449848097, 1449848097, 1449865724),
-(3, 'walter86_79@hotmail.com', 'soulip', '$2y$13$UjYRjClQAEpe2OzeogsZoederx9EgVItIQCy5bNrV0xz8vQWDI3DS', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1454610570, 1454610571, -1);
+(3, 'walter86_79@hotmail.com', 'soulip', '$2y$13$UjYRjClQAEpe2OzeogsZoederx9EgVItIQCy5bNrV0xz8vQWDI3DS', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1454610570, 1454610571, -1),
+(4, 'walter86_79@hotmail1.com', 'probadno', '$2y$13$z9nW0xD5xgnEouZn7Y9n5OzCN9YOnDrK/yg/lzxn8yAo0u8RKQtU2', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1455720603, 1455720603, -1);
 
 --
 -- Restricciones para tablas volcadas
@@ -2651,7 +2788,7 @@ ALTER TABLE `ac_ac_espec`
 -- Filtros para la tabla `ac_esp_uej`
 --
 ALTER TABLE `ac_esp_uej`
-  ADD CONSTRAINT `frk_acesp_uej` FOREIGN KEY (`id_ac_esp`) REFERENCES `ac_esp_uej` (`id`),
+  ADD CONSTRAINT `frk_acesp_uej` FOREIGN KEY (`id_ac_esp`) REFERENCES `ac_ac_espec` (`id`),
   ADD CONSTRAINT `frk_uej_acesp` FOREIGN KEY (`id_ue`) REFERENCES `unidad_ejecutora` (`id`);
 
 --

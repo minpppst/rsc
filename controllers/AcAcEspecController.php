@@ -13,6 +13,7 @@ use \yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+
 /**
  * AcAcEspecController implements the CRUD actions for AcAcEspec model.
  */
@@ -38,14 +39,15 @@ class AcAcEspecController extends Controller
      * Lists all AcAcEspec models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($ac_centralizada)
     {    
-        $searchModel = new AcAcEspecSearch();
+        $searchModel = new AcAcEspecSearch(['id_ac_centr'=>$ac_centralizada]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $html=$this->renderPartial('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+
         ]);
         return Json::encode($html);
     }
@@ -82,10 +84,11 @@ class AcAcEspecController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($ac_centralizada)
     {
         $request = Yii::$app->request;
-        $model = new AcAcEspec();  
+        $model = new AcAcEspec();
+        $model->id_ac_centr=$ac_centralizada;  
 
         if($request->isAjax){
             /*
@@ -106,7 +109,7 @@ class AcAcEspecController extends Controller
                 return [
                     'forceReload'=>'false',
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
-                    'contenedorUrl' => Url::to(['ac-ac-espec/index', 'proyecto' => $model->id_proyecto]),
+                    'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id_ac_centr]),
                     'title'=> "Create new AcAcEspec",
                     'content'=>'<span class="text-success">Create AcAcEspec success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -158,7 +161,7 @@ class AcAcEspecController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update AcAcEspec #".$id,
+                    'title'=> "Modificando Accion Especifica #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                     ]),
@@ -167,8 +170,10 @@ class AcAcEspecController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'true',
-                    'title'=> "AcAcEspec #".$id,
+                     'forceReload'=>'true',
+                    'contenedorId' => '#especifica-pjax', //Id del contenedor
+                    'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id_ac_centr]),
+                    'title'=> "Accion Especifica #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),

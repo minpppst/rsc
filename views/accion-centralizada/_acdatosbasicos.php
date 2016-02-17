@@ -9,6 +9,7 @@ use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\AccionCentralizada */
 //Iconos

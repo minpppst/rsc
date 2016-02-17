@@ -6,6 +6,8 @@ use yii\web\JsExpression;
 use yii\bootstrap\Modal;
 use yii\bootstrap\Button;
 use yii\bootstrap\Alert;
+
+
 //use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\AccionCentralizada */
@@ -70,8 +72,17 @@ $distribucionPresupuestaria = '<p>'.
                 ],
             ],
             
+        ],
+         'pluginOptions' => [
+            'enableCache' => false //Refrescar la pestaña
         ]
-    ]) ?>
+    ]);
+
+
+  ?>  
+  
+
+
 
     <div class="btn-group">
       <?= Html::a($icons['volver'].' Volver', ['accion-centralizada/index'], ['class' => 'btn btn-primary']) ?>       
@@ -79,7 +90,7 @@ $distribucionPresupuestaria = '<p>'.
 
 
 </div>
-
+   
 <!-- Ventana modal -->
 <?php Modal::begin([
     "id"=>"ajaxCrubModal",

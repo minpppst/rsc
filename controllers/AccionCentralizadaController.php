@@ -121,10 +121,18 @@ class AccionCentralizadaController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>true];    
+        }else{
 
         return $this->redirect(['index']);
     }
 
+}
     /**
      * Finds the AccionCentralizada model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
