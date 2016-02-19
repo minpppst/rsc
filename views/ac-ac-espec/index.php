@@ -1,15 +1,16 @@
 <?php
+use \kartik\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
-use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use kartik\select2\Select2;
 \kartik\select2\Select2Asset::register($this);
-$js = <<< 'JS'
+
+
+/*$js = <<< 'JS'
 $("#unique-pjax-id").on("pjax:complete", function() {
-alert('ssss');
 var $el = $("#unique-select2-id"), 
  ll=$("#unique-select2-id");
 alert(ll.data);
@@ -19,7 +20,7 @@ alert(ll.data);
 JS;
 // Call the above js script in your view
 $this->registerJs($js);
-
+*/
 
 
 /* @var $this yii\web\View */
