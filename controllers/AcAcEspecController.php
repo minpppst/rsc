@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\Url;
-
+use yii\filters\AccessControl;
 
 /**
  * AcAcEspecController implements the CRUD actions for AcAcEspec model.
@@ -22,7 +22,7 @@ class AcAcEspecController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
+   public function behaviors()
     {
         return [
             'verbs' => [
@@ -30,6 +30,25 @@ class AcAcEspecController extends Controller
                 'actions' => [
                     'delete' => ['post'],
                     'bulk-delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rule,$action)
+                        {
+                            $controller = Yii::$app->controller->id;
+                            $action = Yii:: $app->controller->action->id;                    
+                            $route = "$controller/$action";
+                            if(\Yii::$app->user->can($route))
+                            {
+                                return true;
+                            }
+                        }
+                    ],
                 ],
             ],
         ];
@@ -113,7 +132,7 @@ class AcAcEspecController extends Controller
                     'title'=> "Create new AcAcEspec",
                     'content'=>'<span class="text-success">Create AcAcEspec success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Create More',['create','ac_centralizada'=>$model->id_ac_centr],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{        

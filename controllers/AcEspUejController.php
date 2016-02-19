@@ -13,6 +13,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use app\models\UnidadEjecutora;
+use yii\filters\AccessControl;
 
 
 
@@ -33,6 +34,25 @@ class AcEspUejController extends Controller
                 'actions' => [
                     'delete' => ['post'],
                     'bulk-delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rule,$action)
+                        {
+                            $controller = Yii::$app->controller->id;
+                            $action = Yii:: $app->controller->action->id;                    
+                            $route = "$controller/$action";
+                            if(\Yii::$app->user->can($route))
+                            {
+                                return true;
+                            }
+                        }
+                    ],
                 ],
             ],
         ];

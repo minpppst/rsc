@@ -31,6 +31,7 @@ class AcAcEspec extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+             //[['cod_ac_espe'],'unique'],
             [['id_ac_centr', 'cod_ac_espe', 'nombre'], 'required'],
             [['id_ac_centr'], 'integer'],
             [['nombre'], 'string'],
