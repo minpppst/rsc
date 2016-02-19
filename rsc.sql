@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-02-2016 a las 20:43:53
+-- Tiempo de generación: 19-02-2016 a las 15:53:15
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada` (
 --
 
 INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `nombre_accion`) VALUES
-(1, '1', '1234', 'probadno'),
+(1, '1', '1232', 'probadno'),
 (2, '2', '2', 'numero2'),
 (4, '3', '3', 'probadno'),
 (5, '12', '12', 'probando333');
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `ac_ac_espec` (
   `nombre` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_ac_centr` (`id_ac_centr`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Volcado de datos para la tabla `ac_ac_espec`
@@ -71,7 +71,15 @@ INSERT INTO `ac_ac_espec` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`) VALUES
 (7, 1, '24', 'probando otra '),
 (8, 1, '3', 'arreglando24d'),
 (9, 4, '2', 'probando2'),
-(10, 5, '1', 'probando333');
+(10, 5, '1', 'probando333'),
+(11, 5, '2', 'sdfsdf'),
+(12, 5, '3', 'aasd'),
+(13, 5, '3', 'asdasd'),
+(14, 5, '4', 'probando'),
+(15, 5, '4', 'asdasd'),
+(16, 5, '5', 'probadno'),
+(17, 1, '7', 'probnado'),
+(18, 1, '5', 'prpadoas');
 
 -- --------------------------------------------------------
 
@@ -86,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `ac_esp_uej` (
   PRIMARY KEY (`id`),
   KEY `id_ue` (`id_ue`),
   KEY `id_v` (`id_ac_esp`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=118 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=119 ;
 
 --
 -- Volcado de datos para la tabla `ac_esp_uej`
@@ -285,6 +293,14 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('ac-ac-espec/create', 2, 'crear acciones especificas de las acciones centralizadas', NULL, NULL, 1455891627, 1455891627),
+('ac-ac-espec/delete', 2, 'borrar acciones especificas de las acciones centralizdas', NULL, NULL, 1455891676, 1455891676),
+('ac-ac-espec/index', 2, 'ver el index de acciones especificas de las acciones centralizadas', NULL, NULL, 1455891555, 1455891555),
+('ac-ac-espec/update', 2, 'modificar acciones especificas de las acciones centralizadas', NULL, NULL, 1455891646, 1455891646),
+('ac-esp-uej/create', 2, 'crear relaciones entre unidades ejecutoras y acciones especificas', NULL, NULL, 1455891825, 1455891825),
+('ac-esp-uej/delete', 2, 'borrar relaciones de unidades ejecutoras y acciones especificas', NULL, NULL, 1455891893, 1455891893),
+('ac-esp-uej/index', 2, 'ver el index de la relacion entre unidades ejecutoras y acciones especificas', NULL, NULL, 1455891797, 1455891916),
+('ac-esp-uej/update', 2, 'modificar relaciones entre unidades ejecutoras y acciones especificas', NULL, NULL, 1455891847, 1455891847),
 ('ac-variable/create', 2, 'crear variables para acciones centralizadas', NULL, NULL, 1455136899, 1455136899),
 ('ac-variable/delete', 2, 'poder borrar la variable', NULL, NULL, 1455136995, 1455136995),
 ('ac-variable/index', 2, 'poder ir al inicio del modulo variables ', NULL, NULL, 1455136979, 1455136979),
@@ -349,7 +365,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('registrador_basico', 1, 'Crea, edita y elimina datos básicos de proyecto', NULL, NULL, 1450393912, 1452359490),
 ('registrador_distribucion_presupuestaria', 1, 'Crea, edita y elimina la distribución presupuestaria de proyecto', NULL, NULL, 1452649340, 1452649340),
 ('site/configuracion', 2, 'Configurar el sistema', NULL, NULL, 1450736795, 1450736795),
-('sysadmin', 1, 'Administrador del sistema', NULL, NULL, 1450736017, 1453773800),
+('sysadmin', 1, 'Administrador del sistema', NULL, NULL, 1450736017, 1455891956),
 ('unidad-medida/create', 2, 'Crear unidad de medida', NULL, NULL, 1453773712, 1453773712),
 ('unidad-medida/delete', 2, 'Eliminar unidad de medida', NULL, NULL, 1453773745, 1453773745),
 ('unidad-medida/index', 2, 'Lista de unidad de medida', NULL, NULL, 1453773700, 1453773700),
@@ -373,6 +389,14 @@ CREATE TABLE IF NOT EXISTS `auth_item_child` (
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('sysadmin', 'ac-ac-espec/create'),
+('sysadmin', 'ac-ac-espec/delete'),
+('sysadmin', 'ac-ac-espec/index'),
+('sysadmin', 'ac-ac-espec/update'),
+('sysadmin', 'ac-esp-uej/create'),
+('sysadmin', 'ac-esp-uej/delete'),
+('sysadmin', 'ac-esp-uej/index'),
+('sysadmin', 'ac-esp-uej/update'),
 ('accion_centralizada', 'accion-centralizada/create'),
 ('accion_centralizada', 'accion-centralizada/delete'),
 ('accion_centralizada', 'accion-centralizada/index'),
