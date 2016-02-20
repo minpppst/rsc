@@ -12,6 +12,7 @@ use app\models\Es;
  */
 class EsSearch extends Es
 {
+    public $partidaGe;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class EsSearch extends Es
     {
         return [
             [['id', 'id_ge', 'codigo_es', 'estatus'], 'integer'],
-            [['nombre'], 'safe'],
+            [['nombre','partidaGe'], 'safe'],
         ];
     }
 
@@ -42,10 +43,18 @@ class EsSearch extends Es
     public function search($params)
     {
         $query = Es::find();
+        // Join para la relacion
+        $query->joinWith(['idGe']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        //Ordenamiento
+        $dataProvider->sort->attributes['partidaGe'] = [
+            'asc' => ['ge.codigo_ge' => SORT_ASC],
+            'desc' => ['ge.codigo_ge' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -63,6 +72,7 @@ class EsSearch extends Es
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['ge.codigo_ge'=> $this->partidaGe]);
 
         return $dataProvider;
     }

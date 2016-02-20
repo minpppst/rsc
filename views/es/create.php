@@ -10,5 +10,7 @@ use yii\helpers\Html;
 <div class="es-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'partida' => $partida,
+        'estatus' => $estatus
     ]) ?>
 </div>

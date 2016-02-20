@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 //Iconos
 $icons=[
-    'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+    'nuevo'=>'<span class="glyphicon glyphicon-file" aria-hidden="true"></span>',
     'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
     'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
     'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
@@ -25,7 +25,7 @@ $icons=[
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Objetivos Estrategicos', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a($icons['nuevo'].' Crear Objetivo Estrategico', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

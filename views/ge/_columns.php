@@ -16,7 +16,7 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_partida',
+        'attribute'=>'codigoPartida',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

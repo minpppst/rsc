@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -11,13 +12,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_partida')->textInput() ?>
+    <?= $form->field($model, 'id_partida')->dropDownList(ArrayHelper::map($partida, 'id','partida'),['prompt' => 'Seleccione']) ?>
 
-    <?= $form->field($model, 'codigo_ge')->textInput() ?>
+    <?= $form->field($model, 'codigo_ge')->textInput(['placeholder' => 'Escriba un número entre 01 y 99', 'maxlength' => 2]) ?>
 
     <?= $form->field($model, 'nombre_ge')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'estatus')->textInput() ?>
+    <?= $form->field($model, 'estatus')->dropDownList(ArrayHelper::map($estatus,'id','estatus'), ['prompt' => 'Seleccione']) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

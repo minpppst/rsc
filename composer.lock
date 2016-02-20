@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3bad9e0e35b7bd1e861917ab68f33480",
-    "content-hash": "73755d1963847ba5851d0d0991298bdb",
+    "hash": "501df7c65841471fd976c30cc0444d3f",
+    "content-hash": "a6133e6c397abe53df1431f55878f8e1",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -665,6 +665,48 @@
             "time": "2015-06-26 14:48:16"
         },
         {
+            "name": "kartik-v/dependent-dropdown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/dependent-dropdown.git",
+                "reference": "64953540e4724b9962432489f1d3461e587b24fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/dependent-dropdown/zipball/64953540e4724b9962432489f1d3461e587b24fe",
+                "reference": "64953540e4724b9962432489f1d3461e587b24fe",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\plugins\\depdrop\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "A multi level dependent dropdown JQuery plugin that allows nested dependencies.",
+            "homepage": "https://github.com/kartik-v/dependent-dropdown",
+            "keywords": [
+                "dependent",
+                "dropdown",
+                "jquery",
+                "option",
+                "select"
+            ],
+            "time": "2015-12-31 03:40:08"
+        },
+        {
             "name": "kartik-v/mpdf",
             "version": "v1.0.2",
             "source": {
@@ -987,6 +1029,55 @@
                 "tabs-x"
             ],
             "time": "2015-06-27 03:18:13"
+        },
+        {
+            "name": "kartik-v/yii2-widget-depdrop",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-depdrop.git",
+                "reference": "69acb9e2ca35c789e6de09c6ea9a94b68a36776b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-depdrop/zipball/69acb9e2ca35c789e6de09c6ea9a94b68a36776b",
+                "reference": "69acb9e2ca35c789e6de09c6ea9a94b68a36776b",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/dependent-dropdown": "*",
+                "kartik-v/yii2-krajee-base": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\depdrop\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Widget that enables setting up dependent dropdowns with nested dependencies (sub repo split from yii2-widgets)",
+            "homepage": "https://github.com/kartik-v/yii2-widget-depdrop",
+            "keywords": [
+                "dependent",
+                "dropdown",
+                "extension",
+                "form",
+                "jquery",
+                "plugin",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-05-22 10:15:23"
         },
         {
             "name": "kartik-v/yii2-widget-fileinput",
@@ -1792,7 +1883,9 @@
         "miloschuman/yii2-highcharts-widget": 20,
         "open-ecommerce/yii2-backuprestore": 20,
         "kartik-v/yii2-widget-fileinput": 20,
-        "kartik-v/bootstrap-fileinput": 20
+        "kartik-v/bootstrap-fileinput": 20,
+        "kartik-v/dependent-dropdown": 20,
+        "kartik-v/yii2-widget-depdrop": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -27,7 +27,9 @@
         "open-ecommerce/yii2-backuprestore": "dev-master",
         "kartik-v/yii2-widget-fileinput": "@dev",
         "kartik-v/bootstrap-fileinput": "dev-master",
-        "nhkey/yii2-activerecord-history": "*"
+        "nhkey/yii2-activerecord-history": "*",
+        "kartik-v/dependent-dropdown": "dev-master",
+        "kartik-v/yii2-widget-depdrop": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

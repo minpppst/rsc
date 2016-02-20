@@ -16,7 +16,7 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_ge',
+        'attribute'=>'partidaGe',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
