@@ -37,3 +37,6 @@ phpunit.phar
 
 # backup
 /_backup
+
+#local config
+/config

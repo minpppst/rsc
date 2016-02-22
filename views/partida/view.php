@@ -13,6 +13,7 @@ use yii\widgets\DetailView;
             'id',
             'partida',
             'nombre',
+            'nombreEstatus'
         ],
     ]) ?>
 

@@ -12,6 +12,7 @@ use app\models\Ge;
  */
 class GeSearch extends Ge
 {
+    public $codigoPartida;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class GeSearch extends Ge
     {
         return [
             [['id', 'id_partida', 'codigo_ge', 'estatus'], 'integer'],
-            [['nombre_ge'], 'safe'],
+            [['nombre_ge', 'codigoPartida'], 'safe'],
         ];
     }
 
@@ -42,10 +43,18 @@ class GeSearch extends Ge
     public function search($params)
     {
         $query = Ge::find();
+        // Join para la relacion
+        $query->joinWith(['idPartida']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        //Ordenamiento
+        $dataProvider->sort->attributes['codigoPartida'] = [
+            'asc' => ['partida.partida' => SORT_ASC],
+            'desc' => ['partida.partida' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -63,6 +72,7 @@ class GeSearch extends Ge
         ]);
 
         $query->andFilterWhere(['like', 'nombre_ge', $this->nombre_ge]);
+        $query->andFilterWhere(['partida.partida' => $this->codigoPartida]);
 
         return $dataProvider;
     }

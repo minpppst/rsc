@@ -5,6 +5,8 @@ use yii\bootstrap\Modal;
 use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
+use kartik\depdrop\DepDrop;
+use kartik\depdrop\DepDropAsset;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\EsSearch */
@@ -15,6 +17,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Configuración', 'url' => ['/site/
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
+DepDropAsset::register($this);
+
 
 //Iconos
 $icons=[

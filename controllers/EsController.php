@@ -5,11 +5,14 @@ namespace app\controllers;
 use Yii;
 use app\models\Es;
 use app\models\EsSearch;
+use app\models\Ge;
+use app\models\Partida;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 /**
  * EsController implements the CRUD actions for Es model.
@@ -63,7 +66,7 @@ class EsController extends Controller
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
@@ -82,7 +85,14 @@ class EsController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Es();  
+        $model = new Es();
+
+        //Listas desplegables
+        $partida = Partida::find()
+            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
+            ->asArray()
+            ->all();
 
         if($request->isAjax){
             /*
@@ -91,31 +101,33 @@ class EsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new Es",
+                    'title'=> "Crear Partida Específica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'partida' => $partida,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Create new Es",
+                    'title'=> "Crear Partida Específica",
                     'content'=>'<span class="text-success">Create Es success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new Es",
+                    'title'=> "Crear Partida Específica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'partida' => $partida,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -128,6 +140,7 @@ class EsController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'partida' => $partida,
                 ]);
             }
         }
@@ -144,7 +157,14 @@ class EsController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id); 
+
+        //Listas desplegables
+        $partida = Partida::find()
+            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
+            ->asArray()
+            ->all();   
 
         if($request->isAjax){
             /*
@@ -153,12 +173,13 @@ class EsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Es #".$id,
+                    'title'=> "Actualizar ES #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
+                        'partida' => $partida,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
@@ -166,18 +187,20 @@ class EsController extends Controller
                     'title'=> "Es #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
+                        'partida' => $partida,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update Es #".$id,
+                    'title'=> "Actualizar ES #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
+                        'partida' => $partida,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -189,6 +212,7 @@ class EsController extends Controller
             } else {
                 return $this->render('update', [
                     'model' => $model,
+                    'partida' => $partida,
                 ]);
             }
         }
@@ -211,7 +235,7 @@ class EsController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
+            return ['forceCerrar'=>true,'forceReload'=>true];    
         }else{
             /*
             *   Process for non-ajax request
@@ -243,7 +267,7 @@ class EsController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceCerrar'=>true,'forceReload'=>true]; 
         }else{
             /*
             *   Process for non-ajax request
@@ -251,6 +275,36 @@ class EsController extends Controller
             return $this->redirect(['index']);
         }
        
+    }
+
+    /**
+     * Funcion de respuesta para el AJAX de
+     * partidas generales
+     * @return array JSON 
+     */
+    public function actionGe()
+    {
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if($request->isPost)
+            {
+                //Partidas GE
+                $ge = Ge::find()
+                    ->select(["id AS id", "CONCAT(codigo_ge,' - ',nombre_ge) AS name"])
+                    ->where(['id_partida' => $request->post('depdrop_parents'), 'estatus' => 1])
+                    ->asArray()
+                    ->all();                
+
+                return [
+                    'output' => $ge
+                ];
+            }
+        }
+        
     }
 
     /**

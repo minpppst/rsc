@@ -28,7 +28,7 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'estatus',
+        'attribute'=>'nombreEstatus',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

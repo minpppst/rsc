@@ -5,6 +5,9 @@ namespace app\controllers;
 use Yii;
 use app\models\Se;
 use app\models\SeSearch;
+use app\models\Partida;
+use app\models\Ge;
+use app\models\Es;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -82,7 +85,14 @@ class SeController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Se();  
+        $model = new Se();
+        //Listas desplegables
+        //Listas desplegables
+        $partida = Partida::find()
+            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
+            ->asArray()
+            ->all(); 
 
         if($request->isAjax){
             /*
@@ -91,31 +101,33 @@ class SeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new Se",
+                    'title'=> "Crear SE",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'partida'=>$partida
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Create new Se",
+                    'title'=> "Crear SE",
                     'content'=>'<span class="text-success">Create Se success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new Se",
+                    'title'=> "Crear SE",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'partida'=>$partida
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -128,6 +140,7 @@ class SeController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'partida'=>$partida
                 ]);
             }
         }
@@ -144,7 +157,13 @@ class SeController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);
+        //Listas desplegables
+        $partida = Partida::find()
+            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
+            ->asArray()
+            ->all();       
 
         if($request->isAjax){
             /*
@@ -156,6 +175,7 @@ class SeController extends Controller
                     'title'=> "Update Se #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
+                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -166,6 +186,7 @@ class SeController extends Controller
                     'title'=> "Se #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
+                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -175,6 +196,7 @@ class SeController extends Controller
                     'title'=> "Update Se #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
+                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -189,6 +211,7 @@ class SeController extends Controller
             } else {
                 return $this->render('update', [
                     'model' => $model,
+                    'partida'=>$partida
                 ]);
             }
         }
@@ -251,6 +274,66 @@ class SeController extends Controller
             return $this->redirect(['index']);
         }
        
+    }
+
+    /**
+     * Funcion de respuesta para el AJAX de
+     * partidas generales
+     * @return array JSON 
+     */
+    public function actionGe()
+    {
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if($request->isPost)
+            {
+                //Partidas GE
+                $ge = Ge::find()
+                    ->select(["id AS id", "CONCAT(codigo_ge,' - ',nombre_ge) AS name"])
+                    ->where(['id_partida' => $request->post('depdrop_parents'), 'estatus' => 1])
+                    ->asArray()
+                    ->all();                
+
+                return [
+                    'output' => $ge
+                ];
+            }
+        }
+        
+    }
+
+    /**
+     * Funcion de respuesta para el AJAX de
+     * partidas especificas
+     * @return array JSON 
+     */
+    public function actionEs()
+    {
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if($request->isPost)
+            {
+                //Partidas GE
+                $es = Es::find()
+                    ->select(["id AS id", "CONCAT(codigo_es,' - ',nombre) AS name"])
+                    ->where(['id_ge' => $request->post('depdrop_parents'), 'estatus' => 1])
+                    ->asArray()
+                    ->all();                
+
+                return [
+                    'output' => $es
+                ];
+            }
+        }
+        
     }
 
     /**

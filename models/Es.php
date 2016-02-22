@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $id_ge
- * @property integer $codigo_es
+ * @property string $codigo_es
  * @property string $nombre
  * @property integer $estatus
  *
@@ -32,9 +32,11 @@ class Es extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_ge', 'codigo_es', 'nombre'], 'required'],
-            [['id_ge', 'codigo_es', 'estatus'], 'integer'],
-            [['nombre'], 'string', 'max' => 60]
+            [['id_ge', 'codigo_es', 'nombre', 'estatus'], 'required'],
+            [['id_ge', 'estatus'], 'integer'],
+            [['codigo_es'], 'string', 'max' => 2],
+            [['nombre'], 'string', 'max' => 60],
+            ['codigo_es', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];
     }
 
@@ -45,10 +47,12 @@ class Es extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_ge' => 'Partida General',
-            'codigo_es' => 'Código',
+            'id_ge' => 'GE',
+            'codigo_es' => 'ES',
             'nombre' => 'Nombre',
             'estatus' => 'Estatus',
+            'partidaGe' => 'GE',
+            'nombreEstatus' => 'Estatus'
         ];
     }
 
@@ -66,5 +70,31 @@ class Es extends \yii\db\ActiveRecord
     public function getSes()
     {
         return $this->hasMany(Se::className(), ['id_es' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPartidaGe()
+    {
+        if($this->idGe == null)
+        {
+            return null;
+        }
+
+        return $this->idGe->codigo_ge;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNombreEstatus()
+    {
+        if($this->estatus == 1)
+        {
+            return 'Activo';
+        }
+
+        return 'Inactivo';
     }
 }

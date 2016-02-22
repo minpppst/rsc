@@ -16,7 +16,7 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_partida',
+        'attribute'=>'codigoPartida',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -28,7 +28,7 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'estatus',
+        'attribute'=>'nombreEstatus',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

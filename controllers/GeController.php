@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Ge;
 use app\models\GeSearch;
+use app\models\Partida;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -82,7 +83,12 @@ class GeController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Ge();  
+        $model = new Ge();
+        $partida = Partida::find()
+            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
+            ->asArray()
+            ->all();
 
         if($request->isAjax){
             /*
@@ -91,9 +97,10 @@ class GeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new Ge",
+                    'title'=> "Crear Partida General",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'partida' => $partida,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -102,7 +109,7 @@ class GeController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Create new Ge",
+                    'title'=> "Crear Partida General",
                     'content'=>'<span class="text-success">Create Ge success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -110,9 +117,10 @@ class GeController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new Ge",
+                    'title'=> "Crear Partida General",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'partida' => $partida,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -128,6 +136,7 @@ class GeController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'partida' => $partida,
                 ]);
             }
         }
@@ -144,7 +153,12 @@ class GeController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);
+        $partida = Partida::find()
+            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
+            ->asArray()
+            ->all();       
 
         if($request->isAjax){
             /*
@@ -153,9 +167,10 @@ class GeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Ge #".$id,
+                    'title'=> "Actualizar GE #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
+                        'partida' => $partida,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -166,15 +181,17 @@ class GeController extends Controller
                     'title'=> "Ge #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
+                        'partida' => $partida,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update Ge #".$id,
+                    'title'=> "Actualizar GE #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
+                        'partida' => $partida,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -189,6 +206,7 @@ class GeController extends Controller
             } else {
                 return $this->render('update', [
                     'model' => $model,
+                    'partida' => $partida,
                 ]);
             }
         }

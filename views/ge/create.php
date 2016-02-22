@@ -10,5 +10,6 @@ use yii\helpers\Html;
 <div class="ge-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'partida' => $partida,
     ]) ?>
 </div>
