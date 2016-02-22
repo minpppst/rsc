@@ -46,6 +46,7 @@ AppAsset::register($this);
         'encodeLabels'=>false,
         'items' => [
             ['label' => $icons['inicio'].' Inicio', 'url' => ['/site/index']],
+            ['label' => 'Pedidos', 'url' => ['/proyecto-pedido/index'], 'visible' => Yii::$app->user->can('proyecto-pedido/index')],
             ['label' => $icons['proyecto'].' Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],
             ['label' => $icons['acc'].' Acción Centralizada', 'url' => ['/accion-centralizada'], 'visible' => Yii::$app->user->can('accion-centralizada/index')],            
             ['label' => $icons['config'].' Configuración', 'url' => ['/site/configuracion'], 'visible' => Yii::$app->user->can('site/configuracion')],
