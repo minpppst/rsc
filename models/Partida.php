@@ -30,7 +30,7 @@ class Partida extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['partida', 'nombre'], 'required'],
+            [['partida', 'nombre', 'estatus'], 'required'],
             [['partida', 'estatus'], 'integer'],
             [['nombre'], 'string', 'max' => 60]
         ];

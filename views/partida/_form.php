@@ -15,6 +15,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'estatus')->dropDownList([1=>'Activo',0=>'Inactivo'],['prompt'=>'Seleccione']) ?>
+
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
