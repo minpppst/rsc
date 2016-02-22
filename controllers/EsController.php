@@ -7,7 +7,6 @@ use app\models\Es;
 use app\models\EsSearch;
 use app\models\Ge;
 use app\models\Partida;
-use app\models\Estatus;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -91,9 +90,9 @@ class EsController extends Controller
         //Listas desplegables
         $partida = Partida::find()
             ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
             ->asArray()
             ->all();
-        $estatus = Estatus::find()->all();
 
         if($request->isAjax){
             /*
@@ -106,7 +105,6 @@ class EsController extends Controller
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                         'partida' => $partida,
-                        'estatus' => $estatus
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -127,7 +125,6 @@ class EsController extends Controller
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                         'partida' => $partida,
-                        'estatus' => $estatus
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -144,7 +141,6 @@ class EsController extends Controller
                 return $this->render('create', [
                     'model' => $model,
                     'partida' => $partida,
-                    'estatus' => $estatus
                 ]);
             }
         }
@@ -166,9 +162,9 @@ class EsController extends Controller
         //Listas desplegables
         $partida = Partida::find()
             ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
             ->asArray()
-            ->all();
-        $estatus = Estatus::find()->all();      
+            ->all();   
 
         if($request->isAjax){
             /*
@@ -181,7 +177,6 @@ class EsController extends Controller
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                         'partida' => $partida,
-                        'estatus' => $estatus
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -193,7 +188,6 @@ class EsController extends Controller
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                         'partida' => $partida,
-                        'estatus' => $estatus
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -204,7 +198,6 @@ class EsController extends Controller
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                         'partida' => $partida,
-                        'estatus' => $estatus
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -220,7 +213,6 @@ class EsController extends Controller
                 return $this->render('update', [
                     'model' => $model,
                     'partida' => $partida,
-                    'estatus' => $estatus
                 ]);
             }
         }
@@ -303,7 +295,7 @@ class EsController extends Controller
                 //Partidas GE
                 $ge = Ge::find()
                     ->select(["id AS id", "CONCAT(codigo_ge,' - ',nombre_ge) AS name"])
-                    ->where(['id_partida' => $request->post('depdrop_parents')])
+                    ->where(['id_partida' => $request->post('depdrop_parents'), 'estatus' => 1])
                     ->asArray()
                     ->all();                
 

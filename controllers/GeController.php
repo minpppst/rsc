@@ -6,7 +6,6 @@ use Yii;
 use app\models\Ge;
 use app\models\GeSearch;
 use app\models\Partida;
-use app\models\Estatus;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -85,9 +84,9 @@ class GeController extends Controller
     {
         $request = Yii::$app->request;
         $model = new Ge();
-        $estatus = Estatus::find()->all();
         $partida = Partida::find()
             ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
             ->asArray()
             ->all();
 
@@ -102,7 +101,6 @@ class GeController extends Controller
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                         'partida' => $partida,
-                        'estatus' => $estatus
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -123,7 +121,6 @@ class GeController extends Controller
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                         'partida' => $partida,
-                        'estatus' => $estatus
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -140,7 +137,6 @@ class GeController extends Controller
                 return $this->render('create', [
                     'model' => $model,
                     'partida' => $partida,
-                    'estatus' => $estatus
                 ]);
             }
         }
@@ -158,9 +154,9 @@ class GeController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $estatus = Estatus::find()->all();
         $partida = Partida::find()
             ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
             ->asArray()
             ->all();       
 
@@ -175,7 +171,6 @@ class GeController extends Controller
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                         'partida' => $partida,
-                        'estatus' => $estatus
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -187,7 +182,6 @@ class GeController extends Controller
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                         'partida' => $partida,
-                        'estatus' => $estatus
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -198,7 +192,6 @@ class GeController extends Controller
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                         'partida' => $partida,
-                        'estatus' => $estatus
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -214,7 +207,6 @@ class GeController extends Controller
                 return $this->render('update', [
                     'model' => $model,
                     'partida' => $partida,
-                        'estatus' => $estatus
                 ]);
             }
         }

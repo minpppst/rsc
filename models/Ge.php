@@ -36,7 +36,7 @@ class Ge extends \yii\db\ActiveRecord
             [['id_partida', 'estatus'], 'integer'],
             [['codigo_ge'], 'string', 'max' => 2],
             [['nombre_ge'], 'string', 'max' => 60],
-            ['codigo_ge', 'match', 'pattern' => '/^[0-9][1-9]$/', 'message' => 'Debe escribir un número entre 01 y 99']
+            ['codigo_ge', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];
     }
 
@@ -51,7 +51,8 @@ class Ge extends \yii\db\ActiveRecord
             'codigo_ge' => 'GE',
             'nombre_ge' => 'Nombre',
             'estatus' => 'Estatus',
-            'codigoPartida' => 'Partida'
+            'codigoPartida' => 'Partida',
+            'nombreEstatus' => 'Estatus'
         ];
     }
 
@@ -82,5 +83,18 @@ class Ge extends \yii\db\ActiveRecord
         }
 
         return $this->idPartida->partida;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNombreEstatus()
+    {
+        if($this->estatus == 1)
+        {
+            return 'Activo';
+        }
+
+        return 'Inactivo';
     }
 }

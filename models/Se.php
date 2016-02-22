@@ -34,7 +34,8 @@ class Se extends \yii\db\ActiveRecord
         return [
             [['id_es', 'codigo_se', 'nombre'], 'required'],
             [['id_es', 'codigo_se', 'estatus'], 'integer'],
-            [['nombre'], 'string', 'max' => 60]
+            [['nombre'], 'string', 'max' => 60],
+            ['codigo_se', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];
     }
 
@@ -45,10 +46,11 @@ class Se extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_es' => 'Partida Específica',
-            'codigo_se' => 'Código',
+            'id_es' => 'SE',
+            'codigo_se' => 'ES',
             'nombre' => 'Nombre',
             'estatus' => 'Estatus',
+            'nombreEstatus' => 'Estatus'
         ];
     }
 
@@ -66,5 +68,18 @@ class Se extends \yii\db\ActiveRecord
     public function getIdEs()
     {
         return $this->hasOne(Es::className(), ['id' => 'id_es']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNombreEstatus()
+    {
+        if($this->estatus == 1)
+        {
+            return 'Activo';
+        }
+
+        return 'Inactivo';
     }
 }

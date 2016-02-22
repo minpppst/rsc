@@ -27,11 +27,11 @@ DepDropAsset::register($this);
 
     <?= $form->field($model, 'id_ge')->dropDownList([],['prompt' => 'Seleccione']) ?>
 
-    <?= $form->field($model, 'codigo_es')->textInput(['placeholder' => 'Escriba un número entre 01 y 99']) ?>
+    <?= $form->field($model, 'codigo_es')->textInput(['placeholder' => 'Escriba un número entre 00 y 99']) ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'estatus')->dropDownList(ArrayHelper::map($estatus,'id','estatus'),['prompt'=>'Seleccione']) ?>
+    <?= $form->field($model, 'estatus')->dropDownList([1=>'Activo',0=>'Inactivo'],['prompt'=>'Seleccione']) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
@@ -51,5 +51,6 @@ DepDropAsset::register($this);
             depends: ['partidas'],
             url: "<?= Url::to(['ge']) ?>"
         });
+        
     });
 </script>

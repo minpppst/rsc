@@ -11,6 +11,7 @@ use Yii;
  * @property integer $partida
  * @property string $nombre
  * @property integer $estatus
+ *
  * @property ProyectoDistribucionPresupuestaria[] $proyectoDistribucionPresupuestarias
  */
 class Partida extends \yii\db\ActiveRecord
@@ -29,8 +30,8 @@ class Partida extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['partida', 'nombre','estatus'], 'required'],
-            [['partida'], 'integer'],
+            [['partida', 'nombre'], 'required'],
+            [['partida', 'estatus'], 'integer'],
             [['nombre'], 'string', 'max' => 60]
         ];
     }
@@ -45,6 +46,7 @@ class Partida extends \yii\db\ActiveRecord
             'partida' => 'Partida',
             'nombre' => 'Nombre',
             'estatus' => 'Estatus',
+            'nombreEstatus' => 'Estatus'
         ];
     }
 
@@ -55,4 +57,54 @@ class Partida extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ProyectoDistribucionPresupuestaria::className(), ['id_partida' => 'id']);
     }
+
+    /**
+     * @return string
+     */
+    public function getNombreEstatus()
+    {
+        
+        if($this->estatus === 1)
+        {
+            return 'Activo';
+        }
+
+        return 'Inactivo';
+
+    }
+
+    /**
+     * Colocar estatus en 0 "Inactivo"
+     */
+    public function desactivar()
+    {
+        $this->estatus = 0;
+        $this->save();
+    }
+
+     /**
+     * Colocar estatus en 1 "Activo"
+     */
+     public function activar()
+     {
+        $this->estatus = 1;
+        $this->save();
+     }
+
+     /**
+      * Activar o desactivar
+      */
+     public function toggleActivo()
+     {
+        if($this->estatus == 1)
+        {
+            $this->desactivar();
+        }
+        else
+        {
+            $this->activar();
+        }
+
+        return true;
+     }
 }

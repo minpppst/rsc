@@ -254,6 +254,94 @@ class PartidaController extends Controller
     }
 
     /**
+     * Activar o desactivar un modelo
+     * @param integer id
+     * @return mixed
+     */
+    public function actionToggleActivo($id) {
+        $model = $this->findModel($id);
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model != null && $model->toggleActivo()) {
+            return ['forceClose' => true, 'forceReload' => true];
+        } else {
+            return [
+                'title' => 'Ocurrió un error.',
+                'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
+                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+            ];
+            return;
+        }
+    }
+
+    /**
+     * Desactiva multiples modelos de partida.
+     * Para las peticiones AJAX devolverá un objeto JSON
+     * para las peticiones no-AJAX el navegador se redireccionará al "index"
+     * @param integer id
+     * @return mixed
+     */
+    public function actionBulkDesactivar() {
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        //Obtener el nombre de la clase del modelo
+        $className = Partida::className();
+        
+        //call_user_func - Invocar el callback 
+        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+            $model->desactivar();
+        }
+        
+
+        if ($request->isAjax) {
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose' => true, 'forceReload' => true];
+        } else {
+            /*
+             *   Process for non-ajax request
+             */
+            return $this->redirect(['index']);
+        }
+    }
+
+    /**
+     * Activa multiples modelos de partida.
+     * Para las peticiones AJAX devolverá un objeto JSON
+     * para las peticiones no-AJAX el navegador se redireccionará al "index"
+     * @param integer id
+     * @return mixed
+     */
+    public function actionBulkActivar() {
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        //Obtener el nombre de la clase del modelo
+        $className = Partida::className();
+        
+        //call_user_func - Invocar el callback 
+        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+            $model->activar();
+        }
+        
+
+        if ($request->isAjax) {
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose' => true, 'forceReload' => true];
+        } else {
+            /*
+             *   Process for non-ajax request
+             */
+            return $this->redirect(['index']);
+        }
+    }
+
+    /**
      * Finds the Partida model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
