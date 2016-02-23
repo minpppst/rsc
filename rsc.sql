@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-02-2016 a las 10:23:11
+-- Tiempo de generación: 23-02-2016 a las 12:51:34
 -- Versión del servidor: 5.6.28-0ubuntu0.15.10.1
 -- Versión de PHP: 5.6.11-1ubuntu3.1
 
@@ -378,7 +378,7 @@ CREATE TABLE IF NOT EXISTS `es` (
 
 INSERT INTO `es` (`id`, `id_ge`, `codigo_es`, `nombre`, `estatus`) VALUES
 (2, 2, '01', 'Alimentos y bebidas para personas', 1),
-(3, 2, '02', 'Alimentos para animales', 0);
+(3, 2, '02', 'Alimentos para animales', 1);
 
 -- --------------------------------------------------------
 
@@ -483,14 +483,15 @@ CREATE TABLE IF NOT EXISTS `ge` (
   `codigo_ge` varchar(2) NOT NULL,
   `nombre_ge` varchar(60) NOT NULL,
   `estatus` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `ge`
 --
 
 INSERT INTO `ge` (`id`, `id_partida`, `codigo_ge`, `nombre_ge`, `estatus`) VALUES
-(2, 17, '01', 'Productos alimenticios y agropecuarios', 1);
+(2, 17, '01', 'Productos alimenticios y agropecuarios', 1),
+(3, 18, '01', 'jahsklhksjaha', 1);
 
 -- --------------------------------------------------------
 
@@ -1309,7 +1310,7 @@ INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_es
 (24, 999999, '4', 'probadno', 600),
 (25, 999999, '6', 'probadno3', 600),
 (26, 999999, '7', 'probando', 600),
-(27, 1, '10', 'hjhjjj', 600),
+(27, 1, '10', 'asdasd', 600),
 (28, 1000000, '1', 'pp', 1),
 (29, 1000000, '2', 'ppp', 1),
 (30, 1000001, '1', 'asdasdlllllllllllllllllllllllllll', 1),
@@ -2866,7 +2867,7 @@ ALTER TABLE `fuente_financiamiento`
 -- AUTO_INCREMENT de la tabla `ge`
 --
 ALTER TABLE `ge`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `historial`
 --
