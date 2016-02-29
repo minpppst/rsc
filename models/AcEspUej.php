@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use app\models\AcAcEspec;
 /**
  * This is the model class for table "ac_esp_uej".
  *
@@ -71,4 +71,12 @@ class AcEspUej extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UnidadEjecutora::className(), ['id' => 'id_ue']);
     }
+
+    public function nombre_accion($accion){
+         $especifica = AcAcEspec::find()->where(['id'=>$accion])->one();
+
+         
+         return $especifica->nombre;
+    }
+
 }

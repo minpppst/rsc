@@ -44,6 +44,11 @@ CrudAsset::register($this);
             'codigo_accion',
             'codigo_accion_sne',
             'nombre_accion',
+            [
+                'label' => 'Estatus',
+                'value' => $model->estatus(),
+            ],
+            
         ],
     ]) ?>
 

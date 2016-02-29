@@ -26,6 +26,10 @@ $icons=[
 //Contenido de TABS
 $datos_basicos = Yii::$app->controller->renderPartial('_acdatosbasicos', ['model'=> $model]);
 
+$accionEspecifica = Yii::$app->controller->renderPartial('_accion_especifica_ac',[
+    'model' => $model,
+]);
+
 $distribucionPresupuestaria = '<p>'.
     Html::a($icons['crear'].' Agregar', ['proyecto-alcance/create', 'proyecto' => $model->id], ['class' => 'btn btn-success']).
     '</p>'.
@@ -54,23 +58,13 @@ $distribucionPresupuestaria = '<p>'.
            
             [
                 'label' => 'Acciones Especificas',
-                'linkOptions' => [
-                    'data-url' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id]),
-                ],
+                 'content' => $accionEspecifica,
+                 
+              //  'linkOptions' => [
+               //     'data-url' => Url::to(['accion-centralizada/index', 'ac_centralizada' => $model->id]),
+                //],
             ],
-            [
-                'label' => 'U.E-Variable',
-                'linkOptions' => [
-                    'data-url' => Url::to(['ac-variable/index', 'ac_centralizada' => $model->id]),
-                ],
-            ],
-            [
-                'label' => 'Distribución Presupuestaria',
-                'content' => $distribucionPresupuestaria,
-                'linkOptions' => [
-                    'data-url' => $model->id == null ? '' : Url::to(['proyecto-distribucion-presupuestaria/index', 'proyecto' => $model->id]),
-                ],
-            ],
+           
             
         ],
          'pluginOptions' => [

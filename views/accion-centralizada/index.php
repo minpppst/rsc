@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //Iconos
 $icons=[
     'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+    'importar'=>'<span class="glyphicon glyphicon-import" aria-hidden="true"></span>',
 ];
 CrudAsset::register($this);
 ?>
@@ -26,6 +27,8 @@ CrudAsset::register($this);
     
         <p>
         <?= Html::a($icons['crear'].' Crear Accion Centralizada', ['create'], ['class' => 'btn btn-success']) ?>
+       <?= Html::a($icons['importar'].' Importar', ['importar'],
+                    ['title'=> 'Importar Acciones Centralizadas','class'=>'btn btn-default']) ?>
     </p>
         
     

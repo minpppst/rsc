@@ -12,7 +12,10 @@ use yii\widgets\DetailView;
         'attributes' => [
             'id',
             'id_ue',
-            'id_ac_esp',
+            [
+                'label' => 'Accion Especifica',
+                'value' => $model->AcEspUejs->nombre,
+            ],
         ],
     ]) ?>
 

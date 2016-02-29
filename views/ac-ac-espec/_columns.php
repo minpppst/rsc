@@ -46,7 +46,7 @@ return [
                 'buttons' => [
                     
 
-                    'crear-uej' => function ($url, $model) {
+                   /* 'crear-uej' => function ($url, $model) {
                         return  $model->existe_uej()==0 ? Html::a(
                             '<span class="glyphicon glyphicon-plus"></span>',
                            Url::to(['ac-esp-uej/create', 'accion_central' => $model->id_ac_centr, 'accion_especifica'=>$model->id]), 
@@ -69,7 +69,7 @@ return [
 
                             ]
                         ) : '';
-                    },
+                    },*/
 
            
                 ],

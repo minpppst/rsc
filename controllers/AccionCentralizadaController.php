@@ -11,7 +11,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\data\ActiveDataProvider;
-
+use yii\web\UploadedFile;
+use app\models\UploadForm;
 /**
  * AccionCentralizadaController implements the CRUD actions for AccionCentralizada model.
  */
@@ -119,7 +120,8 @@ class AccionCentralizadaController extends Controller
      * @return mixed
      */
     public function actionDelete($id)
-    {
+    {   
+         $request = Yii::$app->request;
         $this->findModel($id)->delete();
         if($request->isAjax){
             /*
@@ -148,4 +150,80 @@ class AccionCentralizadaController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+
+
+
+public function actionImportar()
+    {
+        $request = Yii::$app->request;
+        $modelo = new UploadForm();
+
+        if($request->isPost)
+        {
+            $archivo = file($_FILES['UploadForm']['tmp_name']['importFile']);
+            $mensaje="";
+            $transaccion = AccionCentralizada::getDb()->beginTransaction();
+
+            try
+            {
+                foreach ($archivo as $llave => $valor) 
+                {
+                    $exploded = explode(';', str_replace("'", '',$valor));
+
+                    $ue = AccionCentralizada::find()
+                        ->where(['codigo_accion' => $exploded[0]])
+                        ->orwhere(['codigo_accion_sne'=>$exploded[1]])
+                        ->one();
+
+                    if($ue == null)
+                    {
+                        
+                    $ue = new AccionCentralizada;
+                   
+                    }else{
+                        $mensaje="Accion Ya Existe: Codigo Accion:".$exploded[0]." SNE:".$exploded[1];
+                        $ue="";
+                    }
+
+                    $ue->codigo_accion= $exploded[0];
+                    $ue->codigo_accion_sne=$exploded[1];
+                    $ue->nombre_accion = $exploded[2];
+                    $ue->estatus = 0;
+                    $ue->save();
+
+                   
+                }
+                
+                $transaccion->commit();
+
+                Yii::$app->session->setFlash('importado', '<div class="alert alert-success">Registros importados exitosamente.</div>');
+                return $this->refresh();
+
+            }catch(\Exception $e){
+                $transaccion->rollBack();
+                Yii::$app->session->setFlash('importado', '<div class="alert alert-danger">'.$mensaje.'</div>');
+            }
+                        
+        }
+
+        return $this->render('importar', [
+            'modelo' => $modelo,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

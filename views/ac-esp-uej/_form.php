@@ -30,7 +30,7 @@ use kartik\select2\Select2;
   
 ?>
 </div>
-    <?= $form->field($model, 'id_ac_esp')->textInput(['value'=>$accion_especifica]) ?>
+    <?= $form->field($model, 'id_ac_esp')->dropDownList([$accion_especifica=>$model->nombre_accion($accion_especifica)]); ?>
     <?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

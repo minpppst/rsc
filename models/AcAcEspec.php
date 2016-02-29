@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $id_ac_centr
  * @property string $cod_ac_espe
  * @property string $nombre
+ * @property string $estatus
  *
  * @property AccionCentralizada $idAcCentr
  * @property AcVariable[] $acVariables
@@ -32,7 +33,7 @@ class AcAcEspec extends \yii\db\ActiveRecord
     {
         return [
              //[['cod_ac_espe'],'unique'],
-            [['id_ac_centr', 'cod_ac_espe', 'nombre'], 'required'],
+            [['id_ac_centr', 'cod_ac_espe', 'nombre', 'estatus'], 'required'],
             [['id_ac_centr'], 'integer'],
             [['nombre'], 'string'],
             [['cod_ac_espe'], 'string', 'max' => 3]
@@ -49,6 +50,8 @@ class AcAcEspec extends \yii\db\ActiveRecord
             'id_ac_centr' => 'Id Accion Centralizada',
             'cod_ac_espe' => 'Cod. Accion Especifica',
             'nombre' => 'Nombre Accion Especifica',
+            'estatus' => 'Estatus',
+            'nombreEstatus' => 'Estatus'
         ];
     }
 
@@ -77,4 +80,42 @@ class AcAcEspec extends \yii\db\ActiveRecord
         return(0);
     }
     }
+
+
+    public   function getnombreEstatus(){
+                              return ($this->estatus == 1)? 'Activo':'Inactivo';
+                      }
+
+
+    public function desactivar()
+    {
+        $this->estatus = 0;
+        $this->save();
+    }
+
+     /**
+     * Colocar estatus en 1 "Activo"
+     */
+     public function activar()
+     {
+        $this->estatus = 1;
+        $this->save();
+     }
+
+     /**
+      * Activar o desactivar
+      */
+     public function toggleActivo()
+     {
+        if($this->estatus == 1)
+        {
+            $this->desactivar();
+        }
+        else
+        {
+            $this->activar();
+        }
+
+        return true;
+     }
 }
