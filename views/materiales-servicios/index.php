@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //Iconos
 $icons=[
     'nuevo'=>'<span class="glyphicon glyphicon-file" aria-hidden="true"></span>',
+    'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
     'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
     'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
     'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
@@ -35,10 +36,10 @@ $icons=[
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'id_se',
+            //'codigoSubEspecifica',
             'nombre',
             'unidad_medida',
-            'presentacion',
+            'nombrePresentacion',
             // 'precio',
             // 'iva',
             // 'estatus',
@@ -49,5 +50,5 @@ $icons=[
 
 </div>
 <div class="btn-group">
-    <?= Html::a($icons['volver'].' Volver', ['/site/configuracion'], ['class' => 'btn btn-primary']) ?>        
+    <?= Html::a($icons['volver'].' Volver', ['site/configuracion'], ['class' => 'btn btn-primary']) ?>        
 </div>

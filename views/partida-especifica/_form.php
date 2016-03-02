@@ -25,9 +25,9 @@ DepDropAsset::register($this);
         ]) ?>
     </div>
 
-    <?= $form->field($model, 'id_ge')->dropDownList([],['prompt' => 'Seleccione']) ?>
+    <?= $form->field($model, 'generica')->dropDownList([],['prompt' => 'Seleccione']) ?>
 
-    <?= $form->field($model, 'codigo_es')->textInput(['placeholder' => 'Escriba un número entre 00 y 99']) ?>
+    <?= $form->field($model, 'especifica')->textInput(['placeholder' => 'Escriba un número entre 00 y 99']) ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
@@ -47,9 +47,9 @@ DepDropAsset::register($this);
     /* Listas desplegables dependientes */
     $(document).ready(function(){
         //GE
-        $("#es-id_ge").depdrop({
+        $("#partidaespecifica-generica").depdrop({
             depends: ['partidas'],
-            url: "<?= Url::to(['ge']) ?>"
+            url: "<?= Url::to(['generica']) ?>"
         });
         
     });

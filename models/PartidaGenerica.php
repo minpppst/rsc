@@ -9,21 +9,21 @@ use Yii;
  *
  * @property integer $id
  * @property integer $id_partida
- * @property string $codigo_ge
- * @property string $nombre_ge
+ * @property string $generica
+ * @property string $nombre
  * @property integer $estatus
  *
  * @property Es[] $es
  * @property Partida $idPartida
  */
-class Ge extends \yii\db\ActiveRecord
+class PartidaGenerica extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'ge';
+        return 'partida_generica';
     }
 
     /**
@@ -32,11 +32,11 @@ class Ge extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_partida', 'codigo_ge', 'nombre_ge', 'estatus'], 'required'],
+            [['id_partida', 'generica', 'nombre', 'estatus'], 'required'],
             [['id_partida', 'estatus'], 'integer'],
-            [['codigo_ge'], 'string', 'max' => 2],
-            [['nombre_ge'], 'string', 'max' => 60],
-            ['codigo_ge', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
+            [['generica'], 'string', 'max' => 2],
+            [['nombre'], 'string', 'max' => 60],
+            ['generica', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];
     }
 
@@ -48,11 +48,12 @@ class Ge extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_partida' => 'Partida',
-            'codigo_ge' => 'GE',
-            'nombre_ge' => 'Nombre',
+            'generica' => 'Genérica',
+            'nombre' => 'Nombre',
             'estatus' => 'Estatus',
             'codigoPartida' => 'Partida',
-            'nombreEstatus' => 'Estatus'
+            'nombreEstatus' => 'Estatus',
+            'cuenta' => 'Cuenta'
         ];
     }
 
@@ -69,7 +70,7 @@ class Ge extends \yii\db\ActiveRecord
      */
     public function getIdPartida()
     {
-        return $this->hasOne(Partida::className(), ['id' => 'id_partida']);
+        return $this->hasOne(PartidaPartida::className(), ['id' => 'id_partida']);
     }
 
     /**
@@ -97,4 +98,39 @@ class Ge extends \yii\db\ActiveRecord
 
         return 'Inactivo';
     }
+
+    /**
+     * Colocar estatus en 0 "Inactivo"
+     */
+    public function desactivar()
+    {
+        $this->estatus = 0;
+        $this->save();
+    }
+
+     /**
+     * Colocar estatus en 1 "Activo"
+     */
+     public function activar()
+     {
+        $this->estatus = 1;
+        $this->save();
+     }
+
+     /**
+      * Activar o desactivar
+      */
+     public function toggleActivo()
+     {
+        if($this->estatus == 1)
+        {
+            $this->desactivar();
+        }
+        else
+        {
+            $this->activar();
+        }
+
+        return true;
+     }
 }

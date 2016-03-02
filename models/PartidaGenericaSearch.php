@@ -5,21 +5,22 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\PartidaSubEspecifica;
+use app\models\Ge;
 
 /**
- * SeSearch represents the model behind the search form about `app\models\Se`.
+ * GeSearch represents the model behind the search form about `app\models\Ge`.
  */
-class PartidaSubEspecificaSearch extends PartidaSubEspecifica
+class PartidaGenericaSearch extends PartidaGenerica
 {
+    public $codigoPartida;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'especifica', 'sub_especifica', 'estatus'], 'integer'],
-            [['nombre'], 'safe'],
+            [['id', 'id_partida', 'generica', 'estatus'], 'integer'],
+            [['nombre', 'codigoPartida'], 'safe'],
         ];
     }
 
@@ -41,11 +42,19 @@ class PartidaSubEspecificaSearch extends PartidaSubEspecifica
      */
     public function search($params)
     {
-        $query = PartidaSubEspecifica::find();
+        $query = PartidaGenerica::find();
+        // Join para la relacion
+        $query->joinWith(['idPartida']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        //Ordenamiento
+        $dataProvider->sort->attributes['codigoPartida'] = [
+            'asc' => ['partida_partida.partida' => SORT_ASC],
+            'desc' => ['partida_partida.partida' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -57,12 +66,13 @@ class PartidaSubEspecificaSearch extends PartidaSubEspecifica
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'especifica' => $this->especifica,
-            'sub_especifica' => $this->sub_especifica,
+            'id_partida' => $this->id_partida,
+            'generica' => $this->generica,
             'estatus' => $this->estatus,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['partida_partida.partida' => $this->codigoPartida]);
 
         return $dataProvider;
     }

@@ -5,10 +5,16 @@ namespace app\controllers;
 use Yii;
 use app\models\MaterialesServicios;
 use app\models\MaterialesServiciosSearch;
-use app\models\Se;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter; 
+use yii\filters\VerbFilter;
+
+use app\models\PartidaPartida;
+use app\models\PartidaGenerica;
+use app\models\PartidaEspecifica;
+use app\models\PartidaSubEspecifica;
+use app\models\UnidadMedida;
+use app\models\Presentacion;
 
 /**
  * MaterialesServiciosController implements the CRUD actions for MaterialesServicios model.
@@ -62,8 +68,12 @@ class MaterialesServiciosController extends Controller
     public function actionCreate()
     {
         $model = new MaterialesServicios();
-        $partida_se = Se::find()
-            ->select(['nombre as value', 'id_es as id_es'])
+        //Desplegables
+        $unidad_medida = UnidadMedida::find()->all();
+        $presentacion = Presentacion::find()->all();
+        //autocompletar
+        $sub_especfica = PartidaSubEspecifica::find()
+            ->select(['nombre as value', 'id as id'])
             ->asArray()
             ->all();
 
@@ -72,7 +82,9 @@ class MaterialesServiciosController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'partida_se' => $partida_se
+                'sub_especfica' => $sub_especfica,
+                'unidad_medida' => $unidad_medida,
+                'presentacion' => $presentacion
             ]);
         }
     }
@@ -86,12 +98,23 @@ class MaterialesServiciosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        //Desplegables
+        $unidad_medida = UnidadMedida::find()->all();
+        $presentacion = Presentacion::find()->all();
+        //autocompletar
+        $sub_especfica = PartidaSubEspecifica::find()
+            ->select(['nombre as value', 'id as id'])
+            ->asArray()
+            ->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'sub_especfica' => $sub_especfica,
+                'unidad_medida' => $unidad_medida,
+                'presentacion' => $presentacion
             ]);
         }
     }

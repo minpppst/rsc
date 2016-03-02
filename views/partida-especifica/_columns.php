@@ -17,7 +17,15 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'partida',
+        'attribute'=>'partidaPartida',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'partidaGenerica',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'especifica',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -64,8 +72,7 @@ return [
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',
                           'data-confirm-title'=>'Are you sure?',
-                          'data-confirm-message'=>'Are you sure want to delete this item',
-                          'class' => 'text-danger'], 
+                          'data-confirm-message'=>'Are you sure want to delete this item'], 
     ],
 
 ];   

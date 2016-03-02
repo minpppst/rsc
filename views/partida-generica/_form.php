@@ -14,9 +14,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_partida')->dropDownList(ArrayHelper::map($partida, 'id','partida'),['prompt' => 'Seleccione']) ?>
 
-    <?= $form->field($model, 'codigo_ge')->textInput(['placeholder' => 'Escriba un número entre 00 y 99', 'maxlength' => 2]) ?>
+    <?= $form->field($model, 'generica')->textInput(['placeholder' => 'Escriba un número entre 00 y 99', 'maxlength' => 2]) ?>
 
-    <?= $form->field($model, 'nombre_ge')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'estatus')->dropDownList([1=>'Activo', 0=>'Inactivo'], ['prompt' => 'Seleccione']) ?>
 

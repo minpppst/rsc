@@ -3,16 +3,16 @@
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Se */
+/* @var $model app\models\Es */
 ?>
-<div class="se-view">
+<div class="es-view">
  
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
-            'id_es',
-            'codigo_se',
+            'generica',
+            'especifica',
             'nombre',
             'estatus',
         ],
