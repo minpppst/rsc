@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-02-2016 a las 10:23:11
+-- Tiempo de generación: 02-03-2016 a las 09:50:08
 -- Versión del servidor: 5.6.28-0ubuntu0.15.10.1
 -- Versión de PHP: 5.6.11-1ubuntu3.1
 
@@ -361,24 +361,22 @@ INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `es`
+-- Estructura de tabla para la tabla `cuenta_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `es` (
+CREATE TABLE IF NOT EXISTS `cuenta_presupuestaria` (
   `id` int(11) NOT NULL,
-  `id_ge` int(11) NOT NULL,
-  `codigo_es` varchar(2) NOT NULL,
-  `nombre` varchar(60) NOT NULL,
-  `estatus` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `cuenta` varchar(1) NOT NULL COMMENT 'Código de la cuenta',
+  `nombre` varchar(15) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `es`
+-- Volcado de datos para la tabla `cuenta_presupuestaria`
 --
 
-INSERT INTO `es` (`id`, `id_ge`, `codigo_es`, `nombre`, `estatus`) VALUES
-(2, 2, '01', 'Alimentos y bebidas para personas', 1),
-(3, 2, '02', 'Alimentos para animales', 0);
+INSERT INTO `cuenta_presupuestaria` (`id`, `cuenta`, `nombre`) VALUES
+(1, '3', 'Recursos'),
+(2, '4', 'Egresos');
 
 -- --------------------------------------------------------
 
@@ -474,27 +472,6 @@ INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ge`
---
-
-CREATE TABLE IF NOT EXISTS `ge` (
-  `id` int(11) NOT NULL,
-  `id_partida` int(11) NOT NULL,
-  `codigo_ge` varchar(2) NOT NULL,
-  `nombre_ge` varchar(60) NOT NULL,
-  `estatus` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `ge`
---
-
-INSERT INTO `ge` (`id`, `id_partida`, `codigo_ge`, `nombre_ge`, `estatus`) VALUES
-(2, 17, '01', 'Productos alimenticios y agropecuarios', 1);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `historial`
 --
 
@@ -541,14 +518,21 @@ INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
 
 CREATE TABLE IF NOT EXISTS `materiales_servicios` (
   `id` int(11) NOT NULL,
-  `id_se` int(11) NOT NULL,
+  `id_se` int(11) NOT NULL COMMENT 'ID partida sub-especifica',
   `nombre` varchar(60) NOT NULL,
   `unidad_medida` int(11) NOT NULL,
   `presentacion` int(11) NOT NULL,
   `precio` decimal(12,2) NOT NULL,
   `iva` int(11) NOT NULL,
   `estatus` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `materiales_servicios`
+--
+
+INSERT INTO `materiales_servicios` (`id`, `id_se`, `nombre`, `unidad_medida`, `presentacion`, `precio`, `iva`, `estatus`) VALUES
+(1, 1, 'Agua', 341, 1, 100.00, 12, 1);
 
 -- --------------------------------------------------------
 
@@ -1146,48 +1130,115 @@ CREATE TABLE IF NOT EXISTS `parroquia` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `partida`
+-- Estructura de tabla para la tabla `partida_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `partida` (
+CREATE TABLE IF NOT EXISTS `partida_especifica` (
   `id` int(11) NOT NULL,
-  `partida` int(4) NOT NULL,
+  `generica` int(11) NOT NULL,
+  `especifica` varchar(2) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `partida_especifica`
+--
+
+INSERT INTO `partida_especifica` (`id`, `generica`, `especifica`, `nombre`, `estatus`) VALUES
+(2, 2, '01', 'Alimentos y bebidas para personas', 1),
+(3, 2, '02', 'Alimentos para animales', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `partida_generica`
+--
+
+CREATE TABLE IF NOT EXISTS `partida_generica` (
+  `id` int(11) NOT NULL,
+  `id_partida` int(11) NOT NULL,
+  `generica` varchar(2) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `partida_generica`
+--
+
+INSERT INTO `partida_generica` (`id`, `id_partida`, `generica`, `nombre`, `estatus`) VALUES
+(2, 17, '01', 'Productos alimenticios y agropecuarios', 1),
+(3, 18, '01', 'Alquileres de inmuebles', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `partida_partida`
+--
+
+CREATE TABLE IF NOT EXISTS `partida_partida` (
+  `id` int(11) NOT NULL,
+  `cuenta` int(11) NOT NULL COMMENT 'ID Cuenta',
+  `partida` varchar(2) NOT NULL,
   `nombre` varchar(60) NOT NULL,
   `estatus` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `partida`
+-- Volcado de datos para la tabla `partida_partida`
 --
 
-INSERT INTO `partida` (`id`, `partida`, `nombre`, `estatus`) VALUES
-(1, 300, 'Recursos', 0),
-(2, 301, 'Ingresos Ordinarios', 0),
-(3, 302, 'Ingresos Extraordinarios', 0),
-(4, 303, 'Ingresos de Operación', 0),
-(5, 304, 'Ingresos Ajenos a la Operación', 0),
-(6, 305, 'Transferencias y Donaciones', 0),
-(7, 306, 'Recursos Propios de Capital', 0),
-(8, 307, 'Venta de Títulos y Valores que No Otorgan Propiedad', 0),
-(9, 308, 'Venta de Acciones y Participaciones de Capital', 0),
-(10, 309, 'Recuperación de Préstamos de Corto Plazo', 0),
-(11, 310, 'Recuperación de Préstamos de Largo Plazo', 0),
-(12, 311, 'Disminución de Otros Activos Financieros', 0),
-(13, 312, 'Incremento de Pasivos', 0),
-(14, 313, 'Incremento del Patrimonio', 0),
-(15, 400, 'Egresos', 1),
-(16, 401, 'Gastos de Personal', 1),
-(17, 402, 'Materiales, Suministros y Mercancías', 1),
-(18, 403, 'Servicios No Personales', 1),
-(19, 404, 'Activos Reales', 1),
-(20, 405, 'Activos Financieros', 1),
-(21, 406, 'Gastos de Defensa y Seguridad del Estado', 1),
-(22, 407, 'Transferencias y Donaciones', 1),
-(23, 408, 'Otros Gastos', 1),
-(24, 409, 'Asignaciones No Distribuidas', 1),
-(25, 410, 'Servicio de la Deuda Pública', 1),
-(26, 411, 'Disminución de pasivos', 1),
-(27, 412, 'Disminución del Patrimonio', 1);
+INSERT INTO `partida_partida` (`id`, `cuenta`, `partida`, `nombre`, `estatus`) VALUES
+(1, 1, '00', 'Recursos', 0),
+(2, 1, '01', 'Ingresos Ordinarios', 0),
+(3, 1, '02', 'Ingresos Extraordinarios', 0),
+(4, 1, '03', 'Ingresos de Operación', 0),
+(5, 1, '04', 'Ingresos Ajenos a la Operación', 0),
+(6, 1, '05', 'Transferencias y Donaciones', 0),
+(7, 1, '06', 'Recursos Propios de Capital', 0),
+(8, 1, '07', 'Venta de Títulos y Valores que No Otorgan Propiedad', 0),
+(9, 1, '08', 'Venta de Acciones y Participaciones de Capital', 0),
+(10, 1, '09', 'Recuperación de Préstamos de Corto Plazo', 0),
+(11, 1, '10', 'Recuperación de Préstamos de Largo Plazo', 0),
+(12, 1, '11', 'Disminución de Otros Activos Financieros', 0),
+(13, 1, '12', 'Incremento de Pasivos', 0),
+(14, 1, '13', 'Incremento del Patrimonio', 0),
+(15, 2, '00', 'Egresos', 1),
+(16, 2, '01', 'Gastos de Personal', 1),
+(17, 2, '02', 'Materiales, Suministros y Mercancías', 1),
+(18, 2, '03', 'Servicios No Personales', 1),
+(19, 2, '04', 'Activos Reales', 1),
+(20, 2, '05', 'Activos Financieros', 1),
+(21, 2, '06', 'Gastos de Defensa y Seguridad del Estado', 1),
+(22, 2, '07', 'Transferencias y Donaciones', 1),
+(23, 2, '08', 'Otros Gastos', 1),
+(24, 2, '09', 'Asignaciones No Distribuidas', 1),
+(25, 2, '10', 'Servicio de la Deuda Pública', 1),
+(26, 2, '11', 'Disminución de pasivos', 1),
+(27, 2, '12', 'Disminución del Patrimonio', 1),
+(28, 2, '98', 'Rectificaciones al Presupuesto', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `partida_sub_especifica`
+--
+
+CREATE TABLE IF NOT EXISTS `partida_sub_especifica` (
+  `id` int(11) NOT NULL,
+  `especifica` int(11) NOT NULL,
+  `sub_especifica` varchar(2) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `partida_sub_especifica`
+--
+
+INSERT INTO `partida_sub_especifica` (`id`, `especifica`, `sub_especifica`, `nombre`, `estatus`) VALUES
+(1, 2, '00', 'Alimentos y bebidas para personas', 1);
 
 -- --------------------------------------------------------
 
@@ -1309,7 +1360,7 @@ INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_es
 (24, 999999, '4', 'probadno', 600),
 (25, 999999, '6', 'probadno3', 600),
 (26, 999999, '7', 'probando', 600),
-(27, 1, '10', 'hjhjjj', 600),
+(27, 1, '10', 'asdasd', 600),
 (28, 1000000, '1', 'pp', 1),
 (29, 1000000, '2', 'ppp', 1),
 (30, 1000001, '1', 'asdasdlllllllllllllllllllllllllll', 1),
@@ -1559,20 +1610,6 @@ INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `
 (2, 'Jane', 65498732, 'jane@correo.com', '(212)9876543', 'Tecnica', 1),
 (3, 'ee', 45, '45@gmail.com', '874141', 'cacaas', 1000000),
 (4, 'walter23', 17389814, 'walter86_79@hoas.com', '123123123', 'nose', 1000001);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `se`
---
-
-CREATE TABLE IF NOT EXISTS `se` (
-  `id` int(11) NOT NULL,
-  `id_es` int(11) NOT NULL,
-  `codigo_se` int(4) NOT NULL,
-  `nombre` varchar(60) NOT NULL,
-  `estatus` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2451,6 +2488,18 @@ INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_k
 (2, 'antonioluismonasterio@gmail.com', 'antonio', '$2y$13$Yl3RUN/f9jI.YoHsDHzwsurB3o10UVv1mDHYgoZjGs9xpum2u0wia', '', 1, 1, '127.0.0.1', NULL, NULL, NULL, 1449848097, 1449848097, 1456107451),
 (3, 'walter86_79@hotmail.com', 'soulip', '$2y$13$UjYRjClQAEpe2OzeogsZoederx9EgVItIQCy5bNrV0xz8vQWDI3DS', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1454610570, 1454610571, -1);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario_ue`
+--
+
+CREATE TABLE IF NOT EXISTS `usuario_ue` (
+  `id` int(11) NOT NULL,
+  `usuario` int(11) NOT NULL,
+  `unidad_ejecutora` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios y unidades ejecutoras';
+
 --
 -- Índices para tablas volcadas
 --
@@ -2518,11 +2567,10 @@ ALTER TABLE `auth_rule`
   ADD PRIMARY KEY (`name`);
 
 --
--- Indices de la tabla `es`
+-- Indices de la tabla `cuenta_presupuestaria`
 --
-ALTER TABLE `es`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_ge` (`id_ge`);
+ALTER TABLE `cuenta_presupuestaria`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `estados`
@@ -2542,13 +2590,6 @@ ALTER TABLE `estatus_proyecto`
 --
 ALTER TABLE `fuente_financiamiento`
   ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `ge`
---
-ALTER TABLE `ge`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_partidad` (`id_partida`);
 
 --
 -- Indices de la tabla `historial`
@@ -2637,10 +2678,32 @@ ALTER TABLE `parroquia`
   ADD KEY `id_municipio` (`id_municipio`);
 
 --
--- Indices de la tabla `partida`
+-- Indices de la tabla `partida_especifica`
 --
-ALTER TABLE `partida`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `partida_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ge` (`generica`);
+
+--
+-- Indices de la tabla `partida_generica`
+--
+ALTER TABLE `partida_generica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_partidad` (`id_partida`);
+
+--
+-- Indices de la tabla `partida_partida`
+--
+ALTER TABLE `partida_partida`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ramo` (`cuenta`);
+
+--
+-- Indices de la tabla `partida_sub_especifica`
+--
+ALTER TABLE `partida_sub_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_se` (`especifica`);
 
 --
 -- Indices de la tabla `plan_operativo`
@@ -2756,13 +2819,6 @@ ALTER TABLE `proyecto_responsable_tecnico`
   ADD KEY `id_proyecto_fk` (`id_proyecto`);
 
 --
--- Indices de la tabla `se`
---
-ALTER TABLE `se`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_se` (`id_es`);
-
---
 -- Indices de la tabla `sector`
 --
 ALTER TABLE `sector`
@@ -2814,6 +2870,14 @@ ALTER TABLE `user_accounts`
   ADD UNIQUE KEY `user_unique_username` (`username`);
 
 --
+-- Indices de la tabla `usuario_ue`
+--
+ALTER TABLE `usuario_ue`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario` (`usuario`),
+  ADD KEY `unidad_ejecutora` (`unidad_ejecutora`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -2843,10 +2907,10 @@ ALTER TABLE `ac_variable`
 ALTER TABLE `ambito`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT de la tabla `es`
+-- AUTO_INCREMENT de la tabla `cuenta_presupuestaria`
 --
-ALTER TABLE `es`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+ALTER TABLE `cuenta_presupuestaria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `estados`
 --
@@ -2863,11 +2927,6 @@ ALTER TABLE `estatus_proyecto`
 ALTER TABLE `fuente_financiamiento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
--- AUTO_INCREMENT de la tabla `ge`
---
-ALTER TABLE `ge`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
@@ -2881,7 +2940,7 @@ ALTER TABLE `instancia_institucion`
 -- AUTO_INCREMENT de la tabla `materiales_servicios`
 --
 ALTER TABLE `materiales_servicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `modelhistory`
 --
@@ -2918,10 +2977,25 @@ ALTER TABLE `objetivos_nacionales`
 ALTER TABLE `parroquia`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT de la tabla `partida`
+-- AUTO_INCREMENT de la tabla `partida_especifica`
 --
-ALTER TABLE `partida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+ALTER TABLE `partida_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `partida_generica`
+--
+ALTER TABLE `partida_generica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `partida_partida`
+--
+ALTER TABLE `partida_partida`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+--
+-- AUTO_INCREMENT de la tabla `partida_sub_especifica`
+--
+ALTER TABLE `partida_sub_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `plan_operativo`
 --
@@ -2988,11 +3062,6 @@ ALTER TABLE `proyecto_responsable_administrativo`
 ALTER TABLE `proyecto_responsable_tecnico`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT de la tabla `se`
---
-ALTER TABLE `se`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT de la tabla `sector`
 --
 ALTER TABLE `sector`
@@ -3032,6 +3101,11 @@ ALTER TABLE `unidad_medida`
 --
 ALTER TABLE `user_accounts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `usuario_ue`
+--
+ALTER TABLE `usuario_ue`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Restricciones para tablas volcadas
 --
@@ -3075,23 +3149,11 @@ ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `es`
---
-ALTER TABLE `es`
-  ADD CONSTRAINT `frk_ge_es` FOREIGN KEY (`id_ge`) REFERENCES `ge` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `ge`
---
-ALTER TABLE `ge`
-  ADD CONSTRAINT `fk_partida` FOREIGN KEY (`id_partida`) REFERENCES `partida` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Filtros para la tabla `materiales_servicios`
 --
 ALTER TABLE `materiales_servicios`
   ADD CONSTRAINT `frk_pre_materiales` FOREIGN KEY (`presentacion`) REFERENCES `presentacion` (`id`),
-  ADD CONSTRAINT `frk_se_materiales` FOREIGN KEY (`id_se`) REFERENCES `se` (`id`),
+  ADD CONSTRAINT `frk_se_materiales` FOREIGN KEY (`id_se`) REFERENCES `partida_sub_especifica` (`id`),
   ADD CONSTRAINT `frk_um_materiales` FOREIGN KEY (`unidad_medida`) REFERENCES `unidad_medida` (`id`);
 
 --
@@ -3099,6 +3161,30 @@ ALTER TABLE `materiales_servicios`
 --
 ALTER TABLE `objetivos_generales`
   ADD CONSTRAINT `objetivos_generales_ibfk_1` FOREIGN KEY (`objetivo_estrategico`) REFERENCES `objetivos_estrategicos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `partida_especifica`
+--
+ALTER TABLE `partida_especifica`
+  ADD CONSTRAINT `frk_ge_es` FOREIGN KEY (`generica`) REFERENCES `partida_generica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `partida_generica`
+--
+ALTER TABLE `partida_generica`
+  ADD CONSTRAINT `fk_partida` FOREIGN KEY (`id_partida`) REFERENCES `partida_partida` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `partida_partida`
+--
+ALTER TABLE `partida_partida`
+  ADD CONSTRAINT `partida_partida_ibfk_1` FOREIGN KEY (`cuenta`) REFERENCES `cuenta_presupuestaria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `partida_sub_especifica`
+--
+ALTER TABLE `partida_sub_especifica`
+  ADD CONSTRAINT `frk_es_se` FOREIGN KEY (`especifica`) REFERENCES `partida_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `programacion_fisica_presupuestaria`
@@ -3118,7 +3204,7 @@ ALTER TABLE `proyecto_accion_especifica`
 --
 ALTER TABLE `proyecto_distribucion_presupuestaria`
   ADD CONSTRAINT `id_accion_especifica_fk` FOREIGN KEY (`id_accion_especifica`) REFERENCES `proyecto_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `id_partida_fk` FOREIGN KEY (`id_partida`) REFERENCES `partida` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `id_partida_fk` FOREIGN KEY (`id_partida`) REFERENCES `partida_partida` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `proyecto_localizacion`
@@ -3156,10 +3242,11 @@ ALTER TABLE `proyecto_responsable_tecnico`
   ADD CONSTRAINT `fk_id_proyecto` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `se`
+-- Filtros para la tabla `usuario_ue`
 --
-ALTER TABLE `se`
-  ADD CONSTRAINT `frk_es_se` FOREIGN KEY (`id_es`) REFERENCES `es` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `usuario_ue`
+  ADD CONSTRAINT `usuario_ue_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `usuario_ue_ibfk_2` FOREIGN KEY (`unidad_ejecutora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
