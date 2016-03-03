@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 /**
- * This is the model class for table "ac_ac_espec".
+ * This is the model class for table "accion_centralizada_accion_especifica".
  *
  * @property integer $id
  * @property integer $id_ac_centr
@@ -23,7 +23,7 @@ class AcAcEspec extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ac_ac_espec';
+        return 'accion_centralizada_accion_especifica';
     }
 
     /**
@@ -35,6 +35,7 @@ class AcAcEspec extends \yii\db\ActiveRecord
              //[['cod_ac_espe'],'unique'],
             [['id_ac_centr', 'cod_ac_espe', 'nombre', 'estatus'], 'required'],
             [['id_ac_centr'], 'integer'],
+            [['cod_ac_espe'], 'unique'],
             [['nombre'], 'string'],
             [['cod_ac_espe'], 'string', 'max' => 3]
         ];

@@ -337,8 +337,18 @@ class AcAcEspecController extends Controller
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (AcAcEspec::findAll(json_decode($pks)) as $model) {
+        $accion_centralizada="";
+        
+        foreach ($pks as $key) {
+            
+        
+        //$model=AcAcEspec::findAll(json_decode($key));
+            $model=$this->findModel($key);
+            if(isset($model->id)){
+            $accion_centralizada=$model->id_ac_centr;
             $model->delete();
+        }
+        
         }
         
 
@@ -352,13 +362,13 @@ class AcAcEspecController extends Controller
             /*
             *   Process for non-ajax request
             */
-            return $this->redirect(['index']);
+            return $this->redirect(['/accion_centralizada/view', 'id'=>$accion_centralizada]);
         }
        
     }
 
     
-
+   
 /**
      * Activar o desactivar un modelo
      * @param integer id

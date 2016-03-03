@@ -8,6 +8,9 @@ use yii\bootstrap\Button;
 use yii\bootstrap\Alert;
 
 
+
+
+
 //use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\AccionCentralizada */

@@ -48,6 +48,7 @@ class AccionCentralizada extends \yii\db\ActiveRecord
             'codigo_accion_sne' => 'Codigo Accion SNE',
             'nombre_accion' => 'Nombre Accion',
             'estatus' => 'Estatus',
+             'nombreEstatus' => 'Estatus'
         ];
     }
 
@@ -59,7 +60,7 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         return $this->hasMany(AcVariable::className(), ['id_ac' => 'id']);
     }
 
-        public   function estatus(){
+        public   function getnombreEstatus(){
                               return ($this->estatus == 1)? 'Activo':'Inactivo';
                       }
 

@@ -46,7 +46,7 @@ CrudAsset::register($this);
             'nombre_accion',
             [
                 'label' => 'Estatus',
-                'value' => $model->estatus(),
+                'value' => $model->nombreestatus,
             ],
             
         ],

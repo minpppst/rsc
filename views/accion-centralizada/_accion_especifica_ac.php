@@ -9,7 +9,27 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 use app\models\AcAcEspecSearch;
 use kartik\select2\Select2;
 \kartik\select2\Select2Asset::register($this);
+/*$this->registerJs("
 
+$(function() {
+        $(document).on('click', '.ajaxEstatus', function() {
+        var deleteUrl = $(this).attr('Estatus-url');
+        var pjaxContainer = $(this).attr('pjax-container');     
+                $.ajax({
+                        url: deleteUrl,
+                        type: 'post',
+                        dataType: 'json',
+                        error: function(xhr, status, error) {
+                        alert('There was an error with your request.' + xhr.responseText);
+                        }
+                }).done(function(data) {
+                                $.pjax.reload({container: '#' + $.trim(pjaxContainer)});
+                });             
+        });
+});
+
+
+");*/
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AcAcEspecSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -21,7 +41,7 @@ $icons=[
     'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
     'importar'=>'<span class="glyphicon glyphicon-import" aria-hidden="true"></span>',
 ];
-
+$url_borrar= Url::to(['ac-ac-espec/bulkdelete', "$('#especifica-pjax').yiiGridView('getSelectedRows')"]);
 $searchModel= new AcAcEspecSearch(['id_ac_centr'=>$model->id]);
 $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
 
@@ -41,6 +61,7 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
             'columns' =>[
             [
         'class' => 'kartik\grid\CheckboxColumn',
+
         'width' => '20px',
     ],
     [
@@ -69,26 +90,54 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
         'width' => '50px',
         'attribute' => 'estatus',
         
-        'value' => function ($model) {
+        'value' => function ($model) {$url= Url::to(['ac-ac-espec/toggle-activo', 'id' => $model->id]);
             if ($model->estatus == 1) {
-                return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id], [
-                            'class' => 'btn btn-xs btn-success btn-block',
-                            'role' => 'modal-remote',
-                            //'data-pjax' => '0',
-                            'data-confirm' => false, 'data-method' =>'false', // for overide yii data api
-                            //'data-request-method' => 'post',
+
+                
+                return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id],[
+                            /*'class' => 'btn btn-xs btn-success btn-block',
+                             'role' => 'modal-remote',
+                            
+                            //'data-pjax' => true,
+                            
+                            'pjax-container'=>'especifica-pjax',
+                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                            'id' => 'bulk-status',
                             'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
                             'data-confirm-message' => Yii::t('user', '¿Está seguro que desea desactivar este elemento?'),
-                ]);
-            } else {
-                return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id], [
-                            'class' => 'btn btn-xs btn-warning btn-block',
-                            'role' => 'modal-remote',
-
-                            'data-confirm' => false, 'data-method' => 'false', // for overide yii data api
                             'data-request-method' => 'post',
-                            'data-confirm-title' => Yii::t('yii', '¿Está seguro?'),
-                            'data-confirm-message' => Yii::t('yii', '¿Está seguro que desea activar este elemento?'),
+                            'data-pjax' => '0',
+                          */'class' => 'btn btn-xs btn-success btn-block',
+                            'onclick' => "
+                                if (confirm('¿Está seguro que desea Desactivar este elemento?')) {
+                                $.ajax('$url', {
+                                type: 'POST'
+                                }).done(function(data) {
+                                $.pjax.reload({container: '#especifica-pjax'});
+                                });
+                                }
+                                return false;
+                                ",
+                                
+                
+
+                            ]);
+            } else { 
+                return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id],
+                           
+                             [
+                            'class' => 'btn btn-xs btn-warning btn-block',
+                            'onclick' => "
+                                if (confirm('¿Está seguro que desea activar este elemento?')) {
+                                $.ajax('$url', {
+                                type: 'POST'
+                                }).done(function(data) {
+                                $.pjax.reload({container: '#especifica-pjax'});
+                                });
+                                }
+                                return false;
+                                ",
+                                
                 ]);
             }
         },
@@ -168,19 +217,41 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
             'condensed' => true,
             'responsive' => true,          
             'panel' => [
-                'type' => 'primary', 
+             'type' => 'primary', 
             'heading' => '<i class="glyphicon glyphicon-list"></i> Proyecto Accion Especificas listing',
             'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
-                                ["bulk-delete"] ,
-                                [
+                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Borrar',
+                                ["bulkdelete"] ,
+                                
+                                ['class' => 'btn btn-xs btn-danger btn-block',
+                                'onclick' => "
+                                 var HotId = $(\"#especifica\").yiiGridView(\"getSelectedRows\");
+                                    
+                                    if(HotId==''){
+                                        alert('Error, Debe Seleccionar Algun Elemento');
+                                        return false;
+                                    }
+                                if (confirm('¿Está seguro que desea activar este elemento?')) {
+                                   
+                                $.ajax({
+                                type: 'POST',
+                                url : \"index.php?r=ac-ac-espec/bulk-delete\",
+                                data : {pks: HotId},
+                                }).done(function(data) {
+                                $.pjax.reload({container: '#especifica-pjax'});
+                                });
+                                }
+                                return false;
+                                ",   
+
+                                    /*"id"=>"borrar_todo",
                                     "class"=>"btn btn-danger btn-xs",
                                     'role'=>'modal-remote-bulk',
                                     'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                                     'data-request-method'=>'post',
                                     'data-confirm-title'=>'Are you sure?',
-                                    'data-confirm-message'=>'Are you sure want to delete this item'
+                                    'data-confirm-message'=>'Are you sure want to delete this item'*/
                                 ]),
                         ]).                        
                         '<div class="clearfix"></div>',

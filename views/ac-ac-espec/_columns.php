@@ -32,6 +32,73 @@ return [
         'attribute'=>'nombre',
     ],
 
+
+    [
+    'class' => '\kartik\grid\DataColumn',
+        'width' => '50px',
+        'attribute' => 'estatus',
+        
+        'value' => function ($model) {$url= Url::to(['ac-ac-espec/toggle-activo', 'id' => $model->id]);
+            if ($model->estatus == 1) {
+
+                
+                return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggleactivo', 'id' => $model->id],[
+                            /*'class' => 'btn btn-xs btn-success btn-block',
+                             'role' => 'modal-remote',
+                            
+                            //'data-pjax' => true,
+                            
+                            'pjax-container'=>'especifica-pjax',
+                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                            'id' => 'bulk-status',
+                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea desactivar este elemento?'),
+                            'data-request-method' => 'post',
+                            'data-pjax' => '0',
+                          */'class' => 'btn btn-xs btn-success btn-block',
+                            'onclick' => "
+                                if (confirm('¿Está seguro que desea Desactivar este elemento?')) {
+                                $.ajax('$url', {
+                                type: 'POST'
+                                }).done(function(data) {
+                                $.pjax.reload({container: '#especifica-pjax'});
+                                });
+                                }
+                                return false;
+                                ",
+                                
+                
+
+                            ]);
+            } else { 
+                return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id],
+                           
+                             [
+                            'class' => 'btn btn-xs btn-warning btn-block',
+                            'onclick' => "
+                                if (confirm('¿Está seguro que desea activar este elemento?')) {
+                                $.ajax('$url', {
+                                type: 'POST'
+                                }).done(function(data) {
+                                $.pjax.reload({container: '#especifica-pjax'});
+                                });
+                                }
+                                return false;
+                                ",
+                                
+                ]);
+            }
+        },
+         'format' => 'raw'
+
+    ],
+
+
+
+
+
+    
+
     
 
     [

@@ -25,6 +25,7 @@ class AccionCentralizadaController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'bulk-delete' => ['post'],
                 ],
             ],
             'access' => [
@@ -215,10 +216,56 @@ public function actionImportar()
 
 
 
+ public function actionToggleActivo($id) {
+        $model = $this->findModel($id);
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model != null && $model->toggleActivo()) {
+            return ['forceClose' => true, 'forceReload' => true];
+        } else {
+            return [
+                'title' => 'Ocurrió un error.',
+                'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
+                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+            ];
+            return;
+        }
+    }
 
 
 
+public function actionBulkDelete()
+    {        
+        $request = Yii::$app->request;
+        $pks = $request->post('pks'); // Array or selected records primary keys
+        
+        
+        foreach ($pks as $key) {
+            
+        
+        //$model=AcAcEspec::findAll(json_decode($key));
+            $model=$this->findModel($key);
+            $model->delete();
+        
+        
+        }
+        
 
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>true]; 
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['/accion_centralizada/index']);
+        }
+       
+    }
 
 
 
