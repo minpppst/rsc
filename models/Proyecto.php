@@ -44,8 +44,8 @@ class Proyecto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito'], 'required'],
-            [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito'], 'integer'],
+            [['nombre', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito', 'estatus'], 'required'],
+            [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'estatus'], 'integer'],
             [['monto_proyecto'], 'number'],
             [['descripcion', 'objetivo_estrategico_institucional'], 'string'],
             [['codigo_proyecto', 'codigo_sne', 'nombre'], 'string', 'max' => 45],
@@ -74,6 +74,7 @@ class Proyecto extends \yii\db\ActiveRecord
             'objetivo_general' => 'Objetivo General',
             'objetivo_estrategico_institucional' => 'Objetivo Estrategico Institucional',
             'ambito' => 'Ambito',
+            'estatus' => 'Estatus',
             'nombreEstatus' => 'Estatus'
         ];
     }
@@ -143,11 +144,16 @@ class Proyecto extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return string
      */
     public function getNombreEstatus()
     {
-        return $this->estatus->estatus;
+        if($this->estatus == 1)
+        {
+            return "Activo";
+        }
+
+        return "Inactivo";
     }
 
     /**
@@ -197,5 +203,40 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ProyectoAccionEspecifica::className(), ['id_proyecto' => 'id']);
     }
+
+    /**
+     * Colocar estatus en 0 "Inactivo"
+     */
+    public function desactivar()
+    {
+        $this->estatus = 0;
+        $this->save();
+    }
+
+     /**
+     * Colocar estatus en 1 "Activo"
+     */
+     public function activar()
+     {
+        $this->estatus = 1;
+        $this->save();
+     }
+
+     /**
+      * Activar o desactivar
+      */
+     public function toggleActivo()
+     {
+        if($this->estatus == 1)
+        {
+            $this->desactivar();
+        }
+        else
+        {
+            $this->activar();
+        }
+
+        return true;
+     }
 
 }

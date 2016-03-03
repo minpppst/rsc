@@ -33,6 +33,7 @@ return [
     ],
     [
         'class' => 'kartik\grid\ActionColumn',
+        'header' => 'Acciones',
         'dropdown' => false,
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 

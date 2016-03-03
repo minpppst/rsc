@@ -55,12 +55,4 @@ class Parroquia extends \yii\db\ActiveRecord
         return $this->hasMany(ProyectoLocalizacion::className(), ['id_parroquia' => 'id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return ParroquiaQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ParroquiaQuery(get_called_class());
-    }
 }
