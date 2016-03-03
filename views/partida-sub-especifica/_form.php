@@ -17,7 +17,7 @@ DepDropAsset::register($this);
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="form-group">
-        <label>Partida</label>
+        <label>Partida</label><!-- PARTIDA -->
         <?= Html::dropDownList('partida','',ArrayHelper::map($partida,'id','partida'),[
             'class' => 'form-control',
             'prompt' => 'Seleccione',
@@ -26,24 +26,17 @@ DepDropAsset::register($this);
     </div>
 
     <div class="form-group">
-        <label>GE</label>
-        <?= Html::dropDownList('ge','',[],[
+        <label>Genérica</label><!-- GENERICA -->
+        <?= Html::dropDownList('generica','',[],[
             'prompt' => 'Seleccione',
             'class' => 'form-control',
-            'id' => 'ge'
+            'id' => 'generica'
         ]) ?>
     </div>
 
-    <div class="form-group">
-        <label>GE</label>
-        <?= Html::dropDownList('es','',[],[
-            'prompt' => 'Seleccione',
-            'class' => 'form-control',
-            'id' => 'es'
-        ]) ?>
-    </div>
+    <?= $form->field($model, 'especifica')->dropDownList([],['prompt' => 'Seleccione']) ?>
 
-    <?= $form->field($model, 'codigo_se')->textInput(['prompt' => 'Seleccione','placeholder' => 'Ingrese un número entre 00 y 99']) ?>
+    <?= $form->field($model, 'sub_especifica')->textInput(['prompt' => 'Seleccione','placeholder' => 'Ingrese un número entre 00 y 99']) ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
@@ -62,15 +55,15 @@ DepDropAsset::register($this);
 <script type="text/javascript">
     /* Listas desplegables dependientes */
     $(document).ready(function(){
-        //GE
-        $("#ge").depdrop({
+        //GENERICA
+        $("#generica").depdrop({
             depends: ['partidas'],
-            url: "<?= Url::to(['ge']) ?>"
+            url: "<?= Url::to(['generica']) ?>"
         });
-        //ES
-        $("#es").depdrop({
-            depends: ['ge'],
-            url: "<?= Url::to(['es']) ?>"
+        //ESPECIFICA
+        $("#partidasubespecifica-especifica").depdrop({
+            depends: ['generica'],
+            url: "<?= Url::to(['especifica']) ?>"
         });
     });
 </script>

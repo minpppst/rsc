@@ -3,8 +3,11 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Partida;
-use app\models\PartidaSearch;
+use app\models\PartidaSubEspecifica;
+use app\models\PartidaSubEspecificaSearch;
+use app\models\PartidaPartida;
+use app\models\PartidaGenerica;
+use app\models\PartidaEspecifica;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,9 +15,9 @@ use \yii\web\Response;
 use yii\helpers\Html;
 
 /**
- * PartidaController implements the CRUD actions for Partida model.
+ * SeController implements the CRUD actions for Se model.
  */
-class PartidaController extends Controller
+class PartidaSubEspecificaController extends Controller
 {
     /**
      * @inheritdoc
@@ -33,12 +36,12 @@ class PartidaController extends Controller
     }
 
     /**
-     * Lists all Partida models.
+     * Lists all Se models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new PartidaSearch();
+        $searchModel = new PartidaSubEspecificaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,7 +52,7 @@ class PartidaController extends Controller
 
 
     /**
-     * Displays a single Partida model.
+     * Displays a single Se model.
      * @param integer $id
      * @return mixed
      */
@@ -59,7 +62,7 @@ class PartidaController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Partida #".$id,
+                    'title'=> "Se #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -74,7 +77,7 @@ class PartidaController extends Controller
     }
 
     /**
-     * Creates a new Partida model.
+     * Creates a new Se model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -82,7 +85,14 @@ class PartidaController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Partida();  
+        $model = new PartidaSubEspecifica();
+        //Listas desplegables
+        //Listas desplegables
+        $partida = PartidaPartida::find()
+            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
+            ->asArray()
+            ->all(); 
 
         if($request->isAjax){
             /*
@@ -91,31 +101,33 @@ class PartidaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new Partida",
+                    'title'=> "Crear Sub-Específica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'partida'=>$partida
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Create new Partida",
-                    'content'=>'<span class="text-success">Create Partida success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'title'=> "Crear Sub-Específica",
+                    'content'=>'<span class="text-success">Crear Sub-Específica success</span>',
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new Partida",
+                    'title'=> "Crear Sub-Específica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'partida'=>$partida
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -128,6 +140,7 @@ class PartidaController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'partida'=>$partida
                 ]);
             }
         }
@@ -135,7 +148,7 @@ class PartidaController extends Controller
     }
 
     /**
-     * Updates an existing Partida model.
+     * Updates an existing Se model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -144,7 +157,13 @@ class PartidaController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);
+        //Listas desplegables
+        $partida = PartidaPartida::find()
+            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
+            ->where(['estatus' => 1])
+            ->asArray()
+            ->all();       
 
         if($request->isAjax){
             /*
@@ -153,9 +172,10 @@ class PartidaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Partida #".$id,
+                    'title'=> "Update Sub-Específica #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
+                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -163,18 +183,20 @@ class PartidaController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Partida #".$id,
+                    'title'=> "Sub-Específica #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
+                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update Partida #".$id,
+                    'title'=> "Update Sub-Específica #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
+                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -189,13 +211,14 @@ class PartidaController extends Controller
             } else {
                 return $this->render('update', [
                     'model' => $model,
+                    'partida'=>$partida
                 ]);
             }
         }
     }
 
     /**
-     * Delete an existing Partida model.
+     * Delete an existing Se model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -223,7 +246,7 @@ class PartidaController extends Controller
     }
 
      /**
-     * Delete multiple existing Partida model.
+     * Delete multiple existing Se model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -233,7 +256,7 @@ class PartidaController extends Controller
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (Partida::findAll(json_decode($pks)) as $model) {
+        foreach (Se::findAll(json_decode($pks)) as $model) {
             $model->delete();
         }
         
@@ -251,6 +274,66 @@ class PartidaController extends Controller
             return $this->redirect(['index']);
         }
        
+    }
+
+    /**
+     * Funcion de respuesta para el AJAX de
+     * partidas generales
+     * @return array JSON 
+     */
+    public function actionGenerica()
+    {
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if($request->isPost)
+            {
+                //Partidas GE
+                $ge = PartidaGenerica::find()
+                    ->select(["id AS id", "CONCAT(generica,' - ',nombre) AS name"])
+                    ->where(['id_partida' => $request->post('depdrop_parents'), 'estatus' => 1])
+                    ->asArray()
+                    ->all();                
+
+                return [
+                    'output' => $ge
+                ];
+            }
+        }
+        
+    }
+
+    /**
+     * Funcion de respuesta para el AJAX de
+     * partidas especificas
+     * @return array JSON 
+     */
+    public function actionEspecifica()
+    {
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if($request->isPost)
+            {
+                //Partidas GE
+                $es = PartidaEspecifica::find()
+                    ->select(["id AS id", "CONCAT(especifica,' - ',nombre) AS name"])
+                    ->where(['generica' => $request->post('depdrop_parents'), 'estatus' => 1])
+                    ->asArray()
+                    ->all();                
+
+                return [
+                    'output' => $es
+                ];
+            }
+        }
+        
     }
 
     /**
@@ -276,7 +359,7 @@ class PartidaController extends Controller
     }
 
     /**
-     * Desactiva multiples modelos de partida.
+     * Desactiva multiples modelos de PartidaPartida.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
      * @param integer id
@@ -286,7 +369,7 @@ class PartidaController extends Controller
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         //Obtener el nombre de la clase del modelo
-        $className = Partida::className();
+        $className = PartidaPartida::className();
         
         //call_user_func - Invocar el callback 
         foreach (call_user_func($className . '::findAll', $pks) as $model) {            
@@ -309,7 +392,7 @@ class PartidaController extends Controller
     }
 
     /**
-     * Activa multiples modelos de partida.
+     * Activa multiples modelos de PartidaPartida.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
      * @param integer id
@@ -319,7 +402,7 @@ class PartidaController extends Controller
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         //Obtener el nombre de la clase del modelo
-        $className = Partida::className();
+        $className = PartidaPartida::className();
         
         //call_user_func - Invocar el callback 
         foreach (call_user_func($className . '::findAll', $pks) as $model) {            
@@ -342,15 +425,15 @@ class PartidaController extends Controller
     }
 
     /**
-     * Finds the Partida model based on its primary key value.
+     * Finds the Se model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Partida the loaded model
+     * @return Se the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Partida::findOne($id)) !== null) {
+        if (($model = PartidaSubEspecifica::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

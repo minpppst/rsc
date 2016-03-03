@@ -13,10 +13,12 @@ use yii\base\Model;
  * @property string $codigo_accion_especifica
  * @property string $nombre
  * @property integer $id_unidad_ejecutora
+ * @property integer $estatus
  *
  * @property ProgramacionFisicaPresupuestaria[] $programacionFisicaPresupuestarias
  * @property Proyecto $idProyecto
  * @property UnidadEjecutora $idUnidadEjecutora
+ * @property ProyectoPedido[] $proyectoPedidos 
  */
 class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
 {
@@ -34,8 +36,8 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_proyecto', 'codigo_accion_especifica', 'id_unidad_ejecutora'], 'required'],
-            [['id_proyecto', 'id_unidad_ejecutora'], 'integer'],
+            [['id_proyecto', 'codigo_accion_especifica', 'id_unidad_ejecutora', 'estatus'], 'required'],
+            [['id_proyecto', 'id_unidad_ejecutora', 'estatus'], 'integer'],
             [['nombre'], 'string'],
             [['codigo_accion_especifica'], 'string', 'max' => 3]
         ];
@@ -53,6 +55,8 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             'nombre' => 'Nombre',
             'id_unidad_ejecutora' => 'Unidad Ejecutora',
             'nombreUnidadEjecutora' => 'Unidad Ejecutora',
+            'estatus' => 'Estatus',
+            'nombreEstatus' => 'Estatus'
         ];
     }
 
@@ -62,7 +66,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
      */
     public function afterSave($insert,$changedAttributes) 
     {
-        $partidas = Partida::find()->all();
+        $partidas = PartidaPartida::find()->all();
 
         if (!$insert) {
             //nada
@@ -126,4 +130,52 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
    {
        return new ProyectoAccionEspecificaQuery(get_called_class());
    }
+
+   /**
+    * @return string
+    */
+   public function getNombreEstatus()
+    {
+        if($this->estatus == 1)
+        {
+            return "Activo";
+        }
+
+        return "Inactivo";
+    }
+
+   /**
+     * Colocar estatus en 0 "Inactivo"
+     */
+    public function desactivar()
+    {
+        $this->estatus = 0;
+        $this->save();
+    }
+
+     /**
+     * Colocar estatus en 1 "Activo"
+     */
+     public function activar()
+     {
+        $this->estatus = 1;
+        $this->save();
+     }
+
+     /**
+      * Activar o desactivar
+      */
+     public function toggleActivo()
+     {
+        if($this->estatus == 1)
+        {
+            $this->desactivar();
+        }
+        else
+        {
+            $this->activar();
+        }
+
+        return true;
+     }
 }

@@ -70,8 +70,8 @@ class ProyectoAccionEspecificaController extends Controller
             'dataProvider' => $dataProvider,
         ]);
 
-        //return Json::encode($html);
-        return $html;
+        return Json::encode($html);
+        //return $html;
     }
 
 
@@ -133,7 +133,7 @@ class ProyectoAccionEspecificaController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'false',                    
+                    'forceReload'=>'true',                    
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
                     'title'=> "Create new ProyectoAccionEspecifica",
@@ -202,7 +202,7 @@ class ProyectoAccionEspecificaController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'false',
+                    'forceReload'=>'true',
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
                     'title'=> "ProyectoAccionEspecifica #".$id,

@@ -76,8 +76,8 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
                 'label' => 'Acciones Específicas',
                 'content' => $accionEspecifica,
                 'linkOptions' => [
-                    //'data-url' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id]),
-                ],
+                    'data-url' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id])
+                ]
             ],
             [
                 'label' => 'Distribución Presupuestaria',

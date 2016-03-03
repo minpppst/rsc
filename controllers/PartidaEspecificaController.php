@@ -3,10 +3,10 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Es;
-use app\models\EsSearch;
-use app\models\Ge;
-use app\models\Partida;
+use app\models\PartidaEspecifica;
+use app\models\PartidaEspecificaSearch;
+use app\models\PartidaGenerica;
+use app\models\PartidaPartida;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -17,7 +17,7 @@ use yii\helpers\ArrayHelper;
 /**
  * EsController implements the CRUD actions for Es model.
  */
-class EsController extends Controller
+class PartidaEspecificaController extends Controller
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class EsController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new EsSearch();
+        $searchModel = new PartidaEspecificaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -85,10 +85,10 @@ class EsController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Es();
+        $model = new PartidaEspecifica();
 
         //Listas desplegables
-        $partida = Partida::find()
+        $partida = PartidaPartida::find()
             ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
             ->where(['estatus' => 1])
             ->asArray()
@@ -160,7 +160,7 @@ class EsController extends Controller
         $model = $this->findModel($id); 
 
         //Listas desplegables
-        $partida = Partida::find()
+        $partida = PartidaPartida::find()
             ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
             ->where(['estatus' => 1])
             ->asArray()
@@ -282,7 +282,7 @@ class EsController extends Controller
      * partidas generales
      * @return array JSON 
      */
-    public function actionGe()
+    public function actionGenerica()
     {
         $request = Yii::$app->request;
 
@@ -293,8 +293,8 @@ class EsController extends Controller
             if($request->isPost)
             {
                 //Partidas GE
-                $ge = Ge::find()
-                    ->select(["id AS id", "CONCAT(codigo_ge,' - ',nombre_ge) AS name"])
+                $ge = PartidaGenerica::find()
+                    ->select(["id AS id", "CONCAT(generica,' - ',nombre) AS name"])
                     ->where(['id_partida' => $request->post('depdrop_parents'), 'estatus' => 1])
                     ->asArray()
                     ->all();                
@@ -308,6 +308,94 @@ class EsController extends Controller
     }
 
     /**
+     * Activar o desactivar un modelo
+     * @param integer id
+     * @return mixed
+     */
+    public function actionToggleActivo($id) {
+        $model = $this->findModel($id);
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model != null && $model->toggleActivo()) {
+            return ['forceClose' => true, 'forceReload' => true];
+        } else {
+            return [
+                'title' => 'Ocurrió un error.',
+                'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
+                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+            ];
+            return;
+        }
+    }
+
+    /**
+     * Desactiva multiples modelos de PartidaGenerica.
+     * Para las peticiones AJAX devolverá un objeto JSON
+     * para las peticiones no-AJAX el navegador se redireccionará al "index"
+     * @param integer id
+     * @return mixed
+     */
+    public function actionBulkDesactivar() {
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        //Obtener el nombre de la clase del modelo
+        $className = PartidaGenerica::className();
+        
+        //call_user_func - Invocar el callback 
+        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+            $model->desactivar();
+        }
+        
+
+        if ($request->isAjax) {
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose' => true, 'forceReload' => true];
+        } else {
+            /*
+             *   Process for non-ajax request
+             */
+            return $this->redirect(['index']);
+        }
+    }
+
+    /**
+     * Activa multiples modelos de PartidaGenerica.
+     * Para las peticiones AJAX devolverá un objeto JSON
+     * para las peticiones no-AJAX el navegador se redireccionará al "index"
+     * @param integer id
+     * @return mixed
+     */
+    public function actionBulkActivar() {
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        //Obtener el nombre de la clase del modelo
+        $className = PartidaGenerica::className();
+        
+        //call_user_func - Invocar el callback 
+        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+            $model->activar();
+        }
+        
+
+        if ($request->isAjax) {
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose' => true, 'forceReload' => true];
+        } else {
+            /*
+             *   Process for non-ajax request
+             */
+            return $this->redirect(['index']);
+        }
+    }
+
+    /**
      * Finds the Es model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -316,7 +404,7 @@ class EsController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Es::findOne($id)) !== null) {
+        if (($model = PartidaEspecifica::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -5,22 +5,21 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Es;
+use app\models\PartidaSubEspecifica;
 
 /**
- * EsSearch represents the model behind the search form about `app\models\Es`.
+ * SeSearch represents the model behind the search form about `app\models\Se`.
  */
-class EsSearch extends Es
+class PartidaSubEspecificaSearch extends PartidaSubEspecifica
 {
-    public $partidaGe;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'id_ge', 'codigo_es', 'estatus'], 'integer'],
-            [['nombre','partidaGe'], 'safe'],
+            [['id', 'especifica', 'sub_especifica', 'estatus'], 'integer'],
+            [['nombre'], 'safe'],
         ];
     }
 
@@ -42,19 +41,11 @@ class EsSearch extends Es
      */
     public function search($params)
     {
-        $query = Es::find();
-        // Join para la relacion
-        $query->joinWith(['idGe']);
+        $query = PartidaSubEspecifica::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
-        //Ordenamiento
-        $dataProvider->sort->attributes['partidaGe'] = [
-            'asc' => ['ge.codigo_ge' => SORT_ASC],
-            'desc' => ['ge.codigo_ge' => SORT_DESC],
-        ];
 
         $this->load($params);
 
@@ -66,13 +57,12 @@ class EsSearch extends Es
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_ge' => $this->id_ge,
-            'codigo_es' => $this->codigo_es,
+            'especifica' => $this->especifica,
+            'sub_especifica' => $this->sub_especifica,
             'estatus' => $this->estatus,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
-        $query->andFilterWhere(['ge.codigo_ge'=> $this->partidaGe]);
 
         return $dataProvider;
     }

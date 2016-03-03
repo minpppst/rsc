@@ -6,10 +6,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\MaterialesServicios */
 
-$this->title = 'Crear Materiales o Servicios';
-$this->params['breadcrumbs'][] = ['label' => 'Materiales Servicios', 'url' => ['index']];
+$this->title = 'Crear Material o Servicio';
+$this->params['breadcrumbs'][] = ['label' => 'Configuración', 'url' => ['site/configuracion']];
+$this->params['breadcrumbs'][] = ['label' => 'Materiales y Servicios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="materiales-servicios-create">
 
@@ -17,7 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'partida_se' => $partida_se
+        'sub_especfica' => $sub_especfica,
+        'unidad_medida' => $unidad_medida,
+        'presentacion' => $presentacion
     ]) ?>
 
 </div>

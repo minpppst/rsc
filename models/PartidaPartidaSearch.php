@@ -5,22 +5,23 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Ge;
+use app\models\PartidaRamo;
 
 /**
- * GeSearch represents the model behind the search form about `app\models\Ge`.
+ * PartidaRamoSearch represents the model behind the search form about `app\models\PartidaRamo`.
  */
-class GeSearch extends Ge
+class PartidaPartidaSearch extends PartidaPartida
 {
-    public $codigoPartida;
+    public $numeroCuenta;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'id_partida', 'codigo_ge', 'estatus'], 'integer'],
-            [['nombre_ge', 'codigoPartida'], 'safe'],
+            [['id', 'cuenta', 'partida', 'estatus'], 'integer'],
+            [['nombre', 'numeroCuenta'], 'safe'],
         ];
     }
 
@@ -42,18 +43,18 @@ class GeSearch extends Ge
      */
     public function search($params)
     {
-        $query = Ge::find();
+        $query = PartidaPartida::find();
         // Join para la relacion
-        $query->joinWith(['idPartida']);
+        $query->joinWith(['cuentaPresupuestaria']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         //Ordenamiento
-        $dataProvider->sort->attributes['codigoPartida'] = [
-            'asc' => ['partida.partida' => SORT_ASC],
-            'desc' => ['partida.partida' => SORT_DESC],
+        $dataProvider->sort->attributes['numeroCuenta'] = [
+            'asc' => ['cuenta_presupuestaria.cuenta' => SORT_ASC],
+            'desc' => ['cuenta_presupuestaria.cuenta' => SORT_DESC],
         ];
 
         $this->load($params);
@@ -66,13 +67,13 @@ class GeSearch extends Ge
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_partida' => $this->id_partida,
-            'codigo_ge' => $this->codigo_ge,
+            'cuenta' => $this->cuenta,
+            'partida' => $this->partida,
             'estatus' => $this->estatus,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre_ge', $this->nombre_ge]);
-        $query->andFilterWhere(['partida.partida' => $this->codigoPartida]);
+        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['cuenta_presupuestaria.cuenta' => $this->numeroCuenta]);
 
         return $dataProvider;
     }

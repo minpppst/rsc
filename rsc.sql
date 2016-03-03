@@ -3,7 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
+<<<<<<< HEAD
 -- Tiempo de generación: 02-03-2016 a las 09:50:08
+=======
+-- Tiempo de generación: 03-03-2016 a las 09:00:23
+>>>>>>> materiales
 -- Versión del servidor: 5.6.28-0ubuntu0.15.10.1
 -- Versión de PHP: 5.6.11-1ubuntu3.1
 
@@ -127,19 +131,20 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('acc_accion_especifica', '1', 1456113935),
-('accion_centralizada', '1', 1456113935),
-('materiales_servicios', '1', 1456113935),
-('registrador_accion_especifica', '1', 1456113935),
+('acc_accion_especifica', '1', 1456979278),
+('accion_centralizada', '1', 1456979278),
+('gestor_proyecto', '1', 1456979278),
+('materiales_servicios', '1', 1456979278),
+('registrador_accion_especifica', '1', 1456979278),
 ('registrador_accion_especifica', '3', 1454611275),
-('registrador_alcance', '1', 1456113935),
+('registrador_alcance', '1', 1456979278),
 ('registrador_alcance', '3', 1454611275),
-('registrador_basico', '1', 1456113935),
+('registrador_basico', '1', 1456979278),
 ('registrador_basico', '2', 1452222004),
 ('registrador_basico', '3', 1454611275),
-('registrador_distribucion_presupuestaria', '1', 1456113935),
+('registrador_distribucion_presupuestaria', '1', 1456979278),
 ('registrador_distribucion_presupuestaria', '3', 1454611275),
-('sysadmin', '1', 1456113935),
+('sysadmin', '1', 1456979278),
 ('sysadmin', '3', 1454611275);
 
 -- --------------------------------------------------------
@@ -184,6 +189,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('accion-centralizada/index', 2, 'ver el inicio de acciones centralizadas', NULL, NULL, 1455129506, 1455130004),
 ('accion-centralizada/update', 2, 'actualizar acciones centralizadas', NULL, NULL, 1455130436, 1455136413),
 ('accion-centralizada/view', 2, 'ver el detalle de la accion centralizada', NULL, NULL, 1455130492, 1455130492),
+('gestor_proyecto', 1, 'Administrador de proyecto', NULL, NULL, 1456979251, 1456979251),
 ('materiales_servicios', 1, 'Crea, modifica y elimina materiales y servicios', NULL, NULL, 1455502889, 1455502889),
 ('materiales-servicios/create', 2, 'Crear materiales y servicios', NULL, NULL, 1455502798, 1455502798),
 ('materiales-servicios/delete', 2, 'Eliminar materiales y servicios', NULL, NULL, 1455502828, 1455502828),
@@ -233,9 +239,14 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto-responsable/delete', 2, 'Eliminar responsable de proyecto', NULL, NULL, 1452019408, 1452019408),
 ('proyecto-responsable/update', 2, 'Editar responsable de proyecto', NULL, NULL, 1452005753, 1452005753),
 ('proyecto-responsable/view', 2, 'Ver responsable de proyecto', NULL, NULL, 1452006168, 1452006168),
+('proyecto/bulk-activar', 2, 'Activar múltiples proyectos', NULL, NULL, 1456979084, 1456979084),
+('proyecto/bulk-delete', 2, 'Eliminar múltiples proyectos', NULL, NULL, 1456979023, 1456979023),
+('proyecto/bulk-desactivar', 2, 'Desactivar múltiples proyectos', NULL, NULL, 1456979103, 1456979103),
 ('proyecto/create', 2, 'Crear Proyecto', NULL, NULL, 1450393912, 1450645199),
 ('proyecto/delete', 2, 'Eliminar Proyecto', NULL, NULL, 1450393912, 1450645229),
+('proyecto/desactivar', 2, 'Desactivar un proyecto', NULL, NULL, 1456978999, 1456978999),
 ('proyecto/index', 2, 'Lista de proyectos', NULL, NULL, 1450646779, 1450646779),
+('proyecto/toggle-activo', 2, 'Activar/desactivar un proyecto', NULL, NULL, 1456978982, 1456979131),
 ('proyecto/update', 2, 'Editar Proyecto', NULL, NULL, 1450393912, 1450645214),
 ('proyecto/view', 2, 'Ver Proyecto', NULL, NULL, 1450393912, 1450645173),
 ('registrador_accion_especifica', 1, 'Crea, edita y elimina acciones específicas de proyecto', NULL, NULL, 1452529829, 1452631112),
@@ -327,9 +338,15 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('registrador_basico', 'proyecto-responsable/delete'),
 ('registrador_basico', 'proyecto-responsable/update'),
 ('registrador_basico', 'proyecto-responsable/view'),
+('gestor_proyecto', 'proyecto/bulk-activar'),
+('gestor_proyecto', 'proyecto/bulk-delete'),
+('gestor_proyecto', 'proyecto/bulk-desactivar'),
 ('registrador_basico', 'proyecto/create'),
+('gestor_proyecto', 'proyecto/delete'),
 ('registrador_basico', 'proyecto/delete'),
+('gestor_proyecto', 'proyecto/desactivar'),
 ('registrador_basico', 'proyecto/index'),
+('gestor_proyecto', 'proyecto/toggle-activo'),
 ('registrador_basico', 'proyecto/update'),
 ('registrador_basico', 'proyecto/view'),
 ('sysadmin', 'site/configuracion'),
@@ -472,6 +489,7 @@ INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
 -- Estructura de tabla para la tabla `historial`
 --
 
@@ -493,6 +511,8 @@ CREATE TABLE IF NOT EXISTS `historial` (
 -- --------------------------------------------------------
 
 --
+=======
+>>>>>>> materiales
 -- Estructura de tabla para la tabla `instancia_institucion`
 --
 
@@ -1321,18 +1341,19 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
   `plan_operativo` int(11) NOT NULL,
   `objetivo_general` int(11) NOT NULL,
   `objetivo_estrategico_institucional` text NOT NULL,
-  `ambito` int(11) NOT NULL
+  `ambito` int(11) NOT NULL,
+  `estatus` tinyint(1) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1000002 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto`
 --
 
-INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `estatus_proyecto`, `situacion_presupuestaria`, `monto_proyecto`, `descripcion`, `sector`, `sub_sector`, `plan_operativo`, `objetivo_general`, `objetivo_estrategico_institucional`, `ambito`) VALUES
-(1, '0001', '0001', 'Proyecto Lorem ipsum dolor sit amet, consec', 1, 1, 99999, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Aliquam aliquam lectus orci, rhoncus ultricies quam cursus at. Pellentesque ac ultrices est. Sed at cursus ante. Nunc molestie facilisis nisi quis congue. Donec vel vulputate leo. Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 4),
-(999999, '9999', '9999', 'Proyecto de prueba', 1, 1, 9999, 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 1),
-(1000000, '12121212', '52365222211', 'PROYECTO ANTONIO', 3, 1, 6, 'SIN DESCRIPCIÓN', 1, 1, 1, 15, 'no se', 1),
-(1000001, '12', 'probando', 'probadno', 1, 1, 10000, 'probando', 1, 1, 1, 8, 'probando', 2);
+INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `estatus_proyecto`, `situacion_presupuestaria`, `monto_proyecto`, `descripcion`, `sector`, `sub_sector`, `plan_operativo`, `objetivo_general`, `objetivo_estrategico_institucional`, `ambito`, `estatus`) VALUES
+(1, '0001', '0001', 'Proyecto Lorem ipsum dolor sit amet, consec', 1, 1, 99999, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Aliquam aliquam lectus orci, rhoncus ultricies quam cursus at. Pellentesque ac ultrices est. Sed at cursus ante. Nunc molestie facilisis nisi quis congue. Donec vel vulputate leo. Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 4, 1),
+(999999, '9999', '9999', 'Proyecto de prueba', 1, 1, 9999, 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 1, 1),
+(1000000, '12121212', '52365222211', 'PROYECTO ANTONIO', 3, 1, 6, 'SIN DESCRIPCIÓN', 1, 1, 1, 15, 'no se', 1, 1),
+(1000001, '12', 'probando', 'probando', 1, 1, 10000, 'probando', 1, 1, 1, 8, 'probando', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -1345,13 +1366,15 @@ CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
   `id_proyecto` int(11) NOT NULL,
   `codigo_accion_especifica` varchar(3) NOT NULL,
   `nombre` text,
-  `id_unidad_ejecutora` int(11) NOT NULL
+  `id_unidad_ejecutora` int(11) NOT NULL,
+  `estatus` tinyint(4) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `proyecto_accion_especifica`
 --
 
+<<<<<<< HEAD
 INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_especifica`, `nombre`, `id_unidad_ejecutora`) VALUES
 (20, 999999, '123', 'Acción Específica', 1),
 (21, 999999, '1', 'probadno', 600),
@@ -1369,6 +1392,25 @@ INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_es
 (33, 1000001, '2', 'asddas', 1),
 (34, 1000001, '3', 'asdasd', 1),
 (35, 1000001, '4', 'asdasd', 600);
+=======
+INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_especifica`, `nombre`, `id_unidad_ejecutora`, `estatus`) VALUES
+(20, 999999, '123', 'Acción Específica', 1, 0),
+(21, 999999, '1', 'probadno', 600, 0),
+(22, 999999, '2', 'probando2', 602, 0),
+(23, 999999, '4', 'probadno', 601, 0),
+(24, 999999, '4', 'probadno', 600, 0),
+(25, 999999, '6', 'probadno3', 600, 0),
+(26, 999999, '7', 'probando', 600, 0),
+(27, 1, '10', 'asdasd', 600, 0),
+(28, 1000000, '1', 'pp', 1, 0),
+(29, 1000000, '2', 'ppp', 1, 0),
+(30, 1000001, '1', 'asdasdlllllllllllllllllllllllllll', 1, 0),
+(31, 1000001, '2', 'asdxas', 1, 0),
+(32, 1000001, '2', 'ASDAS', 1, 0),
+(33, 1000001, '2', 'asddas', 1, 0),
+(34, 1000001, '3', 'asdasd', 1, 0),
+(35, 1000001, '4', 'asdasd', 600, 0);
+>>>>>>> materiales
 
 -- --------------------------------------------------------
 
@@ -2592,6 +2634,7 @@ ALTER TABLE `fuente_financiamiento`
   ADD PRIMARY KEY (`id`);
 
 --
+<<<<<<< HEAD
 -- Indices de la tabla `historial`
 --
 ALTER TABLE `historial`
@@ -2600,6 +2643,8 @@ ALTER TABLE `historial`
   ADD KEY `creadoPor` (`creadoPor`);
 
 --
+=======
+>>>>>>> materiales
 -- Indices de la tabla `instancia_institucion`
 --
 ALTER TABLE `instancia_institucion`
@@ -2927,11 +2972,14 @@ ALTER TABLE `estatus_proyecto`
 ALTER TABLE `fuente_financiamiento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
+<<<<<<< HEAD
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+=======
+>>>>>>> materiales
 -- AUTO_INCREMENT de la tabla `instancia_institucion`
 --
 ALTER TABLE `instancia_institucion`
