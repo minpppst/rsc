@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "af58fc6ee4593edb39a87139f44fbfa2",
-    "content-hash": "ad2f2ee0e5537ae7e9645fe6d881d0f8",
+    "hash": "5cf0b9cd4ff311260911233837666656",
+    "content-hash": "5219f35f0d44323ae4178b540844349b",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -264,6 +264,52 @@
             "license": [
                 "MIT"
             ]
+        },
+        {
+            "name": "bupy7/yii2-activerecord-history",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bupy7/yii2-activerecord-history.git",
+                "reference": "1b06100271147788b9f32b08bb5ef002ba4a103e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bupy7/yii2-activerecord-history/zipball/1b06100271147788b9f32b08bb5ef002ba4a103e",
+                "reference": "1b06100271147788b9f32b08bb5ef002ba4a103e",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "bupy7\\activerecord\\history\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Vasilij Belosludcev",
+                    "email": "bupy765@gmail.com"
+                }
+            ],
+            "description": "This extension adds storage history of changes to the ActiveRecord model.",
+            "keywords": [
+                "Behavior",
+                "activerecord",
+                "changes",
+                "extension",
+                "history",
+                "model",
+                "module",
+                "yii2"
+            ],
+            "time": "2016-01-03 19:03:13"
         },
         {
             "name": "cebe/markdown",
@@ -533,7 +579,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/52f30624c7615eda63b97cedf0e3a104e7920aab",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/32b0ccb2562b9c83f12222ddd1406986a45450d1",
                 "reference": "cde72929649da55470e0a81a5e85921f80f28f29",
                 "shasum": ""
             },
