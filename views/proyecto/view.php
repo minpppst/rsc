@@ -44,6 +44,9 @@ $fuenteFinanciamiento =
     '</p>'.
     '<div class="well">No hay datos.</div>'
 ;
+$accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
+    'model' => $model,
+]);
 
 ?>
 <div class="proyecto-view">
@@ -71,9 +74,10 @@ $fuenteFinanciamiento =
             ],
             [
                 'label' => 'Acciones Específicas',
+                'content' => $accionEspecifica,
                 'linkOptions' => [
-                    'data-url' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id]),
-                ],
+                    'data-url' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id])
+                ]
             ],
             [
                 'label' => 'Distribución Presupuestaria',

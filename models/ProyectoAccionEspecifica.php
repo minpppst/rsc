@@ -66,7 +66,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
      */
     public function afterSave($insert,$changedAttributes) 
     {
-        $partidas = Partida::find()->all();
+        $partidas = PartidaPartida::find()->all();
 
         if (!$insert) {
             //nada

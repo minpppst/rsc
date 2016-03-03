@@ -39,7 +39,9 @@ CrudAsset::register($this);
         'toolbar'=> [
             ['content'=>
                 Html::a($icons['nuevo'].' Nuevo', ['create','proyecto'=>$searchModel->id_proyecto],
-                ['role'=>'modal-remote','title'=> 'Crear Acción Específica','class'=>'btn btn-success']).                
+                ['role'=>'modal-remote','title'=> 'Crear Acción Específica','class'=>'btn btn-success']).
+                Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
+                ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).                
                 '{toggleData}'.
                 '{export}'
             ],
