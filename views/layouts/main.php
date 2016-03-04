@@ -35,8 +35,8 @@ AppAsset::register($this);
     ]);
     $icons=[
         'inicio'=>'<span class="glyphicon glyphicon-home" aria-hidden="true"></span>',
-        'proyecto'=>'<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>',
-        'acc'=>'<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>',
+        'proyecto'=>'<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>',
+        'acc'=>'<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>',
         'config'=>'<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>',
         'entrar'=>'<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>',
         'salir'=>'<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>',

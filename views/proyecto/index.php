@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $icons=[
     'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
     'nuevo'=>'<span class="glyphicon glyphicon-file" aria-hidden="true"></span>',
-    'proyecto'=>'<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>',
+    'proyecto'=>'<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>',
 ];
 
 CrudAsset::register($this);
@@ -36,7 +36,7 @@ CrudAsset::register($this);
             'filterModel' => $searchModel,            
             'panel' => [
                 'type' => 'default',
-                'heading' => $icons['proyecto'].' Lista de proyectos',
+                'heading' => $icons['proyecto'].' Proyectos',
                 'before' => '<em>Escriba en las casillas para filtrar.</em>',
                 'after'=>BulkButtonWidget::widget([
                     'buttons'=>

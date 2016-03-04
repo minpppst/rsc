@@ -12,7 +12,7 @@ use kartik\depdrop\DepDropAsset;
 /* @var $searchModel app\models\SeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Partidas Sub-específicas';
+$this->title = 'Partida Sub-específica';
 $this->params['breadcrumbs'][] = ['label' => 'Configuración', 'url' => ['/site/configuracion']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -35,8 +35,8 @@ $icons=[
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Ses','class'=>'btn btn-success']).
+                    Html::a('<i class="glyphicon glyphicon-file"></i> Nuevo', ['create'],
+                    ['role'=>'modal-remote','title'=> 'Crear Partida Sub-específica','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
@@ -48,7 +48,7 @@ $icons=[
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Listado Partidas Sub-específicas',
+                'heading' => '<i class="glyphicon glyphicon-leaf"></i> Partidas Sub-específicas',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
                         'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',
