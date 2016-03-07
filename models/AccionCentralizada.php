@@ -12,6 +12,8 @@ use Yii;
  * @property string $codigo_accion_sne
  * @property string $nombre_accion
  * @property integer $estatus
+ * @property string $fecha_inicio
+ * @property string $fecha_fin
  *
  * @property AcVariable[] $acVariables
  */
@@ -30,9 +32,12 @@ class AccionCentralizada extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        
         return [
             [['codigo_accion', 'codigo_accion_sne'],'unique'],
-            [['codigo_accion', 'codigo_accion_sne', 'nombre_accion', 'estatus'], 'required'],
+            [['codigo_accion', 'codigo_accion_sne', 'nombre_accion', 'estatus', 'fecha_inicio', 'fecha_fin'], 'required'],
+            //[['fecha_inicio', 'fecha_fin'], 'date', 'format'=>'Y-m-d'],
+            ['fecha_inicio', 'compare', 'compareAttribute'=>'fecha_fin','operator'=>'<', 'message'=>'Fecha Inicial Debe Ser Menor A Fecha Final'],
             [['codigo_accion', 'codigo_accion_sne'], 'string', 'max' => 45]
         ];
     }
@@ -48,6 +53,8 @@ class AccionCentralizada extends \yii\db\ActiveRecord
             'codigo_accion_sne' => 'Codigo Accion SNE',
             'nombre_accion' => 'Nombre Accion',
             'estatus' => 'Estatus',
+            'fecha_inicio' => 'Fecha Inicio',
+            'fecha_fin' => 'Fecha Fin',
              'nombreEstatus' => 'Estatus'
         ];
     }

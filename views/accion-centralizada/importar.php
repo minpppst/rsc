@@ -9,7 +9,7 @@ use kartik\file\FileInput;
 /* @var $model app\models\UnidadEjecutora */
 
 $this->title = 'Importar Accion Centralizada';
-$this->params['breadcrumbs'][] = ['label' => 'Configuración', 'url' => ['site/configuracion']];
+$this->params['breadcrumbs'][] = ['label' => 'Accion Centralizada', 'url' => ['accion-centralizada/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 //Iconos

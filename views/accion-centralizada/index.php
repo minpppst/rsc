@@ -13,9 +13,13 @@ use johnitvn\ajaxcrud\CrudAsset;
 $this->title = 'Accion Centralizadas';
 $this->params['breadcrumbs'][] = $this->title;
 //Iconos
+
+
+
 $icons=[
     'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
     'importar'=>'<span class="glyphicon glyphicon-import" aria-hidden="true"></span>',
+    'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
 ];
 CrudAsset::register($this);
 ?>
@@ -25,11 +29,7 @@ CrudAsset::register($this);
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     
-        <p>
-        <?= Html::a($icons['crear'].' Crear Accion Centralizada', ['create'], ['class' => 'btn btn-success']) ?>
-       <?= Html::a($icons['importar'].' Importar', ['importar'],
-                    ['title'=> 'Importar Acciones Centralizadas','class'=>'btn btn-default']) ?>
-    </p>
+       
         
     
 <div id="ajaxCrudDatatable">
@@ -54,6 +54,9 @@ CrudAsset::register($this);
             'codigo_accion',
             'codigo_accion_sne',
             'nombre_accion',
+            'fecha_inicio',
+            'fecha_fin',
+
 
             [
     'class' => '\kartik\grid\DataColumn',
@@ -131,15 +134,33 @@ CrudAsset::register($this);
             ],
         ],
 
+
+
+
+          'toolbar'=> [
+                [ 
+                'content'=>                  
+                    Html::a($icons['crear'].' Crear Accion Centralizada', ['create'], ['class' => 'btn btn-success']).
+                    '{toggleData}'.
+                    '{export}'.
+                    Html::a($icons['importar'].' Importar', ['importar'],
+                    ['title'=> 'Importar Acciones Centralizadas','class'=>'btn btn-default'])
+                ],
+            ],     
+
         'panel' => [
-             'type' => 'primary', 
+             
+
+            'type' => 'info', 
             'heading' => '<i class="glyphicon glyphicon-list"></i> Proyecto Accion Especificas listing',
             'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
-                'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Borrar',
-                                ["bulkdelete"] ,
+            'after'=>BulkButtonWidget::widget([
+                            'buttons'=>
+                            
+                                Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Eliminar',
+                                ["bulkEstatus"] ,
                                 
-                                ['class' => 'btn btn-xs btn-danger btn-block',
+                                ['class' => "btn btn-danger btn-xs",
                                 'onclick' => "
                                  var HotId = $(\"#crud-datatable\").yiiGridView(\"getSelectedRows\");
                                     
@@ -158,23 +179,65 @@ CrudAsset::register($this);
                                 });
                                 }
                                 return false;
-                                ",   
-
-                                    /*"id"=>"borrar_todo",
-                                    "class"=>"btn btn-danger btn-xs",
-                                    'role'=>'modal-remote-bulk',
-                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                    'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Are you sure?',
-                                    'data-confirm-message'=>'Are you sure want to delete this item'*/
-                                ]),
-                        ]).                        
+                                "
+                                ]).' '.
+                                 Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
+                                ["bulkEstatus"] ,
+                                
+                                ['class' => "btn btn-warning btn-xs",
+                                'onclick' => "
+                                 var HotId = $(\"#crud-datatable\").yiiGridView(\"getSelectedRows\");
+                                    
+                                    if(HotId==''){
+                                        alert('Error, Debe Seleccionar Algun Elemento');
+                                        return false;
+                                    }
+                                if (confirm('¿Está seguro que desea Desactivar este elemento?')) {
+                                   
+                                $.ajax({
+                                type: 'POST',
+                                url : \"index.php?r=accion-centralizada/bulk-estatusdesactivo\",
+                                data : {pks: HotId},
+                                }).done(function(data) {
+                                $.pjax.reload({container: '#especifica-pjax'});
+                                });
+                                }
+                                return false;
+                                "
+                                ]).' '.
+                                Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Activar',
+                                ["bulkEstatus"] ,
+                                
+                                ['class' => 'btn btn-success btn-xs',
+                                'onclick' => "
+                                 var HotId = $(\"#crud-datatable\").yiiGridView(\"getSelectedRows\");
+                                    
+                                    if(HotId==''){
+                                        alert('Error, Debe Seleccionar Algun Elemento');
+                                        return false;
+                                    }
+                                if (confirm('¿Está seguro que desea Activar este elemento?')) {
+                                   
+                                $.ajax({
+                                type: 'POST',
+                                url : \"index.php?r=accion-centralizada/bulk-estatusactivo\",
+                                data : {pks: HotId},
+                                }).done(function(data) {
+                                $.pjax.reload({container: '#especifica-pjax'});
+                                });
+                                }
+                                return false;
+                                "]),
+                                ]).                        
                         '<div class="clearfix"></div>',
             ]
 
     ]); ?>
 
 </div>
+<div class="btn-group">
+        <?= Html::a($icons['volver'].' Volver', ['site/configuracion'], ['class' => 'btn btn-primary']) ?>
+    </div>
 
 </div>
 <!-- Ventana modal -->

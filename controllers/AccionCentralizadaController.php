@@ -26,6 +26,9 @@ class AccionCentralizadaController extends Controller
                 'actions' => [
                     'delete' => ['post'],
                     'bulk-delete' => ['post'],
+                    'bulk-estatusactivo' => ['post'],
+                    'bulk-estatusdesactivar' => ['post'],
+                    
                 ],
             ],
             'access' => [
@@ -247,6 +250,76 @@ public function actionBulkDelete()
         //$model=AcAcEspec::findAll(json_decode($key));
             $model=$this->findModel($key);
             $model->delete();
+        
+        
+        }
+        
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>true]; 
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['/accion_centralizada/index']);
+        }
+       
+    }
+
+
+
+    public function actionBulkEstatusactivo()
+    {        
+        $request = Yii::$app->request;
+        $pks = $request->post('pks'); // Array or selected records primary keys
+        
+        
+        foreach ($pks as $key) {
+            
+        
+        //$model=AcAcEspec::findAll(json_decode($key));
+            $model=$this->findModel($key);
+            //$model->delete();
+            $model->activar();
+        
+        
+        }
+        
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>true]; 
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['/accion_centralizada/index']);
+        }
+       
+    }
+
+
+
+    public function actionBulkEstatusdesactivo()
+    {        
+        $request = Yii::$app->request;
+        $pks = $request->post('pks'); // Array or selected records primary keys
+        
+        
+        foreach ($pks as $key) {
+            
+        
+        //$model=AcAcEspec::findAll(json_decode($key));
+            $model=$this->findModel($key);
+            //$model->delete();
+            $model->desactivar();
         
         
         }
