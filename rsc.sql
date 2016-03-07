@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-03-2016 a las 15:48:13
+-- Tiempo de generación: 07-03-2016 a las 02:05:03
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -31,16 +31,19 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada` (
   `codigo_accion` varchar(45) NOT NULL,
   `codigo_accion_sne` varchar(45) NOT NULL,
   `nombre_accion` varchar(45) NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
   `estatus` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada`
 --
 
-INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `nombre_accion`, `estatus`) VALUES
-(2, '01', '01', 'probando', 1);
+INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `nombre_accion`, `fecha_inicio`, `fecha_fin`, `estatus`) VALUES
+(2, '01', '01', 'probando', '2015-01-12', '2016-03-31', 0),
+(8, '02', '02', 'probando', '2016-03-06', '2017-03-27', 0);
 
 -- --------------------------------------------------------
 
@@ -63,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
 --
 
 INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`, `estatus`) VALUES
-(18, 2, '01', 'probando', 1);
+(18, 2, '01', 'probando', 0);
 
 -- --------------------------------------------------------
 
@@ -206,6 +209,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('acc_accion_especifica', 1, 'Crear, editar y eliminar acciones específicas de ACC', NULL, NULL, 1456113925, 1456114942),
 ('accion_centralizada', 1, 'ver las acciones centralizadas', NULL, NULL, 1455129653, 1455130517),
 ('accion-centralizada/bulk-delete', 2, 'Borrar por lotes las acciones centralizadas', NULL, NULL, 1457014092, 1457014557),
+('accion-centralizada/bulk-estatusactivo', 2, 'Cambiar Los Estatus Por Lote', NULL, NULL, 1457309667, 1457310862),
+('accion-centralizada/bulk-estatusdesactivo', 2, 'desactivar por lotes las acciones centralizadas', NULL, NULL, 1457310951, 1457310951),
 ('accion-centralizada/create', 2, 'crear acciones centralizadas', NULL, NULL, 1455130416, 1455130416),
 ('accion-centralizada/delete', 2, 'borrar acciones centralizadas', NULL, NULL, 1455130459, 1455130459),
 ('accion-centralizada/importar', 2, 'importar por lote las acciones centralizadas', NULL, NULL, 1457011381, 1457011381),
@@ -272,7 +277,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('registrador_basico', 1, 'Crea, edita y elimina datos básicos de proyecto', NULL, NULL, 1450393912, 1452359490),
 ('registrador_distribucion_presupuestaria', 1, 'Crea, edita y elimina la distribución presupuestaria de proyecto', NULL, NULL, 1452649340, 1452649340),
 ('site/configuracion', 2, 'Configurar el sistema', NULL, NULL, 1450736795, 1450736795),
-('sysadmin', 1, 'Administrador del sistema', NULL, NULL, 1450736017, 1457014171),
+('sysadmin', 1, 'Administrador del sistema', NULL, NULL, 1450736017, 1457311021),
 ('unidad-medida/create', 2, 'Crear unidad de medida', NULL, NULL, 1453773712, 1453773712),
 ('unidad-medida/delete', 2, 'Eliminar unidad de medida', NULL, NULL, 1453773745, 1453773745),
 ('unidad-medida/index', 2, 'Lista de unidad de medida', NULL, NULL, 1453773700, 1453773700),
@@ -319,6 +324,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('acc_accion_especifica', 'ac-esp-uej/update'),
 ('sysadmin', 'ac-esp-uej/update'),
 ('sysadmin', 'accion-centralizada/bulk-delete'),
+('sysadmin', 'accion-centralizada/bulk-estatusactivo'),
+('sysadmin', 'accion-centralizada/bulk-estatusdesactivo'),
 ('accion_centralizada', 'accion-centralizada/create'),
 ('sysadmin', 'accion-centralizada/create'),
 ('accion_centralizada', 'accion-centralizada/delete'),
