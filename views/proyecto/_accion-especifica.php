@@ -19,7 +19,7 @@
         'filterModel' => $searchModel,
         'pjax' => true,
         'panel' => [
-        	'type' => 'primary',
+        	'type' => 'default',
         	'heading' => 'Lista de Acciones Específicas'
         ],
         'columns' => [

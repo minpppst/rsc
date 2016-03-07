@@ -39,7 +39,7 @@ CrudAsset::register($this);
         'toolbar'=> [
             ['content'=>
                 Html::a($icons['nuevo'].' Nuevo', ['create','proyecto'=>$searchModel->id_proyecto],
-                ['role'=>'modal-remote','title'=> 'Crear Acción Específica','class'=>'btn btn-success']).
+                ['role'=>'modal-remote','title'=> 'Crear Acción Específica','class'=>'btn btn-default']).
                 Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
                 ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).                
                 '{toggleData}'.
@@ -50,9 +50,9 @@ CrudAsset::register($this);
         'condensed' => true,
         'responsive' => true,          
         'panel' => [
-            'type' => 'primary', 
+            'type' => 'info', 
             'heading' => '<i class="glyphicon glyphicon-list"></i> Acciones Específicas',
-            'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
+            'before'=>'<em>* Gestionar Acciones Específicas de este proyecto.</em>',
             'after'=>BulkButtonWidget::widget([
                         'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
                             ["bulk-delete"] ,

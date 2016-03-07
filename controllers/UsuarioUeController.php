@@ -7,6 +7,8 @@ use app\models\UsuarioUe;
 use app\models\UsuarioUeSearch;
 use app\models\AsignarUe;
 use app\models\AsignarUeSearch;
+use app\models\UnidadEjecutora;
+use app\models\UnidadEjecutoraSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -264,12 +266,42 @@ class UsuarioUeController extends Controller
         //Buscar los registros asociados
         $modelos = $this->findModelos($id);
         $formModel = new AsignarUe($id);
+        //Unidades Ejecutoras
+        $ue = UnidadEjecutora::find()->all();
+
         $request = Yii::$app->request;
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isPost) {
-                $formModel->load(Yii::$app->request->post());
-                $formModel->save();
+                //Variables
+                $formModel->usuarioId = $request->post('AsignarUe')['usuarioId']; //ID del ussuario
+                //Si no se seleccionó unidad ejecutora
+                if(!isset($request->post('AsignarUe', null)['unidadesEjecutoras']))
+                {
+                    $formModel->unidadesEjecutoras = []; //Arreglo vacio
+                }
+                else
+                {
+                    //Asignar el arreglo de unidades ejecutoras
+                    $formModel->unidadesEjecutoras = $request->post('AsignarUe')['unidadesEjecutoras'];
+                }
+                //Asignar    
+                if($formModel->save())
+                {
+                    return [
+                        'title' => 'Asignar UE',
+                        'content' => 'Asignado exitosamente.',
+                        'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+                    ];
+                }
+                else
+                {
+                    return [
+                        'title' => 'Asignar UE',
+                        'content' => 'Ocurrió un error.',
+                        'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+                    ];
+                }
             }
             return [
                 'title' => 'Asignar UE',
@@ -277,6 +309,7 @@ class UsuarioUeController extends Controller
                 'content' => $this->renderPartial('asignar', [
                     'modelos' => $modelos,
                     'formModel' => $formModel,
+                    'ue' => $ue
                 ]),
                 'footer' => Html::button('Cancelar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
                 Html::button('Guardar', ['class' => 'btn btn-primary', 'type' => "submit"])
@@ -285,6 +318,7 @@ class UsuarioUeController extends Controller
             return $this->render('asignar', [
                         'modelos' => $modelos,
                         'formModel' => $formModel,
+                        'ue' => $ue
             ]);
         }
     }

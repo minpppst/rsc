@@ -22,8 +22,8 @@ class AsignarUe extends Model {
     public function __construct($usuarioId, $config = array()) {
         parent::__construct($config);
         $this->usuarioId = $usuarioId;
-        foreach ($this->getUnidadesEjecutoras($usuarioId) as $unidades) {
-            $this->unidadesEjecutoras[] = $unidades;
+        foreach ($this->getIdUnidadesEjecutoras($usuarioId) as $unidades) {
+            $this->unidadesEjecutoras[] = $unidades->unidad_ejecutora;
         }
     }
 
@@ -48,23 +48,33 @@ class AsignarUe extends Model {
     }
 
     /**
-     * Save assignment data
-     * @return boolean whether assignment save success
+     * Guardar asignacion
+     * @return boolean 
      */
     public function save() {
-        //$this->authManager->revokeAll(intval($this->userId));
-        if ($this->unidadesEjecutoras != null) {
-            foreach ($this->unidadesEjecutoras as $unidad) {
-                //$this->authManager->assign($this->authManager->getRole($role), $this->userId);
-                $unidad->save();
+
+        foreach($this->idUnidadesEjecutoras as $asignados)
+        {
+            $asignados->delete();
+        }
+        
+        if (!empty($this->unidadesEjecutoras)) 
+        {
+            foreach ($this->unidadesEjecutoras as $unidad) 
+            {                
+                $unidadUe = new UsuarioUe();
+                $unidadUe->usuario = $this->usuarioId;
+                $unidadUe->unidad_ejecutora = $unidad;
+                $unidadUe->save();
             }
         }
+
         return true;
     }
 
-    public function getUnidadesEjecutoras($usuario)
+    public function getIdUnidadesEjecutoras()
     {
-        return UsuarioUe::find(['usuario' => $usuario]);
+        return UsuarioUe::findAll(['usuario' => $this->usuarioId]);
     }
 
 }
