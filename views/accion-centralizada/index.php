@@ -54,8 +54,19 @@ CrudAsset::register($this);
             'codigo_accion',
             'codigo_accion_sne',
             'nombre_accion',
-            'fecha_inicio',
-            'fecha_fin',
+            [
+            'attribute'=> 'fecha_inicio',
+            'value'=> function($model){
+            return  $model->fecha_inicio=date_format(date_create($model->fecha_inicio),'d/m/Y');}
+
+            ],
+            [
+            'attribute'=> 'fecha_fin',
+            'value'=> function($model){
+            return  $model->fecha_fin=date_format(date_create($model->fecha_fin),'d/m/Y');}
+            ],
+
+          
 
 
             [

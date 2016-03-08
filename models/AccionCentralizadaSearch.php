@@ -62,6 +62,7 @@ class AccionCentralizadaSearch extends AccionCentralizada
         $query->andFilterWhere(['like', 'codigo_accion', $this->codigo_accion])
             ->andFilterWhere(['like', 'codigo_accion_sne', $this->codigo_accion_sne])
             ->andFilterWhere(['like', 'fecha_inicio', $this->fecha_inicio])
+            
             ->andFilterWhere(['like', 'fecha_fin', $this->fecha_fin])
             ->andFilterWhere(['like', 'nombre_accion', $this->nombre_accion]);
 

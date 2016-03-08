@@ -22,7 +22,9 @@ use kartik\date\DatePicker;
     <?= $form->field($model, 'nombre_accion')->textInput(['maxlength' => true]) ?>
     
    
-
+    <?php if ($model->fecha_inicio!='') {
+                $model->fecha_inicio=date_format(date_create($model->fecha_inicio),'d/m/Y');
+             } ?>
 	<?= $form->field($model, 'fecha_inicio')->
 	widget(
     DatePicker::className(), [
@@ -32,13 +34,15 @@ use kartik\date\DatePicker;
     'language'=>'es',
     'options' => ['placeholder' => 'Select issue date ...'],
     'pluginOptions' => [
-        'format' => 'yyyy-mm-dd',
+        'format' => 'dd/mm/yyyy',
         'todayHighlight' => true
     ]
         ]);?>
 
 	 
-    
+    <?php if ($model->fecha_fin!='') {
+                $model->fecha_fin=date_format(date_create($model->fecha_fin),'d/m/Y');
+             } ?>
     <?= $form->field($model,'fecha_fin')->
     widget(
     DatePicker::className(),  [
@@ -48,7 +52,7 @@ use kartik\date\DatePicker;
     'readonly'=>'true',
     'options' => ['placeholder' => 'Select issue date ...'],
     'pluginOptions' => [
-        'format' => 'yyyy-mm-dd',
+        'format' => 'dd/mm/yyyy',
         'todayHighlight' => true
     ]
 ]);?>
