@@ -3,11 +3,21 @@
 namespace app\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use app\models\ProyectoPedido;
 use app\models\ProyectoPedidoSearch;
+use app\models\Proyecto;
+use app\models\ProyectoSearch;
+use app\models\ProyectoAccionEspecifica;
+use app\models\ProyectoAccionEspecificaSearch;
+use app\models\UsuarioUe;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\rbac\ManagerInterface;
+use yii\db\Query;
 
 /**
  * ProyectoPedidoController implements the CRUD actions for ProyectoPedido model.
@@ -23,6 +33,25 @@ class ProyectoPedidoController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rule,$action)
+                        {
+                            $controller = Yii::$app->controller->id;
+                            $action = Yii:: $app->controller->action->id;                    
+                            $route = "$controller/$action";
+                            if(\Yii::$app->user->can($route))
+                            {
+                                return true;
+                            }
+                        }
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -32,11 +61,29 @@ class ProyectoPedidoController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ProyectoPedidoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $usuarioUe = UsuarioUe::findAll(['usuario' => \Yii::$app->user->id]);
+        $accionesEspecificas = ProyectoAccionEspecifica::find();
 
+        foreach ($usuarioUe as $key => $value) 
+        {
+            $accionesEspecificas->andWhere(['id_unidad_ejecutora' => $value->unidad_ejecutora]);
+        }        
+        
+        //Acciones Especificas
+        $dataProvider = new ActiveDataProvider([
+            'query' => $accionesEspecificas,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_ASC, 
+                ]
+            ],
+        ]);
+        
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            //'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
