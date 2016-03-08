@@ -30,7 +30,9 @@
         "kartik-v/yii2-widget-select2": "@dev",
         "nhkey/yii2-activerecord-history": "*",
         "kartik-v/dependent-dropdown": "dev-master",
-        "kartik-v/yii2-widget-depdrop": "@dev"
+        "kartik-v/yii2-widget-depdrop": "@dev",
+        "kartik-v/yii2-widget-datepicker": "@dev",
+        "2amigos/yii2-date-picker-widget": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
