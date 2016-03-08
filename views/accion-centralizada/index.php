@@ -36,10 +36,7 @@ CrudAsset::register($this);
     <?= GridView::widget([
         'id'=>'crud-datatable',
          'pjax'=>true,
-          'pjaxSettings' => [
-            'options' => [
-                'id' => 'especifica-pjax',
-            ],],
+          
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -70,57 +67,31 @@ CrudAsset::register($this);
 
 
             [
-    'class' => '\kartik\grid\DataColumn',
+        'class' => '\kartik\grid\DataColumn',
         'width' => '50px',
         'attribute' => 'estatus',
         
-        'value' => function ($model) {$url= Url::to(['accion-centralizada/toggle-activo', 'id' => $model->id]);
+        'value' => function ($model) {
             if ($model->estatus == 1) {
 
                 
                 return Html::a($model->nombreEstatus, ['/accion-centralizada/toggle-activo', 'id' => $model->id],[
-                            /*'class' => 'btn btn-xs btn-success btn-block',
-                             'role' => 'modal-remote',
-                            
-                            //'data-pjax' => true,
-                            
-                            'pjax-container'=>'especifica-pjax',
+                            'class' => 'btn btn-xs btn-success btn-block',
+                            'role' => 'modal-remote',
                             'data-confirm' => false, 'data-method' => false, // for overide yii data api
-                            'id' => 'bulk-status',
+                            
                             'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
                             'data-confirm-message' => Yii::t('user', '¿Está seguro que desea desactivar este elemento?'),
-                            'data-request-method' => 'post',
-                            'data-pjax' => '0',
-                          */'class' => 'btn btn-xs btn-success btn-block',
-                            'onclick' => "
-                                if (confirm('¿Está seguro que desea Desactivar este elemento?')) {
-                                $.ajax('$url', {
-                                type: 'POST'
-                                }).done(function(data) {
-                                $.pjax.reload({container: '#especifica-pjax'});
-                                });
-                                }
-                                return false;
-                                ",
-                                
-                
-
-                            ]);
+                           ]);
             } else { 
-                return Html::a($model->nombreEstatus, ['/accion-centralizada/toggle-activo', 'id' => $model->id],
-                           
-                             [
+                return Html::a($model->nombreEstatus, ['/accion-centralizada/toggle-activo', 'id' => $model->id],[
                             'class' => 'btn btn-xs btn-warning btn-block',
-                            'onclick' => "
-                                if (confirm('¿Está seguro que desea activar este elemento?')) {
-                                $.ajax('$url', {
-                                type: 'POST'
-                                }).done(function(data) {
-                                $.pjax.reload({container: '#especifica-pjax'});
-                                });
-                                }
-                                return false;
-                                ",
+                            'role' => 'modal-remote',
+                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                            
+                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea activar este elemento?'),
+                            
                                 
                 ]);
             }
@@ -165,7 +136,40 @@ CrudAsset::register($this);
             'type' => 'info', 
             'heading' => '<i class="glyphicon glyphicon-list"></i> Proyecto Accion Especificas listing',
             'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
-            'after'=>BulkButtonWidget::widget([
+             'after'=>BulkButtonWidget::widget([
+                    'buttons'=>
+                        Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',
+                        ["bulk-delete"] ,
+                        [
+                            "class"=>"btn btn-danger btn-xs",
+                            'role'=>'modal-remote-bulk',
+                            'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                            'data-request-method'=>'post',
+                            'data-confirm-title'=>'¿Está seguro?',
+                            'data-confirm-message'=>'¿Está seguro que desea eliminar los elementos seleccionados?'
+                        ]).' '.
+                        Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
+                            ["bulk-estatusdesactivo"] ,
+                            [
+                                "class"=>"btn btn-warning btn-xs",
+                                'role'=>'modal-remote-bulk',
+                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                'data-request-method'=>'post',
+                                'data-confirm-title'=>'¿Está seguro?',
+                                'data-confirm-message'=>'¿Está seguro que desea desactivar los elementos seleccionados?'
+                            ]).' '.
+                        Html::a('<i class="glyphicon glyphicon-ok-circle"></i>&nbsp; Activar',
+                            ["bulk-estatusactivo"] ,
+                            [
+                                "class"=>"btn btn-success btn-xs",
+                                'role'=>'modal-remote-bulk',
+                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                'data-request-method'=>'post',
+                                'data-confirm-title'=>'¿Está seguro?',
+                                'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
+                            ]),
+                ]).
+            /*'after'=>BulkButtonWidget::widget([
                             'buttons'=>
                             
                                 Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Eliminar',
@@ -239,7 +243,7 @@ CrudAsset::register($this);
                                 }
                                 return false;
                                 "]),
-                                ]).                        
+                                ]).*/                        
                         '<div class="clearfix"></div>',
             ]
 

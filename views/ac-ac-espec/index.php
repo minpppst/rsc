@@ -9,18 +9,7 @@ use kartik\select2\Select2;
 \kartik\select2\Select2Asset::register($this);
 
 
-/*$js = <<< 'JS'
-$("#unique-pjax-id").on("pjax:complete", function() {
-var $el = $("#unique-select2-id"), 
- ll=$("#unique-select2-id");
-alert(ll.data);
-    options = $el.data('pluginOptions'); // select2 plugin settings saved
- jQuery.when($el.select2(window[options])).done(initSelect2Loading('unique-select2-id'));
-});
-JS;
-// Call the above js script in your view
-$this->registerJs($js);
-*/
+
 
 
 /* @var $this yii\web\View */
@@ -45,11 +34,7 @@ CrudAsset::register($this);
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'pjax'=>true,
-            'pjaxSettings' => [
-            'options' => [
-                'id' => 'especifica-pjax',
-            ],
-        ],
+            
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>                  
@@ -66,15 +51,50 @@ CrudAsset::register($this);
             'condensed' => true,
             'responsive' => true,          
             'panel' => [
-                'type' => 'primary', 
+            'type' => 'primary', 
             'heading' => '<i class="glyphicon glyphicon-list"></i> Proyecto Accion Especificas listing',
             'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
-                'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
-                                ["bulk-delete"] ,
+            'after'=>BulkButtonWidget::widget([
+                    'buttons'=>
+                        Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',
+                        ["bulk-delete"] ,
+                        [
+                            "class"=>"btn btn-danger btn-xs",
+                            'role'=>'modal-remote-bulk',
+                            'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                            'data-request-method'=>'post',
+                            'data-confirm-title'=>'¿Está seguro?',
+                            'data-confirm-message'=>'¿Está seguro que desea eliminar los elementos seleccionados?'
+                        ]).' '.
+                        Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
+                            ["bulk-estatusdesactivo"] ,
+                            [
+                                "class"=>"btn btn-warning btn-xs",
+                                'role'=>'modal-remote-bulk',
+                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                'data-request-method'=>'post',
+                                'data-confirm-title'=>'¿Está seguro?',
+                                'data-confirm-message'=>'¿Está seguro que desea desactivar los elementos seleccionados?'
+                            ]).' '.
+                        Html::a('<i class="glyphicon glyphicon-ok-circle"></i>&nbsp; Activar',
+                            ["bulk-estatusactivo"] ,
+                            [
+                                "class"=>"btn btn-success btn-xs",
+                                'role'=>'modal-remote-bulk',
+                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                'data-request-method'=>'post',
+                                'data-confirm-title'=>'¿Está seguro?',
+                                'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
+                            ]),
+                ]).
+
+
+
+            /*'after'=>BulkButtonWidget::widget([
+                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Borrar',
+                                ["bulkdelete"] ,
                                 
-                                  
-                                 ['class' => 'btn btn-xs btn-danger btn-block',
+                                ['class' => 'btn btn-danger btn-xs',
                                 'onclick' => "
                                  var HotId = $(\"#especifica\").yiiGridView(\"getSelectedRows\");
                                     
@@ -95,17 +115,63 @@ CrudAsset::register($this);
                                 return false;
                                 ",   
 
-
-
-                                   /* "class"=>"btn btn-danger btn-xs",
-                                    'role'=>'modal-remote-bulk',
-                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                    'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Are you sure?',
-                                    'data-confirm-message'=>'Are you sure want to delete this item'
-                                */
+                                  
                                 ]),
-                        ]).                        
+                        ]).'&nbsp;'.
+                                 Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
+                                ["bulkEstatus"] ,
+                                
+                                ['class' => 'btn btn-warning btn-xs',
+                                'onclick' => "
+                                 var HotId = $(\"#especifica\").yiiGridView(\"getSelectedRows\");
+                                    
+                                    if(HotId==''){
+                                        alert('Error, Debe Seleccionar Algun Elemento');
+                                        return false;
+                                    }
+                                if (confirm('¿Está seguro que desea Desactivar este elemento?')) {
+                                   
+                                $.ajax({
+                                type: 'POST',
+                                url : \"index.php?r=ac-ac-espec/bulk-estatusdesactivo\",
+                                data : {pks: HotId},
+                                }).done(function(data) {
+                                $.pjax.reload({container: '#especifica-pjax'});
+                                });
+                                }
+                                return false;
+                                ",   
+
+                                
+                                
+                        ]).' '.
+                               Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Activar',
+                                ["bulkdEstatus"] ,
+                                
+                                ['class' => 'btn btn-success btn-xs',
+                                'onclick' => "
+                                 var HotId = $(\"#especifica\").yiiGridView(\"getSelectedRows\");
+                                    
+                                    if(HotId==''){
+                                        alert('Error, Debe Seleccionar Algun Elemento');
+                                        return false;
+                                    }
+                                if (confirm('¿Está seguro que desea activar este elemento?')) {
+                                   
+                                $.ajax({
+                                type: 'POST',
+                                url : \"index.php?r=ac-ac-espec/bulk-estatusactivo\",
+                                data : {pks: HotId},
+                                }).done(function(data) {
+                                $.pjax.reload({container: '#especifica-pjax'});
+                                });
+                                }
+                                return false;
+                                ",   
+
+                                  
+                                
+                        ]).*/
                         '<div class="clearfix"></div>',
             ]
         ])?>

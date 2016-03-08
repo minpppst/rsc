@@ -36,6 +36,8 @@ class AcAcEspecController extends Controller
                 'actions' => [
                     'delete' => ['post'],
                     'bulk-delete' => ['post'],
+                    'bulk-estatusactivo' => ['post'],
+                    'bulk-estatusdesactivar' => ['post'],
                 ],
             ],
             'access' => [
@@ -162,7 +164,7 @@ class AcAcEspecController extends Controller
 
                 return [
                     'forceReload'=>'true',
-                    'contenedorId' => '#especifica-pjax', //Id del contenedor
+                    //'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id_ac_centr]),
                     'title'=> "Create new AcAcEspec",
                     'content'=>'<span class="text-success">Create AcAcEspec success</span>',
@@ -261,7 +263,7 @@ class AcAcEspecController extends Controller
 
 
                 return [
-                     'forceReload'=>'false',
+                    'forceReload'=>'false',
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id_ac_centr]),
                     'title'=> "Accion Especifica #".$id,
@@ -336,7 +338,7 @@ class AcAcEspecController extends Controller
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         $accion_centralizada="";
         
         foreach ($pks as $key) {
@@ -524,4 +526,77 @@ class AcAcEspecController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionBulkEstatusactivo()
+    {        
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        
+        
+        foreach ($pks as $key) {
+            
+        
+       
+            $model=$this->findModel($key);
+            $model->activar();
+        
+        
+        }
+        
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>true]; 
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['/ac-ac-espec/index']);
+        }
+       
+    }
+
+
+
+    public function actionBulkEstatusdesactivo()
+    {        
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        
+        
+        foreach ($pks as $key) {
+            
+        
+        
+            $model=$this->findModel($key);
+        
+            $model->desactivar();
+        
+        
+        }
+        
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>true]; 
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['/ac-ac-espec/index']);
+        }
+       
+    }
+
+
+
+
+
+
 }

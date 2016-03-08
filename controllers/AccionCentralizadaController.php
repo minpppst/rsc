@@ -278,7 +278,7 @@ public function actionImportar()
 public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         
         
         foreach ($pks as $key) {
@@ -312,7 +312,7 @@ public function actionBulkDelete()
     public function actionBulkEstatusactivo()
     {        
         $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         
         
         foreach ($pks as $key) {
@@ -337,7 +337,7 @@ public function actionBulkDelete()
             /*
             *   Process for non-ajax request
             */
-            return $this->redirect(['/accion_centralizada/index']);
+            return $this->redirect(['index']);
         }
        
     }
@@ -347,7 +347,7 @@ public function actionBulkDelete()
     public function actionBulkEstatusdesactivo()
     {        
         $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         
         
         foreach ($pks as $key) {
@@ -372,7 +372,7 @@ public function actionBulkDelete()
             /*
             *   Process for non-ajax request
             */
-            return $this->redirect(['/accion_centralizada/index']);
+            return $this->redirect(['index']);
         }
        
     }
