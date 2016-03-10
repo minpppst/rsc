@@ -290,7 +290,7 @@ class UsuarioUeController extends Controller
                 {
                     return [
                         'title' => 'Asignar UE',
-                        'content' => 'Asignado exitosamente.',
+                        'content' => '<div class="alert alert-success" role="alert">Asignado exitosamente.</div>',
                         'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
                     ];
                 }
@@ -298,7 +298,7 @@ class UsuarioUeController extends Controller
                 {
                     return [
                         'title' => 'Asignar UE',
-                        'content' => 'Ocurrió un error.',
+                        'content' => '<div class="alert alert-danger" role="alert">Ocurrió un error.</div>',
                         'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
                     ];
                 }

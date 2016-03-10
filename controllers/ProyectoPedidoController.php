@@ -66,7 +66,7 @@ class ProyectoPedidoController extends Controller
 
         foreach ($usuarioUe as $key => $value) 
         {
-            $accionesEspecificas->andWhere(['id_unidad_ejecutora' => $value->unidad_ejecutora]);
+            $accionesEspecificas->orWhere(['id_unidad_ejecutora' => $value->unidad_ejecutora]);
         }        
         
         //Acciones Especificas
@@ -77,7 +77,7 @@ class ProyectoPedidoController extends Controller
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'id' => SORT_ASC, 
+                    'id_proyecto' => SORT_ASC, 
                 ]
             ],
         ]);
