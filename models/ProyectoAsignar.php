@@ -5,23 +5,24 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "usuario_ue".
+ * This is the model class for table "proyecto_asignar".
  *
  * @property integer $id
  * @property integer $usuario
  * @property integer $unidad_ejecutora
+ * @property integer $accion_especifica
  *
  * @property UserAccounts $usuario0
  * @property UnidadEjecutora $unidadEjecutora
  */
-class UsuarioUe extends \yii\db\ActiveRecord
+class ProyectoAsignar extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'usuario_ue';
+        return 'proyecto_asignar';
     }
 
     /**
@@ -30,8 +31,8 @@ class UsuarioUe extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['usuario', 'unidad_ejecutora'], 'required'],
-            [['usuario', 'unidad_ejecutora'], 'integer']
+            [['usuario', 'unidad_ejecutora', 'accion_especifica'], 'required'],
+            [['usuario', 'unidad_ejecutora', 'accion_especifica'], 'integer']
         ];
     }
 
@@ -44,6 +45,7 @@ class UsuarioUe extends \yii\db\ActiveRecord
             'id' => 'ID',
             'usuario' => 'Usuario',
             'unidad_ejecutora' => 'Unidad Ejecutora',
+            'accion_especifica' => 'Accion Especifica',
         ];
     }
 

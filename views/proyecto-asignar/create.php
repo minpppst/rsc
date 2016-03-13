@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\UsuarioUe */
+/* @var $model app\models\ProyectoAsignar */
 
 ?>
-<div class="usuario-ue-create">
+<div class="proyecto-asignar-create">
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

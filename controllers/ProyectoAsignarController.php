@@ -3,26 +3,25 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\UsuarioUe;
-use app\models\UsuarioUeSearch;
-use app\models\AsignarUe;
-use app\models\AsignarUeSearch;
+use yii\filters\AccessControl;
+use johnitvn\userplus\base\WebController;
+use app\models\ProyectoAsignar;
+use app\models\ProyectoAsignarSearch;
 use app\models\UnidadEjecutora;
-use app\models\UnidadEjecutoraSearch;
+use app\models\ProyectoAccionEspecifica;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 
+use johnitvn\userplus\base\models\UserAccounts;
+
 /**
- * UsuarioUeController implements the CRUD actions for UsuarioUe model.
+ * ProyectoAsignarController implements the CRUD actions for ProyectoAsignar model.
  */
-class UsuarioUeController extends Controller
+class ProyectoAsignarController extends WebController
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -30,19 +29,22 @@ class UsuarioUeController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
-                    'bulk-delete' => ['post'],
                 ],
             ],
         ];
     }
 
     /**
-     * Lists all UsuarioUe models.
+     * Lists all ProyectoAsignar models.
      * @return mixed
      */
     public function actionIndex()
-    {    
-        $searchModel = new UsuarioUeSearch();
+    {
+        /*
+        $searchModel = new ProyectoAsignarSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        */
+        $searchModel = $this->userPlusModule->createModelInstance('UserSearch');
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -51,34 +53,43 @@ class UsuarioUeController extends Controller
         ]);
     }
 
-
     /**
-     * Displays a single UsuarioUe model.
+     * Displays a single ProyectoAsignar model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
-    {   
-        $request = Yii::$app->request;
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> "UsuarioUe #".$id,
-                    'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-        }else{
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-            ]);
-        }
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
     }
 
     /**
-     * Creates a new UsuarioUe model.
+     * Asignar unidades ejecutoras y acciones especificas
+     * a un usuario.
+     * @param integer $usuario
+     * @return mixed
+     */
+    public function actionAsignar($usuario)
+    {
+        //Modelos
+        $usuario = UserAccounts::findIdentity($usuario);
+        $searchModel = new ProyectoAsignarSearch(['usuario' => $usuario->id]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //Listas desplegables
+        $ue = UnidadEjecutora::find()->all();
+        $ace = ProyectoAccionEspecifica::find()->all();
+
+        return $this->render('asignar', [
+            'usuario' => $usuario,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    /**
+     * Creates a new ProyectoAsignar model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -86,7 +97,7 @@ class UsuarioUeController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new UsuarioUe();  
+        $model = new ProyectoAsignar();  
 
         if($request->isAjax){
             /*
@@ -95,7 +106,7 @@ class UsuarioUeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new UsuarioUe",
+                    'title'=> "Create new ProyectoAsignar",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                     ]),
@@ -106,15 +117,15 @@ class UsuarioUeController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Create new UsuarioUe",
-                    'content'=>'<span class="text-success">Create UsuarioUe success</span>',
+                    'title'=> "Create new ProyectoAsignar",
+                    'content'=>'<span class="text-success">Create ProyectoAsignar success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new UsuarioUe",
+                    'title'=> "Create new ProyectoAsignar",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                     ]),
@@ -139,7 +150,7 @@ class UsuarioUeController extends Controller
     }
 
     /**
-     * Updates an existing UsuarioUe model.
+     * Updates an existing ProyectoAsignar model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -157,7 +168,7 @@ class UsuarioUeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update UsuarioUe #".$id,
+                    'title'=> "Update ProyectoAsignar #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                     ]),
@@ -167,7 +178,7 @@ class UsuarioUeController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "UsuarioUe #".$id,
+                    'title'=> "ProyectoAsignar #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -176,7 +187,7 @@ class UsuarioUeController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update UsuarioUe #".$id,
+                    'title'=> "Update ProyectoAsignar #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
                     ]),
@@ -198,8 +209,9 @@ class UsuarioUeController extends Controller
         }
     }
 
-    /**
-     * Delete an existing UsuarioUe model.
+
+     /**
+     * Delete an existing ProyectoAsignar model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -226,8 +238,8 @@ class UsuarioUeController extends Controller
 
     }
 
-     /**
-     * Delete multiple existing UsuarioUe model.
+    /**
+     * Delete multiple existing ProyectoAsignar model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -237,7 +249,7 @@ class UsuarioUeController extends Controller
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (UsuarioUe::findAll(json_decode($pks)) as $model) {
+        foreach (ProyectoAsignar::findAll(json_decode($pks)) as $model) {
             $model->delete();
         }
         
@@ -258,98 +270,19 @@ class UsuarioUeController extends Controller
     }
 
     /**
-     * Asignar unidad ejecutora a usuario
-     * @param mixed $id id del usuario
-     * @return mixed
-     */
-    public function actionAsignar($id) {
-        //Buscar los registros asociados
-        $modelos = $this->findModelos($id);
-        $formModel = new AsignarUe($id);
-        //Unidades Ejecutoras
-        $ue = UnidadEjecutora::find()->all();
-
-        $request = Yii::$app->request;
-        if ($request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if ($request->isPost) {
-                //Variables
-                $formModel->usuarioId = $request->post('AsignarUe')['usuarioId']; //ID del ussuario
-                //Si no se seleccionó unidad ejecutora
-                if(!isset($request->post('AsignarUe', null)['unidadesEjecutoras']))
-                {
-                    $formModel->unidadesEjecutoras = []; //Arreglo vacio
-                }
-                else
-                {
-                    //Asignar el arreglo de unidades ejecutoras
-                    $formModel->unidadesEjecutoras = $request->post('AsignarUe')['unidadesEjecutoras'];
-                }
-                //Asignar    
-                if($formModel->save())
-                {
-                    return [
-                        'title' => 'Asignar UE',
-                        'content' => '<div class="alert alert-success" role="alert">Asignado exitosamente.</div>',
-                        'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
-                    ];
-                }
-                else
-                {
-                    return [
-                        'title' => 'Asignar UE',
-                        'content' => '<div class="alert alert-danger" role="alert">Ocurrió un error.</div>',
-                        'footer' => Html::button('Cerrar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
-                    ];
-                }
-            }
-            return [
-                'title' => 'Asignar UE',
-                'forceReload' => "true",
-                'content' => $this->renderPartial('asignar', [
-                    'modelos' => $modelos,
-                    'formModel' => $formModel,
-                    'ue' => $ue
-                ]),
-                'footer' => Html::button('Cancelar', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
-                Html::button('Guardar', ['class' => 'btn btn-primary', 'type' => "submit"])
-            ];
-        } else {
-            return $this->render('asignar', [
-                        'modelos' => $modelos,
-                        'formModel' => $formModel,
-                        'ue' => $ue
-            ]);
-        }
-    }
-
-    /**
-     * Finds the UsuarioUe model based on its primary key value.
+     * Finds the ProyectoAsignar model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return UsuarioUe the loaded model
+     * @return ProyectoAsignar the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = UsuarioUe::findOne($id)) !== null) {
+        if (($model = ProyectoAsignar::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
-    /**
-     * Buscar los registros asociados
-     * @param integer $id id del usuario
-     * @return array registros asociados o null si no encuentra nada
-     */
-    protected function findModelos($id)
-    {
-        if (($model = UsuarioUe::find($id)) !== null) {
-            return $model->all();
-        } else {
-            return null;
-        }
-    }
 }

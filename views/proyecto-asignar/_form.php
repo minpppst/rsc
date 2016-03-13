@@ -3,17 +3,19 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\UsuarioUe */
+/* @var $model app\models\ProyectoAsignar */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="usuario-ue-form">
+<div class="proyecto-asignar-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'usuario')->textInput() ?>
 
     <?= $form->field($model, 'unidad_ejecutora')->textInput() ?>
+
+    <?= $form->field($model, 'accion_especifica')->textInput() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

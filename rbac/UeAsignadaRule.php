@@ -21,13 +21,21 @@ class UeAsignadaRule extends Rule
         /*
         $ue = UsuarioUe::findOne(['usuario' => $user]);
 
-         if($ue != null)
-         {
-            return $ue->unidad_ejecutora == 602 ? true: false;
-         }
-
-         return false;
-         */
+        if($user->role == 'admin')
+        {
+            return true;
+        }
+        else
+        {
+            if($ue != null)
+             {
+                return $ue->unidad_ejecutora == 600 ? true: false;
+             }
+        }
+        
+        return false;
+        */
+         
          return true;
     }
 }

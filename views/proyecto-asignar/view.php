@@ -3,9 +3,9 @@
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\UsuarioUe */
+/* @var $model app\models\ProyectoAsignar */
 ?>
-<div class="usuario-ue-view">
+<div class="proyecto-asignar-view">
  
     <?= DetailView::widget([
         'model' => $model,
@@ -13,6 +13,7 @@ use yii\widgets\DetailView;
             'id',
             'usuario',
             'unidad_ejecutora',
+            'accion_especifica',
         ],
     ]) ?>
 

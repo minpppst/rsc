@@ -23,6 +23,10 @@ return [
         'attribute'=>'unidad_ejecutora',
     ],
     [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'accion_especifica',
+    ],
+    [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',

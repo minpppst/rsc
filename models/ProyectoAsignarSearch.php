@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\UsuarioUe;
+use app\models\ProyectoAsignar;
 
 /**
- * UsuarioUeSearch represents the model behind the search form about `app\models\UsuarioUe`.
+ * ProyectoAsignarSearch represents the model behind the search form about `app\models\ProyectoAsignar`.
  */
-class UsuarioUeSearch extends UsuarioUe
+class ProyectoAsignarSearch extends ProyectoAsignar
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class UsuarioUeSearch extends UsuarioUe
     public function rules()
     {
         return [
-            [['id', 'usuario', 'unidad_ejecutora'], 'integer'],
+            [['id', 'usuario', 'unidad_ejecutora', 'accion_especifica'], 'integer'],
         ];
     }
 
@@ -40,7 +40,7 @@ class UsuarioUeSearch extends UsuarioUe
      */
     public function search($params)
     {
-        $query = UsuarioUe::find();
+        $query = ProyectoAsignar::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -58,6 +58,7 @@ class UsuarioUeSearch extends UsuarioUe
             'id' => $this->id,
             'usuario' => $this->usuario,
             'unidad_ejecutora' => $this->unidad_ejecutora,
+            'accion_especifica' => $this->accion_especifica,
         ]);
 
         return $dataProvider;
