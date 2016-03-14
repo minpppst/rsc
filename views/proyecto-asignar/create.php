@@ -10,5 +10,6 @@ use yii\helpers\Html;
 <div class="proyecto-asignar-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'ue' => $ue
     ]) ?>
 </div>

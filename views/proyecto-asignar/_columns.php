@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 return [
     [
@@ -14,21 +15,51 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'id',
     // ],
+    /*
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'usuario',
     ],
+    */
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'unidad_ejecutora',
+        'attribute'=>'nombreUe',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'accion_especifica',
+        'attribute'=>'nombreAe',
+    ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'width' => '50px',
+        'attribute' => 'nombreEstatus',
+        'value' => function ($model) {
+            if ($model->estatus == 1) {
+                return Html::a($model->nombreEstatus, ['toggle-activo', 'id' => $model->id], [
+                            'class' => 'btn btn-xs btn-success btn-block',
+                            'role' => 'modal-remote',
+                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                            'data-request-method' => 'post',
+                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea desactivar este elemento?'),
+                ]);
+            } else {
+                return Html::a($model->nombreEstatus, ['toggle-activo', 'id' => $model->id], [
+                            'class' => 'btn btn-xs btn-warning btn-block',
+                            'role' => 'modal-remote',
+                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                            'data-request-method' => 'post',
+                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea activar este elemento?'),
+                ]);
+            }
+        },
+        'format' => 'raw'
     ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
+        'header' => 'Acciones',
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to([$action,'id'=>$key]);

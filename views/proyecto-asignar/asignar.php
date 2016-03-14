@@ -7,8 +7,15 @@ use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use yii\helpers\ArrayHelper;
+use kartik\depdrop\DepDrop;
+use kartik\depdrop\DepDropAsset;
+
+$this->title = 'Asignar';
+$this->params['breadcrumbs'][] = ['label' => 'Asignar Usuarios', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
+DepDropAsset::register($this);
 
 //Iconos
 $icons=[   
@@ -21,6 +28,9 @@ $icons=[
 ?>
 
 <div class="proyecto-asignar-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
@@ -30,7 +40,7 @@ $icons=[
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-transfer"></i> Asignar', ['create'],
+                    Html::a('<i class="glyphicon glyphicon-transfer"></i> Asignar', ['create', 'usuario' => $usuario->id],
                     ['role'=>'modal-remote','title'=> 'Asignar','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
@@ -55,8 +65,28 @@ $icons=[
                                     'data-request-method'=>'post',
                                     'data-confirm-title'=>'Are you sure?',
                                     'data-confirm-message'=>'Are you sure want to delete this item'
-                                ]),
-                        ]).                        
+                                ]).' '.
+                            Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
+                            ["bulk-desactivar"] ,
+                            [
+                                "class"=>"btn btn-warning btn-xs",
+                                'role'=>'modal-remote-bulk',
+                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                'data-request-method'=>'post',
+                                'data-confirm-title'=>'¿Está seguro?',
+                                'data-confirm-message'=>'¿Está seguro que desea desactivar los elementos seleccionados?'
+                            ]).' '.
+                        Html::a('<i class="glyphicon glyphicon-ok-circle"></i>&nbsp; Activar',
+                            ["bulk-activar"] ,
+                            [
+                                "class"=>"btn btn-success btn-xs",
+                                'role'=>'modal-remote-bulk',
+                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                'data-request-method'=>'post',
+                                'data-confirm-title'=>'¿Está seguro?',
+                                'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
+                            ]),
+                        ]).                       
                         '<div class="clearfix"></div>',
             ]
         ])?>

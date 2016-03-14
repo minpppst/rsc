@@ -60,9 +60,16 @@ class ProyectoAsignarController extends WebController
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return [
+            'title'=> "Asignado",
+            'content'=>$this->renderPartial('view', [
+                'model' => $this->findModel($id)
+            ]),
+            'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+
+        ];
     }
 
     /**
@@ -77,9 +84,7 @@ class ProyectoAsignarController extends WebController
         $usuario = UserAccounts::findIdentity($usuario);
         $searchModel = new ProyectoAsignarSearch(['usuario' => $usuario->id]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //Listas desplegables
-        $ue = UnidadEjecutora::find()->all();
-        $ace = ProyectoAccionEspecifica::find()->all();
+        
 
         return $this->render('asignar', [
             'usuario' => $usuario,
@@ -94,10 +99,14 @@ class ProyectoAsignarController extends WebController
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($usuario)
     {
         $request = Yii::$app->request;
-        $model = new ProyectoAsignar();  
+        $model = new ProyectoAsignar();
+        $model->usuario = $usuario;
+
+        //Listas desplegables
+        $ue = UnidadEjecutora::find()->all(); 
 
         if($request->isAjax){
             /*
@@ -106,28 +115,30 @@ class ProyectoAsignarController extends WebController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new ProyectoAsignar",
+                    'title'=> "Asignar",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'ue' => $ue
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Create new ProyectoAsignar",
+                    'title'=> "Asignado",
                     'content'=>'<span class="text-success">Create ProyectoAsignar success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Asignar otro',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new ProyectoAsignar",
+                    'title'=> "Asignar",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'ue' => $ue
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -143,6 +154,7 @@ class ProyectoAsignarController extends WebController
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'ue' => $ue
                 ]);
             }
         }
@@ -159,7 +171,10 @@ class ProyectoAsignarController extends WebController
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);
+
+        //Listas desplegables
+        $ue = UnidadEjecutora::find()->all();       
 
         if($request->isAjax){
             /*
@@ -168,9 +183,10 @@ class ProyectoAsignarController extends WebController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ProyectoAsignar #".$id,
+                    'title'=> "Asignar",
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
+                        'ue' => $ue
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -178,18 +194,20 @@ class ProyectoAsignarController extends WebController
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "ProyectoAsignar #".$id,
+                    'title'=> "Asignado",
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
+                        'ue' => $ue
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update ProyectoAsignar #".$id,
+                    'title'=> "Asignar",
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
+                        'ue' => $ue
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -204,9 +222,40 @@ class ProyectoAsignarController extends WebController
             } else {
                 return $this->render('update', [
                     'model' => $model,
+                    'ue' => $ue
                 ]);
             }
         }
+    }
+
+    /**
+     * Funcion de respuesta para el AJAX de
+     * acciones especificas
+     * @return array JSON 
+     */
+    public function actionAce()
+    {
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if($request->isPost)
+            {
+                //Acciones Especificas
+                $ace = ProyectoAccionEspecifica::find()
+                    ->select(["id", "nombre AS name"])
+                    ->where(['id_unidad_ejecutora' => $request->post('depdrop_parents'), 'estatus' => 1])
+                    ->asArray()
+                    ->all();                
+
+                return [
+                    'output' => $ace
+                ];
+            }
+        }
+        
     }
 
 
@@ -267,6 +316,96 @@ class ProyectoAsignarController extends WebController
             return $this->redirect(['index']);
         }
        
+    }
+
+
+
+    /**
+     * Activar o desactivar un modelo
+     * @param integer id
+     * @return mixed
+     */
+    public function actionToggleActivo($id) {
+        $model = $this->findModel($id);
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model != null && $model->toggleActivo()) {
+            return ['forceClose' => true, 'forceReload' => true];
+        } else {
+            return [
+                'title' => 'Ocurrió un error.',
+                'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
+                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+            ];
+            return;
+        }
+    }
+
+    /**
+     * Desactiva multiples modelos de ProyectoAsignar.
+     * Para las peticiones AJAX devolverá un objeto JSON
+     * para las peticiones no-AJAX el navegador se redireccionará al "index"
+     * @param integer id
+     * @return mixed
+     */
+    public function actionBulkDesactivar() {
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        //Obtener el nombre de la clase del modelo
+        $className = ProyectoAsignar::className();
+        
+        //call_user_func - Invocar el callback 
+        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+            $model->desactivar();
+        }
+        
+
+        if ($request->isAjax) {
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose' => true, 'forceReload' => true];
+        } else {
+            /*
+             *   Process for non-ajax request
+             */
+            return $this->redirect(['index']);
+        }
+    }
+
+    /**
+     * Activa multiples modelos de ProyectoAsignar.
+     * Para las peticiones AJAX devolverá un objeto JSON
+     * para las peticiones no-AJAX el navegador se redireccionará al "index"
+     * @param integer id
+     * @return mixed
+     */
+    public function actionBulkActivar() {
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        //Obtener el nombre de la clase del modelo
+        $className = ProyectoAsignar::className();
+        
+        //call_user_func - Invocar el callback 
+        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+            $model->activar();
+        }
+        
+
+        if ($request->isAjax) {
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose' => true, 'forceReload' => true];
+        } else {
+            /*
+             *   Process for non-ajax request
+             */
+            return $this->redirect(['index']);
+        }
     }
 
     /**

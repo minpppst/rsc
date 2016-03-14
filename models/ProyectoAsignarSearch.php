@@ -12,6 +12,9 @@ use app\models\ProyectoAsignar;
  */
 class ProyectoAsignarSearch extends ProyectoAsignar
 {
+    //variables
+    public $nombreUe;
+    public $nombreAe;
     /**
      * @inheritdoc
      */
@@ -19,6 +22,7 @@ class ProyectoAsignarSearch extends ProyectoAsignar
     {
         return [
             [['id', 'usuario', 'unidad_ejecutora', 'accion_especifica'], 'integer'],
+            [['nombreUe', 'nombreAe'], 'safe']
         ];
     }
 
@@ -41,10 +45,24 @@ class ProyectoAsignarSearch extends ProyectoAsignar
     public function search($params)
     {
         $query = ProyectoAsignar::find();
+        // Join para la relacion
+        $query->joinWith(['unidadEjecutora']);
+        $query->joinWith(['accionEspecifica']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        //Ordenamiento
+        $dataProvider->sort->attributes['nombreUe'] = [
+            'asc' => ['unidad_ejecutora.nombre' => SORT_ASC],
+            'desc' => ['unidad_ejecutora.nombre' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['nombreAe'] = [
+            'asc' => ['proyecto_accion_especifica.nombre' => SORT_ASC],
+            'desc' => ['proyecto_accion_especifica.nombre' => SORT_DESC],
+        ];
+
 
         $this->load($params);
 
@@ -60,6 +78,9 @@ class ProyectoAsignarSearch extends ProyectoAsignar
             'unidad_ejecutora' => $this->unidad_ejecutora,
             'accion_especifica' => $this->accion_especifica,
         ]);
+
+        $query->andFilterWhere(['like', 'unidad_ejecutora.nombre', $this->nombreUe]);
+        $query->andFilterWhere(['like', 'proyecto_accion_especifica.nombre', $this->nombreAe]);
 
         return $dataProvider;
     }
