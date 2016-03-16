@@ -38,12 +38,13 @@ $icons=[
             'columns' => require(__DIR__.'/_columns.php'),            
             'toolbar'=> [
                 ['content'=>
-                	Html::a('<i class="glyphicon glyphicon-file"></i> Nuevo', ['create', 'asignar' => $asignado->id],
-                    ['role'=>'modal-remote','title'=> 'Pedido Nuevo','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['pedido', 'asignado' => $asignado->id],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
-                    '{toggleData}'.
-                    '{export}'
+                    \Yii::$app->authManager->getAssignment('sysadmin',\Yii::$app->user->id) == null ?
+                    	Html::a('<i class="glyphicon glyphicon-file"></i> Nuevo', ['create', 'asignar' => $asignado->id],
+                        ['role'=>'modal-remote','title'=> 'Pedido Nuevo','class'=>'btn btn-default']).
+                        Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['pedido', 'asignado' => $asignado->id],
+                        ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                        '{toggleData}'.
+                        '{export}' : ''
                 ],
             ],          
             'striped' => true,
