@@ -18,7 +18,7 @@ class ProyectoPedidoSearch extends ProyectoPedido
     public function rules()
     {
         return [
-            [['id', 'id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'id_usuario', 'id_accion_especifica'], 'integer'],
+            [['id', 'id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'asignado', 'estatus'], 'integer'],
             [['precio'], 'number'],
             [['fecha_creacion'], 'safe'],
         ];
@@ -73,8 +73,8 @@ class ProyectoPedidoSearch extends ProyectoPedido
             'diciembre' => $this->diciembre,
             'precio' => $this->precio,
             'fecha_creacion' => $this->fecha_creacion,
-            'id_usuario' => $this->id_usuario,
-            'id_accion_especifica' => $this->id_accion_especifica,
+            'asignado' => $this->asignado,
+            'estatus' => $this->estatus,
         ]);
 
         return $dataProvider;

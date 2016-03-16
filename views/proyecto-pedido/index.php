@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'striped' => true,
         'condensed' => true,
         'responsive' => true,
@@ -27,27 +27,38 @@ $this->params['breadcrumbs'][] = $this->title;
             ['content'=>                
                 Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                 ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
-                '{toggleData}'.
-                '{export}'
+                '{toggleData}'
             ],
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_proyecto',
-            'codigo_accion_especifica',
-            'nombre',
-            'nombreUnidadEjecutora',            
+            'nombreAe',
+            'nombreUe',            
 
             [
-                'class' => 'yii\grid\ActionColumn',
-                'header' => 'Acciones'
+                'class' => 'kartik\grid\ActionColumn',
+                'header' => 'Acciones',
+                'vAlign' => 'middle',
+                'buttons' => [
+                    'asignar' => function($url, $model) {
+                        return Html::a('<i class="glyphicon glyphicon-shopping-cart"></i> Pedidos', 
+                            ['pedido', 'asignado' => $model->id],
+                            [
+                                'class' => 'btn btn-primary',
+                                'data-request-method' => 'post',
+                                'data-pjax' => '0' //No usar metodo pjax
+                            ]
+                        );
+                    },
+                ],
+                'template' => '{asignar}'
             ],
         ],
         'panel' => [
             'type' => 'warning', 
             'heading' => '<i class="glyphicon glyphicon-shopping-cart"></i> Proyecto - Pedidos',
-            'before'=>'<em>Seleccione la acción específica para el pedido.</em>',
+            'before'=>'<em><b>'.$usuario->username.'</b> - Seleccione la acción específica para el pedido.</em>',
             'after'=>'<div class="clearfix"></div>',
         ]
     ]); ?>

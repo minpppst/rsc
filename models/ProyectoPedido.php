@@ -23,12 +23,11 @@ use Yii;
  * @property integer $diciembre
  * @property string $precio
  * @property string $fecha_creacion
- * @property integer $id_usuario
- * @property integer $id_accion_especifica
+ * @property integer $asignado
+ * @property integer $estatus
  *
- * @property ProyectoAccionEspecifica $idAccionEspecifica
+ * @property ProyectoAsignar $asignado0
  * @property MaterialesServicios $idMaterial
- * @property UserAccounts $idUsuario
  */
 class ProyectoPedido extends \yii\db\ActiveRecord
 {
@@ -46,8 +45,8 @@ class ProyectoPedido extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'precio', 'id_usuario', 'id_accion_especifica'], 'required'],
-            [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'id_usuario', 'id_accion_especifica'], 'integer'],
+            [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'precio', 'asignado', 'estatus'], 'required'],
+            [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'asignado', 'estatus'], 'integer'],
             [['precio'], 'number'],
             [['fecha_creacion'], 'safe']
         ];
@@ -75,17 +74,17 @@ class ProyectoPedido extends \yii\db\ActiveRecord
             'diciembre' => 'Diciembre',
             'precio' => 'Precio',
             'fecha_creacion' => 'Fecha Creacion',
-            'id_usuario' => 'Id Usuario',
-            'id_accion_especifica' => 'Id Accion Especifica',
+            'asignado' => 'ID de la asignacion (Usuario-UE-AC)',
+            'estatus' => 'Estatus',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdAccionEspecifica()
+    public function getAsignado0()
     {
-        return $this->hasOne(ProyectoAccionEspecifica::className(), ['id' => 'id_accion_especifica']);
+        return $this->hasOne(ProyectoAsignar::className(), ['id' => 'asignado']);
     }
 
     /**
@@ -97,10 +96,60 @@ class ProyectoPedido extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return string
      */
-    public function getIdUsuario()
+    public function getNombreMaterial()
     {
-        return $this->hasOne(UserAccounts::className(), ['id' => 'id_usuario']);
+        if($this->idMaterial == null)
+        {
+            return null;
+        }
+
+        return $this->idMaterial->nombre;
+    }
+
+    /**
+     * Colocar estatus en 0 "Inactivo"
+     */
+    public function desactivar()
+    {
+        $this->estatus = 0;
+        $this->save();
+    }
+
+    /**
+    * Colocar estatus en 1 "Activo"
+    */
+    public function activar()
+    {
+        $this->estatus = 1;
+        $this->save();
+    }
+
+    /**
+    * Activar o desactivar
+    */
+    public function toggleActivo()
+    {
+        if($this->estatus == 1)
+        {
+            $this->desactivar();
+        }
+        else
+        {
+            $this->activar();
+        }
+
+        return true;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->fecha_creacion = date('Y-m-d H:i:s');
+            return true;
+        } else {
+            return false;
+        }
     }
 }

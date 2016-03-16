@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use johnitvn\userplus\base\models\UserAccounts;
 
 /**
  * This is the model class for table "proyecto_asignar".
@@ -78,6 +79,19 @@ class ProyectoAsignar extends \yii\db\ActiveRecord
     public function getUnidadEjecutora()
     {
         return $this->hasOne(UnidadEjecutora::className(), ['id' => 'unidad_ejecutora']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreUsuario()
+    {
+        if($this->usuario0 == null)
+        {
+            return null;
+        }
+
+        return $this->usuario0->username;
     }
 
     /**

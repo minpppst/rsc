@@ -35,7 +35,7 @@ CrudAsset::register($this);
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,            
             'panel' => [
-                'type' => 'default',
+                'type' => 'success',
                 'heading' => $icons['proyecto'].' Proyectos',
                 'before' => '<em>Escriba en las casillas para filtrar.</em>',
                 'after'=>BulkButtonWidget::widget([

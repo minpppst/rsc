@@ -106,7 +106,7 @@ class ProyectoAsignarController extends WebController
         $model->usuario = $usuario;
 
         //Listas desplegables
-        $ue = UnidadEjecutora::find()->all(); 
+        $ue = UnidadEjecutora::find(['estatus' => 1])->all(); 
 
         if($request->isAjax){
             /*
@@ -129,7 +129,7 @@ class ProyectoAsignarController extends WebController
                     'forceReload'=>'true',
                     'title'=> "Asignado",
                     'content'=>'<span class="text-success">Create ProyectoAsignar success</span>',
-                    'footer'=> Html::button('Cerar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Asignar otro',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
@@ -140,8 +140,8 @@ class ProyectoAsignarController extends WebController
                         'model' => $model,
                         'ue' => $ue
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -174,7 +174,7 @@ class ProyectoAsignarController extends WebController
         $model = $this->findModel($id);
 
         //Listas desplegables
-        $ue = UnidadEjecutora::find()->all();       
+        $ue = UnidadEjecutora::find(['estatus' => 1])->all();       
 
         if($request->isAjax){
             /*
@@ -188,8 +188,8 @@ class ProyectoAsignarController extends WebController
                         'model' => $this->findModel($id),
                         'ue' => $ue
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
@@ -199,8 +199,8 @@ class ProyectoAsignarController extends WebController
                         'model' => $this->findModel($id),
                         'ue' => $ue
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
@@ -209,8 +209,8 @@ class ProyectoAsignarController extends WebController
                         'model' => $this->findModel($id),
                         'ue' => $ue
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -245,7 +245,7 @@ class ProyectoAsignarController extends WebController
             {
                 //Acciones Especificas
                 $ace = ProyectoAccionEspecifica::find()
-                    ->select(["id", "nombre AS name"])
+                    ->select(["id", "CONCAT(codigo_accion_especifica,' ',nombre) AS name"])
                     ->where(['id_unidad_ejecutora' => $request->post('depdrop_parents'), 'estatus' => 1])
                     ->asArray()
                     ->all();                

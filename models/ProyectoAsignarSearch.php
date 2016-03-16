@@ -76,9 +76,10 @@ class ProyectoAsignarSearch extends ProyectoAsignar
             'id' => $this->id,
             'usuario' => $this->usuario,
             'unidad_ejecutora' => $this->unidad_ejecutora,
-            'accion_especifica' => $this->accion_especifica,
+            'accion_especifica' => $this->accion_especifica,            
         ]);
 
+        $query->andFilterWhere(['proyecto_asignar.estatus' => $this->estatus]);
         $query->andFilterWhere(['like', 'unidad_ejecutora.nombre', $this->nombreUe]);
         $query->andFilterWhere(['like', 'proyecto_accion_especifica.nombre', $this->nombreAe]);
 
