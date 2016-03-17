@@ -31,6 +31,25 @@ class ProyectoAsignarController extends WebController
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rule,$action)
+                        {
+                            $controller = Yii::$app->controller->id;
+                            $action = Yii:: $app->controller->action->id;                    
+                            $route = "$controller/$action";
+                            if(\Yii::$app->user->can($route))
+                            {
+                                return true;
+                            }
+                        }
+                    ],
+                ],
+            ],
         ];
     }
 

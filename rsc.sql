@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-03-2016 a las 01:40:14
+-- Tiempo de generación: 17-03-2016 a las 11:10:26
 -- Versión del servidor: 5.6.28-0ubuntu0.15.10.1
 -- Versión de PHP: 5.6.11-1ubuntu3.1
 
@@ -127,22 +127,23 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('acc_accion_especifica', '1', 1457581514),
-('accion_centralizada', '1', 1457581514),
-('gestor_proyecto', '1', 1457581514),
-('materiales_servicios', '1', 1457581514),
-('proyecto_pedido', '1', 1457581514),
+('acc_accion_especifica', '1', 1458229191),
+('accion_centralizada', '1', 1458229191),
+('gestor_proyecto', '1', 1458229191),
+('materiales_servicios', '1', 1458229191),
+('proyecto_asignar', '1', 1458229191),
+('proyecto_pedido', '1', 1458229191),
 ('proyecto_pedido', '2', 1458107167),
-('registrador_accion_especifica', '1', 1457581514),
+('registrador_accion_especifica', '1', 1458229191),
 ('registrador_accion_especifica', '3', 1454611275),
-('registrador_alcance', '1', 1457581514),
+('registrador_alcance', '1', 1458229191),
 ('registrador_alcance', '3', 1454611275),
-('registrador_basico', '1', 1457581514),
+('registrador_basico', '1', 1458229191),
 ('registrador_basico', '2', 1458107167),
 ('registrador_basico', '3', 1454611275),
-('registrador_distribucion_presupuestaria', '1', 1457581514),
+('registrador_distribucion_presupuestaria', '1', 1458229191),
 ('registrador_distribucion_presupuestaria', '3', 1454611275),
-('sysadmin', '1', 1457581514),
+('sysadmin', '1', 1458229191),
 ('sysadmin', '3', 1454611275);
 
 -- --------------------------------------------------------
@@ -193,7 +194,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('materiales-servicios/delete', 2, 'Eliminar materiales y servicios', NULL, NULL, 1455502828, 1455502828),
 ('materiales-servicios/index', 2, 'Lista de materiales y servicios', NULL, NULL, 1455502782, 1455502782),
 ('materiales-servicios/update', 2, 'Modificar materiales y servicios', NULL, NULL, 1455502813, 1455502813),
-('proyecto_pedido', 1, 'Pedidos de materiales y servicios de proyecto', 'UeAsignada', NULL, 1457400383, 1458105584),
+('proyecto_asignar', 1, 'Gestionar las asignaciones de usuarios a las acciones específicas de un proyecto', NULL, NULL, 1458229165, 1458229165),
+('proyecto_pedido', 1, 'Pedidos de materiales y servicios de proyecto', 'UeAsignada', NULL, 1457400383, 1458109406),
 ('proyecto-accion-especifica/bulk-activar', 2, 'Activar múltiples acciones específicas de proyecto', NULL, NULL, 1457393259, 1457393259),
 ('proyecto-accion-especifica/bulk-desactivar', 2, 'Desactivar múltiples acciones específicas de proyecto', NULL, NULL, 1457393291, 1457393291),
 ('proyecto-accion-especifica/create', 2, 'Crear acción específica de proyecto', NULL, NULL, 1452529692, 1452529692),
@@ -206,6 +208,16 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto-alcance/delete', 2, 'Eliminar alcance de proyecto', NULL, NULL, 1452221699, 1452221699),
 ('proyecto-alcance/update', 2, 'Editar alcance de proyecto', NULL, NULL, 1452221681, 1452221681),
 ('proyecto-alcance/view', 2, 'Ver alcance de proyecto', NULL, NULL, 1452223025, 1452223025),
+('proyecto-asignar/asignar', 2, 'Lista de asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458228890, 1458228890),
+('proyecto-asignar/bulk-activar', 2, 'Activar múltiples asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458229012, 1458229060),
+('proyecto-asignar/bulk-delete', 2, 'Eliminar múltiples asignaciones de usuario a proyecto/acción específica', NULL, NULL, 1458228933, 1458228933),
+('proyecto-asignar/bulk-desactivar', 2, 'Desactivar múltiples asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458229050, 1458229050),
+('proyecto-asignar/create', 2, 'Crear asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228779, 1458228779),
+('proyecto-asignar/delete', 2, 'Eliminar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228811, 1458228811),
+('proyecto-asignar/index', 2, 'Lista de usuarios asignados a proyectos', NULL, NULL, 1458228739, 1458228739),
+('proyecto-asignar/toggle-activo', 2, 'Activar/Desactivar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228960, 1458228960),
+('proyecto-asignar/update', 2, 'Modificar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228795, 1458228795),
+('proyecto-asignar/view', 2, 'Ver asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228845, 1458228845),
 ('proyecto-distribucion-presupuestaria/create', 2, 'Crear distribución presupuestaria de proyecto', NULL, NULL, 1452649234, 1452649234),
 ('proyecto-distribucion-presupuestaria/delete', 2, 'Eliminar distribución presupuestaria de proyecto', NULL, NULL, 1452649263, 1452649263),
 ('proyecto-distribucion-presupuestaria/index', 2, 'Lista de distribución presupuestaria de proyecto', NULL, NULL, 1452649290, 1452649290),
@@ -314,6 +326,16 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('registrador_alcance', 'proyecto-alcance/delete'),
 ('registrador_alcance', 'proyecto-alcance/update'),
 ('registrador_alcance', 'proyecto-alcance/view'),
+('proyecto_asignar', 'proyecto-asignar/asignar'),
+('proyecto_asignar', 'proyecto-asignar/bulk-activar'),
+('proyecto_asignar', 'proyecto-asignar/bulk-delete'),
+('proyecto_asignar', 'proyecto-asignar/bulk-desactivar'),
+('proyecto_asignar', 'proyecto-asignar/create'),
+('proyecto_asignar', 'proyecto-asignar/delete'),
+('proyecto_asignar', 'proyecto-asignar/index'),
+('proyecto_asignar', 'proyecto-asignar/toggle-activo'),
+('proyecto_asignar', 'proyecto-asignar/update'),
+('proyecto_asignar', 'proyecto-asignar/view'),
 ('registrador_distribucion_presupuestaria', 'proyecto-distribucion-presupuestaria/create'),
 ('registrador_distribucion_presupuestaria', 'proyecto-distribucion-presupuestaria/delete'),
 ('registrador_distribucion_presupuestaria', 'proyecto-distribucion-presupuestaria/index'),
@@ -335,6 +357,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('proyecto_pedido', 'proyecto-pedido/pedido'),
 ('proyecto_pedido', 'proyecto-pedido/toggle-activo'),
 ('proyecto_pedido', 'proyecto-pedido/update'),
+('proyecto_pedido', 'proyecto-pedido/view'),
 ('registrador_basico', 'proyecto-registrador/create'),
 ('registrador_basico', 'proyecto-registrador/create-alt'),
 ('registrador_basico', 'proyecto-registrador/delete'),

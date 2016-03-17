@@ -23,11 +23,16 @@ return [
     */
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'nombreUe',
-    ],
+        'header' => 'Proyecto',
+        'attribute'=>'accionEspecifica.idProyecto.nombre',
+    ],    
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombreAe',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nombreUe',
     ],
     [
         'class' => '\kartik\grid\DataColumn',
