@@ -1,43 +1,61 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\widgets\ActiveForm;
+use yii\web\JsExpression;
+use kartik\select2\Select2;
+use kartik\select2\Select2Asset;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectoPedido */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="proyecto-pedido-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_material')->textInput() ?>
+    <div class="form-group">
+         <?= Select2::widget([
+            'model' => $model,
+            'name' => 'material',
+            'attribute' => 'id_material',
+            'data' => $materiales,
+            'options' => ['placeholder' => 'Escriba para buscar'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ])
+    ?>
+    </div>
 
-    <?= $form->field($model, 'enero')->textInput() ?>
+    <?= $form->field($model, 'enero')->input('number') ?>
 
-    <?= $form->field($model, 'febrero')->textInput() ?>
+    <?= $form->field($model, 'febrero')->input('number') ?>
 
-    <?= $form->field($model, 'marzo')->textInput() ?>
+    <?= $form->field($model, 'marzo')->input('number') ?>
 
-    <?= $form->field($model, 'abril')->textInput() ?>
+    <?= $form->field($model, 'abril')->input('number') ?>
 
-    <?= $form->field($model, 'mayo')->textInput() ?>
+    <?= $form->field($model, 'mayo')->input('number') ?>
 
-    <?= $form->field($model, 'junio')->textInput() ?>
+    <?= $form->field($model, 'junio')->input('number') ?>
 
-    <?= $form->field($model, 'julio')->textInput() ?>
+    <?= $form->field($model, 'julio')->input('number') ?>
 
-    <?= $form->field($model, 'agosto')->textInput() ?>
+    <?= $form->field($model, 'agosto')->input('number') ?>
 
-    <?= $form->field($model, 'septiembre')->textInput() ?>
+    <?= $form->field($model, 'septiembre')->input('number') ?>
 
-    <?= $form->field($model, 'octubre')->textInput() ?>
+    <?= $form->field($model, 'octubre')->input('number') ?>
 
-    <?= $form->field($model, 'noviembre')->textInput() ?>
+    <?= $form->field($model, 'noviembre')->input('number') ?>
 
-    <?= $form->field($model, 'diciembre')->textInput() ?>
+    <?= $form->field($model, 'diciembre')->input('number') ?>
 
-    <?= $form->field($model, 'precio')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'precio')->input('number',['maxlength' => true]) ?>
 
     <?= $form->field($model, 'asignado')->textInput() ?>
 

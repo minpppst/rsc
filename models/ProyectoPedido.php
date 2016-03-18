@@ -59,7 +59,7 @@ class ProyectoPedido extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_material' => 'Id Material',
+            'id_material' => 'Material',
             'enero' => 'Enero',
             'febrero' => 'Febrero',
             'marzo' => 'Marzo',

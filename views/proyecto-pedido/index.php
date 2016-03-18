@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 
-
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProyectoPedidoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */

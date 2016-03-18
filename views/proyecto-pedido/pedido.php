@@ -7,13 +7,16 @@ use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use yii\helpers\ArrayHelper;
-use yii\rbac\DbManager;
+use yii\web\JsExpression;
+use kartik\select2\Select2;
+use kartik\select2\Select2Asset;
 
 $this->title = 'Pedidos';
 $this->params['breadcrumbs'][] = ['label' => 'Pedido', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
+Select2Asset::register($this);
 
 //Iconos
 $icons=[   

@@ -8,6 +8,7 @@ use app\models\ProyectoPedido;
 use app\models\ProyectoPedidoSearch;
 use app\models\ProyectoAsignar;
 use app\models\ProyectoAsignarSearch;
+use app\models\MaterialesServicios;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -130,7 +131,13 @@ class ProyectoPedidoController extends Controller
     {
         $request = Yii::$app->request;
         $model = new ProyectoPedido();
-        $model->asignado = $asignar; 
+        $model->asignado = $asignar;
+
+        //autocomplete
+        $materiales = MaterialesServicios::find()
+                ->select(['nombre as name', 'id as id'])
+                ->asArray()
+                ->all();
 
         if($request->isAjax){
             /*
@@ -141,7 +148,8 @@ class ProyectoPedidoController extends Controller
                 return [
                     'title'=> "Pedido",
                     'content'=>$this->renderPartial('create', [
-                        'model' => $model
+                        'model' => $model,
+                        'materiales' => $materiales
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -160,7 +168,8 @@ class ProyectoPedidoController extends Controller
                 return [
                     'title'=> "Pedido",
                     'content'=>$this->renderPartial('create', [
-                        'model' => $model
+                        'model' => $model,
+                        'materiales' => $materiales
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -175,7 +184,8 @@ class ProyectoPedidoController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('create', [
-                    'model' => $model
+                    'model' => $model,
+                    'materiales' => $materiales
                 ]);
             }
         }
