@@ -23,6 +23,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nombre_accion') ?>
 
+    <?= $form->field($model, 'estatus') ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>

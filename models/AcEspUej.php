@@ -3,9 +3,9 @@
 namespace app\models;
 
 use Yii;
-
+use app\models\AcAcEspec;
 /**
- * This is the model class for table "ac_esp_uej".
+ * This is the model class for table "accion_centralizada_ac_especifica_uej".
  *
  * @property integer $id
  * @property integer $id_ue
@@ -22,7 +22,7 @@ class AcEspUej extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ac_esp_uej';
+        return 'accion_centralizada_ac_especifica_uej';
     }
 
     /**
@@ -71,4 +71,12 @@ class AcEspUej extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UnidadEjecutora::className(), ['id' => 'id_ue']);
     }
+
+    public function nombre_accion($accion){
+         $especifica = AcAcEspec::find()->where(['id'=>$accion])->one();
+
+         
+         return $especifica->nombre;
+    }
+
 }

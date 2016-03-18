@@ -9,7 +9,10 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\EntryForm;
-
+use bedezign\yii2\audit\models\AuditEntry;
+use bedezign\yii2\audit\models\AuditEntrySearch;
+use bedezign\yii2\audit\models\AuditTrail;
+use bedezign\yii2\audit\models\AuditTrailSearch;
 class SiteController extends Controller
 {
     public function behaviors()
@@ -109,6 +112,26 @@ class SiteController extends Controller
    public function actionConfiguracion()
    {
         return $this->render('configuracion');
+   }
+
+   public function actionAudit(){
+
+        $searchModel = new AuditEntrySearch;
+        $dataProvider = $searchModel->search(Yii::$app->request->get());
+        $submodelo = new AuditTrailSearch;
+        //$submodelo->unsetAttributes(); // clear any default values
+        $submodelo->entry_id = $dataProvider->id; // IMPORTANTE!!!
+        if (isset($_GET['Trail'])) {
+                $submodelo->attributes = $_GET['Trail'];
+        }
+
+
+        return $this->render('audit', [
+            'dataProvider' => $dataProvider,
+            'searchModel'  => $searchModel,
+            'submodelo' => $submodelo,
+        ]);
+     //return $this->render('audit');
    }
 
 }

@@ -13,7 +13,12 @@ use yii\widgets\DetailView;
             'id',
             'id_ac_centr',
             'cod_ac_espe',
+           
             'nombre:ntext',
+             [
+                'label' => 'Estatus',
+                'value' => $model->nombreEstatus,
+            ],
         ],
     ]) ?>
 

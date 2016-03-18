@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use johnitvn\ajaxcrud\CrudAsset; 
 
 
 /* @var $this yii\web\View */
@@ -9,6 +10,6 @@ use yii\helpers\Html;
 ?>
 <div class="ac-ac-espec-create">
     <?= $this->render('_form', [
-        'model' => $model,
+        'model' => $model, 'unidades_ejecutoras'=>$unidades_ejecutoras,
     ]) ?>
 </div>

@@ -32,44 +32,54 @@ return [
         'attribute'=>'nombre',
     ],
 
-    
 
     [
-               'class' => 'kartik\grid\ActionColumn',
-                'dropdown' => false,
+    'class' => '\kartik\grid\DataColumn',
+        'width' => '50px',
+        'attribute' => 'estatus',
+        
+       'value' => function ($model) {
+            if ($model->estatus == 1) {
+
+                
+                return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id],[
+                              'class' => 'btn btn-xs btn-success btn-block',
+                                        'role' => 'modal-remote',
+                                        'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                                        'data-request-method' => 'post',
+                                        'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                                        'data-confirm-message' => Yii::t('user', '¿Está seguro que desea desactivar este elemento?'),
+                            
+                            ]);
+            } else { 
+                return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id],
+                           
+                             [
+                               'class' => 'btn btn-xs btn-warning btn-block',
+                                        'role' => 'modal-remote',
+                                        'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                                        'data-request-method' => 'post',
+                                        'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                                        'data-confirm-message' => Yii::t('user', '¿Está seguro que desea activar este elemento?'),    
+                ]);
+            }
+        },
+         'format' => 'raw'
+
+    ],
+    
+    [
+        'class' => 'kartik\grid\ActionColumn',
+        'dropdown' => false,
         'vAlign'=>'middle',
         'width'=>'100px',
         'urlCreator' => function($action, $model, $key, $index) { 
-                return Url::to([$action,'id'=>$key]);
+        return Url::to([$action,'id'=>$key]);
         },
                 'template' => '{view}{update} {delete}{crear-uej}{editar-uej}',
                 'buttons' => [
                     
 
-                    'crear-uej' => function ($url, $model) {
-                        return  $model->existe_uej()==0 ? Html::a(
-                            '<span class="glyphicon glyphicon-plus"></span>',
-                           Url::to(['ac-esp-uej/create', 'accion_central' => $model->id_ac_centr, 'accion_especifica'=>$model->id]), 
-                            [
-                                'title' => 'Agregar Unidades Ejecutoras',
-                                'role'=>'modal-remote',
-                                'data-toggle'=>'tooltip'
-
-                            ]
-                        ) : '';
-                    },
-                    'editar-uej' => function ($url, $model) {
-                        return $model->existe_uej()==1 ? Html::a(
-                            '<span class="glyphicon glyphicon-edit"></span>',
-                           Url::to(['ac-esp-uej/update', 'id'=>$model->id , 'accion_centralizada'=>$model->id_ac_centr]), 
-                            [
-                                'title' => 'Editar Unidades Ejecutoras',
-                                'role'=>'modal-remote',
-                                'data-toggle'=>'tooltip'
-
-                            ]
-                        ) : '';
-                    },
 
            
                 ],
@@ -84,9 +94,7 @@ return [
                           'data-confirm-message'=>'Are you sure want to delete this item',
                           'class' => 'text-danger'], 
 
-       
-
-            ],           
+       ],           
                     
                     
                     
