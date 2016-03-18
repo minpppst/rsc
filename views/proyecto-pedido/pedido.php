@@ -8,15 +8,14 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
-use kartik\select2\Select2;
-use kartik\select2\Select2Asset;
+
 
 $this->title = 'Pedidos';
 $this->params['breadcrumbs'][] = ['label' => 'Pedido', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
-Select2Asset::register($this);
+
 
 //Iconos
 $icons=[   
@@ -56,7 +55,7 @@ $icons=[
             'panel' => [
                 'type' => 'default', 
                 'heading' => '<h4><i class="glyphicon glyphicon-shopping-cart"></i> Pedidos</h4>',
-                'before'=>'<em><b>'.$asignado->nombreUsuario.'</b> - '.$asignado->nombreUe.'</em>',
+                'before'=>'<em><b><span class="glyphicon glyphicon-user"></span> '.$asignado->nombreUsuario.'</b> - <span class="glyphicon glyphicon-briefcase"></span> '.$asignado->nombreUe.'</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',
                                 ["bulk-delete"] ,
@@ -95,6 +94,9 @@ $icons=[
     </div>
 </div>
 <?php Modal::begin([
+    'options' => [
+        'tabindex' => false // importante para select2
+    ],
     "id"=>"ajaxCrubModal",
     "footer"=>"",// always need it for jquery plugin
 ])?>

@@ -135,8 +135,7 @@ class ProyectoPedidoController extends Controller
 
         //autocomplete
         $materiales = MaterialesServicios::find()
-                ->select(['nombre as name', 'id as id'])
-                ->asArray()
+                ->select(['nombre', 'id'])
                 ->all();
 
         if($request->isAjax){
@@ -147,7 +146,7 @@ class ProyectoPedidoController extends Controller
             if($request->isGet){
                 return [
                     'title'=> "Pedido",
-                    'content'=>$this->renderPartial('create', [
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'materiales' => $materiales
                     ]),
@@ -167,7 +166,7 @@ class ProyectoPedidoController extends Controller
             }else{           
                 return [
                     'title'=> "Pedido",
-                    'content'=>$this->renderPartial('create', [
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'materiales' => $materiales
                     ]),
@@ -212,7 +211,7 @@ class ProyectoPedidoController extends Controller
             if($request->isGet){
                 return [
                     'title'=> "Pedido",
-                    'content'=>$this->renderPartial('update', [
+                    'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id)
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -222,7 +221,7 @@ class ProyectoPedidoController extends Controller
                 return [
                     'forceReload'=>'true',
                     'title'=> "Pedido",
-                    'content'=>$this->renderPartial('view', [
+                    'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id)
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -231,7 +230,7 @@ class ProyectoPedidoController extends Controller
             }else{
                  return [
                     'title'=> "Pedido",
-                    'content'=>$this->renderPartial('update', [
+                    'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id)
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).

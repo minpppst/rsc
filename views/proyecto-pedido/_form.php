@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 use yii\web\JsExpression;
 use kartik\select2\Select2;
 use kartik\select2\Select2Asset;
@@ -11,6 +11,8 @@ use kartik\select2\Select2Asset;
 /* @var $model app\models\ProyectoPedido */
 /* @var $form yii\widgets\ActiveForm */
 
+Select2Asset::register($this);
+
 ?>
 
 <div class="proyecto-pedido-form">
@@ -18,48 +20,79 @@ use kartik\select2\Select2Asset;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="form-group">
-         <?= Select2::widget([
+
+        <label>Material</label>
+
+        <?= Select2::widget([
             'model' => $model,
+            'theme' => Select2::THEME_KRAJEE,
             'name' => 'material',
             'attribute' => 'id_material',
-            'data' => $materiales,
-            'options' => ['placeholder' => 'Escriba para buscar'],
+            'data' => ArrayHelper::map($materiales,'id','nombre'),
+            'options' => [
+                'placeholder' => 'Escriba para buscar un material o servicio',
+                'id'=>'material'
+            ],
             'pluginOptions' => [
                 'allowClear' => true
             ],
-        ])
-    ?>
+            'addon' => [
+                'prepend' => [
+                    'content' => '<span class="glyphicon glyphicon-cutlery"></span>'
+                ]
+            ]
+        ])?>
+
     </div>
 
-    <?= $form->field($model, 'enero')->input('number') ?>
+    <table class="table table-bordered table-condensed table-striped">
+        <tbody>
+            <tr class="warning">
+                <td><label>TRIM I</label></td>
 
-    <?= $form->field($model, 'febrero')->input('number') ?>
+                <td><?= $form->field($model, 'enero')->input('number', ['placeholder' => '0']) ?></td>
 
-    <?= $form->field($model, 'marzo')->input('number') ?>
+                <td><?= $form->field($model, 'febrero')->input('number', ['placeholder' => '0']) ?></td>
 
-    <?= $form->field($model, 'abril')->input('number') ?>
+                <td><?= $form->field($model, 'marzo')->input('number', ['placeholder' => '0']) ?></td>
+            </tr>
+            <tr class="info">
+                <td><label>TRIM II</label></td>
 
-    <?= $form->field($model, 'mayo')->input('number') ?>
+                <td><?= $form->field($model, 'abril')->input('number', ['placeholder' => '0']) ?></td>                           
 
-    <?= $form->field($model, 'junio')->input('number') ?>
+                <td><?= $form->field($model, 'mayo')->input('number', ['placeholder' => '0']) ?></td>
 
-    <?= $form->field($model, 'julio')->input('number') ?>
+                <td><?= $form->field($model, 'junio')->input('number', ['placeholder' => '0']) ?></td>
+            </tr>
+            <tr class="danger">
+                <td><label>TRIM III</label></td> 
 
-    <?= $form->field($model, 'agosto')->input('number') ?>
+                <td><?= $form->field($model, 'julio')->input('number', ['placeholder' => '0']) ?></td>
 
-    <?= $form->field($model, 'septiembre')->input('number') ?>
+                <td><?= $form->field($model, 'agosto')->input('number', ['placeholder' => '0']) ?></td>
 
-    <?= $form->field($model, 'octubre')->input('number') ?>
+                <td><?= $form->field($model, 'septiembre')->input('number', ['placeholder' => '0']) ?></td>
+            </tr>
+            <tr class="success">
+                <td><label>TRIM IV</label></td>
 
-    <?= $form->field($model, 'noviembre')->input('number') ?>
+                <td><?= $form->field($model, 'octubre')->input('number', ['placeholder' => '0']) ?></td>
 
-    <?= $form->field($model, 'diciembre')->input('number') ?>
+                <td><?= $form->field($model, 'noviembre')->input('number', ['placeholder' => '0']) ?></td>
 
-    <?= $form->field($model, 'precio')->input('number',['maxlength' => true]) ?>
+                <td><?= $form->field($model, 'diciembre')->input('number', ['placeholder' => '0']) ?></td>
+            </tr>
+        </tbody>
+    </table>
 
-    <?= $form->field($model, 'asignado')->textInput() ?>
+    <?= $form->field($model, 'precio', [
+        'inputTemplate' => '<div class="input-group"><span class="input-group-addon">Bs.</span>{input}</div>',
+    ])->input('number', ['maxlength' => true, 'placeholder' => '0']) ?>
 
-    <?= $form->field($model, 'estatus')->textInput() ?>
+    <?= Html::activeHiddenInput($model, 'asignado') ?>
+
+    <?= $form->field($model, 'estatus')->dropDownList([1=>'Activo',0=>'Inactivo'],['prompt'=>'Seleccione']) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

@@ -135,7 +135,7 @@ class ProyectoAsignarController extends WebController
             if($request->isGet){
                 return [
                     'title'=> "Asignar",
-                    'content'=>$this->renderPartial('create', [
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'ue' => $ue
                     ]),
@@ -155,7 +155,7 @@ class ProyectoAsignarController extends WebController
             }else{           
                 return [
                     'title'=> "Asignar",
-                    'content'=>$this->renderPartial('create', [
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'ue' => $ue
                     ]),
@@ -264,7 +264,7 @@ class ProyectoAsignarController extends WebController
             {
                 //Acciones Especificas
                 $ace = ProyectoAccionEspecifica::find()
-                    ->select(["id", "CONCAT(codigo_accion_especifica,' ',nombre) AS name"])
+                    ->select(["id", "CONCAT(codigo_accion_especifica,' - ',nombre) AS name"])
                     ->where(['id_unidad_ejecutora' => $request->post('depdrop_parents'), 'estatus' => 1])
                     ->asArray()
                     ->all();                
