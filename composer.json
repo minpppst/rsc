@@ -32,7 +32,8 @@
         "kartik-v/dependent-dropdown": "dev-master",
         "kartik-v/yii2-widget-depdrop": "@dev",
         "kartik-v/yii2-widget-datepicker": "@dev",
-        "2amigos/yii2-date-picker-widget": "~1.0"
+        "2amigos/yii2-date-picker-widget": "~1.0",
+        "bedezign/yii2-audit": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
