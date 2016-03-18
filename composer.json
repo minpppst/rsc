@@ -31,10 +31,17 @@
         "nhkey/yii2-activerecord-history": "*",
         "kartik-v/dependent-dropdown": "dev-master",
         "kartik-v/yii2-widget-depdrop": "@dev",
+<<<<<<< HEAD
         "bupy7/yii2-activerecord-history": "*",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "2amigos/yii2-date-picker-widget": "~1.0",
         "bedezign/yii2-audit": "^1.0"
+=======
+        "kartik-v/yii2-widget-datepicker": "@dev",
+        "2amigos/yii2-date-picker-widget": "~1.0",
+        "bedezign/yii2-audit": "^1.0",
+        "bupy7/yii2-activerecord-history": "*"
+>>>>>>> accion_centralizada
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
