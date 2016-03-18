@@ -128,6 +128,7 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                 <div class="list-group">
                     <?= Html::a($icons['respaldos'].' Respaldos', Url::to(['backuprestore/default/index']),['class' => 'list-group-item']) ?>
                     <?= Html::a($icons['migracion'].' Migraciones', Url::to(['migration/index']),['class' => 'list-group-item']) ?>                    
+                    <?= Html::a($icons['usuarios'].' Auditoria', Url::to(['audit']),['class' => 'list-group-item']) ?>
                 </div>
             </div>
         </div>
