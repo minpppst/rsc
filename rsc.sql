@@ -2,10 +2,17 @@
 -- version 4.1.14
 -- http://www.phpmyadmin.net
 --
+<<<<<<< HEAD
 -- Servidor: 127.0.0.1
 -- Tiempo de generación: 07-03-2016 a las 02:05:03
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
+=======
+-- Servidor: localhost
+
+-- Versión del servidor: 5.6.28-0ubuntu0.15.10.1
+-- Versión de PHP: 5.6.11-1ubuntu3.1
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -65,8 +72,14 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
 -- Volcado de datos para la tabla `accion_centralizada_accion_especifica`
 --
 
+<<<<<<< HEAD
 INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`, `estatus`) VALUES
 (18, 2, '01', 'probando', 0);
+=======
+INSERT INTO `ac_ac_espec` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`) VALUES
+(1, 1, '1', 'Probando'),
+(2, 1, '2', 'Otra prueba');
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 -- --------------------------------------------------------
 
@@ -150,19 +163,23 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('acc_accion_especifica', '1', 1456113935),
-('accion_centralizada', '1', 1456113935),
-('materiales_servicios', '1', 1456113935),
-('registrador_accion_especifica', '1', 1456113935),
+('acc_accion_especifica', '1', 1458229191),
+('accion_centralizada', '1', 1458229191),
+('gestor_proyecto', '1', 1458229191),
+('materiales_servicios', '1', 1458229191),
+('proyecto_asignar', '1', 1458229191),
+('proyecto_pedido', '1', 1458229191),
+('proyecto_pedido', '2', 1458107167),
+('registrador_accion_especifica', '1', 1458229191),
 ('registrador_accion_especifica', '3', 1454611275),
-('registrador_alcance', '1', 1456113935),
+('registrador_alcance', '1', 1458229191),
 ('registrador_alcance', '3', 1454611275),
-('registrador_basico', '1', 1456113935),
-('registrador_basico', '2', 1452222004),
+('registrador_basico', '1', 1458229191),
+('registrador_basico', '2', 1458107167),
 ('registrador_basico', '3', 1454611275),
-('registrador_distribucion_presupuestaria', '1', 1456113935),
+('registrador_distribucion_presupuestaria', '1', 1458229191),
 ('registrador_distribucion_presupuestaria', '3', 1454611275),
-('sysadmin', '1', 1456113935),
+('sysadmin', '1', 1458229191),
 ('sysadmin', '3', 1454611275);
 
 -- --------------------------------------------------------
@@ -218,20 +235,36 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('accion-centralizada/toggle-activo', 2, 'activar/desactivar las acciones centralizadas', NULL, NULL, 1457014061, 1457014538),
 ('accion-centralizada/update', 2, 'actualizar acciones centralizadas', NULL, NULL, 1455130436, 1455136413),
 ('accion-centralizada/view', 2, 'ver el detalle de la accion centralizada', NULL, NULL, 1455130492, 1455130492),
+('gestor_proyecto', 1, 'Administrador de proyecto', NULL, NULL, 1456979251, 1456979251),
 ('materiales_servicios', 1, 'Crea, modifica y elimina materiales y servicios', NULL, NULL, 1455502889, 1455502889),
 ('materiales-servicios/create', 2, 'Crear materiales y servicios', NULL, NULL, 1455502798, 1455502798),
 ('materiales-servicios/delete', 2, 'Eliminar materiales y servicios', NULL, NULL, 1455502828, 1455502828),
 ('materiales-servicios/index', 2, 'Lista de materiales y servicios', NULL, NULL, 1455502782, 1455502782),
 ('materiales-servicios/update', 2, 'Modificar materiales y servicios', NULL, NULL, 1455502813, 1455502813),
+('proyecto_asignar', 1, 'Gestionar las asignaciones de usuarios a las acciones específicas de un proyecto', NULL, NULL, 1458229165, 1458229165),
+('proyecto_pedido', 1, 'Pedidos de materiales y servicios de proyecto', 'UeAsignada', NULL, 1457400383, 1458109406),
+('proyecto-accion-especifica/bulk-activar', 2, 'Activar múltiples acciones específicas de proyecto', NULL, NULL, 1457393259, 1457393259),
+('proyecto-accion-especifica/bulk-desactivar', 2, 'Desactivar múltiples acciones específicas de proyecto', NULL, NULL, 1457393291, 1457393291),
 ('proyecto-accion-especifica/create', 2, 'Crear acción específica de proyecto', NULL, NULL, 1452529692, 1452529692),
 ('proyecto-accion-especifica/delete', 2, 'Eliminar acción específica de proyecto', NULL, NULL, 1452529736, 1452529736),
 ('proyecto-accion-especifica/index', 2, 'Lista de acciones específicas de proyecto', NULL, NULL, 1452529786, 1452529786),
+('proyecto-accion-especifica/toggle-activo', 2, 'Activar/Desactivar una acción específica de proyecto', NULL, NULL, 1457393202, 1457393330),
 ('proyecto-accion-especifica/update', 2, 'Editar acción específica de proyecto', NULL, NULL, 1452529715, 1452529715),
 ('proyecto-accion-especifica/view', 2, 'Ver acción específica de proyecto', NULL, NULL, 1452631085, 1452631085),
 ('proyecto-alcance/create', 2, 'Crear alcance de proyecto', NULL, NULL, 1452221668, 1452221668),
 ('proyecto-alcance/delete', 2, 'Eliminar alcance de proyecto', NULL, NULL, 1452221699, 1452221699),
 ('proyecto-alcance/update', 2, 'Editar alcance de proyecto', NULL, NULL, 1452221681, 1452221681),
 ('proyecto-alcance/view', 2, 'Ver alcance de proyecto', NULL, NULL, 1452223025, 1452223025),
+('proyecto-asignar/asignar', 2, 'Lista de asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458228890, 1458228890),
+('proyecto-asignar/bulk-activar', 2, 'Activar múltiples asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458229012, 1458229060),
+('proyecto-asignar/bulk-delete', 2, 'Eliminar múltiples asignaciones de usuario a proyecto/acción específica', NULL, NULL, 1458228933, 1458228933),
+('proyecto-asignar/bulk-desactivar', 2, 'Desactivar múltiples asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458229050, 1458229050),
+('proyecto-asignar/create', 2, 'Crear asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228779, 1458228779),
+('proyecto-asignar/delete', 2, 'Eliminar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228811, 1458228811),
+('proyecto-asignar/index', 2, 'Lista de usuarios asignados a proyectos', NULL, NULL, 1458228739, 1458228739),
+('proyecto-asignar/toggle-activo', 2, 'Activar/Desactivar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228960, 1458228960),
+('proyecto-asignar/update', 2, 'Modificar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228795, 1458228795),
+('proyecto-asignar/view', 2, 'Ver asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228845, 1458228845),
 ('proyecto-distribucion-presupuestaria/create', 2, 'Crear distribución presupuestaria de proyecto', NULL, NULL, 1452649234, 1452649234),
 ('proyecto-distribucion-presupuestaria/delete', 2, 'Eliminar distribución presupuestaria de proyecto', NULL, NULL, 1452649263, 1452649263),
 ('proyecto-distribucion-presupuestaria/index', 2, 'Lista de distribución presupuestaria de proyecto', NULL, NULL, 1452649290, 1452649290),
@@ -247,7 +280,13 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto-localizacion/index', 2, 'Localización estadal, municipal, parroquial - lista', NULL, NULL, 1451499354, 1451499354),
 ('proyecto-localizacion/update', 2, 'Localización estadal, municipal, parroquial - modificar', NULL, NULL, 1451967049, 1451967049),
 ('proyecto-localizacion/view', 2, 'Localización estadal, municipal, parroquial - ver', NULL, NULL, 1451968567, 1451968567),
+('proyecto-pedido/create', 2, 'Crear pedido', NULL, NULL, 1458102921, 1458102921),
+('proyecto-pedido/delete', 2, 'Eliminar pedido', NULL, NULL, 1458102957, 1458102957),
 ('proyecto-pedido/index', 2, 'Lista de pedidos de materiales y servicios de proyecto', NULL, NULL, 1456116851, 1456116851),
+('proyecto-pedido/pedido', 2, 'Pedidos', NULL, NULL, 1458100323, 1458100323),
+('proyecto-pedido/toggle-activo', 2, 'Activar/desactivar pedido', NULL, NULL, 1458105557, 1458105557),
+('proyecto-pedido/update', 2, 'Modificar pedido', NULL, NULL, 1458102942, 1458102942),
+('proyecto-pedido/view', 2, 'Ver pedido', NULL, NULL, 1458105517, 1458105517),
 ('proyecto-registrador/create', 2, 'Crear registrador de proyecto', NULL, NULL, 1451931943, 1451931943),
 ('proyecto-registrador/create-alt', 2, 'Crear registrador de proyecto - método alternativo', NULL, NULL, 1452023090, 1452023090),
 ('proyecto-registrador/delete', 2, 'Eliminar registrador de proyecto', NULL, NULL, 1451931989, 1451931989),
@@ -267,12 +306,16 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto-responsable/delete', 2, 'Eliminar responsable de proyecto', NULL, NULL, 1452019408, 1452019408),
 ('proyecto-responsable/update', 2, 'Editar responsable de proyecto', NULL, NULL, 1452005753, 1452005753),
 ('proyecto-responsable/view', 2, 'Ver responsable de proyecto', NULL, NULL, 1452006168, 1452006168),
+('proyecto/bulk-activar', 2, 'Activar múltiples proyectos', NULL, NULL, 1456979084, 1456979084),
+('proyecto/bulk-delete', 2, 'Eliminar múltiples proyectos', NULL, NULL, 1456979023, 1456979023),
+('proyecto/bulk-desactivar', 2, 'Desactivar múltiples proyectos', NULL, NULL, 1456979103, 1456979103),
 ('proyecto/create', 2, 'Crear Proyecto', NULL, NULL, 1450393912, 1450645199),
 ('proyecto/delete', 2, 'Eliminar Proyecto', NULL, NULL, 1450393912, 1450645229),
 ('proyecto/index', 2, 'Lista de proyectos', NULL, NULL, 1450646779, 1450646779),
+('proyecto/toggle-activo', 2, 'Activar/desactivar un proyecto', NULL, NULL, 1456978982, 1456979131),
 ('proyecto/update', 2, 'Editar Proyecto', NULL, NULL, 1450393912, 1450645214),
 ('proyecto/view', 2, 'Ver Proyecto', NULL, NULL, 1450393912, 1450645173),
-('registrador_accion_especifica', 1, 'Crea, edita y elimina acciones específicas de proyecto', NULL, NULL, 1452529829, 1452631112),
+('registrador_accion_especifica', 1, 'Crea, edita y elimina acciones específicas de proyecto', NULL, NULL, 1452529829, 1457393365),
 ('registrador_alcance', 1, 'Crea, edita y elimina "alcance e impacto" de proyecto', NULL, NULL, 1452221931, 1452223040),
 ('registrador_basico', 1, 'Crea, edita y elimina datos básicos de proyecto', NULL, NULL, 1450393912, 1452359490),
 ('registrador_distribucion_presupuestaria', 1, 'Crea, edita y elimina la distribución presupuestaria de proyecto', NULL, NULL, 1452649340, 1452649340),
@@ -344,13 +387,22 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('materiales_servicios', 'materiales-servicios/index'),
 ('sysadmin', 'materiales-servicios/index'),
 ('materiales_servicios', 'materiales-servicios/update'),
+<<<<<<< HEAD
 ('sysadmin', 'materiales-servicios/update'),
+=======
+('registrador_accion_especifica', 'proyecto-accion-especifica/bulk-activar'),
+('registrador_accion_especifica', 'proyecto-accion-especifica/bulk-desactivar'),
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 ('registrador_accion_especifica', 'proyecto-accion-especifica/create'),
 ('sysadmin', 'proyecto-accion-especifica/create'),
 ('registrador_accion_especifica', 'proyecto-accion-especifica/delete'),
 ('sysadmin', 'proyecto-accion-especifica/delete'),
 ('registrador_accion_especifica', 'proyecto-accion-especifica/index'),
+<<<<<<< HEAD
 ('sysadmin', 'proyecto-accion-especifica/index'),
+=======
+('registrador_accion_especifica', 'proyecto-accion-especifica/toggle-activo'),
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 ('registrador_accion_especifica', 'proyecto-accion-especifica/update'),
 ('sysadmin', 'proyecto-accion-especifica/update'),
 ('registrador_accion_especifica', 'proyecto-accion-especifica/view'),
@@ -362,7 +414,20 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('registrador_alcance', 'proyecto-alcance/update'),
 ('sysadmin', 'proyecto-alcance/update'),
 ('registrador_alcance', 'proyecto-alcance/view'),
+<<<<<<< HEAD
 ('sysadmin', 'proyecto-alcance/view'),
+=======
+('proyecto_asignar', 'proyecto-asignar/asignar'),
+('proyecto_asignar', 'proyecto-asignar/bulk-activar'),
+('proyecto_asignar', 'proyecto-asignar/bulk-delete'),
+('proyecto_asignar', 'proyecto-asignar/bulk-desactivar'),
+('proyecto_asignar', 'proyecto-asignar/create'),
+('proyecto_asignar', 'proyecto-asignar/delete'),
+('proyecto_asignar', 'proyecto-asignar/index'),
+('proyecto_asignar', 'proyecto-asignar/toggle-activo'),
+('proyecto_asignar', 'proyecto-asignar/update'),
+('proyecto_asignar', 'proyecto-asignar/view'),
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 ('registrador_distribucion_presupuestaria', 'proyecto-distribucion-presupuestaria/create'),
 ('sysadmin', 'proyecto-distribucion-presupuestaria/create'),
 ('registrador_distribucion_presupuestaria', 'proyecto-distribucion-presupuestaria/delete'),
@@ -391,8 +456,18 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('registrador_basico', 'proyecto-localizacion/update'),
 ('sysadmin', 'proyecto-localizacion/update'),
 ('registrador_basico', 'proyecto-localizacion/view'),
+<<<<<<< HEAD
 ('sysadmin', 'proyecto-localizacion/view'),
 ('sysadmin', 'proyecto-pedido/index'),
+=======
+('proyecto_pedido', 'proyecto-pedido/create'),
+('proyecto_pedido', 'proyecto-pedido/delete'),
+('proyecto_pedido', 'proyecto-pedido/index'),
+('proyecto_pedido', 'proyecto-pedido/pedido'),
+('proyecto_pedido', 'proyecto-pedido/toggle-activo'),
+('proyecto_pedido', 'proyecto-pedido/update'),
+('proyecto_pedido', 'proyecto-pedido/view'),
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 ('registrador_basico', 'proyecto-registrador/create'),
 ('sysadmin', 'proyecto-registrador/create'),
 ('registrador_basico', 'proyecto-registrador/create-alt'),
@@ -428,9 +503,14 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('registrador_basico', 'proyecto-responsable/delete'),
 ('registrador_basico', 'proyecto-responsable/update'),
 ('registrador_basico', 'proyecto-responsable/view'),
+('gestor_proyecto', 'proyecto/bulk-activar'),
+('gestor_proyecto', 'proyecto/bulk-delete'),
+('gestor_proyecto', 'proyecto/bulk-desactivar'),
 ('registrador_basico', 'proyecto/create'),
+('gestor_proyecto', 'proyecto/delete'),
 ('registrador_basico', 'proyecto/delete'),
 ('registrador_basico', 'proyecto/index'),
+('gestor_proyecto', 'proyecto/toggle-activo'),
 ('registrador_basico', 'proyecto/update'),
 ('registrador_basico', 'proyecto/view'),
 ('sysadmin', 'site/configuracion'),
@@ -458,7 +538,8 @@ CREATE TABLE IF NOT EXISTS `auth_rule` (
 --
 
 INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
-('isAuthor', 'O:19:"app\\rbac\\AuthorRule":3:{s:4:"name";s:8:"isAuthor";s:9:"createdAt";i:1456117284;s:9:"updatedAt";i:1456117284;}', 1456117284, 1456117284);
+('isAuthor', 'O:19:"app\\rbac\\AuthorRule":3:{s:4:"name";s:8:"isAuthor";s:9:"createdAt";i:1456117284;s:9:"updatedAt";i:1456117284;}', 1456117284, 1456117284),
+('UeAsignada', 'O:23:"app\\rbac\\UeAsignadaRule":3:{s:4:"name";s:10:"UeAsignada";s:9:"createdAt";i:1457406219;s:9:"updatedAt";i:1457406219;}', 1457406219, 1457406219);
 
 -- --------------------------------------------------------
 
@@ -467,11 +548,18 @@ INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `cuenta_presupuestaria` (
+<<<<<<< HEAD
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cuenta` varchar(1) NOT NULL COMMENT 'Código de la cuenta',
   `nombre` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+=======
+  `id` int(11) NOT NULL,
+  `cuenta` varchar(1) NOT NULL COMMENT 'Código de la cuenta',
+  `nombre` varchar(15) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 --
 -- Volcado de datos para la tabla `cuenta_presupuestaria`
@@ -579,6 +667,7 @@ INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
 -- Estructura de tabla para la tabla `historial`
 --
 
@@ -603,6 +692,8 @@ CREATE TABLE IF NOT EXISTS `historial` (
 -- --------------------------------------------------------
 
 --
+=======
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 -- Estructura de tabla para la tabla `instancia_institucion`
 --
 
@@ -628,26 +719,39 @@ INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `materiales_servicios` (
+<<<<<<< HEAD
   `id` int(11) NOT NULL AUTO_INCREMENT,
+=======
+  `id` int(11) NOT NULL,
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
   `id_se` int(11) NOT NULL COMMENT 'ID partida sub-especifica',
   `nombre` varchar(60) NOT NULL,
   `unidad_medida` int(11) NOT NULL,
   `presentacion` int(11) NOT NULL,
   `precio` decimal(12,2) NOT NULL,
   `iva` int(11) NOT NULL,
+<<<<<<< HEAD
   `estatus` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_se` (`id_se`),
   KEY `unidad_medida` (`unidad_medida`),
   KEY `presentacion` (`presentacion`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+=======
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 --
 -- Volcado de datos para la tabla `materiales_servicios`
 --
 
 INSERT INTO `materiales_servicios` (`id`, `id_se`, `nombre`, `unidad_medida`, `presentacion`, `precio`, `iva`, `estatus`) VALUES
+<<<<<<< HEAD
 (1, 1, 'Agua', 341, 1, '100.00', 12, 1);
+=======
+(1, 1, 'Agua', 341, 1, 100.00, 12, 1);
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 -- --------------------------------------------------------
 
@@ -1264,6 +1368,7 @@ CREATE TABLE IF NOT EXISTS `parroquia` (
 
 --
 -- Estructura de tabla para la tabla `partida_especifica`
+<<<<<<< HEAD
 --
 
 CREATE TABLE IF NOT EXISTS `partida_especifica` (
@@ -1323,13 +1428,72 @@ CREATE TABLE IF NOT EXISTS `partida_partida` (
   PRIMARY KEY (`id`),
   KEY `ramo` (`cuenta`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
+=======
+--
+
+CREATE TABLE IF NOT EXISTS `partida_especifica` (
+  `id` int(11) NOT NULL,
+  `generica` int(11) NOT NULL,
+  `especifica` varchar(2) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `partida_especifica`
+--
+
+INSERT INTO `partida_especifica` (`id`, `generica`, `especifica`, `nombre`, `estatus`) VALUES
+(2, 2, '01', 'Alimentos y bebidas para personas', 1),
+(3, 2, '02', 'Alimentos para animales', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `partida_generica`
+--
+
+CREATE TABLE IF NOT EXISTS `partida_generica` (
+  `id` int(11) NOT NULL,
+  `id_partida` int(11) NOT NULL,
+  `generica` varchar(2) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `partida_generica`
+--
+
+INSERT INTO `partida_generica` (`id`, `id_partida`, `generica`, `nombre`, `estatus`) VALUES
+(2, 17, '01', 'Productos alimenticios y agropecuarios', 1),
+(3, 18, '01', 'Alquileres de inmuebles', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `partida_partida`
+--
+
+CREATE TABLE IF NOT EXISTS `partida_partida` (
+  `id` int(11) NOT NULL,
+  `cuenta` int(11) NOT NULL COMMENT 'ID Cuenta',
+  `partida` varchar(2) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 --
 -- Volcado de datos para la tabla `partida_partida`
 --
 
 INSERT INTO `partida_partida` (`id`, `cuenta`, `partida`, `nombre`, `estatus`) VALUES
+<<<<<<< HEAD
 (1, 1, '00', 'Recursos', 1),
+=======
+(1, 1, '00', 'Recursos', 0),
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 (2, 1, '01', 'Ingresos Ordinarios', 0),
 (3, 1, '02', 'Ingresos Extraordinarios', 0),
 (4, 1, '03', 'Ingresos de Operación', 0),
@@ -1365,6 +1529,7 @@ INSERT INTO `partida_partida` (`id`, `cuenta`, `partida`, `nombre`, `estatus`) V
 --
 
 CREATE TABLE IF NOT EXISTS `partida_sub_especifica` (
+<<<<<<< HEAD
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `especifica` int(11) NOT NULL,
   `sub_especifica` varchar(2) NOT NULL,
@@ -1373,6 +1538,14 @@ CREATE TABLE IF NOT EXISTS `partida_sub_especifica` (
   PRIMARY KEY (`id`),
   KEY `id_se` (`especifica`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+=======
+  `id` int(11) NOT NULL,
+  `especifica` int(11) NOT NULL,
+  `sub_especifica` varchar(2) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 --
 -- Volcado de datos para la tabla `partida_sub_especifica`
@@ -1468,6 +1641,7 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
   `objetivo_general` int(11) NOT NULL,
   `objetivo_estrategico_institucional` text NOT NULL,
   `ambito` int(11) NOT NULL,
+<<<<<<< HEAD
   PRIMARY KEY (`id`),
   UNIQUE KEY `codigo_proyecto_UNIQUE` (`codigo_proyecto`),
   UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
@@ -1479,16 +1653,27 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
   KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
   KEY `ambito_fk` (`ambito`) USING BTREE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000002 ;
+=======
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 --
 -- Volcado de datos para la tabla `proyecto`
 --
 
+<<<<<<< HEAD
 INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `estatus_proyecto`, `situacion_presupuestaria`, `monto_proyecto`, `descripcion`, `sector`, `sub_sector`, `plan_operativo`, `objetivo_general`, `objetivo_estrategico_institucional`, `ambito`) VALUES
 (1, '0001', '0001', 'Proyecto Lorem ipsum dolor sit amet, consec', 1, 1, '99999', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Aliquam aliquam lectus orci, rhoncus ultricies quam cursus at. Pellentesque ac ultrices est. Sed at cursus ante. Nunc molestie facilisis nisi quis congue. Donec vel vulputate leo. Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 4),
 (999999, '9999', '9999', 'Proyecto de prueba', 1, 1, '9999', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 1),
 (1000000, '12121212', '52365222211', 'PROYECTO ANTONIO', 3, 1, '6', 'SIN DESCRIPCIÓN', 1, 1, 1, 15, 'no se', 1),
 (1000001, '12', 'probando', 'probadno', 1, 1, '10000', 'probando', 1, 1, 1, 8, 'probando', 2);
+=======
+INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `estatus_proyecto`, `situacion_presupuestaria`, `monto_proyecto`, `descripcion`, `sector`, `sub_sector`, `plan_operativo`, `objetivo_general`, `objetivo_estrategico_institucional`, `ambito`, `estatus`) VALUES
+(1, '0001', '0001', 'Proyecto Lorem ipsum dolor sit amet, consec', 1, 1, 99999, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Aliquam aliquam lectus orci, rhoncus ultricies quam cursus at. Pellentesque ac ultrices est. Sed at cursus ante. Nunc molestie facilisis nisi quis congue. Donec vel vulputate leo. Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 4, 1),
+(999999, '9999', '9999', 'Proyecto de prueba', 1, 1, 9999, 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 1, 1, 'Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 1, 1),
+(1000000, '12121212', '52365222211', 'PROYECTO ANTONIO', 3, 1, 6, 'SIN DESCRIPCIÓN', 1, 1, 1, 15, 'no se', 1, 1);
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 -- --------------------------------------------------------
 
@@ -1502,10 +1687,15 @@ CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
   `codigo_accion_especifica` varchar(3) NOT NULL,
   `nombre` text,
   `id_unidad_ejecutora` int(11) NOT NULL,
+<<<<<<< HEAD
   PRIMARY KEY (`id`),
   KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
   KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+=======
+  `estatus` tinyint(4) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 --
 -- Volcado de datos para la tabla `proyecto_accion_especifica`
@@ -1575,10 +1765,15 @@ CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
   `vinculado_nombre_instancia` varchar(80) DEFAULT NULL COMMENT 'Nombre de la instancia responsable del proyecto con el que este se encuentra vinculado',
   `vinculado_nombre_proyecto` text COMMENT 'Nombre del proyecto con el que se encuentra vinculado',
   `vinculado_medida` text COMMENT '¿En que medida se encuentran vinculados los proyectos?',
+<<<<<<< HEAD
   `obstaculos` text NOT NULL COMMENT ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:',
   PRIMARY KEY (`id`),
   KEY `id_proyecto` (`id_proyecto`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto' AUTO_INCREMENT=3 ;
+=======
+  `obstaculos` text NOT NULL COMMENT ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto';
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 --
 -- Volcado de datos para la tabla `proyecto_alcance`
@@ -1586,7 +1781,32 @@ CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
 
 INSERT INTO `proyecto_alcance` (`id`, `id_proyecto`, `enunciado_problema`, `poblacion_afectada`, `indicador_situacion`, `formula_indicador`, `fuente_indicador`, `fecha_indicador_inicial`, `enunciado_situacion_deseada`, `poblacion_objetivo`, `indicador_situacion_deseada`, `resultado_esperado`, `unidad_medida`, `meta_proyecto`, `benficiarios_femeninos`, `beneficiarios_masculinos`, `denominacion_beneficiario`, `total_empleos_directos_femeninos`, `total_empleos_directos_masculino`, `empleos_directos_nuevos_femeninos`, `empleos_directos_nuevos_masculino`, `empleos_directos_sostenidos_femeninos`, `empleos_directos_sostenidos_masculino`, `requiere_accion_no_financiera`, `especifique_con_cual`, `requiere_nombre_institucion`, `requiere_nombre_instancia`, `requiere_mencione_acciones`, `contribuye_complementa`, `especifique_complementa_cual`, `contribuye_nombre_institucion`, `contribuye_nombre_instancia`, `contribuye_mencione_acciones`, `vinculado_otro`, `vinculado_especifique`, `vinculado_nombre_institucion`, `vinculado_nombre_instancia`, `vinculado_nombre_proyecto`, `vinculado_medida`, `obstaculos`) VALUES
 (1, 1, 'Según indican los últimos datos del INE correspondiente a enero de 2015,  en torno a la situación de la fuerza de trabajo, en Venezuela existe una población ocupada en el sector informal de 5.394.922  trabajadores  y trabajadoras que no disfrutan de ningún tipo de protección social o tienen una cobertura de seguridad social muy limitada por lo que se hace necesario la ejecución de un conjunto de acciones que permitan su inclusión al régimen de pensiones y otras asignaciones económicas.', '4.157.726  trabajadores y trabajadoras no dependientes se encuentran fuera del sistema de seguridad social.', 'El 77% de trabajadores no dependientes se encuentran fuera del sistema de seguridad social.', 'Trab. No dependientes excluidos SS= Trab. No dependientes excluidos SS/Total trab. No dependiente X100', 'INE', '2015-01-01', '1.338.496 de trabajadores y trabajadoras no dependientes incorporados al sistema de seguridad social.', '101.300 trabajadores y trabajadoras no incorporados al regimen de pensiones y otras asignaciones económicas.', '74,57%  de trabajadores no dependientes se encuentran fuera del sistema de seguridad social para el año 2015.', 'Trabajadores y trabajadoras no dependientes orientados en cuanto sus deberes y derechos de la Seguridad Social.', 2, '101.300', 50, 50, 'Trabajadores', 0, 0, 0, 0, 0, 0, 0, NULL, '', '', '', 0, NULL, '', '', '', 0, NULL, '', '', '', '', 'Ninguno.'),
-(2, 1000001, 'probadno', 'probando', 'probadno', 'probadno', 'probadno', '0000-00-00', 'probsadno', 'proasvbno', 'robado', 'probadno', 466, 'probadno', 12, 12, '12', 12, 12, 12, 12, 12, 12, 1, 1, 'no', 'no', 'no', 0, NULL, '', '', '', 0, NULL, '', '', '', '', 'probando');
+(2, 1000001, 'probadno', 'probando', 'probadno', 'probadno', 'probadno', '0000-00-00', 'probsadno', 'proasvbno', 'robado', 'probadno', 466, 'probadno', 12, 12, '12', 12, 12, 12, 12, 12, 12, 1, 1, 'no', 'no', 'no', 0, NULL, '', '', '', 0, NULL, '', '', '', '', 'probando'),
+(3, 999999, 'asfasf', 'adsfafas', 'asfasf', 'asfas', 'asfasf', '0000-00-00', 'asdasafs', 'asfasfas', 'asfasfsaf', 'asfasaf', 1, 'fadfdas', 1, 1, 'asdasd', 1, 1, 1, 1, 1, 1, 0, NULL, '', '', '', 0, NULL, '', '', '', 0, NULL, '', '', '', '', 'asfasfasf');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `proyecto_asignar`
+--
+
+CREATE TABLE IF NOT EXISTS `proyecto_asignar` (
+  `id` int(11) NOT NULL,
+  `usuario` int(11) NOT NULL,
+  `unidad_ejecutora` int(11) NOT NULL,
+  `accion_especifica` int(11) NOT NULL,
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de un proyecto';
+
+--
+-- Volcado de datos para la tabla `proyecto_asignar`
+--
+
+INSERT INTO `proyecto_asignar` (`id`, `usuario`, `unidad_ejecutora`, `accion_especifica`, `estatus`) VALUES
+(1, 1, 602, 27, 1),
+(2, 2, 1, 28, 1),
+(3, 2, 602, 27, 0),
+(4, 1, 1, 28, 1);
 
 -- --------------------------------------------------------
 
@@ -1598,11 +1818,50 @@ CREATE TABLE IF NOT EXISTS `proyecto_distribucion_presupuestaria` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_accion_especifica` int(11) NOT NULL COMMENT 'Acción Específica',
   `id_partida` int(11) NOT NULL COMMENT 'Partida',
+<<<<<<< HEAD
   `cantidad` decimal(20,0) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_accion_especifica` (`id_accion_especifica`),
   KEY `id_partida` (`id_partida`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Distribución presupuestaria de proyecto' AUTO_INCREMENT=1 ;
+=======
+  `cantidad` decimal(20,0) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='Distribución presupuestaria de proyecto';
+
+--
+-- Volcado de datos para la tabla `proyecto_distribucion_presupuestaria`
+--
+
+INSERT INTO `proyecto_distribucion_presupuestaria` (`id`, `id_accion_especifica`, `id_partida`, `cantidad`) VALUES
+(1, 36, 1, 0),
+(2, 36, 2, 0),
+(3, 36, 3, 0),
+(4, 36, 4, 0),
+(5, 36, 5, 0),
+(6, 36, 6, 0),
+(7, 36, 7, 0),
+(8, 36, 8, 0),
+(9, 36, 9, 0),
+(10, 36, 10, 0),
+(11, 36, 11, 0),
+(12, 36, 12, 0),
+(13, 36, 13, 0),
+(14, 36, 14, 0),
+(15, 36, 15, 0),
+(16, 36, 16, 0),
+(17, 36, 17, 0),
+(18, 36, 18, 0),
+(19, 36, 19, 0),
+(20, 36, 20, 0),
+(21, 36, 21, 0),
+(22, 36, 22, 0),
+(23, 36, 23, 0),
+(24, 36, 24, 0),
+(25, 36, 25, 0),
+(26, 36, 26, 0),
+(27, 36, 27, 0),
+(28, 36, 28, 0);
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 -- --------------------------------------------------------
 
@@ -1645,16 +1904,8 @@ INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`
 (2, 1000000, 862, NULL, NULL, NULL),
 (3, 1, 862, 16, NULL, NULL),
 (4, 1, 862, 5, NULL, NULL),
-(5, 1000001, 862, NULL, NULL, NULL),
-(6, 1000001, 862, NULL, NULL, NULL),
 (7, 1000000, 862, NULL, NULL, NULL),
-(8, 1000000, 862, NULL, NULL, NULL),
 (9, 1000000, 862, NULL, NULL, NULL),
-(10, 1000000, 862, NULL, NULL, NULL),
-(11, 1000000, 862, NULL, NULL, NULL),
-(12, 1000001, 862, NULL, NULL, NULL),
-(13, 1000001, 860, NULL, NULL, NULL),
-(14, 1000001, 862, NULL, NULL, NULL),
 (15, 999999, 862, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -1680,6 +1931,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
   `diciembre` int(11) NOT NULL,
   `precio` decimal(12,2) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+<<<<<<< HEAD
   `id_usuario` int(11) NOT NULL,
   `id_accion_especifica` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -1687,6 +1939,18 @@ CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
   KEY `id_usuario` (`id_usuario`),
   KEY `id_accion_especifica` (`id_accion_especifica`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+=======
+  `asignado` int(11) NOT NULL COMMENT 'ID de la asignacion (Usuario-UE-AC)',
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `proyecto_pedido`
+--
+
+INSERT INTO `proyecto_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `precio`, `fecha_creacion`, `asignado`, `estatus`) VALUES
+(1, 1, 12, 124, 32, 0, 0, 0, 46, 78, 12, 0, 0, 0, 100.00, '2016-03-16 10:37:01', 1, 1);
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 -- --------------------------------------------------------
 
@@ -1754,10 +2018,15 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_administradora` varchar(45) NOT NULL,
+<<<<<<< HEAD
   `id_proyecto` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_id_proyecto_idx` (`id_proyecto`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+=======
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable_administrativo`
@@ -1765,8 +2034,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
 
 INSERT INTO `proyecto_responsable_administrativo` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_administradora`, `id_proyecto`) VALUES
 (2, 'John Doe', 6841321, 'john@correo.com', '(212)1234567', 'Unidad', 1),
-(3, 'we', 1596541, '55@gmail.com', '14141411', 'we', 1000000),
-(5, 'walter3', 17389814, 'walsa@goa.com', '1212121', 'nose', 1000001);
+(3, 'we', 1596541, '55@gmail.com', '14141411', 'we', 1000000);
 
 -- --------------------------------------------------------
 
@@ -1781,10 +2049,15 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_tecnica` varchar(45) NOT NULL,
+<<<<<<< HEAD
   `id_proyecto` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_proyecto_fk` (`id_proyecto`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+=======
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable_tecnico`
@@ -1792,8 +2065,12 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
 
 INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_tecnica`, `id_proyecto`) VALUES
 (2, 'Jane', 65498732, 'jane@correo.com', '(212)9876543', 'Tecnica', 1),
+<<<<<<< HEAD
 (3, 'ee', 45, '45@gmail.com', '874141', 'cacaas', 1000000),
 (4, 'walter23', 17389814, 'walter86_79@hoas.com', '123123123', 'nose', 1000001);
+=======
+(3, 'ee', 45, '45@gmail.com', '874141', 'cacaas', 1000000);
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 -- --------------------------------------------------------
 
@@ -1918,7 +2195,7 @@ CREATE TABLE IF NOT EXISTS `unidad_ejecutora` (
 --
 
 INSERT INTO `unidad_ejecutora` (`id`, `codigo_ue`, `nombre`) VALUES
-(1, '9999', 'Unidad Ejecutora'),
+(1, '9999', 'UNIDAD EJECUTORA'),
 (600, '10000', 'OFICINA DE ADMINISTRACIÓN Y SERVICIOS '),
 (601, '10001', 'DESPACHO DE LA MINISTRO '),
 (602, '10002', 'DESPACHO DEL VICEMINISTRO DEL TRABAJO '),
@@ -2680,10 +2957,376 @@ CREATE TABLE IF NOT EXISTS `user_accounts` (
 
 INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_key`, `administrator`, `creator`, `creator_ip`, `confirm_token`, `recovery_token`, `blocked_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES
 (1, 'catu52@gmail.com', 'admin', '$2y$13$93TebP1Z2QcqANsVIzAwrON2lrPaFFXqUoJswU0VHa63avQoNS6G6', '', 1, -2, 'Local', NULL, NULL, NULL, 1449790220, 1449790220, 1449864304),
+<<<<<<< HEAD
 (2, 'antonioluismonasterio@gmail.com', 'antonio', '$2y$13$Yl3RUN/f9jI.YoHsDHzwsurB3o10UVv1mDHYgoZjGs9xpum2u0wia', '', 1, 1, '127.0.0.1', NULL, NULL, NULL, 1449848097, 1449848097, 1456107451),
 (3, 'walter86_79@hotmail.com', 'soulip', '$2y$13$UjYRjClQAEpe2OzeogsZoederx9EgVItIQCy5bNrV0xz8vQWDI3DS', '', 1, 1, '127.0.0.1', NULL, NULL, NULL, 1454610570, 1454610571, 1456934491);
 
 -- --------------------------------------------------------
+=======
+(2, 'antonioluismonasterio@gmail.com', 'antonio', '$2y$13$I/K3TenE57er26KZengHNujOrM7kYiCsGZzG4XXK1MOx/zhsmCZdi', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1449848097, 1449848097, 1458107123),
+(3, 'walter86_79@hotmail.com', 'soulip', '$2y$13$UjYRjClQAEpe2OzeogsZoederx9EgVItIQCy5bNrV0xz8vQWDI3DS', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1454610570, 1454610571, 1458107096);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `accion_centralizada`
+--
+ALTER TABLE `accion_centralizada`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `ac_ac_espec`
+--
+ALTER TABLE `ac_ac_espec`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ac_centr` (`id_ac_centr`);
+
+--
+-- Indices de la tabla `ac_esp_uej`
+--
+ALTER TABLE `ac_esp_uej`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ue` (`id_ue`),
+  ADD KEY `id_v` (`id_ac_esp`);
+
+--
+-- Indices de la tabla `ac_variable`
+--
+ALTER TABLE `ac_variable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ac` (`id_u_ej`),
+  ADD KEY `id_ac_esp` (`id_u_ej`);
+
+--
+-- Indices de la tabla `ambito`
+--
+ALTER TABLE `ambito`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `auth_assignment`
+--
+ALTER TABLE `auth_assignment`
+  ADD PRIMARY KEY (`item_name`,`user_id`);
+
+--
+-- Indices de la tabla `auth_item`
+--
+ALTER TABLE `auth_item`
+  ADD PRIMARY KEY (`name`),
+  ADD KEY `rule_name` (`rule_name`),
+  ADD KEY `idx-auth_item-type` (`type`);
+
+--
+-- Indices de la tabla `auth_item_child`
+--
+ALTER TABLE `auth_item_child`
+  ADD PRIMARY KEY (`parent`,`child`),
+  ADD KEY `child` (`child`);
+
+--
+-- Indices de la tabla `auth_rule`
+--
+ALTER TABLE `auth_rule`
+  ADD PRIMARY KEY (`name`);
+
+--
+-- Indices de la tabla `cuenta_presupuestaria`
+--
+ALTER TABLE `cuenta_presupuestaria`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `estados`
+--
+ALTER TABLE `estados`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pais` (`id_pais`);
+
+--
+-- Indices de la tabla `estatus_proyecto`
+--
+ALTER TABLE `estatus_proyecto`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `fuente_financiamiento`
+--
+ALTER TABLE `fuente_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `instancia_institucion`
+--
+ALTER TABLE `instancia_institucion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `materiales_servicios`
+--
+ALTER TABLE `materiales_servicios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_se` (`id_se`),
+  ADD KEY `unidad_medida` (`unidad_medida`),
+  ADD KEY `presentacion` (`presentacion`);
+
+--
+-- Indices de la tabla `migration`
+--
+ALTER TABLE `migration`
+  ADD PRIMARY KEY (`version`);
+
+--
+-- Indices de la tabla `modelhistory`
+--
+ALTER TABLE `modelhistory`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx-table` (`table`),
+  ADD KEY `idx-field_name` (`field_name`),
+  ADD KEY `idx-type` (`type`),
+  ADD KEY `idx-user_id` (`user_id`);
+
+--
+-- Indices de la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_estado` (`id_estado`);
+
+--
+-- Indices de la tabla `objetivos_estrategicos`
+--
+ALTER TABLE `objetivos_estrategicos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `directriz` (`objetivo_nacional`);
+
+--
+-- Indices de la tabla `objetivos_generales`
+--
+ALTER TABLE `objetivos_generales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estrategia` (`objetivo_estrategico`);
+
+--
+-- Indices de la tabla `objetivos_historicos`
+--
+ALTER TABLE `objetivos_historicos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `objetivos_nacionales`
+--
+ALTER TABLE `objetivos_nacionales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `directriz` (`objetivo_historico`);
+
+--
+-- Indices de la tabla `pais`
+--
+ALTER TABLE `pais`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `parroquia`
+--
+ALTER TABLE `parroquia`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_municipio` (`id_municipio`);
+
+--
+-- Indices de la tabla `partida_especifica`
+--
+ALTER TABLE `partida_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ge` (`generica`);
+
+--
+-- Indices de la tabla `partida_generica`
+--
+ALTER TABLE `partida_generica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_partidad` (`id_partida`);
+
+--
+-- Indices de la tabla `partida_partida`
+--
+ALTER TABLE `partida_partida`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ramo` (`cuenta`);
+
+--
+-- Indices de la tabla `partida_sub_especifica`
+--
+ALTER TABLE `partida_sub_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_se` (`especifica`);
+
+--
+-- Indices de la tabla `plan_operativo`
+--
+ALTER TABLE `plan_operativo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `presentacion`
+--
+ALTER TABLE `presentacion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `programacion_fisica_presupuestaria`
+--
+ALTER TABLE `programacion_fisica_presupuestaria`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_programacion_fisica_presupuestaria_1_idx` (`tipo_distribucion`),
+  ADD KEY `fk_programacion_fisica_presupuestaria_2_idx` (`id_proyecto_accion_especifica`);
+
+--
+-- Indices de la tabla `proyecto`
+--
+ALTER TABLE `proyecto`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo_proyecto_UNIQUE` (`codigo_proyecto`),
+  ADD UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
+  ADD KEY `estatus_proyecto_fk` (`estatus_proyecto`),
+  ADD KEY `situacion_presupuestaria_fk` (`situacion_presupuestaria`),
+  ADD KEY `clasificacion_sector_fk` (`sector`) USING BTREE,
+  ADD KEY `sub_sector_fk` (`sub_sector`) USING BTREE,
+  ADD KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
+  ADD KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
+  ADD KEY `ambito_fk` (`ambito`) USING BTREE;
+
+--
+-- Indices de la tabla `proyecto_accion_especifica`
+--
+ALTER TABLE `proyecto_accion_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
+  ADD KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`);
+
+--
+-- Indices de la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_asignar`
+--
+ALTER TABLE `proyecto_asignar`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario` (`usuario`),
+  ADD KEY `unidad_ejecutora` (`unidad_ejecutora`),
+  ADD KEY `accion_especifica` (`accion_especifica`);
+
+--
+-- Indices de la tabla `proyecto_distribucion_presupuestaria`
+--
+ALTER TABLE `proyecto_distribucion_presupuestaria`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_accion_especifica` (`id_accion_especifica`),
+  ADD KEY `id_partida` (`id_partida`);
+
+--
+-- Indices de la tabla `proyecto_fuente_financiamiento`
+--
+ALTER TABLE `proyecto_fuente_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `proyecto_localizacion`
+--
+ALTER TABLE `proyecto_localizacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estados_fk_idx` (`id_estado`),
+  ADD KEY `municipio_fk_idx` (`id_municipio`),
+  ADD KEY `parroquia_fk_idx` (`id_parroquia`),
+  ADD KEY `proyecto_fk_idx` (`id_proyecto`),
+  ADD KEY `id_pais` (`id_pais`);
+
+--
+-- Indices de la tabla `proyecto_pedido`
+--
+ALTER TABLE `proyecto_pedido`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_material` (`id_material`),
+  ADD KEY `asignado` (`asignado`);
+
+--
+-- Indices de la tabla `proyecto_registrador`
+--
+ALTER TABLE `proyecto_registrador`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_proyecto_2` (`id_proyecto`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `proyecto_fk` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable_administrativo`
+--
+ALTER TABLE `proyecto_responsable_administrativo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_proyecto_idx` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto_fk` (`id_proyecto`);
+
+--
+-- Indices de la tabla `sector`
+--
+ALTER TABLE `sector`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `situacion_presupuestaria`
+--
+ALTER TABLE `situacion_presupuestaria`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `sub_sector`
+--
+ALTER TABLE `sub_sector`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_distribucion`
+--
+ALTER TABLE `tipo_distribucion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_financiamiento`
+--
+ALTER TABLE `tipo_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `unidad_ejecutora`
+--
+ALTER TABLE `unidad_ejecutora`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo_ue_UNIQUE` (`codigo_ue`);
+
+--
+-- Indices de la tabla `unidad_medida`
+--
+ALTER TABLE `unidad_medida`
+  ADD PRIMARY KEY (`id`);
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 
 --
 -- Estructura de tabla para la tabla `usuario_ue`
@@ -2699,6 +3342,229 @@ CREATE TABLE IF NOT EXISTS `usuario_ue` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios y unidades ejecutoras' AUTO_INCREMENT=1 ;
 
 --
+<<<<<<< HEAD
+=======
+-- AUTO_INCREMENT de la tabla `accion_centralizada`
+--
+ALTER TABLE `accion_centralizada`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `ac_ac_espec`
+--
+ALTER TABLE `ac_ac_espec`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `ac_esp_uej`
+--
+ALTER TABLE `ac_esp_uej`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `ac_variable`
+--
+ALTER TABLE `ac_variable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `ambito`
+--
+ALTER TABLE `ambito`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla `cuenta_presupuestaria`
+--
+ALTER TABLE `cuenta_presupuestaria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `estados`
+--
+ALTER TABLE `estados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+--
+-- AUTO_INCREMENT de la tabla `estatus_proyecto`
+--
+ALTER TABLE `estatus_proyecto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `fuente_financiamiento`
+--
+ALTER TABLE `fuente_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT de la tabla `instancia_institucion`
+--
+ALTER TABLE `instancia_institucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `materiales_servicios`
+--
+ALTER TABLE `materiales_servicios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `modelhistory`
+--
+ALTER TABLE `modelhistory`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_estrategicos`
+--
+ALTER TABLE `objetivos_estrategicos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=150;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_generales`
+--
+ALTER TABLE `objetivos_generales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_historicos`
+--
+ALTER TABLE `objetivos_historicos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_nacionales`
+--
+ALTER TABLE `objetivos_nacionales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT de la tabla `parroquia`
+--
+ALTER TABLE `parroquia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `partida_especifica`
+--
+ALTER TABLE `partida_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `partida_generica`
+--
+ALTER TABLE `partida_generica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `partida_partida`
+--
+ALTER TABLE `partida_partida`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+--
+-- AUTO_INCREMENT de la tabla `partida_sub_especifica`
+--
+ALTER TABLE `partida_sub_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `plan_operativo`
+--
+ALTER TABLE `plan_operativo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `presentacion`
+--
+ALTER TABLE `presentacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `proyecto`
+--
+ALTER TABLE `proyecto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1000001;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_accion_especifica`
+--
+ALTER TABLE `proyecto_accion_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_asignar`
+--
+ALTER TABLE `proyecto_asignar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_distribucion_presupuestaria`
+--
+ALTER TABLE `proyecto_distribucion_presupuestaria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_fuente_financiamiento`
+--
+ALTER TABLE `proyecto_fuente_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_localizacion`
+--
+ALTER TABLE `proyecto_localizacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_pedido`
+--
+ALTER TABLE `proyecto_pedido`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_registrador`
+--
+ALTER TABLE `proyecto_registrador`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable_administrativo`
+--
+ALTER TABLE `proyecto_responsable_administrativo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `sector`
+--
+ALTER TABLE `sector`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT de la tabla `situacion_presupuestaria`
+--
+ALTER TABLE `situacion_presupuestaria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `sub_sector`
+--
+ALTER TABLE `sub_sector`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `tipo_distribucion`
+--
+ALTER TABLE `tipo_distribucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tipo_financiamiento`
+--
+ALTER TABLE `tipo_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `unidad_ejecutora`
+--
+ALTER TABLE `unidad_ejecutora`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=688;
+--
+-- AUTO_INCREMENT de la tabla `unidad_medida`
+--
+ALTER TABLE `unidad_medida`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=623;
+--
+-- AUTO_INCREMENT de la tabla `user_accounts`
+--
+ALTER TABLE `user_accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 -- Restricciones para tablas volcadas
 --
 
@@ -2792,6 +3658,14 @@ ALTER TABLE `proyecto_accion_especifica`
   ADD CONSTRAINT `fk_accion_especifica_proyecto_2` FOREIGN KEY (`id_unidad_ejecutora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `proyecto_asignar`
+--
+ALTER TABLE `proyecto_asignar`
+  ADD CONSTRAINT `proyecto_asignar_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `proyecto_asignar_ibfk_2` FOREIGN KEY (`unidad_ejecutora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `proyecto_asignar_ibfk_3` FOREIGN KEY (`accion_especifica`) REFERENCES `proyecto_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `proyecto_distribucion_presupuestaria`
 --
 ALTER TABLE `proyecto_distribucion_presupuestaria`
@@ -2811,9 +3685,8 @@ ALTER TABLE `proyecto_localizacion`
 -- Filtros para la tabla `proyecto_pedido`
 --
 ALTER TABLE `proyecto_pedido`
-  ADD CONSTRAINT `frk_accion_especifica` FOREIGN KEY (`id_accion_especifica`) REFERENCES `proyecto_accion_especifica` (`id`),
-  ADD CONSTRAINT `frk_materiales_pedido` FOREIGN KEY (`id_material`) REFERENCES `materiales_servicios` (`id`),
-  ADD CONSTRAINT `frk_user_pedido` FOREIGN KEY (`id_usuario`) REFERENCES `user_accounts` (`id`);
+  ADD CONSTRAINT `frk_asignado_pedido` FOREIGN KEY (`asignado`) REFERENCES `proyecto_asignar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `frk_materiales_pedido` FOREIGN KEY (`id_material`) REFERENCES `materiales_servicios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `proyecto_responsable`
@@ -2833,6 +3706,7 @@ ALTER TABLE `proyecto_responsable_administrativo`
 ALTER TABLE `proyecto_responsable_tecnico`
   ADD CONSTRAINT `fk_id_proyecto` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+<<<<<<< HEAD
 --
 -- Filtros para la tabla `usuario_ue`
 --
@@ -2840,6 +3714,8 @@ ALTER TABLE `usuario_ue`
   ADD CONSTRAINT `usuario_ue_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `usuario_ue_ibfk_2` FOREIGN KEY (`unidad_ejecutora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+=======
+>>>>>>> 4a7f8ea701288ad026634fc3b8f704dee4939999
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

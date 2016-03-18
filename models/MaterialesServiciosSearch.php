@@ -12,6 +12,8 @@ use app\models\MaterialesServicios;
  */
 class MaterialesServiciosSearch extends MaterialesServicios
 {
+    public $codigoSubEspecifica;
+    public $nombrePresentacion;
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class MaterialesServiciosSearch extends MaterialesServicios
     {
         return [
             [['id', 'id_se', 'unidad_medida', 'presentacion', 'iva', 'estatus'], 'integer'],
-            [['nombre'], 'safe'],
+            [['nombre', 'codigoSubEspecifica', 'nombrePresentacion'], 'safe'],
             [['precio'], 'number'],
         ];
     }
@@ -43,10 +45,23 @@ class MaterialesServiciosSearch extends MaterialesServicios
     public function search($params)
     {
         $query = MaterialesServicios::find();
+        // Join para la relacion
+        $query->joinWith(['idSe']);
+        $query->joinWith(['presentacion0']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        //Ordenamiento
+        $dataProvider->sort->attributes['codigoSubEspecifica'] = [
+            'asc' => ['partida_sub_especfica.sub_especfica' => SORT_ASC],
+            'desc' => ['partida_sub_especfica.sub_especfica' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['nombrePresentacion'] = [
+            'asc' => ['presentacion.nombre' => SORT_ASC],
+            'desc' => ['presentacion.nombre' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -67,6 +82,8 @@ class MaterialesServiciosSearch extends MaterialesServicios
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['partida_sub_especfica.sub_especfica' => $this->id_se]);
+        $query->andFilterWhere(['like', 'presentacion.nombre', $this->nombrePresentacion]);
 
         return $dataProvider;
     }

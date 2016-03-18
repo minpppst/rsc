@@ -33,33 +33,26 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    /**
+     * Iconos del menu
+     */
     $icons=[
         'inicio'=>'<span class="glyphicon glyphicon-home" aria-hidden="true"></span>',
-        'proyecto'=>'<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>',
-        'acc'=>'<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>',
+        'proyecto'=>'<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>',
+        'acc'=>'<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>',
         'config'=>'<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>',
         'entrar'=>'<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>',
         'salir'=>'<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>',
+        'pedido'=>'<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>',
+        'asignar'=>'<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>',
     ];
+    /*
+     * Widget del menu
+     */
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'encodeLabels'=>false,
-        'items' => [
-            ['label' => $icons['inicio'].' Inicio', 'url' => ['/site/index']],
-            ['label' => 'Pedidos', 'url' => ['/proyecto-pedido/index'], 'visible' => Yii::$app->user->can('proyecto-pedido/index')],
-            ['label' => $icons['proyecto'].' Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],
-            ['label' => $icons['acc'].' Acción Centralizada', 'url' => ['/accion-centralizada'], 'visible' => Yii::$app->user->can('accion-centralizada/index')],            
-            ['label' => $icons['config'].' Configuración', 'url' => ['/site/configuracion'], 'visible' => Yii::$app->user->can('site/configuracion')],
-            //['label' => 'Acerca de', 'url' => ['/site/about']],
-            //['label' => 'Contacto', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ?
-                ['label' => $icons['entrar'].' Entrar', 'url' => ['/user/security/login']] :
-                [
-                    'label' => $icons['salir'].' Salir (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/user/security/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ],
-        ],
+        'items' => require(__DIR__.'/_items.php'),
     ]);
     NavBar::end();
     ?>

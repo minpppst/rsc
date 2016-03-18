@@ -24,8 +24,9 @@ $icons = [
     'lista' => '<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>',
     'respaldos' => '<span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>',
     'migracion' => '<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>',
-    'es' => '<span class="glyphicon glyphicon-bishop" aria-hidden="true"></span>',
-    'se' => '<span class="glyphicon glyphicon-pawn" aria-hidden="true"></span>',
+    'generico' => '<span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>',
+    'especifico' => '<span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span>',
+    'sub-especifico' => '<span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>',
     'materiales' => '<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>',
     'presentacion' => '<span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>',
 
@@ -73,10 +74,10 @@ $caret = '<p style="float:right"><span class="caret"></span></p>';
                             'aria-expanded'=>false,
                         ]) ?>
                         <ul class="dropdown-menu pull-right">
-                            <li><?= Html::a($icons['partidas'].' Partidas',Url::to(['partida/index'])) ?></li>
-                            <li><?= Html::a($icons['general'].' General',Url::to(['ge/index'])) ?></li>
-                            <li><?= Html::a($icons['es'].' Específica',Url::to(['es/index'])) ?></li>
-                            <li><?= Html::a($icons['se'].' Sub-específica',Url::to(['se/index'])) ?></li>
+                            <li><?= Html::a($icons['partidas'].' Partida',Url::to(['partida-partida/index'])) ?></li>
+                            <li><?= Html::a($icons['generico'].' Genérica',Url::to(['partida-generica/index'])) ?></li>
+                            <li><?= Html::a($icons['especifico'].' Específica',Url::to(['partida-especifica/index'])) ?></li>
+                            <li><?= Html::a($icons['sub-especifico'].' Sub-específica',Url::to(['partida-sub-especifica/index'])) ?></li>
                         </ul>
                     </div>
                     <!-- OBJETIVOS --> 

@@ -45,25 +45,13 @@
 	        $auth->assign($admin, 1);
 	    }
 
-	    public function actionAuthorRule()
+	    public function actionUeAsignadaRule()
 	    {
 	    	$auth = Yii::$app->authManager;
 
 			// add the rule
-			$rule = new \app\rbac\AuthorRule;
+			$rule = new \app\rbac\UeAsignadaRule;
 			$auth->add($rule);
-
-			// add the "updateOwnPost" permission and associate the rule with it.
-			$updateOwnPost = $auth->createPermission('updateOwnPost');
-			$updateOwnPost->description = 'Update own post';
-			$updateOwnPost->ruleName = $rule->name;
-			$auth->add($updateOwnPost);
-
-			// "updateOwnPost" will be used from "updatePost"
-			$auth->addChild($updateOwnPost, $updatePost);
-
-			// allow "author" to update their own posts
-			$auth->addChild($author, $updateOwnPost);
 	    }
 	}
 ?>

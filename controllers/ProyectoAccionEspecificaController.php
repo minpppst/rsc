@@ -70,8 +70,8 @@ class ProyectoAccionEspecificaController extends Controller
             'dataProvider' => $dataProvider,
         ]);
 
-        //return Json::encode($html);
-        return $html;
+        return Json::encode($html);
+        //return $html;
     }
 
 
@@ -122,7 +122,7 @@ class ProyectoAccionEspecificaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new ProyectoAccionEspecifica",
+                    'title'=> "Nueva Acción Específica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
@@ -133,18 +133,18 @@ class ProyectoAccionEspecificaController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'false',                    
+                    'forceReload'=>'true',                    
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
-                    'title'=> "Create new ProyectoAccionEspecifica",
-                    'content'=>'<span class="text-success">Create ProyectoAccionEspecifica success</span>',
+                    'title'=> "Nueva Acción Específica",
+                    'content'=>'<span class="text-success">Creada exitosamente.</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create', 'proyecto' => $proyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Crear otra',['create', 'proyecto' => $proyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new ProyectoAccionEspecifica",
+                    'title'=> "Nueva Acción Específica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
@@ -192,7 +192,7 @@ class ProyectoAccionEspecificaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ProyectoAccionEspecifica #".$id,
+                    'title'=> "Editar Acción Específica #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
@@ -202,7 +202,7 @@ class ProyectoAccionEspecificaController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'false',
+                    'forceReload'=>'true',
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
                     'title'=> "ProyectoAccionEspecifica #".$id,
@@ -298,6 +298,109 @@ class ProyectoAccionEspecificaController extends Controller
             return $this->redirect(['index']);
         }
        
+    }
+
+    /**
+     * Activar o desactivar un modelo
+     * @param integer id
+     * @return mixed
+     */
+    public function actionToggleActivo($id) {
+        $model = $this->findModel($id);
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model != null && $model->toggleActivo()) {
+            return [
+                'forceClose' => true, 
+                'forceReload' => true,
+                'contenedorId' => '#especifica-pjax', //Id del contenedor
+                'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
+            ];
+        } else {
+            return [
+                'title' => 'Ocurrió un error.',
+                'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
+                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+            ];
+            return;
+        }
+    }
+
+    /**
+     * Desactiva multiples modelos.
+     * Para las peticiones AJAX devolverá un objeto JSON
+     * para las peticiones no-AJAX el navegador se redireccionará al "index"
+     * @param integer id
+     * @return mixed
+     */
+    public function actionBulkDesactivar($id_proyecto) {
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        //Obtener el nombre de la clase del modelo
+        $className = ProyectoAccionEspecifica::className();
+        
+        //call_user_func - Invocar el callback 
+        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+            $model->desactivar();
+        }
+        
+
+        if ($request->isAjax) {
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'forceClose' => true, 
+                'forceReload' => true,
+                'contenedorId' => '#especifica-pjax', //Id del contenedor
+                'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $id_proyecto]),
+            ];
+        } else {
+            /*
+             *   Process for non-ajax request
+             */
+            return $this->redirect(['index']);
+        }
+    }
+
+    /**
+     * Activa multiples modelos.
+     * Para las peticiones AJAX devolverá un objeto JSON
+     * para las peticiones no-AJAX el navegador se redireccionará al "index"
+     * @param integer id
+     * @return mixed
+     */
+    public function actionBulkActivar($id_proyecto) {
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        //Obtener el nombre de la clase del modelo
+        $className = ProyectoAccionEspecifica::className();
+        
+        //call_user_func - Invocar el callback 
+        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+            $model->activar();
+        }
+        
+
+        if ($request->isAjax) {
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+            'forceClose' => true, 
+            'forceReload' => true,
+            'contenedorId' => '#especifica-pjax', //Id del contenedor
+                'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $id_proyecto]),
+            ];
+        } else {
+            /*
+             *   Process for non-ajax request
+             */
+            return $this->redirect(['index']);
+        }
     }
 
     /**

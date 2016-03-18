@@ -17,6 +17,11 @@
 	    'id'=>'especifica',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pjax' => true,
+        'panel' => [
+        	'type' => 'default',
+        	'heading' => 'Lista de Acciones Específicas'
+        ],
         'columns' => [
         	[
 		        'class' => 'kartik\grid\CheckboxColumn',

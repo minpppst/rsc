@@ -7,7 +7,13 @@ $config = [
     'language' => 'es',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'components' => [        
+    'components' => [
+        'formatter' => [
+            'dateFormat' => 'dd/MM/yyyy',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => '.',
+            'currencyCode' => 'Bs.', //VEF
+        ],        
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],

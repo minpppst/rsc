@@ -17,9 +17,9 @@ use Yii;
  * @property integer $estatus
  *
  * @property Presentacion $presentacion0
- * @property Se $idSe
+ * @property PartidaSubEspecifica $idSe
  * @property UnidadMedida $unidadMedida
- * @property PedidoMaterialServicio[] $pedidoMaterialServicios
+ * @property ProyectoPedido[] $proyectoPedidos
  */
 class MaterialesServicios extends \yii\db\ActiveRecord
 {
@@ -40,7 +40,7 @@ class MaterialesServicios extends \yii\db\ActiveRecord
             [['id_se', 'nombre', 'unidad_medida', 'presentacion', 'precio', 'iva', 'estatus'], 'required'],
             [['id_se', 'unidad_medida', 'presentacion', 'iva', 'estatus'], 'integer'],
             [['precio'], 'number'],
-            [['nombre'], 'string', 'max' => 60]
+            [['nombre'], 'string', 'max' => 60]            
         ];
     }
 
@@ -51,13 +51,18 @@ class MaterialesServicios extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_se' => 'Partida Sub-específica',
+            'id_se' => 'Partida Sub-Específica',
             'nombre' => 'Nombre',
             'unidad_medida' => 'Unidad de Medida',
             'presentacion' => 'Presentación',
             'precio' => 'Precio',
             'iva' => 'IVA',
             'estatus' => 'Estatus',
+            'codigoSubEspecifica' => 'Específica',
+            'nombrePresentacion' => 'Presentación',
+            'precioBolivar' => 'Precio',
+            'ivaPorcentaje' => 'IVA',
+            'nombreEstatus' => 'Estatus'
         ];
     }
 
@@ -69,12 +74,32 @@ class MaterialesServicios extends \yii\db\ActiveRecord
         return $this->hasOne(Presentacion::className(), ['id' => 'presentacion']);
     }
 
+    public function getNombrePresentacion()
+    {
+        if($this->presentacion0 == null)
+        {
+            return null;
+        }
+
+        return $this->presentacion0->nombre;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getIdSe()
     {
-        return $this->hasOne(Se::className(), ['id' => 'id_se']);
+        return $this->hasOne(PartidaSubEspecifica::className(), ['id' => 'id_se']);
+    }
+
+    public function getCodigoSubEspecifica()
+    {
+        if($this->id_se == null)
+        {
+            return null;
+        }
+
+        $this->idSe->especifica;
     }
 
     /**
@@ -85,11 +110,44 @@ class MaterialesServicios extends \yii\db\ActiveRecord
         return $this->hasOne(UnidadMedida::className(), ['id' => 'unidad_medida']);
     }
 
+    public function getPrecioBolivar()
+    {
+        if($this->precio == null)
+        {
+            return null;
+        }
+
+        return \Yii::$app->formatter->asCurrency($this->precio);
+    }
+
+    public function getIvaPorcentaje()
+    {
+        if($this->iva == null)
+        {
+            return null;
+        }
+
+        return $this->iva.'%' ;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPedidoMaterialServicios()
+    public function getProyectoPedidos()
     {
-        return $this->hasMany(PedidoMaterialServicio::className(), ['id_material' => 'id']);
+        return $this->hasMany(ProyectoPedido::className(), ['id_material' => 'id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreEstatus()
+    {
+        if($this->estatus == 1)
+        {
+            return "Activo";
+        }
+
+        return "Inactivo";
     }
 }

@@ -37,13 +37,6 @@ $alcanceImpacto =
     '</p>'.
     '<div class="well">No hay datos.</div>'
 ;
-$distribucionPresupuestaria = '<div class="alert alert-warning">Debe agregar al menos una Acción Específica.</div>';
-$fuenteFinanciamiento = 
-    '<p>'.
-    Html::a($icons['crear'].' Agregar', ['proyecto-fuente-financiamiento/create', 'proyecto' => $model->id], ['class' => 'btn btn-success']).
-    '</p>'.
-    '<div class="well">No hay datos.</div>'
-;
 $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
     'model' => $model,
 ]);
@@ -76,22 +69,8 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
                 'label' => 'Acciones Específicas',
                 'content' => $accionEspecifica,
                 'linkOptions' => [
-                    //'data-url' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id]),
-                ],
-            ],
-            [
-                'label' => 'Distribución Presupuestaria',
-                'content' => $distribucionPresupuestaria,
-                'linkOptions' => [
-                    'data-url' => $model->accionesEspecificas == null ? '' : Url::to(['proyecto-distribucion-presupuestaria/index', 'proyecto' => $model->id]),
-                ],
-            ],
-            [
-                'label' => 'Fuentes de Financiamiento',
-                'content' => $fuenteFinanciamiento,
-                'linkOptions' => [
-                    'data-url' => '',
-                ],
+                    'data-url' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id])
+                ]
             ],
         ],
         'pluginOptions' => [
