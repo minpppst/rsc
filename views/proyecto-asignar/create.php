@@ -4,12 +4,12 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ProyectoPedido */
+/* @var $model app\models\ProyectoAsignar */
 
 ?>
-<div class="proyecto-pedido-create">
+<div class="proyecto-asignar-create">
     <?= $this->render('_form', [
         'model' => $model,
-        'materiales' => $materiales
+        'ue' => $ue
     ]) ?>
 </div>

@@ -110,7 +110,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return string
      */
     public function getNombreUnidadEjecutora()
     {

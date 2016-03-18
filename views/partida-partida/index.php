@@ -32,9 +32,9 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<span class="glyphicon glyphicon-plus"></span> Agregar', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Partidas','class'=>'btn btn-success']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
+                    Html::a('<span class="glyphicon glyphicon-file"></span> Nuevo', ['create'],
+                    ['role'=>'modal-remote','title'=> 'Crear Partida','class'=>'btn btn-default']).
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'
@@ -45,7 +45,7 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Partidas listing',
+                'heading' => '<i class="glyphicon glyphicon-list-alt"></i> Partidas',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>

@@ -67,7 +67,7 @@ class ProyectoAccionEspecificaSearch extends ProyectoAccionEspecifica
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'proyecto_accion_especifica.id' => $this->id,
             'id_proyecto' => $this->id_proyecto,
             'id_unidad_ejecutora' => $this->id_unidad_ejecutora,
         ]);

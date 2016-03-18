@@ -3,27 +3,25 @@
 namespace app\controllers;
 
 use Yii;
-use yii\helpers\Json;
 use yii\filters\AccessControl;
+use johnitvn\userplus\base\WebController;
+use app\models\ProyectoAsignar;
+use app\models\ProyectoAsignarSearch;
+use app\models\UnidadEjecutora;
 use app\models\ProyectoAccionEspecifica;
-use app\models\ProyectoAccionEspecificaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
-use app\models\UnidadEjecutora;
+use johnitvn\userplus\base\models\UserAccounts;
 
 /**
- * ProyectoAccionEspecificaController implements the CRUD actions for ProyectoAccionEspecifica model.
+ * ProyectoAsignarController implements the CRUD actions for ProyectoAsignar model.
  */
-class ProyectoAccionEspecificaController extends Controller
+class ProyectoAsignarController extends WebController
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -31,7 +29,6 @@ class ProyectoAccionEspecificaController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
-                    'bulk-delete' => ['post'],
                 ],
             ],
             'access' => [
@@ -57,63 +54,78 @@ class ProyectoAccionEspecificaController extends Controller
     }
 
     /**
-     * Lists all ProyectoAccionEspecifica models.
+     * Lists all ProyectoAsignar models.
      * @return mixed
      */
-    public function actionIndex($proyecto)
-    {    
-        $searchModel = new ProyectoAccionEspecificaSearch(['id_proyecto'=>$proyecto]);
+    public function actionIndex()
+    {
+        /*
+        $searchModel = new ProyectoAsignarSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        */
+        $searchModel = $this->userPlusModule->createModelInstance('UserSearch');
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $html = $this->renderPartial('index', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-
-        return Json::encode($html);
-        //return $html;
     }
 
-
     /**
-     * Displays a single ProyectoAccionEspecifica model.
+     * Displays a single ProyectoAsignar model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
-    {   
-        $request = Yii::$app->request;
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> "ProyectoAccionEspecifica #".$id,
-                    'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-        }else{
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-            ]);
-        }
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return [
+            'title'=> "Asignado",
+            'content'=>$this->renderPartial('view', [
+                'model' => $this->findModel($id)
+            ]),
+            'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+
+        ];
     }
 
     /**
-     * Creates a new ProyectoAccionEspecifica model.
+     * Asignar unidades ejecutoras y acciones especificas
+     * a un usuario.
+     * @param integer $usuario
+     * @return mixed
+     */
+    public function actionAsignar($usuario)
+    {
+        //Modelos
+        $usuario = UserAccounts::findIdentity($usuario);
+        $searchModel = new ProyectoAsignarSearch(['usuario' => $usuario->id]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+
+        return $this->render('asignar', [
+            'usuario' => $usuario,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    /**
+     * Creates a new ProyectoAsignar model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($proyecto)
+    public function actionCreate($usuario)
     {
         $request = Yii::$app->request;
-        $model = new ProyectoAccionEspecifica();
-        $model->id_proyecto = $proyecto;
+        $model = new ProyectoAsignar();
+        $model->usuario = $usuario;
 
-        //lista desplegable
-        $unidadEjecutora = UnidadEjecutora::find()->all();
+        //Listas desplegables
+        $ue = UnidadEjecutora::find(['estatus' => 1])->all(); 
 
         if($request->isAjax){
             /*
@@ -122,35 +134,33 @@ class ProyectoAccionEspecificaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Nueva Acción Específica",
-                    'content'=>$this->renderPartial('create', [
+                    'title'=> "Asignar",
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'unidadEjecutora' => $unidadEjecutora,
+                        'ue' => $ue
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'true',                    
-                    'contenedorId' => '#especifica-pjax', //Id del contenedor
-                    'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
-                    'title'=> "Nueva Acción Específica",
-                    'content'=>'<span class="text-success">Creada exitosamente.</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Crear otra',['create', 'proyecto' => $proyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'forceReload'=>'true',
+                    'title'=> "Asignado",
+                    'content'=>'<span class="text-success">Create ProyectoAsignar success</span>',
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Asignar otro',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Nueva Acción Específica",
-                    'content'=>$this->renderPartial('create', [
+                    'title'=> "Asignar",
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'unidadEjecutora' => $unidadEjecutora,
+                        'ue' => $ue
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -163,7 +173,7 @@ class ProyectoAccionEspecificaController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
-                    'unidadEjecutora' => $unidadEjecutora,
+                    'ue' => $ue
                 ]);
             }
         }
@@ -171,7 +181,7 @@ class ProyectoAccionEspecificaController extends Controller
     }
 
     /**
-     * Updates an existing ProyectoAccionEspecifica model.
+     * Updates an existing ProyectoAsignar model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -182,8 +192,8 @@ class ProyectoAccionEspecificaController extends Controller
         $request = Yii::$app->request;
         $model = $this->findModel($id);
 
-        //lista desplegable
-        $unidadEjecutora = UnidadEjecutora::find()->all();       
+        //Listas desplegables
+        $ue = UnidadEjecutora::find(['estatus' => 1])->all();       
 
         if($request->isAjax){
             /*
@@ -192,36 +202,34 @@ class ProyectoAccionEspecificaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Editar Acción Específica #".$id,
+                    'title'=> "Asignar",
                     'content'=>$this->renderPartial('update', [
-                        'model' => $model,
-                        'unidadEjecutora' => $unidadEjecutora,
+                        'model' => $this->findModel($id),
+                        'ue' => $ue
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'contenedorId' => '#especifica-pjax', //Id del contenedor
-                    'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
-                    'title'=> "ProyectoAccionEspecifica #".$id,
+                    'title'=> "Asignado",
                     'content'=>$this->renderPartial('view', [
-                        'model' => $model,
-                        'unidadEjecutora' => $unidadEjecutora,
+                        'model' => $this->findModel($id),
+                        'ue' => $ue
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update ProyectoAccionEspecifica #".$id,
+                    'title'=> "Asignar",
                     'content'=>$this->renderPartial('update', [
-                        'model' => $model,
-                        'unidadEjecutora' => $unidadEjecutora,
+                        'model' => $this->findModel($id),
+                        'ue' => $ue
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -233,14 +241,45 @@ class ProyectoAccionEspecificaController extends Controller
             } else {
                 return $this->render('update', [
                     'model' => $model,
-                    'unidadEjecutora' => $unidadEjecutora,
+                    'ue' => $ue
                 ]);
             }
         }
     }
 
     /**
-     * Delete an existing ProyectoAccionEspecifica model.
+     * Funcion de respuesta para el AJAX de
+     * acciones especificas
+     * @return array JSON 
+     */
+    public function actionAce()
+    {
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if($request->isPost)
+            {
+                //Acciones Especificas
+                $ace = ProyectoAccionEspecifica::find()
+                    ->select(["id", "CONCAT(codigo_accion_especifica,' - ',nombre) AS name"])
+                    ->where(['id_unidad_ejecutora' => $request->post('depdrop_parents'), 'estatus' => 1])
+                    ->asArray()
+                    ->all();                
+
+                return [
+                    'output' => $ace
+                ];
+            }
+        }
+        
+    }
+
+
+     /**
+     * Delete an existing ProyectoAsignar model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -249,16 +288,14 @@ class ProyectoAccionEspecificaController extends Controller
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);
-        $proyecto = $model->id_proyecto;
-        $model->delete();
+        $this->findModel($id)->delete();
 
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true,'contenedorId' => '#especifica-pjax','contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $proyecto]),];    
+            return ['forceClose'=>true,'forceReload'=>true];    
         }else{
             /*
             *   Process for non-ajax request
@@ -269,8 +306,8 @@ class ProyectoAccionEspecificaController extends Controller
 
     }
 
-     /**
-     * Delete multiple existing ProyectoAccionEspecifica model.
+    /**
+     * Delete multiple existing ProyectoAsignar model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -280,7 +317,7 @@ class ProyectoAccionEspecificaController extends Controller
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (ProyectoAccionEspecifica::findAll(json_decode($pks)) as $model) {
+        foreach (ProyectoAsignar::findAll(json_decode($pks)) as $model) {
             $model->delete();
         }
         
@@ -300,6 +337,8 @@ class ProyectoAccionEspecificaController extends Controller
        
     }
 
+
+
     /**
      * Activar o desactivar un modelo
      * @param integer id
@@ -311,12 +350,7 @@ class ProyectoAccionEspecificaController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         if ($model != null && $model->toggleActivo()) {
-            return [
-                'forceClose' => true, 
-                'forceReload' => true,
-                'contenedorId' => '#especifica-pjax', //Id del contenedor
-                'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
-            ];
+            return ['forceClose' => true, 'forceReload' => true];
         } else {
             return [
                 'title' => 'Ocurrió un error.',
@@ -328,17 +362,17 @@ class ProyectoAccionEspecificaController extends Controller
     }
 
     /**
-     * Desactiva multiples modelos.
+     * Desactiva multiples modelos de ProyectoAsignar.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
      * @param integer id
      * @return mixed
      */
-    public function actionBulkDesactivar($id_proyecto) {
+    public function actionBulkDesactivar() {
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         //Obtener el nombre de la clase del modelo
-        $className = ProyectoAccionEspecifica::className();
+        $className = ProyectoAsignar::className();
         
         //call_user_func - Invocar el callback 
         foreach (call_user_func($className . '::findAll', $pks) as $model) {            
@@ -351,12 +385,7 @@ class ProyectoAccionEspecificaController extends Controller
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                'forceClose' => true, 
-                'forceReload' => true,
-                'contenedorId' => '#especifica-pjax', //Id del contenedor
-                'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $id_proyecto]),
-            ];
+            return ['forceClose' => true, 'forceReload' => true];
         } else {
             /*
              *   Process for non-ajax request
@@ -366,17 +395,17 @@ class ProyectoAccionEspecificaController extends Controller
     }
 
     /**
-     * Activa multiples modelos.
+     * Activa multiples modelos de ProyectoAsignar.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
      * @param integer id
      * @return mixed
      */
-    public function actionBulkActivar($id_proyecto) {
+    public function actionBulkActivar() {
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         //Obtener el nombre de la clase del modelo
-        $className = ProyectoAccionEspecifica::className();
+        $className = ProyectoAsignar::className();
         
         //call_user_func - Invocar el callback 
         foreach (call_user_func($className . '::findAll', $pks) as $model) {            
@@ -389,12 +418,7 @@ class ProyectoAccionEspecificaController extends Controller
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-            'forceClose' => true, 
-            'forceReload' => true,
-            'contenedorId' => '#especifica-pjax', //Id del contenedor
-                'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $id_proyecto]),
-            ];
+            return ['forceClose' => true, 'forceReload' => true];
         } else {
             /*
              *   Process for non-ajax request
@@ -404,18 +428,19 @@ class ProyectoAccionEspecificaController extends Controller
     }
 
     /**
-     * Finds the ProyectoAccionEspecifica model based on its primary key value.
+     * Finds the ProyectoAsignar model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ProyectoAccionEspecifica the loaded model
+     * @return ProyectoAsignar the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ProyectoAccionEspecifica::findOne($id)) !== null) {
+        if (($model = ProyectoAsignar::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

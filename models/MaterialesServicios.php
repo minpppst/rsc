@@ -61,7 +61,8 @@ class MaterialesServicios extends \yii\db\ActiveRecord
             'codigoSubEspecifica' => 'Específica',
             'nombrePresentacion' => 'Presentación',
             'precioBolivar' => 'Precio',
-            'ivaPorcentaje' => 'IVA'
+            'ivaPorcentaje' => 'IVA',
+            'nombreEstatus' => 'Estatus'
         ];
     }
 
@@ -135,5 +136,18 @@ class MaterialesServicios extends \yii\db\ActiveRecord
     public function getProyectoPedidos()
     {
         return $this->hasMany(ProyectoPedido::className(), ['id_material' => 'id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreEstatus()
+    {
+        if($this->estatus == 1)
+        {
+            return "Activo";
+        }
+
+        return "Inactivo";
     }
 }
