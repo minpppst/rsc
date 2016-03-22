@@ -10,7 +10,9 @@ use Yii;
  * @property integer $id
  * @property string $codigo_proyecto
  * @property string $codigo_sne
- * @property string $nombre
+ * @property string $nombre 
+ * @property string $fecha_inicio 
+ * @property string $fecha_fin
  * @property integer $estatus_proyecto
  * @property integer $situacion_presupuestaria
  * @property string $monto_proyecto
@@ -21,12 +23,13 @@ use Yii;
  * @property integer $objetivo_general
  * @property string $objetivo_estrategico_institucional
  * @property integer $ambito
+ * @property integer $estatus
  *
- * @property AccionEspecificaProyecto[] $accionEspecificaProyectos
- * @property Localizacion[] $localizacions
- * @property ResponsableAdministrativo[] $responsableAdministrativos
- * @property ResponsableProyecto[] $responsableProyectos
- * @property ResponsableTecnico[] $responsableTecnicos
+ * @property ProyectoAccionEspecifica[] $proyectoAccionEspecificas
+ * @property ProyectoLocalizacion[] $proyectoLocalizacions
+ * @property ProyectoResponsable[] $proyectoResponsables
+ * @property ProyectoResponsableAdministrativo[] $proyectoResponsableAdministrativos
+ * @property ProyectoResponsableTecnico[] $proyectoResponsableTecnicos
  */
 class Proyecto extends \yii\db\ActiveRecord
 {
@@ -44,13 +47,14 @@ class Proyecto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito', 'estatus'], 'required'],
+            [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito', 'estatus'], 'required'],
+            [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'estatus'], 'integer'],
             [['monto_proyecto'], 'number'],
             [['descripcion', 'objetivo_estrategico_institucional'], 'string'],
             [['codigo_proyecto', 'codigo_sne', 'nombre'], 'string', 'max' => 45],
             [['codigo_proyecto'], 'unique'],
-            [['codigo_sne'], 'unique']
+            [['codigo_sne'], 'unique'],
         ];
     }
 

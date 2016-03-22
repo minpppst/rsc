@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use kartik\date\DatePicker;
 
 return [
     [
@@ -22,6 +23,38 @@ return [
                 [
                     'class'=>'\kartik\grid\DataColumn',
                     'attribute'=>'nombre',
+                ],
+                [
+                    'class' => '\kartik\grid\DataColumn',
+                    'attribute' => 'fecha_inicio',
+                    'value' => function($model) {
+                        return date('d/m/Y',strtotime($model->fecha_inicio));
+                    },
+                    'filterType' => '\kartik\date\DatePicker',
+                    'filterWidgetOptions' => [
+                        'pluginOptions' => [
+                            'todayHighlight' => false,
+                            'todayBtn' => true,
+                            'format' => 'dd-M-yyyy',
+                            'autoclose' => true,
+                        ]
+                    ]
+                ],
+                [
+                    'class' => '\kartik\grid\DataColumn',
+                    'attribute' => 'fecha_fin',
+                    'value' => function($model) {
+                        return date('d/m/Y',strtotime($model->fecha_fin));
+                    },
+                    'filterType' => '\kartik\date\DatePicker',
+                    'filterWidgetOptions' => [
+                        'pluginOptions' => [
+                            'todayHighlight' => false,
+                            'todayBtn' => true,
+                            'format' => 'dd-M-yyyy',
+                            'autoclose' => true,
+                        ]
+                    ]
                 ],
                 [
                     'class' => '\kartik\grid\DataColumn',
