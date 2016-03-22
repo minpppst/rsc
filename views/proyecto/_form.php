@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use yii\jui\AutoComplete;
 use yii\web\JsExpression;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Proyecto */
@@ -28,6 +29,26 @@ use yii\web\JsExpression;
             <?= $form->field($model, 'codigo_sne')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
+
+            <?= $form->field($model, 'fecha_inicio')->widget(DatePicker::classname(), [
+                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                'value' => $model->fecha_inicio,
+                'pluginOptions' => [
+                    'autoclose'=>true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayBtn' => true
+                ]
+            ]) ?>
+
+            <?= $form->field($model, 'fecha_fin')->widget(DatePicker::classname(), [
+                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                'value' => $model->fecha_fin,
+                'pluginOptions' => [
+                    'autoclose'=>true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayBtn' => true
+                ]
+            ]) ?>
 
             <?= $form->field($model, 'estatus_proyecto')->dropDownList(ArrayHelper::map($estatus_proyecto,'id','estatus'),['prompt'=>'Seleccione']) ?>
 
