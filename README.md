@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/minpppst/rsc.png?label=ready&title=Ready)](https://waffle.io/minpppst/rsc)
 Registro, Seguimiento y Control
 ============================
 Sistema para el registro, seguimiento y control de proyectos y acciones centralizadas.
