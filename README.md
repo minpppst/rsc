@@ -5,7 +5,7 @@ Registro, Seguimiento y Control
 Sistema para el registro, seguimiento y control de proyectos y acciones centralizadas.
 
 
-DIRECTORY STRUCTURE
+ESTRUCTURA DE LOS DIRECTORIOS
 -------------------
 
 ```
@@ -43,31 +43,35 @@ DIRECTORY STRUCTURE
 ```
 
 
-REQUIREMENTS
+REQUERIMIENTOS
 ------------
 
-The minimum requirement by this project template that your Web server supports PHP 5.4.0.
+El requerimiento mínimo para este proyecto es un servidor Web que soporte PHP 5.4.0.
 
 
-INSTALLATION
+INSTALACIÓN
 ------------
 
-Coming soon...
+Próximamente...
 
 
-CONFIGURATION
+CONFIGURACIÓN
 -------------
 
-### Database
+### Base de Datos
 
-Edit the file `config/db.php` with real data, for example:
+Editar el archivo `common/config/main-local.php` con datos reales, por ejemplo:
 
 ```php
 return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=rsc',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
+  'components' => [
+    'db' => [
+      'class' => 'yii\db\Connection',
+      'dsn' => 'mysql:host=localhost;dbname=rsc',
+      'username' => 'root',
+      'password' => '1234',
+      'charset' => 'utf8',
+    ]
+  ]    
 ];
 ```
