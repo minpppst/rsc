@@ -27,7 +27,8 @@ phpunit.phar
 /phpunit.xml
 
 # assets
-/web/assets
+/frontend/web/assets
+/backend/web/assets
 
 # bd
 /config/db
