@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 $icons=[
-    'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+    'crear'=>'<span class="glyphicon glyphicon-file" aria-hidden="true"></span>',
     'importar'=>'<span class="glyphicon glyphicon-import" aria-hidden="true"></span>',
     'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
 ];
@@ -122,7 +122,7 @@ CrudAsset::register($this);
           'toolbar'=> [
                 [ 
                 'content'=>                  
-                    Html::a($icons['crear'].' Crear Accion Centralizada', ['create'], ['class' => 'btn btn-success']).
+                    Html::a($icons['crear'].' Nuevo', ['create'], ['class' => 'btn btn-default']).
                     '{toggleData}'.
                     '{export}'.
                     Html::a($icons['importar'].' Importar', ['importar'],
@@ -133,7 +133,7 @@ CrudAsset::register($this);
         'panel' => [
              
 
-            'type' => 'info', 
+            'type' => 'default', 
             'heading' => '<i class="glyphicon glyphicon-list"></i> Proyecto Accion Especificas listing',
             'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
              'after'=>BulkButtonWidget::widget([
@@ -250,10 +250,6 @@ CrudAsset::register($this);
     ]); ?>
 
 </div>
-<div class="btn-group">
-        <?= Html::a($icons['volver'].' Volver', ['site/configuracion'], ['class' => 'btn btn-primary']) ?>
-    </div>
-
 </div>
 <!-- Ventana modal -->
 <?php Modal::begin([

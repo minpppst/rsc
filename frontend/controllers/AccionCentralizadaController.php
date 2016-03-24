@@ -155,11 +155,11 @@ class AccionCentralizadaController extends Controller
         }
     }
 
-
-
-
-
-public function actionImportar()
+    /**
+     * Importar modelos.
+     * @return mixed
+     */
+    public function actionImportar()
     {
         $request = Yii::$app->request;
         $modelo = new UploadForm();
@@ -182,19 +182,16 @@ public function actionImportar()
                         ->one();
 
                     if($ue == null)
-                    {
-                        
-                    $ue = new AccionCentralizada;
+                    {                        
+                        $ue = new AccionCentralizada;
                    
                     }else{
                         $mensaje="Accion Ya Existe: Codigo Accion:".$exploded[0]." SNE:".$exploded[1];
                         $ue="";
                     }
                                                                     
-                    if (!preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', trim($exploded[3])) || !preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', trim($exploded[4])))
-                    {
-                        
-
+                    if(!preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', trim($exploded[3])) || !preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', trim($exploded[4])))
+                    {                        
                         $mensaje="El Formato De Fecha Debe Ser 'dd/mm/yyyy' ";
                         unset($ue);
                     }
@@ -233,8 +230,6 @@ public function actionImportar()
                         
                     //    print_r($ue->getErrors()); exit();
                     
-
-                   
                 }
                 
                 $transaccion->commit();
@@ -256,7 +251,12 @@ public function actionImportar()
 
 
 
- public function actionToggleActivo($id) {
+    /**
+     * Activar modelo.
+     * @param integer $id ID del modelo
+     * @return array
+     */
+    public function actionToggleActivo($id){
         $model = $this->findModel($id);
 
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -269,28 +269,25 @@ public function actionImportar()
                 'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
                 'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
             ];
-            return;
         }
     }
 
 
-
-public function actionBulkDelete()
+    /**
+     * Elminar multiples modelos.
+     */
+    public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         
         
-        foreach ($pks as $key) {
-            
-        
-        //$model=AcAcEspec::findAll(json_decode($key));
+        foreach ($pks as $key) 
+        {
+            //$model=AcAcEspec::findAll(json_decode($key));
             $model=$this->findModel($key);
             $model->delete();
-        
-        
-        }
-        
+        }        
 
         if($request->isAjax){
             /*
@@ -298,7 +295,9 @@ public function actionBulkDelete()
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>true]; 
-        }else{
+        }
+        else
+        {
             /*
             *   Process for non-ajax request
             */
@@ -308,22 +307,21 @@ public function actionBulkDelete()
     }
 
 
-
+    /**
+     * Activar multiples modelos.
+     */ 
     public function actionBulkEstatusactivo()
     {        
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         
         
-        foreach ($pks as $key) {
-            
-        
-        //$model=AcAcEspec::findAll(json_decode($key));
+        foreach ($pks as $key) 
+        {        
+            //$model=AcAcEspec::findAll(json_decode($key));
             $model=$this->findModel($key);
             //$model->delete();
             $model->activar();
-        
-        
         }
         
 
@@ -343,22 +341,21 @@ public function actionBulkDelete()
     }
 
 
-
+    /**
+     * Activar multiples modelos.
+     */
     public function actionBulkEstatusdesactivo()
     {        
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         
         
-        foreach ($pks as $key) {
-            
-        
-        //$model=AcAcEspec::findAll(json_decode($key));
+        foreach ($pks as $key) 
+        {
+            //$model=AcAcEspec::findAll(json_decode($key));
             $model=$this->findModel($key);
             //$model->delete();
             $model->desactivar();
-        
-        
         }
         
 
@@ -376,11 +373,4 @@ public function actionBulkDelete()
         }
        
     }
-
-
-
-
-
-
-
 }

@@ -51,42 +51,42 @@ CrudAsset::register($this);
             'condensed' => true,
             'responsive' => true,          
             'panel' => [
-            'type' => 'primary', 
-            'heading' => '<i class="glyphicon glyphicon-list"></i> Proyecto Accion Especificas listing',
-            'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
-            'after'=>BulkButtonWidget::widget([
-                    'buttons'=>
-                        Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',
-                        ["bulk-delete"] ,
-                        [
-                            "class"=>"btn btn-danger btn-xs",
-                            'role'=>'modal-remote-bulk',
-                            'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                            'data-request-method'=>'post',
-                            'data-confirm-title'=>'¿Está seguro?',
-                            'data-confirm-message'=>'¿Está seguro que desea eliminar los elementos seleccionados?'
-                        ]).' '.
-                        Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
-                            ["bulk-estatusdesactivo"] ,
+                'type' => 'info', 
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Proyecto Accion Especificas listing',
+                'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
+                'after'=>BulkButtonWidget::widget([
+                        'buttons'=>
+                            Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',
+                            ["bulk-delete"] ,
                             [
-                                "class"=>"btn btn-warning btn-xs",
+                                "class"=>"btn btn-danger btn-xs",
                                 'role'=>'modal-remote-bulk',
                                 'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                                 'data-request-method'=>'post',
                                 'data-confirm-title'=>'¿Está seguro?',
-                                'data-confirm-message'=>'¿Está seguro que desea desactivar los elementos seleccionados?'
+                                'data-confirm-message'=>'¿Está seguro que desea eliminar los elementos seleccionados?'
                             ]).' '.
-                        Html::a('<i class="glyphicon glyphicon-ok-circle"></i>&nbsp; Activar',
-                            ["bulk-estatusactivo"] ,
-                            [
-                                "class"=>"btn btn-success btn-xs",
-                                'role'=>'modal-remote-bulk',
-                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                'data-request-method'=>'post',
-                                'data-confirm-title'=>'¿Está seguro?',
-                                'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
-                            ]),
-                ]).
+                            Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
+                                ["bulk-estatusdesactivo"] ,
+                                [
+                                    "class"=>"btn btn-warning btn-xs",
+                                    'role'=>'modal-remote-bulk',
+                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                    'data-request-method'=>'post',
+                                    'data-confirm-title'=>'¿Está seguro?',
+                                    'data-confirm-message'=>'¿Está seguro que desea desactivar los elementos seleccionados?'
+                                ]).' '.
+                            Html::a('<i class="glyphicon glyphicon-ok-circle"></i>&nbsp; Activar',
+                                ["bulk-estatusactivo"] ,
+                                [
+                                    "class"=>"btn btn-success btn-xs",
+                                    'role'=>'modal-remote-bulk',
+                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                    'data-request-method'=>'post',
+                                    'data-confirm-title'=>'¿Está seguro?',
+                                    'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
+                                ]),
+                    ]).
 
 
 

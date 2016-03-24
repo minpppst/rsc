@@ -9,6 +9,10 @@ use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\AccionCentralizada */
 /* @var $form yii\widgets\ActiveForm */
+
+$icons = [
+    'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
+];
 ?>
 
 <div class="accion-centralizada-form">
@@ -63,6 +67,7 @@ use kartik\date\DatePicker;
 
     
     <div class="form-group">
+        <?= Html::a($icons['volver'].' Volver', ['accion-centralizada/index'], ['class' => 'btn btn-primary']) ?>
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 

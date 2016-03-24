@@ -22,23 +22,9 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['logout','index'],
+                        'actions' => ['logout','index','error'],
                         'allow' => true,
                         'roles' => ['@'], //autenticados
-                    ],
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'matchCallback' => function($rule,$action)
-                        {
-                            $controller = Yii::$app->controller->id;
-                            $action = Yii:: $app->controller->action->id;                    
-                            $route = "$controller/$action";
-                            if(\Yii::$app->user->can($route))
-                            {
-                                return true;
-                            }
-                        }
                     ],
                 ],
             ],
@@ -114,6 +100,7 @@ class SiteController extends Controller
         return $this->render('configuracion');
    }
 
+   /** ESTA ACCION NO VA AQUI */
    public function actionAudit(){
 
         $searchModel = new AuditEntrySearch;
@@ -133,5 +120,13 @@ class SiteController extends Controller
         ]);
      //return $this->render('audit');
    }
+
+    public function actionError()
+    {
+        $exception = Yii::$app->errorHandler->exception;
+        if ($exception !== null) {
+            return $this->render('error', ['exception' => $exception]);
+        }
+    }
 
 }
