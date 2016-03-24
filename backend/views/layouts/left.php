@@ -1,0 +1,85 @@
+<aside class="main-sidebar">
+
+    <section class="sidebar">
+
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="img/no-photo.png" class="img-circle" alt="User Image"/>
+            </div>
+            <div class="pull-left info">
+                <p><?= Yii::$app->user->identity->username ?></p>
+
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+
+        <!-- search form -->
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search..."/>
+              <span class="input-group-btn">
+                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+        </form>
+        <!-- /.search form -->
+
+        <?= dmstr\widgets\Menu::widget(
+            [
+                'options' => ['class' => 'sidebar-menu'],
+                'items' => [
+                    ['label' => 'Opciones', 'options' => ['class' => 'header']],                    
+                    //['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
+                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+                    [
+                        'label' => 'Propiedades',
+                        'icon' => 'fa fa-plus-circle',
+                        'url' => '#',
+                        'items' => [
+                            [
+                                'label' => 'Partidas', 
+                                'icon' => 'glyphicon glyphicon-list-alt', 
+                                'url' => '#',
+                                'items' => [
+                                    ['label' => 'Partida', 'icon' => 'glyphicon glyphicon-list-alt', 'url' => ['/partida-partida/index'],],
+                                    ['label' => 'Genérica', 'icon' => 'glyphicon glyphicon-tree-deciduous', 'url' => ['/partida-generica/index'],],
+                                    ['label' => 'Específica', 'icon' => 'glyphicon glyphicon-tree-conifer', 'url' => ['/partida-especifica/index'],],
+                                    ['label' => 'Sub-específica', 'icon' => 'glyphicon glyphicon-leaf', 'url' => ['/partida-sub-especifica/index'],],
+                                ]
+
+                            ],
+                            [
+                                'label' => 'Objetivos',
+                                'icon' => 'glyphicon glyphicon-screenshot',
+                                'url' => '#',
+                                'items' => [
+                                    ['label' => 'Históricos', 'icon' => 'glyphicon glyphicon-time', 'url' => ['/objetivos-historicos/index'],],
+                                    ['label' => 'Nacionales', 'icon' => 'glyphicon glyphicon-map-marker', 'url' => ['/objetivos-nacionales/index'],],
+                                    ['label' => 'Estratégicos', 'icon' => 'glyphicon glyphicon-knight', 'url' => ['/objetivos-estrategicos/index'],],
+                                    ['label' => 'Generales', 'icon' => 'glyphicon glyphicon-star', 'url' => ['/objetivos-generales/index'],],
+                                ]
+                            ],
+                            [
+                                'label' => 'Unidades Ejecutoras', 
+                                'icon' => 'glyphicon glyphicon-briefcase', 
+                                'url' => '#',
+                                'items' => [
+                                    ['label' => 'Lista', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/unidad-ejecutora/index'],],
+                                    ['label' => 'Importar', 'icon' => 'glyphicon glyphicon-import', 'url' => ['/unidad-ejecutora/importar'],],                                    
+                                ]
+
+                            ],
+                            ['label' => 'Unidades de Medida', 'icon' => 'glyphicon glyphicon-scale', 'url' => ['/unidad-medida/index']],
+                            ['label' => 'Presentaciones', 'icon' => 'glyphicon glyphicon-blackboard', 'url' => ['/presentacion/index']],
+                            ['label' => 'Materiales y Servicios', 'icon' => 'glyphicon glyphicon-cutlery', 'url' => ['/materiales-servicios/index']]
+                        ],
+                    ],                    
+                ],
+            ]
+        ) ?>
+
+    </section>
+
+</aside>

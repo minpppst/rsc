@@ -1,0 +1,44 @@
+<?php
+
+namespace common\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "ambito".
+ *
+ * @property integer $id
+ * @property string $ambito
+ */
+class Ambito extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'ambito';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['ambito'], 'required'],
+            [['ambito'], 'string', 'max' => 30]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'ambito' => 'Ambito',
+        ];
+    }
+}
