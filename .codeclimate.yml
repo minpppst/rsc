@@ -1,0 +1,33 @@
+engines:
+  rubocop:
+    enabled: false
+    #checks:
+    # Rubocop/Metrics/ClassLength:
+    #   enabled: false
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true
+  golint:
+    enabled: true
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - php
+      - javascript
+ratings:
+  paths:
+  - "frontend/**"
+  - "backend/**"
+  - "**.php"
+  - "**.js"
+  - "**.css"
+exclude_paths:
+- tests/**/*
+- spec/**/*
+- "**/vendor/**/*"
