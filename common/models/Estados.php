@@ -54,13 +54,4 @@ class Estados extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ProyectoLocalizacion::className(), ['id_estado' => 'id']);
     }
-
-    /**
-     * @inheritdoc
-     * @return EstadosQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new EstadosQuery(get_called_class());
-    }
 }

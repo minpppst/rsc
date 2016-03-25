@@ -54,13 +54,4 @@ class ProyectoRegistrador extends \yii\db\ActiveRecord
             'id_proyecto' => 'Id Proyecto',
         ];
     }
-
-    /**
-     * @inheritdoc
-     * @return ProyectoRegistradorQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ProyectoRegistradorQuery(get_called_class());
-    }
 }

@@ -22,7 +22,7 @@ class ProyectoAccionEspecificaSearch extends ProyectoAccionEspecifica
     {
         return [
             [['id', 'id_proyecto', 'id_unidad_ejecutora'], 'integer'],
-            [['codigo_accion_especifica', 'nombre', 'nombreUnidadEjecutora'], 'safe'],
+            [['codigo_accion_especifica', 'nombre', 'nombreUnidadEjecutora', 'fecha_inicio', 'fecha_fin'], 'safe'],
         ];
     }
 
@@ -70,6 +70,8 @@ class ProyectoAccionEspecificaSearch extends ProyectoAccionEspecifica
             'proyecto_accion_especifica.id' => $this->id,
             'id_proyecto' => $this->id_proyecto,
             'id_unidad_ejecutora' => $this->id_unidad_ejecutora,
+            'fecha_inicio' => $this->fecha_inicio,
+            'fecha_fin' => $this->fecha_fin,
         ]);
 
         $query->andFilterWhere(['like', 'codigo_accion_especifica', $this->codigo_accion_especifica])

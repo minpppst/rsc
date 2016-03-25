@@ -1,8 +1,8 @@
 <?php
-namespace app\rbac;
+namespace common\rbac;
 
 use yii\rbac\Rule;
-use app\models\UsuarioUe;
+use common\models\UsuarioUe;
 /**
  * Checks if authorID matches user passed via params
  */

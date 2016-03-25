@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectoAccionEspecifica */
@@ -19,6 +20,26 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'nombre')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'id_unidad_ejecutora')->dropDownList(ArrayHelper::map($unidadEjecutora,'id','nombre'),['prompt' => 'Seleccione']) ?>
+
+    <?= $form->field($model, 'fecha_inicio')->widget(DatePicker::classname(), [
+        'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+        'value' => $model->fecha_inicio,
+        'pluginOptions' => [
+            'autoclose'=>true,
+            'format' => 'yyyy-mm-dd',
+            'todayBtn' => true
+        ]
+    ]) ?>
+
+    <?= $form->field($model, 'fecha_fin')->widget(DatePicker::classname(), [
+        'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+        'value' => $model->fecha_fin,
+        'pluginOptions' => [
+            'autoclose'=>true,
+            'format' => 'yyyy-mm-dd',
+            'todayBtn' => true
+        ]
+    ]) ?>
 
     <?= $form->field($model, 'estatus')->dropDownList([1=>'Activo',0=>'Inactivo'],['prompt'=>'Seleccione']) ?>
   

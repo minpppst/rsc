@@ -5,8 +5,8 @@ namespace frontend\controllers;
 use Yii;
 use yii\helpers\Json;
 use yii\filters\AccessControl;
-use app\models\ProyectoAccionEspecifica;
-use app\models\ProyectoAccionEspecificaSearch;
+use common\models\ProyectoAccionEspecifica;
+use common\models\ProyectoAccionEspecificaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,7 +14,7 @@ use \yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-use app\models\UnidadEjecutora;
+use common\models\UnidadEjecutora;
 
 /**
  * ProyectoAccionEspecificaController implements the CRUD actions for ProyectoAccionEspecifica model.
@@ -65,7 +65,7 @@ class ProyectoAccionEspecificaController extends Controller
         $searchModel = new ProyectoAccionEspecificaSearch(['id_proyecto'=>$proyecto]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $html = $this->renderPartial('index', [
+        $html = $this->renderAjax('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -123,7 +123,7 @@ class ProyectoAccionEspecificaController extends Controller
             if($request->isGet){
                 return [
                     'title'=> "Nueva Acción Específica",
-                    'content'=>$this->renderPartial('create', [
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
                     ]),
@@ -145,7 +145,7 @@ class ProyectoAccionEspecificaController extends Controller
             }else{           
                 return [
                     'title'=> "Nueva Acción Específica",
-                    'content'=>$this->renderPartial('create', [
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
                     ]),
@@ -193,7 +193,7 @@ class ProyectoAccionEspecificaController extends Controller
             if($request->isGet){
                 return [
                     'title'=> "Editar Acción Específica #".$id,
-                    'content'=>$this->renderPartial('update', [
+                    'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
                     ]),
@@ -206,7 +206,7 @@ class ProyectoAccionEspecificaController extends Controller
                     'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
                     'title'=> "ProyectoAccionEspecifica #".$id,
-                    'content'=>$this->renderPartial('view', [
+                    'content'=>$this->renderAjax('view', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
                     ]),
@@ -216,7 +216,7 @@ class ProyectoAccionEspecificaController extends Controller
             }else{
                  return [
                     'title'=> "Update ProyectoAccionEspecifica #".$id,
-                    'content'=>$this->renderPartial('update', [
+                    'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
                     ]),

@@ -5,25 +5,25 @@ namespace frontend\controllers;
 use Yii;
 use yii\helpers\Json;
 use yii\filters\AccessControl;
-use app\models\Proyecto;
-use app\models\ProyectoSearch;
+use common\models\Proyecto;
+use common\models\ProyectoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\data\ActiveDataProvider;
 
-use app\models\EstatusProyecto;
-use app\models\SituacionPresupuestaria;
-use app\models\Sector;
-use app\models\SubSector;
-use app\models\PlanOperativo;
-use app\models\ObjetivosHistoricos;
-use app\models\ObjetivosNacionales;
-use app\models\ObjetivosEstrategicos;
-use app\models\ObjetivosGenerales;
-use app\models\Ambito;
-use app\models\ProyectoLocalizacion;
+use common\models\EstatusProyecto;
+use common\models\SituacionPresupuestaria;
+use common\models\Sector;
+use common\models\SubSector;
+use common\models\PlanOperativo;
+use common\models\ObjetivosHistoricos;
+use common\models\ObjetivosNacionales;
+use common\models\ObjetivosEstrategicos;
+use common\models\ObjetivosGenerales;
+use common\models\Ambito;
+use common\models\ProyectoLocalizacion;
 
 /**
  * ProyectoController implements the CRUD actions for Proyecto model.

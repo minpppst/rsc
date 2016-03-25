@@ -88,5 +88,8 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
 <?php Modal::begin([
     "id"=>"ajaxCrubModal",
     "footer"=>"",// always need it for jquery plugin
+    "options" => [
+        "tabindex" => false //importante para Select2
+    ]
 ])?>
 <?php Modal::end(); ?>

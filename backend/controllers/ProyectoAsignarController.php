@@ -1,14 +1,14 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
 use johnitvn\userplus\base\WebController;
-use app\models\ProyectoAsignar;
-use app\models\ProyectoAsignarSearch;
-use app\models\UnidadEjecutora;
-use app\models\ProyectoAccionEspecifica;
+use common\models\ProyectoAsignar;
+use common\models\ProyectoAsignarSearch;
+use common\models\UnidadEjecutora;
+use common\models\ProyectoAccionEspecifica;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

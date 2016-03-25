@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
@@ -55,12 +55,4 @@ class Municipio extends \yii\db\ActiveRecord
         return $this->hasMany(ProyectoLocalizacion::className(), ['id_municipio' => 'id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return MunicipioQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new MunicipioQuery(get_called_class());
-    }
 }

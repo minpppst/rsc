@@ -53,25 +53,35 @@ CrudAsset::register($this);
         'codigo_sne',
         'nombre',
         [
-            'label' => 'Estatus del Proyecto',
+            'label' => $model->getAttributeLabel('fecha_inicio'),
+            'value' => \Yii::$app->formatter->asDate($model->fecha_inicio)
+
+        ],
+        [
+            'label' => $model->getAttributeLabel('fecha_fin'),
+            'value' => \Yii::$app->formatter->asDate($model->fecha_fin)
+
+        ],
+        [
+            'label' => $model->getAttributeLabel('nombreEstatus'),
             'value' => $model->nombreEstatus,
         ],
         [
-            'label' => 'Situación Presupuestaria',
+            'label' => $model->getAttributeLabel('situacion_presupuestaria'),
             'value' => SituacionPresupuestaria::find()->where(['id'=>$model->situacion_presupuestaria])->one()->situacion,
         ],
         'monto_proyecto',
         'descripcion:ntext',
         [
-            'label' => 'Sector',
+            'label' => $model->getAttributeLabel('sector'),
             'value' => Sector::find()->where(['id'=>$model->sector])->one()->sector,
         ],
         [
-            'label' => 'Sub-sector',
+            'label' => $model->getAttributeLabel('sub_sector'),
             'value' => SubSector::find()->where(['id'=>$model->sub_sector])->one()->sub_sector,
         ],
         [
-            'label' => 'Plan Operativo',
+            'label' => $model->getAttributeLabel('plan_operativo'),
             'value' => PlanOperativo::find()->where(['id'=>$model->plan_operativo])->one()->plan_operativo,
         ],
         [
@@ -87,12 +97,12 @@ CrudAsset::register($this);
             'value' => $estrategico->objetivo_estrategico,
         ],            
         [
-            'label' => 'Objetivo General',
+            'label' => $model->getAttributeLabel('objetivo_general'),
             'value' => ObjetivosGenerales::find()->where(['id'=>$model->objetivo_general])->one()->objetivo_general,
         ],            
         'objetivo_estrategico_institucional',
         [
-            'label' => 'Ámbito',
+            'label' => $model->getAttributeLabel('ambito'),
             'value' => $model->idAmbito->ambito,
         ]
     ],

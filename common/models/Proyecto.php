@@ -152,7 +152,7 @@ class Proyecto extends \yii\db\ActiveRecord
      */
     public function getNombreEstatus()
     {
-        if($this->estatus == 1)
+        if($this->estatus === 1)
         {
             return "Activo";
         }

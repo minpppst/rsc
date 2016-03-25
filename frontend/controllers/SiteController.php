@@ -22,7 +22,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['logout','index','error'],
+                        'actions' => ['logout','index','error','configuracion'],
                         'allow' => true,
                         'roles' => ['@'], //autenticados
                     ],

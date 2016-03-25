@@ -145,6 +145,7 @@ use kartik\select2\Select2;
 </div>
 <script type="text/javascript">
     jQuery(document).ready(function(){
+
         //TRIM I
         $('.trim1').on('change', function(){
             $('#total1').val(

@@ -173,13 +173,4 @@ class ProyectoLocalizacion extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Proyecto::className(), ['id' => 'id_proyecto']);
     }
-
-    /**
-     * @inheritdoc
-     * @return ProyectoLocalizacionQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ProyectoLocalizacionQuery(get_called_class());
-    }
 }
