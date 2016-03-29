@@ -54,7 +54,7 @@ INSTALACIÓN
 
 Próximamente...
 
-## Preparing application
+## Preparando la aplicación
 
 Luego de instalar la aplicación, debe realizar los siguientes pasos para inicializarla.
 Solo necesita hacer esto una vez para todo.
