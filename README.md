@@ -54,6 +54,24 @@ INSTALACIÓN
 
 Próximamente...
 
+## Preparing application
+
+Luego de instalar la aplicación, debe realizar los siguientes pasos para inicializarla.
+Solo necesita hacer esto una vez para todo.
+
+1. Ejecute el comando `init` y seleccione `dev` como entorno.
+
+   ```
+   php /path/to/yii-application/init
+   ```
+
+   De otra forma, en producción ejecute `init` en el modo no-interactivo.
+
+   ```
+   php /path/to/yii-application/init --env=Production --overwrite=All
+   ```
+
+
 
 CONFIGURACIÓN
 -------------
