@@ -12,6 +12,8 @@ use yii\helpers\ArrayHelper;
  * @property string $cod_ac_espe
  * @property string $nombre
  * @property string $estatus
+ * @property string $fecha_inicio 
+ * @property string $fecha_fin
  *
  * @property AccionCentralizada $idAcCentr
  * @property AcVariable[] $acVariables
@@ -33,9 +35,10 @@ class AcAcEspec extends \yii\db\ActiveRecord
     {
         return [
              //[['cod_ac_espe'],'unique'],
-            [['id_ac_centr', 'cod_ac_espe', 'nombre', 'estatus'], 'required'],
+            [['id_ac_centr', 'cod_ac_espe', 'nombre', 'estatus', 'fecha_inicio', 'fecha_fin',], 'required'],
             [['id_ac_centr'], 'integer'],
             [['cod_ac_espe'], 'unique'],
+            [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['nombre'], 'string'],
             [['cod_ac_espe'], 'string', 'max' => 3]
         ];

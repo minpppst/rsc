@@ -9,6 +9,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 use app\models\AcAcEspecSearch;
 use kartik\select2\Select2;
 
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AcAcEspecSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -91,6 +92,41 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
             'format' => 'raw'
         ],
         [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'fecha_inicio',
+        'value' => function($model) {
+            return date('d/m/Y',strtotime($model->fecha_inicio));
+        },
+        'filterType' => '\kartik\date\DatePicker',
+        'filterWidgetOptions' => [
+            'readonly' => true,
+            'pluginOptions' => [
+                'todayHighlight' => false,
+                'todayBtn' => true,
+                'format' => 'yyyy-mm-dd',
+                'autoclose' => true,
+            ]
+        ]
+    ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'fecha_fin',
+        'value' => function($model) {
+            return date('d/m/Y',strtotime($model->fecha_fin));
+        },
+        'filterType' => '\kartik\date\DatePicker',
+        'filterWidgetOptions' => [
+            'readonly' => true,
+            'pluginOptions' => [
+                'todayHighlight' => false,
+                'todayBtn' => true,
+                'format' => 'yyyy-mm-dd',
+                'autoclose' => true,
+            ]
+        ]
+    ],
+        
+        [
             'class' => 'kartik\grid\ActionColumn',
             'dropdown' => false,
             'vAlign'=>'middle',
@@ -126,7 +162,7 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
     'responsive' => true,          
     'panel' => [
     'type' => 'info', 
-    'heading' => '<i class="glyphicon glyphicon-list"></i> Proyecto Accion Especificas listing',
+    'heading' => '<i class="glyphicon glyphicon-list"></i> Accion Centralizada Acciones Especificas listing',
     'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
     'after'=>BulkButtonWidget::widget([
             'buttons'=>

@@ -69,7 +69,7 @@ class AcAcEspecController extends Controller
     public function actionIndex($ac_centralizada)
     {    
         $searchModel = new AcAcEspecSearch(['id_ac_centr'=>$ac_centralizada]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
 
         $html=$this->renderPartial('index', [
             'searchModel' => $searchModel,
@@ -89,12 +89,28 @@ class AcAcEspecController extends Controller
     public function actionView($id)
     {   
         $request = Yii::$app->request;
+        $query=new \yii\db\Query();
+        $rows=$query->select(['accion_centralizada_accion_especifica.*','accion_centralizada_ac_especifica_uej.*','unidad_ejecutora.*'])
+        ->from(['accion_centralizada_ac_especifica_uej'])
+        ->join('LEFT OUTER JOIN', 'accion_centralizada_accion_especifica' , 'accion_centralizada_accion_especifica.id=accion_centralizada_ac_especifica_uej.id_ac_esp')
+        ->join('LEFT OUTER JOIN', 'unidad_ejecutora', 'unidad_ejecutora.id=accion_centralizada_ac_especifica_uej.id_ue')
+        ->where(['accion_centralizada_accion_especifica.id' => $id])
+        ->all();
+       
+        $ue="";
+        foreach ($rows as $key ) {
+            $ue.=$key['nombre'].",";
+        }
+        $ue = substr($ue, 0, -1);
+
+        $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre'); 
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                     'title'=> "Accion Especifica #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
+                        'rows' =>$ue,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -102,6 +118,7 @@ class AcAcEspecController extends Controller
         }else{
             return $this->render('view', [
                 'model' => $this->findModel($id),
+                 'rows' =>$ue,
             ]);
         }
     }
@@ -214,6 +231,10 @@ class AcAcEspecController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
+
+       
+
+
         $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre'); 
         $verificar =ArrayHelper::map(AcEspUej::find()->where('id_ac_esp= :id', ['id'=>$model->id])->all(),'id','id_ue');
         if($request->isAjax){
@@ -249,7 +270,22 @@ class AcAcEspecController extends Controller
                         $i++;
                         
                         $model_uej->isNewRecord = true;
-                        $model_uej->id = NULL; 
+                    
+                // buscando las unidades ejecutoras relacionadas
+        $query=new \yii\db\Query();
+        $rows=$query->select(['accion_centralizada_accion_especifica.*','accion_centralizada_ac_especifica_uej.*','unidad_ejecutora.*'])
+        ->from(['accion_centralizada_ac_especifica_uej'])
+        ->join('LEFT OUTER JOIN', 'accion_centralizada_accion_especifica' , 'accion_centralizada_accion_especifica.id=accion_centralizada_ac_especifica_uej.id_ac_esp')
+        ->join('LEFT OUTER JOIN', 'unidad_ejecutora', 'unidad_ejecutora.id=accion_centralizada_ac_especifica_uej.id_ue')
+        ->where(['accion_centralizada_accion_especifica.id' => $id])
+        ->all();
+       
+        $ue="";
+        foreach ($rows as $key ) {
+            $ue.=$key['nombre'].",";
+        }
+        $ue = substr($ue, 0, -1);
+                                     $model_uej->id = NULL; 
                         if($model_uej->save()){
                         }else{
                             $transaction->rollback();
@@ -261,14 +297,30 @@ class AcAcEspecController extends Controller
                         
                         $transaction->commit();
 
+                
+                // buscando las unidades ejecutoras relacionadas
+        $query=new \yii\db\Query();
+        $rows=$query->select(['accion_centralizada_accion_especifica.*','accion_centralizada_ac_especifica_uej.*','unidad_ejecutora.*'])
+        ->from(['accion_centralizada_ac_especifica_uej'])
+        ->join('LEFT OUTER JOIN', 'accion_centralizada_accion_especifica' , 'accion_centralizada_accion_especifica.id=accion_centralizada_ac_especifica_uej.id_ac_esp')
+        ->join('LEFT OUTER JOIN', 'unidad_ejecutora', 'unidad_ejecutora.id=accion_centralizada_ac_especifica_uej.id_ue')
+        ->where(['accion_centralizada_accion_especifica.id' => $id])
+        ->all();
+       
+        $ue="";
+        foreach ($rows as $key ) {
+            $ue.=$key['nombre'].",";
+        }
+        $ue = substr($ue, 0, -1);
 
                 return [
                     'forceReload'=>'false',
-                    'contenedorId' => '#especifica-pjax', //Id del contenedor
+                    //'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id_ac_centr]),
                     'title'=> "Accion Especifica #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
+                        'rows' => $ue,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])

@@ -2,6 +2,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AcAcEspec */
@@ -31,6 +32,8 @@ use yii\widgets\ActiveForm;
         'data' => $unidades_ejecutoras,
         'options' => ['multiple' => true, 'placeholder' => 'Seleccione la Unidad Ejecutora ...', 'id' => 'unique-select23-id']
     ]);
+
+  
   
 ?>
 	</div>
@@ -42,7 +45,37 @@ use yii\widgets\ActiveForm;
 	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>
-	<?= $form->field($model, 'estatus')->dropDownList(['1' => 'Activo', '0' => 'Inactivo'],['prompt'=>'Select Option']); ?>
+	
+
+<?=
+  $form->field($model, 'fecha_inicio')->widget(DatePicker::classname(), [
+        'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+        'value' => $model->fecha_inicio,
+        'pluginOptions' => [
+            'autoclose'=>true,
+            'format' => 'yyyy-mm-dd',
+            'todayBtn' => true
+        ]
+    ]); 
+    ?>
+
+  <?= $form->field($model, 'fecha_fin')->widget(DatePicker::classname(), [
+        'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+        'value' => $model->fecha_fin,
+        'pluginOptions' => [
+            'autoclose'=>true,
+            'format' => 'yyyy-mm-dd',
+            'todayBtn' => true
+        ]
+    ]); 
+
+    ?>
+
+
+
+
+
+  <?= $form->field($model, 'estatus')->dropDownList(['1' => 'Activo', '0' => 'Inactivo'],['prompt'=>'Select Option']); ?>
 
     <?php ActiveForm::end(); ?>
     
