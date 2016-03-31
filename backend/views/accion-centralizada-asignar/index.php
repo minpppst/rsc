@@ -24,7 +24,7 @@ $icons=[
 ];
 
 ?>
-<div class="proyecto-asignar-index">
+<div class="accion-centralizada-asignar-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
