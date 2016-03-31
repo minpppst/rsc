@@ -8,7 +8,10 @@
 
 	return [
             ['label' => $icons['inicio'].' Inicio', 'url' => ['/site/index']],
-            ['label' => $icons['pedido'].' Pedidos', 'url' => ['/proyecto-pedido/index'], 'visible' => Yii::$app->user->can('proyecto-pedido/index')],            
+            ['label' => $icons['pedido'].' Pedidos', 'items' =>[
+                ['label' => $icons['proyecto'].' Proyecto', 'url' => ['/proyecto-pedido/index']],
+                ['label' => $icons['acc'].' Acción Centralizada', 'url' => ['/accion-centralizada-pedido/index']],
+            ]],            
             ['label' => $icons['proyecto'].' Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],
             ['label' => $icons['acc'].' Acción Centralizada', 'url' => ['/accion-centralizada'], 'visible' => Yii::$app->user->can('accion-centralizada/index')],                        
 
