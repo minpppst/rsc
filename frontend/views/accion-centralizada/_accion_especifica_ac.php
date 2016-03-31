@@ -6,7 +6,7 @@ use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
-use app\models\AcAcEspecSearch;
+use frontend\models\AcAcEspecSearch;
 use kartik\select2\Select2;
 
 

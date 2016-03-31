@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "materiales_servicios".
@@ -100,7 +101,7 @@ class MaterialesServicios extends \yii\db\ActiveRecord
             return null;
         }
 
-        $this->idSe->especifica;
+        $this->idSe->sub_especifica;
     }
 
     /**
@@ -200,4 +201,48 @@ class MaterialesServicios extends \yii\db\ActiveRecord
 
         return true;
      }
+
+      /**
+       * Devolver el codigo presupuestario completo
+       * del material o servicio.
+       * @return string
+       */
+      public function getCodigoPresupuestario()
+      {
+         return 
+            $this->idSe->especifica0->idGenerica->idPartida->numeroCuenta .''.
+            $this->idSe->especifica0->idGenerica->idPartida->partida .''.
+            $this->idSe->especifica0->idGenerica->generica .''.
+            $this->idSe->especifica0->especifica .''. 
+            $this->idSe->sub_especifica .'';
+      }
+
+    /** 
+     * Devuelve el id de la partida sub-especifica
+     * mediante el codigo presupuestario.
+     * @param string $codigo Codigo presupuestario
+     * @return integer $id ID de la partida sub-especifica
+     */
+    public function findIdSubEspecifica($codigo)
+    {
+        //Separar el codigo
+        $cuenta = substr($codigo, 0, 1);
+        $partida = substr($codigo, 1, 2);
+        $generica = substr($codigo, 3, 2);
+        $especifica = substr($codigo, 5, 2);
+        $sub_especfica = substr($codigo, 7, 2);
+
+        //construir el query
+        $query = new Query;
+
+        $query->select('pse.id AS id')
+            ->from('cuenta_presupuestaria cp, partida_partida pp, partida_generica pg, partida_especifica pe, partida_sub_especifica pse')
+            ->where('pse.especifica = pe.id AND pe.generica = pg.id AND pg.id_partida = pp.id AND pp.cuenta = cp.id
+                    AND cp.cuenta = :cuenta AND pp.partida = :partida AND pg.generica = :generica AND pe.especifica = :especifica AND pse.sub_especifica = :sub_especfica')
+            ->addParams([':cuenta'=>$cuenta,':partida'=>$partida,':generica'=>$generica,':especifica'=>$especifica,':sub_especfica'=>$sub_especfica]);
+
+        $row = $query->one();
+
+        return intval($row['id']); //Devuelve integer
+    }
 }

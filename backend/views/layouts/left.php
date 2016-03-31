@@ -85,9 +85,16 @@
                     ],
                     ['label' => 'Unidades de Medida', 'icon' => 'glyphicon glyphicon-scale', 'url' => ['/unidad-medida/index']],
                     ['label' => 'Presentaciones', 'icon' => 'glyphicon glyphicon-blackboard', 'url' => ['/presentacion/index']],
-                    ['label' => 'Materiales y Servicios', 'icon' => 'glyphicon glyphicon-cutlery', 'url' => ['/materiales-servicios/index']]
-                    //['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
-                    //['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],                    
+                    [
+                        'label' => 'Materiales y Servicios', 
+                        'icon' => 'glyphicon glyphicon-cutlery',
+                        'items' => [
+                            ['label' => 'Lista', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/materiales-servicios/index']],
+                            ['label' => 'Importar', 'icon' => 'glyphicon glyphicon-import', 'url' => ['/materiales-servicios/importar']]
+                        ]
+                    ],
+                    ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
+                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],                    
                 ],
             ]
         ) ?>

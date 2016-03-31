@@ -3,20 +3,23 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\MaterialesServicios;
-use common\models\MaterialesServiciosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 
+use common\models\MaterialesServicios;
+use common\models\MaterialesServiciosSearch;
+use common\models\CuentaPresupuestaria;
 use common\models\PartidaPartida;
 use common\models\PartidaGenerica;
 use common\models\PartidaEspecifica;
 use common\models\PartidaSubEspecifica;
 use common\models\UnidadMedida;
 use common\models\Presentacion;
+
+use common\models\UploadForm;
 
 /**
  * MaterialesServiciosController implements the CRUD actions for MaterialesServicios model.
@@ -295,6 +298,72 @@ class MaterialesServiciosController extends Controller
             return $this->redirect(['index']);
         }
        
+    }
+
+    /**
+     * Importar modelos.
+     */
+    public function actionImportar()
+    {
+        $request = Yii::$app->request;
+        $modelo = new UploadForm();
+
+        if($request->isPost)
+        {
+            $archivo = file($_FILES['UploadForm']['tmp_name']['importFile']);
+
+            $transaccion = MaterialesServicios::getDb()->beginTransaction();
+
+            try
+            {
+                foreach ($archivo as $llave => $valor) 
+                {
+                    $exploded = explode(',', str_replace('"', '',$valor));
+                    //Llave foraneas
+                    $id_se = MaterialesServicios::findIdSubEspecifica($exploded[0]);
+                    $unidad_medida = UnidadMedida::find()->where('unidad_medida LIKE "%:unidad_medida%"')
+                        ->addParams([':unidad_medida' => $exploded[2]])
+                        ->one();
+                    $presentacion = Presentacion::find()->where('presentacion LIKE "%:presentacion%"')
+                        ->addParams([':presentacion' => $exploded[3]])
+                        ->one();
+
+                    //Buscar el modelo
+                    $ue = MaterialesServicios::find()
+                        ->where(['nombre' => $exploded[1], 'id_se' =>$id_se])
+                        ->one();
+
+                    if($ue == null)
+                    {
+                        $ue = new MaterialesServicios;
+                    }
+
+                    //Asignar variables
+                    $ue->id_se = $id_se;
+                    $ue->nombre = $exploded[1];
+                    $ue->unidad_medida = $unidad_medida->id;
+                    $ue->presentacion = $presentacion->id;
+                    $ue->precio = $exploded[4];
+                    $ue->iva = 12; //IVA 12%
+                    $ue->estatus = 1; //1 Activo, 0 Inactivo
+                    $ue->save();
+                }
+                
+                $transaccion->commit();
+
+                Yii::$app->session->setFlash('importado', '<div class="alert alert-success">Registros importados exitosamente.</div>');
+                return $this->refresh();
+
+            }catch(\Exception $e){
+                $transaccion->rollBack();
+                Yii::$app->session->setFlash('importado', '<div class="alert alert-danger">'.$e.'</div>');
+            }
+                        
+        }
+
+        return $this->render('importar', [
+            'modelo' => $modelo,
+        ]);
     }
 
     /**

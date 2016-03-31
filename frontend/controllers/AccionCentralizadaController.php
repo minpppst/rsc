@@ -4,15 +4,15 @@ namespace frontend\controllers;
 use Yii;
 use yii\helpers\Json;
 use yii\filters\AccessControl;
-use app\models\AccionCentralizada;
-use app\models\AccionCentralizadaSearch;
+use common\models\AccionCentralizada;
+use common\models\AccionCentralizadaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
-use app\models\UploadForm;
+use frontend\models\UploadForm;
 /**
  * AccionCentralizadaController implements the CRUD actions for AccionCentralizada model.
  */

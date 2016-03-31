@@ -1,9 +1,9 @@
 <?php
 
-namespace app\models;
+namespace frontend\models;
 
 use Yii;
-use app\models\AcAcEspec;
+use frontend\models\AcAcEspec;
 /**
  * This is the model class for table "accion_centralizada_ac_especifica_uej".
  *

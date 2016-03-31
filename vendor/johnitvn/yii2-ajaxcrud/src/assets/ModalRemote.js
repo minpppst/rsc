@@ -213,22 +213,13 @@ function ModalRemote(modalId) {
      */
     function successRemoteResponse(response) {
 
-        var contenedor = '#crud-datatable-pjax';
-        
-        /** Cambios personalizados **/
-        if(response.contenedorId !== undefined && response.contenedorId){
-            contenedor = response.contenedorId;
-            $.ajax({
-                url: response.contenedorUrl
-            }).done(function(data){                             
-                $(contenedor).html($.parseJSON(data));
-            });
-        }
-        else
-        {
-            // reload datatable if response contain forceReload field   
-            if(response.forceReload !== undefined && response.forceReload){
-                $.pjax.reload({container:contenedor});
+        // Reload datatable if response contain forceReload field
+        if (response.forceReload !== undefined && response.forceReload) {
+            if (response.forceReload == 'true') {
+                // Backwards compatible reload of fixed crud-datatable-pjax
+                $.pjax.reload({container: '#crud-datatable-pjax'});
+            } else {
+                $.pjax.reload({container: response.forceReload});
             }
         }
 

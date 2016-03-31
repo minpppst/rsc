@@ -10,7 +10,6 @@ use kartik\select2\Select2;
 /* @var $model app\models\ProyectoPedido */
 /* @var $form yii\widgets\ActiveForm */
 
-
 ?>
 
 <div class="proyecto-pedido-form">
