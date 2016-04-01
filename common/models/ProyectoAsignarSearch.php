@@ -22,7 +22,7 @@ class ProyectoAsignarSearch extends ProyectoAsignar
     {
         return [
             [['id', 'usuario', 'unidad_ejecutora', 'accion_especifica'], 'integer'],
-            [['nombreUe', 'nombreAe'], 'safe']
+            [['nombreUe', 'nombreAe', 'estatus'], 'safe']
         ];
     }
 

@@ -30,7 +30,7 @@ return [
     [
         'class' => '\kartik\grid\DataColumn',
         'width' => '50px',
-        'attribute' => 'nombreEstatus',
+        'attribute' => 'estatus',
         //Lista desplegable
         'filter' => [1 => 'Activo', 0 => 'Inactivo'],
         'value' => function ($model) {

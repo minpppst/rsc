@@ -14,6 +14,7 @@ class ProyectoAccionEspecificaSearch extends ProyectoAccionEspecifica
 {
     //variables
     public $nombreUnidadEjecutora;
+    public $nombreProyecto;
 
     /**
      * @inheritdoc
@@ -22,7 +23,7 @@ class ProyectoAccionEspecificaSearch extends ProyectoAccionEspecifica
     {
         return [
             [['id', 'id_proyecto', 'id_unidad_ejecutora'], 'integer'],
-            [['codigo_accion_especifica', 'nombre', 'nombreUnidadEjecutora', 'fecha_inicio', 'fecha_fin'], 'safe'],
+            [['codigo_accion_especifica', 'nombre', 'nombreUnidadEjecutora', 'fecha_inicio', 'fecha_fin', 'nombreProyecto'], 'safe'],
         ];
     }
 
@@ -47,6 +48,7 @@ class ProyectoAccionEspecificaSearch extends ProyectoAccionEspecifica
         $query = ProyectoAccionEspecifica::find();
         // Join para la relacion
         $query->joinWith(['idUnidadEjecutora']);
+        $query->joinWith(['idProyecto']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,6 +58,10 @@ class ProyectoAccionEspecificaSearch extends ProyectoAccionEspecifica
         $dataProvider->sort->attributes['nombreUnidadEjecutora'] = [
             'asc' => ['unidad_ejecutora.nombre' => SORT_ASC],
             'desc' => ['unidad_ejecutora.nombre' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['nombreProyecto'] = [
+            'asc' => ['proyecto.nombre' => SORT_ASC],
+            'desc' => ['proyecto.nombre' => SORT_DESC],
         ];
 
         $this->load($params);
@@ -75,8 +81,9 @@ class ProyectoAccionEspecificaSearch extends ProyectoAccionEspecifica
         ]);
 
         $query->andFilterWhere(['like', 'codigo_accion_especifica', $this->codigo_accion_especifica])
-            ->andFilterWhere(['like', 'nombre', $this->nombre]);
+            ->andFilterWhere(['like', 'proyecto_accion_especifica.nombre', $this->nombre]);
         $query->andFilterWhere(['like','unidad_ejecutora.nombre',$this->nombreUnidadEjecutora]);
+        $query->andFilterWhere(['like','proyecto.nombre',$this->nombreProyecto]);
 
         return $dataProvider;
     }

@@ -26,8 +26,6 @@ $icons=[
 ?>
 <div class="proyecto-asignar-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= GridView::widget([
         'id'=>'crud-datatable',
         'dataProvider' => $dataProvider,
@@ -45,7 +43,7 @@ $icons=[
 
             //'id',
             'username',
-
+            /*
             [
                 'class' => '\kartik\grid\DataColumn',
                 'width' => '50px',
@@ -74,7 +72,7 @@ $icons=[
                 },
                 'format' => 'raw',
             ],
-
+            */
             [
                 'class' => 'kartik\grid\ActionColumn',
                 'header' => 'Acciones',
@@ -98,8 +96,7 @@ $icons=[
             ['content'=>                
                 Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                 ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Recargar']).
-                '{toggleData}'.
-                '{export}'
+                '{toggleData}'
             ],
         ],
         'striped' => true,
@@ -107,7 +104,7 @@ $icons=[
         'responsive' => true,
         'panel' => [
             'type' => 'default',
-            'heading' => $icons['usuario'].' '.$icons['asignar'].' '.$icons['proyecto'].' Asignar',
+            'heading' => '<h4>'.$icons['usuario'].' '.$icons['asignar'].' '.$icons['proyecto'].' Asignar</h4>',
             'before' => '<em>Asignar usuarios a unidades ejecutoras y acciones específicas de proyectos.</em>'
         ]
     ]); ?>

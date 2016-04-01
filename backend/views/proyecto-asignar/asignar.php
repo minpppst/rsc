@@ -29,8 +29,6 @@ $icons=[
 
 <div class="proyecto-asignar-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
@@ -42,7 +40,7 @@ $icons=[
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-transfer"></i> Asignar', ['create', 'usuario' => $usuario->id],
                     ['role'=>'modal-remote','title'=> 'Asignar','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['proyecto-asignar/asignar', 'usuario' => $usuario->id],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'
@@ -52,8 +50,8 @@ $icons=[
             'condensed' => true,
             'responsive' => true,          
             'panel' => [
-                'type' => 'default', 
-                'heading' => '<h4><i class="glyphicon glyphicon-user"></i> '.$usuario->username.'</h4>',
+                'type' => 'primary', 
+                'heading' => '<i class="glyphicon glyphicon-user"></i> '.$usuario->username.'',
                 'before'=>'<em>*Aquí van datos del usuario*</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',

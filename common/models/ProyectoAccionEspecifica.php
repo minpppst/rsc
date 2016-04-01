@@ -62,7 +62,8 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             'id_unidad_ejecutora' => 'Unidad Ejecutora',
             'nombreUnidadEjecutora' => 'Unidad Ejecutora',
             'estatus' => 'Estatus',
-            'nombreEstatus' => 'Estatus'
+            'nombreEstatus' => 'Estatus',
+            'nombreProyecto' => 'Proyecto'
         ];
     }
 
@@ -105,6 +106,19 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     public function getIdProyecto()
     {
         return $this->hasOne(Proyecto::className(), ['id' => 'id_proyecto']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreProyecto()
+    {
+        if($this->idProyecto == null)
+        {
+            return null;
+        }
+
+        return $this->idProyecto->nombre;
     }
 
     /**
