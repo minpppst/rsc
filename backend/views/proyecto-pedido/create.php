@@ -10,6 +10,7 @@ use yii\helpers\Html;
 <div class="proyecto-pedido-create">
     <?= $this->render('_form', [
         'model' => $model,
-        'materiales' => $materiales
+        'materiales' => $materiales,
+        'precios' => $precios
     ]) ?>
 </div>

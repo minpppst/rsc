@@ -81,11 +81,14 @@ class ProyectoPedido extends \yii\db\ActiveRecord
             'noviembre' => 'Noviembre',
             'diciembre' => 'Diciembre',
             'precio' => 'Precio',
-            'fecha_creacion' => 'Fecha Creacion',
+            'fecha_creacion' => 'Fecha de Creación',
             'asignado' => 'ID de la asignacion (Usuario-UE-AC)',
             'estatus' => 'Estatus',
             'nombreEstatus' => 'Estatus',
-            'nombreUsuario' => 'Usuario'
+            'nombreUsuario' => 'Usuario',
+            'subTotal' => 'Sub-Total',
+            'iva' => 'IVA',
+            'total' => 'Total'
         ];
     }
 
@@ -156,6 +159,43 @@ class ProyectoPedido extends \yii\db\ActiveRecord
     public function getTrimestre4()
     {
         return ($this->octubre+$this->noviembre+$this->diciembre);
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTotalTrimestre()
+    {
+        return (
+            $this->trimestre1 +
+            $this->trimestre2 +
+            $this->trimestre3 +
+            $this->trimestre4
+        );
+    }
+
+    /**
+     * @return integer
+     */
+    public function getSubTotal()
+    {
+        return ($this->totalTrimestre * $this->precio);
+    }
+
+    /**
+     * @return integer
+     */
+    public function getIva()
+    {
+        return ($this->subTotal / 100 * $this->idMaterial->iva);
+    }
+
+    /** 
+     * @return string
+     */
+    public function getTotal()
+    {
+        return \Yii::$app->formatter->asCurrency(($this->subTotal + $this->iva));
     }
 
     /**
