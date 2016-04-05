@@ -314,7 +314,7 @@ class AcAcEspecController extends Controller
         $ue = substr($ue, 0, -1);
 
                 return [
-                    'forceReload'=>'false',
+                    'forceReload'=>'true',
                     //'contenedorId' => '#especifica-pjax', //Id del contenedor
                     'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id_ac_centr]),
                     'title'=> "Accion Especifica #".$id,
@@ -369,7 +369,7 @@ class AcAcEspecController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
+            return ['forceClose'=>true,'forceReload'=>'true'];    
         }else{
             /*
             *   Process for non-ajax request
@@ -411,7 +411,7 @@ class AcAcEspecController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'true']; 
         }else{
             /*
             *   Process for non-ajax request
@@ -434,7 +434,7 @@ class AcAcEspecController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         if ($model != null && $model->toggleActivo()) {
-            return ['forceClose' => true, 'forceReload' => true];
+            return ['forceClose' => true, 'forceReload' => 'true'];
         } else {
             return [
                 'title' => 'Ocurrió un error.',
@@ -595,7 +595,7 @@ class AcAcEspecController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'true']; 
         }else{
             /*
             *   Process for non-ajax request
@@ -630,7 +630,7 @@ class AcAcEspecController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'true']; 
         }else{
             /*
             *   Process for non-ajax request
