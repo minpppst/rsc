@@ -18,6 +18,7 @@ use yii\rbac\ManagerInterface;
 use yii\db\Query;
 use yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 use johnitvn\userplus\base\models\UserAccounts;
 
@@ -167,8 +168,15 @@ class ProyectoPedidoController extends Controller
 
         //autocomplete
         $materiales = MaterialesServicios::find()
-                ->select(['nombre', 'id', 'precio'])
+                ->select(['nombre', 'id', 'precio', 'iva'])
                 ->all();
+
+        //Arreglo de precios, iva, etc con id del material/servicio
+        $precios = json_encode( //JSON
+            ArrayHelper::toArray( //Convertir a arreglo
+                ArrayHelper::index($materiales,'id') //Indice del arreglo el id del material
+            )
+        );
 
         if($request->isAjax){
             /*
@@ -180,7 +188,8 @@ class ProyectoPedidoController extends Controller
                     'title'=> "Pedido",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'materiales' => $materiales
+                        'materiales' => $materiales,
+                        'precios' => $precios
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Crear',['class'=>'btn btn-success','type'=>"submit"])
@@ -200,7 +209,8 @@ class ProyectoPedidoController extends Controller
                     'title'=> "Pedido",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'materiales' => $materiales
+                        'materiales' => $materiales,
+                        'precios' => $precios
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Crear',['class'=>'btn btn-success','type'=>"submit"])
@@ -216,7 +226,8 @@ class ProyectoPedidoController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
-                    'materiales' => $materiales
+                    'materiales' => $materiales,
+                    'precios' => $precios
                 ]);
             }
         }
@@ -238,7 +249,13 @@ class ProyectoPedidoController extends Controller
         //autocomplete
         $materiales = MaterialesServicios::find()
                 ->select(['nombre', 'id', 'precio'])
-                ->all();      
+                ->all();
+        //Arreglo de precios, iva, etc con id del material/servicio
+        $precios = json_encode( //JSON
+            ArrayHelper::toArray( //Convertir a arreglo
+                ArrayHelper::index($materiales,'id') //Indice del arreglo el id del material
+            )
+        );      
 
         if($request->isAjax){
             /*
@@ -250,7 +267,8 @@ class ProyectoPedidoController extends Controller
                     'title'=> "Pedido",
                     'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id),
-                        'materiales' => $materiales
+                        'materiales' => $materiales,
+                        'precios' => $precios
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -261,7 +279,8 @@ class ProyectoPedidoController extends Controller
                     'title'=> "Pedido",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
-                        'materiales' => $materiales
+                        'materiales' => $materiales,
+                        'precios' => $precios
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -271,7 +290,8 @@ class ProyectoPedidoController extends Controller
                     'title'=> "Pedido",
                     'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id),
-                        'materiales' => $materiales
+                        'materiales' => $materiales,
+                        'precios' => $precios
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -286,7 +306,8 @@ class ProyectoPedidoController extends Controller
             } else {
                 return $this->render('update', [
                     'model' => $model,
-                    'materiales' => $materiales
+                    'materiales' => $materiales,
+                    'precios' => $precios
                 ]);
             }
         }

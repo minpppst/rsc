@@ -10,8 +10,6 @@ use kartik\select2\Select2;
 /* @var $model app\models\ProyectoPedido */
 /* @var $form yii\widgets\ActiveForm */
 
-//Arreglo de precios con id del material/servicio
-$precios = json_encode(ArrayHelper::map($materiales,'id','precio'));
 ?>
 
 <div class="proyecto-pedido-form">
@@ -41,9 +39,11 @@ $precios = json_encode(ArrayHelper::map($materiales,'id','precio'));
                 ]
             ],
             'pluginEvents' => [
+            // Usar el arreglo JSON para colocar precio, iva, etc
                 "select2:select" => "function() {
                     var arreglo =  ".$precios.";
-                    $('#proyectopedido-precio').val(arreglo[$(this).val()]);
+                    $('#proyectopedido-precio').val(arreglo[$(this).val()]['precio']);
+                    $('#iva-porcentaje').val(arreglo[$(this).val()]['iva']);
                 }",
             ]
         ])?>
@@ -53,6 +53,8 @@ $precios = json_encode(ArrayHelper::map($materiales,'id','precio'));
     <?= $form->field($model, 'precio', [
         'inputTemplate' => '<div class="input-group"><span class="input-group-addon">Bs.</span>{input}</div>',
     ])->input('number', ['maxlength' => true, 'placeholder' => '0', 'readonly' => true]) ?>
+
+    <?= Html::hiddenInput('iva-porcentaje', '', ['id' => 'iva-porcentaje']) ?>
 
     <!-- TRIMESTRES -->
     <table class="table table-bordered table-condensed table-striped">
@@ -241,7 +243,7 @@ $precios = json_encode(ArrayHelper::map($materiales,'id','precio'));
         {
             //variables
             var sub_total = $('#proyectopedido-precio').val() * $('#total').val();
-            var iva = sub_total / 100 * 12;
+            var iva = sub_total / 100 * $('#iva-porcentaje').val();
             var total = sub_total + iva;
 
             //Sub-total
