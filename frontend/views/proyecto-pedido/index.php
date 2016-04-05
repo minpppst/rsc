@@ -7,7 +7,7 @@ use kartik\grid\GridView;
 /* @var $searchModel app\models\ProyectoPedidoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Proyecto - Pedidos';
+$this->title = 'Proyecto - Requerimientos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="proyecto-pedido-index">
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'vAlign' => 'middle',
                 'buttons' => [
                     'asignar' => function($url, $model) {
-                        return Html::a('<i class="glyphicon glyphicon-shopping-cart"></i> Pedidos', 
+                        return Html::a('<i class="glyphicon glyphicon-shopping-cart"></i> Requerimientos', 
                             ['pedido', 'asignado' => $model->id],
                             [
                                 'class' => 'btn btn-primary',
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'panel' => [
             'type' => 'warning', 
-            'heading' => '<i class="glyphicon glyphicon-shopping-cart"></i> Proyecto - Pedidos',
+            'heading' => '<i class="glyphicon glyphicon-shopping-cart"></i> Proyecto - Requerimientos',
             'before'=>'<em><b>'.$usuario->username.'</b> - Seleccione la acción específica para el pedido.</em>',
             'after'=>'<div class="clearfix"></div>',
         ]

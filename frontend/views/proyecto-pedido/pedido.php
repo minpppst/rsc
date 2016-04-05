@@ -10,7 +10,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 
 
-$this->title = 'Pedidos';
+$this->title = 'Requerimientos';
 $this->params['breadcrumbs'][] = ['label' => 'Pedido', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -54,7 +54,7 @@ $icons=[
             'responsive' => true,          
             'panel' => [
                 'type' => 'default', 
-                'heading' => '<h4><i class="glyphicon glyphicon-shopping-cart"></i> Pedidos</h4>',
+                'heading' => '<h4><i class="glyphicon glyphicon-shopping-cart"></i> Requerimientos</h4>',
                 'before'=>'<em><b><span class="glyphicon glyphicon-user"></span> '.$asignado->nombreUsuario.'</b> - <span class="glyphicon glyphicon-briefcase"></span> '.$asignado->nombreUe.'</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',
@@ -66,7 +66,9 @@ $icons=[
                                     'data-request-method'=>'post',
                                     'data-confirm-title'=>'Are you sure?',
                                     'data-confirm-message'=>'Are you sure want to delete this item'
-                                ]).' '.
+                                ])
+                            /*
+                            .' '.
                             Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
                             ["bulk-desactivar"] ,
                             [
@@ -87,7 +89,8 @@ $icons=[
                                 'data-confirm-title'=>'¿Está seguro?',
                                 'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
                             ]),
-                        ]).                       
+                        */
+                        ]).                    
                         '<div class="clearfix"></div>',
             ]
         ])?>
