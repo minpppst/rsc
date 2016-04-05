@@ -148,7 +148,22 @@ class ProyectoPedidoController extends Controller
     {
         $request = Yii::$app->request;
         $model = new ProyectoPedido();
+        //Inicializar los meses en 0
+        $model->enero = 0;
+        $model->febrero = 0;
+        $model->marzo = 0;
+        $model->abril = 0;
+        $model->mayo = 0;
+        $model->junio = 0;
+        $model->julio = 0;
+        $model->agosto = 0;
+        $model->septiembre = 0;
+        $model->octubre = 0;
+        $model->noviembre = 0;
+        $model->diciembre = 0;
         $model->asignado = $asignar;
+        //Precio en 0
+        $model->precio = 0;
 
         //autocomplete
         $materiales = MaterialesServicios::find()
@@ -168,7 +183,7 @@ class ProyectoPedidoController extends Controller
                         'materiales' => $materiales
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Guardar',['class'=>'btn btn-success','type'=>"submit"])
+                                Html::button('Crear',['class'=>'btn btn-success','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -188,7 +203,7 @@ class ProyectoPedidoController extends Controller
                         'materiales' => $materiales
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Guardar',['class'=>'btn btn-success','type'=>"submit"])
+                                Html::button('Crear',['class'=>'btn btn-success','type'=>"submit"])
         
                 ];         
             }

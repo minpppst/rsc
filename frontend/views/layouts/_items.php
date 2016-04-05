@@ -8,7 +8,7 @@
 
 	return [
             ['label' => $icons['inicio'].' Inicio', 'url' => ['/site/index']],
-            ['label' => $icons['pedido'].' Pedidos', 'items' =>[
+            ['label' => $icons['pedido'].' Requerimientos', 'items' =>[
                 ['label' => $icons['proyecto'].' Proyecto', 'url' => ['/proyecto-pedido/index']],
                 ['label' => $icons['acc'].' Acción Centralizada', 'url' => ['/accion-centralizada-pedido/index']],
             ]],            

@@ -10,6 +10,8 @@ use kartik\select2\Select2;
 /* @var $model app\models\ProyectoPedido */
 /* @var $form yii\widgets\ActiveForm */
 
+//Arreglo de precios con id del material/servicio
+$precios = json_encode(ArrayHelper::map($materiales,'id','precio'));
 ?>
 
 <div class="proyecto-pedido-form">
@@ -37,6 +39,12 @@ use kartik\select2\Select2;
                 'prepend' => [
                     'content' => '<span class="glyphicon glyphicon-cutlery"></span>'
                 ]
+            ],
+            'pluginEvents' => [
+                "select2:select" => "function() {
+                    var arreglo =  ".$precios.";
+                    $('#proyectopedido-precio').val(arreglo[$(this).val()]);
+                }",
             ]
         ])?>
 
@@ -59,6 +67,7 @@ use kartik\select2\Select2;
                 <td><?= $form->field($model, 'marzo')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1']) ?></td>
 
                 <td><label>Total</label><input type="text" id="total1" size="5" placeholder="0" readonly></td>
+
             </tr>
             <tr class="info">
                 <td><label>TRIM II</label></td>
@@ -93,6 +102,12 @@ use kartik\select2\Select2;
 
                 <td><label>Total</label><input type="text" id="total4" size="5" placeholder="0" readonly></td>
             </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><label>Total</label><input type="text" id="total" size="5" placeholder="0" readonly></td>
         </tbody>
     </table>
 
@@ -102,7 +117,7 @@ use kartik\select2\Select2;
 
         <div class="input-group">
             <span class="input-group-addon">Bs.</span>
-            <?= Html::input('text', 'sub-total','', ['placeholder' => 0, 'readonly' => true, 'class' => 'form-control']) ?>
+            <?= Html::input('text', 'sub-total','', ['id' => 'sub-total', 'placeholder' => 0, 'readonly' => true, 'class' => 'form-control']) ?>
         </div>
     </div>
 
@@ -112,7 +127,7 @@ use kartik\select2\Select2;
 
         <div class="input-group">
             <span class="input-group-addon">Bs.</span>
-            <?= Html::input('text', 'iva','', ['placeholder' => 0, 'readonly' => true, 'class' => 'form-control']) ?>
+            <?= Html::input('text', 'iva','', ['id' => 'iva', 'placeholder' => 0, 'readonly' => true, 'class' => 'form-control']) ?>
         </div>
 
     </div>
@@ -123,7 +138,7 @@ use kartik\select2\Select2;
         
         <div class="input-group">
             <span class="input-group-addon">Bs.</span>
-            <?= Html::input('text', 'total','', ['placeholder' => 0, 'readonly' => true, 'class' => 'form-control']) ?>
+            <?= Html::input('text', 'total','', ['id' => 'total-total', 'placeholder' => 0, 'readonly' => true, 'class' => 'form-control']) ?>
         </div>
 
     </div>
@@ -145,37 +160,116 @@ use kartik\select2\Select2;
 <script type="text/javascript">
     jQuery(document).ready(function(){
 
+        //Totalizar
+        initTotal();
+        //Calcular
+        calcular();
+
+        /** EVENTOS **/
+
+        $('#material').on('change', function(){
+            initTotal();
+        });
+
         //TRIM I
         $('.trim1').on('change', function(){
+            initTotal();
+        });
+        //TRIM II
+        $('.trim2').on('change', function(){
+            initTotal();
+        });
+        //TRIM III
+        $('.trim3').on('change', function(){
+            initTotal();
+        });
+        //TRIM IV
+        $('.trim4').on('change', function(){
+            initTotal();
+        });
+
+        //TOTAL
+        $('.trim1, .trim2, .trim3, .trim4').on('change', function(){
+            initTotal();
+        });
+
+        //PRECIO
+        $('#proyectopedido-precio').on('change', function(){
+            console.log('asdasasf');
+            initTotal();
+        });
+
+        /** FUNCIONES **/
+
+        function trim1()
+        {
             $('#total1').val(
                 parseInt($('#proyectopedido-enero').val())+
                 parseInt($('#proyectopedido-febrero').val())+
                 parseInt($('#proyectopedido-marzo').val())
             );
-        });
-        //TRIM II
-        $('.trim2').on('change', function(){
+        }
+
+        function trim2()
+        {
             $('#total2').val(
                 parseInt($('#proyectopedido-abril').val())+
                 parseInt($('#proyectopedido-mayo').val())+
                 parseInt($('#proyectopedido-junio').val())
             );
-        });
-        //TRIM III
-        $('.trim3').on('change', function(){
+        }
+
+        function trim3()
+        {
             $('#total3').val(
                 parseInt($('#proyectopedido-julio').val())+
                 parseInt($('#proyectopedido-agosto').val())+
                 parseInt($('#proyectopedido-septiembre').val())
             );
-        });
-        //TRIM IV
-        $('.trim4').on('change', function(){
+        }
+
+        function trim4()
+        {
             $('#total4').val(
                 parseInt($('#proyectopedido-octubre').val())+
                 parseInt($('#proyectopedido-noviembre').val())+
                 parseInt($('#proyectopedido-diciembre').val())
             );
-        });
+        }
+
+        function calcular()
+        {
+            //variables
+            var sub_total = $('#proyectopedido-precio').val() * $('#total').val();
+            var iva = sub_total / 100 * 12;
+            var total = sub_total + iva;
+
+            //Sub-total
+            $('#sub-total').val(sub_total);
+
+            //IVA
+            $('#iva').val(iva);
+
+            //Total
+            $('#total-total').val(total);
+        }
+
+        function initTotal()
+        {
+            trim1();
+            trim2();
+            trim3();
+            trim4();
+
+            $('#total').val(
+                parseInt($('#total1').val())+
+                parseInt($('#total2').val())+
+                parseInt($('#total3').val())+
+                parseInt($('#total4').val())
+            );
+
+            calcular();
+        }
+
     });
 </script>

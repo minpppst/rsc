@@ -206,7 +206,7 @@ class ProyectoController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
+            return ['forceClose'=>true,'forceReload'=>'true'];    
         }else{
             /*
             *   Process for non-ajax request
@@ -238,7 +238,7 @@ class ProyectoController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'true']; 
         }else{
             /*
             *   Process for non-ajax request
@@ -259,7 +259,7 @@ class ProyectoController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         if ($model != null && $model->toggleActivo()) {
-            return ['forceClose' => true, 'forceReload' => true];
+            return ['forceClose' => true, 'forceReload' => 'true'];
         } else {
             return [
                 'title' => 'Ocurrió un error.',
@@ -294,7 +294,7 @@ class ProyectoController extends Controller
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => true];
+            return ['forceClose' => true, 'forceReload' => 'true'];
         } else {
             /*
              *   Process for non-ajax request
@@ -327,7 +327,7 @@ class ProyectoController extends Controller
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => true];
+            return ['forceClose' => true, 'forceReload' => 'true'];
         } else {
             /*
              *   Process for non-ajax request

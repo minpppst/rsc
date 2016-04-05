@@ -310,7 +310,7 @@ class ProyectoLocalizacionController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                 'forceClose'=>true,
-                'forceReload'=>true,
+                'forceReload'=>'true',
             ];
         }else{
             /*
