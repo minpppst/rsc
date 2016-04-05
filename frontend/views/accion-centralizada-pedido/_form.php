@@ -50,6 +50,8 @@ use yii\helpers\Url;
         'inputTemplate' => '<div class="input-group"><span class="input-group-addon">Bs.</span>{input}</div>',
     ])->input('number', ['maxlength' => true, 'placeholder' => '0', 'readonly' => true]) ?>
 
+    <?= Html::hiddenInput('iva_precio', '', ['id' => 'iva_precio']) ?>
+
     <!-- TRIMESTRES -->
     <table class="table table-bordered table-condensed table-striped">
         <tbody>
@@ -97,7 +99,14 @@ use yii\helpers\Url;
 
                 <td><label>Total</label><input type="text" id="total4" size="5" placeholder="0" readonly></td>
             </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><label>Total</label><input type="text" id="total" size="5" placeholder="0" readonly></td>
         </tbody>
+        
     </table>
 
     <div class="form-group">
@@ -127,7 +136,7 @@ use yii\helpers\Url;
         
         <div class="input-group">
             <span class="input-group-addon">Bs.</span>
-            <?= Html::input('text', 'total','', ['placeholder' => 0, 'readonly' => true, 'class' => 'form-control', 'id' => 'total' ]) ?>
+            <?= Html::input('text', 'total','', ['placeholder' => 0, 'readonly' => true, 'class' => 'form-control', 'id' => 'total-total' ]) ?>
         </div>
 
     </div>
@@ -163,9 +172,8 @@ use yii\helpers\Url;
         success: function (data) {
             if(data!=0){
             $('#accioncentralizadapedido-precio').val(parseFloat(data[0]['precio']));
-            iva=parseFloat(data[0]['iva']);
-            precio=parseFloat(data[0]['precio']);
-
+            $('#iva_precio').val(parseFloat(data[0]['iva']));
+            
             }
             else{
             $('#accioncentralizadapedido-precio').val(parseFloat(0));
@@ -176,96 +184,9 @@ use yii\helpers\Url;
             });
 
 
+       if($('#iva_precio').val()=="" && $("#material").val()!="" ){ 
         
-        bandera=1;
-        //TRIM I
-        $('.trim1').on('change', function(){
-            bandera=0;
-            var sum=0;
-            sum+=(Number($('#accioncentralizadapedido-enero').val()) ? parseInt($('#accioncentralizadapedido-enero').val()) : 0 );
-            sum+=(Number($('#accioncentralizadapedido-febrero').val()) ? parseInt($('#accioncentralizadapedido-febrero').val()) : 0);
-            sum+=(Number($('#accioncentralizadapedido-marzo').val()) ? parseInt($('#accioncentralizadapedido-marzo').val()) : 0);
-            $('#total1').val(sum);
-            total=0;
-            total_total=0;
-            total_iva=0;
-            total+=(Number($('#total1').val()) ? parseInt($('#total1').val()) : 0);
-            total+=(Number($('#total2').val()) ? parseInt($('#total2').val()) : 0);
-            total+=(Number($('#total3').val()) ? parseInt($('#total3').val()) : 0);
-            total+=(Number($('#total4').val()) ? parseInt($('#total4').val()) : 0);
-            $('#subtotal').val(total_total=total * precio);
-            $('#iva').val(total_iva=Math.round(((total*precio) * iva)/100));
-            $('#total').val(Math.round(total_total+total_iva));
-
-            });
-        //TRIM II
-        $('.trim2').on('change', function(){
-        bandera=0;
-           var sum1=0;
-           sum1+=(Number($('#accioncentralizadapedido-abril').val()) ? parseInt($('#accioncentralizadapedido-abril').val()) : 0 );
-           sum1+=(Number($('#accioncentralizadapedido-mayo').val()) ?  parseInt($('#accioncentralizadapedido-mayo').val()) :0 );
-           sum1+=(Number($('#accioncentralizadapedido-junio').val()) ? parseInt($('#accioncentralizadapedido-junio').val()) : 0);
-           $('#total2').val(sum1);    
-           total=0;
-           total_total=0;
-           total_iva=0;   
-           total+=(Number($('#total1').val()) ? parseInt($('#total1').val()) : 0);
-           total+=(Number($('#total2').val()) ? parseInt($('#total2').val()) : 0);
-           total+=(Number($('#total3').val()) ? parseInt($('#total3').val()) : 0);
-           total+=(Number($('#total4').val()) ? parseInt($('#total4').val()) : 0);
-           $('#subtotal').val(total_total=total * precio);
-            $('#iva').val(total_iva=Math.round(((total*precio) * iva)/100));
-            $('#total').val(Math.round(total_total+total_iva));
-           });
-        //TRIM III
-        $('.trim3').on('change', function(){
-           // $('#total3').val();
-            var sum2=0;
-            bandera=0;
-            sum2+=(Number($('#accioncentralizadapedido-julio').val()) ? parseInt($('#accioncentralizadapedido-julio').val()) : 0 );
-            sum2+=(Number($('#accioncentralizadapedido-agosto').val()) ? parseInt($('#accioncentralizadapedido-agosto').val()) : 0 );
-            sum2+=(Number($('#accioncentralizadapedido-septiembre').val()) ? parseInt($('#accioncentralizadapedido-septiembre').val()) : 0 );
-            $('#total3').val(sum2);
-            total=0;
-            total_total=0;
-            total_iva=0;
-            total+=(Number($('#total1').val()) ? parseInt($('#total1').val()) : 0);
-            total+=(Number($('#total2').val()) ? parseInt($('#total2').val()) : 0);
-            total+=(Number($('#total3').val()) ? parseInt($('#total3').val()) : 0);
-            total+=(Number($('#total4').val()) ? parseInt($('#total4').val()) : 0);
-            $('#subtotal').val(total_total=total * precio);
-            $('#iva').val(total_iva=Math.round(((total*precio) * iva)/100));
-            $('#total').val(Math.round(total_total+total_iva));
-        
-        });
-        //TRIM IV
-        $('.trim4').on('change', function(){
-            bandera=0;
-            var sum3=0;
-            sum3+=(Number($('#accioncentralizadapedido-octubre').val()) ? parseInt($('#accioncentralizadapedido-octubre').val()) : 0 );
-            sum3+=(Number($('#accioncentralizadapedido-noviembre').val()) ? parseInt($('#accioncentralizadapedido-noviembre').val()) : 0 );
-            sum3+=(Number($('#accioncentralizadapedido-diciembre').val()) ? parseInt($('#accioncentralizadapedido-diciembre').val()) : 0 );
-            $('#total4').val(sum3);
-            total=0;
-            total_total=0;
-            total_iva=0;
-            total+=(Number($('#total1').val()) ? parseInt($('#total1').val()) : 0);
-            total+=(Number($('#total2').val()) ? parseInt($('#total2').val()) : 0);
-            total+=(Number($('#total3').val()) ? parseInt($('#total3').val()) : 0);
-            total+=(Number($('#total4').val()) ? parseInt($('#total4').val()) : 0);            
-            $('#subtotal').val(total_total=total * precio);
-            $('#iva').val(total_iva=Math.round(((total*precio) * iva)/100));
-            $('#total').val(Math.round(total_total+total_iva));
-
-       });
-
-        //caso update
-            if(bandera==1 && ($('#accioncentralizadapedido-enero').val()>0 || $('#accioncentralizadapedido-febrero').val()>0 || $('#accioncentralizadapedido-marzo').val()>0 || $('#accioncentralizadapedido-abril').val()>0 || $('#accioncentralizadapedido-mayo').val()>0 || $('#accioncentralizadapedido-junio').val()>0 || $('#accioncentralizadapedido-julio').val()>0 || $('#accioncentralizadapedido-agosto').val()>0 || $('#accioncentralizadapedido-septiembre').val()>0 || $('#accioncentralizadapedido-octubre').val()>0 || $('#accioncentralizadapedido-noviembre').val()>0 || $('#accioncentralizadapedido-diciembre').val()>0)){
-                total=0;
-                total_total=0;
-                total_iva=0;
-                
-                $.ajax({
+        $.ajax({
                 url: "<?= Url::to(['llenarprecio']) ?>",
                 type: 'post',
                 dataType: 'json',
@@ -273,29 +194,138 @@ use yii\helpers\Url;
                 id: $("#material").val()
                 },
                 success: function (data) {
-                if(data!=0){
-                iva=parseFloat(data[0]['iva']);
-                precio=parseFloat(data[0]['precio']);
-                $('#total1').val(parseInt($('#accioncentralizadapedido-enero').val())+parseInt($('#accioncentralizadapedido-febrero').val())+parseInt($('#accioncentralizadapedido-marzo').val()));
-                $('#total2').val(parseInt($('#accioncentralizadapedido-abril').val())+parseInt($('#accioncentralizadapedido-mayo').val())+parseInt($('#accioncentralizadapedido-junio').val()));
-                $('#total3').val(parseInt($('#accioncentralizadapedido-julio').val())+parseInt($('#accioncentralizadapedido-agosto').val())+parseInt($('#accioncentralizadapedido-septiembre').val()));
-                $('#total4').val(parseInt($('#accioncentralizadapedido-octubre').val())+parseInt($('#accioncentralizadapedido-noviembre').val())+parseInt($('#accioncentralizadapedido-diciembre').val()));
-                total+=(Number($('#total1').val()) ? parseInt($('#total1').val()) : 0);
-                total+=(Number($('#total2').val()) ? parseInt($('#total2').val()) : 0);
-                total+=(Number($('#total3').val()) ? parseInt($('#total3').val()) : 0);
-                total+=(Number($('#total4').val()) ? parseInt($('#total4').val()) : 0);            
-                $('#subtotal').val(total_total=total * precio);
-                $('#iva').val(total_iva=Math.round(((total*precio) * iva)/100));
-                $('#total').val(Math.round(total_total+total_iva));
+                $('#iva_precio').val(parseFloat(data[0]['iva']));
 
-                }
-                
+                //Totalizar
+                initTotal();
+                //Calcular
+                calcular();
+                        
                     }
-                });
-
                 
-            
+            });
             }
+
+        
+         $('#material').on('change', function(){
+            initTotal();
+        });
+
+        //TRIM I
+        $('.trim1').on('change', function(){
+            initTotal();
+        });
+        //TRIM II
+        $('.trim2').on('change', function(){
+            initTotal();
+        });
+        //TRIM III
+        $('.trim3').on('change', function(){
+            initTotal();
+        });
+        //TRIM IV
+        $('.trim4').on('change', function(){
+            initTotal();
+        });
+
+        //TOTAL
+        $('.trim1, .trim2, .trim3, .trim4').on('change', function(){
+            initTotal();
+        });
+        
+
+
+
+
+       function trim1()
+        {
+        $('#total1').val(
+        (Number($('#accioncentralizadapedido-enero').val()) ? parseInt($('#accioncentralizadapedido-enero').val()) : 0)+
+        (Number($('#accioncentralizadapedido-febrero').val()) ? parseInt($('#accioncentralizadapedido-febrero').val()): 0)+
+        (Number($('#accioncentralizadapedido-marzo').val()) ? parseInt($('#accioncentralizadapedido-marzo').val()) : 0)
+         );
+        
+        }
+
+
+        //TRIM II
+          function trim2()
+        {
+        $('#total2').val(
+        (Number($('#accioncentralizadapedido-abril').val()) ? parseInt($('#accioncentralizadapedido-abril').val()) : 0) +
+        (Number($('#accioncentralizadapedido-mayo').val())  ? parseInt($('#accioncentralizadapedido-mayo').val()) : 0) +
+        (Number($('#accioncentralizadapedido-junio').val()) ? parseInt($('#accioncentralizadapedido-junio').val()) : 0)
+            );
+        }
+
+
+
+        //TRIM III
+        function trim3()
+        {
+        $('#total3').val(
+        (Number($('#accioncentralizadapedido-julio').val()) ? parseInt($('#accioncentralizadapedido-julio').val()) : 0)+
+        (Number($('#accioncentralizadapedido-agosto').val()) ? parseInt($('#accioncentralizadapedido-agosto').val()) : 0)+
+        (Number($('#accioncentralizadapedido-septiembre').val()) ? parseInt($('#accioncentralizadapedido-septiembre').val()) : 0)
+            );
+        }
+
+        //TRIM IV
+        function trim4()
+        {
+            $('#total4').val(
+        (Number($('#accioncentralizadapedido-octubre').val()) ? parseInt($('#accioncentralizadapedido-octubre').val()) : 0)+
+        (Number($('#accioncentralizadapedido-noviembre').val()) ? parseInt($('#accioncentralizadapedido-noviembre').val()) : 0)+
+        (Number($('#accioncentralizadapedido-diciembre').val()) ? parseInt($('#accioncentralizadapedido-diciembre').val()) : 0)
+            );
+        }
+
+
+
+
+             function calcular()
+        {
+            //variables
+            
+            var iva_precio=(Number($('#iva_precio').val()) ? $('#iva_precio').val() : 0 );
+            var sub_total = $('#accioncentralizadapedido-precio').val() * $('#total').val();
+            var iva = (sub_total  * iva_precio) / 100;
+            var total = sub_total + iva;
+
+
+            //Sub-total
+            $('#subtotal').val(sub_total);
+
+            //IVA
+            $('#iva').val(iva);
+
+            //Total
+            $('#total-total').val(total);
+        }
+
+
+
+
+
+            function initTotal(){
+
+            trim1();
+            trim2();
+            trim3();
+            trim4();
+
+             $('#total').val(
+                parseInt($('#total1').val())+
+                parseInt($('#total2').val())+
+                parseInt($('#total3').val())+
+                parseInt($('#total4').val())
+            );
+
+            calcular();
+
+
+            }
+
 
             });
 </script>

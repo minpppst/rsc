@@ -132,7 +132,7 @@ class AccionCentralizadaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
+            return ['forceClose'=>true,'forceReload'=>'true'];    
         }else{
 
         return $this->redirect(['index']);
@@ -294,7 +294,7 @@ class AccionCentralizadaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'true']; 
         }
         else
         {
@@ -330,7 +330,7 @@ class AccionCentralizadaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'true']; 
         }else{
             /*
             *   Process for non-ajax request
@@ -364,7 +364,7 @@ class AccionCentralizadaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'true']; 
         }else{
             /*
             *   Process for non-ajax request
