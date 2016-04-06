@@ -1,18 +1,16 @@
 <?php
+
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Json;
 use yii\bootstrap\ActiveForm;
 use yii\web\JsExpression;
 use kartik\select2\Select2;
-use kartik\depdrop\DepDrop;
-use kartik\depdrop\DepDropAsset;
 use yii\helpers\Url;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\AccionCentralizadaPedido */
-/* @var $form yii\widgets\ActiveForm */
 
+/* @var $this yii\web\View */
+/* @var $model app\models\ProyectoPedido */
+/* @var $form yii\widgets\ActiveForm */
 
 ?>
 
@@ -58,44 +56,44 @@ use yii\helpers\Url;
             <tr class="warning">
                 <td><label>TRIM I</label></td>
 
-                <td><?= $form->field($model, 'enero')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1']) ?></td>
+                <td><?= $form->field($model, 'enero')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim1']) ?></td>
 
-                <td><?= $form->field($model, 'febrero')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1']) ?></td>
+                <td><?= $form->field($model, 'febrero')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim1']) ?></td>
 
-                <td><?= $form->field($model, 'marzo')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1']) ?></td>
+                <td><?= $form->field($model, 'marzo')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim1']) ?></td>
 
                 <td><label>Total</label><input type="text" id="total1" size="5" placeholder="0" readonly></td>
             </tr>
             <tr class="info">
                 <td><label>TRIM II</label></td>
 
-                <td><?= $form->field($model, 'abril')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2']) ?></td>                           
+                <td><?= $form->field($model, 'abril')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim2']) ?></td>                           
 
-                <td><?= $form->field($model, 'mayo')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2']) ?></td>
+                <td><?= $form->field($model, 'mayo')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim2']) ?></td>
 
-                <td><?= $form->field($model, 'junio')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2']) ?></td>
+                <td><?= $form->field($model, 'junio')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim2']) ?></td>
 
                 <td><label>Total</label><input type="text" id="total2" size="5" placeholder="0" readonly></td>
             </tr>
             <tr class="danger">
                 <td><label>TRIM III</label></td> 
 
-                <td><?= $form->field($model, 'julio')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3']) ?></td>
+                <td><?= $form->field($model, 'julio')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim3']) ?></td>
 
-                <td><?= $form->field($model, 'agosto')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3']) ?></td>
+                <td><?= $form->field($model, 'agosto')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim3']) ?></td>
 
-                <td><?= $form->field($model, 'septiembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3']) ?></td>
+                <td><?= $form->field($model, 'septiembre')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim3']) ?></td>
 
                 <td><label>Total</label><input type="text" id="total3" size="5" placeholder="0" readonly></td>
             </tr>
             <tr class="success">
                 <td><label>TRIM IV</label></td>
 
-                <td><?= $form->field($model, 'octubre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4']) ?></td>
+                <td><?= $form->field($model, 'octubre')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim4']) ?></td>
 
-                <td><?= $form->field($model, 'noviembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4']) ?></td>
+                <td><?= $form->field($model, 'noviembre')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim4']) ?></td>
 
-                <td><?= $form->field($model, 'diciembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4']) ?></td>
+                <td><?= $form->field($model, 'diciembre')->input('number', ['style' => 'max-width:110px', 'placeholder' => '0', 'class' => 'trim4']) ?></td>
 
                 <td><label>Total</label><input type="text" id="total4" size="5" placeholder="0" readonly></td>
             </tr>
@@ -146,11 +144,11 @@ use yii\helpers\Url;
     <?= $form->field($model, 'estatus')->dropDownList([1=>'Activo',0=>'Inactivo'],['prompt'=>'Seleccione']) ?>
 
   
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
+    <?php if (!Yii::$app->request->isAjax){ ?>
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+    <?php } ?>
 
     <?php ActiveForm::end(); ?>
     
@@ -241,9 +239,9 @@ use yii\helpers\Url;
         {
         $('#total1').val(
         (Number($('#accioncentralizadapedido-enero').val()) ? parseInt($('#accioncentralizadapedido-enero').val()) : 0)+
-        (Number($('#accioncentralizadapedido-febrero').val()) ? parseInt($('#accioncentralizadapedido-febrero').val()): 0)+
+        (Number($('#accioncentralizadapedido-febrero').val()) ? parseInt($('#accioncentralizadapedido-febrero').val()) : 0)+
         (Number($('#accioncentralizadapedido-marzo').val()) ? parseInt($('#accioncentralizadapedido-marzo').val()) : 0)
-         );
+        );
         
         }
 
@@ -252,10 +250,10 @@ use yii\helpers\Url;
           function trim2()
         {
         $('#total2').val(
-        (Number($('#accioncentralizadapedido-abril').val()) ? parseInt($('#accioncentralizadapedido-abril').val()) : 0) +
-        (Number($('#accioncentralizadapedido-mayo').val())  ? parseInt($('#accioncentralizadapedido-mayo').val()) : 0) +
+        (Number($('#accioncentralizadapedido-abril').val()) ? parseInt($('#accioncentralizadapedido-abril').val()) : 0)+
+        (Number($('#accioncentralizadapedido-mayo').val())  ? parseInt($('#accioncentralizadapedido-mayo').val()) : 0)+
         (Number($('#accioncentralizadapedido-junio').val()) ? parseInt($('#accioncentralizadapedido-junio').val()) : 0)
-            );
+        );
         }
 
 
@@ -267,7 +265,7 @@ use yii\helpers\Url;
         (Number($('#accioncentralizadapedido-julio').val()) ? parseInt($('#accioncentralizadapedido-julio').val()) : 0)+
         (Number($('#accioncentralizadapedido-agosto').val()) ? parseInt($('#accioncentralizadapedido-agosto').val()) : 0)+
         (Number($('#accioncentralizadapedido-septiembre').val()) ? parseInt($('#accioncentralizadapedido-septiembre').val()) : 0)
-            );
+        );
         }
 
         //TRIM IV
@@ -277,7 +275,7 @@ use yii\helpers\Url;
         (Number($('#accioncentralizadapedido-octubre').val()) ? parseInt($('#accioncentralizadapedido-octubre').val()) : 0)+
         (Number($('#accioncentralizadapedido-noviembre').val()) ? parseInt($('#accioncentralizadapedido-noviembre').val()) : 0)+
         (Number($('#accioncentralizadapedido-diciembre').val()) ? parseInt($('#accioncentralizadapedido-diciembre').val()) : 0)
-            );
+        );
         }
 
 

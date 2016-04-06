@@ -53,7 +53,7 @@ class AcEspUej extends \yii\db\ActiveRecord
      */
     public function getIdAcEsp()
     {
-        return $this->hasOne(AcEspUej::className(), ['id' => 'id_ac_esp']);
+        return $this->hasOne(AcAcEspec::className(), ['id' => 'id_ac_esp']);
     }
 
     /**
@@ -78,5 +78,51 @@ class AcEspUej extends \yii\db\ActiveRecord
          
          return $especifica->nombre;
     }
+
+
+    public function getnombreunidadejecutora(){
+        
+        if($this->idUe == null)
+        {
+            return null;
+        }
+
+        return $this->idUe->nombre;//idAcCentr->nombre_accion;
+    } 
+
+
+public function getnombreaccion(){
+        if($this->idAcEsp == null)
+        {
+            return null;
+        }
+
+        return $this->idAcEsp->nombre;
+    }
+
+    public function getnombrecentral(){
+        
+        if($this->idAcEsp == null)
+        {
+            return null;
+        }
+
+        return $this->idAcEsp->idAcCentr->nombre_accion;//idAcCentr->nombre_accion;
+    }
+
+    public function getCodigocentral(){
+        
+        if($this->idAcEsp == null)
+        {
+            return null;
+        }
+
+        return $this->idAcEsp->idAcCentr->codigo_accion;//idAcCentr->nombre_accion;
+    }
+
+
+
+
+
 
 }
