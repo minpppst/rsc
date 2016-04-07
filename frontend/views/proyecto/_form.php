@@ -18,6 +18,8 @@ use kartik\date\DatePicker;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->errorSummary($model); ?>
+
     <!-- DATOS BASICOS -->
     <div class="panel panel-primary">
         <div class="panel-heading">

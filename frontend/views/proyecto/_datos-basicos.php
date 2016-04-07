@@ -63,8 +63,8 @@ CrudAsset::register($this);
 
         ],
         [
-            'label' => $model->getAttributeLabel('nombreEstatus'),
-            'value' => $model->nombreEstatus,
+            'label' => $model->getAttributeLabel('estatus_proyecto'),
+            'value' => $model->nombreEstatusProyecto,
         ],
         [
             'label' => $model->getAttributeLabel('situacion_presupuestaria'),
@@ -72,16 +72,16 @@ CrudAsset::register($this);
         ],
         [
             'label' => $model->getAttributeLabel('monto_proyecto'),
-            'value' => \Yii::$app->formatter->asCurrency($model->monto_proyecto)
+            'value' => $model->bolivarMonto,
         ],
         'descripcion:ntext',
         [
             'label' => $model->getAttributeLabel('sector'),
-            'value' => Sector::find()->where(['id'=>$model->sector])->one()->sector,
+            'value' => $model->nombreSector,
         ],
         [
             'label' => $model->getAttributeLabel('sub_sector'),
-            'value' => SubSector::find()->where(['id'=>$model->sub_sector])->one()->sub_sector,
+            'value' => $model->nombreSubSector,
         ],
         [
             'label' => $model->getAttributeLabel('plan_operativo'),

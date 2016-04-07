@@ -47,12 +47,12 @@ class Proyecto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito', 'estatus'], 'required'],
+            [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito'], 'required'],
+            [['nombre', 'descripcion', 'objetivo_estrategico_institucional'], 'string'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'estatus'], 'integer'],
             [['monto_proyecto'], 'number'],
-            [['nombre', 'descripcion', 'objetivo_estrategico_institucional'], 'string'],
-            [['codigo_proyecto', 'codigo_sne', 'nombre'], 'string', 'max' => 45],
+            [['codigo_proyecto', 'codigo_sne'], 'string', 'max' => 45],
             [['codigo_proyecto'], 'unique'],
             [['codigo_sne'], 'unique'],
         ];
@@ -68,7 +68,7 @@ class Proyecto extends \yii\db\ActiveRecord
             'codigo_proyecto' => 'Código Proyecto',
             'codigo_sne' => 'Código SNE',
             'nombre' => 'Nombre',
-            'estatus_proyecto' => 'Estatus',
+            'estatus_proyecto' => 'Estatus del Proyecto',
             'situacion_presupuestaria' => 'Situación Presupuestaria',
             'monto_proyecto' => 'Monto Proyecto',
             'descripcion' => 'Descripción',
@@ -142,9 +142,22 @@ class Proyecto extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEstatus()
+    public function getEstatusProyecto()
     {
         return $this->hasOne(EstatusProyecto::className(), ['id' => 'estatus_proyecto']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreEstatusProyecto()
+    {
+        if($this->estatus_proyecto === null)
+        {
+            return null;
+        }
+
+        return $this->estatusProyecto->estatus;
     }
 
     /**
@@ -158,6 +171,48 @@ class Proyecto extends \yii\db\ActiveRecord
         }
 
         return "Inactivo";
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreSector()
+    {
+        if($this->sector === null)
+        {
+            return null;
+        }
+
+        return $this->idSector->sector;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreSubSector()
+    {
+        if($this->sub_sector === null)
+        {
+            return null;
+        }
+
+        return $this->idSubSector->sub_sector;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdSector()
+    {
+        return $this->hasOne(Sector::className(), ['id' => 'sector']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdSubSector()
+    {
+        return $this->hasOne(SubSector::className(), ['id' => 'sub_sector']);
     }
 
     /**
@@ -206,6 +261,19 @@ class Proyecto extends \yii\db\ActiveRecord
     public function getAccionesEspecificas()
     {
         return $this->hasMany(ProyectoAccionEspecifica::className(), ['id_proyecto' => 'id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getBolivarMonto()
+    {
+        if($this->monto_proyecto === null)
+        {
+            return null;
+        }
+
+        return \Yii::$app->formatter->asCurrency($this->monto_proyecto);
     }
 
     /**

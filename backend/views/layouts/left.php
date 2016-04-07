@@ -47,10 +47,10 @@
                     ['label' => 'Acción Centralizada', 'icon' => 'fa fa-tasks', 'url' => ['/accion-centralizada-asignar/index']],
 
                     //PEDIDOS
-                    ['label' => 'Pedidos/Solicitudes', 'options' => ['class' => 'header']],
+                    ['label' => 'Requerimientos/Solicitudes', 'options' => ['class' => 'header']],
                     //Items
-                    ['label' => 'Proyecto pedido', 'icon' => 'fa fa-shopping-cart ', 'url' => ['/proyecto-pedido/index']],
-                    ['label' => 'Acción Centralizada pedido', 'icon' => 'fa fa-shopping-basket ', 'url' => ['/accion-centralizada-pedido/index']],
+                    ['label' => 'Proyecto requerimiento', 'icon' => 'fa fa-shopping-cart ', 'url' => ['/proyecto-pedido/index']],
+                    ['label' => 'ACC requerimiento', 'icon' => 'fa fa-shopping-basket ', 'url' => ['/accion-centralizada-pedido/index']],
 
                     //PROPIEDADES
                     //Header

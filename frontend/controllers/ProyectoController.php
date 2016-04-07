@@ -116,6 +116,7 @@ class ProyectoController extends Controller
     public function actionCreate()
     {
         $model = new Proyecto();
+        //$model->estatus = 1; //Por defecto
 
         //Datos para listas desplegables
         $estatus_proyecto = EstatusProyecto::find()->all();
