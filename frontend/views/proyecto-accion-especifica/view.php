@@ -14,6 +14,9 @@ use yii\widgets\DetailView;
             //'id_proyecto',
             'codigo_accion_especifica',
             'nombre:ntext',
+            'nombreUnidadMedida',
+            'meta',
+            'ponderacion',
             'nombreUnidadEjecutora',
             [
                 'label' => $model->getAttributeLabel('fecha_inicio'),

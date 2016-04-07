@@ -49,7 +49,9 @@ CrudAsset::register($this);
                             'data-request-method'=>'post',
                             'data-confirm-title'=>'¿Está seguro?',
                             'data-confirm-message'=>'¿Está seguro que desea eliminar los elementos seleccionados?'
-                        ]).' '.
+                        ])
+                        /*
+                        .' '.
                         Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
                             ["bulk-desactivar"] ,
                             [
@@ -69,7 +71,9 @@ CrudAsset::register($this);
                                 'data-request-method'=>'post',
                                 'data-confirm-title'=>'¿Está seguro?',
                                 'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
-                            ]),
+                            ])
+                        */
+                        ,
                 ]).'<div class="clearfix"></div>',
             ],
             'toolbar'=> [

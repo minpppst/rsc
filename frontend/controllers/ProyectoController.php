@@ -154,7 +154,11 @@ class ProyectoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        //Formato de las fechas
+        $model->fecha_inicio = \Yii::$app->formatter->asDate($model->fecha_inicio);
+        $model->fecha_fin = \Yii::$app->formatter->asDate($model->fecha_fin);
 
+        //Listas desplegables y autocompletar
         $estatus_proyecto = EstatusProyecto::find()->all();
         $situacion_presupuestaria = SituacionPresupuestaria::find()->all();
         $sector = Sector::find()->all();
@@ -188,14 +192,6 @@ class ProyectoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    /*
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-    */
     public function actionDelete($id)
     {
         $request = Yii::$app->request;

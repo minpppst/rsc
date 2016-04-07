@@ -39,9 +39,10 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_proyecto', 'codigo_accion_especifica', 'id_unidad_ejecutora', 'fecha_inicio', 'fecha_fin', 'estatus'], 'required'],
-            [['id_proyecto', 'id_unidad_ejecutora', 'estatus'], 'integer'],
-            [['nombre'], 'string'],
+            [['id_proyecto', 'codigo_accion_especifica', 'unidad_medida', 'meta', 'ponderacion', 'bien_servicio', 'id_unidad_ejecutora', 'fecha_inicio', 'fecha_fin', 'estatus'], 'required'],
+            [['id_proyecto', 'unidad_medida', 'meta', 'id_unidad_ejecutora', 'estatus'], 'integer'],
+            [['nombre', 'bien_servicio'], 'string'],
+            [['ponderacion'], 'number'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['codigo_accion_especifica'], 'string', 'max' => 3],
             [['id_proyecto'], 'exist', 'skipOnError' => true, 'targetClass' => Proyecto::className(), 'targetAttribute' => ['id_proyecto' => 'id']],
@@ -59,11 +60,16 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             'id_proyecto' => 'Id Proyecto',
             'codigo_accion_especifica' => 'Codigo Accion Especifica',
             'nombre' => 'Nombre',
+            'unidad_medida' => 'Unidad de Medida',
+            'meta' => 'Meta',
+            'ponderacion' => 'Ponderación',
+            'bien_servicio' => 'Bien o Servicio',
             'id_unidad_ejecutora' => 'Unidad Ejecutora',
             'nombreUnidadEjecutora' => 'Unidad Ejecutora',
             'estatus' => 'Estatus',
             'nombreEstatus' => 'Estatus',
-            'nombreProyecto' => 'Proyecto'
+            'nombreProyecto' => 'Proyecto',
+            'nombreUnidadMedida' => 'Unidad de Medida'
         ];
     }
 
@@ -119,6 +125,27 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
         }
 
         return $this->idProyecto->nombre;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdUnidadMedida()
+    {
+        return $this->hasOne(UnidadMedida::className(), ['id' => 'unidad_medida']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreUnidadMedida()
+    {
+        if($this->idUnidadMedida == null)
+        {
+            return null;
+        }
+
+        return $this->idUnidadMedida->unidad_medida;
     }
 
     /**

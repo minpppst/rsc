@@ -125,7 +125,7 @@ class ProyectoPedidoController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Pedido #".$id,
+                    'title'=> "Requerimiento #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -185,7 +185,7 @@ class ProyectoPedidoController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'materiales' => $materiales,
@@ -198,15 +198,15 @@ class ProyectoPedidoController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Pedido",
-                    'content'=>'<span class="text-success">Crear Pedido success</span>',
+                    'title'=> "Requerimiento",
+                    'content'=>'<span class="text-success">Creado exitosamente.</span>',
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Asignar otro',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Crear otro',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'materiales' => $materiales,
@@ -264,7 +264,7 @@ class ProyectoPedidoController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id),
                         'materiales' => $materiales,
@@ -276,7 +276,7 @@ class ProyectoPedidoController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                         'materiales' => $materiales,
@@ -287,7 +287,7 @@ class ProyectoPedidoController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id),
                         'materiales' => $materiales,

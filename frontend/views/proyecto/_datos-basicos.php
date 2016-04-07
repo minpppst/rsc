@@ -70,7 +70,10 @@ CrudAsset::register($this);
             'label' => $model->getAttributeLabel('situacion_presupuestaria'),
             'value' => SituacionPresupuestaria::find()->where(['id'=>$model->situacion_presupuestaria])->one()->situacion,
         ],
-        'monto_proyecto',
+        [
+            'label' => $model->getAttributeLabel('monto_proyecto'),
+            'value' => \Yii::$app->formatter->asCurrency($model->monto_proyecto)
+        ],
         'descripcion:ntext',
         [
             'label' => $model->getAttributeLabel('sector'),

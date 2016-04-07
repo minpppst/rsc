@@ -7,6 +7,7 @@ use yii\helpers\Json;
 use yii\filters\AccessControl;
 use common\models\ProyectoAccionEspecifica;
 use common\models\ProyectoAccionEspecificaSearch;
+use common\models\UnidadMedida;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -86,12 +87,12 @@ class ProyectoAccionEspecificaController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "ProyectoAccionEspecifica #".$id,
+                    'title'=> "Accion Especfica #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -114,6 +115,7 @@ class ProyectoAccionEspecificaController extends Controller
 
         //lista desplegable
         $unidadEjecutora = UnidadEjecutora::find()->all();
+        $unidadMedida = UnidadMedida::find()->all();
 
         if($request->isAjax){
             /*
@@ -126,19 +128,18 @@ class ProyectoAccionEspecificaController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
+                        'unidadMedida' => $unidadMedida
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Crear',['class'=>'btn btn-success','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'true',                    
-                    'contenedorId' => '#especifica-pjax', //Id del contenedor
-                    'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
+                    'forceReload'=>'true',
                     'title'=> "Nueva Acción Específica",
                     'content'=>'<span class="text-success">Creada exitosamente.</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Crear otra',['create', 'proyecto' => $proyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
@@ -148,9 +149,10 @@ class ProyectoAccionEspecificaController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
+                        'unidadMedida' => $unidadMedida
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Crear',['class'=>'btn btn-success','type'=>"submit"])
         
                 ];         
             }
@@ -164,6 +166,7 @@ class ProyectoAccionEspecificaController extends Controller
                 return $this->render('create', [
                     'model' => $model,
                     'unidadEjecutora' => $unidadEjecutora,
+                    'unidadMedida' => $unidadMedida
                 ]);
             }
         }
@@ -183,7 +186,8 @@ class ProyectoAccionEspecificaController extends Controller
         $model = $this->findModel($id);
 
         //lista desplegable
-        $unidadEjecutora = UnidadEjecutora::find()->all();       
+        $unidadEjecutora = UnidadEjecutora::find()->all();
+        $unidadMedida = UnidadMedida::find()->all();       
 
         if($request->isAjax){
             /*
@@ -196,22 +200,22 @@ class ProyectoAccionEspecificaController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
+                        'unidadMedida' => $unidadMedida
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'true',
-                    'contenedorId' => '#especifica-pjax', //Id del contenedor
-                    'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
-                    'title'=> "ProyectoAccionEspecifica #".$id,
+                    'forceReload'=>'#especifica-pjax',
+                    'title'=> "Editar Acción Específica #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
+                        'unidadMedida' => $unidadMedida
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
@@ -219,9 +223,10 @@ class ProyectoAccionEspecificaController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
+                        'unidadMedida' => $unidadMedida
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -234,6 +239,7 @@ class ProyectoAccionEspecificaController extends Controller
                 return $this->render('update', [
                     'model' => $model,
                     'unidadEjecutora' => $unidadEjecutora,
+                    'unidadMedida' => $unidadMedida
                 ]);
             }
         }
@@ -258,7 +264,7 @@ class ProyectoAccionEspecificaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true,'contenedorId' => '#especifica-pjax','contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $proyecto]),];    
+            return ['forceClose'=>true,'forceReload'=>'#especifica-pjax'];    
         }else{
             /*
             *   Process for non-ajax request
@@ -290,7 +296,7 @@ class ProyectoAccionEspecificaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'true']; 
         }else{
             /*
             *   Process for non-ajax request
@@ -313,9 +319,7 @@ class ProyectoAccionEspecificaController extends Controller
         if ($model != null && $model->toggleActivo()) {
             return [
                 'forceClose' => true, 
-                'forceReload' => true,
-                'contenedorId' => '#especifica-pjax', //Id del contenedor
-                'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id_proyecto]),
+                'forceReload' => '#especifica-pjax',
             ];
         } else {
             return [
@@ -353,9 +357,7 @@ class ProyectoAccionEspecificaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                 'forceClose' => true, 
-                'forceReload' => true,
-                'contenedorId' => '#especifica-pjax', //Id del contenedor
-                'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $id_proyecto]),
+                'forceReload' => '#especifica-pjax',
             ];
         } else {
             /*
@@ -391,9 +393,7 @@ class ProyectoAccionEspecificaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
             'forceClose' => true, 
-            'forceReload' => true,
-            'contenedorId' => '#especifica-pjax', //Id del contenedor
-                'contenedorUrl' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $id_proyecto]),
+            'forceReload' => '#especifica-pjax',
             ];
         } else {
             /*

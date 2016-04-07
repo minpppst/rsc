@@ -10,22 +10,21 @@ use yii\bootstrap\Modal;
 
 <?php if($model == null): ?> <!-- No existe -->
 
-    <h4><span class="label label-default"><?= $nombre ?></span></h4>
-    <div class="well well-sm">No hay datos.</div>
-    <?= Html::a($icons['crear'].' Agregar', [$url.'/create-alt', 'proyecto' => $proyecto], ['class' => 'btn btn-success']) ?>
+    <h4><?= $nombre ?></h4>
+    <?= Html::a($icons['crear'].' Agregar', [$url.'/create-alt', 'proyecto' => $proyecto], ['class' => 'btn btn-default']) ?>
 
 <?php else: ?> <!-- Existe -->
     <h4>
         <div class="btn-group-sm" role="group" aria-label="...">
-            <span class="label label-default"><?= $nombre ?></span>
+            <h4><?= $nombre ?></h4>
             <?php
                 //Botones para la ventana modal
                 $cancelar = '<button type=\'button\' class=\'btn btn-default pull-left\' data-dismiss=\'modal\'>Cancelar</button>';
                 $aceptar = '<a href=\''.Url::to([$url.'/delete', 'id' => $model->id]).'\' class=\'btn btn-primary\' data-method=\'post\'>Aceptar</button>';
             ?>
             <!-- Botones -->
-            <?= Html::a($icons['editar'], [$url.'/update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-            <?= Html::button($icons['eliminar'], [
+            <?= Html::a($icons['editar'].' Editar', [$url.'/update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::button($icons['eliminar'].' Eliminar', [
                 'class' => 'btn btn-danger',
                 'onclick' => new JsExpression('
                     $(".modal-header").html("<h4 class=\'modal-title\'>Eliminar '.$nombre.'</h4>");

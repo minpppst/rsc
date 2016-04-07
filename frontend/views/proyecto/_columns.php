@@ -58,6 +58,7 @@ return [
             ]
         ]
     ],
+    /*
     [
         'class' => '\kartik\grid\DataColumn',
         'width' => '50px',
@@ -87,6 +88,7 @@ return [
         },
         'format' => 'raw',                    
     ],
+    */
     [
         'class' => 'kartik\grid\ActionColumn',
         'header' => 'Acciones',

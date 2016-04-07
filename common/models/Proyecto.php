@@ -51,7 +51,7 @@ class Proyecto extends \yii\db\ActiveRecord
             [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'estatus'], 'integer'],
             [['monto_proyecto'], 'number'],
-            [['descripcion', 'objetivo_estrategico_institucional'], 'string'],
+            [['nombre', 'descripcion', 'objetivo_estrategico_institucional'], 'string'],
             [['codigo_proyecto', 'codigo_sne', 'nombre'], 'string', 'max' => 45],
             [['codigo_proyecto'], 'unique'],
             [['codigo_sne'], 'unique'],
@@ -242,5 +242,21 @@ class Proyecto extends \yii\db\ActiveRecord
 
         return true;
      }
+
+    /**
+     * Antes de guardar en BD
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            //Cambiar el formato de las fechas
+            $formato = 'd/m/Y';
+            $this->fecha_inicio = date_format(date_create_from_format($formato,$this->fecha_inicio),'Y-m-d');
+            $this->fecha_fin = date_format(date_create_from_format($formato,$this->fecha_fin),'Y-m-d');
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

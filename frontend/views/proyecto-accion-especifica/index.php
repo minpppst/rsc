@@ -26,7 +26,7 @@ CrudAsset::register($this);
 ?>
 <div class="proyecto-accion-especifica-index">
     <?=GridView::widget([
-        'id'=>'especifica',
+        //'id'=>'especifica-pjax',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'pjax'=>true,

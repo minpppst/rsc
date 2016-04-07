@@ -19,6 +19,14 @@ use kartik\date\DatePicker;
 
     <?= $form->field($model, 'nombre')->textarea(['rows' => 6]) ?>
 
+    <?= $form->field($model, 'unidad_medida')->dropDownList(ArrayHelper::map($unidadMedida, 'id', 'unidad_medida'), ['prompt' => 'Seleccione']) ?>
+
+    <?= $form->field($model, 'meta')->input('number', ['min' => 0]) ?>
+
+    <?= $form->field($model, 'ponderacion')->input('number', ['min' => 0.1, 'max' => 1, 'step' => 0.1]) ?>
+
+    <?= $form->field($model, 'bien_servicio')->textarea(['rows' => 6]) ?>
+
     <?= $form->field($model, 'id_unidad_ejecutora')->dropDownList(ArrayHelper::map($unidadEjecutora,'id','nombre'),['prompt' => 'Seleccione']) ?>
 
     <?= $form->field($model, 'fecha_inicio')->widget(DatePicker::classname(), [
@@ -28,7 +36,8 @@ use kartik\date\DatePicker;
             'autoclose'=>true,
             'format' => 'yyyy-mm-dd',
             'todayBtn' => true
-        ]
+        ],
+        'options' => ['readonly' => true]
     ]) ?>
 
     <?= $form->field($model, 'fecha_fin')->widget(DatePicker::classname(), [
@@ -38,7 +47,8 @@ use kartik\date\DatePicker;
             'autoclose'=>true,
             'format' => 'yyyy-mm-dd',
             'todayBtn' => true
-        ]
+        ],
+        'options' => ['readonly' => true]
     ]) ?>
 
     <?= $form->field($model, 'estatus')->dropDownList([1=>'Activo',0=>'Inactivo'],['prompt'=>'Seleccione']) ?>

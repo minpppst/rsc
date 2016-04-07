@@ -28,26 +28,26 @@ use kartik\date\DatePicker;
 
             <?= $form->field($model, 'codigo_sne')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'nombre')->textarea(['rows' => 6]) ?>
 
             <?= $form->field($model, 'fecha_inicio')->widget(DatePicker::classname(), [
                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'value' => $model->fecha_inicio,
                 'pluginOptions' => [
                     'autoclose'=>true,
-                    'format' => 'yyyy-mm-dd',
+                    'format' => 'dd/mm/yyyy',
                     'todayBtn' => true
-                ]
+                ],
+                'options' => ['readonly' => true]
             ]) ?>
 
             <?= $form->field($model, 'fecha_fin')->widget(DatePicker::classname(), [
                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-                'value' => $model->fecha_fin,
                 'pluginOptions' => [
                     'autoclose'=>true,
-                    'format' => 'yyyy-mm-dd',
+                    'format' => 'dd/mm/yyyy',
                     'todayBtn' => true
-                ]
+                ],
+                'options' => ['readonly' => true]
             ]) ?>
 
             <?= $form->field($model, 'estatus_proyecto')->dropDownList(ArrayHelper::map($estatus_proyecto,'id','estatus'),['prompt'=>'Seleccione']) ?>
@@ -56,7 +56,7 @@ use kartik\date\DatePicker;
 
             <?= $form->field($model, 'monto_proyecto', [
                 'inputTemplate' => '<div class="input-group"><span class="input-group-addon">Bs.</span>{input}</div>',
-            ])->input('number') ?>
+            ])->input('number', ['min' => 1, 'step' => 0.01]) ?>
 
             <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
@@ -118,7 +118,7 @@ use kartik\date\DatePicker;
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
