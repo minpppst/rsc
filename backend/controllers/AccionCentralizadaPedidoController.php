@@ -1,14 +1,9 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use common\models\AccionCentralizadaPedido;
-use common\models\AccionCentralizadaPedidoSearch;
-use common\models\AccionCentralizadaAsignar;
-use common\models\AccionCentralizadaAsignarSearch;
-use common\models\MaterialesServicios;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,11 +13,24 @@ use yii\rbac\ManagerInterface;
 use yii\db\Query;
 use yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+
+use backend\models\AcAcEspec;
+use backend\models\AcAcEspecSearch;
+use backend\models\AccionCentralizadaPedido;
+use backend\models\AccionCentralizadaPedidoSearch;
+use common\models\AccionCentralizadaAsignar;
+use common\models\AccionCentralizadaAsignarSearch;
+use common\models\MaterialesServicios;
+use common\models\UnidadEjecutora;
+use common\models\AcEspUej;
+use common\models\AcEspUejSearch;
+
 
 use johnitvn\userplus\base\models\UserAccounts;
 
 /**
- * ProyectoPedidoController implements the CRUD actions for ProyectoPedido model.
+ * AccionCentralizadaPedidoController implements the CRUD actions for AccionCentralizadaPedido model.
  */
 class AccionCentralizadaPedidoController extends Controller
 {
@@ -58,58 +66,48 @@ class AccionCentralizadaPedidoController extends Controller
     }
 
     /**
-     * Lists all ProyectoPedido models.
+     * Lists all AccionCentralizadaPedido models.
      * @return mixed
      */
     public function actionIndex()
-    {
-        //El usuario
-        $usuario = UserAccounts::findOne(\Yii::$app->user->id);
+    {        
+    
+        //$searchModel = new AcEspUej::model()->with('accion_centralizada_accion_especifica', 'unidad_ejecutora')->findAll();
+
+        $searchModel = new AcEspUejSearch();
         //Modelo de busqueda y dataprovider
-        $searchModel = new AccionCentralizadaAsignarSearch();
-        //Si no es sysadmin
-        if(\Yii::$app->authManager->getAssignment('sysadmin',\Yii::$app->user->id) == null)
-        {
-            $searchModel->usuario = $usuario->id;
-            $searchModel->estatus = 1;
-        }
+        //$searchModel = new AcAcEspecSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
         
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'usuario' => $usuario
+            'dataProvider' => $dataProvider
         ]);
     }
 
     /**
-     * Pedidos del usuario
-     * @param integer $asignado id de la asignacion
+     * Pedidos
+     * @param integer $ue unidad ejecutora
      * @return mixed
      */
-    public function actionPedido($asignado)
+    public function actionPedido($ue)
     {
         //Datos para el gridview
-        $searchModel = new AccionCentralizadaPedidoSearch(['asignado' => $asignado]);         
-        //Si no es sysadmin
-        if(\Yii::$app->authManager->getAssignment('sysadmin',\Yii::$app->user->id) == null)
-        {
-            $searchModel->estatus = 1;
-        }
+        $searchModel = new AccionCentralizadaPedidoSearch(['idUnidadEjecutora' => $ue]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        //Datos de la asignacion
-        $asignado = AccionCentralizadaAsignar::findOne($asignado);
+        //Otros datos
+        $ue = UnidadEjecutora::findOne($ue);
 
         return $this->render('pedido', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'asignado' => $asignado
+            'ue' => $ue
         ]);
     }
 
     /**
-     * Displays a single ProyectoPedido model.
+     * Displays a single AccionCentralizadaPedido model.
      * @param integer $id
      * @return mixed
      */
@@ -278,7 +276,7 @@ class AccionCentralizadaPedidoController extends Controller
     }
 
     /**
-     * Delete an existing ProyectiPedido model.
+     * Delete an existing AccionCentralizadaPedido model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -328,7 +326,7 @@ class AccionCentralizadaPedidoController extends Controller
     }
 
     /**
-     * Desactiva multiples modelos de ProyectoPedido.
+     * Desactiva multiples modelos de AccionCentralizadaPedido.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
      * @param integer id
@@ -337,8 +335,6 @@ class AccionCentralizadaPedidoController extends Controller
     public function actionBulkDesactivar() {
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
-         if(empty($pks))
-        $pks=explode(",", $request->post('pks'));
         //Obtener el nombre de la clase del modelo
         $className = AccionCentralizadaPedido::className();
         
@@ -353,7 +349,7 @@ class AccionCentralizadaPedidoController extends Controller
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => 'true'];
+            return ['forceClose' => true, 'forceReload' =>'true'];
         } else {
             /*
              *   Process for non-ajax request
@@ -363,7 +359,7 @@ class AccionCentralizadaPedidoController extends Controller
     }
 
     /**
-     * Activa multiples modelos de ProyectoPedido.
+     * Activa multiples modelos de AccionCentralizadaPedido.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
      * @param integer id
@@ -386,7 +382,7 @@ class AccionCentralizadaPedidoController extends Controller
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => 'true'];
+            return ['forceClose' => true, 'forceReload' =>'true'];
         } else {
             /*
              *   Process for non-ajax request
@@ -394,8 +390,7 @@ class AccionCentralizadaPedidoController extends Controller
             return $this->redirect(['index']);
         }
     }
-
-     public function actionLlenarprecio()
+    public function actionLlenarprecio()
     {
         $request = Yii::$app->request;
 
@@ -421,7 +416,6 @@ class AccionCentralizadaPedidoController extends Controller
         }
         
     }
-
 
     /**
      * Finds the AccionCentralizadaPedido model based on its primary key value.
