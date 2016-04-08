@@ -12,7 +12,7 @@
                 ['label' => $icons['proyecto'].' Proyecto', 'url' => ['/proyecto-pedido/index']],
                 ['label' => $icons['acc'].' Acción Centralizada', 'url' => ['/accion-centralizada-pedido/index']],
             ]],            
-            ['label' => $icons['proyecto'].' Proyectos', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],
+            ['label' => $icons['proyecto'].' Proyecto', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],
             ['label' => $icons['acc'].' Acción Centralizada', 'url' => ['/accion-centralizada'], 'visible' => Yii::$app->user->can('accion-centralizada/index')],                        
 
             Yii::$app->user->isGuest ?

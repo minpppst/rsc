@@ -39,12 +39,19 @@
                     ['label' => 'Permisos', 'icon' => 'fa fa-lock', 'url' => ['/rbac/permission']],
                     ['label' => 'Reglas', 'icon' => 'fa fa-eye', 'url' => ['/rbac/rule']],
 
+                    //PROYECTO Y ACC
+                    //Header
+                    ['label' => 'Proyectos y Acciones Centralizadas', 'options' => ['class' => 'header']],
+                    //Items
+                    ['label' => 'Proyecto', 'icon' => 'fa fa-folder', 'url' => ['/proyecto/index']],
+                    ['label' => 'Acción Centralizada', 'icon' => 'fa fa-folder-open', 'url' => ['/accion-centralizada/index']],
+
                     //ASIGNACIONES
                     //Header
                     ['label' => 'Asignaciones', 'options' => ['class' => 'header']],
                     //Items
-                    ['label' => 'Proyecto', 'icon' => 'fa fa-folder', 'url' => ['/proyecto-asignar/index']],
-                    ['label' => 'Acción Centralizada', 'icon' => 'fa fa-tasks', 'url' => ['/accion-centralizada-asignar/index']],
+                    ['label' => 'Proyecto', 'icon' => 'fa fa-folder-o', 'url' => ['/proyecto-asignar/index']],
+                    ['label' => 'Acción Centralizada', 'icon' => 'fa fa-folder-open-o', 'url' => ['/accion-centralizada-asignar/index']],
 
                     //PEDIDOS
                     ['label' => 'Requerimientos/Solicitudes', 'options' => ['class' => 'header']],
@@ -81,7 +88,7 @@
                     ],
                     [
                         'label' => 'Unidades Ejecutoras', 
-                        'icon' => 'glyphicon glyphicon-briefcase', 
+                        'icon' => 'fa fa-briefcase', 
                         'url' => '#',
                         'items' => [
                             ['label' => 'Lista', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/unidad-ejecutora/index'],],
@@ -93,13 +100,19 @@
                     ['label' => 'Presentaciones', 'icon' => 'glyphicon glyphicon-blackboard', 'url' => ['/presentacion/index']],
                     [
                         'label' => 'Materiales y Servicios', 
-                        'icon' => 'glyphicon glyphicon-cutlery',
+                        'icon' => 'fa fa-cutlery',
+                        'url' => '#',
                         'items' => [
                             ['label' => 'Lista', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/materiales-servicios/index']],
                             ['label' => 'Importar', 'icon' => 'glyphicon glyphicon-import', 'url' => ['/materiales-servicios/importar']]
                         ]
                     ],
-                    ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
+
+                    //SISTEMA
+                    ['label' => 'Sistema', 'options' => ['class' => 'header']],
+                    //Items
+                    ['label' => 'Auditoría', 'icon' => 'fa fa-code-fork', 'url' => ['/audit']],
+                    ['label' => 'Debug', 'icon' => 'fa fa-bug', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],                    
                 ],
             ]

@@ -27,6 +27,13 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         return 'accion_centralizada';
     }
 
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -45,7 +52,12 @@ class AccionCentralizada extends \yii\db\ActiveRecord
     }
 
 
-    public function formato_fecha($attribute,$params){
+    /**
+     * @param string $attribute
+     * @param array $params
+     */
+    public function formato_fecha($attribute,$params)
+    {
 
         switch ($attribute) {
             case 'fecha_inicio':
@@ -92,11 +104,7 @@ class AccionCentralizada extends \yii\db\ActiveRecord
             
                 break;
         }
-        
-
-         
-
-
+  
     }
 
     /**

@@ -19,13 +19,13 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'codigo_sne',
+        'attribute'=>'codigo_sne'
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
         'value' => function($model){
-            return StringHelper::truncateWords($model->nombre,10);
+            return StringHelper::truncateWords($model->nombre,15);
         }
     ],
     [
@@ -62,7 +62,7 @@ return [
             ]
         ]
     ],
-    /*
+    
     [
         'class' => '\kartik\grid\DataColumn',
         'width' => '50px',
@@ -92,7 +92,7 @@ return [
         },
         'format' => 'raw',                    
     ],
-    */
+    
     [
         'class' => 'kartik\grid\ActionColumn',
         'header' => 'Acciones',

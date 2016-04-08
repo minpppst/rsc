@@ -11,7 +11,7 @@ use johnitvn\ajaxcrud\CrudAsset;
 /* @var $searchModel app\models\AccionCentralizadaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Accion Centralizadas';
+$this->title = 'Acción Centralizada';
 $this->params['breadcrumbs'][] = $this->title;
 //Iconos
 $icons=[
@@ -137,7 +137,7 @@ CrudAsset::register($this);
         ],
         'panel' => [
             'type' => 'default', 
-            'heading' => '<i class="glyphicon glyphicon-tasks"></i> Acciones Centralizadas',
+            'heading' => '<i class="glyphicon glyphicon-folder-open"></i> Acciones Centralizadas',
             'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
             'after'=>BulkButtonWidget::widget([
                 'buttons'=>

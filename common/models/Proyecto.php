@@ -41,6 +41,13 @@ class Proyecto extends \yii\db\ActiveRecord
         return 'proyecto';
     }
 
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
+
     /**
      * @inheritdoc
      */

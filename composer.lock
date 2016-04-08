@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7ca09b1945b87b47d5c8f91a81329827",
-    "content-hash": "638432e96b474e6280cdfdda789a37fa",
+    "hash": "1a271a880d768085ea63399a60e486dd",
+    "content-hash": "7ce14e71290231e2a2a1ba1c11d48e97",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -970,7 +970,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/22184efc859b5319c0652dbfe35bfbadc0a2ff0a",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/d866af325936209258989d3bd17b4fbdb9835a72",
                 "reference": "22184efc859b5319c0652dbfe35bfbadc0a2ff0a",
                 "shasum": ""
             },
@@ -1187,6 +1187,54 @@
             "time": "2015-05-05 07:34:49"
         },
         {
+            "name": "kartik-v/yii2-detail-view",
+            "version": "v1.7.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-detail-view.git",
+                "reference": "346c067db89564ca906f28dc757b3133235e0361"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-detail-view/zipball/346c067db89564ca906f28dc757b3133235e0361",
+                "reference": "346c067db89564ca906f28dc757b3133235e0361",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-helpers": "~1.3",
+                "kartik-v/yii2-krajee-base": "~1.7"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\detail\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Various enhancements to the Yii 2 Detail View with multi models, ability to edit data, manage Bootstrap 3 styles and more.",
+            "homepage": "https://github.com/kartik-v/yii2-detail-view",
+            "keywords": [
+                "detail",
+                "detail view",
+                "extension",
+                "form",
+                "grid",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-01-11 06:02:49"
+        },
+        {
             "name": "kartik-v/yii2-editable",
             "version": "v1.7.4",
             "source": {
@@ -1282,6 +1330,52 @@
                 "yii2"
             ],
             "time": "2016-01-14 07:03:28"
+        },
+        {
+            "name": "kartik-v/yii2-helpers",
+            "version": "v1.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-helpers.git",
+                "reference": "f16003c8c9cfdaa50b4c9574cae9f0310946696c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-helpers/zipball/f16003c8c9cfdaa50b4c9574cae9f0310946696c",
+                "reference": "f16003c8c9cfdaa50b4c9574cae9f0310946696c",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2-bootstrap": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\helpers\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "A collection of useful helper functions for Yii Framework 2.0",
+            "homepage": "https://github.com/kartik-v/yii2-helpers",
+            "keywords": [
+                "bootstrap",
+                "extension",
+                "helper",
+                "utilities",
+                "yii",
+                "yii2"
+            ],
+            "time": "2015-12-12 18:47:11"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -1688,7 +1782,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/miloschuman/yii2-highcharts/zipball/f7af817c44c209fb38236721e580b67e0e51e364",
+                "url": "https://api.github.com/repos/miloschuman/yii2-highcharts/zipball/f46e1f4a2c2cf079116ec4c3906553d14c07760f",
                 "reference": "f7af817c44c209fb38236721e580b67e0e51e364",
                 "shasum": ""
             },

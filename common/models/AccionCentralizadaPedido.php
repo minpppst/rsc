@@ -39,6 +39,13 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
         return 'accion_centralizada_pedido';
     }
 
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
+
     /**
      * @inheritdoc
      */

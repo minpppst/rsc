@@ -32,6 +32,13 @@ class MaterialesServicios extends \yii\db\ActiveRecord
         return 'materiales_servicios';
     }
 
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
+
     /**
      * @inheritdoc
      */

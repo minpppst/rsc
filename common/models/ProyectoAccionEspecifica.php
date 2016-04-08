@@ -33,6 +33,13 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
         return 'proyecto_accion_especifica';
     }
 
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -49,6 +56,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             [['id_unidad_ejecutora'], 'exist', 'skipOnError' => true, 'targetClass' => UnidadEjecutora::className(), 'targetAttribute' => ['id_unidad_ejecutora' => 'id']],
         ];
     }
+
 
     /**
      * @inheritdoc

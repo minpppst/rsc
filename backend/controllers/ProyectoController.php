@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
 use yii\helpers\Json;
@@ -32,7 +32,7 @@ class ProyectoController extends Controller
 {
     public function behaviors()
     {
-        return [            
+        return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

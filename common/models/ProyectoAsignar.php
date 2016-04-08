@@ -28,6 +28,13 @@ class ProyectoAsignar extends \yii\db\ActiveRecord
         return 'proyecto_asignar';
     }
 
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
+
     /**
      * @inheritdoc
      */
