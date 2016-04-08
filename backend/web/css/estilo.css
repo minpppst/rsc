@@ -1,0 +1,25 @@
+/*
+ estilo.css
+*/
+
+.estilo-panel {
+	margin:auto 10px;
+	float:left;
+	width:300px;
+}
+
+.off {
+	display:none;
+}
+
+.form-control {
+	width:auto;
+}
+
+.kv-attribute {
+	
+}
+.kv-detail-view {
+	overflow: hidden;
+	width: 100%;
+}

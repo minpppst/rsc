@@ -37,7 +37,7 @@ use kartik\date\DatePicker;
                 'pluginOptions' => [
                     'autoclose'=>true,
                     'format' => 'dd/mm/yyyy',
-                    'todayBtn' => true
+                    'todayBtn' => false
                 ],
                 'options' => ['readonly' => true]
             ]) ?>
@@ -47,7 +47,7 @@ use kartik\date\DatePicker;
                 'pluginOptions' => [
                     'autoclose'=>true,
                     'format' => 'dd/mm/yyyy',
-                    'todayBtn' => true
+                    'todayBtn' => false
                 ],
                 'options' => ['readonly' => true]
             ]) ?>

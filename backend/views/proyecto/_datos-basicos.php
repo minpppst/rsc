@@ -2,10 +2,11 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\helpers\ArrayHelper;
 use yii\bootstrap\Modal;
 use yii\bootstrap\Button;
 use kartik\grid\GridView;
+use kartik\detail\DetailView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use yii\widgets\Pjax;
@@ -19,6 +20,7 @@ use common\models\ObjetivosHistoricos;
 use common\models\ObjetivosNacionales;
 use common\models\ObjetivosEstrategicos;
 use common\models\ObjetivosGenerales;
+use common\models\Ambito;
 
 //Iconos
 $icons=[
@@ -32,83 +34,188 @@ CrudAsset::register($this);
 
 ?>
 
-<!-- BOTONES -->
-<p>
-    <?= Html::a($icons['editar'].' Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a($icons['eliminar'].' Eliminar', ['delete', 'id' => $model->id], [
-        'class' => 'btn btn-danger',
-        'data' => [
-            'confirm' => '¿Está seguro que desea eliminar el Proyecto? (Todos los datos asociados serán eliminados)',
-            'method' => 'post',
-        ],
-    ]) ?>
-</p>
-
 <!-- Widget con los datos -->
 <?= DetailView::widget([
     'model' => $model,
+    'mode' => 'view',
+    'bordered' => true,
+    'striped' => true,
+    'condensed' => true,
+    'responsive' => true,
+    'deleteOptions'=>[ // your ajax delete parameters
+        'params' => ['id' => $model->id, 'kvdelete'=>true],
+    ],
     'attributes' => [
         'id',
         'codigo_proyecto',
         'codigo_sne',
-        'nombre',
+        [
+            'attribute' => 'nombre',
+            'type' => DetailView::INPUT_TEXTAREA,
+            'options' => [
+                'rows'=>'6',
+                'style' => 'width:50%'
+            ],
+        ],
         [
             'label' => $model->getAttributeLabel('fecha_inicio'),
-            'value' => \Yii::$app->formatter->asDate($model->fecha_inicio)
+            'attribute' => 'fecha_inicio',
+            'type' => DetailView::INPUT_DATE,
+            'options' => [
+                'style' => 'width:47%'
+            ],
+            'widgetOptions' => [
+                'pluginOptions' => [
+                    'autoclose'=>true,
+                    'format' => 'dd/mm/yyyy'
+                ]
+            ],
 
         ],
         [
             'label' => $model->getAttributeLabel('fecha_fin'),
-            'value' => \Yii::$app->formatter->asDate($model->fecha_fin)
+            'attribute' => 'fecha_fin',
+            'type' => DetailView::INPUT_DATE,
+            'options' => [
+                'style' => 'width:47%'
+            ],
+            'widgetOptions' => [
+                'pluginOptions' => [
+                    'autoclose'=>true,
+                    'format' => 'dd/mm/yyyy'
+                ]
+            ],
 
         ],
         [
             'label' => $model->getAttributeLabel('estatus_proyecto'),
+            'attribute' => 'estatus_proyecto',
             'value' => $model->nombreEstatusProyecto,
+            'type' => DetailView::INPUT_SELECT2,
+            'widgetOptions' => [
+                'data' => ArrayHelper::map(EstatusProyecto::find()->all(), 'id', 'estatus'),
+                'options' => ['placeholder' => 'Seleccione'],
+                'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+            ]
         ],
         [
             'label' => $model->getAttributeLabel('situacion_presupuestaria'),
+            'attribute' => 'situacion_presupuestaria',
             'value' => SituacionPresupuestaria::find()->where(['id'=>$model->situacion_presupuestaria])->one()->situacion,
+            'type' => DetailView::INPUT_SELECT2,
+            'widgetOptions' => [
+                'data' => ArrayHelper::map(SituacionPresupuestaria::find()->all(), 'id', 'situacion'),
+                'options' => ['placeholder' => 'Seleccione'],
+                'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+            ]
         ],
         [
             'label' => $model->getAttributeLabel('monto_proyecto'),
+            'attribute' => 'monto_proyecto',
             'value' => $model->bolivarMonto,
+            'type' => DetailView::INPUT_MONEY,
+            'widgetOptions' => [
+            ]
         ],
-        'descripcion:ntext',
+        [
+            'attribute' => 'descripcion',
+            'type' => DetailView::INPUT_TEXTAREA,
+            'options' => [
+                'rows'=>'6',
+                'style' => 'width:50%'
+            ],
+        ],
         [
             'label' => $model->getAttributeLabel('sector'),
+            'attribute' => 'sector',
             'value' => $model->nombreSector,
+            'type' => DetailView::INPUT_SELECT2,
+            'widgetOptions' => [
+                'data' => ArrayHelper::map(Sector::find()->all(), 'id', 'sector'),
+                'options' => ['placeholder' => 'Seleccione'],
+                'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+            ]
+
         ],
         [
             'label' => $model->getAttributeLabel('sub_sector'),
+            'attribute' => 'sub_sector',
             'value' => $model->nombreSubSector,
+            'type' => DetailView::INPUT_SELECT2,
+            'widgetOptions' => [
+                'data' => ArrayHelper::map(SubSector::find()->all(), 'id', 'sub_sector'),
+                'options' => ['placeholder' => 'Seleccione'],
+                'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+            ]
+
         ],
         [
             'label' => $model->getAttributeLabel('plan_operativo'),
+            'attribute' => 'plan_operativo',
             'value' => PlanOperativo::find()->where(['id'=>$model->plan_operativo])->one()->plan_operativo,
+            'type' => DetailView::INPUT_SELECT2,
+            'widgetOptions' => [
+                'data' => ArrayHelper::map(PlanOperativo::find()->all(), 'id', 'plan_operativo'),
+                'options' => ['placeholder' => 'Seleccione'],
+                'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+            ]
         ],
         [
             'label' => 'Objetivo Historico',
             'value' => $historico->objetivo_historico,
+            'options' => [
+                'style' => 'width:50%'
+            ],
         ],
         [
             'label' => 'Objetivo Nacional',
             'value' => $nacional->objetivo_nacional,
+            'options' => [
+                'style' => 'width:50%'
+            ],
         ], 
         [
             'label' => 'Objetivo Estratégico',
             'value' => $estrategico->objetivo_estrategico,
+            'options' => [
+                'style' => 'width:50%'
+            ],
         ],            
         [
             'label' => $model->getAttributeLabel('objetivo_general'),
+            'attribute' => 'objetivo_general',
             'value' => ObjetivosGenerales::find()->where(['id'=>$model->objetivo_general])->one()->objetivo_general,
-        ],            
-        'objetivo_estrategico_institucional',
+            'type' => DetailView::INPUT_SELECT2,
+            'widgetOptions' => [
+                'data' => ArrayHelper::map(ObjetivosGenerales::find()->all(), 'id', 'objetivo_general'),
+                'options' => ['placeholder' => 'Seleccione'],
+                'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+            ]
+        ],
+        [
+            'attribute' => 'objetivo_estrategico_institucional',
+            'type' => DetailView::INPUT_TEXTAREA,
+            'options' => [
+                'rows'=>'6',
+                'style' => 'width:50%'
+            ],
+        ],
         [
             'label' => $model->getAttributeLabel('ambito'),
+            'attribute' => 'ambito',
             'value' => $model->idAmbito->ambito,
+            'type' => DetailView::INPUT_SELECT2,
+            'widgetOptions' => [
+                'data' => ArrayHelper::map(Ambito::find()->all(), 'id', 'ambito'),
+                'options' => ['placeholder' => 'Seleccione'],
+                'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+            ]
         ]
     ],
+    'panel' => [
+            'type' => 'primary', 
+            'heading' => '<i class="fa fa-list"></i> Datos Básicos',
+        ],
 ]) ?>
 
 <!-- LOCALIZACION -->

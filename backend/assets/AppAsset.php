@@ -19,6 +19,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/estilo.css', //Hoja de estilo personalizada
     ];
     public $js = [
     ];

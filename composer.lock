@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1a271a880d768085ea63399a60e486dd",
-    "content-hash": "7ce14e71290231e2a2a1ba1c11d48e97",
+    "hash": "f097d4297eb56eacd2211cc31051d8f6",
+    "content-hash": "9262382dc83e0c2aef38ddfceecac374",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -1422,6 +1422,56 @@
                 "yii2"
             ],
             "time": "2016-01-10 12:26:29"
+        },
+        {
+            "name": "kartik-v/yii2-money",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-money.git",
+                "reference": "3c80908ed0d3ea1589067f8acea8c4d981706e0c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-money/zipball/3c80908ed0d3ea1589067f8acea8c4d981706e0c",
+                "reference": "3c80908ed0d3ea1589067f8acea8c4d981706e0c",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": "~1.7"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\money\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An advanced money mask input for Yii 2.0 based on jquery maskmoney plugin styled for Bootstrap 3.",
+            "homepage": "https://github.com/kartik-v/yii2-money",
+            "keywords": [
+                "bootstrap",
+                "bootstrap 3",
+                "currency",
+                "extension",
+                "format",
+                "jquery",
+                "mask",
+                "money",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-06-17 16:48:26"
         },
         {
             "name": "kartik-v/yii2-mpdf",

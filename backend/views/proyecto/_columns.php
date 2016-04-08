@@ -98,10 +98,11 @@ return [
         'header' => 'Acciones',
         'dropdown' => false,
         'vAlign'=>'middle',
+        'template' => '{view} {delete}',
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to([$action,'id'=>$key]);
         },
-        'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+        'deleteOptions'=>['role'=>'modal-remote','title'=>'Eliminar', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',

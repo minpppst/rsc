@@ -84,6 +84,9 @@ class ProyectoController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+        //Formato de las fechas
+        $model->fecha_inicio = \Yii::$app->formatter->asDate($model->fecha_inicio);
+        $model->fecha_fin = \Yii::$app->formatter->asDate($model->fecha_fin);
 
         //Objetivos
         $general = ObjetivosGenerales::find()->where(['id'=>$model->objetivo_general])->one();
@@ -99,6 +102,20 @@ class ProyectoController extends Controller
             ]
         ]);
 
+        //Aquí se guardan los cambios al modelo
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }else{
+
+            return $this->render('view', [
+                'model' => $model,
+                'estrategico' => $estrategico,
+                'nacional' => $nacional,
+                'historico' => $historico,
+                'localizacion' => $localizacion,
+            ]);
+        }
+
         return $this->render('view', [
             'model' => $model,
             'estrategico' => $estrategico,
@@ -106,6 +123,7 @@ class ProyectoController extends Controller
             'historico' => $historico,
             'localizacion' => $localizacion,
         ]);
+
     }
 
     /**
@@ -113,6 +131,7 @@ class ProyectoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    /*
     public function actionCreate()
     {
         $model = new Proyecto();
@@ -145,13 +164,15 @@ class ProyectoController extends Controller
             ]);
         }
     }
-
+    */
+    
     /**
      * Updates an existing Proyecto model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
+    /*
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -186,6 +207,7 @@ class ProyectoController extends Controller
             ]);
         }
     }
+    */
 
     /**
      * Deletes an existing Proyecto model.
