@@ -1,12 +1,12 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use app\models\Proyecto;
-use app\models\ProyectoLocalizacion;
-use app\models\ProyectoLocalizacionSearch;
+use common\models\Proyecto;
+use common\models\ProyectoLocalizacion;
+use common\models\ProyectoLocalizacionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,11 +14,11 @@ use \yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-use app\models\Ambito;
-use app\models\Pais;
-use app\models\Estados;
-use app\models\Municipio;
-use app\models\Parroquia;
+use common\models\Ambito;
+use common\models\Pais;
+use common\models\Estados;
+use common\models\Municipio;
+use common\models\Parroquia;
 
 /**
  * ProyectoLocalizacionController implements the CRUD actions for ProyectoLocalizacion model.
@@ -139,7 +139,7 @@ class ProyectoLocalizacionController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Localización",
+                    'title'=> "Create new ProyectoLocalizacion",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                         'paises' => $paises,
@@ -155,7 +155,7 @@ class ProyectoLocalizacionController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',                   
-                    'title'=> "Localización",
+                    'title'=> "Create new ProyectoLocalizacion",
                     'content'=>'<span class="text-success">Create ProyectoLocalizacion success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -163,7 +163,7 @@ class ProyectoLocalizacionController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Localización",
+                    'title'=> "Create new ProyectoLocalizacion",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                         'paises' => $paises,

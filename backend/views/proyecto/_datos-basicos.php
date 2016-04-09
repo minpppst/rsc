@@ -38,6 +38,7 @@ CrudAsset::register($this);
 <?= DetailView::widget([
     'model' => $model,
     'mode' => 'view',
+    'fadeDelay' => 0,
     'bordered' => true,
     'striped' => true,
     'condensed' => true,

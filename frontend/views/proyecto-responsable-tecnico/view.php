@@ -12,18 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="proyecto-responsable-tecnico-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    <?php if (!Yii::$app->request->isAjax){ ?>
+        <h1><?= Html::encode($this->title) ?></h1>
+    <?php } ?>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -34,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'email:email',
             'telefono',
             'unidad_tecnica',
-            'id_proyecto',
         ],
     ]) ?>
 

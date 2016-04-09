@@ -25,7 +25,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
         'value' => function($model){
-            return StringHelper::truncateWords($model->nombre,15);
+            return StringHelper::truncateWords($model->nombre,10);
         }
     ],
     [

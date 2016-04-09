@@ -4,11 +4,13 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use app\models\ProyectoResponsableTecnico;
-use app\models\ProyectoResponsableTecnicoSearch;
+use common\models\ProyectoResponsableTecnico;
+use common\models\ProyectoResponsableTecnicoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use \yii\web\Response;
+use yii\helpers\Html;
 
 /**
  * ProyectoResponsableTecnicoController implements the CRUD actions for ProyectoResponsableTecnico model.
@@ -73,57 +75,127 @@ class ProyectoResponsableTecnicoController extends Controller
         ]);
     }
 
-    /**
+     /**
      * Creates a new ProyectoResponsableTecnico model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * For ajax request will return json object
+     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate($proyecto)
     {
+        $request = Yii::$app->request;
         $model = new ProyectoResponsableTecnico();
-        $model->id_proyecto = $proyecto;
+        $model->id_proyecto = $proyecto;  
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['proyecto-responsable-administrativo/create', 'proyecto' => $model->id_proyecto]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Create new ProyectoResponsableTecnico",
+                    'content'=>$this->renderAjax('create', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+        
+                ];         
+            }else if($model->load($request->post()) && $model->save()){
+                return [
+                    'forceReload'=>'#responsable',
+                    'title'=> "Create new ProyectoResponsableTecnico",
+                    'content'=>'<span class="text-success">Create ProyectoResponsableTecnico success</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+        
+                ];         
+            }else{           
+                return [
+                    'title'=> "Create new ProyectoResponsableTecnico",
+                    'content'=>$this->renderAjax('create', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+        
+                ];         
+            }
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            if ($model->load($request->post()) && $model->save()) {
+                return $this->redirect(['proyecto-responsable-administrativo/create', 'proyecto' => $model->id_proyecto]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         }
-    }
-
-    public function actionCreateAlt($proyecto)
-    {
-        $model = new ProyectoResponsableTecnico();
-        $model->id_proyecto = $proyecto;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['proyecto/view', 'id' => $model->id_proyecto]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+       
     }
 
     /**
      * Updates an existing ProyectoResponsableTecnico model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * For ajax request will return json object
+     * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $request = Yii::$app->request;
+        $model = $this->findModel($id);       
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['proyecto/view', 'id' => $model->id_proyecto]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Update ProyectoResponsableTecnico #".$id,
+                    'content'=>$this->renderAjax('update', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                ];         
+            }else if($model->load($request->post()) && $model->save()){
+                return [
+                    'forceReload'=>'#responsable',
+                    'title'=> "ProyectoResponsableTecnico #".$id,
+                    'content'=>$this->renderAjax('view', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                ];    
+            }else{
+                 return [
+                    'title'=> "Update ProyectoResponsableTecnico #".$id,
+                    'content'=>$this->renderAjax('update', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                ];        
+            }
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            if ($model->load($request->post()) && $model->save()) {
+                return $this->redirect(['proyecto/view', 'id' => $model->id_proyecto]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         }
     }
+
 
     /**
      * Deletes an existing ProyectoResponsableTecnico model.
@@ -133,11 +205,24 @@ class ProyectoResponsableTecnicoController extends Controller
      */
     public function actionDelete($id)
     {
+        $request = Yii::$app->request;
         $model = $this->findModel($id);
         $proyecto = $model->id_proyecto;
         $model->delete();
 
-        return $this->redirect(['proyecto/view', 'id' => $proyecto]);
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>'#responsable'];
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['proyecto/view', 'id' => $proyecto]);
+        }
+        
     }
 
     /**

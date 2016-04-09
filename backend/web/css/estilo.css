@@ -23,3 +23,11 @@
 	overflow: hidden;
 	width: 100%;
 }
+
+/** PESTAÑAS **/
+.nav-tabs > li > a {
+	border: 0 !important;
+}
+.nav-tabs > li.active > a, nab-tabs > li.active a:focus, nab-tabs > li.active a:hover{
+	background-color: #fff !important;
+}

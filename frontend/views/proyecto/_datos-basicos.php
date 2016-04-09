@@ -22,7 +22,7 @@ use app\models\ObjetivosGenerales;
 
 //Iconos
 $icons=[
-    'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+    'crear'=>'<span class="glyphicon glyphicon-file" aria-hidden="true"></span>',
     'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
     'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
     'recargar' => '<span class="glyphicon glyphicon-repeat"></span>'
@@ -158,14 +158,14 @@ CrudAsset::register($this);
 </div>  
 
 <!-- RESPONSABLES -->
-<div class="panel panel-info" >
+<div class="panel panel-info">
     <div class="panel-heading">
         <h3 class="panel-title"><i class="glyphicon glyphicon-user"></i> Responsables</h3>
     </div>
     <div class="panel-body">
 
         <!-- Responsable -->
-        <div id="responsable">
+        <div id="responsable" data-pjax-container data-pjax-timeout="1000">
             <?= Yii::$app->controller->renderPartial('_responsable', [
                 'model' => $model->responsable,
                 'url' => 'proyecto-responsable',
@@ -182,7 +182,7 @@ CrudAsset::register($this);
         </div>
 
         <!-- Responsable Administrativo -->
-        <div id="administrativo">
+        <div id="administrativo" data-pjax-container data-pjax-timeout="1000">
             <?= Yii::$app->controller->renderPartial('_responsable', [
                 'model' => $model->responsableAdministrativo,
                 'url' => 'proyecto-responsable-administrativo',
@@ -200,7 +200,7 @@ CrudAsset::register($this);
         </div>
 
         <!-- Responsable Tecnico -->
-        <div id="tecnico">
+        <div id="tecnico" data-pjax-container data-pjax-timeout="1000">
             <?= Yii::$app->controller->renderPartial('_responsable', [
                 'model' => $model->responsableTecnico,
                 'url' => 'proyecto-responsable-tecnico',
@@ -218,7 +218,7 @@ CrudAsset::register($this);
         </div>
 
         <!-- Registrador -->
-        <div id="registrador">
+        <div id="registrador" data-pjax-container data-pjax-timeout="1000">
             <?= Yii::$app->controller->renderPartial('_responsable', [
                 'model' => $model->registrador,
                 'url' => 'proyecto-registrador',

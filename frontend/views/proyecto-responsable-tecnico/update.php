@@ -5,14 +5,17 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectoResponsableTecnico */
 
-$this->title = 'Update Proyecto Responsable Tecnico: ' . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Proyecto Responsable Tecnicos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Responsable Tecnico: ' . ' ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Proyecto', 'url' => ['proyecto/index']];
+$this->params['breadcrumbs'][] = ['label' => $model->id_proyecto, 'url' => ['proyecto/view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = 'Editar';
 ?>
 <div class="proyecto-responsable-tecnico-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php if (!Yii::$app->request->isAjax){ ?>
+    	<h1><?= Html::encode($this->title) ?></h1>
+    <?php } ?>
 
     <?= $this->render('_form', [
         'model' => $model,
