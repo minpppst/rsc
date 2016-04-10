@@ -15,11 +15,13 @@ use yii\bootstrap\Modal;
     </div>
     
     <div class="well">
+
         <?= Html::a($icons['crear'].' Nuevo', [$url.'/create', 'proyecto' => $proyecto], [
             'class' => 'btn btn-default',
             'role'=>'modal-remote',
-            'title'=> 'Editar',
+            'title'=> 'Nuevo',
         ]) ?>
+
     </div>
 
 <?php else: ?> <!-- Existe -->
@@ -43,6 +45,7 @@ use yii\bootstrap\Modal;
             ]) ?>
             <?= Html::button($icons['eliminar'].' Eliminar', [
                 'class' => 'btn btn-danger',
+                'title'=> 'Eliminar',
                 'onclick' => new JsExpression('
                     $(".modal-header").html("<h4 class=\'modal-title\'>Eliminar '.$nombre.'</h4>");
                     $(".modal-body").html("¿Está seguro que desea eliminar este elemento?");

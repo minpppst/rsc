@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
 use yii\helpers\Json;
@@ -10,6 +10,7 @@ use common\models\ProyectoAlcanceSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use \yii\web\Response;
 
 use common\models\UnidadMedida;
 use common\models\InstanciaInstitucion;
@@ -72,11 +73,27 @@ class ProyectoAlcanceController extends Controller
      */
     public function actionView($id)
     {
-        $html = $this->renderPartial('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model = $this->findModel($id);
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
-        return Json::encode($html);
+        //Listas desplegables
+        $unidadMedida = UnidadMedida::find()->all();
+        $instanciaInstitucion = InstanciaInstitucion::find()->all();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['proyecto/view', 'id' => $model->id_proyecto]);
+        } else {
+            return $this->renderAjax('view', [
+                'model' => $model,
+                'unidadMedida' => $unidadMedida,
+                'instanciaInstitucion' => $instanciaInstitucion,
+            ]);
+        }
+        
+        return $this->renderAjax('view', [
+            'model' => $model,
+        ]);
     }
 
     /**

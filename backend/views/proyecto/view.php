@@ -59,7 +59,7 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
                 'active' => true,
             ],
             [
-                'label' => 'Alcance e Impacto',
+                'label' => 'Alcance e Impacto',                
                 'content' => $alcanceImpacto,
                 'linkOptions' => [
                     'data-url' => $model->alcance == null ? '' : Url::to(['proyecto-alcance/view', 'id' => $model->alcance->id]),
