@@ -93,3 +93,12 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
     ]
 ])?>
 <?php Modal::end(); ?>
+
+<script>
+    //Actualizar el monto en el hidden input al escribir
+    window.onload = function(){
+        jQuery("#proyecto-monto_proyecto-disp").on('keyup', function(){
+            jQuery("#proyecto-monto_proyecto").val(jQuery(this).maskMoney('unmasked')[0]);
+        });
+    };
+</script>

@@ -8,6 +8,7 @@ use yii\bootstrap\ActiveForm;
 use yii\jui\AutoComplete;
 use yii\web\JsExpression;
 use kartik\date\DatePicker;
+use kartik\money\MaskMoney;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Proyecto */
@@ -56,9 +57,12 @@ use kartik\date\DatePicker;
 
             <?= $form->field($model, 'situacion_presupuestaria')->dropDownList(ArrayHelper::map($situacion_presupuestaria,'id','situacion'),['prompt'=>'Seleccione']) ?>
 
-            <?= $form->field($model, 'monto_proyecto', [
-                'inputTemplate' => '<div class="input-group"><span class="input-group-addon">Bs.</span>{input}</div>',
-            ])->input('number', ['min' => 1, 'step' => 0.01]) ?>
+            <?= $form->field($model, 'monto_proyecto')->widget(MaskMoney::classname(), [                
+                'pluginOptions' => [
+                    'prefix' => 'Bs. ',
+                    'allowNegative' => false,
+                ]
+            ]) ?>
 
             <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
@@ -126,3 +130,12 @@ use kartik\date\DatePicker;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<script>
+    //Actualizar el monto en el hidden input al escribir
+    window.onload = function(){
+        jQuery("#proyecto-monto_proyecto-disp").on('keyup', function(){
+            jQuery("#proyecto-monto_proyecto").val(jQuery(this).maskMoney('unmasked')[0]);
+        });
+    };
+</script>
