@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use app\models\AcEspUej;
-use app\models\AcEspUejSearch;
+use frontend\models\AcEspUej;
+use frontend\models\AcEspUejSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,7 +12,7 @@ use \yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
-use app\models\UnidadEjecutora;
+use frontend\models\UnidadEjecutora;
 use yii\filters\AccessControl;
 
 

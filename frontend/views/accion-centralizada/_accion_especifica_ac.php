@@ -60,7 +60,7 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
             'attribute'=>'nombre',
         ],
 
-        [
+        /*[
             'class' => '\kartik\grid\DataColumn',
             'width' => '50px',
             'attribute' => 'estatus',
@@ -90,7 +90,7 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
                 }
             },
             'format' => 'raw'
-        ],
+        ],*/
         [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'fecha_inicio',
@@ -175,7 +175,7 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
                     'data-request-method'=>'post',
                     'data-confirm-title'=>'¿Está seguro?',
                     'data-confirm-message'=>'¿Está seguro que desea eliminar los elementos seleccionados?'
-                ]).' '.
+                ]),/*.' '.
                 Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
                     ["/ac-ac-espec/bulk-estatusdesactivo"] ,
                     [
@@ -195,7 +195,7 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
                         'data-request-method'=>'post',
                         'data-confirm-title'=>'¿Está seguro?',
                         'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
-                    ]),
+                    ]),*/
         ]).                       
         '<div class="clearfix"></div>',
     ]

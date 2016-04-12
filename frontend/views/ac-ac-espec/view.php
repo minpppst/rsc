@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\AcAcEspec */
 ?>
 <div class="ac-ac-espec-view">
- 
+
     <?= DetailView::widget([
         'model' => $model,
 
@@ -39,7 +39,8 @@ use yii\widgets\DetailView;
 
              [
             'label' => 'Unidades Ejecutoras',
-            'value' => (!empty($rows)) ?  $rows : 'NULL' 
+            //'value' => (!empty($rows)) ?  $rows : 'NULL' 
+            'value' => $rows
             ],
         ],
     ]) ?>
