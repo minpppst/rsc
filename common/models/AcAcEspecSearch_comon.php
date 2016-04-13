@@ -1,14 +1,14 @@
 <?php
 
-namespace backend\models;
+namespace app\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\AcAcEspec;
+use app\models\AcAcEspec;
 
 /**
- * AcAcEspecSearch represents the model behind the search form about `backend\models\AcAcEspec`.
+ * AcAcEspecSearch represents the model behind the search form about `app\models\AcAcEspec`.
  */
 class AcAcEspecSearch extends AcAcEspec
 {

@@ -4,7 +4,6 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use frontend\models\AcEspUej;
 /**
  * This is the model class for table "accion_centralizada_accion_especifica".
  *
@@ -13,8 +12,6 @@ use frontend\models\AcEspUej;
  * @property string $cod_ac_espe
  * @property string $nombre
  * @property string $estatus
- * @property string $fecha_inicio 
- * @property string $fecha_fin
  *
  * @property AccionCentralizada $idAcCentr
  * @property AcVariable[] $acVariables
@@ -29,21 +26,25 @@ class AcAcEspec extends \yii\db\ActiveRecord
         return 'accion_centralizada_accion_especifica';
     }
 
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            
-            [['id_ac_centr', 'cod_ac_espe', 'nombre', 'estatus', 'fecha_inicio', 'fecha_fin',], 'required'],
+             //[['cod_ac_espe'],'unique'],
+            [['id_ac_centr', 'cod_ac_espe', 'nombre', 'estatus'], 'required'],
             [['id_ac_centr'], 'integer'],
             [['cod_ac_espe'], 'unique'],
-            [['fecha_inicio', 'fecha_fin'], 'safe'],
-            [['id_ac_centr'], 'exist', 'skipOnError' => true, 'targetClass' => AccionCentralizada::className(), 'targetAttribute' => ['id_ac_centr' => 'id']],
-            
-            //[['nombre'], 'string'], no valida campos largos
-            [['cod_ac_espe'], 'string', 'max' => 6]
+            [['nombre'], 'string'],
+            [['cod_ac_espe'], 'string', 'max' => 3]
         ];
     }
 
@@ -69,13 +70,6 @@ class AcAcEspec extends \yii\db\ActiveRecord
     {
         return $this->hasOne(AccionCentralizada::className(), ['id' => 'id_ac_centr']);
     }
-
-    public function getIdAccuej()
-    {
-        return $this->hasmany(AcEspUej::className(), ['id_ac_esp' => 'id']);
-    }
-
-
 
     /**
      * @return \yii\db\ActiveQuery
@@ -132,23 +126,4 @@ class AcAcEspec extends \yii\db\ActiveRecord
 
         return true;
      }
-
-
-
-     function uejecutoras($id_uej){
-
-        $model_uej=new AcEspUej;
-        $model_uej->id_ue=$id_uej;
-        $model_uej->id_ac_esp=$this->id;
-        if($model_uej->save()){
-            return true;
-        }else{
-            return false;
-        }
-
-     }
-
-
-
-
 }
