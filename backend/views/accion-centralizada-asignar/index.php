@@ -46,7 +46,7 @@ $icons=[
             //'id',
             'username',
 
-            [
+            /*[
                 'class' => '\kartik\grid\DataColumn',
                 'width' => '50px',
                 'attribute' => 'blocked_at',
@@ -73,7 +73,7 @@ $icons=[
                     }
                 },
                 'format' => 'raw',
-            ],
+            ],*/
 
             [
                 'class' => 'kartik\grid\ActionColumn',

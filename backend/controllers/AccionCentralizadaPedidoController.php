@@ -17,8 +17,8 @@ use yii\helpers\ArrayHelper;
 
 use backend\models\AcAcEspec;
 use backend\models\AcAcEspecSearch;
-use backend\models\AccionCentralizadaPedido;
-use backend\models\AccionCentralizadaPedidoSearch;
+use common\models\AccionCentralizadaPedido;
+use common\models\AccionCentralizadaPedidoSearch;
 use common\models\AccionCentralizadaAsignar;
 use common\models\AccionCentralizadaAsignarSearch;
 use common\models\MaterialesServicios;

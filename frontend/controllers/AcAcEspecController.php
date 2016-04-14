@@ -4,11 +4,11 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\helpers\Json;
-use frontend\models\AcAcEspec;
-use frontend\models\UnidadEjecutora;
-use frontend\models\UnidadEjecutoraSearch;
-use frontend\models\AcEspUej;
-use frontend\models\AcAcEspecSearch;
+use common\models\AcAcEspec;
+use common\models\AcAcEspecSearch;
+use common\models\UnidadEjecutora;
+use common\models\UnidadEjecutoraSearch;
+use common\models\AcEspUej;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,7 +18,7 @@ use yii\helpers\Url;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
-use frontend\models\UploadForm;
+use common\models\UploadForm;
 
 /**
  * AcAcEspecController implements the CRUD actions for AcAcEspec model.

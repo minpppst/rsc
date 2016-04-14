@@ -5,15 +5,15 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\ProyectoPedido;
+use common\models\AccionCentralizadaPedido;
 
 /**
- * ProyectoPedidoSearch represents the model behind the search form about `app\models\ProyectoPedido`.
+ * AccionCentralizadaPedidoSearch represents the model behind the search form about `app\models\AccionCentralizadaPedido`.
  */
 class AccionCentralizadaPedidoSearch extends AccionCentralizadaPedido
 {
     public $nombreMaterial;
-
+    public $idUnidadEjecutora;
     /**
      * @inheritdoc
      */
@@ -47,6 +47,7 @@ class AccionCentralizadaPedidoSearch extends AccionCentralizadaPedido
         $query = AccionCentralizadaPedido::find();
         // Join para la relacion
         $query->joinWith(['idMaterial']);
+        $query->joinWith(['asignado0']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,6 +57,10 @@ class AccionCentralizadaPedidoSearch extends AccionCentralizadaPedido
         $dataProvider->sort->attributes['nombreMaterial'] = [
             'asc' => ['materiales_servicios.nombre' => SORT_ASC],
             'desc' => ['materiales_servicios.nombre' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['idUnidadEjecutora'] = [
+            'asc' => ['accion_centralizada_asignar.unidad_ejecutora' => SORT_ASC],
+            'desc' => ['accion_centralizada_asignar.unidad_ejecutora' => SORT_DESC],
         ];
 
         $this->load($params);
@@ -88,6 +93,7 @@ class AccionCentralizadaPedidoSearch extends AccionCentralizadaPedido
         ]);
 
         $query->andFilterWhere(['like','materiales_servicios.nombre',$this->nombreMaterial]);
+        $query->andFilterWhere(['accion_centralizada_asignar.unidad_ejecutora' => $this->idUnidadEjecutora]);
 
         return $dataProvider;
     }

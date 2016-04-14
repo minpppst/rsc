@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use frontend\models\AcEspUej;
+use common\models\AcEspUej;
 /**
  * This is the model class for table "accion_centralizada_accion_especifica".
  *

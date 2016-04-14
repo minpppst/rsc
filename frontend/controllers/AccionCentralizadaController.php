@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
-use frontend\models\UploadForm;
+use common\models\UploadForm;
 /**
  * AccionCentralizadaController implements the CRUD actions for AccionCentralizada model.
  */
@@ -59,7 +59,8 @@ class AccionCentralizadaController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new AccionCentralizadaSearch();
+        $searchModel = new AccionCentralizadaSearch;
+         $searchModel->estatus = 1;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

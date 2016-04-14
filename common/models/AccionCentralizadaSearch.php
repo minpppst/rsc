@@ -19,7 +19,7 @@ class AccionCentralizadaSearch extends AccionCentralizada
     {
         return [
             [['id'], 'integer'],
-            [['codigo_accion', 'codigo_accion_sne', 'nombre_accion', 'fecha_inicio', 'fecha_fin'], 'safe'],
+            [['codigo_accion', 'codigo_accion_sne', 'nombre_accion', 'fecha_inicio', 'fecha_fin', 'estatus'], 'safe'],
         ];
     }
 
@@ -64,6 +64,7 @@ class AccionCentralizadaSearch extends AccionCentralizada
             ->andFilterWhere(['like', 'fecha_inicio', $this->fecha_inicio])
             
             ->andFilterWhere(['like', 'fecha_fin', $this->fecha_fin])
+            ->andFilterWhere(['like', 'estatus', $this->estatus])
             ->andFilterWhere(['like', 'nombre_accion', $this->nombre_accion]);
 
         return $dataProvider;

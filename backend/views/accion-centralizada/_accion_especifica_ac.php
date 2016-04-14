@@ -60,37 +60,7 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
             'attribute'=>'nombre',
         ],
 
-        [
-            'class' => '\kartik\grid\DataColumn',
-            'width' => '50px',
-            'attribute' => 'estatus',
-            'value' => function ($model) {
-                if ($model->estatus == 1) {
-
-                    
-                    return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id],[
-                                'class' => 'btn btn-xs btn-success btn-block',
-                                'role' => 'modal-remote',
-                                'data-confirm' => false, 'data-method' => false, // for overide yii data api
-                               
-                                'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
-                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea desactivar este elemento?'),
-                               ]);
-                } else { 
-                    return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id],[
-                                'class' => 'btn btn-xs btn-warning btn-block',
-                                'role' => 'modal-remote',
-                                'data-confirm' => false, 'data-method' => false, // for overide yii data api
-                                
-                                'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
-                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea activar este elemento?'),
-                                
-                                    
-                    ]);
-                }
-            },
-            'format' => 'raw'
-        ],
+        
         [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'fecha_inicio',
@@ -125,6 +95,39 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
             ]
         ]
     ],
+
+
+        [
+            'class' => '\kartik\grid\DataColumn',
+            'width' => '50px',
+            'attribute' => 'estatus',
+            'value' => function ($model) {
+                if ($model->estatus == 1) {
+
+                    
+                    return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id],[
+                                'class' => 'btn btn-xs btn-success btn-block',
+                                'role' => 'modal-remote',
+                                'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                               
+                                'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea desactivar este elemento?'),
+                               ]);
+                } else { 
+                    return Html::a($model->nombreEstatus, ['/ac-ac-espec/toggle-activo', 'id' => $model->id],[
+                                'class' => 'btn btn-xs btn-warning btn-block',
+                                'role' => 'modal-remote',
+                                'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                                
+                                'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea activar este elemento?'),
+                                
+                                    
+                    ]);
+                }
+            },
+            'format' => 'raw'
+        ],
         
         [
             'class' => 'kartik\grid\ActionColumn',
@@ -149,12 +152,12 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
     ],
     'toolbar'=> [
         ['content'=>                  
-            Html::a($icons['crear'].' Nuevo', ['/ac-ac-espec/create','ac_centralizada' => $searchModel['id_ac_centr']],
-            ['role'=>'modal-remote','title'=> 'Crear Nueva  Accion Especifica','class'=>'btn btn-default']).
+           // Html::a($icons['crear'].' Nuevo', ['/ac-ac-espec/create','ac_centralizada' => $searchModel['id_ac_centr']],
+           // ['role'=>'modal-remote','title'=> 'Crear Nueva  Accion Especifica','class'=>'btn btn-default']).
             '{toggleData}'.
-            '{export}'.
-            Html::a($icons['importar'].' Importar', ['/ac-ac-espec/importar','accion_central' => $searchModel['id_ac_centr']],
-            ['title'=> 'Importar Acciones Centralizadas','class'=>'btn btn-default'])
+            '{export}'
+           // Html::a($icons['importar'].' Importar', ['/ac-ac-espec/importar','accion_central' => $searchModel['id_ac_centr']],
+           // ['title'=> 'Importar Acciones Centralizadas','class'=>'btn btn-default'])
         ],
     ],          
     'striped' => true,

@@ -129,11 +129,11 @@ CrudAsset::register($this);
         'toolbar'=> [
             [ 
                 'content'=>                  
-                    Html::a($icons['crear'].' Nuevo', ['create'], ['class' => 'btn btn-default']).
+                    //Html::a($icons['crear'].' Nuevo', ['create'], ['class' => 'btn btn-default']).
                     '{toggleData}'.
-                    '{export}'.
-                    Html::a($icons['importar'].' Importar', ['importar'],
-                    ['title'=> 'Importar Acciones Centralizadas','class'=>'btn btn-default'])
+                    '{export}'
+                    //Html::a($icons['importar'].' Importar', ['importar'],
+                    //['title'=> 'Importar Acciones Centralizadas','class'=>'btn btn-default'])
             ],
         ],
         'panel' => [

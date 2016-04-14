@@ -4,8 +4,11 @@ namespace common\models;
 
 use Yii;
 
+use common\models\AccionCentralizadaAsignar;
+use common\models\MaterialesServicios;
+
 /**
- * This is the model class for table "proyecto_pedido".
+ * This is the model class for table "accion_centralizada_pedido".
  *
  * @property integer $id
  * @property integer $id_material
@@ -39,19 +42,12 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
         return 'accion_centralizada_pedido';
     }
 
-    public function behaviors()
-    {
-        return [
-            'bedezign\yii2\audit\AuditTrailBehavior'
-        ];
-    }
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        return [
+       return [
             [['id_material',  'precio', 'asignado', 'estatus'], 'required'],
             [['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],  'default', 'value' => '0'],
             [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'asignado', 'estatus'], 'integer', 'min' => 0],
@@ -62,9 +58,7 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
         ];
     }
 
-
-
-    public function numero_ingresado($attribute){
+     public function numero_ingresado($attribute){
 
         if($this->enero<=0 && $this->febrero<=0 && $this->marzo<=0 && $this->abril<=0 && $this->mayo<=0 && $this->junio<=0 && $this->julio<=0 && $this->agosto<=0 && $this->septiembre<=0 && $this->octubre<=0 && $this->noviembre<=0 && $this->diciembre<=0 )
              $this->addError($attribute, 'Error, Necesita Cargar Al Menos Una Cantidad Positiva En Uno De Los Meses');
@@ -97,10 +91,14 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
             'noviembre' => 'Noviembre',
             'diciembre' => 'Diciembre',
             'precio' => 'Precio',
-            'fecha_creacion' => 'Fecha Creacion',
+            'fecha_creacion' => 'Fecha de Creación',
             'asignado' => 'ID de la asignacion (Usuario-UE-AC)',
             'estatus' => 'Estatus',
-            'nombreEstatus' => 'Estatus'
+            'nombreEstatus' => 'Estatus',
+            'nombreUsuario' => 'Usuario',
+            'subTotal' => 'Sub-Total',
+            'iva' => 'IVA',
+            'total' => 'Total'
         ];
     }
 
@@ -110,6 +108,14 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
     public function getAsignado0()
     {
         return $this->hasOne(AccionCentralizadaAsignar::className(), ['id' => 'asignado']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombreUsuario()
+    {
+        return $this->asignado0->usuario0->username;
     }
 
     /**
@@ -163,6 +169,43 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
     public function getTrimestre4()
     {
         return ($this->octubre+$this->noviembre+$this->diciembre);
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTotalTrimestre()
+    {
+        return (
+            $this->trimestre1 +
+            $this->trimestre2 +
+            $this->trimestre3 +
+            $this->trimestre4
+        );
+    }
+
+    /**
+     * @return integer
+     */
+    public function getSubTotal()
+    {
+        return ($this->totalTrimestre * $this->precio);
+    }
+
+    /**
+     * @return integer
+     */
+    public function getIva()
+    {
+        return ($this->subTotal / 100 * $this->idMaterial->iva);
+    }
+
+    /** 
+     * @return string
+     */
+    public function getTotal()
+    {
+        return \Yii::$app->formatter->asCurrency(($this->subTotal + $this->iva));
     }
 
     /**
