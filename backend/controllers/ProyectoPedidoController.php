@@ -83,10 +83,10 @@ class ProyectoPedidoController extends Controller
      * @param integer $ue unidad ejecutora
      * @return mixed
      */
-    public function actionPedido($ue)
+    public function actionPedido($ue, $id = null)
     {
         //Datos para el gridview
-        $searchModel = new ProyectoPedidoSearch(['idUnidadEjecutora' => $ue]);
+        $searchModel = new ProyectoPedidoSearch(['idUnidadEjecutora' => $ue, 'id' => $id]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         //Otros datos

@@ -72,7 +72,7 @@ class ProyectoPedidoSearch extends ProyectoPedido
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'proyecto_pedido.id' => $this->id,
             'id_material' => $this->id_material,
             'enero' => $this->enero,
             'febrero' => $this->febrero,

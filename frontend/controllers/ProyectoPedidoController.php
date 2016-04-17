@@ -196,6 +196,7 @@ class ProyectoPedidoController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                $model->trigger(ProyectoPedido::EVENT_NUEVO_PEDIDO); //Notificacion
                 return [
                     'forceReload'=>'true',
                     'title'=> "Requerimiento",
@@ -330,7 +331,7 @@ class ProyectoPedidoController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
+            return ['forceClose'=>true,'forceReload'=>'true'];    
         }else{
             /*
             *   Process for non-ajax request

@@ -17,7 +17,7 @@
         <!-- search form -->
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search..."/>
+                <input type="text" name="q" class="form-control" placeholder="Buscar..."/>
               <span class="input-group-btn">
                 <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
@@ -44,18 +44,13 @@
                     ['label' => 'Proyectos y Acciones Centralizadas', 'options' => ['class' => 'header']],
                     //Items
                     ['label' => 'Proyecto', 'icon' => 'fa fa-folder', 'url' => ['/proyecto/index']],
-                    ['label' => 'Acción Centralizada', 'icon' => 'fa fa-folder-open', 'url' => ['/accion-centralizada/index']],
-
-                    //ASIGNACIONES
-                    //Header
-                    ['label' => 'Asignaciones', 'options' => ['class' => 'header']],
-                    //Items
-                    ['label' => 'Proyecto', 'icon' => 'fa fa-folder-o', 'url' => ['/proyecto-asignar/index']],
-                    ['label' => 'Acción Centralizada', 'icon' => 'fa fa-folder-open-o', 'url' => ['/accion-centralizada-asignar/index']],
+                    ['label' => 'Acción Centralizada', 'icon' => 'fa fa-folder-open', 'url' => ['/accion-centralizada/index']],                   
 
                     //PEDIDOS
                     ['label' => 'Requerimientos/Solicitudes', 'options' => ['class' => 'header']],
                     //Items
+                    ['label' => 'Asignar a proyecto', 'icon' => 'fa fa-folder-o', 'url' => ['/proyecto-asignar/index']],
+                    ['label' => 'Asignar acción centralizada', 'icon' => 'fa fa-folder-open-o', 'url' => ['/accion-centralizada-asignar/index']],
                     ['label' => 'Proyecto requerimiento', 'icon' => 'fa fa-shopping-cart ', 'url' => ['/proyecto-pedido/index']],
                     ['label' => 'ACC requerimiento', 'icon' => 'fa fa-shopping-basket ', 'url' => ['/accion-centralizada-pedido/index']],
 

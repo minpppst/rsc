@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 
 return [
     [
@@ -25,6 +26,9 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'header' => 'Proyecto',
         'attribute'=>'accionEspecifica.idProyecto.nombre',
+        'value' => function($model){
+            return StringHelper::truncateWords($model->accionEspecifica->idProyecto->nombre,10);
+        }
     ],    
     [
         'class'=>'\kartik\grid\DataColumn',

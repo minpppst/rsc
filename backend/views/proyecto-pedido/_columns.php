@@ -13,6 +13,7 @@ $columnas = [
         'width' => '30px',
     ],
 
+    'id',
     'nombreMaterial',
     'trimestre1',
     'trimestre2',

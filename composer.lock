@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f097d4297eb56eacd2211cc31051d8f6",
-    "content-hash": "9262382dc83e0c2aef38ddfceecac374",
+    "hash": "36c852b8d4b43551439d3802ad835ef6",
+    "content-hash": "023c31ddc4a3288072add69b639b762f",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -1626,7 +1626,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/3f7b38886e334a2c8c4262f155d98812461efd36",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/52606c8764a174aa0d5e6483ed811f617c74ee4e",
                 "reference": "3f7b38886e334a2c8c4262f155d98812461efd36",
                 "shasum": ""
             },
@@ -1821,6 +1821,51 @@
                 "yii2"
             ],
             "time": "2016-03-10 11:33:59"
+        },
+        {
+            "name": "machour/yii2-notifications",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/machour/yii2-notifications.git",
+                "reference": "7a3b3970ed4a4dd111a890483e01a68d010882a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/machour/yii2-notifications/zipball/7a3b3970ed4a4dd111a890483e01a68d010882a7",
+                "reference": "7a3b3970ed4a4dd111a890483e01a68d010882a7",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "machour\\yii2\\notifications\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Mehdi Achour",
+                    "email": "machour@gmail.com"
+                }
+            ],
+            "description": "Notifications for your Yii2 app",
+            "keywords": [
+                "growl",
+                "notification",
+                "notify",
+                "noty",
+                "yii"
+            ],
+            "time": "2016-01-18 15:06:46"
         },
         {
             "name": "miloschuman/yii2-highcharts-widget",
@@ -2638,7 +2683,8 @@
         "kartik-v/yii2-widget-select2": 20,
         "kartik-v/dependent-dropdown": 20,
         "kartik-v/yii2-widget-depdrop": 20,
-        "kartik-v/yii2-widget-datepicker": 20
+        "kartik-v/yii2-widget-datepicker": 20,
+        "machour/yii2-notifications": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

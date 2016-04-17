@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\components\Notification;
 
 /**
  * This is the model class for table "proyecto_pedido".
@@ -31,6 +32,20 @@ use Yii;
  */
 class ProyectoPedido extends \yii\db\ActiveRecord
 {
+
+    /**
+     * Constante que guarda el nombre del evento
+     */
+    const EVENT_NUEVO_PEDIDO = 'evento_nuevo_pedido';
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        $this->on(self::EVENT_NUEVO_PEDIDO, [$this, 'notificacion']);
+    }
+
     /**
      * @inheritdoc
      */
@@ -94,6 +109,14 @@ class ProyectoPedido extends \yii\db\ActiveRecord
             'total' => 'Total'
         ];
     }
+
+    /**
+     * Notificacion
+     */
+     public function notificacion($evento)
+     {
+        Notification::notify(Notification::KEY_NUEVO_PEDIDO, 1, $this->id);
+     }
 
     /**
      * @return \yii\db\ActiveQuery
