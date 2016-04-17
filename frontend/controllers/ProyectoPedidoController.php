@@ -149,6 +149,7 @@ class ProyectoPedidoController extends Controller
     {
         $request = Yii::$app->request;
         $model = new ProyectoPedido();
+        $model->estatus = 1;
         //Inicializar los meses en 0
         $model->enero = 0;
         $model->febrero = 0;

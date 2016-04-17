@@ -12,43 +12,33 @@ use kartik\select2\Select2;
 
 ?>
 
-<div class="proyecto-pedido-form">
+<div class="proyecto-pedido-form required">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class="form-group">
-
-        <label>Material</label>
-
-        <?= Select2::widget([
-            'model' => $model,
-            'theme' => Select2::THEME_KRAJEE,
-            'name' => 'material',
-            'attribute' => 'id_material',
-            'data' => ArrayHelper::map($materiales,'id','nombre'),
-            'options' => [
+    <?= $form->field($model, 'id_material')->widget(Select2::classname(), [
+        'theme' => Select2::THEME_KRAJEE,
+        'data' => ArrayHelper::map($materiales,'id','nombre'),
+        'options' => [
                 'placeholder' => 'Escriba para buscar un material o servicio',
-                'id'=>'material'
             ],
-            'pluginOptions' => [
-                'allowClear' => true
-            ],
-            'addon' => [
-                'prepend' => [
-                    'content' => '<span class="glyphicon glyphicon-cutlery"></span>'
-                ]
-            ],
-            'pluginEvents' => [
-            // Usar el arreglo JSON para colocar precio, iva, etc
-                "select2:select" => "function() {
-                    var arreglo =  ".$precios.";
-                    $('#proyectopedido-precio').val(arreglo[$(this).val()]['precio']);
-                    $('#iva-porcentaje').val(arreglo[$(this).val()]['iva']);
-                }",
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+        'addon' => [
+            'prepend' => [
+                'content' => '<span class="glyphicon glyphicon-cutlery"></span>'
             ]
-        ])?>
-
-    </div>
+        ],
+        'pluginEvents' => [
+        // Usar el arreglo JSON para colocar precio, iva, etc
+            "select2:select" => "function() {
+                var arreglo =  ".$precios.";
+                $('#proyectopedido-precio').val(arreglo[$(this).val()]['precio']);
+                $('#iva-porcentaje').val(arreglo[$(this).val()]['iva']);
+            }",
+        ]
+    ]) ?>
 
     <?= $form->field($model, 'precio', [
         'inputTemplate' => '<div class="input-group"><span class="input-group-addon">Bs.</span>{input}</div>',
@@ -147,9 +137,6 @@ use kartik\select2\Select2;
 
     <?= Html::activeHiddenInput($model, 'asignado') ?>
 
-    <?= $form->field($model, 'estatus')->dropDownList([1=>'Activo',0=>'Inactivo'],['prompt'=>'Seleccione']) ?>
-
-  
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -169,7 +156,7 @@ use kartik\select2\Select2;
 
         /** EVENTOS **/
 
-        $('#material').on('change', function(){
+        $('#proyectopedido-id_material').on('change', function(){
             initTotal();
         });
 

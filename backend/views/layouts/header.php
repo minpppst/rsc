@@ -7,7 +7,8 @@ use machour\yii2\notifications\widgets\NotificationsWidget;
 ?>
 
 <!-- NOTIFICACIONES -->
-<?= NotificationsWidget::widget([
+<?php 
+    NotificationsWidget::widget([
         'theme' => NotificationsWidget::THEME_GROWL,
         'clientOptions' => [
             'location' => 'es',
@@ -17,7 +18,26 @@ use machour\yii2\notifications\widgets\NotificationsWidget;
             '.notifications-icon-count'
         ],
         'listSelector' => '#notifications',
-    ]) ?>
+        //Template para las notificaciones
+        'listItemTemplate' => '
+            <div class="row">
+                <div class="col-xs-10">
+                    <div class="title">{title}</div>
+                    <small>{description}</small>
+                    <div class="timeago">
+                        <div class="notification-timeago">{timeago}</div>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="actions pull-right">
+                        <span class="notification-seen fa fa-check" title="Marcar como visto"></span>
+                        <span class="notification-delete fa fa-close" title="Eliminar notificación"></span>
+                    </div>
+                </div>
+            </div>'
+        
+    ]);
+?>
 
 <header class="main-header">
 

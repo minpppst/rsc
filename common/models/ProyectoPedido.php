@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\rbac\DbManager;
 use common\components\Notification;
 
 /**
@@ -115,7 +116,12 @@ class ProyectoPedido extends \yii\db\ActiveRecord
      */
      public function notificacion($evento)
      {
-        Notification::notify(Notification::KEY_NUEVO_PEDIDO, 1, $this->id);
+        //Ids de los usuarios con el rol "proyecto_pedido"
+        $usuarios = \Yii::$app->authManager->getUserIdsByRole('proyecto_pedido');
+        foreach ($usuarios as $key => $usuario) {
+            Notification::notify(Notification::KEY_NUEVO_PEDIDO, $usuario, $this->id);
+        }
+        
      }
 
     /**

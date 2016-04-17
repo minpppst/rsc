@@ -130,102 +130,6 @@ class ProyectoPedidoController extends Controller
     }
 
     /**
-     * Creates a new ProyectoPedido model.
-     * For ajax request will return json object
-     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate($asignar)
-    {
-        $request = Yii::$app->request;
-        $model = new ProyectoPedido();
-        $model->asignado = $asignar;
-        //Inicializar los meses en 0
-        $model->enero = 0;
-        $model->febrero = 0;
-        $model->marzo = 0;
-        $model->abril = 0;
-        $model->mayo = 0;
-        $model->junio = 0;
-        $model->julio = 0;
-        $model->agosto = 0;
-        $model->septiembre = 0;
-        $model->octubre = 0;
-        $model->noviembre = 0;
-        $model->diciembre = 0;
-        $model->asignado = $asignar;
-        //Precio en 0
-        $model->precio = 0;
-
-        //autocomplete
-        $materiales = MaterialesServicios::find()
-                ->select(['nombre', 'id', 'precio', 'iva'])
-                ->all();
-
-        //Arreglo de precios, iva, etc con id del material/servicio
-        $precios = json_encode( //JSON
-            ArrayHelper::toArray( //Convertir a arreglo
-                ArrayHelper::index($materiales,'id') //Indice del arreglo el id del material
-            )
-        );
-
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> "Pedido",
-                    'content'=>$this->renderAjax('create', [
-                        'model' => $model,
-                        'materiales' => $materiales,
-                        'precios' => $precios
-                    ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Guardar',['class'=>'btn btn-success','type'=>"submit"])
-        
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'true',
-                    'title'=> "Pedido",
-                    'content'=>'<span class="text-success">Crear Pedido success</span>',
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Asignar otro',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];         
-            }else{           
-                return [
-                    'title'=> "Pedido",
-                    'content'=>$this->renderAjax('create', [
-                        'model' => $model,
-                        'materiales' => $materiales,
-                        'precios' => $precios
-                    ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Guardar',['class'=>'btn btn-success','type'=>"submit"])
-        
-                ];         
-            }
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                return $this->render('create', [
-                    'model' => $model,
-                    'materiales' => $materiales,
-                    'precios' => $precios
-                ]);
-            }
-        }
-       
-    }
-
-    /**
      * Updates an existing ProyectoPedido model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
@@ -329,8 +233,6 @@ class ProyectoPedidoController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
     /**

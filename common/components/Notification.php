@@ -27,7 +27,7 @@
         {
             switch ($this->key) {
                 case self::KEY_NUEVO_PEDIDO:
-                    return Yii::t('app', 'Nuevo pedido.');
+                    return Yii::t('app', 'Nuevo pedido/requerimiento');
             }
         }
 
@@ -39,7 +39,8 @@
             switch ($this->key) {
                 case self::KEY_NUEVO_PEDIDO:
                     $pedido = ProyectoPedido::findOne($this->key_id);
-                    return Yii::t('app', 'Pedido por {usuario}', [
+                    return Yii::t('app', 'Pedido #{pedido} por {usuario}', [
+                        'pedido' => $pedido->id,
                         'usuario' => $pedido->asignado0->usuario0->username
                     ]);
             }
