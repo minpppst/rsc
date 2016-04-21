@@ -1,11 +1,12 @@
 <?php
 
 namespace common\models;
-
+//use machour\yii2\notifications\models\Notification;
 use Yii;
 
 use common\models\AccionCentralizadaAsignar;
 use common\models\MaterialesServicios;
+use common\components\Notification;
 
 /**
  * This is the model class for table "accion_centralizada_pedido".
@@ -35,12 +36,30 @@ use common\models\MaterialesServicios;
 class AccionCentralizadaPedido extends \yii\db\ActiveRecord
 {
     /**
+     * Constante que guarda el nombre del evento
+     */
+    const EVENT_NUEVO_PEDIDO = 'evento_nuevo_pedido';
+
+    
+     /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        $this->on(self::EVENT_NUEVO_PEDIDO, [$this, 'notificacion_cargar']);
+        $this->on(self::EVENT_NUEVO_PEDIDO, [$this, 'notificacion']);
+    }
+
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'accion_centralizada_pedido';
     }
+
+   
 
     /**
      * @inheritdoc
@@ -101,6 +120,27 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
             'total' => 'Total'
         ];
     }
+
+  /**
+     * Notificacion
+     */
+     public function notificacion($evento)
+     {
+
+        Notification::notify(Notification::KEY_NUEVO_PEDIDO_ACC, 1, $this->id);
+     }
+
+      public function notificacion_cargar($evento)
+     {
+        
+        //Ids de los usuarios con el rol "proyecto_pedido"
+        $usuarios = \Yii::$app->authManager->getUserIdsByRole('accion_centralizada_requerimiento');
+        foreach ($usuarios as $key => $usuario) {
+            Notification::notify(Notification::KEY_NUEVO_PEDIDO_ACC, $usuario, $this->id);
+        }
+        
+     }
+
 
     /**
      * @return \yii\db\ActiveQuery
