@@ -2,6 +2,8 @@
 [![Stories in In Progress](https://badge.waffle.io/minpppst/rsc.png?label=in%20progress&title=In%20Progress)](https://waffle.io/minpppst/rsc)
 Registro, Seguimiento y Control
 ============================
+
+[![Join the chat at https://gitter.im/minpppst/rsc](https://badges.gitter.im/minpppst/rsc.svg)](https://gitter.im/minpppst/rsc?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Sistema para el registro, seguimiento y control de proyectos y acciones centralizadas.
 
 
