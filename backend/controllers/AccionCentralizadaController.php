@@ -13,6 +13,9 @@ use \yii\web\Response;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
 use frontend\models\UploadForm;
+use bedezign\yii2\audit\components\Version;
+use bedezign\yii2\audit\models\AuditTrail;
+use bedezign\yii2\audit\models\AuditTrailSearch;
 /**
  * AccionCentralizadaController implements the CRUD actions for AccionCentralizada model.
  */
@@ -387,4 +390,59 @@ class AccionCentralizadaController extends Controller
         }
        
     }
+
+
+    public function actionRevertir($id)
+    {
+        // buscamos los modelos
+        $post1 = AuditTrail::findOne($id);
+        $post=AccionCentralizada::findOne($post1->model_id);
+
+
+        //si esta vacio el modelo es por que fue borrado
+        if($post!=null){
+
+        //buscamos la ultima version
+        $attributes = Version::lastVersion($post->className(), $post->id);
+        //cargamos los datos de la ultima version
+        $post = Version::find($post->className(), $post->id, $attributes);
+        
+        //solo para el caso de modelos que tenga fecha, formatear la fecha
+        $post->fecha_inicio = date_create($post->fecha_inicio);
+        $post->fecha_fin = date_create($post->fecha_fin);
+
+        $post->fecha_inicio=date_format($post->fecha_inicio, 'd/m/Y');
+        $post->fecha_fin=date_format($post->fecha_fin, 'd/m/Y');
+        
+         }else
+        {
+        //en que caso que fue borrado se busca la ultima version por medio del  id almacenado en el modelo trail
+        $attributes = Version::lastVersion(AccionCentralizada::className(), $post1->model_id);
+
+        //cargamos los datos 
+        $post = Version::find(AccionCentralizada::className(), $post1->model_id, $attributes);
+        
+        
+        //solo en caso de modelos q tengan fecha
+        $post->fecha_inicio = date_create($post->fecha_inicio);
+        $post->fecha_fin = date_create($post->fecha_fin);
+
+        $post->fecha_inicio=date_format($post->fecha_inicio, 'Y-m-d');
+        $post->fecha_fin=date_format($post->fecha_fin, 'Y-m-d');
+
+        }
+        //se almacena y redirecciona.
+        if($post->save()){
+        return $this->redirect('index.php?r=audit/trail');
+        }else{
+            //print_r($post->getErrors());
+            return $this->redirect('index.php?r=audit/trail');
+        }
+           
+
+        }
+
+
+
+
 }
