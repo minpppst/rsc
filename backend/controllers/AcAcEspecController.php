@@ -658,8 +658,8 @@ class AcAcEspecController extends Controller
         $post->fecha_inicio = date_create($post->fecha_inicio);
         $post->fecha_fin = date_create($post->fecha_fin);
 
-        $post->fecha_inicio=date_format($post->fecha_inicio, 'd-m-Y');
-        $post->fecha_fin=date_format($post->fecha_fin, 'd-m-Y');
+        $post->fecha_inicio=date_format($post->fecha_inicio, 'Y-m-d');
+        $post->fecha_fin=date_format($post->fecha_fin, 'Y-m-d');
         }else
         {
         //en que caso que fue borrado se busca la ultima version por medio del  id almacenado en el modelo trail

@@ -29,6 +29,16 @@ class AcAcEspec extends \yii\db\ActiveRecord
         return 'accion_centralizada_accion_especifica';
     }
 
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
+
+
+    
+
     /**
      * @inheritdoc
      */
