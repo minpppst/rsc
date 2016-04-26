@@ -356,6 +356,28 @@ class ProyectoController extends Controller
     }
 
     /**
+     * Aprobar o desaprobar un proyecto.
+     * @param int $id Id del proyecto
+     */
+    public function actionAprobar($id)
+    {
+        $model = $this->findModel($id);
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model != null && $model->toggleAprobado()) {
+            return ['forceClose' => true, 'forceReload' => '#aprobar'];
+        } else {
+            return [
+                'title' => 'Ocurrió un error.',
+                'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
+                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+            ];
+            return;
+        }
+    }
+
+    /**
      * Finds the Proyecto model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id

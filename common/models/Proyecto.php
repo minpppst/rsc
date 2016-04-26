@@ -23,10 +23,13 @@ use Yii;
  * @property integer $objetivo_general
  * @property string $objetivo_estrategico_institucional
  * @property integer $ambito
+ * @property integer $aprobado
  * @property integer $estatus
  *
  * @property ProyectoAccionEspecifica[] $proyectoAccionEspecificas
+ * @property ProyectoAlcance[] $proyectoAlcances
  * @property ProyectoLocalizacion[] $proyectoLocalizacions
+ * @property ProyectoRegistrador[] $proyectoRegistradors
  * @property ProyectoResponsable[] $proyectoResponsables
  * @property ProyectoResponsableAdministrativo[] $proyectoResponsableAdministrativos
  * @property ProyectoResponsableTecnico[] $proyectoResponsableTecnicos
@@ -57,7 +60,7 @@ class Proyecto extends \yii\db\ActiveRecord
             [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito'], 'required'],
             [['nombre', 'descripcion', 'objetivo_estrategico_institucional'], 'string'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
-            [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'estatus'], 'integer'],
+            [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'aprobado', 'estatus'], 'integer'],
             [['monto_proyecto'], 'number'],
             [['codigo_proyecto', 'codigo_sne'], 'string', 'max' => 45],
             [['codigo_proyecto'], 'unique'],
@@ -85,17 +88,10 @@ class Proyecto extends \yii\db\ActiveRecord
             'objetivo_general' => 'Objetivo General',
             'objetivo_estrategico_institucional' => 'Objetivo Estrategico Institucional',
             'ambito' => 'Ambito',
+            'aprobado' => 'Aprobado',
             'estatus' => 'Estatus',
             'nombreEstatus' => 'Estatus'
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAccionEspecificaProyectos()
-    {
-        return $this->hasMany(AccionEspecificaProyecto::className(), ['id_proyecto' => 'id']);
     }
 
     /**
@@ -303,6 +299,7 @@ class Proyecto extends \yii\db\ActiveRecord
 
      /**
       * Activar o desactivar
+      * @return boolean
       */
      public function toggleActivo()
      {
@@ -318,6 +315,26 @@ class Proyecto extends \yii\db\ActiveRecord
         return true;
      }
 
+     /**
+      * Aprobar
+      * @return boolean
+      */
+     public function toggleAprobado()
+     {
+        if($this->aprobado == 1)
+        {
+            $this->aprobado = 0;
+        }
+        else
+        {
+            $this->aprobado = 1;
+        }
+
+        $this->save();
+
+        return true;
+     }
+
     /**
      * Antes de guardar en BD
      */
@@ -326,8 +343,19 @@ class Proyecto extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
             //Cambiar el formato de las fechas
             $formato = 'd/m/Y';
-            $this->fecha_inicio = date_format(date_create_from_format($formato,$this->fecha_inicio),'Y-m-d');
-            $this->fecha_fin = date_format(date_create_from_format($formato,$this->fecha_fin),'Y-m-d');
+            $inicio = date_create_from_format($formato,$this->fecha_inicio);
+            $fin = date_create_from_format($formato,$this->fecha_fin);
+
+            if($inicio != false)
+            {
+                $this->fecha_inicio = date_format($inicio,'Y-m-d');
+            }
+            
+            if($fin != false) 
+            {
+                $this->fecha_fin = date_format($fin,'Y-m-d');
+            }
+            
             return true;
         } else {
             return false;

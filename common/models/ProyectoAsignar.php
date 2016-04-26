@@ -17,6 +17,7 @@ use johnitvn\userplus\base\models\UserAccounts;
  * @property UserAccounts $usuario0
  * @property UnidadEjecutora $unidadEjecutora
  * @property ProyectoAccionEspecifica $accionEspecifica
+ * @property ProyectoPedido[] $proyectoPedidos 
  */
 class ProyectoAsignar extends \yii\db\ActiveRecord
 {
@@ -42,7 +43,11 @@ class ProyectoAsignar extends \yii\db\ActiveRecord
     {
         return [
             [['usuario', 'unidad_ejecutora', 'accion_especifica', 'estatus'], 'required'],
-            [['usuario', 'unidad_ejecutora', 'accion_especifica', 'estatus'], 'integer']
+            [['usuario', 'unidad_ejecutora', 'accion_especifica', 'estatus'], 'integer'],
+            [['usuario', 'unidad_ejecutora', 'accion_especifica'], 'unique', 'targetAttribute' => ['usuario', 'unidad_ejecutora', 'accion_especifica'], 'message' => 'The combination of Usuario, Unidad Ejecutora and Accion Especifica has already been taken.'],
+            [['usuario'], 'exist', 'skipOnError' => true, 'targetClass' => UserAccounts::className(), 'targetAttribute' => ['usuario' => 'id']],
+            [['unidad_ejecutora'], 'exist', 'skipOnError' => true, 'targetClass' => UnidadEjecutora::className(), 'targetAttribute' => ['unidad_ejecutora' => 'id']],
+            [['accion_especifica'], 'exist', 'skipOnError' => true, 'targetClass' => ProyectoAccionEspecifica::className(), 'targetAttribute' => ['accion_especifica' => 'id']],
         ];
     }
 
