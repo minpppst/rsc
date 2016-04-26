@@ -1,7 +1,14 @@
+
 [![Stories in Ready](https://badge.waffle.io/minpppst/rsc.png?label=ready&title=Ready)](https://waffle.io/minpppst/rsc)
 [![Stories in In Progress](https://badge.waffle.io/minpppst/rsc.png?label=in%20progress&title=In%20Progress)](https://waffle.io/minpppst/rsc)
+
+Rendimiento
+-------------------
+[![Throughput Graph](https://graphs.waffle.io/minpppst/rsc/throughput.svg)](https://waffle.io/minpppst/rsc/metrics/throughput)
+
 Registro, Seguimiento y Control
 ============================
+
 Sistema para el registro, seguimiento y control de proyectos y acciones centralizadas.
 
 

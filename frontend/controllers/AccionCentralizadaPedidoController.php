@@ -172,6 +172,7 @@ class AccionCentralizadaPedidoController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                $model->trigger(AccionCentralizadaPedido::EVENT_NUEVO_PEDIDO); //Notificacion
                 return [
                     'forceReload'=>'true',
                     'title'=> "Requerimientos",
