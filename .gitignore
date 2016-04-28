@@ -30,6 +30,10 @@ phpunit.phar
 /frontend/web/assets
 /backend/web/assets
 
+# runtime
+/frontend/runtime
+/backend/runtime
+
 # bd
 /config/db
 

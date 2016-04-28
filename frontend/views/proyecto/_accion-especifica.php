@@ -66,6 +66,7 @@
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'nombreUnidadEjecutora',
 		    ],
+		    /*
 		    [
 		        'class' => '\kartik\grid\DataColumn',
 		        'width' => '50px',
@@ -93,6 +94,7 @@
 		        },
 		        'format' => 'raw'
 		    ],
+		    */
 		    [
 		        'class' => '\kartik\grid\DataColumn',
 		        'attribute' => 'fecha_inicio',
@@ -147,7 +149,7 @@
 		],
 		'toolbar'=> [
             ['content'=>
-                Html::a($icons['nuevo'].' Nuevo', ['create','proyecto'=>$searchModel->id_proyecto],
+                Html::a($icons['nuevo'].' Nuevo', ['proyecto-accion-especifica/create','proyecto'=>$searchModel->id_proyecto],
                 ['role'=>'modal-remote','title'=> 'Crear Acción Específica','class'=>'btn btn-default']).
                 //Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
                 //['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).                

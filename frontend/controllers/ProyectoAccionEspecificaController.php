@@ -112,6 +112,7 @@ class ProyectoAccionEspecificaController extends Controller
         $request = Yii::$app->request;
         $model = new ProyectoAccionEspecifica();
         $model->id_proyecto = $proyecto;
+        $model->estatus = 1;
 
         //lista desplegable
         $unidadEjecutora = UnidadEjecutora::find()->all();
@@ -136,7 +137,7 @@ class ProyectoAccionEspecificaController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'true',
+                    'forceReload'=>'#especifica-pjax',
                     'title'=> "Nueva Acción Específica",
                     'content'=>'<span class="text-success">Creada exitosamente.</span>',
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).

@@ -33,6 +33,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombreUnidadEjecutora',
     ],
+    /*
     [
         'class' => '\kartik\grid\DataColumn',
         'width' => '50px',
@@ -60,6 +61,7 @@ return [
         },
         'format' => 'raw'
     ],
+    */
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'fecha_inicio',
