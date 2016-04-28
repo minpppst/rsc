@@ -19,6 +19,9 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use frontend\models\UploadForm;
+use bedezign\yii2\audit\components\Version;
+use bedezign\yii2\audit\models\AuditTrail;
+use bedezign\yii2\audit\models\AuditTrailSearch;
 
 /**
  * AcAcEspecController implements the CRUD actions for AcAcEspec model.
@@ -357,6 +360,7 @@ class AcAcEspecController extends Controller
     {
         $request = Yii::$app->request;
         $this->findModel($id)->delete();
+        
 
         if($request->isAjax){
             /*
@@ -633,6 +637,62 @@ class AcAcEspecController extends Controller
         }
        
     }
+
+
+    public function actionRevertir($id)
+    {
+        // buscamos los modelos
+        $post1 = AuditTrail::findOne($id);
+        $post=AcAcEspec::findOne($post1->model_id);
+
+
+        //si esta vacio el modelo es por que fue borrado
+        if($post!=null){
+        //buscamos la ultima version
+        $attributes = Version::lastVersion($post->className(), $post->id);
+        //cargamos los datos de la ultima version
+        $post = Version::find($post->className(), $post->id, $attributes);
+        
+        
+        //solo para el caso de modelos que tenga fecha, formatear la fecha
+        $post->fecha_inicio = date_create($post->fecha_inicio);
+        $post->fecha_fin = date_create($post->fecha_fin);
+
+        $post->fecha_inicio=date_format($post->fecha_inicio, 'Y-m-d');
+        $post->fecha_fin=date_format($post->fecha_fin, 'Y-m-d');
+        }else
+        {
+        //en que caso que fue borrado se busca la ultima version por medio del  id almacenado en el modelo trail
+        $attributes = Version::lastVersion(AcAcEspec::className(), $post1->model_id);
+
+        //cargamos los datos 
+        $post = Version::find(AcAcEspec::className(), $post1->model_id, $attributes);
+        
+        
+        //solo en caso de modelos q tengan fecha
+        $post->fecha_inicio = date_create($post->fecha_inicio);
+        $post->fecha_fin = date_create($post->fecha_fin);
+
+        $post->fecha_inicio=date_format($post->fecha_inicio, 'Y-m-d');
+        $post->fecha_fin=date_format($post->fecha_fin, 'Y-m-d');
+
+
+
+
+        }
+        if(!$post->save()){
+        
+        return $this->redirect('index.php?r=audit/trail');
+            
+        }else{
+            //print_r($post->getErrors());
+            return $this->redirect('index.php?r=audit/trail');
+             
+        }
+           
+
+        }
+
 
 
 
