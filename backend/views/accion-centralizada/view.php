@@ -25,6 +25,8 @@ $icons=[
     'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
     'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
     'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
+    'aprobado'=>'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>',
+    'no-aprobado'=>'<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>',
 ];
 //Contenido de TABS
 $datos_basicos = Yii::$app->controller->renderPartial('_acdatosbasicos', ['model'=> $model]);
@@ -45,6 +47,32 @@ $distribucionPresupuestaria = '<p>'.
 <div class="accion-centralizada-view">
 
    <h1><?= Html::encode("Acción Centralizada #".$this->title) ?></h1>
+
+   <div class="container-fluid">
+        <div class="pull-right" id="aprobar">
+            <?php 
+                if ($model->aprobado == 1) {
+                    echo Html::a($icons['aprobado'].' Aprobado', ['aprobar', 'id' => $model->id], [
+                                'class' => 'btn btn-success btn-block',
+                                'role' => 'modal-remote',
+                                'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                                'data-request-method' => 'post',
+                                'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"No Aprobado"</b>?'),
+                    ]);
+                } else {
+                    echo Html::a($icons['no-aprobado'].' No Aprobado', ['aprobar', 'id' => $model->id], [
+                                'class' => 'btn btn-warning btn-block',
+                                'role' => 'modal-remote',
+                                'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                                'data-request-method' => 'post',
+                                'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"Aprobado"</b>?'),
+                    ]);
+                }
+            ?>
+        </div>
+    </div>
 
     <!-- TABS -->
     <?= TabsX::widget([

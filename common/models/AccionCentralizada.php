@@ -12,6 +12,7 @@ use Yii;
  * @property string $codigo_accion_sne
  * @property string $nombre_accion
  * @property integer $estatus
+ * @property integer $aprobado
  * @property string $fecha_inicio
  * @property string $fecha_fin
  *
@@ -42,6 +43,7 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         
         return [
             [['codigo_accion', 'codigo_accion_sne'],'unique'],
+            [['aprobado'], 'integer'],
             [['codigo_accion', 'codigo_accion_sne', 'nombre_accion', 'estatus', 'fecha_inicio', 'fecha_fin'], 'required'],
             //[['fecha_inicio', 'fecha_fin'], 'date', 'format'=>'Y-m-d'],
             //['fecha_inicio', 'compare', 'compareAttribute'=>'fecha_fin','operator'=>'<', 'message'=>'Fecha Inicial Debe Ser Menor A Fecha Final'],
@@ -118,6 +120,7 @@ class AccionCentralizada extends \yii\db\ActiveRecord
             'codigo_accion_sne' => 'Codigo Accion SNE',
             'nombre_accion' => 'Nombre Accion',
             'estatus' => 'Estatus',
+            'aprobado' => 'Aprobado',
             'fecha_inicio' => 'Fecha Inicio',
             'fecha_fin' => 'Fecha Fin',
              'nombreEstatus' => 'Estatus'
@@ -171,5 +174,54 @@ class AccionCentralizada extends \yii\db\ActiveRecord
 
         return true;
      }
+
+      public function toggleAprobado()
+     {
+        if($this->aprobado == 1)
+        {
+            $this->aprobado = 0;
+        }
+        else
+        {
+            $this->aprobado = 1;
+        }
+         //solo en caso de modelos q tengan fecha
+        $this->fecha_inicio = date_create($this->fecha_inicio);
+        $this->fecha_fin = date_create($this->fecha_fin);
+
+        $this->fecha_inicio=date_format($this->fecha_inicio, 'd/m/Y');
+        $this->fecha_fin=date_format($this->fecha_fin, 'd/m/Y');
+        
+        $this->save();
+
+        
+        
+
+        return true;
+     }
+
+     public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            //Cambiar el formato de las fechas
+            $formato = 'd/m/Y';
+            $inicio = date_create_from_format($formato,$this->fecha_inicio);
+            $fin = date_create_from_format($formato,$this->fecha_fin);
+
+            if($inicio != false)
+            {
+                $this->fecha_inicio = date_format($inicio,'Y-m-d');
+            }
+            
+            if($fin != false) 
+            {
+                $this->fecha_fin = date_format($fin,'Y-m-d');
+            }
+            
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
