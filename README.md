@@ -1,4 +1,4 @@
-
+[![GitHub issues](https://img.shields.io/github/issues/minpppst/rsc.svg)](https://github.com/minpppst/rsc/issues)
 [![Stories in Ready](https://badge.waffle.io/minpppst/rsc.png?label=ready&title=Ready)](https://waffle.io/minpppst/rsc)
 [![Stories in In Progress](https://badge.waffle.io/minpppst/rsc.png?label=in%20progress&title=In%20Progress)](https://waffle.io/minpppst/rsc)
 
