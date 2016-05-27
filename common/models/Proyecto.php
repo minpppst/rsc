@@ -17,6 +17,7 @@ use Yii;
  * @property integer $situacion_presupuestaria
  * @property string $monto_proyecto
  * @property string $descripcion
+ * @property string $objetivo_general_proyecto
  * @property integer $sector
  * @property integer $sub_sector
  * @property integer $plan_operativo
@@ -58,7 +59,7 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return [
             [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito'], 'required'],
-            [['nombre', 'descripcion', 'objetivo_estrategico_institucional'], 'string'],
+            [['nombre', 'descripcion', 'objetivo_estrategico_institucional', 'objetivo_general_proyecto'], 'string'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'aprobado', 'estatus'], 'integer'],
             [['monto_proyecto'], 'number'],
@@ -82,6 +83,7 @@ class Proyecto extends \yii\db\ActiveRecord
             'situacion_presupuestaria' => 'Situación Presupuestaria',
             'monto_proyecto' => 'Monto Proyecto',
             'descripcion' => 'Descripción',
+            'objetivo_general_proyecto' => 'Objetivo General del Proyecto',
             'sector' => 'Sector',
             'sub_sector' => 'Sub Sector',
             'plan_operativo' => 'Plan Operativo',

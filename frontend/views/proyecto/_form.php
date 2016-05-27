@@ -66,6 +66,8 @@ use kartik\money\MaskMoney;
 
             <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
+            <?= $form->field($model, 'objetivo_general_proyecto')->textarea(['rows' => 6]) ?>
+
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <span>Clasificación Sectorial</span>
