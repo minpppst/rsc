@@ -7,6 +7,9 @@ use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectoAccionEspecifica */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->registerJsFile('js/ponderacion.js');
+
 ?>
 
 <div class="proyecto-accion-especifica-form">
@@ -22,6 +25,8 @@ use kartik\date\DatePicker;
     <?= $form->field($model, 'unidad_medida')->dropDownList(ArrayHelper::map($unidadMedida, 'id', 'unidad_medida'), ['prompt' => 'Seleccione']) ?>
 
     <?= $form->field($model, 'meta')->input('number', ['min' => 0]) ?>
+
+    <?= Html::hiddenInput('ponderacionTotal', $model->ponderacion(), ['id' => 'ponderacionTotal']) ?>
 
     <?= $form->field($model, 'ponderacion')->input('number', ['min' => 0.1, 'max' => 1, 'step' => 0.1]) ?>
 

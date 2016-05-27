@@ -225,4 +225,16 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
 
         return true;
      }
+
+     /**
+      * Ponderacion.
+      * @return int $sum suma total de las ponderaciones
+      */
+     public function ponderacion()
+     {
+        $comando = \Yii::$app->db->createCommand('SELECT SUM(ponderacion) FROM proyecto_accion_especifica WHERE id_proyecto = '.$this->id_proyecto);
+        $sum = $comando->queryScalar();
+
+        return $sum;
+     }
 }

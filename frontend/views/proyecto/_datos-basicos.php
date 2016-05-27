@@ -112,7 +112,7 @@ CrudAsset::register($this);
 ]) ?>
 
 <!-- LOCALIZACION -->
-<div class="panel panel-info">
+<div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title"><i class="glyphicon glyphicon-map-marker"></i> Localización</h3>
     </div>
