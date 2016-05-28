@@ -2,13 +2,16 @@
 	use yii\web\Html;
 	use yii\web\Url;
 
+    //Puede ver el item "requerimientos"
+    $req = Yii::$app->user->can('proyecto-pedido/index') || Yii::$app->user->can('accion-centralizada-pedido/index') ? true : false;
+
 	/*
 	 * Items del menu principal
-	 */
+	 */    
 
 	return [
             ['label' => $icons['inicio'].' Inicio', 'url' => ['/site/index']],
-            ['label' => $icons['pedido'].' Requerimientos', 'items' =>[
+            ['label' => $icons['pedido'].' Requerimientos','visible' => $req, 'items' =>[
                 ['label' => $icons['proyecto'].' Proyecto', 'url' => ['/proyecto-pedido/index']],
                 ['label' => $icons['acc'].' Acción Centralizada', 'url' => ['/accion-centralizada-pedido/index']],
             ]],            
