@@ -2,17 +2,19 @@
 
 namespace backend\controllers;
 
+//Yii
 use Yii;
 use yii\helpers\Json;
 use yii\filters\AccessControl;
-use common\models\Proyecto;
-use common\models\ProyectoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\data\ActiveDataProvider;
 
+//Common models
+use common\models\Proyecto;
+use common\models\ProyectoSearch;
 use common\models\EstatusProyecto;
 use common\models\SituacionPresupuestaria;
 use common\models\Sector;
@@ -24,6 +26,10 @@ use common\models\ObjetivosEstrategicos;
 use common\models\ObjetivosGenerales;
 use common\models\Ambito;
 use common\models\ProyectoLocalizacion;
+
+//Backend models
+use backend\models\ProyectoPedido;
+use backend\models\ProyectoPedidoSearch;
 
 /**
  * ProyectoController implements the CRUD actions for Proyecto model.
@@ -124,6 +130,18 @@ class ProyectoController extends Controller
             'localizacion' => $localizacion,
         ]);
 
+    }
+
+    /**
+     * Distribucion presupuestaria de un proyecto.
+     */
+    public function actionDistribucion($proyecto)
+    {
+        $model = $this->findModel($proyecto);
+
+        return $this->render('distribucion',[
+            'model' => $model
+        ]);
     }
 
     /**
@@ -237,7 +255,7 @@ class ProyectoController extends Controller
     }
 
      /**
-     * Delete multiple existing PartidaPartida model.
+     * Delete multiple existing Proyecto model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -247,7 +265,7 @@ class ProyectoController extends Controller
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (PartidaPartida::findAll(json_decode($pks)) as $model) {
+        foreach (Proyecto::findAll(json_decode($pks)) as $model) {
             $model->delete();
         }
         
@@ -290,7 +308,7 @@ class ProyectoController extends Controller
     }
 
     /**
-     * Desactiva multiples modelos de PartidaPartida.
+     * Desactiva multiples modelos de Proyecto.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
      * @param integer id
@@ -323,7 +341,7 @@ class ProyectoController extends Controller
     }
 
     /**
-     * Activa multiples modelos de PartidaPartida.
+     * Activa multiples modelos de Proyecto.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
      * @param integer id

@@ -53,7 +53,13 @@
                     ['label' => 'Asignar acción centralizada', 'icon' => 'fa fa-folder-open-o', 'url' => ['/accion-centralizada-asignar/index']],
                     ['label' => 'Proyecto requerimiento', 'icon' => 'fa fa-shopping-cart ', 'url' => ['/proyecto-pedido/index']],
                     ['label' => 'ACC requerimiento', 'icon' => 'fa fa-shopping-basket ', 'url' => ['/accion-centralizada-pedido/index']],
-
+                    /*
+                    //DISTRIBUCION
+                    ['label' => 'Distribución Presupuestaria', 'options' => ['class' => 'header']],
+                    //Items
+                    ['label' => 'Distribución Proyecto', 'icon' => 'fa fa-balance-scale', 'url' =>['proyecto/distribucion']],
+                    ['label' => 'Distribución ACC', 'icon' => 'fa fa-bank', 'url' =>['accion-centralizada/distribucion']],
+                    */
                     //PROPIEDADES
                     //Header
                     ['label' => 'Propiedades', 'options' => ['class' => 'header']],

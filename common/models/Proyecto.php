@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "proyecto".
@@ -336,6 +338,94 @@ class Proyecto extends \yii\db\ActiveRecord
 
         return true;
      }
+
+     /**
+     * DataProvider para la distribución presupuestaria
+     * @return ArrayDataProvider $dataProvider
+     */
+    public function distribucionPresupuestaria()
+    {
+        //Contador para paginación
+        $contar = Yii::$app->db->createCommand('
+            SELECT COUNT(*) FROM `proyecto_accion_especifica` WHERE id_proyecto = :proyecto', 
+            [':proyecto' => $this->id])
+        ->queryScalar();
+
+        //Construccion del query
+        $sql = "
+            SELECT
+                pae.id AS 'id',
+                pae.nombre AS 'nombre_accion',
+                CONCAT(cp.cuenta,pp.partida) AS 'partida',
+                SUM((
+                    pedido.enero +
+                    pedido.febrero +
+                    pedido.marzo +
+                    pedido.abril +
+                    pedido.mayo +
+                    pedido.junio +
+                    pedido.julio +
+                    pedido.agosto +
+                    pedido.septiembre +
+                    pedido.octubre +
+                    pedido.noviembre +
+                    pedido.diciembre
+                ) * pedido.precio) AS 'total'
+            FROM
+                proyecto_accion_especifica pae, proyecto_asignar pa,
+                materiales_servicios ms, proyecto_pedido pedido, partida_sub_especifica pse, 
+                partida_especifica pe, partida_generica pg, partida_partida pp, cuenta_presupuestaria cp
+            WHERE
+                pae.id = :accion AND
+                pae.id = pa.accion_especifica AND
+                pa.id = pedido.asignado AND
+                pedido.id_material = ms.id AND
+                ms.id_se = pse.id AND
+                pse.especifica = pe.id AND
+                pe.generica = pg.id AND
+                pg.id_partida = pp.id AND
+                pp.cuenta = cp.id AND
+                pedido.estatus = 1
+            GROUP BY
+                pae.id, 
+                cp.cuenta, 
+                pp.partida
+        ";
+
+        //Arreglo para el DataProvider
+        $data = [];
+
+        //Por cada accion especifica del proyecto
+        foreach ($this->accionesEspecificas as $key => $value)
+        {
+            //Obtener los datos mediante el query
+            $query = Yii::$app->db->createCommand($sql,[':accion' => $value->id])->queryAll();
+
+            //Arreglo temporal
+            $arreglo = [
+                'id' => $value->id,
+                'nombre_accion' => $value->nombre
+            ];
+
+            //Por cada resultado del query
+            foreach ($query as $llave => $valor) 
+            {
+                $arreglo[$valor['partida']] = $valor['total'];
+            }
+
+            $data[] = $arreglo;           
+        }
+
+
+        //DataProvider
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $data,
+            'totalCount' => $contar,
+            'pagination' => ['pageSize' => 10]
+        ]);
+
+        return $dataProvider;
+    }
 
     /**
      * Antes de guardar en BD

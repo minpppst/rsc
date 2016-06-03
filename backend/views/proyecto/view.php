@@ -23,6 +23,7 @@ $icons=[
     'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
     'aprobado'=>'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>',
     'no-aprobado'=>'<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>',
+    'distribucion'=>'<span class="fa fa-balance-scale" aria-hidden="true"></span>',
 ];
 
 //Contenido de TABS
@@ -49,11 +50,16 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
     <h1>Proyecto #<?= Html::encode($this->title) ?></h1>
 
     <div class="container-fluid">
-        <div class="pull-right" id="aprobar">
+
+        <div class="pull-right">
+            <?= Html::a($icons['distribucion'].' Distribución Presupuestaria', ['distribucion', 'proyecto' => $model->id], [
+                'class' => 'btn btn-info navbar-btn'
+            ]) ?>
+
             <?php 
                 if ($model->aprobado == 1) {
                     echo Html::a($icons['aprobado'].' Aprobado', ['aprobar', 'id' => $model->id], [
-                                'class' => 'btn btn-success btn-block',
+                                'class' => 'btn btn-success navbar-btn',
                                 'role' => 'modal-remote',
                                 'data-confirm' => false, 'data-method' => false, // for overide yii data api
                                 'data-request-method' => 'post',
@@ -62,7 +68,7 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
                     ]);
                 } else {
                     echo Html::a($icons['no-aprobado'].' No Aprobado', ['aprobar', 'id' => $model->id], [
-                                'class' => 'btn btn-warning btn-block',
+                                'class' => 'btn btn-warning navbar-btn',
                                 'role' => 'modal-remote',
                                 'data-confirm' => false, 'data-method' => false, // for overide yii data api
                                 'data-request-method' => 'post',
@@ -73,6 +79,8 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
             ?>
         </div>
     </div>
+
+    <br><!-- Salto de linea -->
 
     <!-- TABS -->
     <?= TabsX::widget([
