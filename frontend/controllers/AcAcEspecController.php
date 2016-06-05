@@ -130,7 +130,7 @@ class AcAcEspecController extends Controller
         $model = new AcAcEspec();
         $model->id_ac_centr=$ac_centralizada; 
         $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre'); 
-        print_r($unidades_ejecutoras); exit();
+        
 
 
         if($request->isAjax){
