@@ -1,9 +1,10 @@
 <?php
-
+use yii\helpers\Url;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use johnitvn\ajaxcrud\BulkButtonWidget;
-
+use johnitvn\ajaxcrud\CrudAsset;
+use yii\bootstrap\Modal;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AccionCentralizadaVariablesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -16,9 +17,11 @@ $icons=[
     'importar'=>'<span class="glyphicon glyphicon-import" aria-hidden="true"></span>',
     'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
 ];
+CrudAsset::register($this);
 ?>
-<div class="accion-centralizada-variables-index">
 
+<div class="accion-centralizada-variables-index">
+<div id="ajaxCrudDatatable">
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -26,10 +29,15 @@ $icons=[
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pjax'=>true,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'kartik\grid\CheckboxColumn',
+                'width' => '20px',
+            ],
+            ['class' => 'kartik\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'nombre_variable:ntext',
             'unidad_medida',
             'localizacion',
@@ -41,7 +49,22 @@ $icons=[
             // 'unidad_ejecutora',
             // 'acc_accion_especifica',
 
-            ['class' => 'yii\grid\ActionColumn'],
+           // ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'kartik\grid\ActionColumn',
+                'dropdown' => false,
+                'vAlign'=>'middle',
+                'urlCreator' => function($action, $model, $key, $index) { 
+                        return Url::to([$action,'id'=>$key]);
+                },
+                'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                    'data-request-method'=>'post',
+                    'data-toggle'=>'tooltip',
+                    'data-confirm-title'=>'Are you sure?',
+                    'data-confirm-message'=>'Are you sure want to delete this item',
+                    'class' => 'text-danger'], 
+            ],
+
         ],
         'toolbar'=> [
             [ 
@@ -54,7 +77,7 @@ $icons=[
         ],
         'panel' => [
             'type' => 'default', 
-            'heading' => '<i class="glyphicon glyphicon-folder-open"></i> Acciones Centralizadas Variables',
+            'heading' => '<i class="glyphicon glyphicon-folder-open"></i> Acciones Centralizadas',
             'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
             'after'=>BulkButtonWidget::widget([
                 'buttons'=>
@@ -93,3 +116,10 @@ $icons=[
             ]
     ]); ?>
 </div>
+</div>
+<!-- Ventana modal -->
+<?php Modal::begin([
+    "id"=>"ajaxCrubModal",
+    "footer"=>"",// always need it for jquery plugin
+])?>
+<?php Modal::end(); ?>

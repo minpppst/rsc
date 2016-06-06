@@ -25,6 +25,7 @@ $icons=[
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Accion Centralizada Variables', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="accion-centralizada-variables-view">
 
@@ -77,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 //'label' => 'acc_accion_especifica',
                 'attribute' => 'acc_accion_especifica',
-                'value' =>$model->accAccionEspecifica->nombre,
+                //'value' =>echo $model->accAccionEspecifica->nombre,
                 
             ],
         ],

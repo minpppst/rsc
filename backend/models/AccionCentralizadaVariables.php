@@ -76,6 +76,7 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
     public function getAccAccionEspecifica()
     {
         return $this->hasOne(AcAcEspec::className(), ['id' => 'acc_accion_especifica']);
+        
     }
 
     /**

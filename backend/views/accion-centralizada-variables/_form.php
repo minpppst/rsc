@@ -19,83 +19,13 @@ DepDropAsset::register($this);
  
 // script to parse the results into the format expected by Select2
 $url = \yii\helpers\Url::to(['ace1']);
- $initScript =  <<< SCRIPT
-         
-            function nombre  (element, callback) {
-            
-           var id=\$("#accioncentralizadavariables-unidad_ejecutora").val();
-           $.ajax({
-           url: "$url",
-           type: 'post',
-           data: {q: id},
-           success: function (data) {
-              for(var i = 0; i < data.length; i++){
-                 data[i]={id:i,text:data[i].text}
-             }
-               return data
-
-           }
-
-      });
-
-            }
-
-SCRIPT;
-
-$this->registerJs($initScript, View::POS_HEAD);
-
-
-$initprecarga =  <<< SCRIPT
-           function precarga (element, callback) {
-
-       var search=\$(element).val();
-       if(search!=null){
-
-       
-       search=search.toString();
-
-        var id=\$("#accioncentralizadavariables-unidad_ejecutora").val();
-        if (search !== "") {
-            \$.ajax({
-            url: "$url",
-           
-            data: {id: id, q: search},
-            dataType: "json"
-            }).done(function(data) { 
-                  
-                    callback(data.results);
-
-        });
-        }
-      }
-        }
-
-SCRIPT;
-$this->registerJs($initprecarga, View::POS_HEAD);
-
-$dataResults = <<< SCRIPT
+ $dataResults = <<< SCRIPT
   function resultado (params) {
     var id=\$("#accioncentralizadavariables-unidad_ejecutora").val();
     if(id!="")
    return {q:params.term, id:id}; 
  }
 SCRIPT;
-
-//$selection = explode(",", $precarga);
-//$js="function probando() {";
-//$js .= "var id_usuario1 = document.getElementById('id_usuario');";
-//foreach ($selection as $val) {
-    //$js .= "$('#w0 option[value=". $val ."]').attr('selected','selected').change();";
-  //$js.="$('#id_usuario').select2('data', {id: 2, a_key: 'Lorem Ipsum'});";
-  //$js .=" $('#id_usuario option[value=' + 3 + ']').prop('selected', true); ";
-  //$js.="$('#id_usuario').select2('data', {id: results.prospect_id, text: results.prospect_nome});";
-//} //$("#mySelect").select2();
-//$js.="$('#id_usuario').select2().val('2').trigger('change')";
-  //$js.="$('#id_usuario').select2();";
- // $js.="$('#id_usuario').val('2').select2();";
-  //$js.="$('#id_usuario').select2('2','Lorem Ipsum');";
-//$js.=" }";
-
 $this->registerJs($dataResults, yii\web\View::POS_HEAD);
 
 
@@ -135,8 +65,7 @@ $this->registerJs($dataResults, yii\web\View::POS_HEAD);
   if(empty($precarga1)){
     $precarga1=NULL;
   };
-  //print_r($precarga); exit();
-
+  
     
   echo \kartik\select2\Select2::widget([
     'name' => 'id_usuario',
@@ -178,8 +107,7 @@ $this->registerJs($dataResults, yii\web\View::POS_HEAD);
 
 
 $this->registerJs(
-    //'$("document").ready(function(){ alert("hi"); });'
-
+   
     /* Listas desplegables dependientes */
     '$("document").ready(function(){
         //GE
