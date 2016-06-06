@@ -20,6 +20,7 @@ use kartik\widgets\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
+use yii\filters\AccessControl;
 /**
  * AccionCentralizadaVariablesController implements the CRUD actions for AccionCentralizadaVariables model.
  */
@@ -34,7 +35,29 @@ class AccionCentralizadaVariablesController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['post'],
+                    'bulk-delete' => ['post'],
+                    'bulk-estatusactivo' => ['post'],
+                    'bulk-estatusdesactivar' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rule,$action)
+                        {
+                            $controller = Yii::$app->controller->id;
+                            $action = Yii:: $app->controller->action->id;                    
+                            $route = "$controller/$action";
+                            if(\Yii::$app->user->can($route))
+                            {
+                                return true;
+                            }
+                        }
+                    ],
                 ],
             ],
         ];

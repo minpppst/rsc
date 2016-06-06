@@ -13,6 +13,7 @@ use common\models\Estados;
 use \yii\web\Response;
 use yii\helpers\Html;
 use backend\models\AccionCentralizadaVariableProgramacion;
+use yii\filters\AccessControl;
 /**
  * LocalizacionAccVariableController implements the CRUD actions for LocalizacionAccVariable model.
  */
@@ -27,7 +28,29 @@ class LocalizacionAccVariableController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['post'],
+                    'bulk-delete' => ['post'],
+                    'bulk-estatusactivo' => ['post'],
+                    'bulk-estatusdesactivar' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rule,$action)
+                        {
+                            $controller = Yii::$app->controller->id;
+                            $action = Yii:: $app->controller->action->id;                    
+                            $route = "$controller/$action";
+                            if(\Yii::$app->user->can($route))
+                            {
+                                return true;
+                            }
+                        }
+                    ],
                 ],
             ],
         ];

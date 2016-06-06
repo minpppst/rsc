@@ -130,7 +130,10 @@ $this->registerJs($dataResults, yii\web\View::POS_HEAD);
      <div>
     <label class="control-label" for="acespuej-id_ue">Usuarios De Carga</label>
    <?php if(empty($precarga)){
-    $precarga=NULL; 
+    $precarga=NULL;
+  };
+  if(empty($precarga1)){
+    $precarga1=NULL;
   };
   //print_r($precarga); exit();
 
@@ -142,24 +145,16 @@ $this->registerJs($dataResults, yii\web\View::POS_HEAD);
     'initValueText' => $precarga1,
     'options' => ['placeholder' => 'Seleccionar Usuario Responsable ...', 'multiple' => true, 'language' => 'es', ],
     'pluginOptions' => [
-         
-        'allowClear' => true,
-         
-        'ajax' => [
+         'allowClear' => true,
+         'ajax' => [
             'url' => $url,
             'data' => new JsExpression($dataResults),
-            //'data' => new JsExpression('function(params) { return {q:params.term}; }'),
-           // 'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
-            //'results' => new JsExpression($js),
-            ],
+         ],
           
           'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
           'templateResult' => new JsExpression('function(id_usuario) { return id_usuario.name; }'),
           'templateSelection' => new JsExpression('function (id_usuario) {  if(id_usuario.name === undefined) return id_usuario.text; else return id_usuario.name;  }'), 
-          //'initSelection' => new JsExpression($initprecarga),
-
-         //'initSelection' => new JsExpression($js),        
-        
+                 
         ],
 ]);
   
@@ -193,24 +188,6 @@ $this->registerJs(
             depends: ["accioncentralizadavariables-unidad_ejecutora"],
             url: "'.Url::to(["ace"]).'"
         });
-        
-        /*function  nombre(element, callback) {
-            alert(ssss);
-                var id=$("#accioncentralizadavariables-acc_accion_especifica").val();
-                if (id !== "") {
-                    
-                    $.ajax({
-
-                        type : POST,
-                        url : {$url},
-                        dataType: "json",
-                         data : {"id" :id }
-
-                    });//.done(function(data) { callback(data.results);});
-                }
-            }*/
-
-
         
         
     });'
