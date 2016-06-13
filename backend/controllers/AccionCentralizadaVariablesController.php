@@ -20,6 +20,7 @@ use kartik\widgets\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
+use yii\filters\AccessControl;
 /**
  * AccionCentralizadaVariablesController implements the CRUD actions for AccionCentralizadaVariables model.
  */
@@ -34,7 +35,29 @@ class AccionCentralizadaVariablesController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['post'],
+                    'bulk-delete' => ['post'],
+                    'bulk-estatusactivo' => ['post'],
+                    'bulk-estatusdesactivar' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rule,$action)
+                        {
+                            $controller = Yii::$app->controller->id;
+                            $action = Yii:: $app->controller->action->id;                    
+                            $route = "$controller/$action";
+                            if(\Yii::$app->user->can($route))
+                            {
+                                return true;
+                            }
+                        }
+                    ],
                 ],
             ],
         ];
@@ -163,19 +186,23 @@ class AccionCentralizadaVariablesController extends Controller
                         
                       $precarga[$i]=$key['id']; 
                       $precarga1[$i]=$key['username'];
-                         //$precarga['username']=$key['username'];
+                     
                          $i++;
                     }
                    
-        $model_usuarios= new AccionCentralizadaVariablesUsuarios();
+        
         $connection = \Yii::$app->db;
         $transaction = $connection->beginTransaction();
        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model_usuarios= new AccionCentralizadaVariablesUsuarios();
             $model_usuarios->id_variable=$model->id;
             $usuarios=Yii::$app->request->post('id_usuario');
             $i=0;
+            //eliminamos los usuarios
+            AccionCentralizadaVariablesUsuarios::deleteAll('id_variable ="'.$model->id.'"');
+
             while(count(Yii::$app->request->post('id_usuario'))!=$i){
-                        //eliminamos los usuario
+                        
                         //funcion en el modelo para guardar
                         if($model_usuarios->usuarios_agregar($model->id,$usuarios[$i])){
                         $i++;
@@ -311,7 +338,35 @@ class AccionCentralizadaVariablesController extends Controller
     }
 
 
+    public function actionBulkDelete()
+    {        
+        $request = Yii::$app->request;
+     
+        $pks = explode(',', $request->post('pks')); 
+        
+        foreach ($pks as $key) 
+        {
+     
+            $model=$this->findModel($key);
+            $model->delete();
+        }        
 
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>'true']; 
+        }
+        else
+        {
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['/accion_centralizada_variables/index']);
+        }
+       
+    }
 
 
     /**
