@@ -410,7 +410,8 @@ class Proyecto extends \yii\db\ActiveRecord
             //Por cada resultado del query
             foreach ($query as $llave => $valor) 
             {
-                $arreglo[$valor['partida']] = $valor['total'];
+               //Se se coloca en el arreglo con formato de moenda
+               $arreglo[$valor['partida']] = \Yii::$app->formatter->asCurrency($valor['total']);
             }
 
             $data[] = $arreglo;           
