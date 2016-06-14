@@ -1,9 +1,9 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
 
 use Yii;
-
+use backend\models\LocalizacionAccVariable;
 /**
  * This is the model class for table "accion_centralizada_variable_programacion".
  *

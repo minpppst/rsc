@@ -12,7 +12,7 @@ use common\models\Pais;
 use common\models\Estados;
 use \yii\web\Response;
 use yii\helpers\Html;
-use backend\models\AccionCentralizadaVariableProgramacion;
+use common\models\AccionCentralizadaVariableProgramacion;
 use yii\filters\AccessControl;
 /**
  * LocalizacionAccVariableController implements the CRUD actions for LocalizacionAccVariable model.

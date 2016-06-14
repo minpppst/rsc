@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\AccionCentralizadaVariableEjecucion */
 
-$this->title = 'Create Accion Centralizada Variable Ejecucion';
-$this->params['breadcrumbs'][] = ['label' => 'Accion Centralizada Variable Ejecucions', 'url' => ['index']];
+$this->title = 'Accion Centralizada Variable Ejecución';
+$this->params['breadcrumbs'][] = ['label' => 'Accion Centralizada Variable Asignadas', 'url' => ['variables']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="accion-centralizada-variable-ejecucion-create">
@@ -16,6 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'model_programacion' => $model_programacion,
+        'total' => $total,
+        'desbloqueo' => $desbloqueo,
+        'total_cargado' => $total_cargado,
     ]) ?>
 
 </div>

@@ -1,16 +1,16 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\AccionCentralizadaVariableEjecucion;
+use backend\models\AccionCentralizadaVariableProgramacion;
 
 /**
- * AccionCentralizadaVariableEjecucionSearch represents the model behind the search form about `app\models\AccionCentralizadaVariableEjecucion`.
+ * AccionCentralizadaVariableProgramacionSearch represents the model behind the search form about `backend\models\AccionCentralizadaVariableProgramacion`.
  */
-class AccionCentralizadaVariableEjecucionSearch extends AccionCentralizadaVariableEjecucion
+class AccionCentralizadaVariableProgramacionSearch extends AccionCentralizadaVariableProgramacion
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class AccionCentralizadaVariableEjecucionSearch extends AccionCentralizadaVariab
     public function rules()
     {
         return [
-            [['id', 'id_programacion', 'id_usuario', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'], 'integer'],
-            [['fecha'], 'safe'],
+            [['id', 'id_localizacion'], 'integer'],
+            [['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'], 'number'],
         ];
     }
 
@@ -41,7 +41,7 @@ class AccionCentralizadaVariableEjecucionSearch extends AccionCentralizadaVariab
      */
     public function search($params)
     {
-        $query = AccionCentralizadaVariableEjecucion::find();
+        $query = AccionCentralizadaVariableProgramacion::find();
 
         // add conditions that should always apply here
 
@@ -60,9 +60,7 @@ class AccionCentralizadaVariableEjecucionSearch extends AccionCentralizadaVariab
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_programacion' => $this->id_programacion,
-            'id_usuario' => $this->id_usuario,
-            'fecha' => $this->fecha,
+            'id_localizacion' => $this->id_localizacion,
             'enero' => $this->enero,
             'febrero' => $this->febrero,
             'marzo' => $this->marzo,

@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\AccionCentralizadaVariableProgramacion;
+use backend\models\AccionCentralizadaDesbloqueoMes;
 
 /**
- * AccionCentralizadaVariableProgramacionSearch represents the model behind the search form about `backend\models\AccionCentralizadaVariableProgramacion`.
+ * AccionCentralizadaDesbloqueoMesSearch represents the model behind the search form about `backend\models\AccionCentralizadaDesbloqueoMes`.
  */
-class AccionCentralizadaVariableProgramacionSearch extends AccionCentralizadaVariableProgramacion
+class AccionCentralizadaDesbloqueoMesSearch extends AccionCentralizadaDesbloqueoMes
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class AccionCentralizadaVariableProgramacionSearch extends AccionCentralizadaVar
     public function rules()
     {
         return [
-            [['id', 'id_localizacion'], 'integer'],
-            [['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'], 'number'],
+            [['id', 'id_ejecucion', 'mes'], 'integer'],
         ];
     }
 
@@ -41,7 +40,7 @@ class AccionCentralizadaVariableProgramacionSearch extends AccionCentralizadaVar
      */
     public function search($params)
     {
-        $query = AccionCentralizadaVariableProgramacion::find();
+        $query = AccionCentralizadaDesbloqueoMes::find();
 
         // add conditions that should always apply here
 
@@ -60,19 +59,8 @@ class AccionCentralizadaVariableProgramacionSearch extends AccionCentralizadaVar
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_localizacion' => $this->id_localizacion,
-            'enero' => $this->enero,
-            'febrero' => $this->febrero,
-            'marzo' => $this->marzo,
-            'abril' => $this->abril,
-            'mayo' => $this->mayo,
-            'junio' => $this->junio,
-            'julio' => $this->julio,
-            'agosto' => $this->agosto,
-            'septiembre' => $this->septiembre,
-            'octubre' => $this->octubre,
-            'noviembre' => $this->noviembre,
-            'diciembre' => $this->diciembre,
+            'id_ejecucion' => $this->id_ejecucion,
+            'mes' => $this->mes,
         ]);
 
         return $dataProvider;
