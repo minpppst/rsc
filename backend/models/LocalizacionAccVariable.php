@@ -7,6 +7,7 @@ use common\models\Pais;
 use common\models\Estados;
 use common\models\Municipio;
 use common\models\Parroquia;
+use common\models\AccionCentralizadaVariableProgramacion;
 
 /**
  * This is the model class for table "localizacion_acc_variable".
@@ -48,7 +49,7 @@ class LocalizacionAccVariable extends \yii\db\ActiveRecord
     {
         return [
             self::SCENARIO_INTERNACIONAL => ['id_variable', 'id_pais'],
-            self::SCENARIO_NACIONAL => ['id_varaible', 'id_pais'],
+            self::SCENARIO_NACIONAL => ['id_variable', 'id_pais'],
             self::SCENARIO_ESTADAL => ['id_variable', 'id_pais', 'id_estado'],
             self::SCENARIO_MUNICIPAL => ['id_variable', 'id_pais', 'id_estado', 'id_municipio'],
             self::SCENARIO_PARROQUIAL => ['id_variable', 'id_pais', 'id_estado', 'id_municipio', 'id_parroquia'],
@@ -100,7 +101,7 @@ function com_estado($estado){
     $existe=LocalizacionAccVariable::find()->where(['id_variable' => $this->id_variable])->andWhere(['id_estado' => $this->id_estado])->One();
  
     
-    if($existe!=null && $this->idVariable->nombre_variable!=null){
+    if($existe!=null){
     
     $this->addError($estado, "Error, Ya Se Agregó Este Estado");
     }
@@ -196,6 +197,22 @@ function com_estado($estado){
         return $this->idEstado->nombre;
     }
 
+
+
+    public function getObtener_Ejecucion(){
+    
+    $programacion_ejecucion=AccionCentralizadaVariableProgramacion::find()
+    ->innerjoin('accion_centralizada_variable_ejecucion','accion_centralizada_variable_programacion.id=accion_centralizada_variable_ejecucion.id_programacion')
+    ->where(['accion_centralizada_variable_programacion.id_localizacion' => $this->id])->one();
+
+    if($programacion_ejecucion==NULL){
+        return false;
+    }else{
+        return true;
+    }
+        
+
+    }
 
 
 

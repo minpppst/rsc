@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\LocalizacionAccVariable;
+use backend\models\AccionCentralizadaVariables;
 use backend\models\LocalizacionAccVariableSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -80,7 +81,7 @@ class LocalizacionAccVariableController extends Controller
     {   
         $model=$this->findModel($id);
         $model1= AccionCentralizadaVariableProgramacion::find()->where(['id_localizacion' => $model->id])->One();
-        
+        $model2= AccionCentralizadaVariables::find($model->id_variable)->One();
         $request = Yii::$app->request;
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -91,7 +92,7 @@ class LocalizacionAccVariableController extends Controller
                         'model1' => $model1,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Editar',['update','id'=>$id, 'variable' => $model->id_variable, 'localizacion' => $model2->localizacion,],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }
 
@@ -318,6 +319,39 @@ class LocalizacionAccVariableController extends Controller
     }
     }
 
+
+    public function actionBulkDelete()
+    {        
+        $request = Yii::$app->request;
+     
+        $pks = explode(',', $request->post('pks')); 
+        
+        foreach ($pks as $key) 
+        {
+     
+            $model=$this->findModel($key);
+            $model->delete();
+        }        
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>'true']; 
+        }
+        else
+        {
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['/accion_centralizada_variables/index']);
+        }
+       
+    }
+
+
+
     /**
      * Deletes an existing LocalizacionAccVariable model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -328,7 +362,17 @@ class LocalizacionAccVariableController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>'true']; 
+        }else{
+
+        return $this->redirect(['/accion_centralizada_variables/index']);
+    }
     }
 
     /**

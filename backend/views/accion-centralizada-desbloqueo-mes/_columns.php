@@ -16,21 +16,26 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_ejecucion',
+        'label' => 'Estado',
+        'attribute'=>'obtenerEstado',
+        //'value' =>$model,//$this->idEjecucion->idProgramacion->idLocalizacion->NombreEstado(),
     ],
+    
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'mes',
+        'label'=> 'Mes Desbloqueado',
+        'attribute'=>'obtenerMes',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
+        'template' => '{delete}',
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to([$action,'id'=>$key]);
         },
-        'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
-        'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
+        //'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
+        //'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
         'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',

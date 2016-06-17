@@ -3,6 +3,9 @@
 namespace backend\controllers;
 
 use Yii;
+use common\models\AccionCentralizadaVariableProgramacion;
+use frontend\models\AccionCentralizadaVariableEjecucion;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use backend\models\AccionCentralizadaDesbloqueoMes;
 use backend\models\AccionCentralizadaDesbloqueoMesSearch;
@@ -27,6 +30,7 @@ class AccionCentralizadaDesbloqueoMesController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'bulk-delete' => ['post'],
                 ],
             ],
             'access' => [
@@ -55,15 +59,43 @@ class AccionCentralizadaDesbloqueoMesController extends Controller
      * Lists all AccionCentralizadaDesbloqueoMes models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {    
         $searchModel = new AccionCentralizadaDesbloqueoMesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $ejecucion=AccionCentralizadaVariableEjecucion::find()
+        ->innerjoin('accion_centralizada_variable_programacion', 'accion_centralizada_variable_programacion.id=accion_centralizada_variable_ejecucion.id_programacion')
+        ->where(['accion_centralizada_variable_programacion.id_localizacion' => $id])->one();
+        //print_r($programacion); exit();
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        $model = AccionCentralizadaDesbloqueoMes::find();
+        if($ejecucion!=null){
+        
+        $model->andFilterWhere([
+            'id_ejecucion' => $ejecucion->id,
         ]);
+        }else{
+            $model->andFilterWhere([
+                'id' => -1,
+            ]);
+        }
+        $dataProvider = new ActiveDataProvider([
+        'query' => $model,
+        ]);
+        $searchModel='';
+        // return $dataProvider;
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return [
+        'title' => "Desbloqueo Por Mes Variables",
+        'content' => $this->renderAjax('index', [
+            'searchModel' => $searchModel,
+            'id_ejecucion' => $ejecucion,
+            'dataProvider' => $dataProvider,
+        ]),
+        ];
     }
 
 
@@ -82,8 +114,8 @@ class AccionCentralizadaDesbloqueoMesController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+                            #Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -98,11 +130,12 @@ class AccionCentralizadaDesbloqueoMesController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id_ejecucion)
     {
         $request = Yii::$app->request;
         $model = new AccionCentralizadaDesbloqueoMes();  
-
+        $model->id_ejecucion=$id_ejecucion;
+        $array_mes = array('1' => 'Enero', '2' => 'Febrero', '3' => 'Marzo', '4' => 'Abril', '5' => 'Mayo', '6' => 'Junio', '7' => 'Julio', '8' => 'Agosto', '9' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre');
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -113,6 +146,8 @@ class AccionCentralizadaDesbloqueoMesController extends Controller
                     'title'=> "Create new AccionCentralizadaDesbloqueoMes",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
+                        'mes' => $array_mes,
+
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -124,7 +159,7 @@ class AccionCentralizadaDesbloqueoMesController extends Controller
                     'title'=> "Create new AccionCentralizadaDesbloqueoMes",
                     'content'=>'<span class="text-success">Create AccionCentralizadaDesbloqueoMes success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Create More',['create', 'id_ejecucion' => $id_ejecucion,],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
@@ -132,6 +167,8 @@ class AccionCentralizadaDesbloqueoMesController extends Controller
                     'title'=> "Create new AccionCentralizadaDesbloqueoMes",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
+                        'mes' => $array_mes,
+
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -147,6 +184,7 @@ class AccionCentralizadaDesbloqueoMesController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'mes' => $array_mes,
                 ]);
             }
         }

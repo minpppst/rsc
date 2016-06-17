@@ -1,5 +1,12 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
+$icons=[
+    'crear'=>'<span class="glyphicon glyphicon-file" aria-hidden="true"></span>',
+    'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+    'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
+    'recargar' => '<span class="glyphicon glyphicon-repeat"></span>'
+];
 
 return [
     [
@@ -23,18 +30,24 @@ return [
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
+         'template' => '{view}{update}{delete}{desbloqueo}', 
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to(['localizacion-acc-variable/'.$action,'id'=>$key, 'variable' => $model->id_variable, 'localizacion' => $model->idVariable->localizacion]);
         },
+        'buttons' => [
+        'desbloqueo' => function ($url, $model, $key) {
+         return $model->obtener_ejecucion ?   html::a(' <span class="glyphicon glyphicon-lock"></span>',['accion-centralizada-desbloqueo-mes/index', 'id'=>$model->id,], ['role'=>'modal-remote','title'=>'Desbloquear Mes','data-toggle'=>'tooltip']) : '';
+        },
+        ],
         'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
-        'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+        'deleteOptions'=>['role'=>'modal-remote','title'=>'Eliminar', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',
                           'data-confirm-title'=>'Are you sure?',
-                          'data-confirm-message'=>'Are you sure want to delete this item'], 
+                          'data-confirm-message'=>'¿Esta de querer eliminar este items?'], 
     ],
 
 ];   
