@@ -301,7 +301,11 @@ class MaterialesServiciosController extends Controller
     }
 
     /**
-     * Importar modelos.
+     * Importar Materiales o Servicios.
+     * Se recibe el stream de un archivo CSV. Se lee cada linea del archivo
+     * y se separa cada columna en un arreglo. Cada elemento del arreglo se utilizara
+     * para buscar los modelos asociados al registro a insertar/modificar.
+     * @return mixed
      */
     public function actionImportar()
     {
@@ -316,59 +320,71 @@ class MaterialesServiciosController extends Controller
 
             try
             {
+                //Por cada linea leida
                 foreach ($archivo as $llave => $valor) 
                 {
+                    //Separar las columnas de la linea leida
                     $exploded = explode(',', str_replace('"', '',$valor));
-                    //Llave foraneas
+                    /* Llaves foraneas */
+                    //Partida presupuestaria $exploded[0]
                     $id_se = MaterialesServicios::findIdSubEspecifica($exploded[0]);
+
+                    //Unidad de medida $exploded[2]
                     $unidad_medida = UnidadMedida::find()->where('unidad_medida LIKE "%:unidad_medida%"')
                         ->addParams([':unidad_medida' => $exploded[2]])
                         ->one();
+
+                    //Presentacion $exploded[3]
                     $presentacion = Presentacion::find()->where('presentacion LIKE "%:presentacion%"')
                         ->addParams([':presentacion' => $exploded[3]])
                         ->one();
 
-                    //Buscar el modelo
-                    $ue = MaterialesServicios::find()
+                    //Buscar el modelo. Material o servicio $exploded[1]
+                    $ms = MaterialesServicios::find()
                         ->where(['nombre' => $exploded[1], 'id_se' =>$id_se])
                         ->one();
 
-                    if($ue == null)
+                    //Si no se encuentra un material o servicio
+                    if($ms == null)
                     {
-                        $ue = new MaterialesServicios;
+                        //Modelo nuevo a insertar
+                        $ms = new MaterialesServicios;
                     }
 
                     //Asignar variables
-                    $ue->id_se = $id_se;
-                    $ue->nombre = $exploded[1];
-                    $ue->unidad_medida = $unidad_medida->id;
-                    $ue->presentacion = $presentacion->id;
-                    $ue->precio = $exploded[4];
-                    $ue->iva = 12; //IVA 12%
-                    $ue->estatus = 1; //1 Activo, 0 Inactivo
-                    $ue->save();
+                    $ms->id_se = $id_se;
+                    $ms->nombre = $exploded[1];
+                    $ms->unidad_medida = $unidad_medida->id;
+                    $ms->presentacion = $presentacion->id;
+                    $ms->precio = $exploded[4];
+                    $ms->iva = 12; //IVA 12%
+                    $ms->estatus = 1; //1 Activo, 0 Inactivo
+                    $ms->save();
                 }
                 
+                //Se insertan o modifican los registros
                 $transaccion->commit();
-
+                //Mensaje de exito
                 Yii::$app->session->setFlash('importado', '<div class="alert alert-success">Registros importados exitosamente.</div>');
                 return $this->refresh();
 
-            }catch(\Exception $e){
+            }catch(\Exception $e){ //Falla la insercion o modificacion de registros
+                //Se cancela la transaccion
                 $transaccion->rollBack();
+                //Mensaje de error
                 Yii::$app->session->setFlash('importado', '<div class="alert alert-danger">'.$e.'</div>');
             }
                         
         }
-
+        //La vista
         return $this->render('importar', [
             'modelo' => $modelo,
         ]);
     }
 
     /**
-     * Activar o desactivar un modelo
-     * @param integer id
+     * Activar o desactivar un modelo.
+     * @param integer $id Id del modelo 
      * @return mixed
      */
     public function actionToggleActivo($id) {
@@ -392,7 +408,6 @@ class MaterialesServiciosController extends Controller
      * Desactiva multiples modelos.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
-     * @param integer id
      * @return mixed
      */
     public function actionBulkDesactivar() {
@@ -425,7 +440,6 @@ class MaterialesServiciosController extends Controller
      * Activa multiples modelos.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
-     * @param integer id
      * @return mixed
      */
     public function actionBulkActivar() {
