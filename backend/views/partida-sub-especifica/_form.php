@@ -3,40 +3,25 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-use kartik\depdrop\DepDrop;
-use kartik\depdrop\DepDropAsset;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Se */
 /* @var $form yii\widgets\ActiveForm */
-DepDropAsset::register($this);
 ?>
 
 <div class="se-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class="form-group">
-        <label>Partida</label><!-- PARTIDA -->
-        <?= Html::dropDownList('partida','',ArrayHelper::map($partida,'id','partida'),[
-            'class' => 'form-control',
-            'prompt' => 'Seleccione',
-            'id' => 'partidas'
-        ]) ?>
-    </div>
+    <?= $form->field($model, 'cuenta')->textInput(['placeholder' => 'Ingrese un número entre 1 y 9']) ?>
 
-    <div class="form-group">
-        <label>Genérica</label><!-- GENERICA -->
-        <?= Html::dropDownList('generica','',[],[
-            'prompt' => 'Seleccione',
-            'class' => 'form-control',
-            'id' => 'generica'
-        ]) ?>
-    </div>
+    <?= $form->field($model, 'partida')->textInput(['placeholder' => 'Ingrese un número entre 00 y 99']) ?>
 
-    <?= $form->field($model, 'especifica')->dropDownList([],['prompt' => 'Seleccione']) ?>
+    <?= $form->field($model, 'generica')->textInput(['placeholder' => 'Ingrese un número entre 00 y 99']) ?>
 
-    <?= $form->field($model, 'sub_especifica')->textInput(['prompt' => 'Seleccione','placeholder' => 'Ingrese un número entre 00 y 99']) ?>
+    <?= $form->field($model, 'especifica')->textInput(['placeholder' => 'Ingrese un número entre 00 y 99']) ?>
+
+    <?= $form->field($model, 'subespecifica')->textInput(['placeholder' => 'Ingrese un número entre 00 y 99']) ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
@@ -52,18 +37,3 @@ DepDropAsset::register($this);
     <?php ActiveForm::end(); ?>
     
 </div>
-<script type="text/javascript">
-    /* Listas desplegables dependientes */
-    $(document).ready(function(){
-        //GENERICA
-        $("#generica").depdrop({
-            depends: ['partidas'],
-            url: "<?= Url::to(['generica']) ?>"
-        });
-        //ESPECIFICA
-        $("#partidasubespecifica-especifica").depdrop({
-            depends: ['generica'],
-            url: "<?= Url::to(['especifica']) ?>"
-        });
-    });
-</script>

@@ -12,9 +12,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_partida')->dropDownList(ArrayHelper::map($partida, 'id','partida'),['prompt' => 'Seleccione']) ?>
+    <?= $form->field($model, 'cuenta')->input('number',['placeholder' => 'Ingrese un número entre 1 y 9', 'max' => 9, 'min' => 1]) ?>
 
-    <?= $form->field($model, 'generica')->textInput(['placeholder' => 'Escriba un número entre 00 y 99', 'maxlength' => 2]) ?>
+    <?= $form->field($model, 'partida')->input('number',['placeholder' => 'Ingrese un número entre 00 y 99', 'maxlength' => true, 'minlength' => true, 'max' => 99, 'min' => 01]) ?>
+
+    <?= $form->field($model, 'generica')->input('number',['placeholder' => 'Ingrese un número entre 00 y 99', 'maxlength' => true, 'minlength' => true, 'max' => 99, 'min' => 01]) ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 

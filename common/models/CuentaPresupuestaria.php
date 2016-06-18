@@ -7,11 +7,8 @@ use Yii;
 /**
  * This is the model class for table "cuenta_presupuestaria".
  *
- * @property integer $id
  * @property string $cuenta
  * @property string $nombre
- *
- * @property PartidaPartida[] $partidaPartidas
  */
 class CuentaPresupuestaria extends \yii\db\ActiveRecord
 {
@@ -31,7 +28,7 @@ class CuentaPresupuestaria extends \yii\db\ActiveRecord
         return [
             [['cuenta', 'nombre'], 'required'],
             [['cuenta'], 'string', 'max' => 1],
-            [['nombre'], 'string', 'max' => 15]
+            [['nombre'], 'string', 'max' => 15],
         ];
     }
 
@@ -41,17 +38,8 @@ class CuentaPresupuestaria extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'cuenta' => 'Cuenta',
             'nombre' => 'Nombre',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPartidaPartidas()
-    {
-        return $this->hasMany(PartidaPartida::className(), ['cuenta' => 'id']);
     }
 }

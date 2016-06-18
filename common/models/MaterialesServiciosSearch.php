@@ -12,9 +12,8 @@ use common\models\MaterialesServicios;
  */
 class MaterialesServiciosSearch extends MaterialesServicios
 {
-    public $codigoSubEspecifica;
-    public $nombrePresentacion;
     public $nombreUnidadMedida;
+    public $nombrePresentacion;    
     public $nombreEstatus;
     /**
      * @inheritdoc
@@ -22,8 +21,8 @@ class MaterialesServiciosSearch extends MaterialesServicios
     public function rules()
     {
         return [
-            [['id', 'id_se', 'unidad_medida', 'presentacion', 'iva', 'estatus'], 'integer'],
-            [['nombre', 'codigoSubEspecifica', 'nombrePresentacion', 'nombreUnidadMedida', 'nombreEstatus'], 'safe'],
+            [['id', 'cuenta', 'partida', 'generica', 'especifica', 'subespecifica', 'unidad_medida', 'presentacion', 'iva', 'estatus'], 'integer'],
+            [['nombre', 'nombrePresentacion', 'nombreUnidadMedida', 'nombreEstatus'], 'safe'],
             [['precio'], 'number'],
         ];
     }
@@ -48,7 +47,7 @@ class MaterialesServiciosSearch extends MaterialesServicios
     {
         $query = MaterialesServicios::find();
         // Join para la relacion
-        $query->joinWith(['idSe']);
+        $query->joinWith(['cuenta0']);
         $query->joinWith(['presentacion0']);
         $query->joinWith(['unidadMedida']);
 
@@ -57,10 +56,6 @@ class MaterialesServiciosSearch extends MaterialesServicios
         ]);
 
         //Ordenamiento
-        $dataProvider->sort->attributes['codigoSubEspecifica'] = [
-            'asc' => ['partida_sub_especfica.sub_especfica' => SORT_ASC],
-            'desc' => ['partida_sub_especfica.sub_especfica' => SORT_DESC],
-        ];
         $dataProvider->sort->attributes['nombrePresentacion'] = [
             'asc' => ['presentacion.nombre' => SORT_ASC],
             'desc' => ['presentacion.nombre' => SORT_DESC],
@@ -80,7 +75,11 @@ class MaterialesServiciosSearch extends MaterialesServicios
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_se' => $this->id_se,
+            'cuenta' => $this->cuenta,
+            'partida' => $this->partida,
+            'generica' => $this->generica,
+            'especifica' => $this->especifica,
+            'subespecifica' => $this->subespecifica,
             'unidad_medida' => $this->unidad_medida,
             'presentacion' => $this->presentacion,
             'precio' => $this->precio,
@@ -90,7 +89,6 @@ class MaterialesServiciosSearch extends MaterialesServicios
 
         $query->andFilterWhere(['materiales_servicios.estatus' => $this->nombreEstatus]);
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
-        $query->andFilterWhere(['partida_sub_especfica.sub_especfica' => $this->id_se]);
         $query->andFilterWhere(['like', 'presentacion.nombre', $this->nombrePresentacion]);
         $query->andFilterWhere(['like', 'unidad_medida.unidad_medida', $this->nombreUnidadMedida]);
 

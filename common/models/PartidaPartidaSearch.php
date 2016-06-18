@@ -12,7 +12,6 @@ use common\models\PartidaRamo;
  */
 class PartidaPartidaSearch extends PartidaPartida
 {
-    public $numeroCuenta;
     public $nombreEstatus;
 
     /**
@@ -21,8 +20,8 @@ class PartidaPartidaSearch extends PartidaPartida
     public function rules()
     {
         return [
-            [['id', 'cuenta', 'partida', 'estatus'], 'integer'],
-            [['nombre', 'numeroCuenta', 'nombreEstatus'], 'safe'],
+            [['estatus'], 'integer'],
+            [['cuenta', 'partida', 'nombre', 'nombreEstatus'], 'safe'],
         ];
     }
 
@@ -45,18 +44,10 @@ class PartidaPartidaSearch extends PartidaPartida
     public function search($params)
     {
         $query = PartidaPartida::find();
-        // Join para la relacion
-        $query->joinWith(['cuentaPresupuestaria']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
-        //Ordenamiento
-        $dataProvider->sort->attributes['numeroCuenta'] = [
-            'asc' => ['cuenta_presupuestaria.cuenta' => SORT_ASC],
-            'desc' => ['cuenta_presupuestaria.cuenta' => SORT_DESC],
-        ];
 
         $this->load($params);
 
@@ -67,15 +58,13 @@ class PartidaPartidaSearch extends PartidaPartida
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'cuenta' => $this->cuenta,
+            'cuenta' => $this->cuenta,            
             'partida' => $this->partida,
             'estatus' => $this->estatus,
         ]);
 
         $query->andFilterWhere(['estatus' => $this->nombreEstatus]);
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
-        $query->andFilterWhere(['cuenta_presupuestaria.cuenta' => $this->numeroCuenta]);
 
         return $dataProvider;
     }

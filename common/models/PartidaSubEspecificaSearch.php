@@ -12,14 +12,15 @@ use common\models\PartidaSubEspecifica;
  */
 class PartidaSubEspecificaSearch extends PartidaSubEspecifica
 {
+    public $nombreEstatus;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'especifica', 'sub_especifica', 'estatus'], 'integer'],
-            [['nombre'], 'safe'],
+            [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica', 'estatus'], 'integer'],
+            [['nombre', 'nombreEstatus'], 'safe'],
         ];
     }
 
@@ -56,12 +57,15 @@ class PartidaSubEspecificaSearch extends PartidaSubEspecifica
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'cuenta' => $this->cuenta,
+            'partida' => $this->partida,
+            'generica' => $this->generica,
             'especifica' => $this->especifica,
-            'sub_especifica' => $this->sub_especifica,
+            'subespecifica' => $this->subespecifica,
             'estatus' => $this->estatus,
         ]);
 
+        $query->andFilterWhere(['estatus' => $this->nombreEstatus]);
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
 
         return $dataProvider;

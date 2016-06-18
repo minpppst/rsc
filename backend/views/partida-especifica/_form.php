@@ -3,8 +3,6 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-use kartik\depdrop\DepDrop;
-use kartik\depdrop\DepDropAsset;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Es */
@@ -16,16 +14,11 @@ DepDropAsset::register($this);
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class="form-group">
-        <label>Partida</label>
-        <?= Html::dropDownList('partida','',ArrayHelper::map($partida,'id','partida'),[
-            'class' => 'form-control',
-            'prompt' => 'Seleccione',
-            'id' => 'partidas'
-        ]) ?>
-    </div>
+    <?= $form->field($model, 'cuenta')->textInput(['placeholder' => 'Escriba un número entre 1 y 9']) ?>
 
-    <?= $form->field($model, 'generica')->dropDownList([],['prompt' => 'Seleccione']) ?>
+    <?= $form->field($model, 'partida')->textInput(['placeholder' => 'Escriba un número entre 00 y 99']) ?>
+
+    <?= $form->field($model, 'generica')->textInput(['placeholder' => 'Escriba un número entre 00 y 99']) ?>
 
     <?= $form->field($model, 'especifica')->textInput(['placeholder' => 'Escriba un número entre 00 y 99']) ?>
 
@@ -43,14 +36,3 @@ DepDropAsset::register($this);
     <?php ActiveForm::end(); ?>
     
 </div>
-<script type="text/javascript">
-    /* Listas desplegables dependientes */
-    $(document).ready(function(){
-        //GE
-        $("#partidaespecifica-generica").depdrop({
-            depends: ['partidas'],
-            url: "<?= Url::to(['generica']) ?>"
-        });
-        
-    });
-</script>

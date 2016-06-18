@@ -17,11 +17,15 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'partidaPartida',
+        'attribute'=>'cuenta',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'partidaGenerica',
+        'attribute'=>'partida',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'generica',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -34,7 +38,9 @@ return [
     [
         'class' => '\kartik\grid\DataColumn',
         'width' => '50px',
-        'attribute' => 'nombreEstatus',
+        'attribute' => 'estatus',
+        //Lista desplegable
+        'filter' => [1 => 'Activo', 0 => 'Inactivo'],
         'value' => function ($model) {
             if ($model->estatus == 1) {
                 return Html::a($model->nombreEstatus, ['toggle-activo', 'id' => $model->id], [

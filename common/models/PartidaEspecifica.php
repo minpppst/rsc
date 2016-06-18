@@ -7,14 +7,15 @@ use Yii;
 /**
  * This is the model class for table "partida_especifica".
  *
- * @property integer $id
+ * @property integer $cuenta
+ * @property integer $partida
  * @property integer $generica
- * @property string $especifica
+ * @property integer $especifica
  * @property string $nombre
  * @property integer $estatus
  *
- * @property Ge $idGe
- * @property Se[] $ses
+ * @property PartidaGenerica $cuenta0
+ * @property PartidaSubEspecifica[] $partidaSubEspecificas
  */
 class PartidaEspecifica extends \yii\db\ActiveRecord
 {
@@ -32,10 +33,10 @@ class PartidaEspecifica extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['generica', 'especifica', 'nombre', 'estatus'], 'required'],
-            [['generica', 'estatus'], 'integer'],
-            [['especifica'], 'string', 'max' => 2],
+            [['cuenta', 'partida', 'generica', 'especifica', 'nombre', 'estatus'], 'required'],
+            [['cuenta', 'partida', 'generica', 'especifica', 'estatus'], 'integer'],
             [['nombre'], 'string', 'max' => 60],
+            [['cuenta', 'partida', 'generica'], 'exist', 'skipOnError' => true, 'targetClass' => PartidaGenerica::className(), 'targetAttribute' => ['cuenta' => 'cuenta', 'partida' => 'partida', 'generica' => 'generica']],
             ['especifica', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];
     }
@@ -46,55 +47,29 @@ class PartidaEspecifica extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'generica' => 'Génerica',
+            'cuenta' => 'Cuenta',
+            'partida' => 'Partida',
+            'generica' => 'Generica',
             'especifica' => 'Especifica',
             'nombre' => 'Nombre',
             'estatus' => 'Estatus',
-            'partidaGenerica' => 'Génerica',
-            'nombreEstatus' => 'Estatus',
-            'partida' => 'Partida'
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdGenerica()
+    public function getCuenta0()
     {
-        return $this->hasOne(PartidaGenerica::className(), ['id' => 'generica']);
+        return $this->hasOne(PartidaGenerica::className(), ['cuenta' => 'cuenta', 'partida' => 'partida', 'generica' => 'generica']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSes()
+    public function getPartidaSubEspecificas()
     {
-        return $this->hasMany(Se::className(), ['id_es' => 'id']);
-    }
-
-    public function getPartidaPartida()
-    {
-        if($this->idGenerica == null)
-        {
-            return null;
-        }
-
-        return PartidaPartida::find()->where(['id' => $this->idGenerica->id_partida])->one()->partida;
-    }
-
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPartidaGenerica()
-    {
-        if($this->idGenerica == null)
-        {
-            return null;
-        }
-
-        return $this->idGenerica->generica;
+        return $this->hasMany(PartidaSubEspecifica::className(), ['cuenta' => 'cuenta', 'partida' => 'partida', 'generica' => 'generica', 'especifica' => 'especifica']);
     }
 
     /**
@@ -102,12 +77,14 @@ class PartidaEspecifica extends \yii\db\ActiveRecord
      */
     public function getNombreEstatus()
     {
-        if($this->estatus == 1)
+        
+        if($this->estatus === 1)
         {
             return 'Activo';
         }
 
         return 'Inactivo';
+
     }
 
     /**

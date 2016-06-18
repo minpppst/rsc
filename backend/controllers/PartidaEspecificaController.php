@@ -87,13 +87,6 @@ class PartidaEspecificaController extends Controller
         $request = Yii::$app->request;
         $model = new PartidaEspecifica();
 
-        //Listas desplegables
-        $partida = PartidaPartida::find()
-            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
-            ->where(['estatus' => 1])
-            ->asArray()
-            ->all();
-
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -104,7 +97,6 @@ class PartidaEspecificaController extends Controller
                     'title'=> "Crear Partida Específica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'partida' => $partida,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -124,7 +116,6 @@ class PartidaEspecificaController extends Controller
                     'title'=> "Crear Partida Específica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'partida' => $partida,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -140,7 +131,6 @@ class PartidaEspecificaController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
-                    'partida' => $partida,
                 ]);
             }
         }
@@ -157,14 +147,7 @@ class PartidaEspecificaController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id); 
-
-        //Listas desplegables
-        $partida = PartidaPartida::find()
-            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
-            ->where(['estatus' => 1])
-            ->asArray()
-            ->all();   
+        $model = $this->findModel($id);  
 
         if($request->isAjax){
             /*
@@ -176,7 +159,6 @@ class PartidaEspecificaController extends Controller
                     'title'=> "Actualizar ES #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
-                        'partida' => $partida,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -187,7 +169,6 @@ class PartidaEspecificaController extends Controller
                     'title'=> "Es #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
-                        'partida' => $partida,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -197,7 +178,6 @@ class PartidaEspecificaController extends Controller
                     'title'=> "Actualizar ES #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
-                        'partida' => $partida,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -212,7 +192,6 @@ class PartidaEspecificaController extends Controller
             } else {
                 return $this->render('update', [
                     'model' => $model,
-                    'partida' => $partida,
                 ]);
             }
         }

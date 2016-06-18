@@ -5,16 +5,16 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "ge".
+ * This is the model class for table "partida_generica".
  *
- * @property integer $id
- * @property integer $id_partida
- * @property string $generica
+ * @property integer $cuenta
+ * @property integer $partida
+ * @property integer $generica
  * @property string $nombre
  * @property integer $estatus
  *
- * @property Es[] $es
- * @property Partida $idPartida
+ * @property PartidaEspecifica[] $partidaEspecificas
+ * @property PartidaPartida $cuenta0
  */
 class PartidaGenerica extends \yii\db\ActiveRecord
 {
@@ -32,10 +32,13 @@ class PartidaGenerica extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_partida', 'generica', 'nombre', 'estatus'], 'required'],
-            [['id_partida', 'estatus'], 'integer'],
-            [['generica'], 'string', 'max' => 2],
+            [['cuenta', 'partida', 'generica', 'nombre', 'estatus'], 'required'],
+            [['estatus'], 'integer'],
+            [['cuenta'], 'string', 'max' => 1],
+            [['partida'], 'string', 'min' => 2, 'max' => 2],
+            [['generica'], 'string', 'min' => 2, 'max' => 2],
             [['nombre'], 'string', 'max' => 60],
+            [['cuenta', 'partida'], 'exist', 'skipOnError' => true, 'targetClass' => PartidaPartida::className(), 'targetAttribute' => ['cuenta' => 'cuenta', 'partida' => 'partida']],
             ['generica', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];
     }
@@ -46,57 +49,43 @@ class PartidaGenerica extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'id_partida' => 'Partida',
-            'generica' => 'Genérica',
+            'cuenta' => 'Cuenta',
+            'partida' => 'Partida',
+            'generica' => 'Generica',
             'nombre' => 'Nombre',
             'estatus' => 'Estatus',
-            'codigoPartida' => 'Partida',
-            'nombreEstatus' => 'Estatus',
-            'cuenta' => 'Cuenta'
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEs()
+    public function getPartidaEspecificas()
     {
-        return $this->hasMany(Es::className(), ['id_ge' => 'id']);
+        return $this->hasMany(PartidaEspecifica::className(), ['cuenta' => 'cuenta', 'partida' => 'partida', 'generica' => 'generica']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdPartida()
+    public function getCuenta0()
     {
-        return $this->hasOne(PartidaPartida::className(), ['id' => 'id_partida']);
+        return $this->hasOne(PartidaPartida::className(), ['cuenta' => 'cuenta', 'partida' => 'partida']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCodigoPartida()
-    {
-        if($this->idPartida == null)
-        {
-            return null;
-        }
-
-        return $this->idPartida->partida;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
+     * @return string
      */
     public function getNombreEstatus()
     {
-        if($this->estatus == 1)
+        
+        if($this->estatus === 1)
         {
             return 'Activo';
         }
 
         return 'Inactivo';
+
     }
 
     /**

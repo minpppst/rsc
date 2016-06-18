@@ -7,14 +7,12 @@ use Yii;
 /**
  * This is the model class for table "partida_partida".
  *
- * @property integer $id
- * @property integer $cuenta
- * @property integer $partida
+ * @property string $cuenta
+ * @property string $partida
  * @property string $nombre
  * @property integer $estatus
  *
- * @property Ge[] $ges
- * @property PartidaCuenta $cuenta0
+ * @property PartidaGenerica[] $partidaGenericas
  */
 class PartidaPartida extends \yii\db\ActiveRecord
 {
@@ -33,8 +31,11 @@ class PartidaPartida extends \yii\db\ActiveRecord
     {
         return [
             [['cuenta', 'partida', 'nombre'], 'required'],
-            [['cuenta', 'partida', 'estatus'], 'integer'],
-            [['nombre'], 'string', 'max' => 60]
+            [['estatus'], 'integer'],
+            [['cuenta'], 'string', 'max' => 1],
+            [['partida'], 'string', 'min' => 2, 'max' => 2],
+            [['nombre'], 'string', 'max' => 60],
+            ['partida', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];
     }
 
@@ -44,35 +45,19 @@ class PartidaPartida extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'cuenta' => 'Cuenta',
             'partida' => 'Partida',
             'nombre' => 'Nombre',
             'estatus' => 'Estatus',
-            'nombreEstatus' => 'Estatus',
-            'numeroCuenta' => 'Cuenta'
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPartidasGenericas()
+    public function getPartidaGenericas()
     {
-        return $this->hasMany(PartidaGenerica::className(), ['id_partida' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCuentaPresupuestaria()
-    {
-        return $this->hasOne(CuentaPresupuestaria::className(), ['id' => 'cuenta']);
-    }
-    
-    public function getNumeroCuenta()
-    {
-        return $this->cuentaPresupuestaria->cuenta;
+        return $this->hasMany(PartidaGenerica::className(), ['cuenta' => 'cuenta', 'partida' => 'partida']);
     }
 
     /**

@@ -50,25 +50,26 @@ class PartidaPartidaController extends Controller
 
     /**
      * Displays a single PartidaPartida model.
-     * @param integer $id
+     * @param integer $cuenta
+     * @param integer $partida
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($cuenta,$partida)
     {   
         $request = Yii::$app->request;
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "PartidaPartida #".$id,
+                    'title'=> "PartidaPartida #".$cuenta.$partida,
                     'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
+                        'model' => $this->findModel($cuenta,$partida),
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Edit',['update','cuenta'=>$cuenta,'partida'=>$partida],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
-                'model' => $this->findModel($id),
+                'model' => $this->findModel($cuenta,$partida),
             ]);
         }
     }
@@ -99,14 +100,13 @@ class PartidaPartidaController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post()) && $model->model()){
                 return [
                     'forceReload'=>'true',
                     'title'=> "Crear Partida",
                     'content'=>'<span class="text-success">Create PartidaPartida success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
                 ];         
             }else{           
                 return [
@@ -138,13 +138,14 @@ class PartidaPartidaController extends Controller
      * Updates an existing PartidaPartida model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param integer $cuenta
+     * @param integer $partida
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($cuenta,$partida)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($cuenta,$partida);       
 
         if($request->isAjax){
             /*
@@ -153,39 +154,40 @@ class PartidaPartidaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Partida #".$id,
+                    'title'=> "Update Partida #".$cuenta.$partida,
                     'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
+                        'model' => $this->findModel($cuenta,$partida),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post()) && $model->save()){            
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Partida #".$id,
+                    'title'=> "Partida #".$cuenta.$partida,
                     'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
+                        'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','cuenta'=>$cuenta,'partida'=>$partida],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                ];
+                   
             }else{
                  return [
-                    'title'=> "Update Partida #".$id,
+                    'title'=> "Update Partida #".$cuenta.$partida,
                     'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
+                        'model' => $this->findModel($cuenta,$partida),
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-                ];        
+                ];       
             }
         }else{
             /*
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'cuenta' => $model->cuenta,'partida' => $model->partida]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
@@ -198,20 +200,21 @@ class PartidaPartidaController extends Controller
      * Delete an existing PartidaPartida model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param integer $cuenta
+     * @param integer $partida
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($cuenta,$partida)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $this->findModel($cuenta,$partida)->delete();
 
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
+            return ['forceClose'=>'true','forceReload'=>'true'];    
         }else{
             /*
             *   Process for non-ajax request
@@ -255,11 +258,12 @@ class PartidaPartidaController extends Controller
 
     /**
      * Activar o desactivar un modelo
-     * @param integer id
+     * @param integer $cuenta
+     * @param integer $partida
      * @return mixed
      */
-    public function actionToggleActivo($id) {
-        $model = $this->findModel($id);
+    public function actionToggleActivo($cuenta,$partida) {
+        $model = $this->findModel($cuenta,$partida);
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -348,9 +352,9 @@ class PartidaPartidaController extends Controller
      * @return PartidaPartida the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($cuenta,$partida)
     {
-        if (($model = PartidaPartida::findOne($id)) !== null) {
+        if (($model = PartidaPartida::findOne(['cuenta' => $cuenta, 'partida' => $partida])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

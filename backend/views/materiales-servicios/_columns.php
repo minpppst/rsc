@@ -49,15 +49,9 @@ return [
     [
         'class' => '\kartik\grid\DataColumn',
         'width' => '50px',
-        'attribute' => 'nombreEstatus',
+        'attribute' => 'estatus',
         //Lista desplegable
-        'filter' => '
-            <select class="form-control" name="MaterialesServiciosSearch[nombreEstatus]">
-                <option value=""></option>
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
-            </select>
-        ',
+        'filter' => [1 => 'Activo', 0 => 'Inactivo'],
         'value' => function ($model) {
             if ($model->estatus == 1) {
                 return Html::a($model->nombreEstatus, ['toggle-activo', 'id' => $model->id], [

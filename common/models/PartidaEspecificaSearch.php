@@ -12,16 +12,15 @@ use common\models\PartidaEspecifica;
  */
 class PartidaEspecificaSearch extends PartidaEspecifica
 {
-    public $partidaPartida;
-    public $partidaGenerica;
+    public $nombreEstatus;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'generica', 'especifica', 'estatus'], 'integer'],
-            [['nombre','partidaGenerica', 'partidaPartida'], 'safe'],
+            [['cuenta', 'partida', 'generica', 'especifica', 'estatus'], 'integer'],
+            [['nombre', 'nombreEstatus'], 'safe'],
         ];
     }
 
@@ -44,18 +43,10 @@ class PartidaEspecificaSearch extends PartidaEspecifica
     public function search($params)
     {
         $query = PartidaEspecifica::find();
-        // Join para la relacion
-        $query->joinWith(['idGenerica']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
-        //Ordenamiento
-        $dataProvider->sort->attributes['partidaGenerica'] = [
-            'asc' => ['partida_generica.generica' => SORT_ASC],
-            'desc' => ['partida_generica.generica' => SORT_DESC],
-        ];
 
         $this->load($params);
 
@@ -66,15 +57,15 @@ class PartidaEspecificaSearch extends PartidaEspecifica
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'cuenta' => $this->cuenta,
+            'partida' => $this->partida,
             'generica' => $this->generica,
             'especifica' => $this->especifica,
             'estatus' => $this->estatus,
         ]);
 
+        $query->andFilterWhere(['estatus' => $this->nombreEstatus]);
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
-        $query->andFilterWhere(['partida_generica.generica'=> $this->partidaGenerica]);
-        $query->andFilterWhere(['partida_partida.partida'=> $this->partidaPartida]);
 
         return $dataProvider;
     }

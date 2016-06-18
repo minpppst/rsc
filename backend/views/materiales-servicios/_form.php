@@ -25,8 +25,8 @@ $icons=[
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_se')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map($sub_especfica, 'id', 'value'),
+    <?= $form->field($model, 'cuenta')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map($sub_especfica, 'cuenta', 'value'),
         'options' => ['placeholder' => 'Escriba para buscar'],
         'pluginOptions' => [
             'allowClear' => true

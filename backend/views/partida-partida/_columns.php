@@ -17,7 +17,7 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'numeroCuenta',
+        'attribute'=>'cuenta',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -35,7 +35,7 @@ return [
         'filter' => [1 => 'Activo', 0 => 'Inactivo'],
         'value' => function ($model) {
             if ($model->estatus == 1) {
-                return Html::a($model->nombreEstatus, ['toggle-activo', 'id' => $model->id], [
+                return Html::a($model->nombreEstatus, ['toggle-activo', 'cuenta' => $model->cuenta, 'partida' => $model->partida], [
                             'class' => 'btn btn-xs btn-success btn-block',
                             'role' => 'modal-remote',
                             'data-confirm' => false, 'data-method' => false, // for overide yii data api
@@ -44,7 +44,7 @@ return [
                             'data-confirm-message' => Yii::t('user', '¿Está seguro que desea desactivar este elemento?'),
                 ]);
             } else {
-                return Html::a($model->nombreEstatus, ['toggle-activo', 'id' => $model->id], [
+                return Html::a($model->nombreEstatus, ['toggle-activo', 'cuenta' => $model->cuenta, 'partida' => $model->partida], [
                             'class' => 'btn btn-xs btn-warning btn-block',
                             'role' => 'modal-remote',
                             'data-confirm' => false, 'data-method' => false, // for overide yii data api
@@ -61,7 +61,7 @@ return [
         'dropdown' => false,
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 
-                return Url::to([$action,'id'=>$key]);
+                return Url::to([$action,'cuenta'=>$key['cuenta'],'partida'=>$key['partida']]);
         },
         'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],

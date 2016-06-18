@@ -3,13 +3,16 @@
 namespace common\models;
 
 use Yii;
-use yii\db\Query;
 
 /**
  * This is the model class for table "materiales_servicios".
  *
  * @property integer $id
- * @property integer $id_se
+ * @property integer $cuenta
+ * @property integer $partida
+ * @property integer $generica
+ * @property integer $especifica
+ * @property integer $subespecifica
  * @property string $nombre
  * @property integer $unidad_medida
  * @property integer $presentacion
@@ -17,9 +20,10 @@ use yii\db\Query;
  * @property integer $iva
  * @property integer $estatus
  *
+ * @property AccionCentralizadaPedido[] $accionCentralizadaPedidos
  * @property Presentacion $presentacion0
- * @property PartidaSubEspecifica $idSe
  * @property UnidadMedida $unidadMedida
+ * @property PartidaSubEspecifica $cuenta0
  * @property ProyectoPedido[] $proyectoPedidos
  */
 class MaterialesServicios extends \yii\db\ActiveRecord
@@ -32,23 +36,20 @@ class MaterialesServicios extends \yii\db\ActiveRecord
         return 'materiales_servicios';
     }
 
-    public function behaviors()
-    {
-        return [
-            'bedezign\yii2\audit\AuditTrailBehavior'
-        ];
-    }
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id_se', 'nombre', 'unidad_medida', 'presentacion', 'precio', 'iva', 'estatus'], 'required'],
-            [['id_se', 'unidad_medida', 'presentacion', 'iva', 'estatus'], 'integer'],
+            [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica', 'nombre', 'unidad_medida', 'presentacion', 'precio', 'iva', 'estatus'], 'required'],
+            [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica', 'unidad_medida', 'presentacion', 'iva', 'estatus'], 'integer'],
             [['precio'], 'number'],
-            [['nombre'], 'string', 'max' => 60]            
+            [['nombre'], 'string', 'max' => 60],
+            [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica'], 'unique', 'targetAttribute' => ['cuenta', 'partida', 'generica', 'especifica', 'subespecifica'], 'message' => 'The combination of Cuenta, Partida, Generica, Especifica and Subespecifica has already been taken.'],
+            [['presentacion'], 'exist', 'skipOnError' => true, 'targetClass' => Presentacion::className(), 'targetAttribute' => ['presentacion' => 'id']],
+            [['unidad_medida'], 'exist', 'skipOnError' => true, 'targetClass' => UnidadMedida::className(), 'targetAttribute' => ['unidad_medida' => 'id']],
+            [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica'], 'exist', 'skipOnError' => true, 'targetClass' => PartidaSubEspecifica::className(), 'targetAttribute' => ['cuenta' => 'cuenta', 'partida' => 'partida', 'generica' => 'generica', 'especifica' => 'especifica', 'subespecifica' => 'subespecifica']],
         ];
     }
 
@@ -59,20 +60,27 @@ class MaterialesServicios extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_se' => 'Partida Sub-Específica',
+            'cuenta' => 'Cuenta',
+            'partida' => 'Partida',
+            'generica' => 'Genérica',
+            'especifica' => 'Específica',
+            'subespecifica' => 'Subespecifica',
             'nombre' => 'Nombre',
             'unidad_medida' => 'Unidad de Medida',
-            'nombreUnidadMedida' => 'Unidad de Medida',
             'presentacion' => 'Presentación',
             'precio' => 'Precio',
-            'iva' => 'IVA',
+            'iva' => 'Iva',
             'estatus' => 'Estatus',
-            'codigoSubEspecifica' => 'Específica',
-            'nombrePresentacion' => 'Presentación',
-            'precioBolivar' => 'Precio',
-            'ivaPorcentaje' => 'IVA',
-            'nombreEstatus' => 'Estatus'
+            'nombreUnidadMedida' => ' Unidad de Medida'
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccionCentralizadaPedidos()
+    {
+        return $this->hasMany(AccionCentralizadaPedido::className(), ['id_material' => 'id']);
     }
 
     /**
@@ -83,74 +91,20 @@ class MaterialesServicios extends \yii\db\ActiveRecord
         return $this->hasOne(Presentacion::className(), ['id' => 'presentacion']);
     }
 
-    public function getNombrePresentacion()
-    {
-        if($this->presentacion0 == null)
-        {
-            return null;
-        }
-
-        return $this->presentacion0->nombre;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdSe()
-    {
-        return $this->hasOne(PartidaSubEspecifica::className(), ['id' => 'id_se']);
-    }
-
-    public function getCodigoSubEspecifica()
-    {
-        if($this->id_se == null)
-        {
-            return null;
-        }
-
-        $this->idSe->sub_especifica;
-    }
-
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getUnidadMedida()
     {
-      return $this->hasOne(UnidadMedida::className(), ['id' => 'unidad_medida']);
+        return $this->hasOne(UnidadMedida::className(), ['id' => 'unidad_medida']);
     }
 
     /**
-     * @return string
+     * @return \yii\db\ActiveQuery
      */
-    public function getNombreUnidadMedida()
+    public function getCuenta0()
     {
-      if($this->unidad_medida == null)
-      {
-        return null;
-      }
-
-      return $this->unidadMedida->unidad_medida;
-
-    }
-
-    public function getPrecioBolivar()
-    {
-        if($this->precio == null)
-        {
-            return null;
-        }
-
-        return \Yii::$app->formatter->asCurrency($this->precio);
-    }
-
-    public function getIvaPorcentaje()
-    {
-        if($this->iva == null)
-        {
-            return null;
-        }
-
-        return $this->iva.'%' ;
+        return $this->hasOne(PartidaSubEspecifica::className(), ['cuenta' => 'cuenta', 'partida' => 'partida', 'generica' => 'generica', 'especifica' => 'especifica', 'subespecifica' => 'subespecifica']);
     }
 
     /**
@@ -166,12 +120,14 @@ class MaterialesServicios extends \yii\db\ActiveRecord
      */
     public function getNombreEstatus()
     {
-        if($this->estatus == 1)
+        
+        if($this->estatus === 1)
         {
-            return "Activo";
+            return 'Activo';
         }
 
-        return "Inactivo";
+        return 'Inactivo';
+
     }
 
     /**
@@ -208,48 +164,4 @@ class MaterialesServicios extends \yii\db\ActiveRecord
 
         return true;
      }
-
-      /**
-       * Devolver el codigo presupuestario completo
-       * del material o servicio.
-       * @return string
-       */
-      public function getCodigoPresupuestario()
-      {
-         return 
-            $this->idSe->especifica0->idGenerica->idPartida->numeroCuenta .''.
-            $this->idSe->especifica0->idGenerica->idPartida->partida .''.
-            $this->idSe->especifica0->idGenerica->generica .''.
-            $this->idSe->especifica0->especifica .''. 
-            $this->idSe->sub_especifica .'';
-      }
-
-    /** 
-     * Devuelve el id de la partida sub-especifica
-     * mediante el codigo presupuestario.
-     * @param string $codigo Codigo presupuestario
-     * @return integer $id ID de la partida sub-especifica
-     */
-    public function findIdSubEspecifica($codigo)
-    {
-        //Separar el codigo
-        $cuenta = substr($codigo, 0, 1);
-        $partida = substr($codigo, 1, 2);
-        $generica = substr($codigo, 3, 2);
-        $especifica = substr($codigo, 5, 2);
-        $sub_especfica = substr($codigo, 7, 2);
-
-        //construir el query
-        $query = new Query;
-
-        $query->select('pse.id AS id')
-            ->from('cuenta_presupuestaria cp, partida_partida pp, partida_generica pg, partida_especifica pe, partida_sub_especifica pse')
-            ->where('pse.especifica = pe.id AND pe.generica = pg.id AND pg.id_partida = pp.id AND pp.cuenta = cp.id
-                    AND cp.cuenta = :cuenta AND pp.partida = :partida AND pg.generica = :generica AND pe.especifica = :especifica AND pse.sub_especifica = :sub_especfica')
-            ->addParams([':cuenta'=>$cuenta,':partida'=>$partida,':generica'=>$generica,':especifica'=>$especifica,':sub_especfica'=>$sub_especfica]);
-
-        $row = $query->one();
-
-        return intval($row['id']); //Devuelve integer
-    }
 }

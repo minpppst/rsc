@@ -10,7 +10,8 @@ use yii\widgets\DetailView;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            'cuenta',
+            'partida',
             'generica',
             'especifica',
             'nombre',

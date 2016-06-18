@@ -98,7 +98,7 @@ class MaterialesServiciosController extends Controller
         $presentacion = Presentacion::find()->all();
         //autocompletar
         $sub_especfica = PartidaSubEspecifica::find()
-           ->select(['nombre as value', 'id as id'])
+           ->select(['nombre as value', 'cuenta as cuenta', 'partida as partida'])
            ->asArray()
            ->all(); 
 

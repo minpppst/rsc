@@ -86,13 +86,6 @@ class PartidaSubEspecificaController extends Controller
     {
         $request = Yii::$app->request;
         $model = new PartidaSubEspecifica();
-        //Listas desplegables
-        //Listas desplegables
-        $partida = PartidaPartida::find()
-            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
-            ->where(['estatus' => 1])
-            ->asArray()
-            ->all(); 
 
         if($request->isAjax){
             /*
@@ -104,7 +97,6 @@ class PartidaSubEspecificaController extends Controller
                     'title'=> "Crear Sub-Específica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -124,7 +116,6 @@ class PartidaSubEspecificaController extends Controller
                     'title'=> "Crear Sub-Específica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -140,7 +131,6 @@ class PartidaSubEspecificaController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
-                    'partida'=>$partida
                 ]);
             }
         }
@@ -158,12 +148,6 @@ class PartidaSubEspecificaController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        //Listas desplegables
-        $partida = PartidaPartida::find()
-            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
-            ->where(['estatus' => 1])
-            ->asArray()
-            ->all();       
 
         if($request->isAjax){
             /*
@@ -175,7 +159,6 @@ class PartidaSubEspecificaController extends Controller
                     'title'=> "Update Sub-Específica #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
-                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -186,7 +169,6 @@ class PartidaSubEspecificaController extends Controller
                     'title'=> "Sub-Específica #".$id,
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
-                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -196,7 +178,6 @@ class PartidaSubEspecificaController extends Controller
                     'title'=> "Update Sub-Específica #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
-                        'partida'=>$partida
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -211,7 +192,6 @@ class PartidaSubEspecificaController extends Controller
             } else {
                 return $this->render('update', [
                     'model' => $model,
-                    'partida'=>$partida
                 ]);
             }
         }

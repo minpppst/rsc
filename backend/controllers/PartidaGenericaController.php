@@ -51,10 +51,12 @@ class PartidaGenericaController extends Controller
 
     /**
      * Displays a single PartidaGenerica model.
-     * @param integer $id
+     * @param integer $cuenta
+     * @param integer $partida
+     * @param integer $generica
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($cuenta,$partida,$generica)
     {   
         $request = Yii::$app->request;
         if($request->isAjax){
@@ -62,14 +64,14 @@ class PartidaGenericaController extends Controller
             return [
                     'title'=> "Ge #".$id,
                     'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
+                        'model' => $this->findModel($cuenta,$partida,$generica),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','cuenta'=>$cuenta,'partida'=>$partida,'generica'=>$generica],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
-                'model' => $this->findModel($id),
+                'model' => $this->findModel($cuenta,$partida,$generica),
             ]);
         }
     }
@@ -84,11 +86,6 @@ class PartidaGenericaController extends Controller
     {
         $request = Yii::$app->request;
         $model = new PartidaGenerica();
-        $partida = PartidaPartida::find()
-            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
-            ->where(['estatus' => 1])
-            ->asArray()
-            ->all();
 
         if($request->isAjax){
             /*
@@ -100,10 +97,9 @@ class PartidaGenericaController extends Controller
                     'title'=> "Crear Partida Genérica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'partida' => $partida,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -111,8 +107,8 @@ class PartidaGenericaController extends Controller
                     'forceReload'=>'true',
                     'title'=> "Crear Partida Genérica",
                     'content'=>'<span class="text-success">Create Ge success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Crear otro',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
@@ -120,10 +116,9 @@ class PartidaGenericaController extends Controller
                     'title'=> "Crear Partida Genérica",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
-                        'partida' => $partida,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -132,11 +127,10 @@ class PartidaGenericaController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'cuenta' => $model->cuenta,'partida'=>$model->partida,'generica'=>$model->generica]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
-                    'partida' => $partida,
                 ]);
             }
         }
@@ -147,18 +141,15 @@ class PartidaGenericaController extends Controller
      * Updates an existing Ge model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param integer $cuenta
+     * @param integer $partida
+     * @param integer $generica
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($cuenta,$partida,$generica)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);
-        $partida = PartidaGenerica::find()
-            ->select(["id AS id", "CONCAT(partida,' - ',nombre) AS partida"])
-            ->where(['estatus' => 1])
-            ->asArray()
-            ->all();       
+        $model = $this->findModel($cuenta,$partida,$generica);    
 
         if($request->isAjax){
             /*
@@ -167,10 +158,9 @@ class PartidaGenericaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Actualizar GE #".$id,
+                    'title'=> "Actualizar GE #".$cuenta.$partida.$generica,
                     'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
-                        'partida' => $partida,
+                        'model' => $this->findModel($cuenta,$partida,$generica),
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -178,20 +168,18 @@ class PartidaGenericaController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Ge #".$id,
+                    'title'=> "Ge #".$cuenta.$partida.$generica,
                     'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
-                        'partida' => $partida,
+                        'model' => $this->findModel($cuenta,$partida,$generica),
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Actualizar GE #".$id,
+                    'title'=> "Actualizar GE #".$cuenta.$partida.$generica,
                     'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
-                        'partida' => $partida,
+                        'model' => $this->findModel($cuenta,$partida,$generica),
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -202,11 +190,10 @@ class PartidaGenericaController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'cuenta' => $model->cuenta,'partida'=>$model->partida,'generica'=>$model->generica]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
-                    'partida' => $partida,
                 ]);
             }
         }
@@ -216,13 +203,15 @@ class PartidaGenericaController extends Controller
      * Delete an existing Ge model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param integer $cuenta
+     * @param integer $partida
+     * @param integer $generica
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($cuenta,$partida,$generica)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $this->findModel($cuenta,$partida,$generica)->delete();
 
         if($request->isAjax){
             /*
@@ -276,8 +265,8 @@ class PartidaGenericaController extends Controller
      * @param integer id
      * @return mixed
      */
-    public function actionToggleActivo($id) {
-        $model = $this->findModel($id);
+    public function actionToggleActivo($cuenta,$partida,$generica) {
+        $model = $this->findModel($cuenta,$partida,$generica);
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -366,9 +355,9 @@ class PartidaGenericaController extends Controller
      * @return Ge the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($cuenta,$partida,$generica)
     {
-        if (($model = PartidaGenerica::findOne($id)) !== null) {
+        if (($model = PartidaGenerica::findOne(['cuenta'=>$cuenta,'partida'=>$partida,'generica'=>$generica])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
