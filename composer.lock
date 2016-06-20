@@ -673,16 +673,16 @@
         },
         {
             "name": "dmstr/yii2-adminlte-asset",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dmstr/yii2-adminlte-asset.git",
-                "reference": "73eca05cf04d70f169a88b430d2c03c3b54d623a"
+                "reference": "e9e5a843e47f47af61146524af99c0e98d8f5f90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dmstr/yii2-adminlte-asset/zipball/73eca05cf04d70f169a88b430d2c03c3b54d623a",
-                "reference": "73eca05cf04d70f169a88b430d2c03c3b54d623a",
+                "url": "https://api.github.com/repos/dmstr/yii2-adminlte-asset/zipball/e9e5a843e47f47af61146524af99c0e98d8f5f90",
+                "reference": "e9e5a843e47f47af61146524af99c0e98d8f5f90",
                 "shasum": ""
             },
             "require": {
@@ -723,7 +723,7 @@
                 "extension",
                 "yii2"
             ],
-            "time": "2016-03-23 04:18:15"
+            "time": "2016-05-31 15:42:01"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -929,12 +929,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "6ce9ce6472866fb6b5c891d99461ee59024cc363"
+                "reference": "bdea79210ab646544c9e6f4a6d39e7dd670d45ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/6ce9ce6472866fb6b5c891d99461ee59024cc363",
-                "reference": "6ce9ce6472866fb6b5c891d99461ee59024cc363",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/bdea79210ab646544c9e6f4a6d39e7dd670d45ee",
+                "reference": "bdea79210ab646544c9e6f4a6d39e7dd670d45ee",
                 "shasum": ""
             },
             "type": "library",
@@ -974,7 +974,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2016-05-24 12:33:02"
+            "time": "2016-06-11 18:44:02"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
@@ -1693,12 +1693,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
-                "reference": "fb36b8051b7bb13520171fe234a7f3ad6a10c116"
+                "reference": "3b8f6819f2cd01becff5251b8b952ac3e57b903a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/fb36b8051b7bb13520171fe234a7f3ad6a10c116",
-                "reference": "fb36b8051b7bb13520171fe234a7f3ad6a10c116",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/3b8f6819f2cd01becff5251b8b952ac3e57b903a",
+                "reference": "3b8f6819f2cd01becff5251b8b952ac3e57b903a",
                 "shasum": ""
             },
             "require": {
@@ -1740,7 +1740,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-05-22 16:51:00"
+            "time": "2016-06-16 06:53:01"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -1748,12 +1748,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "6919d5096ca83ab4a1b163fcd09fb023814d1003"
+                "reference": "5ca33a716188422e85560cdce0cb2110a998a618"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/6919d5096ca83ab4a1b163fcd09fb023814d1003",
-                "reference": "6919d5096ca83ab4a1b163fcd09fb023814d1003",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/5ca33a716188422e85560cdce0cb2110a998a618",
+                "reference": "5ca33a716188422e85560cdce0cb2110a998a618",
                 "shasum": ""
             },
             "require": {
@@ -1793,7 +1793,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-04-19 13:22:56"
+            "time": "2016-06-14 13:48:39"
         },
         {
             "name": "machour/yii2-notifications",
@@ -2012,16 +2012,16 @@
         },
         {
             "name": "rmrevin/yii2-fontawesome",
-            "version": "2.15.0",
+            "version": "2.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rmrevin/yii2-fontawesome.git",
-                "reference": "277edae224e63d2a41e00eb043829eab4903fdd5"
+                "reference": "d2777130bc926bc670a4e50c2f504a0fb782efb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rmrevin/yii2-fontawesome/zipball/277edae224e63d2a41e00eb043829eab4903fdd5",
-                "reference": "277edae224e63d2a41e00eb043829eab4903fdd5",
+                "url": "https://api.github.com/repos/rmrevin/yii2-fontawesome/zipball/d2777130bc926bc670a4e50c2f504a0fb782efb1",
+                "reference": "d2777130bc926bc670a4e50c2f504a0fb782efb1",
                 "shasum": ""
             },
             "require": {
@@ -2059,7 +2059,7 @@
                 "font",
                 "yii"
             ],
-            "time": "2016-05-22 20:07:51"
+            "time": "2016-05-28 21:18:32"
         },
         {
             "name": "swiftmailer/swiftmailer",
