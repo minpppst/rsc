@@ -34,11 +34,11 @@ class PartidaSubEspecifica extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica', 'nombre'], 'required'],
+            [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica', 'nombre', 'estatus'], 'required'],
+            [['nombre'], 'string'],
             [['estatus'], 'integer'],
             [['cuenta'], 'string', 'max' => 1],
-            [['partida', 'generica', 'especifica', 'subespecifica'], 'string', 'max' => 2],
-            [['nombre'], 'string', 'max' => 140],
+            [['partida', 'generica', 'especifica', 'subespecifica'], 'string', 'min' => 2,  'max' => 2],            
             [['cuenta', 'partida', 'generica', 'especifica'], 'exist', 'skipOnError' => true, 'targetClass' => PartidaEspecifica::className(), 'targetAttribute' => ['cuenta' => 'cuenta', 'partida' => 'partida', 'generica' => 'generica', 'especifica' => 'especifica']],
             ['subespecifica', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];

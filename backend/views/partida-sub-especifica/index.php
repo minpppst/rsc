@@ -86,9 +86,6 @@ $icons=[
             ]
         ])?>
     </div>
-    <div class="btn-group">
-        <?= Html::a($icons['volver'].' Volver', ['site/configuracion'], ['class' => 'btn btn-primary']) ?>
-    </div>
 </div>
 <?php Modal::begin([
     "id"=>"ajaxCrubModal",

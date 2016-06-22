@@ -51,9 +51,9 @@ class PartidaGenericaController extends Controller
 
     /**
      * Displays a single PartidaGenerica model.
-     * @param integer $cuenta
-     * @param integer $partida
-     * @param integer $generica
+     * @param char(1) $cuenta
+     * @param char(2) $partida
+     * @param char(2) $generica
      * @return mixed
      */
     public function actionView($cuenta,$partida,$generica)
@@ -141,9 +141,9 @@ class PartidaGenericaController extends Controller
      * Updates an existing Ge model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $cuenta
-     * @param integer $partida
-     * @param integer $generica
+     * @param char(1) $cuenta
+     * @param char(2) $partida
+     * @param char(2) $generica
      * @return mixed
      */
     public function actionUpdate($cuenta,$partida,$generica)
@@ -203,9 +203,9 @@ class PartidaGenericaController extends Controller
      * Delete an existing Ge model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $cuenta
-     * @param integer $partida
-     * @param integer $generica
+     * @param char(1) $cuenta
+     * @param char(2) $partida
+     * @param char(2) $generica
      * @return mixed
      */
     public function actionDelete($cuenta,$partida,$generica)
@@ -349,10 +349,12 @@ class PartidaGenericaController extends Controller
     }
 
     /**
-     * Finds the Ge model based on its primary key value.
+     * Finds the PartidaGenerica model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Ge the loaded model
+     * @param char(1) $cuenta
+     * @param char(2) $partida
+     * @param char(2) $generica
+     * @return el modelo
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($cuenta,$partida,$generica)

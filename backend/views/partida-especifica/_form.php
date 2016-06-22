@@ -7,7 +7,6 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Es */
 /* @var $form yii\widgets\ActiveForm */
-DepDropAsset::register($this);
 ?>
 
 <div class="es-form">

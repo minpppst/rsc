@@ -34,8 +34,9 @@ class PartidaEspecifica extends \yii\db\ActiveRecord
     {
         return [
             [['cuenta', 'partida', 'generica', 'especifica', 'nombre', 'estatus'], 'required'],
-            [['cuenta', 'partida', 'generica', 'especifica', 'estatus'], 'integer'],
-            [['nombre'], 'string', 'max' => 60],
+            [['nombre'], 'string'],
+            [['estatus'], 'integer'],
+            [['partida', 'generica', 'especifica'], 'string', 'min' => 2,  'max' => 2],
             [['cuenta', 'partida', 'generica'], 'exist', 'skipOnError' => true, 'targetClass' => PartidaGenerica::className(), 'targetAttribute' => ['cuenta' => 'cuenta', 'partida' => 'partida', 'generica' => 'generica']],
             ['especifica', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];

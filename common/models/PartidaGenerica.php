@@ -33,11 +33,11 @@ class PartidaGenerica extends \yii\db\ActiveRecord
     {
         return [
             [['cuenta', 'partida', 'generica', 'nombre', 'estatus'], 'required'],
+            [['nombre'], 'string'],
             [['estatus'], 'integer'],
             [['cuenta'], 'string', 'max' => 1],
             [['partida'], 'string', 'min' => 2, 'max' => 2],
             [['generica'], 'string', 'min' => 2, 'max' => 2],
-            [['nombre'], 'string', 'max' => 60],
             [['cuenta', 'partida'], 'exist', 'skipOnError' => true, 'targetClass' => PartidaPartida::className(), 'targetAttribute' => ['cuenta' => 'cuenta', 'partida' => 'partida']],
             ['generica', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];

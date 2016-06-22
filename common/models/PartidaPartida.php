@@ -31,10 +31,10 @@ class PartidaPartida extends \yii\db\ActiveRecord
     {
         return [
             [['cuenta', 'partida', 'nombre'], 'required'],
+            [['nombre'], 'string'],
             [['estatus'], 'integer'],
             [['cuenta'], 'string', 'max' => 1],
             [['partida'], 'string', 'min' => 2, 'max' => 2],
-            [['nombre'], 'string', 'max' => 60],
             ['partida', 'match', 'pattern' => '/^[0-9][0-9]$/', 'message' => 'Debe escribir un número entre 00 y 99']
         ];
     }

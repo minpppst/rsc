@@ -10,6 +10,7 @@ use machour\yii2\notifications\widgets\NotificationsWidget;
 <?php 
     NotificationsWidget::widget([
         'theme' => NotificationsWidget::THEME_GROWL,
+        'pollInterval' => 10000,
         'clientOptions' => [
             'location' => 'es',
         ],

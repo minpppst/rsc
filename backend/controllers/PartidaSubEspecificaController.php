@@ -15,7 +15,7 @@ use \yii\web\Response;
 use yii\helpers\Html;
 
 /**
- * SeController implements the CRUD actions for Se model.
+ * SeController implements the CRUD actions for PartidaSubEspecifica model.
  */
 class PartidaSubEspecificaController extends Controller
 {
@@ -36,7 +36,7 @@ class PartidaSubEspecificaController extends Controller
     }
 
     /**
-     * Lists all Se models.
+     * Lists all PartidaSubEspecifica models.
      * @return mixed
      */
     public function actionIndex()
@@ -52,26 +52,30 @@ class PartidaSubEspecificaController extends Controller
 
 
     /**
-     * Displays a single Se model.
-     * @param integer $id
+     * Displays a single PartidaSubEspecifica model.
+     * @param char(1) $cuenta
+     * @param char(2) $partida
+     * @param char(2) $generica
+     * @param char(2) $especifica
+     * @param char(2) $subespecifica
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($cuenta,$partida,$generica,$especifica,$subespecifica)
     {   
         $request = Yii::$app->request;
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Se #".$id,
+                    'title'=> "Sub-específica #".$cuenta.$partida.$generica.$especifica.$subespecifica,
                     'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
+                        'model' => $this->findModel($cuenta,$partida,$generica,$especifica,$subespecifica),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','cuenta' => $cuenta, 'partida' => $partida, 'generica' => $generica, 'especifica' => $especifica, 'subespecifica' => $subespecifica],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
-                'model' => $this->findModel($id),
+                'model' => $this->findModel($cuenta,$partida,$generica,$especifica,$subespecifica),
             ]);
         }
     }
@@ -127,7 +131,7 @@ class PartidaSubEspecificaController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'cuenta' => $model->cuenta, 'partida' => $model->partida, 'generica' => $model->generica, 'especifica' => $model->especifica, 'subespecifica' => $model->subespecifica]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
@@ -138,16 +142,20 @@ class PartidaSubEspecificaController extends Controller
     }
 
     /**
-     * Updates an existing Se model.
+     * Updates an existing PartidaSubEspecifica model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param char(1) $cuenta
+     * @param char(2) $partida
+     * @param char(2) $generica
+     * @param char(2) $especifica
+     * @param char(2) $subespecifica
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($cuenta,$partida,$generica,$especifica,$subespecifica)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);
+        $model = $this->findModel($cuenta,$partida,$generica,$especifica,$subespecifica);
 
         if($request->isAjax){
             /*
@@ -156,31 +164,31 @@ class PartidaSubEspecificaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Sub-Específica #".$id,
+                    'title'=> "Editar Sub-Específica #".$cuenta.$partida.$generica.$especifica.$subespecifica,
                     'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
+                        'model' => $this->findModel($cuenta,$partida,$generica,$especifica,$subespecifica),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Sub-Específica #".$id,
+                    'title'=> "Sub-Específica #".$cuenta.$partida.$generica.$especifica.$subespecifica,
                     'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
+                        'model' => $this->findModel($cuenta,$partida,$generica,$especifica,$subespecifica),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','cuenta' => $model->cuenta, 'partida' => $model->partida, 'generica' => $model->generica, 'especifica' => $model->especifica, 'subespecifica' => $model->subespecifica],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update Sub-Específica #".$id,
+                    'title'=> "Editar Sub-Específica #".$cuenta.$partida.$generica.$especifica.$subespecifica,
                     'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
+                        'model' => $this->findModel($cuenta,$partida,$generica,$especifica,$subespecifica),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -188,7 +196,7 @@ class PartidaSubEspecificaController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'cuenta' => $model->cuenta, 'partida' => $model->partida, 'generica' => $model->generica, 'especifica' => $model->especifica, 'subespecifica' => $model->subespecifica]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
@@ -198,23 +206,27 @@ class PartidaSubEspecificaController extends Controller
     }
 
     /**
-     * Delete an existing Se model.
+     * Delete an existing PartidaSubEspecifica model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param char(1) $cuenta
+     * @param char(2) $partida
+     * @param char(2) $generica
+     * @param char(2) $especifica
+     * @param char(2) $subespecifica
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($cuenta,$partida,$generica,$especifica,$subespecifica)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $this->findModel($cuenta,$partida,$generica,$especifica,$subespecifica)->delete();
 
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
+            return ['forceClose'=>'true','forceReload'=>'true'];    
         }else{
             /*
             *   Process for non-ajax request
@@ -246,7 +258,7 @@ class PartidaSubEspecificaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>'true','forceReload'=>'true']; 
         }else{
             /*
             *   Process for non-ajax request
@@ -257,77 +269,17 @@ class PartidaSubEspecificaController extends Controller
     }
 
     /**
-     * Funcion de respuesta para el AJAX de
-     * partidas generales
-     * @return array JSON 
-     */
-    public function actionGenerica()
-    {
-        $request = Yii::$app->request;
-
-        if($request->isAjax)
-        {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-
-            if($request->isPost)
-            {
-                //Partidas GE
-                $ge = PartidaGenerica::find()
-                    ->select(["id AS id", "CONCAT(generica,' - ',nombre) AS name"])
-                    ->where(['id_partida' => $request->post('depdrop_parents'), 'estatus' => 1])
-                    ->asArray()
-                    ->all();                
-
-                return [
-                    'output' => $ge
-                ];
-            }
-        }
-        
-    }
-
-    /**
-     * Funcion de respuesta para el AJAX de
-     * partidas especificas
-     * @return array JSON 
-     */
-    public function actionEspecifica()
-    {
-        $request = Yii::$app->request;
-
-        if($request->isAjax)
-        {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-
-            if($request->isPost)
-            {
-                //Partidas GE
-                $es = PartidaEspecifica::find()
-                    ->select(["id AS id", "CONCAT(especifica,' - ',nombre) AS name"])
-                    ->where(['generica' => $request->post('depdrop_parents'), 'estatus' => 1])
-                    ->asArray()
-                    ->all();                
-
-                return [
-                    'output' => $es
-                ];
-            }
-        }
-        
-    }
-
-    /**
      * Activar o desactivar un modelo
      * @param integer id
      * @return mixed
      */
-    public function actionToggleActivo($id) {
-        $model = $this->findModel($id);
+    public function actionToggleActivo($cuenta,$partida,$generica,$especifica,$subespecifica) {
+        $model = $this->findModel($cuenta,$partida,$generica,$especifica,$subespecifica);
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         if ($model != null && $model->toggleActivo()) {
-            return ['forceClose' => true, 'forceReload' => true];
+            return ['forceClose' => 'true', 'forceReload' => 'true'];
         } else {
             return [
                 'title' => 'Ocurrió un error.',
@@ -339,7 +291,7 @@ class PartidaSubEspecificaController extends Controller
     }
 
     /**
-     * Desactiva multiples modelos de PartidaPartida.
+     * Desactiva multiples modelos de PartidaSubEspecifica.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
      * @param integer id
@@ -349,7 +301,7 @@ class PartidaSubEspecificaController extends Controller
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         //Obtener el nombre de la clase del modelo
-        $className = PartidaPartida::className();
+        $className = PartidaSubEspecifica::className();
         
         //call_user_func - Invocar el callback 
         foreach (call_user_func($className . '::findAll', $pks) as $model) {            
@@ -362,7 +314,7 @@ class PartidaSubEspecificaController extends Controller
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => true];
+            return ['forceClose' => 'true', 'forceReload' => 'true'];
         } else {
             /*
              *   Process for non-ajax request
@@ -372,7 +324,7 @@ class PartidaSubEspecificaController extends Controller
     }
 
     /**
-     * Activa multiples modelos de PartidaPartida.
+     * Activa multiples modelos de PartidaSubEspecifica.
      * Para las peticiones AJAX devolverá un objeto JSON
      * para las peticiones no-AJAX el navegador se redireccionará al "index"
      * @param integer id
@@ -382,7 +334,7 @@ class PartidaSubEspecificaController extends Controller
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         //Obtener el nombre de la clase del modelo
-        $className = PartidaPartida::className();
+        $className = PartidaSubEspecifica::className();
         
         //call_user_func - Invocar el callback 
         foreach (call_user_func($className . '::findAll', $pks) as $model) {            
@@ -395,7 +347,7 @@ class PartidaSubEspecificaController extends Controller
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => true];
+            return ['forceClose' => 'true', 'forceReload' => 'true'];
         } else {
             /*
              *   Process for non-ajax request
@@ -405,15 +357,19 @@ class PartidaSubEspecificaController extends Controller
     }
 
     /**
-     * Finds the Se model based on its primary key value.
+     * Finds the PartidaSubEspecifica model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Se the loaded model
+     * @param char(1) $cuenta
+     * @param char(2) $partida
+     * @param char(2) $generica
+     * @param char(2) $especifica
+     * @param char(2) $subespecifica
+     * @return el modelo
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($cuenta,$partida,$generica,$especifica,$subespecifica)
     {
-        if (($model = PartidaSubEspecifica::findOne($id)) !== null) {
+        if (($model = PartidaSubEspecifica::findOne(['cuenta'=>$cuenta,'partida'=>$partida,'generica'=>$generica,'especifica'=>$especifica,'subespecifica'=>$subespecifica])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
