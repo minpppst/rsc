@@ -9,7 +9,7 @@ use backend\models\AccionCentralizadavariablesUsuarios;
 use backend\models\AccionCentralizadaVariables;
 use backend\models\LocalizacionAccVariable;
 use backend\models\AccionCentralizadaDesbloqueoMes;
-use common\models\AccionCentralizadavariableProgramacion;
+use common\models\AccionCentralizadaVariableProgramacion;
 use frontend\models\AccionCentralizadaVariableEjecucionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
