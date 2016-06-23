@@ -73,7 +73,10 @@ class MaterialesServicios extends \yii\db\ActiveRecord
             'precio' => 'Precio',
             'iva' => 'Iva',
             'estatus' => 'Estatus',
-            'nombreUnidadMedida' => ' Unidad de Medida'
+            'nombreUnidadMedida' => ' Unidad de Medida',
+            'nombrePresentacion' => 'Presentación',
+            'precioBolivar' => 'Precio',
+            'ivaPorcentaje' => 'IVA'
         ];
     }
 
@@ -115,6 +118,23 @@ class MaterialesServicios extends \yii\db\ActiveRecord
     public function getProyectoPedidos()
     {
         return $this->hasMany(ProyectoPedido::className(), ['id_material' => 'id']);
+    }
+
+    public function getPrecioBolivar()
+    {
+        if($this->precio == null)
+        {
+            return null;
+        }
+        return \Yii::$app->formatter->asCurrency($this->precio);
+    }
+    public function getIvaPorcentaje()
+    {
+        if($this->iva == null)
+        {
+            return null;
+        }
+        return $this->iva.'%' ;
     }
 
     /**

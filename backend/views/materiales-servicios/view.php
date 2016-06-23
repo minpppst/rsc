@@ -23,10 +23,8 @@ $icons=[
         'model' => $model,
         'attributes' => [
             'id',
-            'codigoPresupuestario',
-            ['label' => 'Partida Sub-Específica', 'value' => $model->idSe->nombre],
             'nombre',
-            ['label' => 'Unidad de Medida', 'value' => $model->unidadMedida->unidad_medida],
+            'nombreUnidadMedida',
             'nombrePresentacion',
             'precioBolivar',
             'ivaPorcentaje',
