@@ -216,14 +216,14 @@ class PartidaEspecificaController extends Controller
     public function actionDelete($cuenta,$partida,$generica,$especifica)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $this->findModel($cuenta,$partida,$generica,$especifica)->delete();
 
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceCerrar'=>true,'forceReload'=>true];    
+            return ['forceCerrar'=>'true','forceReload'=>'true'];    
         }else{
             /*
             *   Process for non-ajax request

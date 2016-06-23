@@ -330,11 +330,26 @@ class MaterialesServiciosController extends Controller
                 //Por cada linea leida
                 foreach ($archivo as $llave => $valor) 
                 {
+                    //Ignorar el encabezado
+                    if($llave == 0)
+                    {
+                        continue;
+                    }
+
                     //Separar las columnas de la linea leida
                     $exploded = explode(',', str_replace('"', '',$valor));
+
                     /* Llaves foraneas */
-                    //Partida presupuestaria $exploded[0]
-                    $id_se = MaterialesServicios::findIdSubEspecifica($exploded[0]);
+
+                    //Preparar la llave compuesta
+                    $cuenta = substr($exploded[0], 0,1);
+                    $partida = substr($exploded[0], 1,2);
+                    $generica = substr($exploded[0], 3,2);
+                    $especifica = substr($exploded[0], 5,2);
+                    $subespecifica = substr($exploded[0], 7,2);
+
+                    //echo $cuenta."\n".$partida."\n".$generica."\n".$especifica."\n".$subespecifica;exit;
+                    
 
                     //Unidad de medida $exploded[2]
                     $unidad_medida = UnidadMedida::find()->where('unidad_medida LIKE "%:unidad_medida%"')
@@ -359,7 +374,11 @@ class MaterialesServiciosController extends Controller
                     }
 
                     //Asignar variables
-                    $ms->id_se = $id_se;
+                    $ms->cuenta = $cuenta;
+                    $ms->partida = $partida;
+                    $ms->generica = $generica;
+                    $ms->especifica = $especifica;
+                    $ms->subespecifica = $subespecifica;
                     $ms->nombre = $exploded[1];
                     $ms->unidad_medida = $unidad_medida->id;
                     $ms->presentacion = $presentacion->id;
