@@ -356,14 +356,14 @@ class MaterialesServiciosController extends Controller
                         ->addParams([':unidad_medida' => $exploded[2]])
                         ->one();
 
-                    //Presentacion $exploded[3]
-                    $presentacion = Presentacion::find()->where('presentacion LIKE "%:presentacion%"')
+                    //Presentacion $exploded[3]   
+                    $presentacion = Presentacion::find()->where('nombre LIKE "%:presentacion%"')
                         ->addParams([':presentacion' => $exploded[3]])
                         ->one();
 
                     //Buscar el modelo. Material o servicio $exploded[1]
                     $ms = MaterialesServicios::find()
-                        ->where(['nombre' => $exploded[1], 'id_se' =>$id_se])
+                        ->where(['nombre' => $exploded[1], 'cuenta' => $cuenta, 'partida' => $partida, 'generica' => $generica, 'especifica' => $especifica, 'subespecifica' => $subespecifica])
                         ->one();
 
                     //Si no se encuentra un material o servicio
@@ -380,8 +380,8 @@ class MaterialesServiciosController extends Controller
                     $ms->especifica = $especifica;
                     $ms->subespecifica = $subespecifica;
                     $ms->nombre = $exploded[1];
-                    $ms->unidad_medida = $unidad_medida->id;
-                    $ms->presentacion = $presentacion->id;
+                    $ms->unidad_medida = ($unidad_medida != null)? $unidad_medida->id : null;
+                    $ms->presentacion = ($presentacion != null)? $presentacion->id : null;
                     $ms->precio = $exploded[4];
                     $ms->iva = 12; //IVA 12%
                     $ms->estatus = 1; //1 Activo, 0 Inactivo

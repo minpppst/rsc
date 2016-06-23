@@ -8,11 +8,11 @@ use Yii;
  * This is the model class for table "materiales_servicios".
  *
  * @property integer $id
- * @property integer $cuenta
- * @property integer $partida
- * @property integer $generica
- * @property integer $especifica
- * @property integer $subespecifica
+ * @property string $cuenta
+ * @property string $partida
+ * @property string $generica
+ * @property string $especifica
+ * @property string $subespecifica
  * @property string $nombre
  * @property integer $unidad_medida
  * @property integer $presentacion
@@ -42,9 +42,11 @@ class MaterialesServicios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica', 'nombre', 'unidad_medida', 'presentacion', 'precio', 'iva', 'estatus'], 'required'],
+            [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica', 'nombre', 'precio', 'iva', 'estatus'], 'required'],
             [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica', 'unidad_medida', 'presentacion', 'iva', 'estatus'], 'integer'],
             [['precio'], 'number'],
+            [['cuenta'], 'string', 'max' => 1],
+            [['partida', 'generica', 'especifica', 'subespecifica'], 'string', 'max' => 2],
             [['nombre'], 'string', 'max' => 60],
             [['cuenta', 'partida', 'generica', 'especifica', 'subespecifica'], 'unique', 'targetAttribute' => ['cuenta', 'partida', 'generica', 'especifica', 'subespecifica'], 'message' => 'The combination of Cuenta, Partida, Generica, Especifica and Subespecifica has already been taken.'],
             [['presentacion'], 'exist', 'skipOnError' => true, 'targetClass' => Presentacion::className(), 'targetAttribute' => ['presentacion' => 'id']],
