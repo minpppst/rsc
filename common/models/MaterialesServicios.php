@@ -133,6 +133,32 @@ class MaterialesServicios extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public function getNombreUnidadMedida()
+    {
+        if($this->unidad_medida === null)
+        {
+            return null;
+        }
+
+        return $this->unidadMedida->unidad_medida;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombrePresentacion()
+    {
+        if($this->presentacion === null)
+        {
+            return null;
+        }
+
+        return $this->presentacion0->nombre;
+    }
+
+    /**
      * Colocar estatus en 0 "Inactivo"
      */
     public function desactivar()
