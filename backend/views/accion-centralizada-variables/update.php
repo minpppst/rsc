@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'model' => $model,
          'precarga' => $precarga,
          'precarga1' => $precarga1,
+         'acciones_especificas' => $acciones_especificas,
     ]) ?>
 
 </div>

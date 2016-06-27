@@ -24,7 +24,9 @@ $url = \yii\helpers\Url::to(['ace1']);
     var id=\$("#accioncentralizadavariables-unidad_ejecutora").val();
     if(id!="")
    return {q:params.term, id:id}; 
- }
+  
+ 
+ } 
 SCRIPT;
 $this->registerJs($dataResults, yii\web\View::POS_HEAD);
 
@@ -54,9 +56,14 @@ $this->registerJs($dataResults, yii\web\View::POS_HEAD);
 
     <?= $form->field($model, 'fuente_informacion')->textarea(['rows' => 2]) ?>
 
-    <?= $form->field($model, 'unidad_ejecutora')->dropDownList(ArrayHelper::map(UnidadEjecutora::find()->all(), 'id','nombre') , ['onChange'=> ' nombre(this.value, 2)']) ?>
+    <?= $form->field($model, 'unidad_ejecutora')->dropDownList(ArrayHelper::map(UnidadEjecutora::find()->all(), 'id','nombre'), ['prompt'=> 'Selecciones Unidad Ejecutora',]) ?>
+<?php if(empty($acciones_especificas))
+  $acciones_especificas=[];
+  ?>
+  
 
-    <?= $form->field($model, 'acc_accion_especifica')->dropDownList([],  ['prompt' => 'Seleccione']) ?>
+
+    <?= $form->field($model, 'acc_accion_especifica')->dropDownList($acciones_especificas,  ['prompt' => 'Seleccione']) ?>
      <div>
     <label class="control-label" for="acespuej-id_ue">Usuarios De Carga</label>
    <?php if(empty($precarga)){
@@ -102,6 +109,7 @@ $this->registerJs($dataResults, yii\web\View::POS_HEAD);
     <?php ActiveForm::end(); ?>
 
 </div>
+ 
 
 <?php
 
@@ -109,16 +117,28 @@ $this->registerJs($dataResults, yii\web\View::POS_HEAD);
 $this->registerJs(
    
     /* Listas desplegables dependientes */
-    '$("document").ready(function(){
+      '$("document").ready(function(){
         //GE
 
         $("#accioncentralizadavariables-acc_accion_especifica").depdrop({
             depends: ["accioncentralizadavariables-unidad_ejecutora"],
             url: "'.Url::to(["ace"]).'"
         });
+        $("#accioncentralizadavariables-unidad_ejecutora").on("change", function(){
+        $("#accioncentralizadavariables-acc_accion_especifica").empty();
+        
+        //$("#id_usuario").html("").select2({data: null});
+        $("#id_usuario").select2("val", "");
         
         
-    });'
+        
+        
+    });
+
+
+        });
+     
+        '
 );
 ?>
 
