@@ -32,14 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <!--<?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>-->
+      
     </p>
 
     <?= DetailView::widget([
@@ -50,8 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'striped' => true,
         'condensed' => true,
         'responsive' => true,
+        'enableEditMode' => false,
         'attributes' => [
-            'id',
+            //'id',
             'nombre_variable:ntext',
             //'unidad_medida',
             [
@@ -66,24 +60,27 @@ $this->params['breadcrumbs'][] = $this->title;
             'base_calculo:ntext',
             'fuente_informacion:ntext',
             
-            //'meta_programada_variable',
+            
             [
-                //'label' => 'unidad_ejecutora',
+            
                 'attribute' => 'unidad_ejecutora',
                 'value' =>$model->unidadEjecutora->nombre,
                 
             ],
             
-            'localizacion',
+            ['attribute' => 'localizacion',
+            'value' => $model->nombreLocalizacion,
+            ],
             [
-                //'label' => 'acc_accion_especifica',
+            
                 'attribute' => 'acc_accion_especifica',
-                //'value' =>echo $model->accAccionEspecifica->nombre,
+                'value' => $model->accAccionEspecifica->nombre,
+            
                 
             ],
         ],
          'panel' => [
-                'type' => 'primary', 
+                'type' => 'primary',
                 'heading' => '<i class="fa fa-list"></i> Datos Básicos Variables',
             ],
     ]) ?>

@@ -466,5 +466,16 @@ class AccionCentralizadaController extends Controller
 
 
 
+    public function actionDistribucion($accion_centralizada)
+    {
+        $model = $this->findModel($accion_centralizada);
+
+        return $this->render('distribucion',[
+            'model' => $model
+        ]);
+    }
+
+
+
 
 }

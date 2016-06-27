@@ -129,56 +129,8 @@ use yii\helpers\Json;
 
 
         //llenar campo precio
+        initTotal();
         
-        $('#material').change(function(){
-         $.ajax({
-        url: "<?= Url::to(['llenarprecio']) ?>",
-        type: 'post',
-        dataType: 'json',
-        data: {
-           id: $("#material").val()
-         },
-        success: function (data) {
-            if(data!=0){
-            $('#accioncentralizadavariableprogramacion-precio').val(parseFloat(data[0]['precio']));
-            $('#iva_precio').val(parseFloat(data[0]['iva']));
-            
-            }
-            else{
-            $('#accioncentralizadavariableprogramacion-precio').val(parseFloat(0));
-                    }
-    
-                    }
-                });
-            });
-
-
-       if($('#iva_precio').val()=="" && $("#material").val()!="" ){ 
-        
-        $.ajax({
-                url: "<?= Url::to(['llenarprecio']) ?>",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                id: $("#material").val()
-                },
-                success: function (data) {
-                $('#iva_precio').val(parseFloat(data[0]['iva']));
-
-                //Totalizar
-                initTotal();
-                //Calcular
-                calcular();
-                        
-                    }
-                
-            });
-            }
-
-        
-         $('#material').on('change', function(){
-            initTotal();
-        });
 
         //TRIM I
         $('.trim1').on('change', function(){
@@ -252,29 +204,7 @@ use yii\helpers\Json;
 
 
 
-             function calcular()
-        {
-            //variables
-            
-            var iva_precio=(Number($('#iva_precio').val()) ? $('#iva_precio').val() : 0 );
-            var sub_total = $('#accioncentralizadapedido-precio').val() * $('#total').val();
-            var iva = (sub_total  * iva_precio) / 100;
-            var total = sub_total + iva;
-
-
-            //Sub-total
-            $('#subtotal').val(sub_total);
-
-            //IVA
-            $('#iva').val(iva);
-
-            //Total
-            $('#total-total').val(total);
-        }
-
-
-
-
+        
 
             function initTotal(){
 
@@ -290,7 +220,7 @@ use yii\helpers\Json;
                 parseInt($('#total4').val())
             );
 
-            calcular();
+        
 
 
             }
