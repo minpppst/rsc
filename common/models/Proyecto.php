@@ -354,10 +354,10 @@ class Proyecto extends \yii\db\ActiveRecord
         //Construccion del query
         $sql = "
             SELECT
-                pae.id AS 'id',
-                pae.nombre AS 'nombre_accion',
-                CONCAT(cp.cuenta,pp.partida) AS 'partida',
-                SUM((
+               pae.id AS 'id',
+               pae.nombre AS 'nombre_accion', 
+               CONCAT(ms.cuenta,ms.partida) AS 'partida',
+               SUM((
                     pedido.enero +
                     pedido.febrero +
                     pedido.marzo +
@@ -372,24 +372,19 @@ class Proyecto extends \yii\db\ActiveRecord
                     pedido.diciembre
                 ) * pedido.precio) AS 'total'
             FROM
-                proyecto_accion_especifica pae, proyecto_asignar pa,
-                materiales_servicios ms, proyecto_pedido pedido, partida_sub_especifica pse, 
-                partida_especifica pe, partida_generica pg, partida_partida pp, cuenta_presupuestaria cp
+               proyecto_accion_especifica pae, proyecto_asignar pa,
+               materiales_servicios ms, proyecto_pedido pedido
             WHERE
-                pae.id = :accion AND
-                pae.id = pa.accion_especifica AND
-                pa.id = pedido.asignado AND
-                pedido.id_material = ms.id AND
-                ms.id_se = pse.id AND
-                pse.especifica = pe.id AND
-                pe.generica = pg.id AND
-                pg.id_partida = pp.id AND
-                pp.cuenta = cp.id AND
-                pedido.estatus = 1
+               pae.id = :accion AND
+               pae.id = pa.accion_especifica AND
+               pa.id = pedido.asignado AND
+               pedido.id_material = ms.id AND
+               pedido.estatus = 1
             GROUP BY
-                pae.id, 
-                cp.cuenta, 
-                pp.partida
+               pae.id,
+               pae.nombre,
+               ms.cuenta,
+               ms.partida
         ";
 
         //Arreglo para el DataProvider
