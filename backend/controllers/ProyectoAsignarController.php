@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use johnitvn\userplus\base\WebController;
+use common\models\Proyecto;
 use common\models\ProyectoAsignar;
 use common\models\ProyectoAsignarSearch;
 use common\models\UnidadEjecutora;
@@ -125,7 +126,7 @@ class ProyectoAsignarController extends WebController
         $model->usuario = $usuario;
 
         //Listas desplegables
-        $ue = UnidadEjecutora::find(['estatus' => 1])->all(); 
+        $proyectos = Proyecto::find(['estatus' => 1])->all();         
 
         if($request->isAjax){
             /*
@@ -137,7 +138,7 @@ class ProyectoAsignarController extends WebController
                     'title'=> "Asignar",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'ue' => $ue
+                        'proyectos' => $proyectos
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -157,7 +158,7 @@ class ProyectoAsignarController extends WebController
                     'title'=> "Asignar",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'ue' => $ue
+                        'proyectos' => $proyectos
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -173,7 +174,7 @@ class ProyectoAsignarController extends WebController
             } else {
                 return $this->render('create', [
                     'model' => $model,
-                    'ue' => $ue
+                    'proyectos' => $proyectos
                 ]);
             }
         }
@@ -252,7 +253,7 @@ class ProyectoAsignarController extends WebController
      * acciones especificas
      * @return array JSON 
      */
-    public function actionAce()
+    public function actionPae()
     {
         $request = Yii::$app->request;
 
@@ -263,14 +264,46 @@ class ProyectoAsignarController extends WebController
             if($request->isPost)
             {
                 //Acciones Especificas
-                $ace = ProyectoAccionEspecifica::find()
+                $pae = ProyectoAccionEspecifica::find()
                     ->select(["id", "CONCAT(codigo_accion_especifica,' - ',nombre) AS name"])
-                    ->where(['id_unidad_ejecutora' => $request->post('depdrop_parents'), 'estatus' => 1])
+                    ->where(['id_proyecto' => $request->post('depdrop_parents'), 'estatus' => 1])
                     ->asArray()
                     ->all();                
 
                 return [
-                    'output' => $ace
+                    'output' => $pae
+                ];
+            }
+        }
+        
+    }
+
+    /**
+     * Funcion de respuesta para el AJAX de
+     * unidades ejecutoras
+     * @return array JSON 
+     */
+    public function actionAue()
+    {
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if($request->isPost)
+            {
+                //Accion Especifica
+                $ae = ProyectoAccionEspecifica::findOne($request->post('depdrop_parents'));
+                //Unidades Ejecutoras
+                $ue = UnidadEjecutora::find()
+                    ->select(["id", "CONCAT(codigo_ue,' - ',nombre) AS name"])
+                    ->where(['id' => $ae->id_unidad_ejecutora])
+                    ->asArray()
+                    ->all();                
+
+                return [
+                    'output' => $ue
                 ];
             }
         }

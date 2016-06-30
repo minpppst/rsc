@@ -18,9 +18,16 @@ DepDropAsset::register($this);
 
     <?= Html::activeHiddenInput($model, 'usuario') ?>
 
-    <?= $form->field($model, 'unidad_ejecutora')->dropDownList(ArrayHelper::map($ue,'id','nombre'), ['prompt' => 'Seleccione']) ?>
+    <div class="form-group">
+
+        <label class="control-label">Proyecto</label>
+
+        <?= Html::dropDownList('proyectos',null,ArrayHelper::map($proyectos,'id','nombre'), ['prompt' => 'Seleccione', 'class' => 'form-control', 'id' => 'proyecto']) ?>
+    </div>
 
     <?= $form->field($model, 'accion_especifica')->dropDownList([], ['prompt' => 'Seleccione']) ?>
+
+    <?= $form->field($model, 'unidad_ejecutora')->dropDownList([], ['prompt' => 'Seleccione']) ?>    
 
     <?= $form->field($model, 'estatus')->dropDownList([1 => 'Activo', 0 => 'Inactivo'],['prompt' => 'Seleccione']) ?>
 
@@ -37,11 +44,17 @@ DepDropAsset::register($this);
 <script type="text/javascript">
     /* Listas desplegables dependientes */
     $(document).ready(function(){
-        //GE
+
+        //Accion Especifica
         $("#proyectoasignar-accion_especifica").depdrop({
-            depends: ['proyectoasignar-unidad_ejecutora'],
-            url: "<?= Url::to(['ace']) ?>"
+            depends: ['proyecto'],
+            url: "<?= Url::to(['pae']) ?>"
         });
-        
+
+        //Unidad Ejecutora
+        $("#proyectoasignar-unidad_ejecutora").depdrop({
+            depends: ['proyectoasignar-accion_especifica'],
+            url: "<?= Url::to(['aue']) ?>"
+        });        
     });
 </script>
