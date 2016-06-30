@@ -28,6 +28,7 @@ CrudAsset::register($this);
     
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+         //'model' => $dataProvider,
         'filterModel' => $searchModel,
         'pjax'=>true,
         'columns' => [
@@ -39,8 +40,19 @@ CrudAsset::register($this);
 
             //'id',
             'nombre_variable:ntext',
-            'unidad_medida',
-            'localizacion',
+            [
+
+            'attribute' => 'unidad_medida',
+            'value' => function ($model){
+                return $model->unidadMedida->unidad_medida;
+            }
+            ],
+            [
+            'attribute' => 'localizacion',
+            'value' => function ($model){
+                return $model->nombreLocalizacion;
+            }
+            ],
             'definicion:ntext',
             // 'base_calculo:ntext',
             // 'fuente_informacion:ntext',

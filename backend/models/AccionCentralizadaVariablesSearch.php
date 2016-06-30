@@ -12,14 +12,16 @@ use backend\models\AccionCentralizadaVariables;
  */
 class AccionCentralizadaVariablesSearch extends AccionCentralizadaVariables
 {
+    public $localizacion, $unidad_medida;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'unidad_medida', 'localizacion', 'responsable', 'meta_programada_variable', 'unidad_ejecutora', 'acc_accion_especifica'], 'integer'],
-            [['nombre_variable', 'definicion', 'base_calculo', 'fuente_informacion'], 'safe'],
+            [['id', 'responsable', 'meta_programada_variable', 'unidad_ejecutora', 'acc_accion_especifica'], 'integer'],
+            [['nombre_variable', 'definicion', 'base_calculo', 'fuente_informacion',  'unidad_medida'], 'safe'],
         ];
     }
 
@@ -42,6 +44,7 @@ class AccionCentralizadaVariablesSearch extends AccionCentralizadaVariables
     public function search($params)
     {
         $query = AccionCentralizadaVariables::find();
+        $query->joinWith(['unidadMedida']);
 
         // add conditions that should always apply here
 
@@ -60,8 +63,8 @@ class AccionCentralizadaVariablesSearch extends AccionCentralizadaVariables
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'unidad_medida' => $this->unidad_medida,
-            'localizacion' => $this->localizacion,
+            //'unidad_medida' => $this->unidad_medida,
+            //'localizacion' => $this->localizacion,
             'responsable' => $this->responsable,
             'meta_programada_variable' => $this->meta_programada_variable,
             'unidad_ejecutora' => $this->unidad_ejecutora,
@@ -71,6 +74,7 @@ class AccionCentralizadaVariablesSearch extends AccionCentralizadaVariables
         $query->andFilterWhere(['like', 'nombre_variable', $this->nombre_variable])
             ->andFilterWhere(['like', 'definicion', $this->definicion])
             ->andFilterWhere(['like', 'base_calculo', $this->base_calculo])
+            ->andFilterWhere(['like', 'unidad_medida.unidad_medida', $this->unidad_medida])
             ->andFilterWhere(['like', 'fuente_informacion', $this->fuente_informacion]);
 
         return $dataProvider;

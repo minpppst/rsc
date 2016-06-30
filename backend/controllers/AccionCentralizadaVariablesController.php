@@ -190,7 +190,7 @@ class AccionCentralizadaVariablesController extends Controller
                          $i++;
                     }
                    
-        
+        $acciones_especificas= [$model->accAccionEspecifica->id =>$model->accAccionEspecifica->cod_ac_espe." - ".$model->accAccionEspecifica->nombre,];
         $connection = \Yii::$app->db;
         $transaction = $connection->beginTransaction();
        if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -222,6 +222,7 @@ class AccionCentralizadaVariablesController extends Controller
                 'model' => $model,
                 'precarga' => $precarga,
                 'precarga1'=>$precarga1,
+                'acciones_especificas' => $acciones_especificas,
             ]);
         }
     }
@@ -363,7 +364,7 @@ class AccionCentralizadaVariablesController extends Controller
             /*
             *   Process for non-ajax request
             */
-            return $this->redirect(['/accion_centralizada_variables/index']);
+            return $this->redirect(['accion_centralizada_variables/index']);
         }
        
     }

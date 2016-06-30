@@ -121,7 +121,7 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
         }
 
     }
-public function getLocal_variable_estados(){
+    public function getLocal_variable_estados(){
             
             $count = LocalizacionAccVariable::find()->where("id_variable=".$this->id)->count();
             
@@ -131,6 +131,16 @@ public function getLocal_variable_estados(){
               return true;
 
                         }
+
+    public function getNombreLocalizacion(){
+
+        if($this->localizacion==0){
+            return 'Nacional';
+
+        }else{
+            return 'Estadal';
+        }
+    }
 
 
 
