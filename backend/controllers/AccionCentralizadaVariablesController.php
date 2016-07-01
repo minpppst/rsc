@@ -85,8 +85,7 @@ class AccionCentralizadaVariablesController extends Controller
      */
     public function actionView($id)
     {
-
-
+        
          $model = $this->findModel($id);
          $ambito= $model->localizacion;
 

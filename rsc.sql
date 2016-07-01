@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.5.4.1deb2ubuntu1
 -- http://www.phpmyadmin.net
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 17-06-2016 a las 11:19:10
--- Versión del servidor: 5.6.17
--- Versión de PHP: 5.5.12
+-- Servidor: localhost
+-- Tiempo de generación: 01-07-2016 a las 12:23:53
+-- Versión del servidor: 5.7.12-0ubuntu1.1
+-- Versión de PHP: 7.0.4-7ubuntu2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de datos: `rsc`
@@ -26,25 +26,23 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `accion_centralizada`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada` (
+  `id` int(11) NOT NULL,
   `codigo_accion` varchar(45) NOT NULL,
   `codigo_accion_sne` varchar(45) NOT NULL,
   `nombre_accion` varchar(45) NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `estatus` tinyint(1) NOT NULL,
-  `aprobado` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `aprobado` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada`
 --
 
 INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `nombre_accion`, `fecha_inicio`, `fecha_fin`, `estatus`, `aprobado`) VALUES
-(3, '01', '01', 'probando', '2016-04-01', '2016-04-30', 1, 1),
-(4, '002', '002', 'probando4', '2016-06-01', '2016-06-30', 1, 0);
+(3, '01', '01', 'probando', '2016-04-01', '2016-04-30', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -52,26 +50,22 @@ INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `
 -- Estructura de tabla para la tabla `accion_centralizada_accion_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_accion_especifica` (
+  `id` int(11) NOT NULL,
   `id_ac_centr` int(11) NOT NULL,
   `cod_ac_espe` varchar(3) NOT NULL,
   `nombre` text NOT NULL,
   `estatus` tinyint(1) NOT NULL,
   `fecha_inicio` date NOT NULL COMMENT 'fecha de inicio de la acciones especifica',
-  `fecha_fin` date NOT NULL COMMENT 'fecha fin de la accion especifica',
-  PRIMARY KEY (`id`),
-  KEY `id_ac_centr` (`id_ac_centr`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+  `fecha_fin` date NOT NULL COMMENT 'fecha fin de la accion especifica'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_accion_especifica`
 --
 
 INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`, `estatus`, `fecha_inicio`, `fecha_fin`) VALUES
-(7, 3, '01', 'probando', 1, '2016-04-01', '2016-04-30'),
-(8, 3, '8', 'probando codigo 08', 1, '2016-06-01', '2016-06-30'),
-(9, 4, '04', 'probnado5', 1, '2016-06-01', '2016-06-10');
+(7, 3, '01', 'probando', 1, '2016-04-01', '2016-04-30');
 
 -- --------------------------------------------------------
 
@@ -79,14 +73,11 @@ INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_a
 -- Estructura de tabla para la tabla `accion_centralizada_ac_especifica_uej`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_ac_especifica_uej` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_ac_especifica_uej` (
+  `id` int(11) NOT NULL,
   `id_ue` int(11) NOT NULL,
-  `id_ac_esp` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_ue` (`id_ue`),
-  KEY `id_v` (`id_ac_esp`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=239 ;
+  `id_ac_esp` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_ac_especifica_uej`
@@ -94,11 +85,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_ac_especifica_uej` (
 
 INSERT INTO `accion_centralizada_ac_especifica_uej` (`id`, `id_ue`, `id_ac_esp`) VALUES
 (233, 600, 7),
-(234, 601, 7),
-(235, 600, 8),
-(236, 601, 8),
-(237, 602, 8),
-(238, 600, 9);
+(234, 601, 7);
 
 -- --------------------------------------------------------
 
@@ -106,17 +93,13 @@ INSERT INTO `accion_centralizada_ac_especifica_uej` (`id`, `id_ue`, `id_ac_esp`)
 -- Estructura de tabla para la tabla `accion_centralizada_asignar`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_asignar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_asignar` (
+  `id` int(11) NOT NULL,
   `usuario` int(11) NOT NULL,
   `unidad_ejecutora` int(11) NOT NULL,
   `accion_especifica` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `usuario` (`usuario`),
-  KEY `unidad_ejecutora` (`unidad_ejecutora`),
-  KEY `accion_especifica` (`accion_especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada' AUTO_INCREMENT=4 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada';
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_asignar`
@@ -131,13 +114,18 @@ INSERT INTO `accion_centralizada_asignar` (`id`, `usuario`, `unidad_ejecutora`, 
 -- Estructura de tabla para la tabla `accion_centralizada_desbloqueo_mes`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_desbloqueo_mes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_desbloqueo_mes` (
+  `id` int(11) NOT NULL,
   `id_ejecucion` int(11) NOT NULL,
-  `mes` int(11) NOT NULL COMMENT 'mes que se desbloquea/bloquea',
-  PRIMARY KEY (`id`),
-  KEY `id_ejecucion` (`id_ejecucion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+  `mes` int(11) NOT NULL COMMENT 'mes que se desbloquea/bloquea'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `accion_centralizada_desbloqueo_mes`
+--
+
+INSERT INTO `accion_centralizada_desbloqueo_mes` (`id`, `id_ejecucion`, `mes`) VALUES
+(19, 34, 1);
 
 -- --------------------------------------------------------
 
@@ -145,8 +133,8 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_desbloqueo_mes` (
 -- Estructura de tabla para la tabla `accion_centralizada_pedido`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_pedido` (
+  `id` int(11) NOT NULL,
   `id_material` int(11) NOT NULL,
   `enero` int(11) NOT NULL DEFAULT '0',
   `febrero` int(11) NOT NULL DEFAULT '0',
@@ -163,11 +151,8 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
   `precio` decimal(12,2) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `asignado` int(11) NOT NULL COMMENT 'ID de la asignacion (Usuario-UE-AC)',
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_material` (`id_material`),
-  KEY `asignado` (`asignado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -175,8 +160,8 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
 -- Estructura de tabla para la tabla `accion_centralizada_variables`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variables` (
+  `id` int(11) NOT NULL,
   `nombre_variable` text NOT NULL,
   `unidad_medida` int(11) NOT NULL,
   `localizacion` int(11) NOT NULL,
@@ -185,23 +170,15 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
   `fuente_informacion` text NOT NULL,
   `meta_programada_variable` int(11) NOT NULL,
   `unidad_ejecutora` int(11) NOT NULL,
-  `acc_accion_especifica` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `unidad_medida_2` (`unidad_medida`),
-  KEY `localizacion` (`localizacion`),
-  KEY `meta_programada_variable` (`meta_programada_variable`),
-  KEY `unidad_ejecutora` (`unidad_ejecutora`),
-  KEY `acc_accion_especifica` (`acc_accion_especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+  `acc_accion_especifica` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_variables`
 --
 
 INSERT INTO `accion_centralizada_variables` (`id`, `nombre_variable`, `unidad_medida`, `localizacion`, `definicion`, `base_calculo`, `fuente_informacion`, `meta_programada_variable`, `unidad_ejecutora`, `acc_accion_especifica`) VALUES
-(31, 'probando variable', 2, 1, 'probando', 'dos', 'dos', 0, 600, 7),
-(32, 'probando variables 2', 4, 1, 'probando variables', 'no se', 'no se', 0, 600, 8),
-(33, 'probando nacional', 2, 0, 'probando nacional', 'no se', 'probando nacional', 0, 600, 8);
+(31, 'Variable ACC 1', 2, 1, 'probando', 'dos', 'dos', 0, 600, 7);
 
 -- --------------------------------------------------------
 
@@ -209,24 +186,19 @@ INSERT INTO `accion_centralizada_variables` (`id`, `nombre_variable`, `unidad_me
 -- Estructura de tabla para la tabla `accion_centralizada_variables_usuarios`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variables_usuarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variables_usuarios` (
+  `id` int(11) NOT NULL,
   `id_variable` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `id_variable` (`id_variable`),
-  KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_variables_usuarios`
 --
 
 INSERT INTO `accion_centralizada_variables_usuarios` (`id`, `id_variable`, `id_usuario`, `estatus`) VALUES
-(29, 31, 2, 1),
-(30, 32, 2, 1),
-(31, 33, 2, 1);
+(32, 31, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -234,11 +206,11 @@ INSERT INTO `accion_centralizada_variables_usuarios` (`id`, `id_variable`, `id_u
 -- Estructura de tabla para la tabla `accion_centralizada_variable_ejecucion`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_ejecucion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variable_ejecucion` (
+  `id` int(11) NOT NULL,
   `id_programacion` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `fecha` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `fecha` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `enero` int(11) DEFAULT NULL,
   `febrero` int(11) DEFAULT NULL,
   `marzo` int(11) DEFAULT NULL,
@@ -250,20 +222,16 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_ejecucion` (
   `septiembre` int(11) DEFAULT NULL,
   `octubre` int(11) DEFAULT NULL,
   `noviembre` int(11) DEFAULT NULL,
-  `diciembre` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_programacion` (`id_programacion`),
-  KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+  `diciembre` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_variable_ejecucion`
 --
 
 INSERT INTO `accion_centralizada_variable_ejecucion` (`id`, `id_programacion`, `id_usuario`, `fecha`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`) VALUES
-(30, 24, 2, '2016-06-14 15:27:58', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(32, 31, 2, '2016-06-17 14:19:56', 100, 200, 10, 22, 4, 12, NULL, NULL, NULL, NULL, NULL, 300),
-(33, 36, 2, '2016-06-17 15:36:07', 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 12);
+(32, 31, 2, '2016-06-23 19:22:43', 102, 200, 10, 22, 4, 12, NULL, NULL, NULL, NULL, NULL, 300),
+(34, 29, 2, '2016-06-23 23:38:39', 99880, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -271,8 +239,8 @@ INSERT INTO `accion_centralizada_variable_ejecucion` (`id`, `id_programacion`, `
 -- Estructura de tabla para la tabla `accion_centralizada_variable_programacion`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variable_programacion` (
+  `id` int(11) NOT NULL,
   `id_localizacion` int(11) DEFAULT NULL,
   `enero` decimal(10,0) DEFAULT NULL,
   `febrero` decimal(10,0) DEFAULT NULL,
@@ -285,37 +253,16 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
   `septiembre` decimal(10,0) DEFAULT NULL,
   `octubre` decimal(10,0) DEFAULT NULL,
   `noviembre` decimal(10,0) DEFAULT NULL,
-  `diciembre` decimal(10,0) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_localizacion` (`id_localizacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
+  `diciembre` decimal(10,0) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_variable_programacion`
 --
 
 INSERT INTO `accion_centralizada_variable_programacion` (`id`, `id_localizacion`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`) VALUES
-(24, 46, '2', '2', '2', '0', '10', '0', '0', '0', '0', '0', '0', '12'),
-(25, 47, '1', '1', '1', '1', '1', '1', '1', '1', '11', '0', '0', '0'),
-(26, 48, '12', '22', '22', '112', '0', '0', '11', '11', '11', '0', '0', '0'),
 (29, 51, '10', '12', '10', '6', '8', '9', '0', '20', '0', '0', '0', '0'),
-(31, 54, '10', '10', '10', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
-(36, 59, '1', '2', '0', '0', '0', '0', '0', '3', '0', '0', '0', '0');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ac_variable`
---
-
-CREATE TABLE IF NOT EXISTS `ac_variable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_u_ej` int(11) NOT NULL,
-  `nombre_variable` varchar(60) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_ac` (`id_u_ej`),
-  KEY `id_ac_esp` (`id_u_ej`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+(31, 54, '10', '10', '10', '0', '0', '0', '0', '0', '0', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -323,11 +270,10 @@ CREATE TABLE IF NOT EXISTS `ac_variable` (
 -- Estructura de tabla para la tabla `ambito`
 --
 
-CREATE TABLE IF NOT EXISTS `ambito` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ambito` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+CREATE TABLE `ambito` (
+  `id` int(11) NOT NULL,
+  `ambito` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `ambito`
@@ -349,15 +295,13 @@ INSERT INTO `ambito` (`id`, `ambito`) VALUES
 -- Estructura de tabla para la tabla `audit_data`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_data` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_data` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `data` blob,
-  `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_data_entry_id` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `created` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -365,8 +309,8 @@ CREATE TABLE IF NOT EXISTS `audit_data` (
 -- Estructura de tabla para la tabla `audit_entry`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_entry` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_entry` (
+  `id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `user_id` int(11) DEFAULT '0',
   `duration` float DEFAULT NULL,
@@ -374,39 +318,8 @@ CREATE TABLE IF NOT EXISTS `audit_entry` (
   `request_method` varchar(16) DEFAULT NULL,
   `ajax` int(1) NOT NULL DEFAULT '0',
   `route` varchar(255) DEFAULT NULL,
-  `memory_max` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`),
-  KEY `idx_route` (`route`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=53369 ;
-
---
--- Volcado de datos para la tabla `audit_entry`
---
-
-INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
-(53347, '2016-06-17 11:18:19', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53348, '2016-06-17 11:18:19', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53349, '2016-06-17 11:18:24', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53350, '2016-06-17 11:18:24', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53351, '2016-06-17 11:18:29', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53352, '2016-06-17 11:18:29', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53353, '2016-06-17 11:18:34', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53354, '2016-06-17 11:18:34', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53355, '2016-06-17 11:18:39', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53356, '2016-06-17 11:18:39', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53357, '2016-06-17 11:18:44', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53358, '2016-06-17 11:18:44', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53359, '2016-06-17 11:18:49', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53360, '2016-06-17 11:18:49', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53361, '2016-06-17 11:18:54', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53362, '2016-06-17 11:18:54', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53363, '2016-06-17 11:18:59', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53364, '2016-06-17 11:18:59', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53365, '2016-06-17 11:19:04', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53366, '2016-06-17 11:19:04', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53367, '2016-06-17 11:19:09', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
-(53368, '2016-06-17 11:19:09', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL);
+  `memory_max` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -414,8 +327,8 @@ INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `reques
 -- Estructura de tabla para la tabla `audit_error`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_error` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_error` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `message` text NOT NULL,
@@ -424,12 +337,8 @@ CREATE TABLE IF NOT EXISTS `audit_error` (
   `line` int(11) DEFAULT NULL,
   `trace` blob,
   `hash` varchar(32) DEFAULT NULL,
-  `emailed` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_error_entry_id` (`entry_id`),
-  KEY `idx_file` (`file`(180)),
-  KEY `idx_emailed` (`emailed`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `emailed` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -437,17 +346,15 @@ CREATE TABLE IF NOT EXISTS `audit_error` (
 -- Estructura de tabla para la tabla `audit_javascript`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_javascript` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_javascript` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `type` varchar(20) NOT NULL,
   `message` text NOT NULL,
   `origin` varchar(512) DEFAULT NULL,
-  `data` blob,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_javascript_entry_id` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `data` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -455,8 +362,8 @@ CREATE TABLE IF NOT EXISTS `audit_javascript` (
 -- Estructura de tabla para la tabla `audit_mail`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_mail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_mail` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `successful` int(11) NOT NULL,
@@ -468,10 +375,8 @@ CREATE TABLE IF NOT EXISTS `audit_mail` (
   `subject` varchar(255) DEFAULT NULL,
   `text` blob,
   `html` blob,
-  `data` blob,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_mail_entry_id` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `data` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -479,8 +384,8 @@ CREATE TABLE IF NOT EXISTS `audit_mail` (
 -- Estructura de tabla para la tabla `audit_trail`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_trail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_trail` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `action` varchar(255) NOT NULL,
@@ -489,13 +394,287 @@ CREATE TABLE IF NOT EXISTS `audit_trail` (
   `field` varchar(255) DEFAULT NULL,
   `old_value` text,
   `new_value` text,
-  `created` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_trail_entry_id` (`entry_id`),
-  KEY `idx_audit_user_id` (`user_id`),
-  KEY `idx_audit_trail_field` (`model`,`model_id`,`field`),
-  KEY `idx_audit_trail_action` (`action`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=209 ;
+  `created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `audit_trail`
+--
+
+INSERT INTO `audit_trail` (`id`, `entry_id`, `user_id`, `action`, `model`, `model_id`, `field`, `old_value`, `new_value`, `created`) VALUES
+(1, 5906, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'nombre', 'Lorem ipsum dolor sit amet, per an accusata petentium conceptam, an case causae oporteat mel. Te epicuri praesent constituam mel, semper recusabo dissentiet ea qui. Quo dictas prompta constituam et. Vis ea sale commodo, iriure fierent sed cu.', 'Lorem ipsum dolor sit amet, per an accusata petentium conceptam, an case causae oporteat mel. Te epicuri praesent constituam mel, semper recusabo dissentiet ea qui. Quo dictas prompta constituam et. Vis ea sale commodo.', '2016-04-07 20:52:52'),
+(2, 6095, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'nombre', 'Lorem ipsum dolor sit amet, per an accusata petentium conceptam, an case causae oporteat mel. Te epicuri praesent constituam mel, semper recusabo dissentiet ea qui. Quo dictas prompta constituam et. Vis ea sale commodo. Te epicuri praesent constituam me.', 'Lorem ipsum dolor sit amet, per an accusata petentium conceptam, an case causae oporteat mel. Te epicuri praesent constituam mel, semper recusabo dissentiet ea qui. Quo dictas prompta constituam et.', '2016-04-07 22:22:26'),
+(3, 6108, 2, 'UPDATE', 'common\\models\\ProyectoAccionEspecifica', '20', 'unidad_medida', '0', '1', '2016-04-07 22:24:50'),
+(4, 6108, 2, 'UPDATE', 'common\\models\\ProyectoAccionEspecifica', '20', 'meta', '0', '5', '2016-04-07 22:24:50'),
+(5, 6108, 2, 'UPDATE', 'common\\models\\ProyectoAccionEspecifica', '20', 'ponderacion', '0', '0.1', '2016-04-07 22:24:50'),
+(6, 6108, 2, 'UPDATE', 'common\\models\\ProyectoAccionEspecifica', '20', 'bien_servicio', '', 'Ninguno', '2016-04-07 22:24:50'),
+(7, 6108, 2, 'UPDATE', 'common\\models\\ProyectoAccionEspecifica', '20', 'estatus', '0', '1', '2016-04-07 22:24:50'),
+(8, 6113, 2, 'UPDATE', 'common\\models\\ProyectoAccionEspecifica', '21', 'estatus', '0', '1', '2016-04-07 22:28:26'),
+(9, 6400, 1, 'UPDATE', 'common\\models\\Proyecto', '1', 'fecha_inicio', '2016-01-01', '2016-01-15', '2016-04-08 01:53:34'),
+(10, 6411, 1, 'UPDATE', 'common\\models\\Proyecto', '1', 'fecha_inicio', '2016-01-15', '2016-01-01', '2016-04-08 01:54:07'),
+(11, 6426, 1, 'UPDATE', 'common\\models\\Proyecto', '1', 'estatus_proyecto', '1', '2', '2016-04-08 02:13:25'),
+(12, 6429, 1, 'UPDATE', 'common\\models\\Proyecto', '1', 'estatus_proyecto', '2', '1', '2016-04-08 02:13:35'),
+(13, 6597, 1, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999.00', '999999', '2016-04-08 03:40:14'),
+(14, 7177, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '999999.00', '999.999', '2016-04-11 03:18:02'),
+(15, 7178, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '1000.00', '1.000', '2016-04-11 03:18:40'),
+(16, 7179, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '1.00', '1,00', '2016-04-11 03:22:55'),
+(17, 7180, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '1.00', '1,00', '2016-04-11 03:23:27'),
+(18, 7181, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '1.00', '100', '2016-04-11 03:28:57'),
+(19, 7182, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '100.00', '10000', '2016-04-11 03:29:17'),
+(20, 7183, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '10000.00', '1000000', '2016-04-11 03:34:02'),
+(21, 7184, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '1000000.00', '100000000', '2016-04-11 03:34:21'),
+(22, 7185, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:35:07'),
+(23, 7186, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:37:29'),
+(24, 7187, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:37:37'),
+(25, 7188, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:38:09'),
+(26, 7189, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:38:25'),
+(27, 7190, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:38:33'),
+(28, 7191, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:38:44'),
+(29, 7192, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '23.3', '2016-04-11 03:39:11'),
+(30, 7193, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '23.30', '15.12', '2016-04-11 03:39:49'),
+(31, 7194, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '15.12', '1512', '2016-04-11 03:40:31'),
+(32, 7195, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '1512.00', '151200', '2016-04-11 03:40:43'),
+(33, 7196, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '151200.00', '15120000', '2016-04-11 03:41:13'),
+(34, 7197, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '15120000.00', '1512000000', '2016-04-11 03:41:45'),
+(35, 7198, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:42:13'),
+(36, 7199, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:42:47'),
+(37, 7200, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:44:05'),
+(38, 7201, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:44:47'),
+(39, 7202, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999', '2016-04-11 03:45:00'),
+(40, 7203, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999.00', '2016-04-11 03:49:45'),
+(41, 7204, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999.00', '2016-04-11 03:56:18'),
+(42, 7205, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999.00', '2016-04-11 03:56:28'),
+(43, 7206, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999.00', '2016-04-11 03:59:08'),
+(44, 7207, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999.00', '2016-04-11 03:59:43'),
+(45, 7208, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999.00', '2016-04-11 04:05:24'),
+(46, 7209, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9999999999.00', '2016-04-11 04:05:40'),
+(47, 7210, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '1.51', '2016-04-11 04:06:17'),
+(48, 7211, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '1.51', '151.00', '2016-04-11 04:06:42'),
+(49, 7212, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '151.00', '15100.00', '2016-04-11 04:06:53'),
+(50, 7213, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '15100.00', '1510000.00', '2016-04-11 04:07:19'),
+(51, 7225, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '1510000.00', '151000000.00', '2016-04-11 04:10:48'),
+(52, 7226, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '984465454.00', '2016-04-11 04:12:08'),
+(53, 7227, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '9846846543.00', '2016-04-11 04:12:43'),
+(54, 7228, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '99999999.99', '7.45', '2016-04-11 04:14:00'),
+(55, 7229, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '7.45', '1.51', '2016-04-11 04:26:08'),
+(56, 7230, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '1.51', '5764.35', '2016-04-11 04:26:46'),
+(57, 7242, 1, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '5764.35', '576.43', '2016-04-11 04:29:22'),
+(58, 7249, 2, 'UPDATE', 'common\\models\\Proyecto', '1', 'monto_proyecto', '576.43', '514124.12', '2016-04-11 15:28:10'),
+(59, 7310, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '6', 'id', '', '6', '2016-04-11 15:39:58'),
+(60, 7310, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '6', 'usuario', '', '2', '2016-04-11 15:39:58'),
+(61, 7310, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '6', 'unidad_ejecutora', '', '1', '2016-04-11 15:39:58'),
+(62, 7310, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '6', 'accion_especifica', '', '20', '2016-04-11 15:39:58'),
+(63, 7310, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '6', 'estatus', '', '1', '2016-04-11 15:39:58'),
+(64, 7313, 1, 'DELETE', 'common\\models\\ProyectoAsignar', '6', NULL, NULL, NULL, '2016-04-11 15:42:13'),
+(65, 7317, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '7', 'id', '', '7', '2016-04-11 15:42:44'),
+(66, 7317, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '7', 'usuario', '', '2', '2016-04-11 15:42:44'),
+(67, 7317, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '7', 'unidad_ejecutora', '', '1', '2016-04-11 15:42:44'),
+(68, 7317, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '7', 'accion_especifica', '', '20', '2016-04-11 15:42:44'),
+(69, 7317, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '7', 'estatus', '', '1', '2016-04-11 15:42:44'),
+(70, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'id', '', '4', '2016-04-11 15:51:51'),
+(71, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'id_material', '', '1', '2016-04-11 15:51:51'),
+(72, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'enero', '', '0', '2016-04-11 15:51:51'),
+(73, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'febrero', '', '0', '2016-04-11 15:51:51'),
+(74, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'marzo', '', '2', '2016-04-11 15:51:51'),
+(75, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'abril', '', '0', '2016-04-11 15:51:51'),
+(76, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'mayo', '', '0', '2016-04-11 15:51:51'),
+(77, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'junio', '', '0', '2016-04-11 15:51:51'),
+(78, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'julio', '', '0', '2016-04-11 15:51:51'),
+(79, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'agosto', '', '3', '2016-04-11 15:51:51'),
+(80, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'septiembre', '', '0', '2016-04-11 15:51:51'),
+(81, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'octubre', '', '0', '2016-04-11 15:51:51'),
+(82, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'noviembre', '', '0', '2016-04-11 15:51:51'),
+(83, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'diciembre', '', '0', '2016-04-11 15:51:51'),
+(84, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'precio', '', '100.00', '2016-04-11 15:51:51'),
+(85, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'fecha_creacion', '', '2016-04-11 15:51:51', '2016-04-11 15:51:51'),
+(86, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'asignado', '', '7', '2016-04-11 15:51:51'),
+(87, 7355, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'estatus', '', '1', '2016-04-11 15:51:51'),
+(88, 7396, 2, 'UPDATE', 'common\\models\\ProyectoPedido', '4', 'marzo', '2', '0', '2016-04-11 15:55:51'),
+(89, 7396, 2, 'UPDATE', 'common\\models\\ProyectoPedido', '4', 'agosto', '3', '0', '2016-04-11 15:55:51'),
+(90, 7396, 2, 'UPDATE', 'common\\models\\ProyectoPedido', '4', 'fecha_creacion', '2016-04-11 15:51:51', '2016-04-11 15:55:51', '2016-04-11 15:55:51'),
+(91, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'id', '', '5', '2016-04-17 20:35:05'),
+(92, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'id_material', '', '1', '2016-04-17 20:35:05'),
+(93, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'enero', '', '2', '2016-04-17 20:35:05'),
+(94, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'febrero', '', '0', '2016-04-17 20:35:05'),
+(95, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'marzo', '', '0', '2016-04-17 20:35:05'),
+(96, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'abril', '', '0', '2016-04-17 20:35:05'),
+(97, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'mayo', '', '0', '2016-04-17 20:35:05'),
+(98, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'junio', '', '0', '2016-04-17 20:35:05'),
+(99, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'julio', '', '1', '2016-04-17 20:35:05'),
+(100, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'agosto', '', '0', '2016-04-17 20:35:05'),
+(101, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'septiembre', '', '0', '2016-04-17 20:35:05'),
+(102, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'octubre', '', '0', '2016-04-17 20:35:05'),
+(103, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'noviembre', '', '0', '2016-04-17 20:35:05'),
+(104, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'diciembre', '', '0', '2016-04-17 20:35:05'),
+(105, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'precio', '', '100.00', '2016-04-17 20:35:05'),
+(106, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'fecha_creacion', '', '2016-04-17 20:35:05', '2016-04-17 20:35:05'),
+(107, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'asignado', '', '5', '2016-04-17 20:35:05'),
+(108, 7995, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'estatus', '', '1', '2016-04-17 20:35:05'),
+(109, 8022, 2, 'DELETE', 'common\\models\\ProyectoPedido', '5', NULL, NULL, NULL, '2016-04-17 20:37:40'),
+(110, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'id', '', '6', '2016-04-17 20:38:10'),
+(111, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'id_material', '', '1', '2016-04-17 20:38:10'),
+(112, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'enero', '', '2', '2016-04-17 20:38:10'),
+(113, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'febrero', '', '0', '2016-04-17 20:38:10'),
+(114, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'marzo', '', '0', '2016-04-17 20:38:10'),
+(115, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'abril', '', '0', '2016-04-17 20:38:10'),
+(116, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'mayo', '', '0', '2016-04-17 20:38:10'),
+(117, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'junio', '', '0', '2016-04-17 20:38:10'),
+(118, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'julio', '', '2', '2016-04-17 20:38:10'),
+(119, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'agosto', '', '0', '2016-04-17 20:38:10'),
+(120, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'septiembre', '', '0', '2016-04-17 20:38:10'),
+(121, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'octubre', '', '0', '2016-04-17 20:38:10'),
+(122, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'noviembre', '', '0', '2016-04-17 20:38:10'),
+(123, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'diciembre', '', '3', '2016-04-17 20:38:10'),
+(124, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'precio', '', '100.00', '2016-04-17 20:38:10'),
+(125, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'fecha_creacion', '', '2016-04-17 20:38:10', '2016-04-17 20:38:10'),
+(126, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'asignado', '', '5', '2016-04-17 20:38:10'),
+(127, 8028, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'estatus', '', '1', '2016-04-17 20:38:10'),
+(128, 8043, 2, 'DELETE', 'common\\models\\ProyectoPedido', '6', NULL, NULL, NULL, '2016-04-17 20:39:38'),
+(129, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'id', '', '7', '2016-04-17 20:39:47'),
+(130, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'id_material', '', '1', '2016-04-17 20:39:47'),
+(131, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'enero', '', '0', '2016-04-17 20:39:47'),
+(132, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'febrero', '', '2', '2016-04-17 20:39:47'),
+(133, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'marzo', '', '0', '2016-04-17 20:39:47'),
+(134, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'abril', '', '0', '2016-04-17 20:39:47'),
+(135, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'mayo', '', '2', '2016-04-17 20:39:47'),
+(136, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'junio', '', '0', '2016-04-17 20:39:47'),
+(137, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'julio', '', '0', '2016-04-17 20:39:47'),
+(138, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'agosto', '', '0', '2016-04-17 20:39:47'),
+(139, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'septiembre', '', '0', '2016-04-17 20:39:47'),
+(140, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'octubre', '', '0', '2016-04-17 20:39:47'),
+(141, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'noviembre', '', '0', '2016-04-17 20:39:47'),
+(142, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'diciembre', '', '2', '2016-04-17 20:39:47'),
+(143, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'precio', '', '100.00', '2016-04-17 20:39:47'),
+(144, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'fecha_creacion', '', '2016-04-17 20:39:47', '2016-04-17 20:39:47'),
+(145, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'asignado', '', '5', '2016-04-17 20:39:47'),
+(146, 8046, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'estatus', '', '1', '2016-04-17 20:39:47'),
+(147, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'id', '', '8', '2016-04-17 21:35:44'),
+(148, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'id_material', '', '1', '2016-04-17 21:35:44'),
+(149, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'enero', '', '0', '2016-04-17 21:35:44'),
+(150, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'febrero', '', '0', '2016-04-17 21:35:44'),
+(151, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'marzo', '', '7', '2016-04-17 21:35:44'),
+(152, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'abril', '', '0', '2016-04-17 21:35:44'),
+(153, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'mayo', '', '045', '2016-04-17 21:35:44'),
+(154, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'junio', '', '0', '2016-04-17 21:35:44'),
+(155, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'julio', '', '0', '2016-04-17 21:35:44'),
+(156, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'agosto', '', '066', '2016-04-17 21:35:44'),
+(157, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'septiembre', '', '12', '2016-04-17 21:35:44'),
+(158, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'octubre', '', '0', '2016-04-17 21:35:44'),
+(159, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'noviembre', '', '0', '2016-04-17 21:35:44'),
+(160, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'diciembre', '', '01', '2016-04-17 21:35:44'),
+(161, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'precio', '', '100.00', '2016-04-17 21:35:44'),
+(162, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'fecha_creacion', '', '2016-04-17 21:35:44', '2016-04-17 21:35:44'),
+(163, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'asignado', '', '5', '2016-04-17 21:35:44'),
+(164, 8793, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'estatus', '', '1', '2016-04-17 21:35:44'),
+(165, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'id', '', '9', '2016-04-17 22:58:30'),
+(166, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'id_material', '', '1', '2016-04-17 22:58:30'),
+(167, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'enero', '', '0455', '2016-04-17 22:58:30'),
+(168, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'febrero', '', '0', '2016-04-17 22:58:30'),
+(169, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'marzo', '', '0', '2016-04-17 22:58:30'),
+(170, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'abril', '', '3', '2016-04-17 22:58:30'),
+(171, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'mayo', '', '0', '2016-04-17 22:58:30'),
+(172, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'junio', '', '0', '2016-04-17 22:58:30'),
+(173, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'julio', '', '0', '2016-04-17 22:58:30'),
+(174, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'agosto', '', '0', '2016-04-17 22:58:30'),
+(175, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'septiembre', '', '0456', '2016-04-17 22:58:30'),
+(176, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'octubre', '', '145', '2016-04-17 22:58:30'),
+(177, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'noviembre', '', '0', '2016-04-17 22:58:30'),
+(178, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'diciembre', '', '0', '2016-04-17 22:58:30'),
+(179, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'precio', '', '100.00', '2016-04-17 22:58:30'),
+(180, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'fecha_creacion', '', '2016-04-17 22:58:30', '2016-04-17 22:58:30'),
+(181, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'asignado', '', '7', '2016-04-17 22:58:30'),
+(182, 9841, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'estatus', '', '1', '2016-04-17 22:58:30'),
+(183, 10610, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '8', 'id', '', '8', '2016-05-24 13:50:46'),
+(184, 10610, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '8', 'usuario', '', '3', '2016-05-24 13:50:46'),
+(185, 10610, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '8', 'unidad_ejecutora', '', '1', '2016-05-24 13:50:46'),
+(186, 10610, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '8', 'accion_especifica', '', '20', '2016-05-24 13:50:46'),
+(187, 10610, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '8', 'estatus', '', '1', '2016-05-24 13:50:46'),
+(188, 10611, 1, 'CREATE', 'common\\models\\MaterialesServicios', '2', 'id', '', '2', '2016-06-03 00:53:27'),
+(189, 10611, 1, 'CREATE', 'common\\models\\MaterialesServicios', '2', 'id_se', '', '2', '2016-06-03 00:53:27'),
+(190, 10611, 1, 'CREATE', 'common\\models\\MaterialesServicios', '2', 'nombre', '', 'Servicio de luz eléctrica', '2016-06-03 00:53:27'),
+(191, 10611, 1, 'CREATE', 'common\\models\\MaterialesServicios', '2', 'unidad_medida', '', '320', '2016-06-03 00:53:27'),
+(192, 10611, 1, 'CREATE', 'common\\models\\MaterialesServicios', '2', 'presentacion', '', '2', '2016-06-03 00:53:27'),
+(193, 10611, 1, 'CREATE', 'common\\models\\MaterialesServicios', '2', 'precio', '', '85', '2016-06-03 00:53:27'),
+(194, 10611, 1, 'CREATE', 'common\\models\\MaterialesServicios', '2', 'iva', '', '0', '2016-06-03 00:53:27'),
+(195, 10611, 1, 'CREATE', 'common\\models\\MaterialesServicios', '2', 'estatus', '', '1', '2016-06-03 00:53:27'),
+(196, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'id', '', '10', '2016-06-03 00:54:55'),
+(197, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'id_material', '', '2', '2016-06-03 00:54:55'),
+(198, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'enero', '', '100', '2016-06-03 00:54:55'),
+(199, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'febrero', '', '250', '2016-06-03 00:54:55'),
+(200, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'marzo', '', '250', '2016-06-03 00:54:55'),
+(201, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'abril', '', '250', '2016-06-03 00:54:55'),
+(202, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'mayo', '', '250', '2016-06-03 00:54:55'),
+(203, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'junio', '', '250', '2016-06-03 00:54:55'),
+(204, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'julio', '', '300', '2016-06-03 00:54:55'),
+(205, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'agosto', '', '300', '2016-06-03 00:54:55'),
+(206, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'septiembre', '', '300', '2016-06-03 00:54:55'),
+(207, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'octubre', '', '500', '2016-06-03 00:54:55'),
+(208, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'noviembre', '', '500', '2016-06-03 00:54:55'),
+(209, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'diciembre', '', '550', '2016-06-03 00:54:55'),
+(210, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'precio', '', '85.00', '2016-06-03 00:54:55'),
+(211, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'fecha_creacion', '', '2016-06-03 00:54:55', '2016-06-03 00:54:55'),
+(212, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'asignado', '', '7', '2016-06-03 00:54:55'),
+(213, 10612, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'estatus', '', '1', '2016-06-03 00:54:55'),
+(214, 10613, 2, 'DELETE', 'common\\models\\ProyectoPedido', '4', NULL, NULL, NULL, '2016-06-03 00:55:03'),
+(215, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'id', '', '1', '2016-06-23 16:16:20'),
+(216, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'id_material', '', '2', '2016-06-23 16:16:20'),
+(217, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'enero', '', '11', '2016-06-23 16:16:20'),
+(218, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'febrero', '', '0', '2016-06-23 16:16:20'),
+(219, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'marzo', '', '0', '2016-06-23 16:16:20'),
+(220, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'abril', '', '0', '2016-06-23 16:16:20'),
+(221, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'mayo', '', '4', '2016-06-23 16:16:20'),
+(222, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'junio', '', '0', '2016-06-23 16:16:20'),
+(223, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'julio', '', '0', '2016-06-23 16:16:20'),
+(224, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'agosto', '', '0', '2016-06-23 16:16:20'),
+(225, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'septiembre', '', '25', '2016-06-23 16:16:20'),
+(226, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'octubre', '', '0', '2016-06-23 16:16:20'),
+(227, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'noviembre', '', '0', '2016-06-23 16:16:20'),
+(228, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'diciembre', '', '0', '2016-06-23 16:16:20'),
+(229, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'precio', '', '230.00', '2016-06-23 16:16:20'),
+(230, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'fecha_creacion', '', '2016-06-23 16:16:20', '2016-06-23 16:16:20'),
+(231, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'asignado', '', '7', '2016-06-23 16:16:20'),
+(232, 10614, 2, 'CREATE', 'common\\models\\ProyectoPedido', '1', 'estatus', '', '1', '2016-06-23 16:16:20'),
+(233, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'id', '', '2', '2016-06-23 16:16:51'),
+(234, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'id_material', '', '3', '2016-06-23 16:16:51'),
+(235, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'enero', '', '1500', '2016-06-23 16:16:51'),
+(236, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'febrero', '', '0', '2016-06-23 16:16:51'),
+(237, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'marzo', '', '0', '2016-06-23 16:16:51'),
+(238, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'abril', '', '0', '2016-06-23 16:16:51'),
+(239, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'mayo', '', '0', '2016-06-23 16:16:51'),
+(240, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'junio', '', '0', '2016-06-23 16:16:51'),
+(241, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'julio', '', '1200', '2016-06-23 16:16:51'),
+(242, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'agosto', '', '0', '2016-06-23 16:16:51'),
+(243, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'septiembre', '', '0', '2016-06-23 16:16:51'),
+(244, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'octubre', '', '0', '2016-06-23 16:16:51'),
+(245, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'noviembre', '', '0', '2016-06-23 16:16:51'),
+(246, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'diciembre', '', '0', '2016-06-23 16:16:51'),
+(247, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'precio', '', '4620.00', '2016-06-23 16:16:51'),
+(248, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'fecha_creacion', '', '2016-06-23 16:16:51', '2016-06-23 16:16:51'),
+(249, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'asignado', '', '7', '2016-06-23 16:16:51'),
+(250, 10615, 2, 'CREATE', 'common\\models\\ProyectoPedido', '2', 'estatus', '', '1', '2016-06-23 16:16:51'),
+(251, 10616, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '9', 'id', '', '9', '2016-06-30 00:29:24'),
+(252, 10616, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '9', 'usuario', '', '2', '2016-06-30 00:29:24'),
+(253, 10616, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '9', 'unidad_ejecutora', '', '603', '2016-06-30 00:29:24'),
+(254, 10616, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '9', 'accion_especifica', '', '36', '2016-06-30 00:29:24'),
+(255, 10616, 1, 'CREATE', 'common\\models\\ProyectoAsignar', '9', 'estatus', '', '1', '2016-06-30 00:29:24'),
+(256, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'id', '', '3', '2016-06-30 02:22:19'),
+(257, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'id_material', '', '49', '2016-06-30 02:22:19'),
+(258, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'enero', '', '01', '2016-06-30 02:22:19'),
+(259, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'febrero', '', '1', '2016-06-30 02:22:19'),
+(260, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'marzo', '', '1', '2016-06-30 02:22:19'),
+(261, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'abril', '', '1', '2016-06-30 02:22:19'),
+(262, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'mayo', '', '1', '2016-06-30 02:22:19'),
+(263, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'junio', '', '1', '2016-06-30 02:22:19'),
+(264, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'julio', '', '1', '2016-06-30 02:22:19'),
+(265, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'agosto', '', '1', '2016-06-30 02:22:19'),
+(266, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'septiembre', '', '1', '2016-06-30 02:22:19'),
+(267, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'octubre', '', '1', '2016-06-30 02:22:19'),
+(268, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'noviembre', '', '1', '2016-06-30 02:22:19'),
+(269, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'diciembre', '', '1', '2016-06-30 02:22:19'),
+(270, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'precio', '', '2000000.00', '2016-06-30 02:22:19'),
+(271, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'fecha_creacion', '', '2016-06-30 02:22:19', '2016-06-30 02:22:19'),
+(272, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'asignado', '', '7', '2016-06-30 02:22:19'),
+(273, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'estatus', '', '1', '2016-06-30 02:22:19');
 
 -- --------------------------------------------------------
 
@@ -503,11 +682,10 @@ CREATE TABLE IF NOT EXISTS `audit_trail` (
 -- Estructura de tabla para la tabla `auth_assignment`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_assignment` (
+CREATE TABLE `auth_assignment` (
   `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`item_name`,`user_id`)
+  `created_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -515,33 +693,30 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('acc_accion_especifica', '1', 1466001492),
-('accion_centralizada', '1', 1466001492),
-('accion_centralizada', '2', 1465993920),
-('accion_centralizada_asignar', '1', 1466001492),
-('accion_centralizada_requerimiento', '2', 1465993920),
-('accion_centralizada_variable_ejecucion', '1', 1466001492),
-('accion_centralizada_variable_ejecucion', '2', 1465993920),
-('accion_centralizada_variables', '1', 1466001492),
-('accion_centralizada_variables', '2', 1465993920),
-('desbloquear_meses_variables', '1', 1466001492),
-('gestor_proyecto', '1', 1466001492),
-('materiales_servicios', '1', 1466001492),
-('proyecto_asignar', '1', 1466001492),
-('proyecto_pedido', '1', 1466001492),
-('proyecto_pedido', '2', 1465993920),
-('registrador_accion_especifica', '1', 1466001492),
-('registrador_accion_especifica', '2', 1465993920),
+('acc_accion_especifica', '1', 1467389470),
+('acc_variables', '1', 1467389470),
+('accion_centralizada', '1', 1467389470),
+('accion_centralizada', '2', 1459774927),
+('accion_centralizada_asignar', '1', 1467389470),
+('accion_centralizada_requerimiento', '1', 1467389470),
+('accion_centralizada_requerimiento', '2', 1459774927),
+('gestor_proyecto', '1', 1467389470),
+('materiales_servicios', '1', 1467389470),
+('proyecto_asignar', '1', 1467389470),
+('proyecto_pedido', '1', 1467389470),
+('proyecto_pedido', '2', 1459774927),
+('registrador_accion_especifica', '1', 1467389470),
+('registrador_accion_especifica', '2', 1459774927),
 ('registrador_accion_especifica', '3', 1454611275),
-('registrador_alcance', '1', 1466001492),
-('registrador_alcance', '2', 1465993920),
+('registrador_alcance', '1', 1467389470),
+('registrador_alcance', '2', 1459774927),
 ('registrador_alcance', '3', 1454611275),
-('registrador_basico', '1', 1466001492),
-('registrador_basico', '2', 1465993920),
+('registrador_basico', '1', 1467389470),
+('registrador_basico', '2', 1459774927),
 ('registrador_basico', '3', 1454611275),
-('registrador_distribucion_presupuestaria', '1', 1466001492),
+('registrador_distribucion_presupuestaria', '1', 1467389470),
 ('registrador_distribucion_presupuestaria', '3', 1454611275),
-('sysadmin', '1', 1466001492),
+('sysadmin', '1', 1467389470),
 ('sysadmin', '3', 1454611275);
 
 -- --------------------------------------------------------
@@ -550,17 +725,14 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 -- Estructura de tabla para la tabla `auth_item`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_item` (
+CREATE TABLE `auth_item` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` int(11) NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `data` text COLLATE utf8_unicode_ci,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`),
-  KEY `rule_name` (`rule_name`),
-  KEY `idx-auth_item-type` (`type`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -577,17 +749,11 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('ac-esp-uej/delete', 2, 'Desasignar una UE de una acción específica de ACC', NULL, NULL, 1456114789, 1456114789),
 ('ac-esp-uej/index', 2, 'Lista de UE asociadas a una acción específica de ACC', NULL, NULL, 1456114628, 1456114667),
 ('ac-esp-uej/update', 2, 'Cambiar la asignación de una UE de acción específica de ACC', NULL, NULL, 1456114758, 1456114758),
-('ac-variable/create', 2, 'crear variables para acciones centralizadas', NULL, NULL, 1455136899, 1455136899),
-('ac-variable/delete', 2, 'poder borrar la variable', NULL, NULL, 1455136995, 1455136995),
-('ac-variable/index', 2, 'poder ir al inicio del modulo variables ', NULL, NULL, 1455136979, 1455136979),
-('ac-variable/update', 2, 'actulizar variables de acciones centralizadas', NULL, NULL, 1455136923, 1455136923),
-('ac-variable/view', 2, 'ver el detalle de variable', NULL, NULL, 1455136945, 1455136945),
 ('acc_accion_especifica', 1, 'Crear, editar y eliminar acciones específicas de ACC', NULL, NULL, 1456113925, 1456114942),
+('acc_variables', 1, 'Ver, crear, editar y eliminar variables de ACC', NULL, NULL, 1467389461, 1467389461),
 ('accion_centralizada', 1, 'ver las acciones centralizadas', NULL, NULL, 1455129653, 1459443467),
 ('accion_centralizada_asignar', 1, 'Asignar usuarios a Acciones Centralizadas', NULL, NULL, 1459442993, 1459443946),
 ('accion_centralizada_requerimiento', 1, 'permisos para poder realizar requerimientos de acciones centralizadas', NULL, NULL, 1459774903, 1459788763),
-('accion_centralizada_variable_ejecucion', 1, 'poder gestionar las ejecucciones de las variables', NULL, NULL, 1465993762, 1465994345),
-('accion_centralizada_variables', 1, 'ver, modificar, eliminar variables', NULL, NULL, 1465215913, 1466174840),
 ('accion-centralizada-asignar/ace', 2, 'JSON con las Acciones Específicas a asignar', NULL, NULL, 1459443928, 1459443928),
 ('accion-centralizada-asignar/asignar', 2, 'Asignar usuario a acción específica de ACC', NULL, NULL, 1459443071, 1459443071),
 ('accion-centralizada-asignar/create', 2, 'Crear asignacion', NULL, NULL, 1459443103, 1459443103),
@@ -595,12 +761,6 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('accion-centralizada-asignar/index', 2, 'Lista de asignaciones de usuarios a ACC', NULL, NULL, 1459442945, 1459442945),
 ('accion-centralizada-asignar/update', 2, 'Modificar asignacion', NULL, NULL, 1459443134, 1459443134),
 ('accion-centralizada-asignar/view', 2, 'Ver asignacion', NULL, NULL, 1459443115, 1459443115),
-('accion-centralizada-desbloqueo-mes/bulk-delete', 2, 'Borrar por lotes los meses desbloqueados', NULL, NULL, 1466173315, 1466175402),
-('accion-centralizada-desbloqueo-mes/create', 2, 'crear desbloqueo mes para ejecucion de variable', NULL, NULL, 1465999570, 1465999570),
-('accion-centralizada-desbloqueo-mes/delete', 2, 'borrar desbloque mes de ejecucion de variables', NULL, NULL, 1465999596, 1465999596),
-('accion-centralizada-desbloqueo-mes/index', 2, 'ver el inical del desbloqueo mes de las ejecciones de variables', NULL, NULL, 1465999477, 1465999477),
-('accion-centralizada-desbloqueo-mes/update', 2, 'modificar el mes de bloque', NULL, NULL, 1466006452, 1466006452),
-('accion-centralizada-desbloqueo-mes/view', 2, 'ver el detalle del mes de desbloque de variables', NULL, NULL, 1466006480, 1466006480),
 ('accion-centralizada-pedido/bulk-activar', 2, 'activar por lotes los requermientos de accion centralizada', NULL, NULL, 1459788691, 1459788691),
 ('accion-centralizada-pedido/bulk-delete', 2, 'borrar por lote los requerimientos de accion centralizada', NULL, NULL, 1459788636, 1459788636),
 ('accion-centralizada-pedido/bulk-desactivar', 2, 'desactivar por lotes los requerimientos de accion centralizada', NULL, NULL, 1459788669, 1459788669),
@@ -611,37 +771,25 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('accion-centralizada-pedido/pedido', 2, 'pedir requerimiento de accion centralizada', NULL, NULL, 1459774549, 1459774549),
 ('accion-centralizada-pedido/update', 2, 'modiifcar requerimiento de accion centralizada', NULL, NULL, 1459774383, 1459774383),
 ('accion-centralizada-pedido/view', 2, 'ver el detalle del requerimiento', NULL, NULL, 1459788595, 1459788595),
-('accion-centralizada-variable-ejecucion/create', 2, 'permite la ejeccion de las variables', NULL, NULL, 1465994301, 1465994301),
-('accion-centralizada-variable-ejecucion/localizacion', 2, 'ver las regiones asociadas a las variables', NULL, NULL, 1465993983, 1465993983),
-('accion-centralizada-variable-ejecucion/variables', 2, 'ver las variables asignadas al usuario', NULL, NULL, 1465993548, 1465993548),
-('accion-centralizada-variables/ace', 2, 'buscar  accionces especificas relacionadas con la unidad ejecutora y q esten activas', NULL, NULL, 1465216126, 1465216126),
-('accion-centralizada-variables/ace1', 2, 'buscar usuarios que tengan asignados la unidad ejecutora y relacionarlos con la variable', NULL, NULL, 1465216159, 1465216159),
-('accion-centralizada-variables/bulk-delete', 2, 'borrar por lotes las variables', NULL, NULL, 1465219918, 1465219918),
-('accion-centralizada-variables/create', 2, 'crear variables', NULL, NULL, 1465215735, 1465215735),
-('accion-centralizada-variables/delete', 2, 'poder borrar variables', NULL, NULL, 1465215767, 1465215767),
-('accion-centralizada-variables/index', 2, 'pagina inicio de las variables', NULL, NULL, 1465215694, 1465215694),
-('accion-centralizada-variables/update', 2, 'poder modificar las variables', NULL, NULL, 1465215750, 1465215750),
-('accion-centralizada-variables/view', 2, 'ver detalles de la variable', NULL, NULL, 1465215780, 1465215780),
+('accion-centralizada-variables/create', 2, 'crear variables para acciones centralizadas', NULL, NULL, 1455136899, 1467389622),
+('accion-centralizada-variables/delete', 2, 'poder borrar la variable', NULL, NULL, 1455136995, 1467389629),
+('accion-centralizada-variables/index', 2, 'poder ir al inicio del modulo variables ', NULL, NULL, 1455136979, 1467389635),
+('accion-centralizada-variables/update', 2, 'actulizar variables de acciones centralizadas', NULL, NULL, 1455136923, 1467389641),
+('accion-centralizada-variables/view', 2, 'ver el detalle de variable', NULL, NULL, 1455136945, 1467389646),
 ('accion-centralizada/create', 2, 'crear acciones centralizadas', NULL, NULL, 1455130416, 1455130416),
 ('accion-centralizada/delete', 2, 'borrar acciones centralizadas', NULL, NULL, 1455130459, 1455130459),
 ('accion-centralizada/importar', 2, 'Importar acciones centralizadas', NULL, NULL, 1458862735, 1458862842),
 ('accion-centralizada/index', 2, 'ver el inicio de acciones centralizadas', NULL, NULL, 1455129506, 1455130004),
 ('accion-centralizada/update', 2, 'actualizar acciones centralizadas', NULL, NULL, 1455130436, 1455136413),
 ('accion-centralizada/view', 2, 'ver el detalle de la accion centralizada', NULL, NULL, 1455130492, 1455130492),
-('desbloquear_meses_variables', 1, 'permisos para crear, eliminar y ver los meses que han sido desbloqueados de la ejecucion de las variables ', NULL, NULL, 1466001414, 1466173347),
-('gestor_proyecto', 1, 'Administrador de proyecto', NULL, NULL, 1456979251, 1456979251),
-('localizacion-acc-variable/bulk-delete', 2, 'Borrar por lotes las localizacion de las variables', NULL, NULL, 1466174794, 1466175024),
-('localizacion-acc-variable/create', 2, 'creando las localizaciones de las variables', NULL, NULL, 1465216675, 1465216675),
-('localizacion-acc-variable/delete', 2, 'borrar las localizaciones de variable', NULL, NULL, 1465216740, 1465216740),
-('localizacion-acc-variable/update', 2, 'modificando las localizaciones de las variables', NULL, NULL, 1465216709, 1465216709),
-('localizacion-acc-variable/view', 2, 'ver el detalle de la localizacion', NULL, NULL, 1465221236, 1465221236),
+('gestor_proyecto', 1, 'Administrador de proyecto', NULL, NULL, 1456979251, 1464408657),
 ('materiales_servicios', 1, 'Crea, modifica y elimina materiales y servicios', NULL, NULL, 1455502889, 1455502889),
 ('materiales-servicios/create', 2, 'Crear materiales y servicios', NULL, NULL, 1455502798, 1455502798),
 ('materiales-servicios/delete', 2, 'Eliminar materiales y servicios', NULL, NULL, 1455502828, 1455502828),
 ('materiales-servicios/index', 2, 'Lista de materiales y servicios', NULL, NULL, 1455502782, 1455502782),
 ('materiales-servicios/update', 2, 'Modificar materiales y servicios', NULL, NULL, 1455502813, 1455502813),
-('proyecto_asignar', 1, 'Gestionar las asignaciones de usuarios a las acciones específicas de un proyecto', NULL, NULL, 1458229165, 1458275288),
-('proyecto_pedido', 1, 'Pedidos de materiales y servicios de proyecto', NULL, NULL, 1457400383, 1465223730),
+('proyecto_asignar', 1, 'Gestionar las asignaciones de usuarios a las acciones específicas de un proyecto', NULL, NULL, 1458229165, 1467246247),
+('proyecto_pedido', 1, 'Pedidos de materiales y servicios de proyecto', NULL, NULL, 1457400383, 1460932850),
 ('proyecto-accion-especifica/bulk-activar', 2, 'Activar múltiples acciones específicas de proyecto', NULL, NULL, 1457393259, 1457393259),
 ('proyecto-accion-especifica/bulk-desactivar', 2, 'Desactivar múltiples acciones específicas de proyecto', NULL, NULL, 1457393291, 1457393291),
 ('proyecto-accion-especifica/create', 2, 'Crear acción específica de proyecto', NULL, NULL, 1452529692, 1452529692),
@@ -654,27 +802,23 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto-alcance/delete', 2, 'Eliminar alcance de proyecto', NULL, NULL, 1452221699, 1452221699),
 ('proyecto-alcance/update', 2, 'Editar alcance de proyecto', NULL, NULL, 1452221681, 1452221681),
 ('proyecto-alcance/view', 2, 'Ver alcance de proyecto', NULL, NULL, 1452223025, 1452223025),
-('proyecto-asignar/ace', 2, 'Respuesta JSON', NULL, NULL, 1458275263, 1458275263),
 ('proyecto-asignar/asignar', 2, 'Lista de asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458228890, 1458228890),
+('proyecto-asignar/aue', 2, 'Respuesta JSON', NULL, NULL, 1467244885, 1467244905),
 ('proyecto-asignar/bulk-activar', 2, 'Activar múltiples asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458229012, 1458229060),
 ('proyecto-asignar/bulk-delete', 2, 'Eliminar múltiples asignaciones de usuario a proyecto/acción específica', NULL, NULL, 1458228933, 1458228933),
 ('proyecto-asignar/bulk-desactivar', 2, 'Desactivar múltiples asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458229050, 1458229050),
 ('proyecto-asignar/create', 2, 'Crear asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228779, 1458228779),
 ('proyecto-asignar/delete', 2, 'Eliminar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228811, 1458228811),
 ('proyecto-asignar/index', 2, 'Lista de usuarios asignados a proyectos', NULL, NULL, 1458228739, 1458228739),
+('proyecto-asignar/pae', 2, 'Respuesta JSON', NULL, NULL, 1458275263, 1467242280),
 ('proyecto-asignar/toggle-activo', 2, 'Activar/Desactivar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228960, 1458228960),
 ('proyecto-asignar/update', 2, 'Modificar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228795, 1458228795),
 ('proyecto-asignar/view', 2, 'Ver asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228845, 1458228845),
-('proyecto-distribucion', 2, 'crear la distribucion', NULL, NULL, 1465223368, 1465223368),
 ('proyecto-distribucion-presupuestaria/create', 2, 'Crear distribución presupuestaria de proyecto', NULL, NULL, 1452649234, 1452649234),
 ('proyecto-distribucion-presupuestaria/delete', 2, 'Eliminar distribución presupuestaria de proyecto', NULL, NULL, 1452649263, 1452649263),
 ('proyecto-distribucion-presupuestaria/index', 2, 'Lista de distribución presupuestaria de proyecto', NULL, NULL, 1452649290, 1452649290),
 ('proyecto-distribucion-presupuestaria/update', 2, 'Editar distribución presupuestaria de proyecto', NULL, NULL, 1452649249, 1452649249),
 ('proyecto-distribucion-presupuestaria/view', 2, 'Ver distribución presupuestaria de proyecto', NULL, NULL, 1452649220, 1452649220),
-('proyecto-distribucion-update', 2, 'modificar proyecto distribucion', NULL, NULL, 1465223188, 1465223188),
-('proyecto-distribucion/create', 2, 'crear proyecto distribucion', NULL, NULL, 1465223147, 1465223147),
-('proyecto-distribucion/index', 2, 'inicio de distribucion de proyecto', NULL, NULL, 1465223126, 1465223126),
-('proyecto-distribucion/view', 2, 'vista de la distribucion de proyecto', NULL, NULL, 1465223169, 1465223169),
 ('proyecto-internacional/create', 2, 'Ámbito internacional crear', NULL, NULL, 1451487147, 1451487539),
 ('proyecto-internacional/delete', 2, 'Ámbito internacional eliminar', NULL, NULL, 1451487197, 1451487564),
 ('proyecto-internacional/index', 2, 'Ámbito internacional lista', NULL, NULL, 1451487641, 1451487656),
@@ -713,12 +857,13 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto-responsable/delete', 2, 'Eliminar responsable de proyecto', NULL, NULL, 1452019408, 1452019408),
 ('proyecto-responsable/update', 2, 'Editar responsable de proyecto', NULL, NULL, 1452005753, 1452005753),
 ('proyecto-responsable/view', 2, 'Ver responsable de proyecto', NULL, NULL, 1452006168, 1452006168),
+('proyecto/aprobar', 2, 'Aprobar/desaprobar proyecto', NULL, NULL, 1464384527, 1464384527),
 ('proyecto/bulk-activar', 2, 'Activar múltiples proyectos', NULL, NULL, 1456979084, 1456979084),
 ('proyecto/bulk-delete', 2, 'Eliminar múltiples proyectos', NULL, NULL, 1456979023, 1456979023),
 ('proyecto/bulk-desactivar', 2, 'Desactivar múltiples proyectos', NULL, NULL, 1456979103, 1456979103),
 ('proyecto/create', 2, 'Crear Proyecto', NULL, NULL, 1450393912, 1450645199),
 ('proyecto/delete', 2, 'Eliminar Proyecto', NULL, NULL, 1450393912, 1450645229),
-('proyecto/distribucion', 2, 'distribucion de proyecto', NULL, NULL, 1465223687, 1465223687),
+('proyecto/distribucion', 2, 'Distribución presupuestaria de proyecto', NULL, NULL, 1464408600, 1464408600),
 ('proyecto/index', 2, 'Lista de proyectos', NULL, NULL, 1450646779, 1450646779),
 ('proyecto/toggle-activo', 2, 'Activar/desactivar un proyecto', NULL, NULL, 1456978982, 1456979131),
 ('proyecto/update', 2, 'Editar Proyecto', NULL, NULL, 1450393912, 1450645214),
@@ -727,10 +872,6 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('registrador_alcance', 1, 'Crea, edita y elimina "alcance e impacto" de proyecto', NULL, NULL, 1452221931, 1452223040),
 ('registrador_basico', 1, 'Crea, edita y elimina datos básicos de proyecto', NULL, NULL, 1450393912, 1460242009),
 ('registrador_distribucion_presupuestaria', 1, 'Crea, edita y elimina la distribución presupuestaria de proyecto', NULL, NULL, 1452649340, 1452649340),
-('responsable-acc-variable/create', 2, 'panta de creacion de responsable de la variable', NULL, NULL, 1465216350, 1465216350),
-('responsable-acc-variable/delete', 2, 'borrar responsable relacionado con variable', NULL, NULL, 1465216419, 1465216419),
-('responsable-acc-variable/index', 2, 'inicio de los responsables creados', NULL, NULL, 1465216441, 1465216441),
-('responsable-acc-variable/update', 2, 'pantalla de modificacion de responsable de variable', NULL, NULL, 1465216389, 1465216389),
 ('site/audit', 2, 'Auditoría', NULL, NULL, 1458665093, 1458665093),
 ('site/configuracion', 2, 'Configurar el sistema', NULL, NULL, 1450736795, 1450736795),
 ('sysadmin', 1, 'Administrador del sistema', NULL, NULL, 1450736017, 1459774580),
@@ -746,11 +887,9 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 -- Estructura de tabla para la tabla `auth_item_child`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_item_child` (
+CREATE TABLE `auth_item_child` (
   `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`parent`,`child`),
-  KEY `child` (`child`)
+  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -789,12 +928,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sysadmin', 'accion-centralizada-asignar/update'),
 ('accion_centralizada_asignar', 'accion-centralizada-asignar/view'),
 ('sysadmin', 'accion-centralizada-asignar/view'),
-('desbloquear_meses_variables', 'accion-centralizada-desbloqueo-mes/bulk-delete'),
-('desbloquear_meses_variables', 'accion-centralizada-desbloqueo-mes/create'),
-('desbloquear_meses_variables', 'accion-centralizada-desbloqueo-mes/delete'),
-('desbloquear_meses_variables', 'accion-centralizada-desbloqueo-mes/index'),
-('desbloquear_meses_variables', 'accion-centralizada-desbloqueo-mes/update'),
-('desbloquear_meses_variables', 'accion-centralizada-desbloqueo-mes/view'),
 ('accion_centralizada_requerimiento', 'accion-centralizada-pedido/bulk-activar'),
 ('accion_centralizada_requerimiento', 'accion-centralizada-pedido/bulk-delete'),
 ('accion_centralizada_requerimiento', 'accion-centralizada-pedido/bulk-desactivar'),
@@ -809,17 +942,11 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('accion_centralizada_requerimiento', 'accion-centralizada-pedido/update'),
 ('sysadmin', 'accion-centralizada-pedido/update'),
 ('accion_centralizada_requerimiento', 'accion-centralizada-pedido/view'),
-('accion_centralizada_variable_ejecucion', 'accion-centralizada-variable-ejecucion/create'),
-('accion_centralizada_variable_ejecucion', 'accion-centralizada-variable-ejecucion/localizacion'),
-('accion_centralizada_variable_ejecucion', 'accion-centralizada-variable-ejecucion/variables'),
-('accion_centralizada_variables', 'accion-centralizada-variables/ace'),
-('accion_centralizada_variables', 'accion-centralizada-variables/ace1'),
-('accion_centralizada_variables', 'accion-centralizada-variables/bulk-delete'),
-('accion_centralizada_variables', 'accion-centralizada-variables/create'),
-('accion_centralizada_variables', 'accion-centralizada-variables/delete'),
-('accion_centralizada_variables', 'accion-centralizada-variables/index'),
-('accion_centralizada_variables', 'accion-centralizada-variables/update'),
-('accion_centralizada_variables', 'accion-centralizada-variables/view'),
+('acc_variables', 'accion-centralizada-variables/create'),
+('acc_variables', 'accion-centralizada-variables/delete'),
+('acc_variables', 'accion-centralizada-variables/index'),
+('acc_variables', 'accion-centralizada-variables/update'),
+('acc_variables', 'accion-centralizada-variables/view'),
 ('accion_centralizada', 'accion-centralizada/create'),
 ('sysadmin', 'accion-centralizada/create'),
 ('accion_centralizada', 'accion-centralizada/delete'),
@@ -832,11 +959,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sysadmin', 'accion-centralizada/update'),
 ('accion_centralizada', 'accion-centralizada/view'),
 ('sysadmin', 'accion-centralizada/view'),
-('accion_centralizada_variables', 'localizacion-acc-variable/bulk-delete'),
-('accion_centralizada_variables', 'localizacion-acc-variable/create'),
-('accion_centralizada_variables', 'localizacion-acc-variable/delete'),
-('accion_centralizada_variables', 'localizacion-acc-variable/update'),
-('accion_centralizada_variables', 'localizacion-acc-variable/view'),
 ('materiales_servicios', 'materiales-servicios/create'),
 ('sysadmin', 'materiales-servicios/create'),
 ('materiales_servicios', 'materiales-servicios/delete'),
@@ -857,14 +979,15 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('registrador_alcance', 'proyecto-alcance/delete'),
 ('registrador_alcance', 'proyecto-alcance/update'),
 ('registrador_alcance', 'proyecto-alcance/view'),
-('proyecto_asignar', 'proyecto-asignar/ace'),
 ('proyecto_asignar', 'proyecto-asignar/asignar'),
+('proyecto_asignar', 'proyecto-asignar/aue'),
 ('proyecto_asignar', 'proyecto-asignar/bulk-activar'),
 ('proyecto_asignar', 'proyecto-asignar/bulk-delete'),
 ('proyecto_asignar', 'proyecto-asignar/bulk-desactivar'),
 ('proyecto_asignar', 'proyecto-asignar/create'),
 ('proyecto_asignar', 'proyecto-asignar/delete'),
 ('proyecto_asignar', 'proyecto-asignar/index'),
+('proyecto_asignar', 'proyecto-asignar/pae'),
 ('proyecto_asignar', 'proyecto-asignar/toggle-activo'),
 ('proyecto_asignar', 'proyecto-asignar/update'),
 ('proyecto_asignar', 'proyecto-asignar/view'),
@@ -917,15 +1040,11 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('registrador_basico', 'proyecto/create'),
 ('gestor_proyecto', 'proyecto/delete'),
 ('registrador_basico', 'proyecto/delete'),
-('proyecto_pedido', 'proyecto/distribucion'),
+('gestor_proyecto', 'proyecto/distribucion'),
 ('registrador_basico', 'proyecto/index'),
 ('gestor_proyecto', 'proyecto/toggle-activo'),
 ('registrador_basico', 'proyecto/update'),
 ('registrador_basico', 'proyecto/view'),
-('accion_centralizada_variables', 'responsable-acc-variable/create'),
-('accion_centralizada_variables', 'responsable-acc-variable/delete'),
-('accion_centralizada_variables', 'responsable-acc-variable/index'),
-('accion_centralizada_variables', 'responsable-acc-variable/update'),
 ('sysadmin', 'site/audit'),
 ('sysadmin', 'site/configuracion'),
 ('sysadmin', 'unidad-medida/create'),
@@ -939,12 +1058,11 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 -- Estructura de tabla para la tabla `auth_rule`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_rule` (
+CREATE TABLE `auth_rule` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `data` text COLLATE utf8_unicode_ci,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -953,20 +1071,18 @@ CREATE TABLE IF NOT EXISTS `auth_rule` (
 -- Estructura de tabla para la tabla `cuenta_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `cuenta_presupuestaria` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cuenta` varchar(1) NOT NULL COMMENT 'Código de la cuenta',
-  `nombre` varchar(15) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `cuenta_presupuestaria` (
+  `cuenta` char(1) NOT NULL,
+  `nombre` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `cuenta_presupuestaria`
 --
 
-INSERT INTO `cuenta_presupuestaria` (`id`, `cuenta`, `nombre`) VALUES
-(1, '3', 'Recursos'),
-(2, '4', 'Egresos');
+INSERT INTO `cuenta_presupuestaria` (`cuenta`, `nombre`) VALUES
+('3', 'Recursos'),
+('4', 'Egresos');
 
 -- --------------------------------------------------------
 
@@ -974,13 +1090,11 @@ INSERT INTO `cuenta_presupuestaria` (`id`, `cuenta`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `estados`
 --
 
-CREATE TABLE IF NOT EXISTS `estados` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `estados` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `id_pais` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_pais` (`id_pais`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+  `id_pais` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `estados`
@@ -1019,11 +1133,10 @@ INSERT INTO `estados` (`id`, `nombre`, `id_pais`) VALUES
 -- Estructura de tabla para la tabla `estatus_proyecto`
 --
 
-CREATE TABLE IF NOT EXISTS `estatus_proyecto` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `estatus` varchar(25) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Lista de estatus de proyecto' AUTO_INCREMENT=4 ;
+CREATE TABLE `estatus_proyecto` (
+  `id` int(11) NOT NULL,
+  `estatus` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Lista de estatus de proyecto';
 
 --
 -- Volcado de datos para la tabla `estatus_proyecto`
@@ -1040,11 +1153,10 @@ INSERT INTO `estatus_proyecto` (`id`, `estatus`) VALUES
 -- Estructura de tabla para la tabla `fuente_financiamiento`
 --
 
-CREATE TABLE IF NOT EXISTS `fuente_financiamiento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fuente` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+CREATE TABLE `fuente_financiamiento` (
+  `id` int(11) NOT NULL,
+  `fuente` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `fuente_financiamiento`
@@ -1069,11 +1181,10 @@ INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
 -- Estructura de tabla para la tabla `instancia_institucion`
 --
 
-CREATE TABLE IF NOT EXISTS `instancia_institucion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Tipo de instancia o institución' AUTO_INCREMENT=4 ;
+CREATE TABLE `instancia_institucion` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tipo de instancia o institución';
 
 --
 -- Volcado de datos para la tabla `instancia_institucion`
@@ -1090,32 +1201,22 @@ INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
 -- Estructura de tabla para la tabla `localizacion_acc_variable`
 --
 
-CREATE TABLE IF NOT EXISTS `localizacion_acc_variable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `localizacion_acc_variable` (
+  `id` int(11) NOT NULL,
   `id_variable` int(11) NOT NULL,
-  `id_pais` smallint(3) unsigned zerofill NOT NULL,
+  `id_pais` smallint(3) UNSIGNED ZEROFILL NOT NULL,
   `id_estado` int(11) DEFAULT NULL,
   `id_municipio` int(11) DEFAULT NULL,
-  `id_parroquia` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_variable` (`id_variable`),
-  KEY `id_pais` (`id_pais`),
-  KEY `id_estado` (`id_estado`),
-  KEY `id_municipio` (`id_municipio`),
-  KEY `id_parroquia` (`id_parroquia`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=60 ;
+  `id_parroquia` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `localizacion_acc_variable`
 --
 
 INSERT INTO `localizacion_acc_variable` (`id`, `id_variable`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
-(46, 32, 862, 3, NULL, NULL),
-(47, 32, 862, 4, NULL, NULL),
-(48, 32, 862, 5, NULL, NULL),
 (51, 31, 862, 2, NULL, NULL),
-(54, 31, 862, 3, NULL, NULL),
-(59, 33, 862, NULL, NULL, NULL);
+(54, 31, 862, 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1123,20 +1224,101 @@ INSERT INTO `localizacion_acc_variable` (`id`, `id_variable`, `id_pais`, `id_est
 -- Estructura de tabla para la tabla `materiales_servicios`
 --
 
-CREATE TABLE IF NOT EXISTS `materiales_servicios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_se` int(11) NOT NULL COMMENT 'ID partida sub-especifica',
+CREATE TABLE `materiales_servicios` (
+  `id` int(11) NOT NULL,
+  `cuenta` char(1) NOT NULL,
+  `partida` char(2) NOT NULL,
+  `generica` char(2) NOT NULL,
+  `especifica` char(2) NOT NULL,
+  `subespecifica` char(2) NOT NULL,
   `nombre` varchar(60) NOT NULL,
-  `unidad_medida` int(11) NOT NULL,
-  `presentacion` int(11) NOT NULL,
+  `unidad_medida` int(11) DEFAULT NULL,
+  `presentacion` int(11) DEFAULT NULL,
   `precio` decimal(12,2) NOT NULL,
   `iva` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_se` (`id_se`),
-  KEY `unidad_medida` (`unidad_medida`),
-  KEY `presentacion` (`presentacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `materiales_servicios`
+--
+
+INSERT INTO `materiales_servicios` (`id`, `cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `unidad_medida`, `presentacion`, `precio`, `iva`, `estatus`) VALUES
+(1, '4', '02', '01', '01', '00', 'ALMUERZOS', NULL, NULL, '280.00', 12, 1),
+(2, '4', '02', '10', '05', '00', 'LÁPIZ GRAFITO', NULL, NULL, '230.00', 12, 1),
+(3, '4', '02', '05', '07', '00', 'PAPEL BOND BASE 20. TAMAÑO CARTA 500 HOJAS (1 X 10)', NULL, NULL, '4620.00', 12, 1),
+(4, '4', '02', '03', '02', '00', 'GORRAS', NULL, NULL, '168.00', 12, 1),
+(5, '4', '02', '05', '03', '00', 'BLOCK RAYADO TAMAÑO CARTA NRO. 1 (80 HOJAS)', NULL, NULL, '63.00', 12, 1),
+(6, '4', '02', '05', '01', '00', 'ETIQUETAS AUTOADHESIVAS 1X100', NULL, NULL, '2324.00', 12, 1),
+(7, '4', '03', '07', '02', '00', 'DISEÑO E IMPRESIÓN DE TRÍPTICOS', NULL, NULL, '49.00', 12, 1),
+(8, '4', '03', '09', '01', '00', 'VIÁTICOS Y PASAJES AÉREOS', NULL, NULL, '4606.00', 12, 1),
+(9, '4', '02', '04', '03', '00', 'NEUMÁTICO (CAUCHO) PARA CAMIONETA', NULL, NULL, '13500.00', 12, 1),
+(10, '4', '02', '06', '06', '00', 'ACEITE DE MOTOR', NULL, NULL, '4000.00', 12, 1),
+(11, '4', '04', '07', '06', '00', 'ALTAVOCES', NULL, NULL, '13300.00', 12, 1),
+(12, '4', '04', '07', '02', '00', 'VIDEO BEAM EPSON POWERLITE S12', NULL, NULL, '50400.00', 12, 1),
+(13, '4', '02', '10', '08', '00', 'DISCOS COMPACTOS (CD)', NULL, NULL, '5200.00', 12, 1),
+(14, '4', '02', '10', '02', '00', 'DETERGENTES', NULL, NULL, '5.00', 12, 1),
+(15, '4', '02', '03', '01', '00', 'TELA DE TAPICERÍA', NULL, NULL, '364.00', 12, 1),
+(16, '4', '02', '05', '02', '00', 'VASOS CÓNICOS (1X150)', NULL, NULL, '1680.00', 12, 1),
+(17, '4', '02', '06', '08', '00', 'VASOS PLÁSTICOS PARA CAFÉ 150 CC 1X100 (GRANDES)', NULL, NULL, '104.00', 12, 1),
+(18, '4', '02', '10', '12', '00', 'ACCESORIOS PARA SALAS DE BAÑOS', NULL, NULL, '3500.00', 12, 1),
+(19, '4', '02', '08', '03', '00', 'CANILLA DE 1/2 X 1/2', NULL, NULL, '5.00', 12, 1),
+(20, '4', '04', '05', '01', '00', 'TELÉFONO ANALÓGICO', NULL, NULL, '5180.00', 12, 1),
+(21, '4', '04', '09', '01', '00', 'SILLA EJECUTIVA EN TELA', NULL, NULL, '5445.00', 12, 1),
+(22, '4', '04', '09', '02', '00', 'COMPUTADORAS DE ESCRITORIO', NULL, NULL, '24848.00', 12, 1),
+(23, '4', '04', '03', '04', '00', 'FOTOCOPIADORAS', NULL, NULL, '65800.00', 12, 1),
+(24, '4', '02', '10', '11', '00', 'REGULADOR DE VOLTAJE AVTEK 1KA', NULL, NULL, '5880.00', 12, 1),
+(25, '4', '02', '06', '04', '00', '(250 G) 1 BOLSA DE 250 G', NULL, NULL, '32.00', 12, 1),
+(26, '4', '02', '10', '03', '00', 'PAÑITOS DE LIMPIEZA 3M', NULL, NULL, '146.00', 12, 1),
+(27, '4', '04', '09', '03', '00', 'MICROONDAS', NULL, NULL, '6720.00', 12, 1),
+(28, '4', '04', '09', '99', '00', 'EXTINTOR DE CO2 DE 10 LBS', NULL, NULL, '7700.00', 12, 1),
+(29, '4', '02', '06', '03', '00', 'PINTURA DE CAUCHO ', NULL, NULL, '1613.00', 12, 1),
+(30, '4', '04', '06', '01', '00', 'CAMILLAS DE ADULTOS', NULL, NULL, '7700.00', 12, 1),
+(31, '4', '02', '10', '04', '00', 'VENDAJES', NULL, NULL, '1400.00', 12, 1),
+(32, '4', '02', '10', '07', '00', 'TAPA BOCAS O MASCARILLAS', NULL, NULL, '560.00', 12, 1),
+(33, '4', '02', '08', '07', '00', 'SEÑALES DE SEGURIDAD', NULL, NULL, '392.00', 12, 1),
+(34, '4', '04', '03', '05', '00', 'HERRAMIENTAS MALETÍN DE 45 HERRAMIENTAS PARA REDES Y PC', NULL, NULL, '50050.00', 12, 1),
+(35, '4', '04', '06', '99', '00', 'EQUIPO DE HIDROTERAPIA', NULL, NULL, '80000.00', 12, 1),
+(36, '4', '03', '07', '03', '00', 'BOLSAS DE HIELO', NULL, NULL, '157.00', 12, 1),
+(37, '4', '04', '03', '01', '00', 'ESCALERAS PORTÁTILES', NULL, NULL, '13720.00', 12, 1),
+(38, '4', '03', '99', '01', '00', 'CONTRATACIÓN DE SERVICIOS DE PERITO EVALUADOR', NULL, NULL, '42000.00', 12, 1),
+(39, '4', '04', '11', '02', '00', 'ADQUISICIÓN DE EDIFICIOS E INSTALACIONES', NULL, NULL, '23000000.00', 12, 1),
+(40, '4', '04', '11', '01', '00', 'TERRENO', NULL, NULL, '7000.00', 12, 1),
+(41, '4', '03', '10', '04', '00', 'LEVANTAMIENTO TOPOGRÁFICO ', NULL, NULL, '6.00', 12, 1),
+(42, '4', '03', '07', '04', '00', 'VALLA DE PUBLICIDAD', NULL, NULL, '2500.00', 12, 1),
+(43, '4', '04', '15', '05', '00', 'CONSTRUCCIÓN', NULL, NULL, '7421.00', 12, 1),
+(44, '4', '02', '05', '04', '00', 'LIBROS', NULL, NULL, '238.00', 12, 1),
+(45, '4', '03', '09', '02', '00', 'BOLETOS AÉREOS FUERA DEL PAÍS (EUROPA)', NULL, NULL, '112000.00', 12, 1),
+(46, '4', '03', '01', '01', '00', 'ALQUILERES DE EDIFICIO', NULL, NULL, '8084902.00', 12, 1),
+(47, '4', '03', '04', '01', '00', 'ELECTRICIDAD', NULL, NULL, '1624798.00', 12, 1),
+(48, '4', '03', '04', '02', '00', 'SERVICIO DE GAS', NULL, NULL, '2700.00', 12, 1),
+(49, '4', '03', '04', '05', '00', 'INTERNET', NULL, NULL, '2000000.00', 12, 1),
+(50, '4', '03', '04', '06', '00', 'SERVICIO DE ASEO URBANO Y DOMICILIARIO', NULL, NULL, '455225.00', 12, 1),
+(51, '4', '03', '04', '07', '00', 'CONDOMINIO', NULL, NULL, '9350746.00', 12, 1),
+(52, '4', '03', '06', '01', '00', 'FLETES Y EMBALAJE', NULL, NULL, '378000.00', 12, 1),
+(53, '4', '03', '06', '03', '00', 'ESTACIONAMIENTO', NULL, NULL, '19530.00', 12, 1),
+(54, '4', '03', '06', '05', '00', 'SERVICIO DE PROTECCIÓN EN TRASLADO DE FONDOS Y DE MENSAJERÍA', NULL, NULL, '208000.00', 12, 1),
+(55, '4', '03', '08', '01', '00', 'GASTOS DE SEGURO PARA VEHÍCULOS AUTOMOTORES', NULL, NULL, '105000.00', 12, 1),
+(56, '4', '03', '08', '02', '00', 'COMISIONES Y GASTOS BANCARIOS', NULL, NULL, '1260.00', 12, 1),
+(57, '4', '03', '10', '99', '00', 'OTROS SERVICIOS PROFESIONALES Y TÉCNICOS', NULL, NULL, '8400.00', 12, 1),
+(58, '4', '04', '03', '02', '00', 'REMACHADORAS DE BANDAS DE FRENO', NULL, NULL, '44800.00', 12, 1),
+(59, '4', '04', '04', '01', '00', 'AUTOMÓVILES', NULL, NULL, '150900.00', 12, 1),
+(60, '4', '11', '11', '04', '00', 'COMPROMISOS PENDIENTES DE EJERCICIOS ANTERIORES', NULL, NULL, '2000000.00', 12, 1),
+(61, '4', '03', '11', '07', '00', 'MANTENIMIENTO DE AIRE ACONDICIONADO', NULL, NULL, '16741.00', 12, 1),
+(62, '4', '03', '11', '02', '00', 'MANTENIMIENTO DE ASCENSORES', NULL, NULL, '69384.00', 12, 1),
+(63, '4', '02', '08', '02', '00', 'LAMINA DE ACEROLIT 3 X 0.82', NULL, NULL, '756.00', 12, 1),
+(64, '4', '02', '08', '99', '00', 'LAMINA DE ALUMINIO 1', NULL, NULL, '196.00', 12, 1),
+(65, '4', '02', '10', '99', '00', 'MANGUERAS DE ALTA RESISTENCIA DE 25MTS', NULL, NULL, '4480.00', 12, 1),
+(66, '4', '02', '08', '04', '00', 'BASE PARA TELEVISIÓN', NULL, NULL, '20132.00', 12, 1),
+(67, '4', '02', '10', '01', '00', 'PELOTAS', NULL, NULL, '2450.00', 12, 1),
+(68, '4', '02', '08', '09', '00', 'JUEGO COMPLETO DE EMPACADURA CHEVROLET LUV DMAX', NULL, NULL, '6387.00', 12, 1),
+(69, '4', '03', '10', '07', '00', 'SERVICIO DE CAPACITACIÓN Y ADIESTRAMIENTO', NULL, NULL, '8400.00', 12, 1),
+(70, '4', '03', '04', '03', '00', 'SERVICIO DE AGUA', NULL, NULL, '1485304.00', 12, 1),
+(71, '4', '02', '99', '01', '00', 'MATEROS', NULL, NULL, '600.00', 12, 1),
+(72, '4', '02', '10', '06', '00', 'BANDEJAS PARA COLOCAR LAS CONDECORACIONES (JOYA)', NULL, NULL, '280.00', 12, 1),
+(73, '4', '03', '07', '01', '00', 'CINTILLOS', NULL, NULL, '63000.00', 12, 1),
+(74, '4', '03', '18', '01', '00', 'IMPUESTO AL VALOR AGREGADO (UNIFORMES OBREROS)', NULL, NULL, '12480000.00', 12, 1),
+(75, '4', '03', '12', '01', '00', 'REPARACIÓN DE GARAJE Y TRANSPORTE', NULL, NULL, '280028.00', 12, 1);
 
 -- --------------------------------------------------------
 
@@ -1144,10 +1326,9 @@ CREATE TABLE IF NOT EXISTS `materiales_servicios` (
 -- Estructura de tabla para la tabla `migration`
 --
 
-CREATE TABLE IF NOT EXISTS `migration` (
+CREATE TABLE `migration` (
   `version` varchar(180) NOT NULL,
-  `apply_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
+  `apply_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1175,8 +1356,8 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 -- Estructura de tabla para la tabla `modelhistory`
 --
 
-CREATE TABLE IF NOT EXISTS `modelhistory` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `modelhistory` (
+  `id` bigint(20) NOT NULL,
   `date` datetime NOT NULL,
   `table` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `field_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1184,13 +1365,8 @@ CREATE TABLE IF NOT EXISTS `modelhistory` (
   `old_value` text COLLATE utf8_unicode_ci,
   `new_value` text COLLATE utf8_unicode_ci,
   `type` smallint(6) NOT NULL,
-  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx-table` (`table`),
-  KEY `idx-field_name` (`field_name`),
-  KEY `idx-type` (`type`),
-  KEY `idx-user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1198,13 +1374,11 @@ CREATE TABLE IF NOT EXISTS `modelhistory` (
 -- Estructura de tabla para la tabla `municipio`
 --
 
-CREATE TABLE IF NOT EXISTS `municipio` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `municipio` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
-  `id_estado` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_estado` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id_estado` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1212,16 +1386,15 @@ CREATE TABLE IF NOT EXISTS `municipio` (
 -- Estructura de tabla para la tabla `notification`
 --
 
-CREATE TABLE IF NOT EXISTS `notification` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL,
   `key` varchar(255) NOT NULL,
   `key_id` int(11) DEFAULT NULL,
   `type` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `seen` tinyint(1) NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `notification`
@@ -1229,8 +1402,16 @@ CREATE TABLE IF NOT EXISTS `notification` (
 
 INSERT INTO `notification` (`id`, `key`, `key_id`, `type`, `user_id`, `seen`, `created_at`) VALUES
 (2, 'nuevo_pedido', 8, 'default', 1, 1, '2016-04-17 17:05:44'),
-(3, 'nuevo_pedido', 9, 'default', 1, 0, '2016-04-17 18:28:30'),
-(4, 'nuevo_pedido', 9, 'default', 2, 0, '2016-04-17 18:28:30');
+(3, 'nuevo_pedido', 9, 'default', 1, 1, '2016-04-17 18:28:30'),
+(4, 'nuevo_pedido', 9, 'default', 2, 0, '2016-04-17 18:28:30'),
+(5, 'nuevo_pedido', 10, 'default', 1, 1, '2016-06-02 20:54:55'),
+(6, 'nuevo_pedido', 10, 'default', 2, 0, '2016-06-02 20:54:55'),
+(7, 'nuevo_pedido', 1, 'default', 1, 1, '2016-06-23 12:16:20'),
+(8, 'nuevo_pedido', 1, 'default', 2, 0, '2016-06-23 12:16:20'),
+(9, 'nuevo_pedido', 2, 'default', 1, 1, '2016-06-23 12:16:51'),
+(10, 'nuevo_pedido', 2, 'default', 2, 0, '2016-06-23 12:16:51'),
+(11, 'nuevo_pedido', 3, 'default', 1, 1, '2016-06-29 22:22:19'),
+(12, 'nuevo_pedido', 3, 'default', 2, 0, '2016-06-29 22:22:19');
 
 -- --------------------------------------------------------
 
@@ -1238,13 +1419,11 @@ INSERT INTO `notification` (`id`, `key`, `key_id`, `type`, `user_id`, `seen`, `c
 -- Estructura de tabla para la tabla `objetivos_estrategicos`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_estrategicos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `objetivos_estrategicos` (
+  `id` int(11) NOT NULL,
   `objetivo_estrategico` text NOT NULL,
-  `objetivo_nacional` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `directriz` (`objetivo_nacional`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos estrategicos - Area estrategica' AUTO_INCREMENT=150 ;
+  `objetivo_nacional` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos estrategicos - Area estrategica';
 
 --
 -- Volcado de datos para la tabla `objetivos_estrategicos`
@@ -1287,7 +1466,7 @@ INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_na
 (34, 'Consolidar el aparato agroindustrial bajo control de empresas socialistas, garantizando al menos un % de la capacidad de almacenamiento y procesamiento en rubros básicos (cereales, oleaginosas, leguminosas, azúcar, carne y leche) y un % en el resto de los rubros alimenticios.', 4),
 (35, 'Desarrollar un sistema de apoyo e incentivos para la promoción del comercio internacional de exportación de rubros agrícolas.', 4),
 (36, 'Establecer mecanismos para ejercer la nueva institucionalidad revolucionaria que garantice la participación de los pequeños y medianos productores en las decisiones en materia agropecuaria, a través de los consejos campesinos y las redes de productores y productoras libres y asociados.', 4),
-(37, 'Promover los modelos de producción diversificados, a partir de la agricultura familiar, '' campesina, urbana, periurbana e indígena, recuperando, validando y divulgando modelos tradicionales y sostenibles de producción.', 4),
+(37, 'Promover los modelos de producción diversificados, a partir de la agricultura familiar, \' campesina, urbana, periurbana e indígena, recuperando, validando y divulgando modelos tradicionales y sostenibles de producción.', 4),
 (38, 'Consolidar un estilo científico, tecnológico e innovador de carácter transformador, diverso, creativo y dinámico, garante de la independencia y la soberanía económica, contribuyendo así a la construcción del Modelo Productivo Socialista, el fortalecimiento de la Ética Socialista y la satisfacción efectiva de las necesidades del pueblo venezolano.', 5),
 (39, 'Fortalecer los espacios y programas de formación para el trabajo liberador, fomentando los valores patrióticos y el sentido crítico.', 5),
 (40, 'Impulsar el desarrollo y uso de equipos electrónicos y aplicaciones informáticas en tecnologías libres y estándares abiertos.', 5),
@@ -1407,13 +1586,11 @@ INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_na
 -- Estructura de tabla para la tabla `objetivos_generales`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_generales` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `objetivos_generales` (
+  `id` int(11) NOT NULL,
   `objetivo_general` text NOT NULL,
-  `objetivo_estrategico` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `estrategia` (`objetivo_estrategico`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos generales - Area estrategica' AUTO_INCREMENT=23 ;
+  `objetivo_estrategico` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos generales - Area estrategica';
 
 --
 -- Volcado de datos para la tabla `objetivos_generales`
@@ -1449,11 +1626,10 @@ INSERT INTO `objetivos_generales` (`id`, `objetivo_general`, `objetivo_estrategi
 -- Estructura de tabla para la tabla `objetivos_historicos`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_historicos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `objetivo_historico` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos historicos - Area estrategica' AUTO_INCREMENT=6 ;
+CREATE TABLE `objetivos_historicos` (
+  `id` int(11) NOT NULL,
+  `objetivo_historico` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos historicos - Area estrategica';
 
 --
 -- Volcado de datos para la tabla `objetivos_historicos`
@@ -1472,13 +1648,11 @@ INSERT INTO `objetivos_historicos` (`id`, `objetivo_historico`) VALUES
 -- Estructura de tabla para la tabla `objetivos_nacionales`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_nacionales` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `objetivos_nacionales` (
+  `id` int(11) NOT NULL,
   `objetivo_nacional` text NOT NULL,
-  `objetivo_historico` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `directriz` (`objetivo_historico`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos nacionales - Area estrategica' AUTO_INCREMENT=25 ;
+  `objetivo_historico` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos nacionales - Area estrategica';
 
 --
 -- Volcado de datos para la tabla `objetivos_nacionales`
@@ -1516,10 +1690,9 @@ INSERT INTO `objetivos_nacionales` (`id`, `objetivo_nacional`, `objetivo_histori
 -- Estructura de tabla para la tabla `pais`
 --
 
-CREATE TABLE IF NOT EXISTS `pais` (
-  `id` smallint(3) unsigned zerofill NOT NULL,
-  `nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `pais` (
+  `id` smallint(3) UNSIGNED ZEROFILL NOT NULL,
+  `nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1775,13 +1948,11 @@ INSERT INTO `pais` (`id`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `parroquia`
 --
 
-CREATE TABLE IF NOT EXISTS `parroquia` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `parroquia` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) CHARACTER SET latin1 NOT NULL,
-  `id_municipio` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_municipio` (`id_municipio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id_municipio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1789,1013 +1960,1017 @@ CREATE TABLE IF NOT EXISTS `parroquia` (
 -- Estructura de tabla para la tabla `partida_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_especifica` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `generica` int(11) NOT NULL,
-  `especifica` varchar(2) NOT NULL,
+CREATE TABLE `partida_especifica` (
+  `cuenta` char(1) NOT NULL,
+  `partida` char(2) NOT NULL,
+  `generica` char(2) NOT NULL,
+  `especifica` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_ge` (`generica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2018 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `partida_especifica`
 --
 
-INSERT INTO `partida_especifica` (`id`, `generica`, `especifica`, `nombre`, `estatus`) VALUES
-(1027, 514, '01', 'Impuesto sobre la renta a personas jurídicas', 0),
-(1028, 514, '02', 'Impuesto sobre la renta a personas naturales', 0),
-(1029, 514, '03', 'Impuestos sobre sucesiones, donaciones y demás ramos conexos', 0),
-(1030, 514, '04', 'Reparos administrativos por impuesto sobre la renta a personas juridica', 0),
-(1031, 514, '05', 'Reparos administrativos por impuesto sobre la renta a personas naturales', 0),
-(1032, 514, '06', 'Reparos administrativos a impuesto sobre sucesiones, donaciones y demás ramos conexos', 0),
-(1033, 515, '01', 'Impuestos de importación', 0),
-(1034, 515, '02', 'Impuesto de exportación', 0),
-(1035, 515, '03', 'Impuesto sobre la producción, el consumo y transacciones financieras', 0),
-(1036, 515, '04', 'Impuestos a las actividades de juegos de envite o azar', 0),
-(1037, 515, '05', 'Inmuebles urbanos', 0),
-(1038, 515, '06', 'Participación en el impuesto a la propiedad rural', 0),
-(1039, 515, '07', 'Patente de industria y comercio', 0),
-(1040, 515, '08', 'Patente de vehículo', 0),
-(1041, 515, '09', 'Propaganda comercial', 0),
-(1042, 515, '10', 'Espectáculos públicos', 0),
-(1043, 515, '11', 'Apuestas lícitas', 0),
-(1044, 515, '12', 'Deudas morosas', 0),
-(1045, 515, '99', 'Otros impuestos indirectos', 0),
-(1046, 516, '01', 'Derechos de tránsito terrestre', 0),
-(1047, 516, '02', 'Derechos a examen', 0),
-(1048, 516, '03', 'Derechos de expedición, renovación y reválida de licencias', 0),
-(1049, 516, '04', 'Derechos de registro y traspaso', 0),
-(1050, 516, '05', 'Derechos de placas identificadoras', 0),
-(1051, 516, '06', 'Derechos por revisión anual', 0),
-(1052, 516, '07', 'Derechos por remoción o arrastre de vehículos', 0),
-(1053, 516, '08', 'Derechos por estacionamiento de vehículos', 0),
-(1054, 516, '09', 'Permiso para uso de rutas extraurbanas', 0),
-(1055, 516, '10', 'Copias de documentos', 0),
-(1056, 516, '11', 'Tasas para el uso de aeronaves y por licencias de personal aeronáutico', 0),
-(1057, 516, '12', 'Tasas aeroportuarias', 0),
-(1058, 516, '13', 'Tasas por uso de canales de navegación', 0),
-(1059, 516, '14', 'Patente de navegación', 0),
-(1060, 516, '15', 'Expedición de licencias de navegación', 0),
-(1061, 516, '16', 'Servicio de telecomunicaciones', 0),
-(1062, 516, '17', 'Permisos para estaciones privadas de radiocomunicaciones', 0),
-(1063, 516, '18', 'Derechos de pilotajes', 0),
-(1064, 516, '19', 'Habilitación de pilotaje', 0),
-(1065, 516, '20', 'Servicios de remolcadores', 0),
-(1066, 516, '21', 'Habilitación de remolcadores', 0),
-(1067, 516, '22', 'Habilitación de capitanías de puerto', 0),
-(1068, 516, '23', 'Otros servicios de capitanías de puerto', 0),
-(1069, 516, '24', 'Tasas de faros y boyas', 0),
-(1070, 516, '25', 'Servicios de aduana', 0),
-(1071, 516, '26', 'Habilitación de aduanas', 0),
-(1072, 516, '27', 'Derechos de almacenaje', 0),
-(1073, 516, '28', 'Corretaje de bultos postales', 0),
-(1074, 516, '29', 'Servicios de consulta sobre clasificación arancelaria, valoración aduanera y análisis de laboratorio', 0),
-(1075, 516, '30', 'Bandas de garantía, cápsulas y sellos', 0),
-(1076, 516, '31', 'Servicio de peaje', 0),
-(1077, 516, '32', 'Servicio de riego y drenaje', 0),
-(1078, 516, '33', 'Estampillas fiscales', 0),
-(1079, 516, '34', 'Papel sellado', 0),
-(1080, 516, '35', 'Derechos de traslado', 0),
-(1081, 516, '36', 'Servicios sanitarios marítimos', 0),
-(1082, 516, '37', 'Servicios hospitalarios', 0),
-(1083, 516, '38', 'Venta de copias de planos', 0),
-(1084, 516, '39', 'Derechos de contraste, verificación y estudios', 0),
-(1085, 516, '40', 'Patente de pesca de perlas', 0),
-(1086, 516, '41', 'Licencia de caza', 0),
-(1087, 516, '42', 'Derechos de cancillería', 0),
-(1088, 516, '43', 'Depósitos por el ingreso al país de extranjeros', 0),
-(1089, 516, '44', 'Registro sanitario', 0),
-(1090, 516, '45', 'Derechos de análisis de sustancias químicas', 0),
-(1091, 516, '46', 'Derechos consulares', 0),
-(1092, 516, '47', 'Matrícula para importar y exportar sustancias estupefacientes y psicotrópicas', 0),
-(1093, 516, '48', 'Permisos municipales', 0),
-(1094, 516, '49', 'Certificaciones y solvencias', 0),
-(1095, 516, '50', 'Servicio de energía eléctrica', 0),
-(1096, 516, '51', 'Servicio de distribución de agua', 0),
-(1097, 516, '52', 'Servicio de gas doméstico', 0),
-(1098, 516, '53', 'Mensura y deslinde', 0),
-(1099, 516, '54', 'Aseo domiciliario', 0),
-(1100, 516, '55', 'Matadero', 0),
-(1101, 516, '56', 'Mercado', 0),
-(1102, 516, '57', 'Cementerio', 0),
-(1103, 516, '58', 'Terminal de pasajeros', 0),
-(1104, 516, '59', 'Deudas morosas por tasas', 0),
-(1105, 516, '99', 'Otros tipos de tasas', 0),
-(1106, 517, '01', 'Sobre la plusvalía inmobiliaria', 0),
-(1107, 517, '02', 'Contribuciones por mejoras', 0),
-(1108, 517, '99', 'Otras contribuciones especiales', 0),
-(1109, 518, '01', 'Ingresos por aportes patronales a la seguridad social', 0),
-(1110, 518, '02', 'Contribuciones personales a la seguridad social', 0),
-(1111, 519, '01', 'Regalías', 0),
-(1112, 519, '02', 'Impuesto superficial de hidrocarburos', 0),
-(1113, 519, '03', 'Impuesto de extracción', 0),
-(1114, 519, '04', 'Impuesto de registro de exportación', 0),
-(1115, 519, '05', 'Participación por azufre', 0),
-(1116, 519, '06', 'Participación por coque', 0),
-(1117, 519, '07', 'Ventajas especiales petroleras', 0),
-(1118, 519, '99', 'Otros ingresos del dominio petrolero', 0),
-(1119, 520, '01', 'Superficial minero', 0),
-(1120, 520, '02', 'Impuesto de explotación', 0),
-(1121, 520, '03', 'Ventajas especiales mineras', 0),
-(1122, 520, '04', 'Regalía minera de oro', 0),
-(1123, 521, '01', 'Impuesto superficial', 0),
-(1124, 521, '02', 'Impuesto de explotación o aprovechamiento', 0),
-(1125, 521, '03', 'Permiso o autorización para la explotación o aprovechamiento de los productos forestales', 0),
-(1126, 521, '04', 'Autorización para deforestación', 0),
-(1127, 521, '05', 'Autorización para movilizar productos forestales', 0),
-(1128, 521, '06', 'Participación por la explotación en zonas de reserva forestal', 0),
-(1129, 521, '07', 'Ventajas especiales por recursos forestales', 0),
-(1130, 522, '01', 'Ingresos por la venta de bienes', 0),
-(1131, 522, '02', 'Ingresos por la venta de servicios', 0),
-(1132, 522, '99', 'Ingresos por la venta de otros bienes y servicios', 0),
-(1133, 523, '01', 'Intereses por préstamos concedidos al sector privado', 0),
-(1134, 523, '03', 'Intereses por préstamos concedidos al sector externo', 0),
-(1135, 523, '04', 'Intereses por depósitos en instituciones financieras', 0),
-(1136, 523, '05', 'Intereses de títulos y valores', 0),
-(1137, 523, '06', 'Utilidades de acciones y participaciones de capital', 0),
-(1138, 523, '07', 'Utilidades de explotación de juegos de azar', 0),
-(1139, 523, '08', 'Alquileres', 0),
-(1140, 523, '09', 'Derechos sobre bienes intangibles', 0),
-(1141, 523, '10', 'Concesiones de bienes y servicios', 0),
-(1142, 524, '01', 'Intereses moratorios', 0),
-(1143, 524, '02', 'Reparos fiscales', 0),
-(1144, 524, '03', 'Sanciones fiscales', 0),
-(1145, 524, '04', 'Juicios y costas procesales', 0),
-(1146, 524, '05', 'Beneficios en operaciones cambiarias', 0),
-(1147, 524, '06', 'Utilidad por venta de activos', 0),
-(1148, 524, '07', 'Intereses por financiamiento de deudas tributarias', 0),
-(1149, 524, '08', 'Multas y recargos', 0),
-(1150, 524, '09', 'Reparos administrativos al impuesto a los activos empresariales', 0),
-(1151, 524, '10', 'Diversos reparos administrativos', 0),
-(1152, 524, '11', 'Ingresos en tránsito', 0),
-(1153, 524, '12', 'Reparos administrativos por impuestos municipales', 0),
-(1154, 525, '01', 'Otros ingresos ordinarios', 0),
-(1155, 526, '01', 'Colocación de títulos y valores de deuda pública interna a corto plazo', 0),
-(1156, 526, '02', 'Obtención de préstamos internos a corto plazo', 0),
-(1157, 526, '03', 'Colocación de títulos y valores de la deuda pública interna a largo plazo', 0),
-(1158, 526, '04', 'Obtención de préstamos internos a largo plazo', 0),
-(1159, 527, '01', 'Colocación de títulos y valores de la deuda pública externa a corto plazo', 0),
-(1160, 527, '02', 'Obtención de préstamos externos a corto plazo', 0),
-(1161, 527, '03', 'Colocación de títulos y valores de la deuda pública externa a largo plazo', 0),
-(1162, 527, '04', 'Obtención de préstamos externos a largo plazo', 0),
-(1163, 528, '01', 'Liquidación de entes descentralizados', 0),
-(1164, 528, '02', 'Herencias vacantes y donaciones', 0),
-(1165, 528, '03', 'Prima en colocación de títulos y valores de la deuda pública', 0),
-(1166, 528, '05', 'Ingresos por procesos licitatorios', 0),
-(1167, 529, '01', 'Reintegro proveniente de bonos de exportación', 0),
-(1168, 529, '02', 'Reintegro de fondos efectuado por organismos públicos proveniente de bonos de exportación', 0),
-(1169, 530, '01', 'Ingresos por obtención indebida de devoluciones o reintegros', 0),
-(1170, 531, '01', 'Impuesto a las transacciones financieras', 0),
-(1171, 531, '02', 'Reparos administrativos al impuesto a las transacciones financieras', 0),
-(1172, 531, '03', 'Multas y recargos por el impuesto a las transacciones financieras', 0),
-(1173, 532, '01', 'Otros ingresos extraordinarios', 0),
-(1174, 533, '01', 'Venta de productos del sector industrial', 0),
-(1175, 533, '02', 'Venta de productos del sector comercial', 0),
-(1176, 534, '01', 'Venta bruta de servicios', 0),
-(1177, 535, '01', 'Ingresos por inversiones en valores', 0),
-(1178, 535, '02', 'Ingresos por cartera de créditos', 0),
-(1179, 535, '03', 'Ingresos provenientes de la administración de fideicomisos', 0),
-(1180, 535, '99', 'Otros ingresos financieros', 0),
-(1181, 536, '01', 'Ingresos por inversiones en valores', 0),
-(1182, 536, '02', 'Ingresos por cartera de créditos', 0),
-(1183, 536, '03', 'Ingresos provenientes de la administración de fideicomisos', 0),
-(1184, 536, '99', 'Otros ingresos financieros', 0),
-(1185, 537, '01', 'Ingresos por operaciones de primas de seguro', 0),
-(1186, 537, '02', 'Ingresos por operaciones de reaseguro', 0),
-(1187, 537, '03', 'Ingresos por salvamento de siniestros', 0),
-(1188, 537, '99', 'Otros ingresos por operaciones de seguro', 0),
-(1189, 538, '01', 'Otros ingresos de operación', 0),
-(1190, 539, '01', 'Subsidios para precios y tarifas', 0),
-(1191, 540, '01', 'Incentivos a la exportación', 0),
-(1192, 541, '01', 'Otros ingresos ajenos a la operación', 0),
-(1193, 542, '01', 'Transferencias corrientes internas del sector privado', 0),
-(1194, 542, '02', 'Donaciones corrientes internas del sector privado', 0),
-(1195, 542, '03', 'Transferencias corrientes internas del sector público', 0),
-(1196, 542, '04', 'Donaciones corrientes internas del sector público', 0),
-(1197, 542, '05', 'Transferencias corrientes del exterior', 0),
-(1198, 542, '06', 'Donaciones corrientes del exterior', 0),
-(1199, 543, '01', 'Transferencias de capital internas del sector privado', 0),
-(1200, 543, '02', 'Donaciones de capital internas del sector privado', 0),
-(1201, 543, '03', 'Transferencias de capital internas del sector público', 0),
-(1202, 543, '04', 'Donaciones de capital internas del sector público', 0),
-(1203, 543, '05', 'Transferencias de capital del exterior', 0),
-(1204, 543, '06', 'Donaciones de capital del exterior', 0),
-(1205, 544, '01', 'Situado Constitucional', 0),
-(1206, 544, '02', 'Situado Estadal a Municipal', 0),
-(1207, 545, '01', 'Subsidio de Régimen Especial', 0),
-(1208, 546, '01', 'Subsidio de Capitalidad', 0),
-(1209, 547, '01', 'Asignaciones Económicas Especiales (LAEE) Estadal', 0),
-(1210, 547, '02', 'Asignaciones Económicas Especiales (LAEE) Estadal a Municipal', 0),
-(1211, 547, '03', 'Asignaciones Económicas Especiales (LAEE) Municipal', 0),
-(1212, 547, '04', 'Asignaciones Económicas Especiales (LAEE) Fondo Nacional de los Consejos Comunales', 0),
-(1213, 547, '05', 'Asignaciones Económicas Especiales (LAEE) Apoyo al Fortalecimiento Institucional', 0),
-(1214, 548, '01', 'Fondo Intergubernamental para la Descentralización (FIDES)', 0),
-(1215, 549, '01', 'Fondo de Compensación Interterritorial Estadal', 0),
-(1216, 549, '02', 'Fondo de Compensación Interterritorial Municipal', 0),
-(1217, 549, '03', 'Fondo de Compensación Interterritorial Poder Popular', 0),
-(1218, 549, '04', 'Fondo de Compensación Interterritorial Fortalecimiento Institucional', 0),
-(1219, 550, '01', 'Aportes del Sector Público al Poder Estadal por transferencia de servicios', 0),
-(1220, 550, '02', 'Aportes del Sector Público al Poder Municipal por transferencia de servicios', 0),
-(1221, 551, '01', 'Transferencias y donaciones corrientes de Organismos del Sector Público a los Consejos Comunales', 0),
-(1222, 551, '02', 'Transferencias y donaciones de capital de Organismos del Sector Público a los Consejos Comunales', 0),
-(1223, 552, '01', 'Venta y/o desincorporación de tierras y terrenos', 0),
-(1224, 552, '02', 'Venta y/o desincorporación de edificios e instalaciones', 0),
-(1225, 552, '03', 'Venta y/o desincorporación de maquinarias, equipos y semovientes', 0),
-(1226, 553, '01', 'Venta de marcas de fábrica y patentes de invención', 0),
-(1227, 553, '02', 'Venta de derechos de autor', 0),
-(1228, 553, '03', 'Recuperación de gastos de organización', 0),
-(1229, 553, '04', 'Venta de paquetes y programas de computación', 0),
-(1230, 553, '05', 'Venta de estudios y proyectos', 0),
-(1231, 553, '99', 'Venta de otros activos intangibles', 0),
-(1232, 554, '01', 'Incremento de la depreciación acumulada', 0),
-(1233, 554, '02', 'Incremento de la amortización acumulada', 0),
-(1234, 555, '01', 'Venta de títulos y valores privados de corto plazo', 0),
-(1235, 555, '02', 'Venta de títulos y valores públicos de corto plazo', 0),
-(1236, 555, '03', 'Venta de títulos y valores externos de corto plazo', 0),
-(1237, 556, '01', 'Venta de títulos y valores privados de largo plazo', 0),
-(1238, 556, '02', 'Venta de títulos y valores públicos de largo plazo', 0),
-(1239, 556, '03', 'Venta de títulos y valores externos de largo plazo', 0),
-(1240, 557, '01', 'Venta de acciones y participaciones de capital del sector privado', 0),
-(1241, 558, '01', 'Venta de acciones y participaciones de capital de entes descentralizados sin fines empresariales', 0),
-(1242, 558, '02', 'Venta de acciones y participaciones de capital de instituciones de protección social', 0),
-(1243, 558, '03', 'Venta de acciones y participaciones de capital de entes descentralizados con fines empresariales petroleros', 0),
-(1244, 558, '04', 'Venta de acciones y participaciones de capital de entes descentralizados con fines empresariales no petroleros', 0),
-(1245, 558, '05', 'Venta de acciones y participaciones de capital de entes descentralizados financieros bancarios', 0),
-(1246, 558, '06', 'Venta de acciones y participaciones de capital de entes descentralizados financieros no bancarios', 0),
-(1247, 559, '01', 'Venta de acciones y participaciones de capital de organismos internacionales', 0),
-(1248, 559, '99', 'Venta de acciones y participaciones de capital de otros entes del sector externo', 0),
-(1249, 560, '01', 'Recuperación de préstamos otorgados al sector privado de corto plazo', 0),
-(1250, 561, '01', 'Recuperación de préstamos otorgados a la República de corto plazo', 0),
-(1251, 561, '02', 'Recuperación de préstamos otorgados a entes descentralizados sin fines empresariales de corto plazo', 0),
-(1252, 561, '03', 'Recuperación de préstamos otorgados a instituciones de protección social de corto plazo', 0),
-(1253, 561, '04', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales petroleros de corto plazo', 0),
-(1254, 561, '05', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales no petroleros de corto plazo', 0),
-(1255, 561, '06', 'Recuperación de préstamos otorgados a entes descentralizados financieros bancarios de corto plazo', 0),
-(1256, 561, '07', 'Recuperación de préstamos otorgados a entes descentralizados financieros no bancarios de corto plazo', 0),
-(1257, 561, '08', 'Recuperación de préstamos otorgados al Poder Estadal de corto plazo', 0),
-(1258, 561, '09', 'Recuperación de préstamos otorgados al Poder Municipal de corto plazo', 0),
-(1259, 562, '01', 'Recuperación de préstamos otorgados a instituciones sin fines de lucro de corto plazo', 0),
-(1260, 562, '02', 'Recuperación de préstamos otorgados a gobiernos extranjeros de corto plazo', 0),
-(1261, 562, '03', 'Recuperación de préstamos otorgados a los organismos internacionales de corto plazo', 0),
-(1262, 563, '01', 'Recuperación de préstamos otorgados al sector privado de largo plazo', 0),
-(1263, 564, '01', 'Recuperación de préstamos otorgados a la República de largo plazo', 0),
-(1264, 564, '02', 'Recuperación de préstamos otorgados a entes descentralizados sin fines empresariales de largo plazo', 0),
-(1265, 564, '03', 'Recuperación de préstamos otorgados a instituciones de protección social de largo plazo', 0),
-(1266, 564, '04', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales petroleros de largo plazo', 0),
-(1267, 564, '05', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales no petroleros de largo plazo', 0),
-(1268, 564, '06', 'Recuperación de préstamos otorgados a entes descentralizados financieros bancarios de largo plazo', 0),
-(1269, 564, '07', 'Recuperación de préstamos otorgados a entes descentralizados financieros no bancarios de largo plazo', 0),
-(1270, 564, '08', 'Recuperación de préstamos otorgados al Poder Estadal de largo plazo', 0),
-(1271, 564, '09', 'Recuperación de préstamos otorgados al Poder Municipal de largo plazo', 0),
-(1272, 565, '01', 'Recuperación de préstamos otorgados a instituciones sin fines de lucro de largo plazo', 0),
-(1273, 565, '02', 'Recuperación de préstamos otorgados a gobiernos extranjeros de largo plazo', 0),
-(1274, 565, '03', 'Recuperación de préstamos otorgados a organismos internacionales de largo plazo', 0),
-(1275, 566, '01', 'Disminución de caja', 0),
-(1276, 566, '02', 'Disminución de bancos', 0),
-(1277, 566, '03', 'Disminución de inversiones temporales', 0),
-(1278, 567, '01', 'Disminución de cuentas comerciales por cobrar a corto plazo', 0),
-(1279, 567, '02', 'Disminución de rentas por recaudar a corto plazo', 0),
-(1280, 567, '03', 'Disminución de deudas de cuentas por rendir a corto plazo', 0),
-(1281, 567, '99', 'Disminución de otras cuentas por cobrar a corto plazo', 0),
-(1282, 568, '01', 'Disminución de efectos comerciales por cobrar a corto plazo', 0),
-(1283, 568, '99', 'Disminución de otros efectos por cobrar a corto plazo', 0),
-(1284, 569, '01', 'Disminución de cuentas comerciales por cobrar a mediano y largo plazo', 0),
-(1285, 569, '02', 'Disminución de rentas por recaudar a mediano y largo plazo', 0),
-(1286, 569, '99', 'Disminución de otras cuentas por cobrar a mediano y largo plazo', 0),
-(1287, 570, '01', 'Disminución de efectos comerciales por cobrar a mediano y largo plazo', 0),
-(1288, 570, '99', 'Disminución de otros efectos por cobrar a mediano y largo plazo', 0),
-(1289, 571, '01', 'Disminución de fondos en avance', 0),
-(1290, 571, '02', 'Disminución de fondos en anticipo', 0),
-(1291, 571, '03', 'Disminución de fondos en fideicomiso', 0),
-(1292, 571, '04', 'Disminución de anticipos a proveedores', 0),
-(1293, 571, '05', 'Disminución de anticipos a contratistas, por contratos a corto plazo', 0),
-(1294, 571, '06', 'Disminución de anticipos a contratistas, por contratos a mediano y largo plazo', 0),
-(1295, 572, '01', 'Disminución de gastos a corto plazo pagados por anticipado', 0),
-(1296, 572, '02', 'Disminución de depósitos en garantía a corto plazo', 0),
-(1297, 572, '99', 'Disminución de otros activos diferidos a corto plazo', 0),
-(1298, 573, '01', 'Disminución de gastos a mediano y largo plazo pagados por anticipado', 0),
-(1299, 573, '02', 'Disminución de depósitos en garantía a mediano y largo plazo', 0),
-(1300, 573, '99', 'Disminución de otros activos diferidos a mediano y largo plazo', 0),
-(1301, 574, '01', 'Disminución del Fondo de Estabilización Macroeconómica (FEM) de la República', 0),
-(1302, 574, '02', 'Disminución del Fondo de Estabilización Macroeconómica (FEM) del Poder Estadal', 0),
-(1303, 574, '03', 'Disminución del Fondo de Estabilización Macroeconómica (FEM) del Poder Municipal', 0),
-(1304, 575, '01', 'Disminución del Fondo de Ahorro Intergeneracional', 0),
-(1305, 576, '01', 'Disminución del Fondo de Aporte del Sector Público', 0),
-(1306, 577, '01', 'Disminución de activos financieros en gestión judicial a mediano y largo plazo', 0),
-(1307, 577, '02', 'Disminución de títulos y otros valores de la deuda pública en litigio a largo plazo', 0),
-(1308, 578, '01', 'Disminución de otros activos financieros circulantes', 0),
-(1309, 578, '02', 'Disminución de otros activos financieros no circulantes', 0),
-(1310, 579, '01', 'Incremento de sueldos, salarios y otras remuneraciones por pagar', 0),
-(1311, 580, '01', 'Incremento de aportes patronales y retenciones laborales por pagar al Instituto Venezolano de los Seguros Sociales (IVSS)', 0),
-(1312, 580, '02', 'Incremento de aportes patronales y retenciones laborales por pagar al Instituto de Previsión Social del Ministerio de Educación (Ipasme)', 0),
-(1313, 580, '03', 'Incremento de aportes patronales y retenciones laborales por pagar al Fondo de Jubilaciones', 0),
-(1314, 580, '04', 'Incremento de aportes patronales y retenciones laborales por pagar al Fondo de Seguro de Paro Forzoso', 0),
-(1315, 580, '05', 'Incremento de aportes patronales y retenciones laborales por pagar al Fondo de Ahorro Obligatorio para la Vivienda (FAOV)', 0),
-(1316, 580, '06', 'Incremento de aportes patronales y retenciones laborales por pagar por seguro de vida, accidentes personales, hospitalización, cirugía y maternidad (HCM) y gastos funerarios', 0),
-(1317, 580, '07', 'Incremento de aportes patronales y retenciones laborales por pagar a cajas de ahorro', 0),
-(1318, 580, '08', 'Incremento de aportes patronales y retenciones laborales por pagar a los organismos de seguridad social', 0),
-(1319, 580, '09', 'Incremento de aportes patronales y retenciones laborales por pagar al Instituto Nacional de Capacitación y Educación Socialista (Inces)', 0),
-(1320, 580, '10', 'Incremento de aportes patronales y retenciones laborales por pagar por pensión alimenticia', 0),
-(1321, 580, '99', 'Incremento de otros aportes patronales y otras retenciones laborales por pagar', 0),
-(1322, 581, '01', 'Incremento de cuentas por pagar a proveedores a corto plazo', 0),
-(1323, 581, '02', 'Incremento de efectos por pagar a proveedores a corto plazo', 0),
-(1324, 581, '03', 'Incremento de cuentas por pagar a proveedores a mediano y largo plazo', 0),
-(1325, 581, '04', 'Incremento de efectos por pagar a proveedores a mediano y largo plazo', 0),
-(1326, 582, '01', 'Incremento de cuentas por pagar a contratistas a corto plazo', 0),
-(1327, 582, '02', 'Incremento de efectos por pagar a contratistas a corto plazo', 0),
-(1328, 582, '03', 'Incremento de cuentas por pagar a contratistas a mediano y largo plazo', 0),
-(1329, 582, '04', 'Incremento de efectos por pagar a contratistas a mediano y largo plazo', 0),
-(1330, 583, '01', 'Incremento de intereses internos por pagar', 0),
-(1331, 583, '02', 'Incremento de intereses externos por pagar', 0),
-(1332, 584, '01', 'Incremento de otras cuentas por pagar a corto plazo', 0),
-(1333, 584, '02', 'Incremento de otras obligaciones de ejercicios anteriores por pagar', 0),
-(1334, 584, '03', 'Incremento de otros efectos por pagar a corto plazo', 0),
-(1335, 585, '01', 'Incremento de pasivos diferidos a corto plazo', 0),
-(1336, 585, '02', 'Incremento de pasivos diferidos a mediano y largo plazo', 0),
-(1337, 586, '01', 'Incremento de provisiones', 0),
-(1338, 586, '02', 'Incremento de reservas técnicas', 0),
-(1339, 587, '01', 'Incremento de depósitos recibidos en garantía', 0),
-(1340, 587, '99', 'Incremento de otros fondos de terceros', 0),
-(1341, 588, '01', 'Incremento de depósitos a la vista', 0),
-(1342, 588, '02', 'Incremento de depósitos a plazo fijo', 0),
-(1343, 589, '01', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública interna de largo plazo en corto plazo', 0),
-(1344, 589, '02', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública interna de corto plazo en largo plazo', 0),
-(1345, 589, '03', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública externa de largo plazo en corto plazo', 0),
-(1346, 589, '04', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública externa de corto plazo en largo plazo', 0),
-(1347, 589, '05', 'Incremento de la deuda pública por distribuir', 0),
-(1348, 590, '01', 'Incremento de otros pasivos a corto plazo', 0),
-(1349, 590, '02', 'Incremento de otros pasivos a mediano y largo plazo', 0),
-(1350, 591, '01', 'Incremento del capital fiscal e institucional', 0),
-(1351, 591, '02', 'Incremento de aportes por capitalizar', 0),
-(1352, 591, '03', 'Incremento de dividendos a distribuir', 0),
-(1353, 592, '01', 'Incremento de reservas', 0),
-(1354, 593, '01', 'Ajustes por inflación', 0),
-(1355, 594, '01', 'Incremento de resultados acumulados', 0),
-(1356, 594, '02', 'Incremento de resultados del ejercicio', 0),
-(1357, 595, '01', 'Sueldos básicos personal fijo a tiempo completo', 1),
-(1358, 595, '02', 'Sueldos básicos personal fijo a tiempo parcial', 1),
-(1359, 595, '03', 'Suplencias a empleados', 1),
-(1360, 595, '08', 'Sueldo al personal en trámite de nombramiento', 1),
-(1361, 595, '09', 'Remuneraciones al personal en período de disponibilidad', 1),
-(1362, 595, '10', 'Salarios a obreros en puestos permanentes a tiempo completo', 1),
-(1363, 595, '11', 'Salarios a obreros en puestos permanentes a tiempo parcial', 1),
-(1364, 595, '12', 'Salarios a obreros en puestos no permanentes', 1),
-(1365, 595, '13', 'Suplencias a obreros', 1),
-(1366, 595, '18', 'Remuneraciones al personal contratado', 1),
-(1367, 595, '19', 'Retribuciones por becas - salarios, bolsas de trabajo, pasantías y similares', 1),
-(1368, 595, '20', 'Sueldo del personal militar profesional', 1),
-(1369, 595, '21', 'Sueldo o ración del personal militar no profesional', 1),
-(1370, 595, '22', 'Sueldo del personal militar de reserva', 1),
-(1371, 595, '29', 'Dietas', 1),
-(1372, 595, '30', 'Retribución al personal de reserva', 1),
-(1373, 595, '35', 'Sueldo básico de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1374, 595, '36', 'Sueldo básico del personal de alto nivel y de dirección', 1),
-(1375, 595, '37', 'Dietas de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1376, 595, '38', 'Dietas del personal de alto nivel y de dirección', 1),
-(1377, 595, '99', 'Otras retribuciones', 1),
-(1378, 596, '01', 'Compensaciones previstas en las escalas de sueldos al personal empleado fijo a tiempo completo', 1),
-(1379, 596, '02', 'Compensaciones previstas en las escalas de sueldos al personal empleado fijo a tiempo parcial', 1),
-(1380, 596, '03', 'Compensaciones previstas en las escalas de salarios al personal obrero fijo a tiempo completo', 1),
-(1381, 596, '04', 'Compensaciones previstas en las escalas de salarios al personal obrero fijo a tiempo parcial', 1),
-(1382, 596, '05', 'Compensaciones previstas en las escalas de sueldos al personal militar', 1),
-(1383, 596, '06', 'Compensaciones previstas en las escalas de sueldos de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1384, 596, '07', 'Compensaciones previstas en las escalas de sueldos del personal de alto nivel y de dirección', 1),
-(1385, 597, '01', 'Primas por mérito a empleados', 1),
-(1386, 597, '02', 'Primas de transporte a empleados', 1),
-(1387, 597, '03', 'Primas por hogar a empleados', 1),
-(1388, 597, '04', 'Primas por hijos a empleados', 1),
-(1389, 597, '05', 'Primas por alquileres a empleados', 1),
-(1390, 597, '06', 'Primas por residencia a empleados', 1),
-(1391, 597, '07', 'Primas por categoría de escuelas a empleados', 1),
-(1392, 597, '08', 'Primas de profesionalización a empleados', 1),
-(1393, 597, '09', 'Primas por antigüedad a empleados', 1),
-(1394, 597, '10', 'Primas por jerarquía o responsabilidad en el cargo', 1),
-(1395, 597, '11', 'Primas al personal en servicio en el exterior', 1),
-(1396, 597, '16', 'Primas por mérito a obreros', 1),
-(1397, 597, '17', 'Primas de transporte a obreros', 1),
-(1398, 597, '18', 'Primas por hogar a obreros', 1),
-(1399, 597, '19', 'Primas por hijos de obreros', 1),
-(1400, 597, '20', 'Primas por residencia a obreros', 1),
-(1401, 597, '21', 'Primas por antigüedad a obreros', 1),
-(1402, 597, '22', 'Primas de profesionalización a obreros', 1),
-(1403, 597, '26', 'Primas por hijos al personal militar', 1),
-(1404, 597, '27', 'Primas de profesionalización al personal militar', 1),
-(1405, 597, '28', 'Primas por antigüedad al personal militar', 1),
-(1406, 597, '29', 'Primas por potencial de ascenso al personal militar', 1),
-(1407, 597, '30', 'Primas por frontera y sitios inhóspitos al personal militar y de seguridad', 1),
-(1408, 597, '31', 'Primas por riesgo al personal militar y de seguridad', 1),
-(1409, 597, '37', 'Primas de transporte al personal contratado', 1),
-(1410, 597, '38', 'Primas por hogar al personal contratado', 1),
-(1411, 597, '39', 'Primas por hijos al personal contratado', 1),
-(1412, 597, '40', 'Primas de profesionalización al personal contratado', 1),
-(1413, 597, '41', 'Primas por antigüedad al personal contratado', 1),
-(1414, 597, '46', 'Primas a los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1415, 597, '47', 'Primas al personal de alto nivel y de dirección', 1),
-(1416, 597, '94', 'Otras primas a los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1417, 597, '95', 'Otras primas al personal de alto nivel y de dirección', 1),
-(1418, 597, '96', 'Otras primas al personal contratado', 1),
-(1419, 597, '97', 'Otras primas a empleados', 1),
-(1420, 597, '98', 'Otras primas a obreros', 1),
-(1421, 597, '99', 'Otras primas al personal militar', 1),
-(1422, 598, '01', 'Complemento a empleados por horas extraordinarias o por sobre tiempo', 1),
-(1423, 598, '02', 'Complemento a empleados por trabajo nocturno', 1),
-(1424, 598, '03', 'Complemento a empleados por gastos de alimentación', 1),
-(1425, 598, '04', 'Complemento a empleados por gastos de transporte', 1),
-(1426, 598, '05', 'Complemento a empleados por gastos de representación', 1),
-(1427, 598, '06', 'Complemento a empleados por comisión de servicios', 1),
-(1428, 598, '07', 'Bonificación a empleados', 1),
-(1429, 598, '08', 'Bono compensatorio de alimentación a empleados', 1),
-(1430, 598, '09', 'Bono compensatorio de transporte a empleados', 1),
-(1431, 598, '10', 'Complemento a empleados por días feriados', 1),
-(1432, 598, '14', 'Complemento a obreros por horas extraordinarias o por sobre tiempo', 1),
-(1433, 598, '15', 'Complemento a obreros por trabajo o jornada nocturna', 1),
-(1434, 598, '16', 'Complemento a obreros por gastos de alimentación', 1),
-(1435, 598, '17', 'Complemento a obreros por gastos de transporte', 1),
-(1436, 598, '18', 'Bono compensatorio de alimentación a obreros', 1),
-(1437, 598, '19', 'Bono compensatorio de transporte a obreros', 1),
-(1438, 598, '20', 'Complemento a obreros por días feriados', 1),
-(1439, 598, '24', 'Complemento al personal contratado por horas extraordinarias o por sobre tiempo', 1),
-(1440, 598, '25', 'Complemento al personal contratado por gastos de alimentación', 1),
-(1441, 598, '26', 'Bono compensatorio de alimentación al personal contratado', 1),
-(1442, 598, '27', 'Bono compensatorio de transporte al personal contratado', 1),
-(1443, 598, '28', 'Complemento al personal contratado por días feriados', 1),
-(1444, 598, '32', 'Complemento al personal militar por gastos de alimentación', 1),
-(1445, 598, '33', 'Complemento al personal militar por gastos de transporte', 1),
-(1446, 598, '34', 'Complemento al personal militar en el exterior', 1),
-(1447, 598, '35', 'Bono compensatorio de alimentación al personal militar', 1),
-(1448, 598, '43', 'Complemento a altos funcionarios y altas funcionarias del poder público y de elección popular por gastos de representación', 1),
-(1449, 598, '44', 'Complemento a altos funcionarios y altas funcionarias del poder público y de elección popular por comisión de servicios', 1),
-(1450, 598, '45', 'Bonificación a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1451, 598, '46', 'Bono compensatorio de alimentación a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1452, 598, '47', 'Bono compensatorio de transporte a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1453, 598, '48', 'Complemento al personal de alto nivel y de dirección por gastos de representación', 1),
-(1454, 598, '49', 'Complemento al personal de alto nivel y de dirección por comisión de servicios', 1),
-(1455, 598, '50', 'Bonificación al personal de alto nivel y de dirección', 1),
-(1456, 598, '51', 'Bono compensatorio de alimentación al personal de alto nivel y de dirección', 1),
-(1457, 598, '52', 'Bono compensatorio de transporte al personal de alto nivel y de dirección', 1),
-(1458, 598, '94', 'Otros complementos a altos funcionarios y altas funcionarias del sector público y de elección popular', 1),
-(1459, 598, '95', 'Otros complementos al personal de alto nivel y de dirección', 1),
-(1460, 598, '96', 'Otros complementos a empleados', 1),
-(1461, 598, '97', 'Otros complementos a obreros', 1),
-(1462, 598, '98', 'Otros complementos al personal contratado', 1),
-(1463, 598, '99', 'Otros complementos al personal militar', 1),
-(1464, 599, '01', 'Aguinaldos a empleados', 1),
-(1465, 599, '02', 'Utilidades legales y convencionales a empleados', 1),
-(1466, 599, '03', 'Bono vacacional a empleados', 1),
-(1467, 599, '04', 'Aguinaldos a obreros', 1),
-(1468, 599, '05', 'Utilidades legales y convencionales a obreros', 1),
-(1469, 599, '06', 'Bono vacacional a obreros', 1),
-(1470, 599, '07', 'Aguinaldos al personal contratado', 1),
-(1471, 599, '08', 'Bono vacacional al personal contratado', 1),
-(1472, 599, '09', 'Aguinaldos al personal militar', 1),
-(1473, 599, '10', 'Bono vacacional al personal militar', 1),
-(1474, 599, '13', 'Aguinaldos a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1475, 599, '14', 'Utilidades legales y convencionales a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1476, 599, '15', 'Bono vacacional a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1477, 599, '16', 'Aguinaldos al personal de alto nivel y de dirección', 1),
-(1478, 599, '17', 'Utilidades legales y convencionales al personal de alto nivel y de dirección', 1),
-(1479, 599, '18', 'Bono vacacional al personal de alto nivel y de dirección', 1),
-(1480, 600, '01', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por empleados', 1),
-(1481, 600, '02', 'Aporte patronal al Instituto de Previsión y Asistencia Social para el personal del Ministerio de Educación (Ipasme) por empleados', 1),
-(1482, 600, '03', 'Aporte patronal al Fondo de Jubilaciones por empleados', 1),
-(1483, 600, '04', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por empleados', 1),
-(1484, 600, '05', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por empleados', 1),
-(1485, 600, '10', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por obreros', 1),
-(1486, 600, '11', 'Aporte patronal al Fondo de Jubilaciones por obreros', 1),
-(1487, 600, '12', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por obreros', 1),
-(1488, 600, '13', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por obreros', 1),
-(1489, 600, '18', 'Aporte patronal a los organismos de seguridad social por los trabajadores locales empleados en las representaciones de Venezuela en el exterior', 1),
-(1490, 600, '19', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por personal militar', 1),
-(1491, 600, '25', 'Aporte legal al Instituto Venezolano de los Seguros Sociales (IVSS) por personal contratado', 1),
-(1492, 600, '26', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por personal contratado', 1),
-(1493, 600, '27', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por personal contratado', 1),
-(1494, 600, '31', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1495, 600, '32', 'Aporte patronal al Instituto de Previsión y Asistencia Social para el personal del Ministerio de Educación (Ipasme) por empleados personal del Ministerio de Educación (Ipasme) por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1496, 600, '33', 'Aporte patronal al Fondo de Jubilaciones por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1497, 600, '34', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1498, 600, '35', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1499, 600, '39', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por personal de alto nivel y de dirección', 1),
-(1500, 600, '40', 'Aporte patronal al Instituto de Previsión y Asistencia Social para el personal del Ministerio de Educación (Ipasme) por personal de alto nivel y de dirección', 1),
-(1501, 600, '41', 'Aporte patronal al Fondo de Jubilaciones por personal de alto nivel y de dirección', 1),
-(1502, 600, '42', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por personal de alto nivel y de dirección', 1),
-(1503, 600, '43', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por personal de alto nivel y de dirección', 1),
-(1504, 600, '93', 'Otros aportes legales por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1505, 600, '94', 'Otros aportes legales por el personal de alto nivel y de dirección', 1),
-(1506, 600, '95', 'Otros aportes legales por personal contratado', 1),
-(1507, 600, '96', 'Otros aportes legales por empleados', 1),
-(1508, 600, '97', 'Otros aportes legales por obreros', 1),
-(1509, 600, '98', 'Otros aportes legales por personal militar', 1),
-(1510, 601, '01', 'Capacitación y adiestramiento a empleados', 1),
-(1511, 601, '02', 'Becas a empleados', 1),
-(1512, 601, '03', 'Ayudas por matrimonio a empleados', 1),
-(1513, 601, '04', 'Ayudas por nacimiento de hijos a empleados', 1),
-(1514, 601, '05', 'Ayudas por defunción a empleados', 1),
-(1515, 601, '06', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización a empleados', 1),
-(1516, 601, '07', 'Aporte patronal a cajas de ahorro por empleados', 1),
-(1517, 601, '08', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por empleados', 1),
-(1518, 601, '09', 'Ayudas a empleados para adquisición de uniformes y útiles escolares de sus hijos', 1),
-(1519, 601, '10', 'Dotación de uniformes a empleados', 1),
-(1520, 601, '11', 'Aporte patronal para gastos de guarderías y preescolar para hijos de empleados', 1),
-(1521, 601, '12', 'Aportes para la adquisición de juguetes para los hijos del personal empleado', 1),
-(1522, 601, '17', 'Capacitación y adiestramiento a obreros', 1),
-(1523, 601, '18', 'Becas a obreros', 1),
-(1524, 601, '19', 'Ayudas por matrimonio de obreros', 1),
-(1525, 601, '20', 'Ayudas por nacimiento de hijos de obreros', 1),
-(1526, 601, '21', 'Ayudas por defunción a obreros', 1),
-(1527, 601, '22', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización a obreros', 1),
-(1528, 601, '23', 'Aporte patronal a cajas de ahorro por obreros', 1),
-(1529, 601, '24', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por obreros', 1),
-(1530, 601, '25', 'Ayudas a obreros para adquisición de uniformes y útiles escolares de sus hijos', 1),
-(1531, 601, '26', 'Dotación de uniformes a obreros', 1),
-(1532, 601, '27', 'Aporte patronal para gastos de guarderías y preescolar para hijos de obreros', 1),
-(1533, 601, '28', 'Aportes para la adquisición de juguetes para los hijos del personal obrero', 1),
-(1534, 601, '34', 'Capacitación y adiestramiento al personal militar', 1),
-(1535, 601, '35', 'Becas al personal militar', 1),
-(1536, 601, '36', 'Ayudas por matrimonio al personal militar', 1),
-(1537, 601, '37', 'Ayudas por nacimiento de hijos al personal militar', 1),
-(1538, 601, '38', 'Ayudas por defunción al personal militar', 1),
-(1539, 601, '39', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal militar', 1),
-(1540, 601, '40', 'Aporte patronal a caja de ahorro por personal militar', 1),
-(1541, 601, '41', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios personal militar', 1),
-(1542, 601, '42', 'Ayudas al personal militar para adquisición de uniformes y útiles escolares de sus hijos', 1),
-(1543, 601, '43', 'Aportes para la adquisición de juguetes para los hijos del personal militar', 1),
-(1544, 601, '44', 'Aporte patronal para gastos de guarderías y preescolar para hijos del personal militar', 1),
-(1545, 601, '52', 'Capacitación y adiestramiento a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1546, 601, '53', 'Ayudas por matrimonio a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1547, 601, '54', 'Ayudas por nacimiento de hijos altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1548, 601, '55', 'Ayudas por defunción a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1549, 601, '56', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1550, 601, '57', 'Aporte patronal a cajas de ahorro por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1551, 601, '58', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1552, 601, '63', 'Capacitación y adiestramiento al personal de alto nivel y de dirección', 1),
-(1553, 601, '64', 'Ayudas por matrimonio al personal de alto nivel y de dirección', 1),
-(1554, 601, '65', 'Ayudas por nacimiento de hijos al personal de alto nivel y de dirección', 1),
-(1555, 601, '66', 'Ayudas por defunción al personal de alto nivel y de dirección', 1),
-(1556, 601, '67', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal de alto nivel y de dirección', 1),
-(1557, 601, '68', 'Aporte patronal a cajas de ahorro por personal de alto nivel y de dirección', 1),
-(1558, 601, '69', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por personal de alto nivel y de dirección', 1),
-(1559, 601, '74', 'Capacitación y adiestramiento al personal contratado', 1),
-(1560, 601, '75', 'Becas al personal contratado', 1),
-(1561, 601, '76', 'Ayudas por matrimonio al personal contratado', 1),
-(1562, 601, '77', 'Ayudas por nacimiento de hijos al personal contratado', 1),
-(1563, 601, '78', 'Ayudas por defunción al personal contratado', 1),
-(1564, 601, '79', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal contratado', 1),
-(1565, 601, '80', 'Aporte patronal a cajas de ahorro por personal contratado', 1),
-(1566, 601, '81', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por personal contratado', 1),
-(1567, 601, '82', 'Ayudas al personal contratado para adquisición de uniformes y útiles escolares de sus hijos', 1),
-(1568, 601, '83', 'Dotación de uniformes al personal contratado', 1),
-(1569, 601, '84', 'Aporte patronal para gastos de guarderías y preescolar para hijos del personal contratado', 1),
-(1570, 601, '85', 'Aportes para la adquisición de juguetes para los hijos del personal contratado', 1),
-(1571, 601, '94', 'Otras subvenciones a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1572, 601, '95', 'Otras subvenciones al personal de alto nivel y de dirección', 1),
-(1573, 601, '96', 'Otras subvenciones a empleados', 1),
-(1574, 601, '97', 'Otras subvenciones a obreros', 1),
-(1575, 601, '98', 'Otras subvenciones al personal militar', 1),
-(1576, 601, '99', 'Otras subvenciones al personal contratado', 1),
-(1577, 602, '01', 'Prestaciones sociales e indemnizaciones a empleados', 1),
-(1578, 602, '02', 'Prestaciones sociales e indemnizaciones a obreros', 1),
-(1579, 602, '03', 'Prestaciones sociales e indemnizaciones al personal contratado', 1),
-(1580, 602, '04', 'Prestaciones sociales e indemnizaciones al personal militar', 1),
-(1581, 602, '06', 'Prestaciones sociales e indemnizaciones a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1582, 602, '07', 'Prestaciones sociales e indemnizaciones al personal de alto nivel y Prestaciones sociales e indemnizaciones al personal de alto nivel y de dirección', 1),
-(1583, 603, '01', 'Capacitación y adiestramiento realizado por personal del organismo', 1),
-(1584, 604, '01', 'Otros gastos de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(1585, 605, '01', 'Otros gastos del personal de alto nivel y de dirección', 1),
-(1586, 606, '01', 'Otros gastos del personal empleado', 1),
-(1587, 607, '01', 'Otros gastos del personal obrero', 1),
-(1588, 608, '01', 'Otros gastos del personal militar', 1),
-(1589, 609, '01', 'Alimentos y bebidas para personas', 1),
-(1590, 609, '02', 'Alimentos para animales', 1),
-(1591, 609, '03', 'Productos agrícolas y pecuarios', 1),
-(1592, 609, '04', 'Productos de la caza y pesca', 1),
-(1593, 609, '99', 'Otros productos alimenticios y agropecuarios', 1),
-(1594, 610, '01', 'Carbón mineral', 1),
-(1595, 610, '02', 'Petróleo crudo y gas natural', 1),
-(1596, 610, '03', 'Mineral de hierro', 1),
-(1597, 610, '04', 'Mineral no ferroso', 1),
-(1598, 610, '05', 'Piedra, arcilla, arena y tierra', 1),
-(1599, 610, '06', 'Mineral para la fabricación de productos químicos', 1),
-(1600, 610, '07', 'Sal para uso industrial', 1),
-(1601, 610, '99', 'Otros productos de minas, canteras y yacimientos', 1),
-(1602, 611, '01', 'Textiles', 1),
-(1603, 611, '02', 'Prendas de vestir', 1),
-(1604, 611, '03', 'Calzados', 1),
-(1605, 611, '99', 'Otros productos textiles y vestuarios', 1),
-(1606, 612, '01', 'Cueros y pieles', 1),
-(1607, 612, '02', 'Productos de cuero y sucedáneos del cuero', 1),
-(1608, 612, '03', 'Cauchos y tripas para vehículos', 1),
-(1609, 612, '99', 'Otros productos de cuero y caucho', 1),
-(1610, 612, '99', 'Otros productos de cuero y caucho', 1),
-(1611, 613, '01', 'Cueros y pieles', 1),
-(1612, 613, '01', 'Pulpa de madera, papel y cartón', 1),
-(1613, 613, '02', 'Productos de cuero y sucedáneos del cuero', 1),
-(1614, 613, '02', 'Envases y cajas de papel y cartón', 1),
-(1615, 613, '03', 'Cauchos y tripas para vehículos', 1),
-(1616, 613, '03', 'Productos de papel y cartón para oficina', 1),
-(1617, 613, '04', 'Libros, revistas y periódicos', 1),
-(1618, 613, '05', 'Material de enseñanza', 1),
-(1619, 613, '06', 'Productos de papel y cartón para computación', 1),
-(1620, 613, '07', 'Productos de papel y cartón para la imprenta y reproducción', 1),
-(1621, 613, '99', 'Otros productos de pulpa, papel y cartón', 1),
-(1622, 614, '01', 'Sustancias químicas y de uso industrial', 1),
-(1623, 614, '02', 'Abonos, plaguicidas y otros', 1),
-(1624, 614, '03', 'Tintas, pinturas y colorantes', 1),
-(1625, 614, '04', 'Productos farmacéuticos y medicamentos', 1),
-(1626, 614, '05', 'Productos de tocador', 1),
-(1627, 614, '06', 'Combustibles y lubricantes', 1),
-(1628, 614, '07', 'Productos diversos derivados del petróleo y del carbón', 1),
-(1629, 614, '08', 'Productos plásticos', 1),
-(1630, 614, '09', 'Mezclas explosivas', 1),
-(1631, 614, '99', 'Otros productos de la industria química y conexos', 1),
-(1632, 615, '01', 'Productos de barro, loza y porcelana', 1),
-(1633, 615, '02', 'Vidrios y productos de vidrio', 1),
-(1634, 615, '03', 'Productos de arcilla para construcción', 1),
-(1635, 615, '04', 'Cemento, cal y yeso', 1),
-(1636, 615, '99', 'Otros productos minerales no metálicos', 1),
-(1637, 616, '01', 'Productos primarios de hierro y acero', 1),
-(1638, 616, '02', 'Productos de metales no ferrosos', 1),
-(1639, 616, '03', 'Herramientas menores, cuchillería y artículos generales de ferretería', 1),
-(1640, 616, '04', 'Productos metálicos estructurales', 1),
-(1641, 616, '05', 'Materiales de orden público, seguridad y defensa', 1),
-(1642, 616, '07', 'Material de señalamiento', 1),
-(1643, 616, '08', 'Material de educación', 1),
-(1644, 616, '09', 'Repuestos y accesorios para equipos de transporte', 1),
-(1645, 616, '10', 'Repuestos y accesorios para otros equipos', 1),
-(1646, 616, '99', 'Otros productos metálicos', 1),
-(1647, 617, '01', 'Productos primarios de madera', 1),
-(1648, 617, '02', 'Muebles y accesorios de madera para edificaciones', 1),
-(1649, 617, '99', 'Otros productos de madera', 1),
-(1650, 618, '01', 'Artículos de deporte, recreación y juguetes', 1),
-(1651, 618, '02', 'Materiales y útiles de limpieza y aseo', 1),
-(1652, 618, '03', 'Utensilios de cocina y comedor', 1),
-(1653, 618, '04', 'Útiles menores médico - quirúrgicos de laboratorio, dentales y de veterinaria', 1),
-(1654, 618, '05', 'Útiles de escritorio, oficina y materiales de instrucción', 1),
-(1655, 618, '06', 'Condecoraciones, ofrendas y similares', 1),
-(1656, 618, '07', 'Productos de seguridad en el trabajo', 1),
-(1657, 618, '08', 'Materiales para equipos de computación', 1),
-(1658, 618, '09', 'Especies timbradas y valores', 1),
-(1659, 618, '10', 'Útiles religiosos', 1),
-(1660, 618, '11', 'Materiales eléctricos', 1),
-(1661, 618, '12', 'Materiales para instalaciones sanitarias', 1),
-(1662, 618, '13', 'Materiales fotográficos', 1),
-(1663, 618, '99', 'Otros productos y útiles diversos', 1),
-(1664, 619, '01', 'Productos y artículos para la venta', 1),
-(1665, 619, '02', 'Maquinarias y equipos para la venta', 1),
-(1666, 619, '03', 'Inmuebles para la venta', 1),
-(1667, 619, '04', 'Tierras y terrenos para la venta', 1),
-(1668, 619, '99', 'Otros bienes para la venta', 1),
-(1669, 620, '01', 'Otros materiales y suministros', 1),
-(1670, 621, '01', 'Alquileres de edificios y locales', 1);
-INSERT INTO `partida_especifica` (`id`, `generica`, `especifica`, `nombre`, `estatus`) VALUES
-(1671, 621, '02', 'Alquileres de edificios y locales', 1),
-(1672, 621, '03', 'Alquileres de tierras y terrenos', 1),
-(1673, 622, '01', 'Alquileres de maquinaria y demás equipos de construcción, campo, industria y taller', 1),
-(1674, 622, '02', 'Alquileres de equipos de transporte, tracción y elevación', 1),
-(1675, 622, '03', 'Alquileres de equipos de comunicaciones y de señalamiento', 1),
-(1676, 622, '04', 'Alquileres de equipos médico - quirúrgicos, dentales y de veterinaria', 1),
-(1677, 622, '05', 'Alquileres de equipos científicos, religiosos, de enseñanza y recreación', 1),
-(1678, 622, '06', 'Alquileres de máquinas, muebles y demás equipos de oficina y alojamiento', 1),
-(1679, 622, '99', 'Alquileres de otras maquinaria y equipos', 1),
-(1680, 623, '01', 'Marcas de fábrica y patentes de invención', 1),
-(1681, 623, '02', 'Derechos de autor', 1),
-(1682, 623, '03', 'Paquetes y programas de computación', 1),
-(1683, 623, '04', 'Concesión de bienes y servicios', 1),
-(1684, 624, '01', 'Electricidad', 1),
-(1685, 624, '02', 'Gas', 1),
-(1686, 624, '03', 'Agua', 1),
-(1687, 624, '04', 'Teléfonos', 1),
-(1688, 624, '05', 'Servicio de comunicaciones', 1),
-(1689, 624, '06', 'Servicio de aseo urbano y domiciliario', 1),
-(1690, 624, '07', 'Servicio de condominio', 1),
-(1691, 625, '01', 'Servicio de administración, vigilancia y mantenimiento del servicio de electricidad', 1),
-(1692, 625, '02', 'Servicio de administración, vigilancia y mantenimiento del servicio de gas', 1),
-(1693, 625, '03', 'Servicio de administración, vigilancia y mantenimiento del servicio de agua', 1),
-(1694, 625, '04', 'Servicio de administración, vigilancia y mantenimiento del servicio de teléfonos', 1),
-(1695, 625, '05', 'Servicio de administración, vigilancia y mantenimiento del servicio de comunicaciones', 1),
-(1696, 625, '06', 'Servicio de administración, vigilancia y mantenimiento del servicio de aseo urbano y domiciliario', 1),
-(1697, 626, '01', 'Fletes y embalajes', 1),
-(1698, 626, '02', 'Almacenaje', 1),
-(1699, 626, '03', 'Estacionamiento', 1),
-(1700, 626, '04', 'Peaje', 1),
-(1701, 626, '05', 'Servicios de protección en traslado de fondos y de mensajería', 1),
-(1702, 627, '01', 'Publicidad y propaganda', 1),
-(1703, 627, '02', 'Imprenta y reproducción', 1),
-(1704, 627, '03', 'Relaciones sociales', 1),
-(1705, 627, '04', 'Avisos', 1),
-(1706, 628, '01', 'Primas y gastos de seguros', 1),
-(1707, 628, '02', 'Comisiones y gastos bancarios', 1),
-(1708, 628, '03', 'Comisiones y gastos de adquisición de seguros', 1),
-(1709, 629, '01', 'Viáticos y pasajes dentro del país', 1),
-(1710, 629, '02', 'Viáticos y pasajes fuera del país', 1),
-(1711, 629, '03', 'Asignación por kilómetros recorridos', 1),
-(1712, 630, '01', 'Servicios jurídicos', 1),
-(1713, 630, '02', 'Servicios de contabilidad y auditoría', 1),
-(1714, 630, '03', 'Servicios de procesamiento de datos', 1),
-(1715, 630, '04', 'Servicios de ingeniería y arquitectónicos', 1),
-(1716, 630, '05', 'Servicios médicos, odontológicos y otros servicios de sanidad', 1),
-(1717, 630, '06', 'Servicios de veterinaria', 1),
-(1718, 630, '07', 'Servicios de capacitación y adiestramiento', 1),
-(1719, 630, '08', 'Servicios presupuestarios', 1),
-(1720, 630, '09', 'Servicios de lavandería y tintorería', 1),
-(1721, 630, '10', 'Servicios de vigilancia y seguridad', 1),
-(1722, 630, '11', 'Servicios para la elaboración y suministro de comida', 1),
-(1723, 630, '99', 'Otros servicios profesionales y técnicos', 1),
-(1724, 631, '01', 'Conservación y reparaciones menores de maquinaria y demás equipos de construcción, campo, industria y taller', 1),
-(1725, 631, '02', 'Conservación y reparaciones menores de equipos de transporte, tracción y elevación', 1),
-(1726, 631, '03', 'Conservación y reparaciones menores de equipos de comunicaciones y de señalamiento', 1),
-(1727, 631, '04', 'Conservación y reparaciones menores de equipos médicoquirúrgicos dentales y de veterinaria', 1),
-(1728, 631, '05', 'Conservación y reparaciones menores de equipos científicos, religiosos, de enseñanza y recreación', 1),
-(1729, 631, '06', 'Conservación y reparaciones menores de equipos y armamentos de orden público, seguridad y defensa nacional', 1),
-(1730, 631, '07', 'Conservación y reparaciones menores de máquinas, muebles y demás equipos de oficina y alojamiento', 1),
-(1731, 631, '99', 'Conservación y reparaciones menores de otras maquinaria y equipos', 1),
-(1732, 632, '01', 'Conservación y reparaciones menores de obras en bienes del dominio privado', 1),
-(1733, 632, '02', 'Conservación y reparaciones menores de obras en bienes del dominio público', 1),
-(1734, 633, '01', 'Servicios de construcciones temporales', 1),
-(1735, 634, '01', 'Servicios de construcción de edificaciones para la venta', 1),
-(1736, 635, '01', 'Derechos de importación y servicios aduaneros', 1),
-(1737, 635, '02', 'Tasas y otros derechos obligatorios', 1),
-(1738, 635, '03', 'Asignación a agentes de especies fiscales', 1),
-(1739, 635, '99', 'Otros servicios fiscales', 1),
-(1740, 636, '01', 'Servicios de diversión, esparcimiento y culturales', 1),
-(1741, 637, '01', 'Servicios de gestión administrativa prestados por organismos de asistencia técnica', 1),
-(1742, 638, '01', 'Impuesto al valor agregado', 1),
-(1743, 638, '99', 'Otros impuestos indirectos', 1),
-(1744, 639, '01', 'Comisiones por servicios para cumplir con los beneficios sociales', 1),
-(1745, 640, '01', 'Otros servicios no personales', 1),
-(1746, 641, '01', 'Repuestos mayores', 1),
-(1747, 641, '02', 'Reparaciones, mejoras y adiciones mayores de maquinaria y equipos', 1),
-(1748, 642, '01', 'Conservación, ampliaciones y mejoras mayores de obras en bienes del dominio privado', 1),
-(1749, 642, '02', 'Conservación, ampliaciones y mejoras mayores de obras en bienes del dominio público', 1),
-(1750, 643, '01', 'Maquinaria y demás equipos de construcción y mantenimiento', 1),
-(1751, 643, '02', 'Maquinaria y equipos para mantenimiento de automotores', 1),
-(1752, 643, '03', 'Maquinaria y equipos agrícolas y pecuarios', 1),
-(1753, 643, '04', 'Maquinaria y equipos de artes gráficas y reproducción', 1),
-(1754, 643, '05', 'Maquinaria y equipos industriales y de taller', 1),
-(1755, 643, '06', 'Maquinaria y equipos de energía', 1),
-(1756, 643, '07', 'Maquinaria y equipos de riego y acueductos', 1),
-(1757, 643, '08', 'Equipos de almacén', 1),
-(1758, 643, '99', 'Otra maquinaria y demás equipos de construcción, campo, industria y taller', 1),
-(1759, 644, '01', 'Vehículos automotores terrestres', 1),
-(1760, 644, '02', 'Equipos ferroviarios y de cables aéreos', 1),
-(1761, 644, '03', 'Equipos marítimos de transporte', 1),
-(1762, 644, '04', 'Equipos aéreos de transporte', 1),
-(1763, 644, '05', 'Vehículos de tracción no motorizados', 1),
-(1764, 644, '06', 'Equipos auxiliares de transporte', 1),
-(1765, 644, '99', 'Otros equipos de transporte, tracción y elevación', 1),
-(1766, 645, '01', 'Equipos de telecomunicaciones', 1),
-(1767, 645, '02', 'Equipos de señalamiento', 1),
-(1768, 645, '03', 'Equipos de control de tráfico aéreo', 1),
-(1769, 645, '04', 'Equipos de correo', 1),
-(1770, 645, '99', 'Otros equipos de comunicaciones y de señalamiento', 1),
-(1771, 646, '01', 'Equipos médico - quirúrgicos, dentales y de veterinaria', 1),
-(1772, 646, '99', 'Otros equipos médico - quirúrgicos, dentales y de veterinaria', 1),
-(1773, 647, '01', 'Equipos científicos y de laboratorio', 1),
-(1774, 647, '02', 'Equipos de enseñanza, deporte y recreación', 1),
-(1775, 647, '03', 'Obras de arte', 1),
-(1776, 647, '04', 'Libros, revistas y otros instrumentos de enseñanzas', 1),
-(1777, 647, '05', 'Equipos religiosos', 1),
-(1778, 647, '06', 'Instrumentos musicales y equipos de audio', 1),
-(1779, 647, '99', 'Otros equipos científicos, religiosos, de enseñanza y recreación', 1),
-(1780, 648, '01', 'Equipos y armamentos de orden público, seguridad y defensa nacional', 1),
-(1781, 648, '02', 'Equipos y armamentos de seguridad para la custodia y resguardo personal', 1),
-(1782, 648, '99', 'Otros equipos y armamentos de orden público, seguridad y defensa', 1),
-(1783, 649, '01', 'Mobiliario y equipos de oficina', 1),
-(1784, 649, '02', 'Equipos de computación', 1),
-(1785, 649, '03', 'Mobiliario y equipos de alojamiento', 1),
-(1786, 649, '99', 'Otras máquinas, muebles y demás equipos de oficina y alojamiento', 1),
-(1787, 650, '01', 'Semovientes', 1),
-(1788, 651, '01', 'Adquisición de tierras y terrenos', 1),
-(1789, 651, '02', 'Adquisición de edificios e instalaciones', 1),
-(1790, 651, '03', 'Expropiación de tierras y terrenos', 1),
-(1791, 651, '04', 'Expropiación de edificios e instalaciones', 1),
-(1792, 651, '05', 'Adquisición de maquinaria y equipos usados', 1),
-(1793, 652, '01', 'Marcas de fábrica y patentes de invención', 1),
-(1794, 652, '02', 'Derechos de autor', 1),
-(1795, 652, '03', 'Gastos de organización', 1),
-(1796, 652, '04', 'Paquetes y programas de computación', 1),
-(1797, 652, '05', 'Estudios y proyectos', 1),
-(1798, 652, '99', 'Otros activos intangibles', 1),
-(1799, 653, '01', 'Estudios y proyectos aplicables a bienes del dominio privado', 1),
-(1800, 653, '02', 'Estudios y proyectos aplicables a bienes del dominio público', 1),
-(1801, 654, '01', 'Contratación de inspección de obras de bienes del dominio privado', 1),
-(1802, 654, '02', 'Contratación de inspección de obras de bienes del dominio público', 1),
-(1803, 655, '01', 'Construcciones de edificaciones médico-asistenciales', 1),
-(1804, 655, '02', 'Construcciones de edificaciones militares y de seguridad', 1),
-(1805, 655, '03', 'Construcciones de edificaciones educativas, religiosas y recreativas', 1),
-(1806, 655, '04', 'Construcciones de edificaciones culturales y deportivas', 1),
-(1807, 655, '05', 'Construcciones de edificaciones para oficina', 1),
-(1808, 655, '06', 'Construcciones de edificaciones industriales', 1),
-(1809, 655, '07', 'Construcciones de edificaciones habitacionales', 1),
-(1810, 655, '99', 'Otras construcciones del dominio privado', 1),
-(1811, 656, '01', 'Construcción de vialidad', 1),
-(1812, 656, '02', 'Construcción de plazas, parques y similares', 1),
-(1813, 656, '03', 'Construcciones de instalaciones hidráulicas', 1),
-(1814, 656, '04', 'Construcciones de puertos y aeropuertos', 1),
-(1815, 656, '99', 'Otras construcciones del dominio público', 1),
-(1816, 657, '01', 'Otros activos reales', 1),
-(1817, 658, '01', 'Aportes en acciones y participaciones de capital al sector privado', 1),
-(1818, 658, '02', 'Aportes en acciones y participaciones de capital al sector público', 1),
-(1819, 658, '03', 'Aportes en acciones y participaciones de capital al sector externo', 1),
-(1820, 659, '01', 'Adquisición de títulos y valores a corto plazo', 1),
-(1821, 659, '02', 'Adquisición de títulos y valores a largo plazo', 1),
-(1822, 660, '01', 'Concesión de préstamos al sector público a corto plazo', 1),
-(1823, 660, '02', 'Concesión de préstamos al sector público a corto plazo', 1),
-(1824, 660, '03', 'Concesión de préstamos al sector externo a corto plazo', 1),
-(1825, 661, '01', 'Concesión de préstamos al sector privado a largo plazo', 1),
-(1826, 661, '02', 'Concesión de préstamos al sector público a largo plazo', 1),
-(1827, 661, '03', 'Concesión de préstamos al sector externo a largo plazo', 1),
-(1828, 662, '01', 'Incremento en caja', 1),
-(1829, 662, '02', 'Incremento en bancos', 1),
-(1830, 662, '03', 'Incremento de inversiones temporales', 1),
-(1831, 663, '01', 'Incremento de cuentas comerciales por cobrar a corto plazo', 1),
-(1832, 663, '02', 'Incremento de rentas por recaudar a corto plazo', 1),
-(1833, 663, '03', 'Incremento de deudas por rendir', 1),
-(1834, 663, '99', 'Incremento de otras cuentas por cobrar a corto plazo', 1),
-(1835, 664, '01', 'Incremento de efectos comerciales por cobrar a corto plazo', 1),
-(1836, 664, '99', 'Incremento de otros efectos por cobrar a corto plazo', 1),
-(1837, 665, '01', 'Incremento de cuentas comerciales por cobrar a mediano y largo plazo', 1),
-(1838, 665, '02', 'Incremento de rentas por recaudar a mediano y largo plazo', 1),
-(1839, 665, '99', 'Incremento de otras cuentas por cobrar a mediano y largo plazo', 1),
-(1840, 666, '01', 'Incremento de efectos comerciales por cobrar a mediano y largo plazo', 1),
-(1841, 666, '99', 'Incremento de otros efectos por cobrar a mediano y largo plazo', 1),
-(1842, 667, '01', 'Incremento de fondos en avance', 1),
-(1843, 667, '02', 'Incremento de fondos en anticipos', 1),
-(1844, 667, '03', 'Incremento de fondos en fideicomiso', 1),
-(1845, 667, '04', 'Incremento de anticipos a proveedores', 1),
-(1846, 667, '05', 'Incremento de anticipos a contratistas por contratos de corto plazo', 1),
-(1847, 667, '06', 'Incremento de anticipos a contratistas por contratos de mediano y largo plazo', 1),
-(1848, 668, '01', 'Incremento de gastos a corto plazo pagados por anticipado', 1),
-(1849, 668, '02', 'Incremento de depósitos otorgados en garantía a corto plazo', 1),
-(1850, 668, '99', 'Incremento de otros activos diferidos a corto plazo', 1),
-(1851, 669, '01', 'Incremento de gastos a mediano y largo plazo pagados por anticipado', 1),
-(1852, 669, '02', 'Incremento de depósitos otorgados en garantía a mediano y largo plazo', 1),
-(1853, 669, '99', 'Incremento de otros activos diferidos a mediano y largo plazo', 1),
-(1854, 670, '01', 'Incremento del Fondo de Estabilización Macroeconómica (FEM) de la República', 1),
-(1855, 670, '02', 'Incremento del Fondo de Estabilización Macroeconómica (FEM) del Poder Estadal', 1),
-(1856, 670, '03', 'Incremento del Fondo de Estabilización Macroeconómica (FEM) del Poder Municipal', 1),
-(1857, 671, '01', 'Incremento del Fondo de Ahorro Intergeneracional', 1),
-(1858, 672, '01', 'Incremento del Fondo de Aportes del Sector Público', 1),
-(1859, 673, '01', 'Incremento de otros activos financieros circulantes', 1),
-(1860, 674, '01', 'Incremento de activos en gestión judicial a mediano y largo plazo', 1),
-(1861, 674, '02', 'Incremento de títulos y otros valores de la deuda pública en litigio a largo plazo', 1),
-(1862, 674, '99', 'Incremento de otros activos financieros no circulantes', 1),
-(1863, 675, '01', 'Otros activos financieros', 1),
-(1864, 676, '01', 'Gastos de defensa y seguridad del Estado', 1),
-(1865, 677, '01', 'Transferencias corrientes internas al sector privado', 1),
-(1866, 677, '02', 'Donaciones corrientes internas al sector privado', 1),
-(1867, 677, '03', 'Transferencias corrientes internas al sector público', 1),
-(1868, 677, '04', 'Donaciones corrientes internas al sector público', 1),
-(1869, 677, '05', 'Pensiones de altos funcionarios y altas funcionarias del poder público y de elección popular, del personal de alto nivel y de dirección', 1),
-(1870, 677, '06', 'Jubilaciones de altos funcionarios y altas funcionarias del poder público y de elección popular, del personal de alto nivel y de dirección', 1),
-(1871, 678, '01', 'Transferencias corrientes al exterior', 1),
-(1872, 678, '02', 'Donaciones corrientes al exterior', 1),
-(1873, 679, '01', 'Situado Constitucional', 1),
-(1874, 679, '02', 'Situado Estadal a Municipal', 1),
-(1875, 680, '01', 'Subsidio de Régimen Especial', 1),
-(1876, 681, '01', 'Subsidio de capitalidad', 1),
-(1877, 682, '01', 'Asignaciones Económicas Especiales (LAEE) Estadal', 1),
-(1878, 682, '02', 'Asignaciones Económicas Especiales (LAEE) Estadal a Municipal', 1),
-(1879, 682, '03', 'Asignaciones Económicas Especiales (LAEE) Municipal', 1),
-(1880, 682, '04', 'Asignaciones Económicas Especiales (LAEE) Fondo Nacional de los Consejos Comunales', 1),
-(1881, 682, '05', 'Asignaciones Económicas Especiales (LAEE) Apoyo al Fortalecimiento Institucional', 1),
-(1882, 683, '01', 'Aportes al Poder Estadal por transferencia de servicios', 1),
-(1883, 683, '02', 'Aportes al Poder Municipal por transferencia de servicios', 1),
-(1884, 684, '01', 'Fondo Intergubernamental para la Descentralización (FIDES)', 1),
-(1885, 685, '01', 'Fondo de Compensación Interterritorial Estadal', 1),
-(1886, 685, '02', 'Fondo de Compensación Interterritorial Municipal', 1),
-(1887, 685, '03', 'Fondo de Compensación Interterritorial Poder Popular', 1),
-(1888, 685, '04', 'Fondo de Compensación Interterritorial Fortalecimiento Institucional', 1),
-(1889, 686, '01', 'Transferencias y donaciones corrientes a Consejos Comunales', 1),
-(1890, 686, '02', 'Transferencias y donaciones de capital a Consejos Comunales', 1),
-(1891, 687, '01', 'Depreciación', 1),
-(1892, 687, '02', 'Amortización', 1),
-(1893, 688, '01', 'Intereses por depósitos internos', 1),
-(1894, 688, '02', 'Intereses por títulos y valores', 1),
-(1895, 688, '03', 'Intereses por otros financiamientos', 1),
-(1896, 689, '01', 'Gastos de siniestros', 1),
-(1897, 689, '02', 'Gastos de operaciones de reaseguros', 1),
-(1898, 689, '99', 'Otros gastos de operaciones de seguro', 1),
-(1899, 690, '01', 'Pérdidas en el proceso de distribución de los servicios', 1),
-(1900, 690, '99', 'Otras pérdidas en operación', 1),
-(1901, 691, '01', 'Devoluciones de cobros indebidos', 1),
-(1902, 691, '02', 'Devoluciones y reintegros diversos', 1),
-(1903, 691, '03', 'Indemnizaciones diversas', 1),
-(1904, 692, '01', 'Pérdidas en inventarios', 1),
-(1905, 692, '02', 'Pérdidas en operaciones cambiarias', 1),
-(1906, 692, '03', 'Pérdidas en ventas de activos', 1),
-(1907, 692, '04', 'Pérdidas por cuentas incobrables', 1),
-(1908, 692, '05', 'Participación en pérdidas de otras empresas', 1),
-(1909, 692, '06', 'Pérdidas por auto-seguro', 1),
-(1910, 692, '07', 'Impuestos directos', 1),
-(1911, 692, '08', 'Intereses de mora', 1),
-(1912, 692, '09', 'Reservas técnicas', 1),
-(1913, 693, '01', 'Descuentos sobre ventas', 1),
-(1914, 693, '02', 'Bonificaciones por ventas', 1),
-(1915, 693, '03', 'Devoluciones por ventas', 1),
-(1916, 693, '04', 'Devoluciones por primas de seguro', 1),
-(1917, 694, '01', 'Indemnizaciones por daños y perjuicios', 1),
-(1918, 694, '02', 'Sanciones pecuniarias', 1),
-(1919, 695, '01', 'Otros gastos', 1),
-(1920, 696, '01', 'Asignaciones no distribuidas de la Asamblea Nacional', 1),
-(1921, 697, '01', 'Asignaciones no distribuidas de la Contraloría General de la República', 1),
-(1922, 698, '01', 'Asignaciones no distribuidas del Consejo Nacional Electoral', 1),
-(1923, 699, '01', 'Asignaciones no distribuidas del Tribunal Supremo de Justicia', 1),
-(1924, 700, '01', 'Asignaciones no distribuidas del Ministerio Público', 1),
-(1925, 701, '01', 'Asignaciones no distribuidas de la Defensoría del Pueblo', 1),
-(1926, 702, '01', 'Asignaciones no distribuidas del Consejo Moral Republicano', 1),
-(1927, 703, '01', 'Reestructuración de organismos del sector público', 1),
-(1928, 704, '01', 'Fondo de apoyo al trabajador y su grupo familiar de la Administración Pública Nacional', 1),
-(1929, 704, '02', 'Fondo de apoyo al trabajador y su grupo familiar de las Entidades Federales, los Municipios y otras formas de gobierno municipal', 1),
-(1930, 705, '01', 'Reforma de la seguridad social', 1),
-(1931, 706, '01', 'Emergencias en el territorio nacional', 1),
-(1932, 707, '01', 'Fondo para la cancelación de pasivos laborales', 1),
-(1933, 708, '01', 'Fondo para la cancelación de deuda por servicios de electricidad teléfono, aseo, agua y condominio, de los organismos de la Administración Central', 1),
-(1934, 708, '02', 'Fondo para la cancelación de deuda por servicios de electricidad teléfono, aseo, agua y condominio, de los organismos de la Administración Descentralizada Nacional', 1),
-(1935, 709, '01', 'Fondo para remuneraciones, pensiones y jubilaciones y otras retribuciones', 1),
-(1936, 710, '01', 'Fondo para atender compromisos generados de la Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras', 1),
-(1937, 711, '01', 'Asignaciones para cancelar compromisos pendientes de ejercicios anteriores', 1),
-(1938, 712, '01', 'Asignaciones para cancelar la deuda Fogade – Ministerio competente en Materia de Finanzas – Banco Central de Venezuela (BCV)', 1),
-(1939, 713, '01', 'Asignaciones para atender los gastos de la referenda y elecciones', 1),
-(1940, 714, '01', 'Asignaciones para atender los gastos por honorarios profesionales de bufetes internacionales, costas y costos judiciales', 1),
-(1941, 715, '01', 'Fondo para atender compromisos generados por la contratación colectiva', 1),
-(1942, 716, '01', 'Proyecto social especial', 1),
-(1943, 717, '01', 'Asignaciones para programas y proyectos financiados con recursos de organismos multilaterales y/o bilaterales', 1),
-(1944, 718, '01', 'Asignación para facilitar la preparación de proyectos', 1),
-(1945, 719, '01', 'Programas de inversión para las entidades estadales municipalidades y otras instituciones', 1),
-(1946, 720, '01', 'Cancelación de compromisos', 1),
-(1947, 721, '01', 'Asignaciones para atender gastos de los organismos del sector público', 1),
-(1948, 722, '01', 'Convenio de Cooperación Especial', 1),
-(1949, 723, '01', 'Servicio de la deuda pública interna a corto plazo de títulos valores', 1),
-(1950, 723, '02', 'Servicio de la deuda pública interna por préstamos a corto plazo', 1),
-(1951, 723, '03', 'Servicio de la deuda pública interna indirecta por préstamos a corto plazo', 1),
-(1952, 724, '01', 'Servicio de la deuda pública interna a largo plazo de títulos y valores', 1),
-(1953, 724, '02', 'Servicio de la deuda pública interna por préstamos a largo plazo', 1),
-(1954, 724, '03', 'Servicio de la deuda pública interna indirecta a largo plazo de títulos y valores', 1),
-(1955, 724, '04', 'Servicio de la deuda pública interna indirecta por préstamos a largo plazo', 1),
-(1956, 725, '01', 'Servicio de la deuda pública externa a corto plazo de títulos y valores', 1),
-(1957, 725, '02', 'Servicio de la deuda pública externa por préstamos a corto plazo', 1),
-(1958, 725, '03', 'Servicio de la deuda pública externa indirecta por préstamos a corto plazo', 1),
-(1959, 726, '01', 'Servicio de la deuda pública externa a largo plazo de títulos y valores', 1),
-(1960, 726, '02', 'Servicio de la deuda pública externa por préstamos a largo plazo', 1),
-(1961, 726, '03', 'Servicio de la deuda pública externa indirecta a largo plazo de títulos y valores', 1),
-(1962, 726, '04', 'Servicio de la deuda pública externa indirecta por préstamos a largo plazo', 1),
-(1963, 727, '01', 'Disminución por reestructuración y/o refinanciamiento de la deuda interna a largo plazo, en a corto plazo', 1),
-(1964, 727, '02', 'Disminución por reestructuración y/o refinanciamiento de la deuda interna a corto plazo, en a largo plazo', 1),
-(1965, 727, '03', 'Disminución por reestructuración y/o refinanciamiento de la deuda externa a largo plazo, en a corto plazo', 1),
-(1966, 727, '04', 'Disminución por reestructuración y/o refinanciamiento de la deuda externa a corto plazo, en a largo plazo', 1),
-(1967, 727, '05', 'Disminución de la deuda pública por distribuir', 1),
-(1968, 728, '01', 'Amortización de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
-(1969, 728, '02', 'Intereses de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
-(1970, 728, '03', 'Intereses por mora y multas de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
-(1971, 728, '04', 'Comisiones y otros gastos de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
-(1972, 729, '01', 'Disminución de sueldos, salarios y otras remuneraciones por pagar', 1),
-(1973, 730, '01', 'Disminución de aportes patronales y retenciones laborales por pagar al Instituto Venezolano de los Seguros Sociales (IVSS)', 1),
-(1974, 730, '02', 'Disminución de aportes patronales y retenciones laborales por pagar al Instituto de Previsión Social del Ministerio de Educación (Ipasme)', 1),
-(1975, 730, '03', 'Disminución de aportes patronales y retenciones laborales por pagar al Fondo de Jubilaciones', 1),
-(1976, 730, '04', 'Disminución de aportes patronales y retenciones laborales por pagar al Fondo de Seguro de Paro Forzoso', 1),
-(1977, 730, '05', 'Disminución de aportes patronales y retenciones laborales por pagar al Fondo de Ahorro Obligatorio para la Vivienda (FAOV)', 1),
-(1978, 730, '06', 'Disminución de aportes patronales y retenciones laborales por pagar al seguro de vida, accidentes personales, hospitalización, cirugía, maternidad (HCM) y gastos funerarios', 1),
-(1979, 730, '07', 'Disminución de aportes patronales y retenciones laborales por pagar a cajas de ahorro', 1),
-(1980, 730, '08', 'Disminución de aportes patronales por pagar a organismos de seguridad social', 1),
-(1981, 730, '09', 'Disminución de retenciones laborales por pagar al Instituto Nacional de Capacitación y Educación Socialista (Inces)', 1),
-(1982, 730, '10', 'Disminución de retenciones laborales por pagar por pensión alimenticia', 1),
-(1983, 730, '98', 'Disminución de otros aportes legales por pagar', 1),
-(1984, 730, '99', 'Disminución de otras retenciones laborales por pagar', 1),
-(1985, 731, '01', 'Disminución de cuentas por pagar a proveedores a corto plazo', 1),
-(1986, 731, '02', 'Disminución de efectos por pagar a proveedores a corto plazo', 1),
-(1987, 731, '03', 'Disminución de cuentas por pagar a proveedores a mediano y largo plazo', 1),
-(1988, 731, '04', 'Disminución de efectos por pagar a proveedores a mediano y largo plazo', 1),
-(1989, 732, '01', 'Disminución de cuentas por pagar a contratistas a corto plazo', 1),
-(1990, 732, '02', 'Disminución de efectos por pagar a contratistas a corto plazo', 1),
-(1991, 732, '03', 'Disminución de cuentas por pagar a contratistas a mediano largo y plazo', 1),
-(1992, 732, '04', 'Disminución de efectos por pagar a contratistas a mediano y plazo', 1),
-(1993, 733, '01', 'Disminución de intereses internos por pagar', 1),
-(1994, 733, '02', 'Disminución de intereses externos por pagar', 1),
-(1995, 734, '01', 'Disminución de obligaciones de ejercicios anteriores', 1),
-(1996, 734, '02', 'Disminución de otras cuentas por pagar a corto plazo', 1),
-(1997, 734, '03', 'Disminución de otros efectos por pagar a corto plazo', 1),
-(1998, 735, '01', 'Disminución de pasivos diferidos a corto plazo', 1),
-(1999, 735, '02', 'Disminución de pasivos diferidos a mediano y largo plazo', 1),
-(2000, 736, '01', 'Disminución de provisiones', 1),
-(2001, 736, '02', 'Disminución de reservas técnicas', 1),
-(2002, 737, '01', 'Disminución de depósitos a la vista', 1),
-(2003, 737, '02', 'Disminución de depósitos a plazo fijo', 1),
-(2004, 738, '01', 'Devoluciones de cobros indebidos', 1),
-(2005, 738, '02', 'Devoluciones y reintegros diversos', 1),
-(2006, 738, '03', 'Indemnizaciones diversas', 1),
-(2007, 738, '04', 'Compromisos pendientes de ejercicios anteriores', 1),
-(2008, 738, '05', 'Prestaciones sociales originadas por la aplicación de la Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras', 1),
-(2009, 739, '01', 'Disminución de otros pasivos a corto plazo', 1),
-(2010, 740, '01', 'Disminución del capital fiscal e institucional', 1),
-(2011, 740, '02', 'Disminución de aportes por capitalizar', 1),
-(2012, 740, '03', 'Disminución de dividendos a distribuir', 1),
-(2013, 741, '01', 'Disminución de reservas', 1),
-(2014, 742, '01', 'Ajuste por inflación', 1),
-(2015, 743, '01', 'Disminución de resultados acumulados', 1),
-(2016, 743, '02', 'Disminución de resultados del ejercicio', 1),
-(2017, 744, '01', 'Rectificaciones al presupuesto', 1);
+INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`) VALUES
+('3', '01', '01', '01', 'Impuesto sobre la renta a personas jurídicas', 1),
+('3', '01', '01', '02', 'Impuesto sobre la renta a personas naturales', 1),
+('3', '01', '01', '03', 'Impuestos sobre sucesiones, donaciones y demás ramos conexos', 1),
+('3', '01', '01', '04', 'Reparos administrativos por impuesto sobre la renta a personas juridica', 1),
+('3', '01', '01', '05', 'Reparos administrativos por impuesto sobre la renta a personas naturales', 1),
+('3', '01', '01', '06', 'Reparos administrativos a impuesto sobre sucesiones, donaciones y demás ramos conexos', 1),
+('3', '01', '02', '01', 'Impuestos de importación', 1),
+('3', '01', '02', '02', 'Impuesto de exportación', 1),
+('3', '01', '02', '03', 'Impuesto sobre la producción, el consumo y transacciones financieras', 1),
+('3', '01', '02', '04', 'Impuestos a las actividades de juegos de envite o azar', 1),
+('3', '01', '02', '05', 'Inmuebles urbanos', 1),
+('3', '01', '02', '06', 'Participación en el impuesto a la propiedad rural', 1),
+('3', '01', '02', '07', 'Patente de industria y comercio', 1),
+('3', '01', '02', '08', 'Patente de vehículo', 1),
+('3', '01', '02', '09', 'Propaganda comercial', 1),
+('3', '01', '02', '10', 'Espectáculos públicos', 1),
+('3', '01', '02', '11', 'Apuestas lícitas', 1),
+('3', '01', '02', '12', 'Deudas morosas', 1),
+('3', '01', '02', '99', 'Otros impuestos indirectos', 1),
+('3', '01', '03', '01', 'Derechos de tránsito terrestre', 1),
+('3', '01', '03', '02', 'Derechos a examen', 1),
+('3', '01', '03', '03', 'Derechos de expedición, renovación y reválida de licencias', 1),
+('3', '01', '03', '04', 'Derechos de registro y traspaso', 1),
+('3', '01', '03', '05', 'Derechos de placas identificadoras', 1),
+('3', '01', '03', '06', 'Derechos por revisión anual', 1),
+('3', '01', '03', '07', 'Derechos por remoción o arrastre de vehículos', 1),
+('3', '01', '03', '08', 'Derechos por estacionamiento de vehículos', 1),
+('3', '01', '03', '09', 'Permiso para uso de rutas extraurbanas', 1),
+('3', '01', '03', '10', 'Copias de documentos', 1),
+('3', '01', '03', '11', 'Tasas para el uso de aeronaves y por licencias de personal aeronáutico', 1),
+('3', '01', '03', '12', 'Tasas aeroportuarias', 1),
+('3', '01', '03', '13', 'Tasas por uso de canales de navegación', 1),
+('3', '01', '03', '14', 'Patente de navegación', 1),
+('3', '01', '03', '15', 'Expedición de licencias de navegación', 1),
+('3', '01', '03', '16', 'Servicio de telecomunicaciones', 1),
+('3', '01', '03', '17', 'Permisos para estaciones privadas de radiocomunicaciones', 1),
+('3', '01', '03', '18', 'Derechos de pilotajes', 1),
+('3', '01', '03', '19', 'Habilitación de pilotaje', 1),
+('3', '01', '03', '20', 'Servicios de remolcadores', 1),
+('3', '01', '03', '21', 'Habilitación de remolcadores', 1),
+('3', '01', '03', '22', 'Habilitación de capitanías de puerto', 1),
+('3', '01', '03', '23', 'Otros servicios de capitanías de puerto', 1),
+('3', '01', '03', '24', 'Tasas de faros y boyas', 1),
+('3', '01', '03', '25', 'Servicios de aduana', 1),
+('3', '01', '03', '26', 'Habilitación de aduanas', 1),
+('3', '01', '03', '27', 'Derechos de almacenaje', 1),
+('3', '01', '03', '28', 'Corretaje de bultos postales', 1),
+('3', '01', '03', '29', 'Servicios de consulta sobre clasificación arancelaria, valoración aduanera y análisis de laboratorio', 1),
+('3', '01', '03', '30', 'Bandas de garantía, cápsulas y sellos', 1),
+('3', '01', '03', '31', 'Servicio de peaje', 1),
+('3', '01', '03', '32', 'Servicio de riego y drenaje', 1),
+('3', '01', '03', '33', 'Estampillas fiscales', 1),
+('3', '01', '03', '34', 'Papel sellado', 1),
+('3', '01', '03', '35', 'Derechos de traslado', 1),
+('3', '01', '03', '36', 'Servicios sanitarios marítimos', 1),
+('3', '01', '03', '37', 'Servicios hospitalarios', 1),
+('3', '01', '03', '38', 'Venta de copias de planos', 1),
+('3', '01', '03', '39', 'Derechos de contraste, verificación y estudios', 1),
+('3', '01', '03', '40', 'Patente de pesca de perlas', 1),
+('3', '01', '03', '41', 'Licencia de caza', 1),
+('3', '01', '03', '42', 'Derechos de cancillería', 1),
+('3', '01', '03', '43', 'Depósitos por el ingreso al país de extranjeros', 1),
+('3', '01', '03', '44', 'Registro sanitario', 1),
+('3', '01', '03', '45', 'Derechos de análisis de sustancias químicas', 1),
+('3', '01', '03', '46', 'Derechos consulares', 1),
+('3', '01', '03', '47', 'Matrícula para importar y exportar sustancias estupefacientes y psicotrópicas', 1),
+('3', '01', '03', '48', 'Permisos municipales', 1),
+('3', '01', '03', '49', 'Certificaciones y solvencias', 1),
+('3', '01', '03', '50', 'Servicio de energía eléctrica', 1),
+('3', '01', '03', '51', 'Servicio de distribución de agua', 1),
+('3', '01', '03', '52', 'Servicio de gas doméstico', 1),
+('3', '01', '03', '53', 'Mensura y deslinde', 1),
+('3', '01', '03', '54', 'Aseo domiciliario', 1),
+('3', '01', '03', '55', 'Matadero', 1),
+('3', '01', '03', '56', 'Mercado', 1),
+('3', '01', '03', '57', 'Cementerio', 1),
+('3', '01', '03', '58', 'Terminal de pasajeros', 1),
+('3', '01', '03', '59', 'Deudas morosas por tasas', 1),
+('3', '01', '03', '99', 'Otros tipos de tasas', 1),
+('3', '01', '04', '01', 'Sobre la plusvalía inmobiliaria', 1),
+('3', '01', '04', '02', 'Contribuciones por mejoras', 1),
+('3', '01', '04', '99', 'Otras contribuciones especiales', 1),
+('3', '01', '05', '01', 'Ingresos por aportes patronales a la seguridad social', 1),
+('3', '01', '05', '02', 'Contribuciones personales a la seguridad social', 1),
+('3', '01', '06', '01', 'Regalías', 1),
+('3', '01', '06', '02', 'Impuesto superficial de hidrocarburos', 1),
+('3', '01', '06', '03', 'Impuesto de extracción', 1),
+('3', '01', '06', '04', 'Impuesto de registro de exportación', 1),
+('3', '01', '06', '05', 'Participación por azufre', 1),
+('3', '01', '06', '06', 'Participación por coque', 1),
+('3', '01', '06', '07', 'Ventajas especiales petroleras', 1),
+('3', '01', '06', '99', 'Otros ingresos del dominio petrolero', 1),
+('3', '01', '07', '01', 'Superficial minero', 1),
+('3', '01', '07', '02', 'Impuesto de explotación', 1),
+('3', '01', '07', '03', 'Ventajas especiales mineras', 1),
+('3', '01', '07', '04', 'Regalía minera de oro', 1),
+('3', '01', '08', '01', 'Impuesto superficial', 1),
+('3', '01', '08', '02', 'Impuesto de explotación o aprovechamiento', 1),
+('3', '01', '08', '03', 'Permiso o autorización para la explotación o aprovechamiento de los productos forestales', 1),
+('3', '01', '08', '04', 'Autorización para deforestación', 1),
+('3', '01', '08', '05', 'Autorización para movilizar productos forestales', 1),
+('3', '01', '08', '06', 'Participación por la explotación en zonas de reserva forestal', 1),
+('3', '01', '08', '07', 'Ventajas especiales por recursos forestales', 1),
+('3', '01', '09', '01', 'Ingresos por la venta de bienes', 1),
+('3', '01', '09', '02', 'Ingresos por la venta de servicios', 1),
+('3', '01', '09', '99', 'Ingresos por la venta de otros bienes y servicios', 1),
+('3', '01', '10', '01', 'Intereses por préstamos concedidos al sector privado', 1),
+('3', '01', '10', '03', 'Intereses por préstamos concedidos al sector externo', 1),
+('3', '01', '10', '04', 'Intereses por depósitos en instituciones financieras', 1),
+('3', '01', '10', '05', 'Intereses de títulos y valores', 1),
+('3', '01', '10', '06', 'Utilidades de acciones y participaciones de capital', 1),
+('3', '01', '10', '07', 'Utilidades de explotación de juegos de azar', 1),
+('3', '01', '10', '08', 'Alquileres', 1),
+('3', '01', '10', '09', 'Derechos sobre bienes intangibles', 1),
+('3', '01', '10', '10', 'Concesiones de bienes y servicios', 1),
+('3', '01', '11', '01', 'Intereses moratorios', 1),
+('3', '01', '11', '02', 'Reparos fiscales', 1),
+('3', '01', '11', '03', 'Sanciones fiscales', 1),
+('3', '01', '11', '04', 'Juicios y costas procesales', 1),
+('3', '01', '11', '05', 'Beneficios en operaciones cambiarias', 1),
+('3', '01', '11', '06', 'Utilidad por venta de activos', 1),
+('3', '01', '11', '07', 'Intereses por financiamiento de deudas tributarias', 1),
+('3', '01', '11', '08', 'Multas y recargos', 1),
+('3', '01', '11', '09', 'Reparos administrativos al impuesto a los activos empresariales', 1),
+('3', '01', '11', '10', 'Diversos reparos administrativos', 1),
+('3', '01', '11', '11', 'Ingresos en tránsito', 1),
+('3', '01', '11', '12', 'Reparos administrativos por impuestos municipales', 1),
+('3', '01', '99', '01', 'Otros ingresos ordinarios', 1),
+('3', '02', '01', '01', 'Colocación de títulos y valores de deuda pública interna a corto plazo', 1),
+('3', '02', '01', '02', 'Obtención de préstamos internos a corto plazo', 1),
+('3', '02', '01', '03', 'Colocación de títulos y valores de la deuda pública interna a largo plazo', 1),
+('3', '02', '01', '04', 'Obtención de préstamos internos a largo plazo', 1),
+('3', '02', '02', '01', 'Colocación de títulos y valores de la deuda pública externa a corto plazo', 1),
+('3', '02', '02', '02', 'Obtención de préstamos externos a corto plazo', 1),
+('3', '02', '02', '03', 'Colocación de títulos y valores de la deuda pública externa a largo plazo', 1),
+('3', '02', '02', '04', 'Obtención de préstamos externos a largo plazo', 1),
+('3', '02', '03', '01', 'Liquidación de entes descentralizados', 1),
+('3', '02', '03', '02', 'Herencias vacantes y donaciones', 1),
+('3', '02', '03', '03', 'Prima en colocación de títulos y valores de la deuda pública', 1),
+('3', '02', '03', '05', 'Ingresos por procesos licitatorios', 1),
+('3', '02', '04', '01', 'Reintegro proveniente de bonos de exportación', 1),
+('3', '02', '04', '02', 'Reintegro de fondos efectuado por organismos públicos proveniente de bonos de exportación', 1),
+('3', '02', '05', '01', 'Ingresos por obtención indebida de devoluciones o reintegros', 1),
+('3', '02', '06', '01', 'Impuesto a las transacciones financieras', 1),
+('3', '02', '06', '02', 'Reparos administrativos al impuesto a las transacciones financieras', 1),
+('3', '02', '06', '03', 'Multas y recargos por el impuesto a las transacciones financieras', 1),
+('3', '02', '99', '01', 'Otros ingresos extraordinarios', 1),
+('3', '03', '01', '01', 'Venta de productos del sector industrial', 1),
+('3', '03', '01', '02', 'Venta de productos del sector comercial', 1),
+('3', '03', '02', '01', 'Venta bruta de servicios', 1),
+('3', '03', '03', '01', 'Ingresos por inversiones en valores', 1),
+('3', '03', '03', '02', 'Ingresos por cartera de créditos', 1),
+('3', '03', '03', '03', 'Ingresos provenientes de la administración de fideicomisos', 1),
+('3', '03', '03', '99', 'Otros ingresos financieros', 1),
+('3', '03', '04', '01', 'Ingresos por inversiones en valores', 1),
+('3', '03', '04', '02', 'Ingresos por cartera de créditos', 1),
+('3', '03', '04', '03', 'Ingresos provenientes de la administración de fideicomisos', 1),
+('3', '03', '04', '99', 'Otros ingresos financieros', 1),
+('3', '03', '05', '01', 'Ingresos por operaciones de primas de seguro', 1),
+('3', '03', '05', '02', 'Ingresos por operaciones de reaseguro', 1),
+('3', '03', '05', '03', 'Ingresos por salvamento de siniestros', 1),
+('3', '03', '05', '99', 'Otros ingresos por operaciones de seguro', 1),
+('3', '03', '99', '01', 'Otros ingresos de operación', 1),
+('3', '04', '01', '01', 'Subsidios para precios y tarifas', 1),
+('3', '04', '02', '01', 'Incentivos a la exportación', 1),
+('3', '04', '99', '01', 'Otros ingresos ajenos a la operación', 1),
+('3', '05', '01', '01', 'Transferencias corrientes internas del sector privado', 1),
+('3', '05', '01', '02', 'Donaciones corrientes internas del sector privado', 1),
+('3', '05', '01', '03', 'Transferencias corrientes internas del sector público', 1),
+('3', '05', '01', '04', 'Donaciones corrientes internas del sector público', 1),
+('3', '05', '01', '05', 'Transferencias corrientes del exterior', 1),
+('3', '05', '01', '06', 'Donaciones corrientes del exterior', 1),
+('3', '05', '02', '01', 'Transferencias de capital internas del sector privado', 1),
+('3', '05', '02', '02', 'Donaciones de capital internas del sector privado', 1),
+('3', '05', '02', '03', 'Transferencias de capital internas del sector público', 1),
+('3', '05', '02', '04', 'Donaciones de capital internas del sector público', 1),
+('3', '05', '02', '05', 'Transferencias de capital del exterior', 1),
+('3', '05', '02', '06', 'Donaciones de capital del exterior', 1),
+('3', '05', '03', '01', 'Situado Constitucional', 1),
+('3', '05', '03', '02', 'Situado Estadal a Municipal', 1),
+('3', '05', '04', '01', 'Subsidio de Régimen Especial', 1),
+('3', '05', '05', '01', 'Subsidio de Capitalidad', 1),
+('3', '05', '06', '01', 'Asignaciones Económicas Especiales (LAEE) Estadal', 1),
+('3', '05', '06', '02', 'Asignaciones Económicas Especiales (LAEE) Estadal a Municipal', 1),
+('3', '05', '06', '03', 'Asignaciones Económicas Especiales (LAEE) Municipal', 1),
+('3', '05', '06', '04', 'Asignaciones Económicas Especiales (LAEE) Fondo Nacional de los Consejos Comunales', 1),
+('3', '05', '06', '05', 'Asignaciones Económicas Especiales (LAEE) Apoyo al Fortalecimiento Institucional', 1),
+('3', '05', '07', '01', 'Fondo Intergubernamental para la Descentralización (FIDES)', 1),
+('3', '05', '08', '01', 'Fondo de Compensación Interterritorial Estadal', 1),
+('3', '05', '08', '02', 'Fondo de Compensación Interterritorial Municipal', 1),
+('3', '05', '08', '03', 'Fondo de Compensación Interterritorial Poder Popular', 1),
+('3', '05', '08', '04', 'Fondo de Compensación Interterritorial Fortalecimiento Institucional', 1),
+('3', '05', '09', '01', 'Aportes del Sector Público al Poder Estadal por transferencia de servicios', 1),
+('3', '05', '09', '02', 'Aportes del Sector Público al Poder Municipal por transferencia de servicios', 1),
+('3', '05', '10', '01', 'Transferencias y donaciones corrientes de Organismos del Sector Público a los Consejos Comunales', 1),
+('3', '05', '10', '02', 'Transferencias y donaciones de capital de Organismos del Sector Público a los Consejos Comunales', 1),
+('3', '06', '01', '01', 'Venta y/o desincorporación de tierras y terrenos', 1),
+('3', '06', '01', '02', 'Venta y/o desincorporación de edificios e instalaciones', 1),
+('3', '06', '01', '03', 'Venta y/o desincorporación de maquinarias, equipos y semovientes', 1),
+('3', '06', '02', '01', 'Venta de marcas de fábrica y patentes de invención', 1),
+('3', '06', '02', '02', 'Venta de derechos de autor', 1),
+('3', '06', '02', '03', 'Recuperación de gastos de organización', 1),
+('3', '06', '02', '04', 'Venta de paquetes y programas de computación', 1),
+('3', '06', '02', '05', 'Venta de estudios y proyectos', 1),
+('3', '06', '02', '99', 'Venta de otros activos intangibles', 1),
+('3', '06', '03', '01', 'Incremento de la depreciación acumulada', 1),
+('3', '06', '03', '02', 'Incremento de la amortización acumulada', 1),
+('3', '07', '01', '01', 'Venta de títulos y valores privados de corto plazo', 1),
+('3', '07', '01', '02', 'Venta de títulos y valores públicos de corto plazo', 1),
+('3', '07', '01', '03', 'Venta de títulos y valores externos de corto plazo', 1),
+('3', '07', '02', '01', 'Venta de títulos y valores privados de largo plazo', 1),
+('3', '07', '02', '02', 'Venta de títulos y valores públicos de largo plazo', 1),
+('3', '07', '02', '03', 'Venta de títulos y valores externos de largo plazo', 1),
+('3', '08', '01', '01', 'Venta de acciones y participaciones de capital del sector privado', 1),
+('3', '08', '02', '01', 'Venta de acciones y participaciones de capital de entes descentralizados sin fines empresariales', 1),
+('3', '08', '02', '02', 'Venta de acciones y participaciones de capital de instituciones de protección social', 1),
+('3', '08', '02', '03', 'Venta de acciones y participaciones de capital de entes descentralizados con fines empresariales petroleros', 1),
+('3', '08', '02', '04', 'Venta de acciones y participaciones de capital de entes descentralizados con fines empresariales no petroleros', 1),
+('3', '08', '02', '05', 'Venta de acciones y participaciones de capital de entes descentralizados financieros bancarios', 1),
+('3', '08', '02', '06', 'Venta de acciones y participaciones de capital de entes descentralizados financieros no bancarios', 1),
+('3', '08', '03', '01', 'Venta de acciones y participaciones de capital de organismos internacionales', 1),
+('3', '08', '03', '99', 'Venta de acciones y participaciones de capital de otros entes del sector externo', 1),
+('3', '09', '01', '01', 'Recuperación de préstamos otorgados al sector privado de corto plazo', 1),
+('3', '09', '02', '01', 'Recuperación de préstamos otorgados a la República de corto plazo', 1),
+('3', '09', '02', '02', 'Recuperación de préstamos otorgados a entes descentralizados sin fines empresariales de corto plazo', 1),
+('3', '09', '02', '03', 'Recuperación de préstamos otorgados a instituciones de protección social de corto plazo', 1),
+('3', '09', '02', '04', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales petroleros de corto plazo', 1),
+('3', '09', '02', '05', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales no petroleros de corto plazo', 1),
+('3', '09', '02', '06', 'Recuperación de préstamos otorgados a entes descentralizados financieros bancarios de corto plazo', 1),
+('3', '09', '02', '07', 'Recuperación de préstamos otorgados a entes descentralizados financieros no bancarios de corto plazo', 1),
+('3', '09', '02', '08', 'Recuperación de préstamos otorgados al Poder Estadal de corto plazo', 1),
+('3', '09', '02', '09', 'Recuperación de préstamos otorgados al Poder Municipal de corto plazo', 1),
+('3', '09', '03', '01', 'Recuperación de préstamos otorgados a instituciones sin fines de lucro de corto plazo', 1),
+('3', '09', '03', '02', 'Recuperación de préstamos otorgados a gobiernos extranjeros de corto plazo', 1),
+('3', '09', '03', '03', 'Recuperación de préstamos otorgados a los organismos internacionales de corto plazo', 1),
+('3', '10', '01', '01', 'Recuperación de préstamos otorgados al sector privado de largo plazo', 1),
+('3', '10', '02', '01', 'Recuperación de préstamos otorgados a la República de largo plazo', 1),
+('3', '10', '02', '02', 'Recuperación de préstamos otorgados a entes descentralizados sin fines empresariales de largo plazo', 1),
+('3', '10', '02', '03', 'Recuperación de préstamos otorgados a instituciones de protección social de largo plazo', 1),
+('3', '10', '02', '04', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales petroleros de largo plazo', 1),
+('3', '10', '02', '05', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales no petroleros de largo plazo', 1),
+('3', '10', '02', '06', 'Recuperación de préstamos otorgados a entes descentralizados financieros bancarios de largo plazo', 1),
+('3', '10', '02', '07', 'Recuperación de préstamos otorgados a entes descentralizados financieros no bancarios de largo plazo', 1),
+('3', '10', '02', '08', 'Recuperación de préstamos otorgados al Poder Estadal de largo plazo', 1),
+('3', '10', '02', '09', 'Recuperación de préstamos otorgados al Poder Municipal de largo plazo', 1),
+('3', '10', '03', '01', 'Recuperación de préstamos otorgados a instituciones sin fines de lucro de largo plazo', 1),
+('3', '10', '03', '02', 'Recuperación de préstamos otorgados a gobiernos extranjeros de largo plazo', 1),
+('3', '10', '03', '03', 'Recuperación de préstamos otorgados a organismos internacionales de largo plazo', 1),
+('3', '11', '01', '01', 'Disminución de caja', 1),
+('3', '11', '01', '02', 'Disminución de bancos', 1),
+('3', '11', '01', '03', 'Disminución de inversiones temporales', 1),
+('3', '11', '02', '01', 'Disminución de cuentas comerciales por cobrar a corto plazo', 1),
+('3', '11', '02', '02', 'Disminución de rentas por recaudar a corto plazo', 1),
+('3', '11', '02', '03', 'Disminución de deudas de cuentas por rendir a corto plazo', 1),
+('3', '11', '02', '99', 'Disminución de otras cuentas por cobrar a corto plazo', 1),
+('3', '11', '03', '01', 'Disminución de efectos comerciales por cobrar a corto plazo', 1),
+('3', '11', '03', '99', 'Disminución de otros efectos por cobrar a corto plazo', 1),
+('3', '11', '04', '01', 'Disminución de cuentas comerciales por cobrar a mediano y largo plazo', 1),
+('3', '11', '04', '02', 'Disminución de rentas por recaudar a mediano y largo plazo', 1),
+('3', '11', '04', '99', 'Disminución de otras cuentas por cobrar a mediano y largo plazo', 1),
+('3', '11', '05', '01', 'Disminución de efectos comerciales por cobrar a mediano y largo plazo', 1),
+('3', '11', '05', '99', 'Disminución de otros efectos por cobrar a mediano y largo plazo', 1),
+('3', '11', '06', '01', 'Disminución de fondos en avance', 1),
+('3', '11', '06', '02', 'Disminución de fondos en anticipo', 1),
+('3', '11', '06', '03', 'Disminución de fondos en fideicomiso', 1),
+('3', '11', '06', '04', 'Disminución de anticipos a proveedores', 1),
+('3', '11', '06', '05', 'Disminución de anticipos a contratistas, por contratos a corto plazo', 1),
+('3', '11', '06', '06', 'Disminución de anticipos a contratistas, por contratos a mediano y largo plazo', 1),
+('3', '11', '07', '01', 'Disminución de gastos a corto plazo pagados por anticipado', 1),
+('3', '11', '07', '02', 'Disminución de depósitos en garantía a corto plazo', 1),
+('3', '11', '07', '99', 'Disminución de otros activos diferidos a corto plazo', 1),
+('3', '11', '08', '01', 'Disminución de gastos a mediano y largo plazo pagados por anticipado', 1),
+('3', '11', '08', '02', 'Disminución de depósitos en garantía a mediano y largo plazo', 1),
+('3', '11', '08', '99', 'Disminución de otros activos diferidos a mediano y largo plazo', 1),
+('3', '11', '09', '01', 'Disminución del Fondo de Estabilización Macroeconómica (FEM) de la República', 1),
+('3', '11', '09', '02', 'Disminución del Fondo de Estabilización Macroeconómica (FEM) del Poder Estadal', 1),
+('3', '11', '09', '03', 'Disminución del Fondo de Estabilización Macroeconómica (FEM) del Poder Municipal', 1),
+('3', '11', '10', '01', 'Disminución del Fondo de Ahorro Intergeneracional', 1),
+('3', '11', '12', '01', 'Disminución del Fondo de Aporte del Sector Público', 1),
+('3', '11', '20', '01', 'Disminución de activos financieros en gestión judicial a mediano y largo plazo', 1),
+('3', '11', '20', '02', 'Disminución de títulos y otros valores de la deuda pública en litigio a largo plazo', 1),
+('3', '11', '99', '01', 'Disminución de otros activos financieros circulantes', 1),
+('3', '11', '99', '02', 'Disminución de otros activos financieros no circulantes', 1),
+('3', '12', '01', '01', 'Incremento de sueldos, salarios y otras remuneraciones por pagar', 1),
+('3', '12', '02', '01', 'Incremento de aportes patronales y retenciones laborales por pagar al Instituto Venezolano de los Seguros Sociales (IVSS)', 1),
+('3', '12', '02', '02', 'Incremento de aportes patronales y retenciones laborales por pagar al Instituto de Previsión Social del Ministerio de Educación (Ipasme)', 1),
+('3', '12', '02', '03', 'Incremento de aportes patronales y retenciones laborales por pagar al Fondo de Jubilaciones', 1),
+('3', '12', '02', '04', 'Incremento de aportes patronales y retenciones laborales por pagar al Fondo de Seguro de Paro Forzoso', 1),
+('3', '12', '02', '05', 'Incremento de aportes patronales y retenciones laborales por pagar al Fondo de Ahorro Obligatorio para la Vivienda (FAOV)', 1),
+('3', '12', '02', '06', 'Incremento de aportes patronales y retenciones laborales por pagar por seguro de vida, accidentes personales, hospitalización, cirugía y maternidad (HCM) y gastos funerarios', 1),
+('3', '12', '02', '07', 'Incremento de aportes patronales y retenciones laborales por pagar a cajas de ahorro', 1),
+('3', '12', '02', '08', 'Incremento de aportes patronales y retenciones laborales por pagar a los organismos de seguridad social', 1),
+('3', '12', '02', '09', 'Incremento de aportes patronales y retenciones laborales por pagar al Instituto Nacional de Capacitación y Educación Socialista (Inces)', 1),
+('3', '12', '02', '10', 'Incremento de aportes patronales y retenciones laborales por pagar por pensión alimenticia', 1),
+('3', '12', '02', '99', 'Incremento de otros aportes patronales y otras retenciones laborales por pagar', 1),
+('3', '12', '03', '01', 'Incremento de cuentas por pagar a proveedores a corto plazo', 1),
+('3', '12', '03', '02', 'Incremento de efectos por pagar a proveedores a corto plazo', 1),
+('3', '12', '03', '03', 'Incremento de cuentas por pagar a proveedores a mediano y largo plazo', 1),
+('3', '12', '03', '04', 'Incremento de efectos por pagar a proveedores a mediano y largo plazo', 1),
+('3', '12', '04', '01', 'Incremento de cuentas por pagar a contratistas a corto plazo', 1),
+('3', '12', '04', '02', 'Incremento de efectos por pagar a contratistas a corto plazo', 1),
+('3', '12', '04', '03', 'Incremento de cuentas por pagar a contratistas a mediano y largo plazo', 1),
+('3', '12', '04', '04', 'Incremento de efectos por pagar a contratistas a mediano y largo plazo', 1),
+('3', '12', '05', '01', 'Incremento de intereses internos por pagar', 1),
+('3', '12', '05', '02', 'Incremento de intereses externos por pagar', 1),
+('3', '12', '06', '01', 'Incremento de otras cuentas por pagar a corto plazo', 1),
+('3', '12', '06', '02', 'Incremento de otras obligaciones de ejercicios anteriores por pagar', 1),
+('3', '12', '06', '03', 'Incremento de otros efectos por pagar a corto plazo', 1),
+('3', '12', '07', '01', 'Incremento de pasivos diferidos a corto plazo', 1),
+('3', '12', '07', '02', 'Incremento de pasivos diferidos a mediano y largo plazo', 1),
+('3', '12', '08', '01', 'Incremento de provisiones', 1),
+('3', '12', '08', '02', 'Incremento de reservas técnicas', 1),
+('3', '12', '09', '01', 'Incremento de depósitos recibidos en garantía', 1),
+('3', '12', '09', '99', 'Incremento de otros fondos de terceros', 1),
+('3', '12', '10', '01', 'Incremento de depósitos a la vista', 1),
+('3', '12', '10', '02', 'Incremento de depósitos a plazo fijo', 1),
+('3', '12', '11', '01', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública interna de largo plazo en corto plazo', 1),
+('3', '12', '11', '02', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública interna de corto plazo en largo plazo', 1),
+('3', '12', '11', '03', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública externa de largo plazo en corto plazo', 1),
+('3', '12', '11', '04', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública externa de corto plazo en largo plazo', 1),
+('3', '12', '11', '05', 'Incremento de la deuda pública por distribuir', 1),
+('3', '12', '99', '01', 'Incremento de otros pasivos a corto plazo', 1),
+('3', '12', '99', '02', 'Incremento de otros pasivos a mediano y largo plazo', 1),
+('3', '13', '01', '01', 'Incremento del capital fiscal e institucional', 1),
+('3', '13', '01', '02', 'Incremento de aportes por capitalizar', 1),
+('3', '13', '01', '03', 'Incremento de dividendos a distribuir', 1),
+('3', '13', '02', '01', 'Incremento de reservas', 1),
+('3', '13', '03', '01', 'Ajustes por inflación', 1),
+('3', '13', '04', '01', 'Incremento de resultados acumulados', 1),
+('3', '13', '04', '02', 'Incremento de resultados del ejercicio', 1),
+('4', '01', '01', '01', 'Sueldos básicos personal fijo a tiempo completo', 1),
+('4', '01', '01', '02', 'Sueldos básicos personal fijo a tiempo parcial', 1),
+('4', '01', '01', '03', 'Suplencias a empleados', 1),
+('4', '01', '01', '08', 'Sueldo al personal en trámite de nombramiento', 1),
+('4', '01', '01', '09', 'Remuneraciones al personal en período de disponibilidad', 1),
+('4', '01', '01', '10', 'Salarios a obreros en puestos permanentes a tiempo completo', 1),
+('4', '01', '01', '11', 'Salarios a obreros en puestos permanentes a tiempo parcial', 1),
+('4', '01', '01', '12', 'Salarios a obreros en puestos no permanentes', 1),
+('4', '01', '01', '13', 'Suplencias a obreros', 1),
+('4', '01', '01', '18', 'Remuneraciones al personal contratado', 1),
+('4', '01', '01', '19', 'Retribuciones por becas - salarios, bolsas de trabajo, pasantías y similares', 1),
+('4', '01', '01', '20', 'Sueldo del personal militar profesional', 1),
+('4', '01', '01', '21', 'Sueldo o ración del personal militar no profesional', 1),
+('4', '01', '01', '22', 'Sueldo del personal militar de reserva', 1),
+('4', '01', '01', '29', 'Dietas', 1),
+('4', '01', '01', '30', 'Retribución al personal de reserva', 1),
+('4', '01', '01', '35', 'Sueldo básico de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '01', '36', 'Sueldo básico del personal de alto nivel y de dirección', 1),
+('4', '01', '01', '37', 'Dietas de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '01', '38', 'Dietas del personal de alto nivel y de dirección', 1),
+('4', '01', '01', '99', 'Otras retribuciones', 1),
+('4', '01', '02', '01', 'Compensaciones previstas en las escalas de sueldos al personal empleado fijo a tiempo completo', 1),
+('4', '01', '02', '02', 'Compensaciones previstas en las escalas de sueldos al personal empleado fijo a tiempo parcial', 1),
+('4', '01', '02', '03', 'Compensaciones previstas en las escalas de salarios al personal obrero fijo a tiempo completo', 1),
+('4', '01', '02', '04', 'Compensaciones previstas en las escalas de salarios al personal obrero fijo a tiempo parcial', 1),
+('4', '01', '02', '05', 'Compensaciones previstas en las escalas de sueldos al personal militar', 1),
+('4', '01', '02', '06', 'Compensaciones previstas en las escalas de sueldos de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '02', '07', 'Compensaciones previstas en las escalas de sueldos del personal de alto nivel y de dirección', 1),
+('4', '01', '03', '01', 'Primas por mérito a empleados', 1),
+('4', '01', '03', '02', 'Primas de transporte a empleados', 1),
+('4', '01', '03', '03', 'Primas por hogar a empleados', 1),
+('4', '01', '03', '04', 'Primas por hijos a empleados', 1),
+('4', '01', '03', '05', 'Primas por alquileres a empleados', 1),
+('4', '01', '03', '06', 'Primas por residencia a empleados', 1),
+('4', '01', '03', '07', 'Primas por categoría de escuelas a empleados', 1),
+('4', '01', '03', '08', 'Primas de profesionalización a empleados', 1),
+('4', '01', '03', '09', 'Primas por antigüedad a empleados', 1),
+('4', '01', '03', '10', 'Primas por jerarquía o responsabilidad en el cargo', 1),
+('4', '01', '03', '11', 'Primas al personal en servicio en el exterior', 1),
+('4', '01', '03', '16', 'Primas por mérito a obreros', 1),
+('4', '01', '03', '17', 'Primas de transporte a obreros', 1),
+('4', '01', '03', '18', 'Primas por hogar a obreros', 1),
+('4', '01', '03', '19', 'Primas por hijos de obreros', 1),
+('4', '01', '03', '20', 'Primas por residencia a obreros', 1),
+('4', '01', '03', '21', 'Primas por antigüedad a obreros', 1),
+('4', '01', '03', '22', 'Primas de profesionalización a obreros', 1),
+('4', '01', '03', '26', 'Primas por hijos al personal militar', 1),
+('4', '01', '03', '27', 'Primas de profesionalización al personal militar', 1),
+('4', '01', '03', '28', 'Primas por antigüedad al personal militar', 1),
+('4', '01', '03', '29', 'Primas por potencial de ascenso al personal militar', 1),
+('4', '01', '03', '30', 'Primas por frontera y sitios inhóspitos al personal militar y de seguridad', 1),
+('4', '01', '03', '31', 'Primas por riesgo al personal militar y de seguridad', 1),
+('4', '01', '03', '37', 'Primas de transporte al personal contratado', 1),
+('4', '01', '03', '38', 'Primas por hogar al personal contratado', 1),
+('4', '01', '03', '39', 'Primas por hijos al personal contratado', 1),
+('4', '01', '03', '40', 'Primas de profesionalización al personal contratado', 1),
+('4', '01', '03', '41', 'Primas por antigüedad al personal contratado', 1),
+('4', '01', '03', '46', 'Primas a los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '03', '47', 'Primas al personal de alto nivel y de dirección', 1),
+('4', '01', '03', '94', 'Otras primas a los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '03', '95', 'Otras primas al personal de alto nivel y de dirección', 1),
+('4', '01', '03', '96', 'Otras primas al personal contratado', 1),
+('4', '01', '03', '97', 'Otras primas a empleados', 1),
+('4', '01', '03', '98', 'Otras primas a obreros', 1),
+('4', '01', '03', '99', 'Otras primas al personal militar', 1),
+('4', '01', '04', '01', 'Complemento a empleados por horas extraordinarias o por sobre tiempo', 1),
+('4', '01', '04', '02', 'Complemento a empleados por trabajo nocturno', 1),
+('4', '01', '04', '03', 'Complemento a empleados por gastos de alimentación', 1),
+('4', '01', '04', '04', 'Complemento a empleados por gastos de transporte', 1),
+('4', '01', '04', '05', 'Complemento a empleados por gastos de representación', 1),
+('4', '01', '04', '06', 'Complemento a empleados por comisión de servicios', 1),
+('4', '01', '04', '07', 'Bonificación a empleados', 1),
+('4', '01', '04', '08', 'Bono compensatorio de alimentación a empleados', 1),
+('4', '01', '04', '09', 'Bono compensatorio de transporte a empleados', 1),
+('4', '01', '04', '10', 'Complemento a empleados por días feriados', 1),
+('4', '01', '04', '14', 'Complemento a obreros por horas extraordinarias o por sobre tiempo', 1),
+('4', '01', '04', '15', 'Complemento a obreros por trabajo o jornada nocturna', 1),
+('4', '01', '04', '16', 'Complemento a obreros por gastos de alimentación', 1),
+('4', '01', '04', '17', 'Complemento a obreros por gastos de transporte', 1),
+('4', '01', '04', '18', 'Bono compensatorio de alimentación a obreros', 1),
+('4', '01', '04', '19', 'Bono compensatorio de transporte a obreros', 1),
+('4', '01', '04', '20', 'Complemento a obreros por días feriados', 1),
+('4', '01', '04', '24', 'Complemento al personal contratado por horas extraordinarias o por sobre tiempo', 1),
+('4', '01', '04', '25', 'Complemento al personal contratado por gastos de alimentación', 1),
+('4', '01', '04', '26', 'Bono compensatorio de alimentación al personal contratado', 1),
+('4', '01', '04', '27', 'Bono compensatorio de transporte al personal contratado', 1),
+('4', '01', '04', '28', 'Complemento al personal contratado por días feriados', 1),
+('4', '01', '04', '32', 'Complemento al personal militar por gastos de alimentación', 1),
+('4', '01', '04', '33', 'Complemento al personal militar por gastos de transporte', 1),
+('4', '01', '04', '34', 'Complemento al personal militar en el exterior', 1),
+('4', '01', '04', '35', 'Bono compensatorio de alimentación al personal militar', 1),
+('4', '01', '04', '43', 'Complemento a altos funcionarios y altas funcionarias del poder público y de elección popular por gastos de representación', 1),
+('4', '01', '04', '44', 'Complemento a altos funcionarios y altas funcionarias del poder público y  de elección popular por comisión de servicios', 1),
+('4', '01', '04', '45', 'Bonificación a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '04', '46', 'Bono compensatorio de alimentación a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '04', '47', 'Bono compensatorio de transporte a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '04', '48', 'Complemento al personal de alto nivel y de dirección por gastos de representación', 1),
+('4', '01', '04', '49', 'Complemento al personal de alto nivel y de dirección por comisión de servicios', 1),
+('4', '01', '04', '50', 'Bonificación al personal de alto nivel y de dirección', 1),
+('4', '01', '04', '51', 'Bono compensatorio de alimentación al personal de alto nivel y de dirección', 1),
+('4', '01', '04', '52', 'Bono compensatorio de transporte al personal de alto nivel y de dirección', 1),
+('4', '01', '04', '94', 'Otros complementos a altos funcionarios y altas funcionarias del sector público y de elección popular', 1),
+('4', '01', '04', '95', 'Otros complementos al personal de alto nivel y de dirección', 1),
+('4', '01', '04', '96', 'Otros complementos a empleados', 1),
+('4', '01', '04', '97', 'Otros complementos a obreros', 1),
+('4', '01', '04', '98', 'Otros complementos al personal contratado', 1),
+('4', '01', '04', '99', 'Otros complementos al personal militar', 1),
+('4', '01', '05', '01', 'Aguinaldos a empleados', 1),
+('4', '01', '05', '02', 'Utilidades legales y convencionales a empleados', 1),
+('4', '01', '05', '03', 'Bono vacacional a empleados', 1),
+('4', '01', '05', '04', 'Aguinaldos a obreros', 1),
+('4', '01', '05', '05', 'Utilidades legales y convencionales a obreros', 1),
+('4', '01', '05', '06', 'Bono vacacional a obreros', 1),
+('4', '01', '05', '07', 'Aguinaldos al personal contratado', 1),
+('4', '01', '05', '08', 'Bono vacacional al personal contratado', 1),
+('4', '01', '05', '09', 'Aguinaldos al personal militar', 1),
+('4', '01', '05', '10', 'Bono vacacional al personal militar', 1),
+('4', '01', '05', '13', 'Aguinaldos a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '05', '14', 'Utilidades legales y convencionales a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '05', '15', 'Bono vacacional a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '05', '16', 'Aguinaldos al personal de alto nivel y de dirección', 1),
+('4', '01', '05', '17', 'Utilidades legales y convencionales al personal de alto nivel y de dirección', 1),
+('4', '01', '05', '18', 'Bono vacacional al personal de alto nivel y de dirección', 1),
+('4', '01', '06', '01', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por empleados', 1),
+('4', '01', '06', '02', 'Aporte patronal al Instituto de Previsión y Asistencia Social para el personal del Ministerio de Educación (Ipasme) por empleados', 1),
+('4', '01', '06', '03', 'Aporte patronal al Fondo de Jubilaciones por empleados', 1),
+('4', '01', '06', '04', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por empleados', 1),
+('4', '01', '06', '05', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por empleados', 1),
+('4', '01', '06', '10', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por obreros', 1),
+('4', '01', '06', '11', 'Aporte patronal al Fondo de Jubilaciones por obreros', 1),
+('4', '01', '06', '12', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por obreros', 1),
+('4', '01', '06', '13', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por obreros', 1),
+('4', '01', '06', '18', 'Aporte patronal a los organismos de seguridad social por los trabajadores locales empleados en las representaciones de Venezuela en el exterior', 1),
+('4', '01', '06', '19', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por personal militar', 1),
+('4', '01', '06', '25', 'Aporte legal al Instituto Venezolano de los Seguros Sociales (IVSS) por personal contratado', 1),
+('4', '01', '06', '26', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por personal contratado', 1),
+('4', '01', '06', '27', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por personal contratado', 1),
+('4', '01', '06', '31', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '32', 'Aporte patronal al Instituto de Previsión y Asistencia Social para el personal del Ministerio de Educación (Ipasme) por empleados personal del Ministerio de Educación (Ipasme) por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '33', 'Aporte patronal al Fondo de Jubilaciones por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '34', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '35', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '39', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por personal de alto nivel y de dirección', 1),
+('4', '01', '06', '40', 'Aporte patronal al Instituto de Previsión y Asistencia Social para el personal del Ministerio de Educación (Ipasme) por personal de alto nivel y de dirección', 1),
+('4', '01', '06', '41', 'Aporte patronal al Fondo de Jubilaciones por personal de alto nivel y de dirección', 1),
+('4', '01', '06', '42', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por personal de alto nivel y de dirección', 1),
+('4', '01', '06', '43', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por personal de alto nivel y de dirección', 1),
+('4', '01', '06', '93', 'Otros aportes legales por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '94', 'Otros aportes legales por el personal de alto nivel y de dirección', 1),
+('4', '01', '06', '95', 'Otros aportes legales por personal contratado', 1),
+('4', '01', '06', '96', 'Otros aportes legales por empleados', 1),
+('4', '01', '06', '97', 'Otros aportes legales por obreros', 1),
+('4', '01', '06', '98', 'Otros aportes legales por personal militar', 1),
+('4', '01', '07', '01', 'Capacitación y adiestramiento a empleados', 1),
+('4', '01', '07', '02', 'Becas a empleados', 1),
+('4', '01', '07', '03', 'Ayudas por matrimonio a empleados', 1),
+('4', '01', '07', '04', 'Ayudas por nacimiento de hijos a empleados', 1),
+('4', '01', '07', '05', 'Ayudas por defunción a empleados', 1),
+('4', '01', '07', '06', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización a empleados', 1),
+('4', '01', '07', '07', 'Aporte patronal a cajas de ahorro por empleados', 1),
+('4', '01', '07', '08', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por empleados', 1),
+('4', '01', '07', '09', 'Ayudas a empleados para adquisición de uniformes y útiles escolares de sus hijos', 1),
+('4', '01', '07', '10', 'Dotación de uniformes a empleados', 1),
+('4', '01', '07', '11', 'Aporte patronal para gastos de guarderías y preescolar para hijos de empleados', 1),
+('4', '01', '07', '12', 'Aportes para la adquisición de juguetes para los hijos del personal empleado', 1),
+('4', '01', '07', '17', 'Capacitación y adiestramiento a obreros', 1),
+('4', '01', '07', '18', 'Becas a obreros', 1),
+('4', '01', '07', '19', 'Ayudas por matrimonio de obreros', 1),
+('4', '01', '07', '20', 'Ayudas por nacimiento de hijos de obreros', 1),
+('4', '01', '07', '21', 'Ayudas por defunción a obreros', 1),
+('4', '01', '07', '22', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización a obreros', 1),
+('4', '01', '07', '23', 'Aporte patronal a cajas de ahorro por obreros', 1),
+('4', '01', '07', '24', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por obreros', 1),
+('4', '01', '07', '25', 'Ayudas a obreros para adquisición de uniformes y útiles escolares de sus hijos', 1),
+('4', '01', '07', '26', 'Dotación de uniformes a obreros', 1),
+('4', '01', '07', '27', 'Aporte patronal para gastos de guarderías y preescolar para hijos de obreros', 1),
+('4', '01', '07', '28', 'Aportes para la adquisición de juguetes para los hijos del personal obrero', 1),
+('4', '01', '07', '34', 'Capacitación y adiestramiento al personal militar', 1),
+('4', '01', '07', '35', 'Becas al personal militar', 1),
+('4', '01', '07', '36', 'Ayudas por matrimonio al personal militar', 1),
+('4', '01', '07', '37', 'Ayudas por nacimiento de hijos al personal militar', 1),
+('4', '01', '07', '38', 'Ayudas por defunción al personal militar', 1),
+('4', '01', '07', '39', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal militar', 1),
+('4', '01', '07', '40', 'Aporte patronal a caja de ahorro por personal militar', 1),
+('4', '01', '07', '41', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios personal militar', 1),
+('4', '01', '07', '42', 'Ayudas al personal militar para adquisición de uniformes y útiles escolares de sus hijos', 1),
+('4', '01', '07', '43', 'Aportes para la adquisición de juguetes para los hijos del personal militar', 1),
+('4', '01', '07', '44', 'Aporte patronal para gastos de guarderías y preescolar para hijos del personal militar', 1),
+('4', '01', '07', '52', 'Capacitación y adiestramiento a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '53', 'Ayudas por matrimonio a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '54', 'Ayudas por nacimiento de hijos altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '55', 'Ayudas por defunción a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '56', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '57', 'Aporte patronal a cajas de ahorro por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '58', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '63', 'Capacitación y adiestramiento al personal de alto nivel y de dirección', 1),
+('4', '01', '07', '64', 'Ayudas por matrimonio al personal de alto nivel y de dirección ', 1),
+('4', '01', '07', '65', 'Ayudas por nacimiento de hijos al personal de alto nivel y de dirección', 1),
+('4', '01', '07', '66', 'Ayudas por defunción al personal de alto nivel y de dirección', 1),
+('4', '01', '07', '67', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal de alto nivel y de dirección', 1),
+('4', '01', '07', '68', 'Aporte patronal a cajas de ahorro por personal de alto nivel y de dirección', 1),
+('4', '01', '07', '69', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por personal de alto nivel y de dirección', 1),
+('4', '01', '07', '74', 'Capacitación y adiestramiento al personal contratado', 1),
+('4', '01', '07', '75', 'Becas al personal contratado', 1),
+('4', '01', '07', '76', 'Ayudas por matrimonio al personal contratado', 1),
+('4', '01', '07', '77', 'Ayudas por nacimiento de hijos al personal contratado', 1),
+('4', '01', '07', '78', 'Ayudas por defunción al personal contratado', 1),
+('4', '01', '07', '79', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal contratado', 1),
+('4', '01', '07', '80', 'Aporte patronal a cajas de ahorro por personal contratado', 1),
+('4', '01', '07', '81', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por personal contratado', 1),
+('4', '01', '07', '82', 'Ayudas al personal contratado para adquisición de uniformes y útiles escolares de sus hijos', 1),
+('4', '01', '07', '83', 'Dotación de uniformes al personal contratado', 1),
+('4', '01', '07', '84', 'Aporte patronal para gastos de guarderías y preescolar para hijos del personal contratado', 1),
+('4', '01', '07', '85', 'Aportes para la adquisición de juguetes para los hijos del personal contratado', 1),
+('4', '01', '07', '94', 'Otras subvenciones a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '95', 'Otras subvenciones al personal de alto nivel y de dirección', 1),
+('4', '01', '07', '96', 'Otras subvenciones a empleados', 1),
+('4', '01', '07', '97', 'Otras subvenciones a obreros', 1),
+('4', '01', '07', '98', 'Otras subvenciones al personal militar', 1),
+('4', '01', '07', '99', 'Otras subvenciones al personal contratado', 1),
+('4', '01', '08', '01', 'Prestaciones sociales e indemnizaciones a empleados', 1),
+('4', '01', '08', '02', 'Prestaciones sociales e indemnizaciones a obreros', 1),
+('4', '01', '08', '03', 'Prestaciones sociales e indemnizaciones al personal contratado', 1),
+('4', '01', '08', '04', 'Prestaciones sociales e indemnizaciones al personal militar', 1),
+('4', '01', '08', '06', 'Prestaciones sociales e indemnizaciones a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '08', '07', 'Prestaciones sociales e indemnizaciones al personal de alto nivel y Prestaciones sociales e indemnizaciones al personal de alto nivel y de dirección', 1),
+('4', '01', '09', '01', 'Capacitación y adiestramiento realizado por personal del organismo', 1),
+('4', '01', '94', '01', 'Otros gastos de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '95', '01', 'Otros gastos del personal de alto nivel y de dirección', 1),
+('4', '01', '96', '01', 'Otros gastos del personal empleado', 1),
+('4', '01', '97', '01', 'Otros gastos del personal obrero', 1),
+('4', '01', '98', '01', 'Otros gastos del personal militar', 1),
+('4', '02', '01', '01', 'Alimentos y bebidas para personas', 1),
+('4', '02', '01', '02', 'Alimentos para animales', 1),
+('4', '02', '01', '03', 'Productos agrícolas y pecuarios', 1),
+('4', '02', '01', '04', 'Productos de la caza y pesca', 1),
+('4', '02', '01', '99', 'Otros productos alimenticios y agropecuarios', 1),
+('4', '02', '02', '01', 'Carbón mineral', 1),
+('4', '02', '02', '02', 'Petróleo crudo y gas natural', 1),
+('4', '02', '02', '03', 'Mineral de hierro', 1),
+('4', '02', '02', '04', 'Mineral no ferroso', 1),
+('4', '02', '02', '05', 'Piedra, arcilla, arena y tierra', 1),
+('4', '02', '02', '06', 'Mineral para la fabricación de productos químicos', 1),
+('4', '02', '02', '07', 'Sal para uso industrial', 1),
+('4', '02', '02', '99', 'Otros productos de minas, canteras y yacimientos', 1),
+('4', '02', '03', '01', 'Textiles', 1),
+('4', '02', '03', '02', 'Prendas de vestir', 1),
+('4', '02', '03', '03', 'Calzados', 1),
+('4', '02', '03', '99', 'Otros productos textiles y vestuarios', 1),
+('4', '02', '04', '01', 'Cueros y pieles', 1),
+('4', '02', '04', '02', 'Productos de cuero y sucedáneos del cuero', 1),
+('4', '02', '04', '03', 'Cauchos y tripas para vehículos', 1),
+('4', '02', '04', '99', 'Otros productos de cuero y caucho', 1),
+('4', '02', '05', '01', 'Pulpa de madera, papel y cartón', 1),
+('4', '02', '05', '02', 'Envases y cajas de papel y cartón', 1),
+('4', '02', '05', '03', 'Productos de papel y cartón para oficina', 1),
+('4', '02', '05', '04', 'Libros, revistas y periódicos', 1),
+('4', '02', '05', '05', 'Material de enseñanza', 1),
+('4', '02', '05', '06', 'Productos de papel y cartón para computación', 1),
+('4', '02', '05', '07', 'Productos de papel y cartón para la imprenta y reproducción', 1),
+('4', '02', '05', '99', 'Otros productos de pulpa, papel y cartón', 1);
+INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`) VALUES
+('4', '02', '06', '01', 'Sustancias químicas y de uso industrial', 1),
+('4', '02', '06', '02', 'Abonos, plaguicidas y otros', 1),
+('4', '02', '06', '03', 'Tintas, pinturas y colorantes', 1),
+('4', '02', '06', '04', 'Productos farmacéuticos y medicamentos', 1),
+('4', '02', '06', '05', 'Productos de tocador', 1),
+('4', '02', '06', '06', 'Combustibles y lubricantes', 1),
+('4', '02', '06', '07', 'Productos diversos derivados del petróleo y del carbón', 1),
+('4', '02', '06', '08', 'Productos plásticos', 1),
+('4', '02', '06', '09', 'Mezclas explosivas', 1),
+('4', '02', '06', '99', 'Otros productos de la industria química y conexos', 1),
+('4', '02', '07', '01', 'Productos de barro, loza y porcelana', 1),
+('4', '02', '07', '02', 'Vidrios y productos de vidrio', 1),
+('4', '02', '07', '03', 'Productos de arcilla para construcción', 1),
+('4', '02', '07', '04', 'Cemento, cal y yeso', 1),
+('4', '02', '07', '99', 'Otros productos minerales no metálicos', 1),
+('4', '02', '08', '01', 'Productos primarios de hierro y acero', 1),
+('4', '02', '08', '02', 'Productos de metales no ferrosos', 1),
+('4', '02', '08', '03', 'Herramientas menores, cuchillería y artículos generales de ferretería', 1),
+('4', '02', '08', '04', 'Productos metálicos estructurales', 1),
+('4', '02', '08', '05', 'Materiales de orden público, seguridad y defensa', 1),
+('4', '02', '08', '07', 'Material de señalamiento', 1),
+('4', '02', '08', '08', 'Material de educación', 1),
+('4', '02', '08', '09', 'Repuestos y accesorios para equipos de transporte', 1),
+('4', '02', '08', '10', 'Repuestos y accesorios para otros equipos', 1),
+('4', '02', '08', '99', 'Otros productos metálicos', 1),
+('4', '02', '09', '01', 'Productos primarios de madera', 1),
+('4', '02', '09', '02', 'Muebles y accesorios de madera para edificaciones', 1),
+('4', '02', '09', '99', 'Otros productos de madera', 1),
+('4', '02', '10', '01', 'Artículos de deporte, recreación y juguetes', 1),
+('4', '02', '10', '02', 'Materiales y útiles de limpieza y aseo', 1),
+('4', '02', '10', '03', 'Utensilios de cocina y comedor', 1),
+('4', '02', '10', '04', 'Útiles menores médico - quirúrgicos de laboratorio, dentales y de veterinaria', 1),
+('4', '02', '10', '05', 'Útiles de escritorio, oficina y materiales de instrucción', 1),
+('4', '02', '10', '06', 'Condecoraciones, ofrendas y similares', 1),
+('4', '02', '10', '07', 'Productos de seguridad en el trabajo', 1),
+('4', '02', '10', '08', 'Materiales para equipos de computación', 1),
+('4', '02', '10', '09', 'Especies timbradas y valores', 1),
+('4', '02', '10', '10', 'Útiles religiosos', 1),
+('4', '02', '10', '11', 'Materiales eléctricos', 1),
+('4', '02', '10', '12', 'Materiales para instalaciones sanitarias', 1),
+('4', '02', '10', '13', 'Materiales fotográficos', 1),
+('4', '02', '10', '99', 'Otros productos y útiles diversos', 1),
+('4', '02', '11', '01', 'Productos y artículos para la venta', 1),
+('4', '02', '11', '02', 'Maquinarias y equipos para la venta', 1),
+('4', '02', '11', '03', 'Inmuebles para la venta', 1),
+('4', '02', '11', '04', 'Tierras y terrenos para la venta', 1),
+('4', '02', '11', '99', 'Otros bienes para la venta', 1),
+('4', '02', '99', '01', 'Otros materiales y suministros', 1),
+('4', '03', '01', '01', 'Alquileres de edificios y locales', 1),
+('4', '03', '01', '02', 'Alquileres de edificios y locales', 1),
+('4', '03', '01', '03', 'Alquileres de tierras y terrenos', 1),
+('4', '03', '02', '01', 'Alquileres de maquinaria y demás equipos de construcción, campo, industria y taller', 1),
+('4', '03', '02', '02', 'Alquileres de equipos de transporte, tracción y elevación', 1),
+('4', '03', '02', '03', 'Alquileres de equipos de comunicaciones y de señalamiento', 1),
+('4', '03', '02', '04', 'Alquileres de equipos médico - quirúrgicos, dentales y de veterinaria', 1),
+('4', '03', '02', '05', 'Alquileres de equipos científicos, religiosos, de enseñanza y recreación', 1),
+('4', '03', '02', '06', 'Alquileres de máquinas, muebles y demás equipos de oficina y alojamiento', 1),
+('4', '03', '02', '99', 'Alquileres de otras maquinaria y equipos', 1),
+('4', '03', '03', '01', 'Marcas de fábrica y patentes de invención', 1),
+('4', '03', '03', '02', 'Derechos de autor', 1),
+('4', '03', '03', '03', 'Paquetes y programas de computación', 1),
+('4', '03', '03', '04', 'Concesión de bienes y servicios', 1),
+('4', '03', '04', '01', 'Electricidad', 1),
+('4', '03', '04', '02', 'Gas', 1),
+('4', '03', '04', '03', 'Agua', 1),
+('4', '03', '04', '04', 'Teléfonos', 1),
+('4', '03', '04', '05', 'Servicio de comunicaciones', 1),
+('4', '03', '04', '06', 'Servicio de aseo urbano y domiciliario', 1),
+('4', '03', '04', '07', 'Servicio de condominio', 1),
+('4', '03', '05', '01', 'Servicio de administración, vigilancia y mantenimiento del servicio de electricidad', 1),
+('4', '03', '05', '02', 'Servicio de administración, vigilancia y mantenimiento del servicio de gas', 1),
+('4', '03', '05', '03', 'Servicio de administración, vigilancia y mantenimiento del servicio de agua', 1),
+('4', '03', '05', '04', 'Servicio de administración, vigilancia y mantenimiento del servicio de teléfonos', 1),
+('4', '03', '05', '05', 'Servicio de administración, vigilancia y mantenimiento del servicio de comunicaciones', 1),
+('4', '03', '05', '06', 'Servicio de administración, vigilancia y mantenimiento del servicio de aseo urbano y domiciliario', 1),
+('4', '03', '06', '01', 'Fletes y embalajes', 1),
+('4', '03', '06', '02', 'Almacenaje', 1),
+('4', '03', '06', '03', 'Estacionamiento', 1),
+('4', '03', '06', '04', 'Peaje', 1),
+('4', '03', '06', '05', 'Servicios de protección en traslado de fondos y de mensajería', 1),
+('4', '03', '07', '01', 'Publicidad y propaganda', 1),
+('4', '03', '07', '02', 'Imprenta y reproducción', 1),
+('4', '03', '07', '03', 'Relaciones sociales', 1),
+('4', '03', '07', '04', 'Avisos', 1),
+('4', '03', '08', '01', 'Primas y gastos de seguros', 1),
+('4', '03', '08', '02', 'Comisiones y gastos bancarios', 1),
+('4', '03', '08', '03', 'Comisiones y gastos de adquisición de seguros', 1),
+('4', '03', '09', '01', 'Viáticos y pasajes dentro del país', 1),
+('4', '03', '09', '02', 'Viáticos y pasajes fuera del país', 1),
+('4', '03', '09', '03', 'Asignación por kilómetros recorridos', 1),
+('4', '03', '10', '01', 'Servicios jurídicos', 1),
+('4', '03', '10', '02', 'Servicios de contabilidad y auditoría', 1),
+('4', '03', '10', '03', 'Servicios de procesamiento de datos', 1),
+('4', '03', '10', '04', 'Servicios de ingeniería y arquitectónicos', 1),
+('4', '03', '10', '05', 'Servicios médicos, odontológicos y otros servicios de sanidad', 1),
+('4', '03', '10', '06', 'Servicios de veterinaria', 1),
+('4', '03', '10', '07', 'Servicios de capacitación y adiestramiento', 1),
+('4', '03', '10', '08', 'Servicios presupuestarios', 1),
+('4', '03', '10', '09', 'Servicios de lavandería y tintorería', 1),
+('4', '03', '10', '10', 'Servicios de vigilancia y seguridad', 1),
+('4', '03', '10', '11', 'Servicios para la elaboración y suministro de comida', 1),
+('4', '03', '10', '99', 'Otros servicios profesionales y técnicos', 1),
+('4', '03', '11', '01', 'Conservación y reparaciones menores de maquinaria y demás equipos de construcción, campo, industria y taller', 1),
+('4', '03', '11', '02', 'Conservación y reparaciones menores de equipos de transporte, tracción y elevación', 1),
+('4', '03', '11', '03', 'Conservación y reparaciones menores de equipos de comunicaciones y de señalamiento', 1),
+('4', '03', '11', '04', 'Conservación y reparaciones menores de equipos médicoquirúrgicos dentales y de veterinaria', 1),
+('4', '03', '11', '05', 'Conservación y reparaciones menores de equipos científicos, religiosos, de enseñanza y recreación', 1),
+('4', '03', '11', '06', 'Conservación y reparaciones menores de equipos y armamentos de orden público, seguridad y defensa nacional', 1),
+('4', '03', '11', '07', 'Conservación y reparaciones menores de máquinas, muebles y demás equipos de oficina y alojamiento', 1),
+('4', '03', '11', '99', 'Conservación y reparaciones menores de otras maquinaria y equipos', 1),
+('4', '03', '12', '01', 'Conservación y reparaciones menores de obras en bienes del dominio privado', 1),
+('4', '03', '12', '02', 'Conservación y reparaciones menores de obras en bienes del dominio público', 1),
+('4', '03', '13', '01', 'Servicios de construcciones temporales', 1),
+('4', '03', '14', '01', 'Servicios de construcción de edificaciones para la venta', 1),
+('4', '03', '15', '01', 'Derechos de importación y servicios aduaneros', 1),
+('4', '03', '15', '02', 'Tasas y otros derechos obligatorios', 1),
+('4', '03', '15', '03', 'Asignación a agentes de especies fiscales', 1),
+('4', '03', '15', '99', 'Otros servicios fiscales', 1),
+('4', '03', '16', '01', 'Servicios de diversión, esparcimiento y culturales', 1),
+('4', '03', '17', '01', 'Servicios de gestión administrativa prestados por organismos de asistencia técnica', 1),
+('4', '03', '18', '01', 'Impuesto al valor agregado', 1),
+('4', '03', '18', '99', 'Otros impuestos indirectos', 1),
+('4', '03', '19', '01', 'Comisiones por servicios para cumplir con los beneficios sociales', 1),
+('4', '03', '99', '01', 'Otros servicios no personales', 1),
+('4', '04', '01', '01', 'Repuestos mayores', 1),
+('4', '04', '01', '02', 'Reparaciones, mejoras y adiciones mayores de maquinaria y equipos', 1),
+('4', '04', '02', '01', 'Conservación, ampliaciones y mejoras mayores de obras en bienes del dominio privado', 1),
+('4', '04', '02', '02', 'Conservación, ampliaciones y mejoras mayores de obras en bienes del dominio público', 1),
+('4', '04', '03', '01', 'Maquinaria y demás equipos de construcción y mantenimiento', 1),
+('4', '04', '03', '02', 'Maquinaria y equipos para mantenimiento de automotores', 1),
+('4', '04', '03', '03', 'Maquinaria y equipos agrícolas y pecuarios', 1),
+('4', '04', '03', '04', 'Maquinaria y equipos de artes gráficas y reproducción', 1),
+('4', '04', '03', '05', 'Maquinaria y equipos industriales y de taller', 1),
+('4', '04', '03', '06', 'Maquinaria y equipos de energía', 1),
+('4', '04', '03', '07', 'Maquinaria y equipos de riego y acueductos', 1),
+('4', '04', '03', '08', 'Equipos de almacén', 1),
+('4', '04', '03', '99', 'Otra maquinaria y demás equipos de construcción, campo, industria y taller', 1),
+('4', '04', '04', '01', 'Vehículos automotores terrestres', 1),
+('4', '04', '04', '02', 'Equipos ferroviarios y de cables aéreos', 1),
+('4', '04', '04', '03', 'Equipos marítimos de transporte', 1),
+('4', '04', '04', '04', 'Equipos aéreos de transporte', 1),
+('4', '04', '04', '05', 'Vehículos de tracción no motorizados', 1),
+('4', '04', '04', '06', 'Equipos auxiliares de transporte', 1),
+('4', '04', '04', '99', 'Otros equipos de transporte, tracción y elevación', 1),
+('4', '04', '05', '01', 'Equipos de telecomunicaciones', 1),
+('4', '04', '05', '02', 'Equipos de señalamiento', 1),
+('4', '04', '05', '03', 'Equipos de control de tráfico aéreo', 1),
+('4', '04', '05', '04', 'Equipos de correo', 1),
+('4', '04', '05', '99', 'Otros equipos de comunicaciones y de señalamiento', 1),
+('4', '04', '06', '01', 'Equipos médico - quirúrgicos, dentales y de veterinaria', 1),
+('4', '04', '06', '99', 'Otros equipos médico - quirúrgicos, dentales y de veterinaria', 1),
+('4', '04', '07', '01', 'Equipos científicos y de laboratorio', 1),
+('4', '04', '07', '02', 'Equipos de enseñanza, deporte y recreación', 1),
+('4', '04', '07', '03', 'Obras de arte', 1),
+('4', '04', '07', '04', 'Libros, revistas y otros instrumentos de enseñanzas', 1),
+('4', '04', '07', '05', 'Equipos religiosos', 1),
+('4', '04', '07', '06', 'Instrumentos musicales y equipos de audio', 1),
+('4', '04', '07', '99', 'Otros equipos científicos, religiosos, de enseñanza y recreación', 1),
+('4', '04', '08', '01', 'Equipos y armamentos de orden público, seguridad y defensa nacional', 1),
+('4', '04', '08', '02', 'Equipos y armamentos de seguridad para la custodia y resguardo personal', 1),
+('4', '04', '08', '99', 'Otros equipos y armamentos de orden público, seguridad y defensa', 1),
+('4', '04', '09', '01', 'Mobiliario y equipos de oficina', 1),
+('4', '04', '09', '02', 'Equipos de computación', 1),
+('4', '04', '09', '03', 'Mobiliario y equipos de alojamiento', 1),
+('4', '04', '09', '99', 'Otras máquinas, muebles y demás equipos de oficina y alojamiento', 1),
+('4', '04', '10', '01', 'Semovientes', 1),
+('4', '04', '11', '01', 'Adquisición de tierras y terrenos', 1),
+('4', '04', '11', '02', 'Adquisición de edificios e instalaciones', 1),
+('4', '04', '11', '03', 'Expropiación de tierras y terrenos', 1),
+('4', '04', '11', '04', 'Expropiación de edificios e instalaciones', 1),
+('4', '04', '11', '05', 'Adquisición de maquinaria y equipos usados', 1),
+('4', '04', '12', '01', 'Marcas de fábrica y patentes de invención', 1),
+('4', '04', '12', '02', 'Derechos de autor', 1),
+('4', '04', '12', '03', 'Gastos de organización', 1),
+('4', '04', '12', '04', 'Paquetes y programas de computación', 1),
+('4', '04', '12', '05', 'Estudios y proyectos', 1),
+('4', '04', '12', '99', 'Otros activos intangibles', 1),
+('4', '04', '13', '01', 'Estudios y proyectos aplicables a bienes del dominio privado', 1),
+('4', '04', '13', '02', 'Estudios y proyectos aplicables a bienes del dominio público', 1),
+('4', '04', '14', '01', 'Contratación de inspección de obras de bienes del dominio privado', 1),
+('4', '04', '14', '02', 'Contratación de inspección de obras de bienes del dominio público', 1),
+('4', '04', '15', '01', 'Construcciones de edificaciones médico-asistenciales', 1),
+('4', '04', '15', '02', 'Construcciones de edificaciones militares y de seguridad', 1),
+('4', '04', '15', '03', 'Construcciones de edificaciones educativas, religiosas y recreativas', 1),
+('4', '04', '15', '04', 'Construcciones de edificaciones culturales y deportivas', 1),
+('4', '04', '15', '05', 'Construcciones de edificaciones para oficina', 1),
+('4', '04', '15', '06', 'Construcciones de edificaciones industriales', 1),
+('4', '04', '15', '07', 'Construcciones de edificaciones habitacionales', 1),
+('4', '04', '15', '99', 'Otras construcciones del dominio privado', 1),
+('4', '04', '16', '01', 'Construcción de vialidad', 1),
+('4', '04', '16', '02', 'Construcción de plazas, parques y similares', 1),
+('4', '04', '16', '03', 'Construcciones de instalaciones hidráulicas', 1),
+('4', '04', '16', '04', 'Construcciones de puertos y aeropuertos', 1),
+('4', '04', '16', '99', 'Otras construcciones del dominio público', 1),
+('4', '04', '99', '01', 'Otros activos reales', 1),
+('4', '05', '01', '01', 'Aportes en acciones y participaciones de capital al sector privado', 1),
+('4', '05', '01', '02', 'Aportes en acciones y participaciones de capital al sector público', 1),
+('4', '05', '01', '03', 'Aportes en acciones y participaciones de capital al sector externo', 1),
+('4', '05', '02', '01', 'Adquisición de títulos y valores a corto plazo', 1),
+('4', '05', '02', '02', 'Adquisición de títulos y valores a largo plazo', 1),
+('4', '05', '03', '01', 'Concesión de préstamos al sector público a corto plazo', 1),
+('4', '05', '03', '02', 'Concesión de préstamos al sector público a corto plazo', 1),
+('4', '05', '03', '03', 'Concesión de préstamos al sector externo a corto plazo', 1),
+('4', '05', '04', '01', 'Concesión de préstamos al sector privado a largo plazo', 1),
+('4', '05', '04', '02', 'Concesión de préstamos al sector público a largo plazo', 1),
+('4', '05', '04', '03', 'Concesión de préstamos al sector externo a largo plazo', 1),
+('4', '05', '05', '01', 'Incremento en caja', 1),
+('4', '05', '05', '02', 'Incremento en bancos', 1),
+('4', '05', '05', '03', 'Incremento de inversiones temporales', 1),
+('4', '05', '06', '01', 'Incremento de cuentas comerciales por cobrar a corto plazo', 1),
+('4', '05', '06', '02', 'Incremento de rentas por recaudar a corto plazo', 1),
+('4', '05', '06', '03', 'Incremento de deudas por rendir', 1),
+('4', '05', '06', '99', 'Incremento de otras cuentas por cobrar a corto plazo', 1),
+('4', '05', '07', '01', 'Incremento de efectos comerciales por cobrar a corto plazo', 1),
+('4', '05', '07', '99', 'Incremento de otros efectos por cobrar a corto plazo', 1),
+('4', '05', '08', '01', 'Incremento de cuentas comerciales por cobrar a mediano y largo plazo', 1),
+('4', '05', '08', '02', 'Incremento de rentas por recaudar a mediano y largo plazo', 1),
+('4', '05', '08', '99', 'Incremento de otras cuentas por cobrar a mediano y largo plazo', 1),
+('4', '05', '09', '01', 'Incremento de efectos comerciales por cobrar a mediano y largo plazo', 1),
+('4', '05', '09', '99', 'Incremento de otros efectos por cobrar a mediano y largo plazo', 1),
+('4', '05', '10', '01', 'Incremento de fondos en avance', 1),
+('4', '05', '10', '02', 'Incremento de fondos en anticipos', 1),
+('4', '05', '10', '03', 'Incremento de fondos en fideicomiso', 1),
+('4', '05', '10', '04', 'Incremento de anticipos a proveedores', 1),
+('4', '05', '10', '05', 'Incremento de anticipos a contratistas por contratos de corto plazo', 1),
+('4', '05', '10', '06', 'Incremento de anticipos a contratistas por contratos de mediano y largo plazo', 1),
+('4', '05', '11', '01', 'Incremento de gastos a corto plazo pagados por anticipado', 1),
+('4', '05', '11', '02', 'Incremento de depósitos otorgados en garantía a corto plazo', 1),
+('4', '05', '11', '99', 'Incremento de otros activos diferidos a corto plazo', 1),
+('4', '05', '12', '01', 'Incremento de gastos a mediano y largo plazo pagados por anticipado', 1),
+('4', '05', '12', '02', 'Incremento de depósitos otorgados en garantía a mediano y largo plazo', 1),
+('4', '05', '12', '99', 'Incremento de otros activos diferidos a mediano y largo plazo', 1),
+('4', '05', '13', '01', 'Incremento del Fondo de Estabilización Macroeconómica (FEM) de la República', 1),
+('4', '05', '13', '02', 'Incremento del Fondo de Estabilización Macroeconómica (FEM) del Poder Estadal', 1),
+('4', '05', '13', '03', 'Incremento del Fondo de Estabilización Macroeconómica (FEM) del Poder Municipal', 1),
+('4', '05', '14', '01', 'Incremento del Fondo de Ahorro Intergeneracional', 1),
+('4', '05', '16', '01', 'Incremento del Fondo de Aportes del Sector Público', 1),
+('4', '05', '20', '01', 'Incremento de otros activos financieros circulantes', 1),
+('4', '05', '21', '01', 'Incremento de activos en gestión judicial a mediano y largo plazo', 1),
+('4', '05', '21', '02', 'Incremento de títulos y otros valores de la deuda pública en litigio a largo plazo', 1),
+('4', '05', '21', '99', 'Incremento de otros activos financieros no circulantes', 1),
+('4', '05', '99', '01', 'Otros activos financieros', 1),
+('4', '06', '01', '01', 'Gastos de defensa y seguridad del Estado', 1),
+('4', '07', '01', '01', 'Transferencias corrientes internas al sector privado', 1),
+('4', '07', '01', '02', 'Donaciones corrientes internas al sector privado', 1),
+('4', '07', '01', '03', 'Transferencias corrientes internas al sector público', 1),
+('4', '07', '01', '04', 'Donaciones corrientes internas al sector público', 1),
+('4', '07', '01', '05', 'Pensiones de altos funcionarios y altas funcionarias del poder público y de elección popular, del personal de alto nivel y de dirección', 1),
+('4', '07', '01', '06', 'Jubilaciones de altos funcionarios y altas funcionarias del poder público y de elección popular, del personal de alto nivel y de dirección', 1),
+('4', '07', '02', '01', 'Transferencias corrientes al exterior', 1),
+('4', '07', '02', '02', 'Donaciones corrientes al exterior', 1),
+('4', '07', '03', '01', 'Transferencias de capital internas al sector privado', 1),
+('4', '07', '03', '02', 'Donaciones de capital internas al sector privado', 1),
+('4', '07', '03', '03', 'Transferencias de capital internas al sector público', 1),
+('4', '07', '03', '04', 'Donaciones de capital internas al sector público', 1),
+('4', '07', '04', '01', 'Transferencias de capital al exterior', 1),
+('4', '07', '04', '02', 'Donaciones de capital al exterior', 1),
+('4', '07', '05', '01', 'Situado Constitucional', 1),
+('4', '07', '05', '02', 'Situado Estadal a Municipal', 1),
+('4', '07', '06', '01', 'Subsidio de Régimen Especial', 1),
+('4', '07', '07', '01', 'Subsidio de capitalidad', 1),
+('4', '07', '08', '01', 'Asignaciones Económicas Especiales (LAEE) Estadal', 1),
+('4', '07', '08', '02', 'Asignaciones Económicas Especiales (LAEE) Estadal a Municipal', 1),
+('4', '07', '08', '03', 'Asignaciones Económicas Especiales (LAEE) Municipal', 1),
+('4', '07', '08', '04', 'Asignaciones Económicas Especiales (LAEE) Fondo Nacional de los Consejos Comunales', 1),
+('4', '07', '08', '05', 'Asignaciones Económicas Especiales (LAEE) Apoyo al Fortalecimiento Institucional', 1),
+('4', '07', '09', '01', 'Aportes al Poder Estadal por transferencia de servicios', 1),
+('4', '07', '09', '02', 'Aportes al Poder Municipal por transferencia de servicios', 1),
+('4', '07', '10', '01', 'Fondo Intergubernamental para la Descentralización (FIDES)', 1),
+('4', '07', '11', '01', 'Fondo de Compensación Interterritorial Estadal', 1),
+('4', '07', '11', '02', 'Fondo de Compensación Interterritorial Municipal', 1),
+('4', '07', '11', '03', 'Fondo de Compensación Interterritorial Poder Popular', 1),
+('4', '07', '11', '04', 'Fondo de Compensación Interterritorial Fortalecimiento Institucional', 1),
+('4', '07', '12', '01', 'Transferencias y donaciones corrientes a Consejos Comunales', 1),
+('4', '07', '12', '02', 'Transferencias y donaciones de capital a Consejos Comunales', 1),
+('4', '08', '01', '01', 'Depreciación', 1),
+('4', '08', '01', '02', 'Amortización', 1),
+('4', '08', '02', '01', 'Intereses por depósitos internos', 1),
+('4', '08', '02', '02', 'Intereses por títulos y valores', 1),
+('4', '08', '02', '03', 'Intereses por otros financiamientos', 1),
+('4', '08', '03', '01', 'Gastos de siniestros', 1),
+('4', '08', '03', '02', 'Gastos de operaciones de reaseguros', 1),
+('4', '08', '03', '99', 'Otros gastos de operaciones de seguro', 1),
+('4', '08', '04', '01', 'Pérdidas en el proceso de distribución de los servicios', 1),
+('4', '08', '04', '99', 'Otras pérdidas en operación', 1),
+('4', '08', '05', '01', 'Devoluciones de cobros indebidos', 1),
+('4', '08', '05', '02', 'Devoluciones y reintegros diversos', 1),
+('4', '08', '05', '03', 'Indemnizaciones diversas', 1),
+('4', '08', '06', '01', 'Pérdidas en inventarios', 1),
+('4', '08', '06', '02', 'Pérdidas en operaciones cambiarias', 1),
+('4', '08', '06', '03', 'Pérdidas en ventas de activos', 1),
+('4', '08', '06', '04', 'Pérdidas por cuentas incobrables', 1),
+('4', '08', '06', '05', 'Participación en pérdidas de otras empresas', 1),
+('4', '08', '06', '06', 'Pérdidas por auto-seguro', 1),
+('4', '08', '06', '07', 'Impuestos directos', 1),
+('4', '08', '06', '08', 'Intereses de mora', 1),
+('4', '08', '06', '09', 'Reservas técnicas', 1),
+('4', '08', '07', '01', 'Descuentos sobre ventas', 1),
+('4', '08', '07', '02', 'Bonificaciones por ventas', 1),
+('4', '08', '07', '03', 'Devoluciones por ventas', 1),
+('4', '08', '07', '04', 'Devoluciones por primas de seguro', 1),
+('4', '08', '08', '01', 'Indemnizaciones por daños y perjuicios', 1),
+('4', '08', '08', '02', 'Sanciones pecuniarias', 1),
+('4', '08', '99', '01', 'Otros gastos', 1),
+('4', '09', '01', '01', 'Asignaciones no distribuidas de la Asamblea Nacional', 1),
+('4', '09', '02', '01', 'Asignaciones no distribuidas de la Contraloría General de la República', 1),
+('4', '09', '03', '01', 'Asignaciones no distribuidas del Consejo Nacional Electoral', 1),
+('4', '09', '04', '01', 'Asignaciones no distribuidas del Tribunal Supremo de Justicia', 1),
+('4', '09', '05', '01', 'Asignaciones no distribuidas del Ministerio Público', 1),
+('4', '09', '06', '01', 'Asignaciones no distribuidas de la Defensoría del Pueblo', 1),
+('4', '09', '07', '01', 'Asignaciones no distribuidas del Consejo Moral Republicano', 1),
+('4', '09', '08', '01', 'Reestructuración de organismos del sector público', 1),
+('4', '09', '09', '01', 'Fondo de apoyo al trabajador y su grupo familiar de la Administración Pública Nacional', 1),
+('4', '09', '09', '02', 'Fondo de apoyo al trabajador y su grupo familiar de las Entidades Federales, los Municipios y otras formas de gobierno municipal', 1),
+('4', '09', '10', '01', 'Reforma de la seguridad social', 1),
+('4', '09', '11', '01', 'Emergencias en el territorio nacional', 1),
+('4', '09', '12', '01', 'Fondo para la cancelación de pasivos laborales', 1),
+('4', '09', '13', '01', 'Fondo para la cancelación de deuda por servicios de electricidad teléfono, aseo, agua y condominio, de los organismos de la Administración Central', 1),
+('4', '09', '13', '02', 'Fondo para la cancelación de deuda por servicios de electricidad teléfono, aseo, agua y condominio, de los organismos de la  Administración Descentralizada Nacional', 1),
+('4', '09', '14', '01', 'Fondo para remuneraciones, pensiones y jubilaciones y otras retribuciones', 1),
+('4', '09', '15', '01', 'Fondo para atender compromisos generados de la Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras', 1),
+('4', '09', '16', '01', 'Asignaciones para cancelar compromisos pendientes de ejercicios anteriores', 1),
+('4', '09', '17', '01', 'Asignaciones para cancelar la deuda Fogade – Ministerio competente en Materia de Finanzas – Banco Central de Venezuela (BCV)', 1),
+('4', '09', '18', '01', 'Asignaciones para atender los gastos de la referenda y elecciones', 1),
+('4', '09', '19', '01', 'Asignaciones para atender los gastos por honorarios profesionales de bufetes internacionales, costas y costos judiciales', 1),
+('4', '09', '20', '01', 'Fondo para atender compromisos generados por la contratación colectiva', 1),
+('4', '09', '21', '01', 'Proyecto social especial', 1),
+('4', '09', '22', '01', 'Asignaciones para programas y proyectos financiados con recursos de organismos multilaterales y/o bilaterales', 1),
+('4', '09', '23', '01', 'Asignación para facilitar la preparación de proyectos', 1),
+('4', '09', '24', '01', 'Programas de inversión para las entidades estadales municipalidades y otras instituciones', 1),
+('4', '09', '25', '01', 'Cancelación de compromisos', 1),
+('4', '09', '26', '01', 'Asignaciones para atender gastos de los organismos del sector público', 1),
+('4', '09', '27', '01', 'Convenio de Cooperación Especial', 1),
+('4', '10', '01', '01', 'Servicio de la deuda pública interna a corto plazo de títulos valores', 1),
+('4', '10', '01', '02', 'Servicio de la deuda pública interna por préstamos a corto plazo', 1),
+('4', '10', '01', '03', 'Servicio de la deuda pública interna indirecta por préstamos a corto plazo', 1),
+('4', '10', '02', '01', 'Servicio de la deuda pública interna a largo plazo de títulos y valores', 1),
+('4', '10', '02', '02', 'Servicio de la deuda pública interna por préstamos a largo plazo', 1),
+('4', '10', '02', '03', 'Servicio de la deuda pública interna indirecta a largo plazo de títulos y valores', 1),
+('4', '10', '02', '04', 'Servicio de la deuda pública interna indirecta por préstamos a largo plazo', 1),
+('4', '10', '03', '01', 'Servicio de la deuda pública externa a corto plazo de títulos y valores', 1),
+('4', '10', '03', '02', 'Servicio de la deuda pública externa por préstamos a corto plazo', 1),
+('4', '10', '03', '03', 'Servicio de la deuda pública externa indirecta por préstamos a corto plazo', 1),
+('4', '10', '04', '01', 'Servicio de la deuda pública externa a largo plazo de títulos y valores', 1),
+('4', '10', '04', '02', 'Servicio de la deuda pública externa por préstamos a largo plazo', 1),
+('4', '10', '04', '03', 'Servicio de la deuda pública externa indirecta a largo plazo de títulos y valores', 1),
+('4', '10', '04', '04', 'Servicio de la deuda pública externa indirecta por préstamos a largo plazo', 1),
+('4', '10', '05', '01', 'Disminución por reestructuración y/o refinanciamiento de la deuda interna a largo plazo, en a corto plazo', 1),
+('4', '10', '05', '02', 'Disminución por reestructuración y/o refinanciamiento de la deuda interna a corto plazo, en a largo plazo', 1),
+('4', '10', '05', '03', 'Disminución por reestructuración y/o refinanciamiento de la deuda externa a largo plazo, en a corto plazo', 1),
+('4', '10', '05', '04', 'Disminución por reestructuración y/o refinanciamiento de la deuda externa a corto plazo, en a largo plazo', 1),
+('4', '10', '05', '05', 'Disminución de la deuda pública por distribuir', 1),
+('4', '10', '06', '01', 'Amortización de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
+('4', '10', '06', '02', 'Intereses de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
+('4', '10', '06', '03', 'Intereses por mora y multas de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
+('4', '10', '06', '04', 'Comisiones y otros gastos de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
+('4', '11', '01', '01', 'Disminución de sueldos, salarios y otras remuneraciones por pagar', 1),
+('4', '11', '02', '01', 'Disminución de aportes patronales y retenciones laborales por pagar al Instituto Venezolano de los Seguros Sociales (IVSS)', 1),
+('4', '11', '02', '02', 'Disminución de aportes patronales y retenciones laborales por pagar al Instituto de Previsión Social del Ministerio de Educación (Ipasme)', 1),
+('4', '11', '02', '03', 'Disminución de aportes patronales y retenciones laborales por pagar al Fondo de Jubilaciones', 1),
+('4', '11', '02', '04', 'Disminución de aportes patronales y retenciones laborales por pagar al Fondo de Seguro de Paro Forzoso', 1),
+('4', '11', '02', '05', 'Disminución de aportes patronales y retenciones laborales por pagar al Fondo de Ahorro Obligatorio para la Vivienda (FAOV)', 1),
+('4', '11', '02', '06', 'Disminución de aportes patronales y retenciones laborales por pagar al seguro de vida, accidentes personales, hospitalización, cirugía, maternidad (HCM) y gastos funerarios', 1),
+('4', '11', '02', '07', 'Disminución de aportes patronales y retenciones laborales por pagar a cajas de ahorro', 1),
+('4', '11', '02', '08', 'Disminución de aportes patronales por pagar a organismos de seguridad social', 1),
+('4', '11', '02', '09', 'Disminución de retenciones laborales por pagar al Instituto Nacional de Capacitación y Educación Socialista (Inces)', 1),
+('4', '11', '02', '10', 'Disminución de retenciones laborales por pagar por pensión alimenticia', 1),
+('4', '11', '02', '98', 'Disminución de otros aportes legales por pagar', 1),
+('4', '11', '02', '99', 'Disminución de otras retenciones laborales por pagar', 1),
+('4', '11', '03', '01', 'Disminución de cuentas por pagar a proveedores a corto plazo', 1),
+('4', '11', '03', '02', 'Disminución de efectos por pagar a proveedores a corto plazo', 1),
+('4', '11', '03', '03', 'Disminución de cuentas por pagar a proveedores a mediano y largo plazo', 1),
+('4', '11', '03', '04', 'Disminución de efectos por pagar a proveedores a mediano y largo plazo', 1),
+('4', '11', '04', '01', 'Disminución de cuentas por pagar a contratistas a corto plazo', 1),
+('4', '11', '04', '02', 'Disminución de efectos por pagar a contratistas a corto plazo', 1),
+('4', '11', '04', '03', 'Disminución de cuentas por pagar a contratistas a mediano largo y plazo', 1),
+('4', '11', '04', '04', 'Disminución de efectos por pagar a contratistas a mediano y plazo', 1),
+('4', '11', '05', '01', 'Disminución de intereses internos por pagar', 1),
+('4', '11', '05', '02', 'Disminución de intereses externos por pagar', 1),
+('4', '11', '06', '01', 'Disminución de obligaciones de ejercicios anteriores', 1),
+('4', '11', '06', '02', 'Disminución de otras cuentas por pagar a corto plazo', 1),
+('4', '11', '06', '03', 'Disminución de otros efectos por pagar a corto plazo', 1),
+('4', '11', '07', '01', 'Disminución de pasivos diferidos a corto plazo', 1),
+('4', '11', '07', '02', 'Disminución de pasivos diferidos a mediano y largo plazo', 1),
+('4', '11', '08', '01', 'Disminución de provisiones', 1),
+('4', '11', '08', '02', 'Disminución de reservas técnicas', 1),
+('4', '11', '09', '01', 'Disminución de depósitos recibidos en garantía', 1),
+('4', '11', '09', '99', 'Disminución de otros fondos de terceros', 1),
+('4', '11', '10', '01', 'Disminución de depósitos a la vista', 1),
+('4', '11', '10', '02', 'Disminución de depósitos a plazo fijo', 1),
+('4', '11', '11', '01', 'Devoluciones de cobros indebidos', 1),
+('4', '11', '11', '02', 'Devoluciones y reintegros diversos', 1),
+('4', '11', '11', '03', 'Indemnizaciones diversas', 1),
+('4', '11', '11', '04', 'Compromisos pendientes de ejercicios anteriores', 1),
+('4', '11', '11', '05', 'Prestaciones sociales originadas por la aplicación de la Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras', 1),
+('4', '11', '98', '01', 'Disminución de otros pasivos a corto plazo', 1),
+('4', '11', '99', '01', 'Disminución de otros pasivos a mediano y largo plazo', 1),
+('4', '12', '01', '01', 'Disminución del capital fiscal e institucional', 1),
+('4', '12', '01', '02', 'Disminución de aportes por capitalizar', 1),
+('4', '12', '01', '03', 'Disminución de dividendos a distribuir', 1),
+('4', '12', '02', '01', 'Disminución de reservas', 1),
+('4', '12', '03', '01', 'Ajuste por inflación', 1),
+('4', '12', '04', '01', 'Disminución de resultados acumulados', 1),
+('4', '12', '04', '02', 'Disminución de resultados del ejercicio', 1),
+('4', '98', '01', '01', 'Rectificaciones al presupuesto', 1);
 
 -- --------------------------------------------------------
 
@@ -2803,252 +2978,250 @@ INSERT INTO `partida_especifica` (`id`, `generica`, `especifica`, `nombre`, `est
 -- Estructura de tabla para la tabla `partida_generica`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_generica` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_partida` int(11) NOT NULL,
-  `generica` varchar(2) NOT NULL,
+CREATE TABLE `partida_generica` (
+  `cuenta` char(1) NOT NULL,
+  `partida` char(2) NOT NULL,
+  `generica` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_partidad` (`id_partida`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=745 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `partida_generica`
 --
 
-INSERT INTO `partida_generica` (`id`, `id_partida`, `generica`, `nombre`, `estatus`) VALUES
-(514, 2, '01', 'Impuestos directos', 0),
-(515, 2, '02', 'Impuestos indirectos', 0),
-(516, 2, '03', 'Ingresos por tasas', 0),
-(517, 2, '04', 'Ingresos por contribuciones especiales', 0),
-(518, 2, '05', 'Ingresos por aportes y contribuciones a la seguridad social', 0),
-(519, 2, '06', 'Ingresos del dominio petrolero', 0),
-(520, 2, '07', 'Ingresos del dominio minero', 0),
-(521, 2, '08', 'Ingresos del dominio forestal', 0),
-(522, 2, '09', 'Ingresos por la venta de bienes y servicios de la administración pública', 0),
-(523, 2, '10', 'Ingresos de la propiedad', 0),
-(524, 2, '11', 'Diversos ingresos', 0),
-(525, 2, '99', 'Otros ingresos ordinarios', 0),
-(526, 3, '01', 'Endeudamiento público interno', 0),
-(527, 3, '02', 'Endeudamiento público externo', 0),
-(528, 3, '03', 'Ingresos por operaciones diversas', 0),
-(529, 3, '04', 'Reintegro de fondos correspondientes a ejercicios anteriores', 0),
-(530, 3, '05', 'Ingresos por obtención indebida de devoluciones o reintegros', 0),
-(531, 3, '06', 'Impuesto a las transacciones financieras', 0),
-(532, 3, '99', 'Otros ingresos extraordinarios', 0),
-(533, 4, '01', 'Venta bruta de bienes', 0),
-(534, 4, '02', 'Venta bruta de servicios', 0),
-(535, 4, '03', 'Ingresos financieros de instituciones financieras bancarias', 0),
-(536, 4, '04', 'Ingresos financieros de instituciones financieras no bancarias', 0),
-(537, 4, '05', 'Ingresos por operaciones de seguro', 0),
-(538, 4, '99', 'Otros ingresos de operación', 0),
-(539, 5, '01', 'Subsidios para precios y tarifas', 0),
-(540, 5, '02', 'Incentivos a la exportación', 0),
-(541, 5, '99', 'Otros ingresos ajenos a la operación', 0),
-(542, 6, '01', 'Transferencias y donaciones corrientes', 0),
-(543, 6, '02', 'Transferencias y donaciones de capital', 0),
-(544, 6, '03', 'Situado', 0),
-(545, 6, '04', 'Subsidio de Régimen Especial', 0),
-(546, 6, '05', 'Subsidio de Capitalidad', 0),
-(547, 6, '06', 'Asignaciones Económicas Especiales (LAEE)', 0),
-(548, 6, '07', 'Fondo Intergubernamental para la Descentralización (FIDES)', 0),
-(549, 6, '08', 'Fondo de Compensación Interterritorial', 0),
-(550, 6, '09', 'Aportes del Sector Público al Poder Estadal y al Poder Municipal por transferencia de servicios', 0),
-(551, 6, '10', 'Transferencias y donaciones de Organismos del Sector Público a los Consejos Comunales', 0),
-(552, 7, '01', 'Venta y/o desincorporación de activos fijos', 0),
-(553, 7, '02', 'Venta de activos intangibles', 0),
-(554, 7, '03', 'Incremento de la depreciación y amortización acumuladas', 0),
-(555, 8, '01', 'Venta de títulos y valores de corto plazo', 0),
-(556, 8, '02', 'Venta de títulos y valores de largo plazo', 0),
-(557, 9, '01', 'Venta de acciones y participaciones de capital del sector privado', 0),
-(558, 9, '02', 'Venta de acciones y participaciones de capital del sector público', 0),
-(559, 9, '03', 'Venta de acciones y participaciones de capital del sector externo', 0),
-(560, 10, '01', 'Recuperación de préstamos otorgados al sector privado de corto plazo', 0),
-(561, 10, '02', 'Recuperación de préstamos otorgados al sector público de corto plazo', 0),
-(562, 10, '03', 'Recuperación de préstamos otorgados al sector externo de corto plazo', 0),
-(563, 11, '01', 'Recuperación de préstamos otorgados al sector privado de largo plazo', 0),
-(564, 11, '02', 'Recuperación de préstamos otorgados al sector público de largo plazo', 0),
-(565, 11, '03', 'Recuperación de préstamos otorgados al sector externo de largo plazo', 0),
-(566, 12, '01', 'Disminución de disponibilidades', 0),
-(567, 12, '02', 'Disminución de cuentas por cobrar a corto plazo', 0),
-(568, 12, '03', 'Disminución de efectos por cobrar a corto plazo', 0),
-(569, 12, '04', 'Disminución de cuentas por cobrar a mediano y largo plazo', 0),
-(570, 12, '05', 'Disminución de efectos por cobrar a mediano y largo plazo', 0),
-(571, 12, '06', 'Disminución de fondos en avance, anticipo y en fideicomiso', 0),
-(572, 12, '07', 'Disminución de activos diferidos a corto plazo', 0),
-(573, 12, '08', 'Disminución de activos diferidos a mediano y largo plazo', 0),
-(574, 12, '09', 'Disminución del Fondo de Estabilización Macroeconómica (FEM)', 0),
-(575, 12, '10', 'Disminución del Fondo de Ahorro Intergeneracional', 0),
-(576, 12, '12', 'Disminución del Fondo de Aporte del Sector Público', 0),
-(577, 12, '20', 'Disminución de activos en proceso judicial', 0),
-(578, 12, '99', 'Disminución de otros activos financieros', 0),
-(579, 13, '01', 'Incremento de gastos de personal por pagar', 0),
-(580, 13, '02', 'Incremento de aportes patronales y retenciones laborales por pagar', 0),
-(581, 13, '03', 'Incremento de cuentas y efectos por pagar a proveedores', 0),
-(582, 13, '04', 'Incremento de cuentas y efectos por pagar a contratistas', 0),
-(583, 13, '05', 'Incremento de intereses por pagar', 0),
-(584, 13, '06', 'Incremento de otras cuentas y efectos por pagar', 0),
-(585, 13, '07', 'Incremento de pasivos diferidos', 0),
-(586, 13, '08', 'Incremento de provisiones y reservas técnicas', 0),
-(587, 13, '09', 'Incremento de fondos de terceros', 0),
-(588, 13, '10', 'Incremento de depósitos en instituciones financieras', 0),
-(589, 13, '11', 'Reestructuración y/o refinanciamiento de la deuda pública', 0),
-(590, 13, '99', 'Incremento de otros pasivos', 0),
-(591, 14, '01', 'Incremento del capital', 0),
-(592, 14, '02', 'Incremento de reservas', 0),
-(593, 14, '03', 'Ajustes por inflación', 0),
-(594, 14, '04', 'Incremento de resultados', 0),
-(595, 16, '01', 'Sueldos, salarios y otras retribuciones', 1),
-(596, 16, '02', 'Compensaciones previstas en las escalas de sueldos y salarios', 1),
-(597, 16, '03', 'Primas', 1),
-(598, 16, '04', 'Complementos de sueldos y salarios', 1),
-(599, 16, '05', 'Aguinaldos, utilidades o bonificación legal, y bono vacacional', 1),
-(600, 16, '06', 'Aportes patronales y legales', 1),
-(601, 16, '07', 'Asistencia socio-económica', 1),
-(602, 16, '08', 'Prestaciones sociales e indemnizaciones', 1),
-(603, 16, '09', 'Capacitación y adiestramiento realizado por personal del organismo', 1),
-(604, 16, '94', 'Otros gastos de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(605, 16, '95', 'Otros gastos del personal de alto nivel y de dirección', 1),
-(606, 16, '96', 'Otros gastos del personal empleado', 1),
-(607, 16, '97', 'Otros gastos del personal obrero', 1),
-(608, 16, '98', 'Otros gastos del personal militar', 1),
-(609, 17, '01', 'Productos alimenticios y agropecuarios', 1),
-(610, 17, '02', 'Productos de minas, canteras y yacimientos', 1),
-(611, 17, '03', 'Textiles y vestuarios', 1),
-(612, 17, '04', 'Productos de cuero y caucho', 1),
-(613, 17, '05', 'Productos de papel, cartón e impresos', 1),
-(614, 17, '06', 'Productos químicos y derivados', 1),
-(615, 17, '07', 'Productos minerales no metálicos', 1),
-(616, 17, '08', 'Productos metálicos', 1),
-(617, 17, '09', 'Productos de madera', 1),
-(618, 17, '10', 'Productos varios y útiles diversos', 1),
-(619, 17, '11', 'Bienes para la venta', 1),
-(620, 17, '99', 'Otros materiales y suministros', 1),
-(621, 18, '01', 'Alquileres de inmuebles', 1),
-(622, 18, '02', 'Alquileres de maquinaria y equipos', 1),
-(623, 18, '03', 'Derechos sobre bienes intangibles', 1),
-(624, 18, '04', 'Servicios básicos', 1),
-(625, 18, '05', 'Servicio de administración, vigilancia y mantenimiento de los servicios básicos', 1),
-(626, 18, '06', 'Servicios de transporte y almacenaje', 1),
-(627, 18, '07', 'Servicios de información, impresión y relaciones públicas', 1),
-(628, 18, '08', 'Primas y otros gastos de seguros y comisiones bancarias', 1),
-(629, 18, '09', 'Viáticos y pasajes', 1),
-(630, 18, '10', 'Servicios profesionales, técnicos y demás oficios y ocupaciones', 1),
-(631, 18, '11', 'Conservación y reparaciones menores de maquinaria y equipos', 1),
-(632, 18, '12', 'Conservación y reparaciones menores de obras', 1),
-(633, 18, '13', 'Servicios de construcciones temporales', 1),
-(634, 18, '14', 'Servicios de construcción de edificaciones para la venta', 1),
-(635, 18, '15', 'Servicios fiscales', 1),
-(636, 18, '16', 'Servicios de diversión, esparcimiento y culturales', 1),
-(637, 18, '17', 'Servicios de gestión administrativa prestados por organismos de asistencia técnica', 1),
-(638, 18, '18', 'Impuestos indirectos', 1),
-(639, 18, '19', 'Comisiones por servicios para cumplir con los beneficios sociales', 1),
-(640, 18, '99', 'Otros servicios no personales', 1),
-(641, 19, '01', 'Repuestos, reparaciones, mejoras y adiciones mayores', 1),
-(642, 19, '02', 'Conservación, ampliaciones y mejoras mayores de obras', 1),
-(643, 19, '03', 'Maquinaria y demás equipos de construcción, campo, industria y taller', 1),
-(644, 19, '04', 'Equipos de transporte, tracción y elevación', 1),
-(645, 19, '05', 'Equipos de comunicaciones y de señalamiento', 1),
-(646, 19, '06', 'Equipos médico - quirúrgicos, dentales y de veterinaria', 1),
-(647, 19, '07', 'Equipos científicos, religiosos, de enseñanza y recreación', 1),
-(648, 19, '08', 'Equipos y armamentos de orden público, seguridad y defensa', 1),
-(649, 19, '09', 'Máquinas, muebles y demás equipos de oficina y alojamiento', 1),
-(650, 19, '10', 'Semovientes', 1),
-(651, 19, '11', 'Inmuebles, maquinaria y equipos usados', 1),
-(652, 19, '12', 'Activos intangibles', 1),
-(653, 19, '13', 'Estudios y proyectos para inversión en activos fijos', 1),
-(654, 19, '14', 'Contratación de inspección de obras', 1),
-(655, 19, '15', 'Construcciones del dominio privado', 1),
-(656, 19, '16', 'Construcciones del dominio público', 1),
-(657, 19, '99', 'Otros activos reales', 1),
-(658, 20, '01', 'Aportes en acciones y participaciones de capital', 1),
-(659, 20, '02', 'Adquisición de títulos y valores que no otorgan propiedad', 1),
-(660, 20, '03', 'Concesión de préstamos a corto plazo', 1),
-(661, 20, '04', 'Concesión de préstamos a largo plazo', 1),
-(662, 20, '05', 'Incremento de disponibilidades', 1),
-(663, 20, '06', 'Incremento de cuentas por cobrar a corto plazo', 1),
-(664, 20, '07', 'Incremento de efectos por cobrar a corto plazo', 1),
-(665, 20, '08', 'Incremento de cuentas por cobrar a mediano y largo plazo', 1),
-(666, 20, '09', 'Incremento de efectos por cobrar a mediano y largo plazo', 1),
-(667, 20, '10', 'Incremento de fondos en avance, en anticipos y en fideicomiso', 1),
-(668, 20, '11', 'Incremento de activos diferidos a corto plazo', 1),
-(669, 20, '12', 'Incremento de activos diferidos a mediano y largo plazo', 1),
-(670, 20, '13', 'Incremento del Fondo de Estabilización Macroeconómica (FEM)', 1),
-(671, 20, '14', 'Incremento del Fondo de Ahorro Intergeneracional', 1),
-(672, 20, '16', 'Incremento del Fondo de Aportes del Sector Público', 1),
-(673, 20, '20', 'Incremento de otros activos financieros circulantes', 1),
-(674, 20, '21', 'Incremento de otros activos financieros no circulantes', 1),
-(675, 20, '99', 'Otros activos financieros', 1),
-(676, 21, '01', 'Gastos de defensa y seguridad del Estado', 1),
-(677, 22, '01', 'Transferencias y donaciones corrientes internas', 1),
-(678, 22, '02', 'Transferencias y donaciones corrientes al exterior', 1),
-(679, 22, '05', 'Situado', 1),
-(680, 22, '06', 'Subsidio de Régimen Especial', 1),
-(681, 22, '07', 'Subsidio de capitalidad', 1),
-(682, 22, '08', 'Asignaciones Económicas Especiales (LAEE)', 1),
-(683, 22, '09', 'Aportes al Poder Estadal y al Poder Municipal por transferencia de servicios', 1),
-(684, 22, '10', 'Fondo Intergubernamental para la Descentralización (FIDES)', 1),
-(685, 22, '11', 'Fondo de Compensación Interterritorial', 1),
-(686, 22, '12', 'Transferencias y donaciones a Consejos Comunales', 1),
-(687, 23, '01', 'Depreciación y amortización', 1),
-(688, 23, '02', 'Intereses por operaciones financieras', 1),
-(689, 23, '03', 'Gastos por operaciones de seguro', 1),
-(690, 23, '04', 'Pérdida en operaciones de los servicios básicos', 1),
-(691, 23, '05', 'Obligaciones en el ejercicio vigente', 1),
-(692, 23, '06', 'Pérdidas ajenas a la operación', 1),
-(693, 23, '07', 'Descuentos, bonificaciones y devoluciones', 1),
-(694, 23, '08', 'Indemnizaciones y sanciones pecuniarias', 1),
-(695, 23, '99', 'Otros gastos', 1),
-(696, 24, '01', 'Asignaciones no distribuidas de la Asamblea Nacional', 1),
-(697, 24, '02', 'Asignaciones no distribuidas de la Contraloría General de la República', 1),
-(698, 24, '03', 'Asignaciones no distribuidas del Consejo Nacional Electoral', 1),
-(699, 24, '04', 'Asignaciones no distribuidas del Tribunal Supremo de Justicia', 1),
-(700, 24, '05', 'Asignaciones no distribuidas del Ministerio Público', 1),
-(701, 24, '06', 'Asignaciones no distribuidas de la Defensoría del Pueblo', 1),
-(702, 24, '07', 'Asignaciones no distribuidas del Consejo Moral Republicano', 1),
-(703, 24, '08', 'Reestructuración de organismos del sector público', 1),
-(704, 24, '09', 'Fondo de apoyo al trabajador y su grupo familiar', 1),
-(705, 24, '10', 'Reforma de la seguridad social', 1),
-(706, 24, '11', 'Emergencias en el territorio nacional', 1),
-(707, 24, '12', 'Fondo para la cancelación de pasivos laborales', 1),
-(708, 24, '13', 'Fondo para la cancelación de deuda por servicios de electricidad, teléfono, aseo, agua y condominio', 1),
-(709, 24, '14', 'Fondo para remuneraciones, pensiones y jubilaciones y otras retribuciones', 1),
-(710, 24, '15', 'Fondo para atender compromisos generados de la Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras', 1),
-(711, 24, '16', 'Asignaciones para cancelar compromisos pendientes de ejercicios anteriores', 1),
-(712, 24, '17', 'Asignaciones para cancelar la deuda Fogade – Ministerio competente en Materia de Finanzas – Banco Central de Venezuela (BCV)', 1),
-(713, 24, '18', 'Asignaciones para atender los gastos de la referenda y elecciones', 1),
-(714, 24, '19', 'Asignaciones para atender los gastos por honorarios profesionales de bufetes internacionales, costas y costos judiciales', 1),
-(715, 24, '20', 'Fondo para atender compromisos generados por la contratación colectiva', 1),
-(716, 24, '21', 'Proyecto social especial', 1),
-(717, 24, '22', 'Asignaciones para programas y proyectos financiados con recursos de organismos multilaterales y/o bilaterales', 1),
-(718, 24, '23', 'Asignación para facilitar la preparación de proyectos', 1),
-(719, 24, '24', 'Programas de inversión para las entidades estadales, municipalidades y otras instituciones', 1),
-(720, 24, '25', 'Cancelación de compromisos', 1),
-(721, 24, '26', 'Asignaciones para atender gastos de los organismos del sector público', 1),
-(722, 24, '27', 'Convenio de Cooperación Especial', 1),
-(723, 25, '01', 'Servicio de la deuda pública interna a corto plazo', 1),
-(724, 25, '02', 'Servicio de la deuda pública interna a largo plazo', 1),
-(725, 25, '03', 'Servicio de la deuda pública externa a corto plazo', 1),
-(726, 25, '04', 'Servicio de la deuda pública externa a largo plazo', 1),
-(727, 25, '05', 'Reestructuración y/o refinanciamiento de la deuda publica', 1),
-(728, 25, '06', 'Servicio de la deuda pública por obligaciones de ejercicios anteriores', 1),
-(729, 26, '01', 'Disminución de gastos de personal por pagar', 1),
-(730, 26, '02', 'Disminución de aportes patronales y retenciones laborales por pagar', 1),
-(731, 26, '03', 'Disminución de cuentas y efectos por pagar a proveedores', 1),
-(732, 26, '04', 'Disminución de cuentas y efectos por pagar a contratistas', 1),
-(733, 26, '05', 'Disminución de intereses por pagar', 1),
-(734, 26, '06', 'Disminución de otras cuentas y efectos por pagar a corto plazo', 1),
-(735, 26, '07', 'Disminución de pasivos diferidos', 1),
-(736, 26, '08', 'Disminución de provisiones y reservas técnicas', 1),
-(737, 26, '10', 'Disminución de depósitos de instituciones financieras', 1),
-(738, 26, '11', 'Obligaciones de ejercicios anteriores', 1),
-(739, 26, '98', 'Disminución de otros pasivos a corto plazo', 1),
-(740, 27, '01', 'Disminución del capital', 1),
-(741, 27, '02', 'Disminución de reservas', 1),
-(742, 27, '03', 'Ajuste por inflación', 1),
-(743, 27, '04', 'Disminución de resultados', 1),
-(744, 28, '01', 'Rectificaciones al presupuesto', 1);
+INSERT INTO `partida_generica` (`cuenta`, `partida`, `generica`, `nombre`, `estatus`) VALUES
+('3', '01', '01', 'Impuestos directos', 1),
+('3', '01', '02', 'Impuestos indirectos', 1),
+('3', '01', '03', 'Ingresos por tasas', 1),
+('3', '01', '04', 'Ingresos por contribuciones especiales', 1),
+('3', '01', '05', 'Ingresos por aportes y contribuciones a la seguridad social', 1),
+('3', '01', '06', 'Ingresos del dominio petrolero', 1),
+('3', '01', '07', 'Ingresos del dominio minero', 1),
+('3', '01', '08', 'Ingresos del dominio forestal', 1),
+('3', '01', '09', 'Ingresos por la venta de bienes y servicios de la administración pública', 1),
+('3', '01', '10', 'Ingresos de la propiedad', 1),
+('3', '01', '11', 'Diversos ingresos', 1),
+('3', '01', '99', 'Otros ingresos ordinarios', 1),
+('3', '02', '01', 'Endeudamiento público interno', 1),
+('3', '02', '02', 'Endeudamiento público externo', 1),
+('3', '02', '03', 'Ingresos por operaciones diversas', 1),
+('3', '02', '04', 'Reintegro de fondos correspondientes a ejercicios anteriores', 1),
+('3', '02', '05', 'Ingresos por obtención indebida de devoluciones o reintegros', 1),
+('3', '02', '06', 'Impuesto a las transacciones financieras', 1),
+('3', '02', '99', 'Otros ingresos extraordinarios', 1),
+('3', '03', '01', 'Venta bruta de bienes', 1),
+('3', '03', '02', 'Venta bruta de servicios', 1),
+('3', '03', '03', 'Ingresos financieros de instituciones financieras bancarias', 1),
+('3', '03', '04', 'Ingresos financieros de instituciones financieras no bancarias', 1),
+('3', '03', '05', 'Ingresos por operaciones de seguro', 1),
+('3', '03', '99', 'Otros ingresos de operación', 1),
+('3', '04', '01', 'Subsidios para precios y tarifas', 1),
+('3', '04', '02', 'Incentivos a la exportación', 1),
+('3', '04', '99', 'Otros ingresos ajenos a la operación', 1),
+('3', '05', '01', 'Transferencias y donaciones corrientes', 1),
+('3', '05', '02', 'Transferencias y donaciones de capital', 1),
+('3', '05', '03', 'Situado', 1),
+('3', '05', '04', 'Subsidio de Régimen Especial', 1),
+('3', '05', '05', 'Subsidio de Capitalidad', 1),
+('3', '05', '06', 'Asignaciones Económicas Especiales (LAEE)', 1),
+('3', '05', '07', 'Fondo Intergubernamental para la Descentralización (FIDES)', 1),
+('3', '05', '08', 'Fondo de Compensación Interterritorial', 1),
+('3', '05', '09', 'Aportes del Sector Público al Poder Estadal y al Poder Municipal por transferencia de servicios', 1),
+('3', '05', '10', 'Transferencias y donaciones de Organismos del Sector Público a los Consejos Comunales', 1),
+('3', '06', '01', 'Venta y/o desincorporación de activos fijos', 1),
+('3', '06', '02', 'Venta de activos intangibles', 1),
+('3', '06', '03', 'Incremento de la depreciación y amortización acumuladas', 1),
+('3', '07', '01', 'Venta de títulos y valores de corto plazo', 1),
+('3', '07', '02', 'Venta de títulos y valores de largo plazo', 1),
+('3', '08', '01', 'Venta de acciones y participaciones de capital del sector privado', 1),
+('3', '08', '02', 'Venta de acciones y participaciones de capital del sector público', 1),
+('3', '08', '03', 'Venta de acciones y participaciones de capital del sector externo', 1),
+('3', '09', '01', 'Recuperación de préstamos otorgados al sector privado de corto plazo', 1),
+('3', '09', '02', 'Recuperación de préstamos otorgados al sector público de corto plazo', 1),
+('3', '09', '03', 'Recuperación de préstamos otorgados al sector externo de corto plazo', 1),
+('3', '10', '01', 'Recuperación de préstamos otorgados al sector privado de largo plazo', 1),
+('3', '10', '02', 'Recuperación de préstamos otorgados al sector público de largo plazo', 1),
+('3', '10', '03', 'Recuperación de préstamos otorgados al sector externo de largo plazo', 1),
+('3', '11', '01', 'Disminución de disponibilidades', 1),
+('3', '11', '02', 'Disminución de cuentas por cobrar a corto plazo', 1),
+('3', '11', '03', 'Disminución de efectos por cobrar a corto plazo', 1),
+('3', '11', '04', 'Disminución de cuentas por cobrar a mediano y largo plazo', 1),
+('3', '11', '05', 'Disminución de efectos por cobrar a mediano y largo plazo', 1),
+('3', '11', '06', 'Disminución de fondos en avance, anticipo y en fideicomiso', 1),
+('3', '11', '07', 'Disminución de activos diferidos a corto plazo', 1),
+('3', '11', '08', 'Disminución de activos diferidos a mediano y largo plazo', 1),
+('3', '11', '09', 'Disminución del Fondo de Estabilización Macroeconómica (FEM)', 1),
+('3', '11', '10', 'Disminución del Fondo de Ahorro Intergeneracional', 1),
+('3', '11', '12', 'Disminución del Fondo de Aporte del Sector Público', 1),
+('3', '11', '20', 'Disminución de activos en proceso judicial', 1),
+('3', '11', '99', 'Disminución de otros activos financieros', 1),
+('3', '12', '01', 'Incremento de gastos de personal por pagar', 1),
+('3', '12', '02', 'Incremento de aportes patronales y retenciones laborales por pagar', 1),
+('3', '12', '03', 'Incremento de cuentas y efectos por pagar a proveedores', 1),
+('3', '12', '04', 'Incremento de cuentas y efectos por pagar a contratistas', 1),
+('3', '12', '05', 'Incremento de intereses por pagar', 1),
+('3', '12', '06', 'Incremento de otras cuentas y efectos por pagar', 1),
+('3', '12', '07', 'Incremento de pasivos diferidos', 1),
+('3', '12', '08', 'Incremento de provisiones y reservas técnicas', 1),
+('3', '12', '09', 'Incremento de fondos de terceros', 1),
+('3', '12', '10', 'Incremento de depósitos en instituciones financieras', 1),
+('3', '12', '11', 'Reestructuración y/o refinanciamiento de la deuda pública', 1),
+('3', '12', '99', 'Incremento de otros pasivos', 1),
+('3', '13', '01', 'Incremento del capital', 1),
+('3', '13', '02', 'Incremento de reservas', 1),
+('3', '13', '03', 'Ajustes por inflación', 1),
+('3', '13', '04', 'Incremento de resultados', 1),
+('4', '01', '01', 'Sueldos, salarios y otras retribuciones', 1),
+('4', '01', '02', 'Compensaciones previstas en las escalas de sueldos y salarios', 1),
+('4', '01', '03', 'Primas', 1),
+('4', '01', '04', 'Complementos de sueldos y salarios', 1),
+('4', '01', '05', 'Aguinaldos, utilidades o bonificación legal, y bono vacacional', 1),
+('4', '01', '06', 'Aportes patronales y legales', 1),
+('4', '01', '07', 'Asistencia socio-económica', 1),
+('4', '01', '08', 'Prestaciones sociales e indemnizaciones', 1),
+('4', '01', '09', 'Capacitación y adiestramiento realizado por personal del organismo', 1),
+('4', '01', '94', 'Otros gastos de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '95', 'Otros gastos del personal de alto nivel y de dirección', 1),
+('4', '01', '96', 'Otros gastos del personal empleado', 1),
+('4', '01', '97', 'Otros gastos del personal obrero', 1),
+('4', '01', '98', 'Otros gastos del personal militar', 1),
+('4', '02', '01', 'Productos alimenticios y agropecuarios', 1),
+('4', '02', '02', 'Productos de minas, canteras y yacimientos', 1),
+('4', '02', '03', 'Textiles y vestuarios', 1),
+('4', '02', '04', 'Productos de cuero y caucho', 1),
+('4', '02', '05', 'Productos de papel, cartón e impresos', 1),
+('4', '02', '06', 'Productos químicos y derivados', 1),
+('4', '02', '07', 'Productos minerales no metálicos', 1),
+('4', '02', '08', 'Productos metálicos', 1),
+('4', '02', '09', 'Productos de madera', 1),
+('4', '02', '10', 'Productos varios y útiles diversos', 1),
+('4', '02', '11', 'Bienes para la venta', 1),
+('4', '02', '99', 'Otros materiales y suministros', 1),
+('4', '03', '01', 'Alquileres de inmuebles', 1),
+('4', '03', '02', 'Alquileres de maquinaria y equipos', 1),
+('4', '03', '03', 'Derechos sobre bienes intangibles', 1),
+('4', '03', '04', 'Servicios básicos', 1),
+('4', '03', '05', 'Servicio de administración, vigilancia y mantenimiento de los servicios básicos', 1),
+('4', '03', '06', 'Servicios de transporte y almacenaje', 1),
+('4', '03', '07', 'Servicios de información, impresión y relaciones públicas', 1),
+('4', '03', '08', 'Primas y otros gastos de seguros y comisiones bancarias', 1),
+('4', '03', '09', 'Viáticos y pasajes', 1),
+('4', '03', '10', 'Servicios profesionales, técnicos y demás oficios y ocupaciones', 1),
+('4', '03', '11', 'Conservación y reparaciones menores de maquinaria y equipos', 1),
+('4', '03', '12', 'Conservación y reparaciones menores de obras', 1),
+('4', '03', '13', 'Servicios de construcciones temporales', 1),
+('4', '03', '14', 'Servicios de construcción de edificaciones para la venta', 1),
+('4', '03', '15', 'Servicios fiscales', 1),
+('4', '03', '16', 'Servicios de diversión, esparcimiento y culturales', 1),
+('4', '03', '17', 'Servicios de gestión administrativa prestados por organismos de asistencia técnica', 1),
+('4', '03', '18', 'Impuestos indirectos', 1),
+('4', '03', '19', 'Comisiones por servicios para cumplir con los beneficios sociales', 1),
+('4', '03', '99', 'Otros servicios no personales', 1),
+('4', '04', '01', 'Repuestos, reparaciones, mejoras y adiciones mayores', 1),
+('4', '04', '02', 'Conservación, ampliaciones y mejoras mayores de obras', 1),
+('4', '04', '03', 'Maquinaria y demás equipos de construcción, campo, industria y taller', 1),
+('4', '04', '04', 'Equipos de transporte, tracción y elevación', 1),
+('4', '04', '05', 'Equipos de comunicaciones y de señalamiento', 1),
+('4', '04', '06', 'Equipos médico - quirúrgicos, dentales y de veterinaria', 1),
+('4', '04', '07', 'Equipos científicos, religiosos, de enseñanza y recreación', 1),
+('4', '04', '08', 'Equipos y armamentos de orden público, seguridad y defensa', 1),
+('4', '04', '09', 'Máquinas, muebles y demás equipos de oficina y alojamiento', 1),
+('4', '04', '10', 'Semovientes', 1),
+('4', '04', '11', 'Inmuebles, maquinaria y equipos usados', 1),
+('4', '04', '12', 'Activos intangibles', 1),
+('4', '04', '13', 'Estudios y proyectos para inversión en activos fijos', 1),
+('4', '04', '14', 'Contratación de inspección de obras', 1),
+('4', '04', '15', 'Construcciones del dominio privado', 1),
+('4', '04', '16', 'Construcciones del dominio público', 1),
+('4', '04', '99', 'Otros activos reales', 1),
+('4', '05', '01', 'Aportes en acciones y participaciones de capital', 1),
+('4', '05', '02', 'Adquisición de títulos y valores que no otorgan propiedad', 1),
+('4', '05', '03', 'Concesión de préstamos a corto plazo', 1),
+('4', '05', '04', 'Concesión de préstamos a largo plazo', 1),
+('4', '05', '05', 'Incremento de disponibilidades', 1),
+('4', '05', '06', 'Incremento de cuentas por cobrar a corto plazo', 1),
+('4', '05', '07', 'Incremento de efectos por cobrar a corto plazo', 1),
+('4', '05', '08', 'Incremento de cuentas por cobrar a mediano y largo plazo', 1),
+('4', '05', '09', 'Incremento de efectos por cobrar a mediano y largo plazo', 1),
+('4', '05', '10', 'Incremento de fondos en avance, en anticipos y en fideicomiso', 1),
+('4', '05', '11', 'Incremento de activos diferidos a corto plazo', 1),
+('4', '05', '12', 'Incremento de activos diferidos a mediano y largo plazo', 1),
+('4', '05', '13', 'Incremento del Fondo de Estabilización Macroeconómica (FEM)', 1),
+('4', '05', '14', 'Incremento del Fondo de Ahorro Intergeneracional', 1),
+('4', '05', '16', 'Incremento del Fondo de Aportes del Sector Público', 1),
+('4', '05', '20', 'Incremento de otros activos financieros circulantes', 1),
+('4', '05', '21', 'Incremento de otros activos financieros no circulantes', 1),
+('4', '05', '99', 'Otros activos financieros', 1),
+('4', '06', '01', 'Gastos de defensa y seguridad del Estado', 1),
+('4', '07', '01', 'Transferencias y donaciones corrientes internas', 1),
+('4', '07', '02', 'Transferencias y donaciones corrientes al exterior', 1),
+('4', '07', '05', 'Situado', 1),
+('4', '07', '06', 'Subsidio de Régimen Especial', 1),
+('4', '07', '07', 'Subsidio de capitalidad', 1),
+('4', '07', '08', 'Asignaciones Económicas Especiales (LAEE)', 1),
+('4', '07', '09', 'Aportes al Poder Estadal y al Poder Municipal por transferencia de servicios', 1),
+('4', '07', '10', 'Fondo Intergubernamental para la Descentralización (FIDES)', 1),
+('4', '07', '11', 'Fondo de Compensación Interterritorial', 1),
+('4', '07', '12', 'Transferencias y donaciones a Consejos Comunales', 1),
+('4', '08', '01', 'Depreciación y amortización', 1),
+('4', '08', '02', 'Intereses por operaciones financieras', 1),
+('4', '08', '03', 'Gastos por operaciones de seguro', 1),
+('4', '08', '04', 'Pérdida en operaciones de los servicios básicos', 1),
+('4', '08', '05', 'Obligaciones en el ejercicio vigente', 1),
+('4', '08', '06', 'Pérdidas ajenas a la operación', 1),
+('4', '08', '07', 'Descuentos, bonificaciones y devoluciones', 1),
+('4', '08', '08', 'Indemnizaciones y sanciones pecuniarias', 1),
+('4', '08', '99', 'Otros gastos', 1),
+('4', '09', '01', 'Asignaciones no distribuidas de la Asamblea Nacional', 1),
+('4', '09', '02', 'Asignaciones no distribuidas de la Contraloría General de la República', 1),
+('4', '09', '03', 'Asignaciones no distribuidas del Consejo Nacional Electoral', 1),
+('4', '09', '04', 'Asignaciones no distribuidas del Tribunal Supremo de Justicia', 1),
+('4', '09', '05', 'Asignaciones no distribuidas del Ministerio Público', 1),
+('4', '09', '06', 'Asignaciones no distribuidas de la Defensoría del Pueblo', 1),
+('4', '09', '07', 'Asignaciones no distribuidas del Consejo Moral Republicano', 1),
+('4', '09', '08', 'Reestructuración de organismos del sector público', 1),
+('4', '09', '09', 'Fondo de apoyo al trabajador y su grupo familiar', 1),
+('4', '09', '10', 'Reforma de la seguridad social', 1),
+('4', '09', '11', 'Emergencias en el territorio nacional', 1),
+('4', '09', '12', 'Fondo para la cancelación de pasivos laborales', 1),
+('4', '09', '13', 'Fondo para la cancelación de deuda por servicios de electricidad, teléfono, aseo, agua y condominio', 1),
+('4', '09', '14', 'Fondo para remuneraciones, pensiones y jubilaciones y otras retribuciones', 1),
+('4', '09', '15', 'Fondo para atender compromisos generados de la Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras', 1),
+('4', '09', '16', 'Asignaciones para cancelar compromisos pendientes de ejercicios anteriores', 1),
+('4', '09', '17', 'Asignaciones para cancelar la deuda Fogade – Ministerio competente en Materia de Finanzas – Banco Central de Venezuela (BCV)', 1),
+('4', '09', '18', 'Asignaciones para atender los gastos de la referenda y elecciones', 1),
+('4', '09', '19', 'Asignaciones para atender los gastos por honorarios profesionales de bufetes internacionales, costas y costos judiciales', 1),
+('4', '09', '20', 'Fondo para atender compromisos generados por la contratación colectiva', 1),
+('4', '09', '21', 'Proyecto social especial', 1),
+('4', '09', '22', 'Asignaciones para programas y proyectos financiados con recursos de organismos multilaterales y/o bilaterales', 1),
+('4', '09', '23', 'Asignación para facilitar la preparación de proyectos', 1),
+('4', '09', '24', 'Programas de inversión para las entidades estadales, municipalidades y otras instituciones', 1),
+('4', '09', '25', 'Cancelación de compromisos', 1),
+('4', '09', '26', 'Asignaciones para atender gastos de los organismos del sector público', 1),
+('4', '09', '27', 'Convenio de Cooperación Especial', 1),
+('4', '10', '01', 'Servicio de la deuda pública interna a corto plazo', 1),
+('4', '10', '02', 'Servicio de la deuda pública interna a largo plazo', 1),
+('4', '10', '03', 'Servicio de la deuda pública externa a corto plazo', 1),
+('4', '10', '04', 'Servicio de la deuda pública externa a largo plazo', 1),
+('4', '10', '05', 'Reestructuración y/o refinanciamiento de la deuda publica', 1),
+('4', '10', '06', 'Servicio de la deuda pública por obligaciones de ejercicios anteriores', 1),
+('4', '11', '01', 'Disminución de gastos de personal por pagar', 1),
+('4', '11', '02', 'Disminución de aportes patronales y retenciones laborales por pagar', 1),
+('4', '11', '03', 'Disminución de cuentas y efectos por pagar a proveedores', 1),
+('4', '11', '04', 'Disminución de cuentas y efectos por pagar a contratistas', 1),
+('4', '11', '05', 'Disminución de intereses por pagar', 1),
+('4', '11', '06', 'Disminución de otras cuentas y efectos por pagar a corto plazo', 1),
+('4', '11', '07', 'Disminución de pasivos diferidos', 1),
+('4', '11', '08', 'Disminución de provisiones y reservas técnicas', 1),
+('4', '11', '10', 'Disminución de depósitos de instituciones financieras', 1),
+('4', '11', '11', 'Obligaciones de ejercicios anteriores', 1),
+('4', '11', '98', 'Disminución de otros pasivos a corto plazo', 1),
+('4', '12', '01', 'Disminución del capital', 1),
+('4', '12', '02', 'Disminución de reservas', 1),
+('4', '12', '03', 'Ajuste por inflación', 1),
+('4', '12', '04', 'Disminución de resultados', 1),
+('4', '98', '01', 'Rectificaciones al presupuesto', 1);
 
 -- --------------------------------------------------------
 
@@ -3056,49 +3229,44 @@ INSERT INTO `partida_generica` (`id`, `id_partida`, `generica`, `nombre`, `estat
 -- Estructura de tabla para la tabla `partida_partida`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_partida` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cuenta` int(11) NOT NULL COMMENT 'ID Cuenta',
-  `partida` varchar(2) NOT NULL,
-  `nombre` varchar(60) NOT NULL,
-  `estatus` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `ramo` (`cuenta`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
+CREATE TABLE `partida_partida` (
+  `cuenta` char(1) NOT NULL COMMENT 'ID Cuenta',
+  `partida` char(2) NOT NULL,
+  `nombre` text NOT NULL,
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `partida_partida`
 --
 
-INSERT INTO `partida_partida` (`id`, `cuenta`, `partida`, `nombre`, `estatus`) VALUES
-(1, 1, '00', 'Recursos', 0),
-(2, 1, '01', 'Ingresos Ordinarios', 0),
-(3, 1, '02', 'Ingresos Extraordinarios', 0),
-(4, 1, '03', 'Ingresos de Operación', 0),
-(5, 1, '04', 'Ingresos Ajenos a la Operación', 0),
-(6, 1, '05', 'Transferencias y Donaciones', 0),
-(7, 1, '06', 'Recursos Propios de Capital', 0),
-(8, 1, '07', 'Venta de Títulos y Valores que No Otorgan Propiedad', 0),
-(9, 1, '08', 'Venta de Acciones y Participaciones de Capital', 0),
-(10, 1, '09', 'Recuperación de Préstamos de Corto Plazo', 0),
-(11, 1, '10', 'Recuperación de Préstamos de Largo Plazo', 0),
-(12, 1, '11', 'Disminución de Otros Activos Financieros', 0),
-(13, 1, '12', 'Incremento de Pasivos', 0),
-(14, 1, '13', 'Incremento del Patrimonio', 0),
-(15, 2, '00', 'Egresos', 1),
-(16, 2, '01', 'Gastos de Personal', 1),
-(17, 2, '02', 'Materiales, Suministros y Mercancías', 1),
-(18, 2, '03', 'Servicios No Personales', 1),
-(19, 2, '04', 'Activos Reales', 1),
-(20, 2, '05', 'Activos Financieros', 1),
-(21, 2, '06', 'Gastos de Defensa y Seguridad del Estado', 1),
-(22, 2, '07', 'Transferencias y Donaciones', 1),
-(23, 2, '08', 'Otros Gastos', 1),
-(24, 2, '09', 'Asignaciones No Distribuidas', 1),
-(25, 2, '10', 'Servicio de la Deuda Pública', 1),
-(26, 2, '11', 'Disminución de pasivos', 1),
-(27, 2, '12', 'Disminución del Patrimonio', 1),
-(28, 2, '98', 'Rectificaciones al Presupuesto', 1);
+INSERT INTO `partida_partida` (`cuenta`, `partida`, `nombre`, `estatus`) VALUES
+('3', '01', 'Ingresos ordinarios', 1),
+('3', '02', 'Ingresos extraordinarios', 1),
+('3', '03', 'Ingresos de operación', 1),
+('3', '04', 'Ingresos ajenos a la operación', 1),
+('3', '05', 'Transferencias y donaciones', 1),
+('3', '06', 'Recursos propios de capital', 1),
+('3', '07', 'Venta de títulos y valores que no otorgan propiedad', 1),
+('3', '08', 'Venta de acciones y participaciones de capital', 1),
+('3', '09', 'Recuperación de préstamos de corto plazo', 1),
+('3', '10', 'Recuperación de préstamos de largo plazo', 1),
+('3', '11', 'Disminución de otros activos financieros', 1),
+('3', '12', 'Incremento de pasivos', 1),
+('3', '13', 'Incremento del patrimonio', 1),
+('4', '01', 'Gastos de personal', 1),
+('4', '02', 'Materiales, suministros y mercancías', 1),
+('4', '03', 'Servicios no personales', 1),
+('4', '04', 'Activos reales', 1),
+('4', '05', 'Activos financieros', 1),
+('4', '06', 'Gastos de defensa y seguridad del estado', 1),
+('4', '07', 'Transferencias y donaciones', 1),
+('4', '08', 'Otros gastos', 1),
+('4', '09', 'Asignaciones no distribuidas', 1),
+('4', '10', 'Servicio de la deuda pública', 1),
+('4', '11', 'Disminución de pasivos', 1),
+('4', '12', 'Disminución del patrimonio', 1),
+('4', '98', 'Rectificaciones al presupuesto', 1);
 
 -- --------------------------------------------------------
 
@@ -3106,719 +3274,1018 @@ INSERT INTO `partida_partida` (`id`, `cuenta`, `partida`, `nombre`, `estatus`) V
 -- Estructura de tabla para la tabla `partida_sub_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_sub_especifica` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `especifica` int(11) NOT NULL,
-  `sub_especifica` varchar(2) NOT NULL,
+CREATE TABLE `partida_sub_especifica` (
+  `cuenta` char(1) NOT NULL,
+  `partida` char(2) NOT NULL,
+  `generica` char(2) NOT NULL,
+  `especifica` char(2) NOT NULL,
+  `subespecifica` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `id_se` (`especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=699 ;
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `partida_sub_especifica`
 --
 
-INSERT INTO `partida_sub_especifica` (`id`, `especifica`, `sub_especifica`, `nombre`, `estatus`) VALUES
-(2, 1027, '01', 'Impuesto a empresas de hidrocarburos públicas', 0),
-(3, 1027, '02', 'Impuesto a empresas de hidrocarburos públicas - operadoras y comercializadoras', 0),
-(4, 1027, '03', 'Impuesto a empresas de hidrocarburos públicas - Petróleos de Venezuela, S.A (Pdvsa) Casa matriz y otras filiales', 0),
-(5, 1027, '04', 'Impuesto adicional a empresas de hidrocarburos privadas', 0),
-(6, 1027, '05', 'Impuesto adicional a empresas de hidrocarburos privadas - operadoras y comercializadoras', 0),
-(7, 1027, '06', 'Impuesto adicional a empresas de hidrocarburos públicas - otras filiales de Petróleos de Venezuela, S.A. (Pdvsa)', 0),
-(8, 1027, '07', 'Impuesto a empresas mineras sector hierro', 0),
-(9, 1027, '08', 'Impuesto a empresas mineras sector otros minerales', 0),
-(10, 1027, '09', 'Impuesto adicional a empresas mineras sector hierro', 0),
-(11, 1027, '10', 'Impuesto adicional a empresas mineras sector otros minerales', 0),
-(12, 1027, '11', 'Impuesto sobre la renta a otras personas jurídicas', 0),
-(13, 1030, '01', 'Reparos administrativos por impuesto a empresas de hidrocarburos privada', 0),
-(14, 1030, '02', 'Reparos administrativos a empresas de hidrocarburos públicas - operadoras y comercializadoras', 0),
-(15, 1030, '03', 'Reparos administrativos a empresas de hidrocarburos públicas - otras filiales de Petróleos de Venezuela, S.A (Pdvsa)', 0),
-(16, 1030, '04', 'Reparos administrativos a empresas mineras sector hierro', 0),
-(17, 1030, '05', 'Reparos administrativos a empresas mineras sector otros minerales', 0),
-(18, 1030, '06', 'Reparos administrativos a otras personas jurídicas', 0),
-(19, 1033, '01', 'Impuesto de importación ordinario', 0),
-(20, 1033, '02', 'Impuesto de importación de bultos postales', 0),
-(21, 1033, '03', 'Impuesto interno por la importación de alcoholes y bebidas alcohólicas', 0),
-(22, 1035, '01', 'Impuesto sobre alcoholes de producción nacional', 0),
-(23, 1035, '02', 'Impuesto sobre bebidas alcohólicas de producción nacional', 0),
-(24, 1035, '03', 'Impuesto sobre cerveza de producción nacional', 0),
-(25, 1035, '04', 'Impuesto sobre vinos de producción nacional', 0),
-(26, 1035, '05', 'Impuesto sobre el precio de venta al público de las cervezas y vinos naturales de producción nacional', 0),
-(27, 1035, '06', 'Impuesto sobre el precio de venta al público de las cervezas y vinos naturales importados', 0),
-(28, 1035, '07', 'Impuesto sobre el precio de venta al público de otras bebidas hasta 50.0° G.L. de producción nacional', 0),
-(29, 1035, '08', 'Impuesto sobre el precio de venta al público de otras bebidas hasta 50.0° G.L. importadas', 0),
-(30, 1035, '09', 'Impuesto sobre expedición al público de especies alcohólicas importadas', 0),
-(31, 1035, '10', 'Impuesto sobre expedición al público de especies alcohólicas nacionales', 0),
-(32, 1035, '11', 'Impuesto sobre la venta de cigarrillos, tabacos y picaduras importadas', 0),
-(33, 1035, '12', 'Impuesto sobre la venta de cigarrillos, tabacos y picaduras de producción nacional', 0),
-(34, 1035, '13', 'Impuesto a la producción de fósforos', 0),
-(35, 1035, '14', 'Ventajas especiales por fabricación de fósforos', 0),
-(36, 1035, '15', 'Impuesto al consumo propio de gasolina', 0),
-(37, 1035, '16', 'Impuesto al consumo general a la gasolina', 0),
-(38, 1035, '17', 'Impuesto al consumo propio de otros derivados del petróleo', 0),
-(39, 1035, '18', 'Impuesto al consumo general de otros derivados del petróleo', 0),
-(40, 1035, '19', 'Impuesto sobre telecomunicaciones', 0),
-(41, 1035, '20', 'Impuesto al valor agregado sobre la importación de bienes y servicios', 0),
-(42, 1035, '21', 'Impuesto al valor agregado sobre la producción, distribución y comercialización de bienes y servicios', 0),
-(43, 1035, '22', 'Impuesto al valor agregado sobre los hechos imponibles realizados por empresas públicas, institutos autónomos y demás entes descentralizados', 0),
-(44, 1035, '23', 'Reparos administrativos a impuestos al valor agregado', 0),
-(45, 1035, '24', 'Impuesto al débito bancario', 0),
-(46, 1035, '25', 'Reparos administrativos al impuesto al débito bancario', 0),
-(47, 1035, '26', 'Impuesto al consumo propio de hidrocarburos gaseosos', 0),
-(48, 1036, '01', 'Impuestos sobre casinos y salas de bingo', 0),
-(49, 1036, '02', 'Impuestos de explotación de máquinas traganíqueles', 0),
-(50, 1036, '03', 'Reparos administrativos impuesto casinos, salas de juego y máquinas traganíqueles', 0),
-(51, 1036, '04', 'Impuesto a la operación de juegos de lotería', 0),
-(52, 1036, '05', 'Impuesto a las apuestas sobre la explotación de espectáculos hípicos', 0),
-(53, 1036, '06', 'Impuesto sobre la organización en general de juegos de envite o azar', 0),
-(54, 1036, '07', 'Impuesto sobre apuestas deportivas', 0),
-(55, 1036, '08', 'Reparos administrativos impuesto a la operación de juegos de lotería, apuestas sobre la explotación de espectáculos hípicos y organización en general de juegos de envite o azar y apuestas deportivas', 0),
-(56, 1109, '01', 'Ingresos por aportes del sector privado', 0),
-(57, 1109, '02', 'Ingresos por aportes del sector público', 0),
-(58, 1110, '01', 'Contribuciones del sector privado', 0),
-(59, 1110, '02', 'Contribuciones del sector público', 0),
-(60, 1111, '01', 'Regalías petroleras privadas', 0),
-(61, 1111, '02', 'Regalías petroleras públicas - crudos y condensados', 0),
-(62, 1111, '03', 'Regalías petroleras públicas - extrapesado para orimulsión', 0),
-(63, 1111, '04', 'Regalías del gas empresas privadas', 0),
-(64, 1111, '05', 'Regalías del gas empresas públicas', 0),
-(65, 1119, '01', 'Superficial sobre hierro', 0),
-(66, 1119, '02', 'Superficial sobre oro y diamante', 0),
-(67, 1119, '03', 'Superficial sobre otros minerales', 0),
-(68, 1120, '01', 'Impuesto de explotación sobre hierro', 0),
-(69, 1120, '02', 'Impuesto de explotación sobre oro, plata, platino y otros metales asociados a este último', 0),
-(70, 1120, '03', 'Impuesto de explotación sobre diamante y demás piedras preciosas', 0),
-(71, 1120, '04', 'Impuesto de explotación sobre otros minerales', 0),
-(72, 1130, '01', 'Ingresos por la venta de gacetas municipales y formularios', 0),
-(73, 1130, '02', 'Ingresos por la venta de publicaciones oficiales y formularios', 0),
-(74, 1131, '01', 'Ingresos por la venta de productos de lotería', 0),
-(75, 1135, '01', 'Intereses por depósitos a la vista', 0),
-(76, 1135, '02', 'Intereses por depósitos a plazo fijo', 0),
-(77, 1136, '01', 'Intereses de títulos y valores privados', 0),
-(78, 1136, '02', 'Intereses de títulos y valores públicos', 0),
-(79, 1136, '03', 'Intereses de títulos y valores externos', 0),
-(80, 1137, '01', 'Utilidades de acciones y participaciones de capital del sector privado empresarial', 0),
-(81, 1137, '02', 'Utilidades de acciones y participaciones de capital de entes descentralizados con fines empresariales petroleros – dividendos de Petróleos de Venezuela, S.A (Pdvsa)', 0),
-(82, 1137, '03', 'Utilidades de acciones y participaciones de capital de entes descentralizados con fines empresariales petroleros – otras empresas petroleras', 0),
-(83, 1137, '04', 'Utilidades de acciones y participaciones de capital de entes descentralizados con fines empresariales no petroleros', 0),
-(84, 1137, '05', 'Utilidades de acciones y participaciones de capital de entes descentralizados financieros bancarios', 0),
-(85, 1137, '06', 'Utilidades de acciones y participaciones de capital de entes descentralizados financieros no bancarios', 0),
-(86, 1137, '07', 'Utilidades de acciones y participaciones de capital de organismos internacionales', 0),
-(87, 1137, '08', 'Utilidades de acciones y participaciones de capital de otros entes del sector externo', 0),
-(88, 1137, '09', 'Utilidades netas semestrales Banco Central de Venezuela (BCV)', 0),
-(89, 1138, '01', 'Utilidades de explotación de juegos de azar por concesiones', 0),
-(90, 1138, '02', 'Utilidades de explotación de juegos de azar de empresas públicas', 0),
-(91, 1139, '01', 'Alquileres de edificios y locales', 0),
-(92, 1139, '02', 'Alquileres de tierras y terrenos', 0),
-(93, 1139, '03', 'Alquileres de instalaciones culturales y recreativas', 0),
-(94, 1139, '04', 'Alquileres de máquinas y demás equipos de construcción, campo, industria y taller', 0),
-(95, 1139, '05', 'Alquileres de equipos de transporte, tracción y elevación', 0),
-(96, 1139, '06', 'Alquileres de equipos de telecomunicaciones y señalamiento', 0),
-(97, 1139, '07', 'Alquileres de equipos médico - quirúrgicos, dentales y de veterinaria', 0),
-(98, 1139, '08', 'Alquileres de equipos científicos, de enseñanza y recreación', 0),
-(99, 1139, '09', 'Alquileres de máquinas, muebles y demás equipos de oficina y alojamiento', 0),
-(100, 1139, '99', 'Alquileres de otros bienes', 0),
-(101, 1140, '01', 'Marcas de fábrica y patentes de invención', 0),
-(102, 1140, '02', 'Derechos de autor', 0),
-(103, 1140, '03', 'Paquetes y programas de computación', 0),
-(104, 1145, '01', 'Ingresos por el principal en sentencias judiciales', 0),
-(105, 1145, '02', 'Costas procesales varias', 0),
-(106, 1145, '03', 'Responsabilidad fiscal', 0),
-(107, 1145, '04', 'Otras disposiciones legales', 0),
-(108, 1145, '05', 'Indemnización por incumplimiento de contratos', 0),
-(109, 1145, '06', 'Juicios y costas procesales por impuesto sobre la renta', 0),
-(110, 1155, '01', 'Colocación de bonos a corto plazo', 0),
-(111, 1155, '02', 'Colocación de letras del tesoro a corto plazo', 0),
-(112, 1156, '01', 'Obtención de préstamos del sector privado a corto plazo', 0),
-(113, 1156, '02', 'Obtención de préstamos de la República a corto plazo', 0),
-(114, 1156, '03', 'Obtención de préstamos de los entes descentralizados sin fines empresariales a corto plazo', 0),
-(115, 1156, '04', 'Obtención de préstamos de las instituciones de protección social a corto plazo', 0),
-(116, 1156, '05', 'Obtención de préstamos de los entes descentralizados con fines empresariales petroleros a corto plazo', 0),
-(117, 1156, '06', 'Obtención de préstamos de los entes descentralizados con fines empresariales no petroleros a corto plazo', 0),
-(118, 1156, '07', 'Obtención de préstamos de entes descentralizados financieros bancarios a corto plazo', 0),
-(119, 1156, '08', 'Obtención de préstamos de entes descentralizados financieros no bancarios a corto plazo', 0),
-(120, 1156, '09', 'Obtención de préstamos del Poder Estadal a corto plazo', 0),
-(121, 1156, '10', 'Obtención de préstamos del Poder Municipal a corto plazo', 0),
-(122, 1157, '01', 'Colocación de bonos a largo plazo', 0),
-(123, 1157, '02', 'Colocación de letras del tesoro a largo plazo', 0),
-(124, 1158, '01', 'Obtención de préstamos del sector privado a largo plazo', 0),
-(125, 1158, '02', 'Obtención de préstamos de la República a largo plazo', 0),
-(126, 1158, '03', 'Obtención de préstamos de los entes descentralizados sin fines empresariales a largo plazo', 0),
-(127, 1158, '04', 'Obtención de préstamos de las instituciones de protección social a largo plazo', 0),
-(128, 1158, '05', 'Obtención de préstamos de los entes descentralizados con fines empresariales petroleros a largo plazo', 0),
-(129, 1158, '06', 'Obtención de préstamos de los entes descentralizados con fines empresariales no petroleros a largo plazo', 0),
-(130, 1158, '07', 'Obtención de préstamos de entes descentralizados financieros bancarios a largo plazo', 0),
-(131, 1158, '08', 'Obtención de préstamos de entes descentralizados financieros no bancarios a largo plazo', 0),
-(132, 1158, '09', 'Obtención de préstamos del Poder Estadal a largo plazo', 0),
-(133, 1158, '10', 'Obtención de préstamos del Poder Municipal a largo plazo', 0),
-(134, 1160, '01', 'Obtención de préstamos de gobiernos extranjeros a corto plazo', 0),
-(135, 1160, '02', 'Obtención de préstamos de organismos internacionales a corto plazo', 0),
-(136, 1160, '03', 'Obtención de préstamos de instituciones financieras externas a corto plazo', 0),
-(137, 1160, '04', 'Obtención de préstamos de proveedores de bienes y servicios externos a corto plazo', 0),
-(138, 1162, '01', 'Obtención de préstamos de gobiernos extranjeros a largo plazo', 0),
-(139, 1162, '02', 'Obtención de préstamos de organismos internacionales a largo plazo', 0),
-(140, 1162, '03', 'Obtención de préstamos de instituciones financieras externas a largo plazo', 0),
-(141, 1162, '04', 'Obtención de préstamos de proveedores de bienes y servicios externos a largo plazo', 0),
-(142, 1166, '01', 'Cuotas por participación', 0),
-(143, 1166, '02', 'Bonos de desempate', 0),
-(144, 1166, '99', 'Otros ingresos por procesos licitatorios', 0),
-(145, 1193, '01', 'Transferencias corrientes internas de personas', 0),
-(146, 1193, '02', 'Transferencias corrientes internas de instituciones sin fines de lucro', 0),
-(147, 1193, '03', 'Transferencias corrientes internas de empresas privadas', 0),
-(148, 1194, '01', 'Donaciones corrientes internas de personas', 0),
-(149, 1194, '02', 'Donaciones corrientes internas de instituciones sin fines de lucro', 0),
-(150, 1194, '03', 'Donaciones corrientes internas de empresas privadas', 0),
-(151, 1195, '01', 'Transferencias corrientes internas de la República', 0),
-(152, 1195, '02', 'Transferencias corrientes internas de entes descentralizados sin fines empresariales', 0),
-(153, 1195, '03', 'Transferencias corrientes internas de instituciones de protección social', 0),
-(154, 1195, '04', 'Transferencias corrientes internas de entes descentralizados con fines empresariales petroleros', 0),
-(155, 1195, '05', 'Transferencias corrientes internas de entes descentralizados con fines empresariales no petroleros', 0),
-(156, 1195, '06', 'Transferencias corrientes internas de entes descentralizados financieros bancarios', 0),
-(157, 1195, '07', 'Transferencias corrientes internas de entes descentralizados financieros no bancarios', 0),
-(158, 1195, '08', 'Transferencias corrientes internas del Poder Estadal', 0),
-(159, 1195, '09', 'Transferencias corrientes internas del Poder Municipal', 0),
-(160, 1195, '99', 'Otras transferencias corrientes internas del sector público', 0),
-(161, 1196, '01', 'Donaciones corrientes internas de la República', 0),
-(162, 1196, '02', 'Donaciones corrientes internas de entes descentralizados sin fines empresariales', 0),
-(163, 1196, '03', 'Donaciones corrientes internas de instituciones de protección social', 0),
-(164, 1196, '04', 'Donaciones corrientes internas de entes descentralizados con fines empresariales petroleros', 0),
-(165, 1196, '05', 'Donaciones corrientes internas de entes descentralizados con fines empresariales no petroleros', 0),
-(166, 1196, '06', 'Donaciones corrientes internas de entes descentralizados financieros bancarios', 0),
-(167, 1196, '07', 'Donaciones corrientes internas de entes descentralizados financieros no bancarios', 0),
-(168, 1196, '08', 'Donaciones corrientes internas del Poder Estadal', 0),
-(169, 1196, '09', 'Donaciones corrientes internas del Poder Municipal', 0),
-(170, 1197, '01', 'Transferencias corrientes de instituciones sin fines de lucro', 0),
-(171, 1197, '02', 'Transferencias corrientes de gobiernos extranjeros', 0),
-(172, 1197, '03', 'Transferencias corrientes de organismos internacionales', 0),
-(173, 1198, '01', 'Donaciones corrientes de personas', 0),
-(174, 1198, '02', 'Donaciones corrientes de instituciones sin fines de lucro', 0),
-(175, 1198, '03', 'Donaciones corrientes de gobiernos extranjeros', 0),
-(176, 1198, '04', 'Donaciones corrientes de organismos internacionales', 0),
-(177, 1199, '01', 'Transferencias de capital internas de personas', 0),
-(178, 1199, '02', 'Transferencias de capital internas de instituciones sin fines de lucro', 0),
-(179, 1199, '03', 'Transferencias de capital internas de empresas privadas', 0),
-(180, 1200, '01', 'Donaciones de capital internas de personas', 0),
-(181, 1200, '02', 'Donaciones de capital internas de instituciones sin fines de lucro', 0),
-(182, 1200, '03', 'Donaciones de capital internas de empresas privadas', 0),
-(183, 1201, '01', 'Transferencias de capital internas de la República', 0),
-(184, 1201, '02', 'Transferencias de capital internas de entes descentralizados sin fines empresariales', 0),
-(185, 1201, '03', 'Transferencias de capital internas de instituciones de protección social', 0),
-(186, 1201, '04', 'Transferencias de capital internas de entes descentralizados con fines empresariales petroleros', 0),
-(187, 1201, '05', 'Transferencias de capital internas de entes descentralizados con fines empresariales no petroleros', 0),
-(188, 1201, '06', 'Transferencias de capital internas de entes descentralizados financieros bancarios', 0),
-(189, 1201, '07', 'Transferencias de capital internas de entes descentralizados financieros no bancarios', 0),
-(190, 1201, '08', 'Transferencias de capital internas del Poder Estadal', 0),
-(191, 1201, '09', 'Transferencias de capital internas del Poder Municipal', 0),
-(192, 1201, '99', 'Otras transferencias de capital del sector público', 0),
-(193, 1202, '01', 'Donaciones de capital internas de la República', 0),
-(194, 1202, '02', 'Donaciones de capital internas de entes descentralizados sin fines empresariales', 0),
-(195, 1202, '03', 'Donaciones de capital internas de instituciones de protección social', 0),
-(196, 1202, '04', 'Donaciones de capital internas de entes descentralizados con fines empresariales petroleros', 0),
-(197, 1202, '05', 'Donaciones de capital internas de entes descentralizados con fines empresariales no petroleros', 0),
-(198, 1202, '06', 'Donaciones de capital internas de entes descentralizados financieros bancarios', 0),
-(199, 1202, '07', 'Donaciones de capital internas de entes descentralizados financieros no bancarios', 0),
-(200, 1202, '08', 'Donaciones de capital internas del Poder Estadal', 0),
-(201, 1202, '09', 'Donaciones de capital internas del Poder Municipal', 0),
-(202, 1203, '01', 'Transferencias de capital de instituciones sin fines de lucro', 0),
-(203, 1203, '02', 'Transferencias de capital de gobiernos extranjeros', 0),
-(204, 1203, '03', 'Transferencias de capital de organismos internacionales', 0),
-(205, 1204, '01', 'Donaciones de capital de personas', 0),
-(206, 1204, '02', 'Donaciones de capital de instituciones sin fines de lucro', 0),
-(207, 1204, '03', 'Donaciones de capital de gobiernos extranjeros', 0),
-(208, 1204, '04', 'Donaciones de capital de organismos internacionales', 0),
-(209, 1205, '01', 'Situado Estadal', 0),
-(210, 1205, '02', 'Situado Municipal', 0),
-(211, 1221, '01', 'Transferencias corrientes de Organismos del Sector Público a los Consejos Comunales', 0),
-(212, 1221, '02', 'Donaciones corrientes de Organismos del Sector Público a los Consejos Comunales', 0),
-(213, 1222, '01', 'Transferencias de capital de Organismos del Sector Público a los Consejos Comunales', 0),
-(214, 1222, '02', 'Donaciones de capital de Organismos del Sector Público a los Consejos Comunales', 0),
-(215, 1225, '01', 'Venta y/o desincorporación de maquinarias y demás equipos de construcción, campo, industria y taller', 0),
-(216, 1225, '02', 'Venta y/o desincorporación de equipos de transporte, tracción y elevación', 0),
-(217, 1225, '03', 'Venta y/o desincorporación de equipos de comunicaciones y de señalamiento', 0),
-(218, 1225, '04', 'Venta y/o desincorporación de equipos médico - quirúrgicos, dentales y de veterinaria', 0),
-(219, 1225, '05', 'Venta y/o desincorporación de equipos científicos, religiosos, de enseñanza y recreación', 0),
-(220, 1225, '06', 'Venta y/o desincorporación de equipos para la seguridad pública', 0),
-(221, 1225, '07', 'Venta y/o desincorporación de máquinas, muebles y demás equipos de oficina y alojamiento', 0),
-(222, 1225, '08', 'Venta y/o desincorporación de semovientes', 0),
-(223, 1225, '99', 'Venta y/o desincorporación de otros activos fijos', 0),
-(224, 1232, '01', 'Incremento de la depreciación acumulada de edificios e instalaciones', 0),
-(225, 1232, '02', 'Incremento de la depreciación acumulada de maquinarias y demás equipos de construcción, campo, industria y taller', 0),
-(226, 1232, '03', 'Incremento de la depreciación acumulada de equipos de transporte, tracción y elevación', 0),
-(227, 1232, '04', 'Incremento de la depreciación acumulada de equipos de comunicaciones y de señalamiento', 0),
-(228, 1232, '05', 'Incremento de la depreciación acumulada de equipos médico quirúrgicos, dentales y de veterinaria', 0),
-(229, 1232, '06', 'Incremento de la depreciación acumulada de equipos científicos, religiosos, de enseñanza y recreación', 0),
-(230, 1232, '07', 'Incremento de la depreciación acumulada de equipos para la seguridad pública', 0),
-(231, 1232, '08', 'Incremento de la depreciación acumulada de máquinas, muebles y demás equipos de oficina y alojamiento', 0),
-(232, 1232, '09', 'Incremento de la depreciación acumulada de semovientes', 0),
-(233, 1232, '99', 'Incremento de la depreciación acumulada de otros activos fijos', 0),
-(234, 1233, '01', 'Incremento de la amortización acumulada de marcas de fábrica y patentes de invención', 0),
-(235, 1233, '02', 'Incremento de la amortización acumulada de derechos de autor', 0),
-(236, 1233, '03', 'Incremento de la amortización acumulada de gastos de organización', 0),
-(237, 1233, '04', 'Incremento de la amortización acumulada de paquetes y programas de computación', 0),
-(238, 1233, '05', 'Incremento de la amortización acumulada de estudios y proyectos', 0),
-(239, 1233, '99', 'Incremento de la amortización acumulada de otros activos intangibles', 0),
-(240, 1276, '01', 'Disminución de bancos públicos', 0),
-(241, 1276, '02', 'Disminución de bancos privados', 0),
-(242, 1276, '03', 'Disminución de bancos en el exterior', 0),
-(243, 1280, '01', 'Disminución de deudas de cuentadantes por rendir de fondos en avance a corto plazo', 0),
-(244, 1280, '02', 'Disminución de deudas de cuentadantes por rendir de fondos en anticipos a corto plazo', 0),
-(245, 1295, '01', 'Disminución de intereses de la deuda pública interna a corto plazo pagados por anticipado', 0),
-(246, 1295, '02', 'Disminución de intereses de la deuda pública externa a corto plazo pagados por anticipado', 0),
-(247, 1295, '03', 'Disminución de otros intereses a corto plazo pagados por anticipado', 0),
-(248, 1295, '04', 'Disminución de débitos por apertura de cartas de crédito a corto plazo', 0),
-(249, 1295, '99', 'Disminución de otros gastos a corto plazo pagados por anticipado', 0),
-(250, 1298, '01', 'Disminución de intereses de la deuda pública interna a largo plazo pagados por anticipado', 0),
-(251, 1298, '02', 'Disminución de intereses de la deuda pública externa a largo plazo pagados por anticipado', 0),
-(252, 1298, '03', 'Disminución de otros intereses a mediano y largo plazo pagados por anticipado', 0),
-(253, 1298, '99', 'Disminución de otros gastos a mediano y largo plazo pagados por anticipado', 0),
-(254, 1321, '01', 'Incremento de otros aportes patronales por pagar', 0),
-(255, 1321, '02', 'Incremento de otras retenciones laborales por pagar', 0),
-(256, 1335, '01', 'Incremento de rentas diferidas por recaudar a corto plazo', 0),
-(257, 1336, '01', 'Incremento de colocación de certificados de reintegro tributario', 0),
-(258, 1336, '02', 'Incremento de colocación de bonos de exportación', 0),
-(259, 1336, '03', 'Incremento de colocación de bonos en dación de pagos', 0),
-(260, 1337, '01', 'Incremento de provisiones para cuentas incobrables', 0),
-(261, 1337, '02', 'Incremento de provisiones para despidos', 0),
-(262, 1337, '03', 'Incremento de provisiones para pérdidas de inventarios', 0),
-(263, 1337, '04', 'Incremento de provisiones para beneficios sociales', 0),
-(264, 1337, '99', 'Incremento de otras provisiones', 0),
-(265, 1341, '01', 'Incremento de depósitos a la vista de organismos del sector público', 0),
-(266, 1341, '02', 'Incremento de depósitos a la vista de personas naturales y jurídicas del sector privado', 0),
-(267, 1342, '01', 'Incremento de depósitos a plazo fijo de organismos del sector público', 0),
-(268, 1342, '02', 'Incremento de depósitos a plazo fijo de personas naturales y jurídicas del sector privado', 0),
-(269, 1347, '01', 'Incremento de la deuda pública interna por distribuir', 0),
-(270, 1347, '02', 'Incremento de la deuda pública externa por distribuir', 0),
-(271, 1366, '01', 'Remuneraciones al personal contratado a tiempo determinado', 1),
-(272, 1366, '02', 'Remuneraciones por honorarios profesionales', 1),
-(273, 1687, '01', 'Servicios de telefonía prestados por organismos públicos', 1),
-(274, 1687, '02', 'Servicios de telefonía prestados por instituciones privadas', 1),
-(275, 1746, '01', 'Repuestos mayores para maquinaria y demás equipos de construcción, campo, industria y taller', 1),
-(276, 1746, '02', 'Repuestos mayores para equipos de transporte, tracción y elevación', 1),
-(277, 1746, '03', 'Repuestos mayores para equipos de comunicaciones y de señalamiento', 1),
-(278, 1746, '04', 'Repuestos mayores para equipos médico-quirúrgicos, dentales y de veterinaria', 1),
-(279, 1746, '05', 'Repuestos mayores para equipos científicos, religiosos, de enseñanza y recreación', 1),
-(280, 1746, '06', 'Repuestos mayores para equipos y armamentos de orden público, seguridad y defensa', 1),
-(281, 1746, '07', 'Repuestos mayores para máquinas, muebles y demás equipos de oficina y alojamiento', 1),
-(282, 1746, '99', 'Repuestos mayores para otras maquinaria y equipos', 1),
-(283, 1747, '01', 'Reparaciones, mejoras y adiciones mayores de maquinaria y demás equipos de construcción, campo, industria y taller', 1),
-(284, 1747, '02', 'Reparaciones, mejoras y adiciones mayores de equipos de transporte, tracción y elevación', 1),
-(285, 1747, '03', 'Reparaciones, mejoras y adiciones mayores de equipos de comunicaciones y de señalamiento', 1),
-(286, 1747, '04', 'Reparaciones, mejoras y adiciones mayores de equipos médico quirúrgicos, dentales y de veterinaria', 1),
-(287, 1747, '05', 'Reparaciones, mejoras y adiciones mayores de equipos científicos, religiosos, de enseñanza y recreación', 1),
-(288, 1747, '06', 'Reparaciones, mejoras y adiciones mayores de equipos y armamentos de orden público, seguridad y defensa nacional', 1),
-(289, 1747, '07', 'Reparaciones, mejoras y adiciones mayores de máquinas, muebles y demás equipos de oficina y alojamiento', 1),
-(290, 1747, '99', 'Reparaciones, mejoras y adiciones mayores de otras maquinaria y equipos', 1),
-(291, 1792, '01', 'Maquinaria y demás equipos de construcción, campo, industria y taller', 1),
-(292, 1792, '02', 'Equipos de transporte, tracción y elevación', 1),
-(293, 1792, '03', 'Equipos de comunicaciones y de señalamiento', 1),
-(294, 1792, '04', 'Equipos médico - quirúrgicos, dentales y de veterinaria', 1),
-(295, 1792, '05', 'Equipos científicos, religiosos, de enseñanza y recreación', 1),
-(296, 1792, '06', 'Equipos para seguridad pública', 1),
-(297, 1792, '07', 'Máquinas, muebles y demás equipos de oficina y alojamiento', 1),
-(298, 1792, '99', 'Otras maquinaria y equipos usados', 1),
-(299, 1818, '01', 'Aportes en acciones y participaciones de capital a entes descentralizados sin fines empresariales', 1),
-(300, 1818, '02', 'Aportes en acciones y participaciones de capital a instituciones de protección social', 1),
-(301, 1818, '03', 'Aportes en acciones y participaciones de capital a entes descentralizados con fines empresariales petroleros', 1),
-(302, 1818, '04', 'Aportes en acciones y participaciones de capital a entes descentralizados con fines empresariales no petroleros', 1),
-(303, 1818, '05', 'Aportes en acciones y participaciones de capital a entes descentralizados financieros bancarios', 1),
-(304, 1818, '06', 'Aportes en acciones y participaciones de capital a entes descentralizados financieros no bancarios', 1),
-(305, 1818, '07', 'Aportes en acciones y participaciones de capital a organismos del sector público para el pago de su deuda', 1),
-(306, 1819, '01', 'Aportes en acciones y participaciones de capital a organismos internacionales', 1),
-(307, 1819, '99', 'Otros aportes en acciones y participaciones de capital al sector externo', 1),
-(308, 1820, '01', 'Adquisición de títulos y valores privados', 1),
-(309, 1820, '02', 'Adquisición de títulos y valores públicos', 1),
-(310, 1820, '03', 'Adquisición de títulos y valores externos', 1),
-(311, 1821, '01', 'Adquisición de títulos y valores privados', 1),
-(312, 1821, '02', 'Adquisición de títulos y valores públicos', 1),
-(313, 1821, '03', 'Adquisición de títulos y valores externos', 1),
-(314, 1823, '01', 'Concesión de préstamos a la República', 1),
-(315, 1823, '02', 'Concesión de préstamos a entes descentralizados sin fines empresariales', 1),
-(316, 1823, '03', 'Concesión de préstamos a instituciones de protección social', 1),
-(317, 1823, '04', 'Concesión de préstamos a entes descentralizados con fines empresariales petroleros', 1),
-(318, 1823, '05', 'Concesión de préstamos a entes descentralizados con fines empresariales no petroleros', 1),
-(319, 1823, '06', 'Concesión de préstamos a entes descentralizados financieros bancarios', 1),
-(320, 1823, '07', 'Concesión de préstamos a entes descentralizados financieras no bancarios', 1),
-(321, 1823, '08', 'Concesión de préstamos al Poder Estadal', 1),
-(322, 1823, '09', 'Concesión de préstamos al Poder Municipal', 1),
-(323, 1824, '01', 'Concesión de préstamos a instituciones sin fines de lucro', 1),
-(324, 1824, '02', 'Concesión de préstamos a gobiernos extranjeros', 1),
-(325, 1824, '03', 'Concesión de préstamos a organismos internacionales', 1),
-(326, 1826, '01', 'Concesión de préstamos a la República', 1),
-(327, 1826, '02', 'Concesión de préstamos a entes descentralizados sin fines empresariales', 1),
-(328, 1826, '03', 'Concesión de préstamos a instituciones de protección social', 1),
-(329, 1826, '04', 'Concesión de préstamos a entes descentralizados con fines empresariales petroleros', 1),
-(330, 1826, '05', 'Concesión de préstamos a entes descentralizados con fines empresariales no petroleros', 1),
-(331, 1826, '06', 'Concesión de préstamos a entes descentralizados financieros bancarios', 1),
-(332, 1826, '07', 'Concesión de préstamos a entes descentralizados financieros no bancarios', 1),
-(333, 1826, '08', 'Concesión de préstamos al Poder Estadal', 1),
-(334, 1826, '09', 'Concesión de préstamos al Poder Municipal', 1),
-(335, 1827, '01', 'Concesión de préstamos a instituciones sin fines de lucro', 1),
-(336, 1827, '02', 'Concesión de préstamos a gobiernos extranjeros', 1),
-(337, 1827, '03', 'Concesión de préstamos a organismos internacionales', 1),
-(338, 1829, '01', 'Incremento en bancos públicos', 1),
-(339, 1829, '02', 'Incremento en bancos privados', 1),
-(340, 1829, '03', 'Incremento en bancos del exterior', 1),
-(341, 1833, '01', 'Incremento de deudas por rendir de fondos en avance', 1),
-(342, 1833, '02', 'Incremento de deudas por rendir de fondos en anticipo', 1),
-(343, 1848, '01', 'Incremento de intereses de la deuda pública interna a corto plazo pagados por anticipado', 1),
-(344, 1848, '02', 'Incremento de intereses de la deuda pública externa a corto plazo pagados por anticipado', 1),
-(345, 1848, '03', 'Incremento de otros intereses a corto plazo pagados por anticipado', 1),
-(346, 1848, '04', 'Incremento de débitos por apertura de carta de crédito a corto plazo', 1),
-(347, 1848, '99', 'Incremento de otros gastos a corto plazo pagados por anticipado', 1),
-(348, 1851, '01', 'Incremento de intereses de la deuda pública interna a largo plazo pagados por anticipado', 1),
-(349, 1851, '02', 'Incremento de intereses de la deuda pública externa a largo plazo pagados por anticipado', 1),
-(350, 1851, '08', 'Incremento de otros intereses a mediano y largo plazo pagados por anticipado', 1),
-(351, 1851, '99', 'Incremento de otros gastos a mediano y largo plazo pagados por anticipado', 1),
-(352, 1865, '01', 'Pensiones del personal empleado, obrero y militar', 1),
-(353, 1865, '02', 'Jubilaciones del personal empleado, obrero y militar', 1),
-(354, 1865, '03', 'Becas escolares', 1),
-(355, 1865, '04', 'Becas universitarias en el país', 1),
-(356, 1865, '05', 'Becas de perfeccionamiento profesional en el país', 1),
-(357, 1865, '06', 'Becas para estudios en el extranjero', 1),
-(358, 1865, '07', 'Otras becas', 1),
-(359, 1865, '08', 'Previsión por accidentes de trabajo', 1),
-(360, 1865, '09', 'Aguinaldos al personal empleado, obrero y militar pensionado', 1),
-(361, 1865, '10', 'Aportes a caja de ahorro del personal empleado, obrero y militar pensionado', 1),
-(362, 1865, '11', 'Aportes a los servicios de salud, accidentes personales y gastos funerarios del personal empleado, obrero y militar pensionado', 1),
-(363, 1865, '12', 'Otras subvenciones socio - económicas del personal empleado obrero y militar pensionado', 1),
-(364, 1865, '13', 'Aguinaldos al personal empleado, obrero y militar jubilado', 1),
-(365, 1865, '14', 'Aportes a caja de ahorro del personal empleado, obrero y militar jubilado', 1),
-(366, 1865, '15', 'Aportes a los servicios de salud, accidentes personales y gastos funerarios del personal empleado, obrero y militar jubilado', 1),
-(367, 1865, '16', 'Otras subvenciones socio - económicas del personal empleado, obrero y militar jubilado', 1),
-(368, 1865, '30', 'Incapacidad temporal sin hospitalización', 1),
-(369, 1865, '31', 'Incapacidad temporal con hospitalización', 1),
-(370, 1865, '32', 'Reposo por maternidad', 1),
-(371, 1865, '33', 'Indemnización por paro forzoso', 1),
-(372, 1865, '34', 'Otros tipos de incapacidad temporal', 1),
-(373, 1865, '35', 'Indemnización por comisión por pensiones', 1),
-(374, 1865, '36', 'Indemnización por comisión por cesantía', 1),
-(375, 1865, '37', 'Incapacidad parcial', 1),
-(376, 1865, '38', 'Invalidez', 1),
-(377, 1865, '39', 'Pensiones por vejez, viudez y orfandad', 1),
-(378, 1865, '40', 'Indemnización por cesantía', 1),
-(379, 1865, '41', 'Otras pensiones y demás prestaciones en dinero', 1),
-(380, 1865, '42', 'Incapacidad parcial por accidente común', 1),
-(381, 1865, '43', 'Incapacidad parcial por enfermedades profesionales', 1),
-(382, 1865, '44', 'Incapacidad parcial por accidente de trabajo', 1),
-(383, 1865, '45', 'Indemnización única por invalidez', 1),
-(384, 1865, '46', 'Indemnización única por vejez', 1),
-(385, 1865, '47', 'Sobrevivientes por enfermedad común', 1),
-(386, 1865, '48', 'Sobrevivientes por accidente común', 1),
-(387, 1865, '49', 'Sobrevivientes por enfermedades profesionales', 1),
-(388, 1865, '50', 'Sobrevivientes por accidentes de trabajo', 1),
-(389, 1865, '51', 'Indemnizaciones por conmutación de renta', 1),
-(390, 1865, '52', 'Indemnizaciones por conmutación de pensiones', 1),
-(391, 1865, '53', 'Indemnizaciones por comisión de renta', 1),
-(392, 1865, '54', 'Asignación por nupcias', 1),
-(393, 1865, '55', 'Asignación por funeraria', 1),
-(394, 1865, '56', 'Otras asignaciones', 1),
-(395, 1865, '70', 'Subsidios educacionales al sector privado', 1),
-(396, 1865, '71', 'Subsidios a universidades privadas', 1),
-(397, 1865, '72', 'Subsidios culturales al sector privado', 1),
-(398, 1865, '73', 'Subsidios a instituciones benéficas privadas', 1),
-(399, 1865, '74', 'Subsidios a centros de empleados', 1),
-(400, 1865, '75', 'Subsidios a organismos laborales y gremiales', 1),
-(401, 1865, '76', 'Subsidios a entidades religiosas', 1),
-(402, 1865, '77', 'Subsidios a entidades deportivas y recreativas de carácter privado', 1),
-(403, 1865, '78', 'Subsidios científicos al sector privado', 1),
-(404, 1865, '79', 'Subsidios a cooperativas', 1),
-(405, 1865, '80', 'Subsidios a empresas privadas', 1),
-(406, 1865, '99', 'Otras transferencias corrientes internas al sector privado', 1),
-(407, 1866, '01', 'Donaciones corrientes a personas', 1),
-(408, 1866, '02', 'Donaciones corrientes a instituciones sin fines de lucro', 1),
-(409, 1867, '01', 'Transferencias corrientes a la República', 1),
-(410, 1867, '02', 'Transferencias corrientes a entes descentralizados sin fines empresariales', 1),
-(411, 1867, '03', 'Transferencias corrientes a entes descentralizados sin fines empresariales para atender beneficios de la seguridad social', 1),
-(412, 1867, '04', 'Transferencias corrientes a instituciones de protección social', 1),
-(413, 1867, '05', 'Transferencias corrientes a instituciones de protección social para atender beneficios de la seguridad social', 1),
-(414, 1867, '06', 'Transferencias corrientes a entes descentralizados con fines empresariales petroleros', 1),
-(415, 1867, '07', 'Transferencias corrientes a entes descentralizados con fines empresariales no petroleros', 1),
-(416, 1867, '08', 'Transferencias corrientes a entes descentralizados financieros bancarios', 1),
-(417, 1867, '09', 'Transferencias corrientes a entes descentralizados financieros no bancarios', 1),
-(418, 1867, '10', 'Transferencias corrientes al Poder Estadal', 1),
-(419, 1867, '11', 'Transferencias corrientes al Poder Municipal', 1),
-(420, 1867, '13', 'Subsidios otorgados por normas externas', 1),
-(421, 1867, '14', 'Incentivos otorgados por normas externas', 1),
-(422, 1867, '15', 'Subsidios otorgados por precios políticos', 1),
-(423, 1867, '16', 'Subsidios de costos sociales por normas externas', 1),
-(424, 1867, '99', 'Otras transferencias corrientes internas al sector público', 1),
-(425, 1868, '01', 'Donaciones corrientes a la República', 1),
-(426, 1868, '02', 'Donaciones corrientes a entes descentralizados sin fines empresariales', 1),
-(427, 1868, '03', 'Donaciones corrientes a instituciones de protección social', 1),
-(428, 1868, '04', 'Donaciones corrientes a entes descentralizados con fines empresariales petroleros', 1),
-(429, 1868, '05', 'Donaciones corrientes a entes descentralizados con fines empresariales no petroleros', 1),
-(430, 1868, '06', 'Donaciones corrientes a entes descentralizados financieros bancarios', 1),
-(431, 1868, '07', 'Donaciones corrientes a entes descentralizados financieros no bancarios', 1),
-(432, 1868, '08', 'Donaciones corrientes al Poder Estadal', 1),
-(433, 1868, '09', 'Donaciones corrientes al Poder Municipal', 1),
-(434, 1869, '01', 'Pensiones de altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
-(435, 1869, '02', 'Pensiones del personal de alto nivel y de dirección', 1),
-(436, 1869, '06', 'Aguinaldos de altos funcionarios y altas funcionarias del poder público y de elección popular pensionados', 1),
-(437, 1869, '07', 'Aguinaldos del personal pensionado de alto nivel y de dirección', 1),
-(438, 1869, '11', 'Aportes a caja de ahorro de altos funcionarios y altas funcionarias del poder público y de elección popular pensionados', 1),
-(439, 1869, '12', 'Aportes a caja de ahorro del personal pensionado de alto nivel y de dirección', 1),
-(440, 1869, '16', 'Aportes a los servicios de salud, accidentes personales y gastos funerarios de altos funcionarios y altas funcionarias del poder público y de elección popular pensionados', 1),
-(441, 1869, '17', 'Aportes a los servicios de salud, accidentes personales y gastos funerarios del personal pensionado de alto nivel y de dirección', 1),
-(442, 1869, '98', 'Otras subvenciones de altos funcionarios y altas funcionarias del poder público y de elección popular pensionados', 1),
-(443, 1869, '99', 'Otras subvenciones del personal pensionado de alto nivel y de dirección', 1),
-(444, 1870, '01', 'Jubilaciones de altos funcionarios y altas funcionarias del poder público y de elección popular, del personal de alto nivel y de dirección público y de elección popular', 1),
-(445, 1870, '02', 'Jubilaciones del personal de alto nivel y de dirección', 1),
-(446, 1870, '06', 'Aguinaldos de altos funcionarios y altas funcionarias del poder público y de elección popular jubilados', 1),
-(447, 1870, '07', 'Aguinaldos del personal jubilado de alto nivel y de dirección', 1),
-(448, 1870, '11', 'Aportes a caja de ahorro de altos funcionarios y altas funcionarias del poder público y de elección popular jubilados', 1),
-(449, 1870, '12', 'Aportes a caja de ahorro del personal jubilado de alto nivel y de dirección', 1),
-(450, 1870, '16', 'Aportes a los servicios de salud, accidentes personales y gastos funerarios de altos funcionarios y altas funcionarias del poder público y de elección popular jubilados', 1),
-(451, 1870, '17', 'Aportes a los servicios de salud, accidentes personales y gastos funerarios del personal jubilado de alto nivel y de dirección', 1),
-(452, 1870, '98', 'Otras subvenciones de altos funcionarios y altas funcionarias del poder público y de elección popular jubilados', 1),
-(453, 1870, '99', 'Otras subvenciones del personal jubilado de alto nivel y de dirección', 1),
-(454, 1871, '01', 'Becas de capacitación e investigación en el exterior', 1),
-(455, 1871, '02', 'Transferencias corrientes a instituciones sin fines de lucro', 1),
-(456, 1871, '03', 'Transferencias corrientes a gobiernos extranjeros', 1),
-(457, 1871, '04', 'Transferencias corrientes a organismos internacionales', 1),
-(458, 1872, '01', 'Donaciones corrientes a personas', 1),
-(459, 1872, '02', 'Donaciones corrientes a instituciones sin fines de lucro', 1),
-(460, 1872, '03', 'Donaciones corrientes a gobiernos extranjeros', 1),
-(461, 1872, '04', 'Donaciones corrientes a organismos internacionales', 1),
-(462, 1873, '01', 'Situado Estadal', 1),
-(463, 1873, '02', 'Situado Municipal', 1),
-(464, 1889, '01', 'Transferencias corrientes a Consejos Comunales', 1),
-(465, 1889, '02', 'Donaciones corrientes a Consejos Comunales', 1),
-(466, 1890, '01', 'Transferencias de capital a Consejos Comunales', 1),
-(467, 1890, '02', 'Donaciones de capital a Consejos Comunales', 1),
-(468, 1891, '01', 'Depreciación de edificios e instalaciones', 1),
-(469, 1891, '02', 'Depreciación de maquinaria y demás equipos de construcción campo, industria y taller', 1),
-(470, 1891, '03', 'Depreciación de equipos de transporte, tracción y elevación', 1),
-(471, 1891, '04', 'Depreciación de equipos de comunicaciones y de señalamiento', 1),
-(472, 1891, '05', 'Depreciación de equipos médico - quirúrgicos, dentales y de veterinaria', 1),
-(473, 1891, '06', 'Depreciación de equipos científicos, religiosos, de enseñanza y recreación', 1),
-(474, 1891, '07', 'Depreciación de equipos para la seguridad pública', 1),
-(475, 1891, '08', 'Depreciación de máquinas, muebles y demás equipos de oficina y alojamiento', 1),
-(476, 1891, '09', 'Depreciación de semovientes', 1),
-(477, 1891, '99', 'Depreciación de otros bienes de uso', 1),
-(478, 1892, '01', 'Amortización de marcas de fábrica y patentes de invención', 1),
-(479, 1892, '02', 'Amortización de derechos de autor', 1),
-(480, 1892, '03', 'Amortización de gastos de organización', 1),
-(481, 1892, '04', 'Amortización de paquetes y programas de computación', 1),
-(482, 1892, '05', 'Amortización de estudios y proyectos', 1),
-(483, 1892, '99', 'Amortización de otros activos intangibles', 1),
-(484, 1917, '01', 'Indemnizaciones por daños y perjuicios ocasionados por organismos de la República, del Poder Estadal y del Poder Municipal', 1),
-(485, 1917, '02', 'Indemnizaciones por daños y perjuicios ocasionados por entes descentralizados sin fines empresariales', 1),
-(486, 1917, '03', 'Indemnizaciones por daños y perjuicios ocasionados por entes descentralizados con fines empresariales', 1),
-(487, 1918, '01', 'Sanciones pecuniarias impuestas a los organismos de la República, del Poder Estadal y del Poder Municipal', 1),
-(488, 1918, '02', 'Sanciones pecuniarias impuestas a los entes descentralizados sin fines empresariales', 1),
-(489, 1918, '03', 'Sanciones pecuniarias impuestas a los entes descentralizados con fines empresariales', 1),
-(490, 1949, '01', 'Amortización de la deuda pública interna a corto plazo de títulos y valores', 1),
-(491, 1949, '02', 'Amortización de la deuda pública interna a corto plazo de letras del tesoro', 1),
-(492, 1949, '03', 'Intereses de la deuda pública interna a corto plazo de títulos y valores', 1),
-(493, 1949, '04', 'Intereses por mora y multas de la deuda pública interna a corto plazo de títulos y valores', 1),
-(494, 1949, '05', 'Comisiones y otros gastos de la deuda pública interna a corto plazo de títulos y valores', 1),
-(495, 1949, '06', 'Descuentos en colocación de títulos y valores de la deuda pública interna a corto plazo', 1),
-(496, 1949, '07', 'Descuentos en colocación de letras del tesoro a corto plazo', 1),
-(497, 1950, '01', 'Amortización de la deuda pública interna por préstamos recibidos del sector privado a corto plazo', 1),
-(498, 1950, '02', 'Amortización de la deuda pública interna por préstamos recibidos de la República a corto plazo', 1),
-(499, 1950, '03', 'Amortización de la deuda pública interna por préstamos recibidos de entes descentralizados sin fines empresariales a corto plazo', 1),
-(500, 1950, '04', 'Amortización de la deuda pública interna por préstamos recibidos de instituciones de protección social a corto plazo', 1),
-(501, 1950, '05', 'Amortización de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales petroleros a corto plazo', 1),
-(502, 1950, '06', 'Amortización de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales no petroleros a corto plazo', 1),
-(503, 1950, '07', 'Amortización de la deuda pública interna por préstamos recibidos de entes descentralizados financieros bancarios a corto plazo', 1),
-(504, 1950, '08', 'Amortización de la deuda pública interna por préstamos recibidos de entes descentralizados financieros no bancarios a corto plazo', 1),
-(505, 1950, '09', 'Amortización de la deuda pública interna por préstamos recibidos del Poder Estadal a corto plazo', 1),
-(506, 1950, '10', 'Amortización de la deuda pública interna por préstamos recibidos del Poder Municipal a corto plazo', 1),
-(507, 1950, '11', 'Intereses de la deuda pública interna por préstamos recibidos del sector privado a corto plazo', 1),
-(508, 1950, '12', 'Intereses de la deuda pública interna por préstamos recibidos de la República a corto plazo', 1),
-(509, 1950, '13', 'Intereses de la deuda pública interna por préstamos recibidos de entes descentralizados sin fines empresariales a corto plazo', 1),
-(510, 1950, '14', 'Intereses de la deuda pública interna por préstamos recibidos de instituciones de protección social a corto plazo', 1),
-(511, 1950, '15', 'Intereses de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales petroleros a corto plazo', 1),
-(512, 1950, '16', 'Intereses de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales no petroleros a corto plazo', 1),
-(513, 1950, '17', 'Intereses de la deuda pública interna por préstamos recibidos de entes descentralizados financieros bancarios a corto plazo', 1),
-(514, 1950, '18', 'Intereses de la deuda pública interna por préstamos recibidos de entes descentralizados financieros no bancarios a corto plazo', 1),
-(515, 1950, '19', 'Intereses de la deuda pública interna por préstamos recibidos del Poder Estadal a corto plazo', 1),
-(516, 1950, '20', 'Intereses de la deuda pública interna por préstamos recibidos del Poder Municipal a corto plazo', 1),
-(517, 1950, '21', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos del sector privado a corto plazo', 1),
-(518, 1950, '22', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de la República a corto plazo', 1),
-(519, 1950, '23', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de entes descentralizados sin fines empresariales a corto plazo', 1),
-(520, 1950, '24', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de instituciones de protección social a corto plazo', 1),
-(521, 1950, '25', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales petroleros a corto plazo', 1),
-(522, 1950, '26', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales no petroleros a corto plazo', 1),
-(523, 1950, '27', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de entes descentralizados financieros bancarios a corto plazo', 1),
-(524, 1950, '28', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de entes descentralizados financieros no bancarios a corto plazo', 1),
-(525, 1950, '29', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos del Poder Estadal a corto plazo', 1),
-(526, 1950, '30', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos del Poder Municipal a corto plazo', 1),
-(527, 1950, '31', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos del sector privado a corto plazo', 1),
-(528, 1950, '32', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos del sector privado a corto plazo', 1),
-(529, 1950, '33', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de entes descentralizados sin fines empresariales a corto plazo', 1),
-(530, 1950, '34', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de instituciones de protección social a corto plazo', 1),
-(531, 1950, '35', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales petroleros a corto plazo', 1),
-(532, 1950, '36', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales no petroleros a corto plazo', 1),
-(533, 1950, '37', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de entes descentralizados financieros bancarios a corto plazo', 1),
-(534, 1950, '38', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de entes descentralizados financieros no bancarios a corto plazo', 1),
-(535, 1950, '39', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos del Poder Estadal a corto plazo', 1),
-(536, 1950, '40', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos del Poder Municipal a corto plazo', 1),
-(537, 1951, '01', 'Amortización de la deuda pública interna indirecta por préstamos recibidos del sector privado a corto plazo', 1),
-(538, 1951, '02', 'Amortización de la deuda pública interna indirecta por préstamos recibidos del sector público a corto plazo', 1),
-(539, 1951, '03', 'Intereses de la deuda pública interna indirecta por préstamos recibidos del sector privado a corto plazo', 1);
-INSERT INTO `partida_sub_especifica` (`id`, `especifica`, `sub_especifica`, `nombre`, `estatus`) VALUES
-(540, 1951, '04', 'Intereses de la deuda pública interna indirecta por préstamos recibidos del sector público a corto plazo', 1),
-(541, 1951, '05', 'Intereses por mora y multas de la deuda pública interna indirecta por préstamos recibidos del sector privado a corto plazo', 1),
-(542, 1951, '06', 'Intereses por mora y multas de la deuda pública interna indirecta por préstamos recibidos del sector público a corto plazo', 1),
-(543, 1951, '07', 'Comisiones y otros gastos de la deuda pública interna indirecta por préstamos recibidos del sector privado a corto plazo', 1),
-(544, 1951, '08', 'Comisiones y otros gastos de la deuda pública interna indirecta por préstamos recibidos del sector público a corto plazo', 1),
-(545, 1952, '01', 'Amortización de la deuda pública interna a largo plazo de títulos y valores', 1),
-(546, 1952, '02', 'Amortización de la deuda pública interna a largo plazo de letras del tesoro', 1),
-(547, 1952, '03', 'Intereses de la deuda pública interna a largo plazo de títulos y valores', 1),
-(548, 1952, '04', 'Intereses por mora y multas de la deuda pública interna a largo plazo de títulos y valores', 1),
-(549, 1952, '05', 'Comisiones y otros gastos de la deuda pública interna a largo plazo de títulos y valores', 1),
-(550, 1952, '06', 'Descuentos en colocación de títulos y valores de la deuda pública interna a largo plazo', 1),
-(551, 1952, '07', 'Descuentos en colocación de letras del tesoro a largo plazo', 1),
-(552, 1953, '01', 'Amortización de la deuda pública interna por préstamos recibidos del sector privado a largo plazo', 1),
-(553, 1953, '02', 'Amortización de la deuda pública interna por préstamos recibidos de la República a largo plazo', 1),
-(554, 1953, '03', 'Amortización de la deuda pública interna por préstamos recibidos de entes descentralizados sin fines empresariales a largo plazo', 1),
-(555, 1953, '04', 'Amortización de la deuda pública interna por préstamos recibidos de instituciones de protección social a largo plazo', 1),
-(556, 1953, '05', 'Amortización de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales petroleros a largo plazo', 1),
-(557, 1953, '06', 'Amortización de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales no petroleros a largo plazo', 1),
-(558, 1953, '07', 'Amortización de la deuda pública interna por préstamos recibidos de entes descentralizados financieros bancarios a largo plazo', 1),
-(559, 1953, '08', 'Amortización de la deuda pública interna por préstamos recibidos de entes descentralizados financieros no bancarios a largo plazo', 1),
-(560, 1953, '09', 'Amortización de la deuda pública interna por préstamos recibidos del Poder Estadal a largo plazo', 1),
-(561, 1953, '10', 'Amortización de la deuda pública interna por préstamos recibidos del Poder Municipal a largo plazo', 1),
-(562, 1953, '11', 'Intereses de la deuda pública interna por préstamos recibidos del sector privado a largo plazo', 1),
-(563, 1953, '12', 'Intereses de la deuda pública interna por préstamos recibidos de la Intereses de la deuda pública interna por préstamos recibidos de la República a largo plazo', 1),
-(564, 1953, '13', 'Intereses de la deuda pública interna por préstamos recibidos de entes descentralizados sin fines empresariales a largo plazo', 1),
-(565, 1953, '14', 'Intereses de la deuda pública interna por préstamos recibidos de instituciones de protección social a largo plazo', 1),
-(566, 1953, '15', 'Intereses de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales petroleros a largo plazo', 1),
-(567, 1953, '16', 'Intereses de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales no petroleros a largo plazo', 1),
-(568, 1953, '17', 'Intereses de la deuda pública interna por préstamos recibidos de entes descentralizados financieros bancarios a largo plazo', 1),
-(569, 1953, '18', 'Intereses de la deuda pública interna por préstamos recibidos de entes descentralizados financieros no bancarios a largo plazo', 1),
-(570, 1953, '19', 'Intereses de la deuda pública interna por préstamos recibidos de Poder Estadal a largo plazo', 1),
-(571, 1953, '20', 'Intereses de la deuda pública interna por préstamos recibidos de Poder Municipal a largo plazo', 1),
-(572, 1953, '21', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos del sector privado a largo plazo', 1),
-(573, 1953, '22', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de la República a largo plazo', 1),
-(574, 1953, '23', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de entes descentralizados sin fines empresariales a largo plazo', 1),
-(575, 1953, '24', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de instituciones de protección social a largo plazo', 1),
-(576, 1953, '25', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales petroleros a largo plazo', 1),
-(577, 1953, '26', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales no petroleros a largo plazo', 1),
-(578, 1953, '27', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de entes descentralizados financieros bancarios a largo plazo', 1),
-(579, 1953, '28', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos de entes descentralizados financieros no bancarios a largo plazo', 1),
-(580, 1953, '29', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos del Poder Estadal a largo plazo', 1),
-(581, 1953, '30', 'Intereses por mora y multas de la deuda pública interna por préstamos recibidos del Poder Municipal a largo plazo', 1),
-(582, 1953, '31', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos del sector privado a largo plazo', 1),
-(583, 1953, '32', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de la República a largo plazo', 1),
-(584, 1953, '33', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de entes descentralizados sin fines empresariales a largo plazo', 1),
-(585, 1953, '34', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de instituciones de protección social a largo plazo', 1),
-(586, 1953, '35', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales petroleros a largo plazo', 1),
-(587, 1953, '36', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de entes descentralizados con fines empresariales no petroleros a largo plazo', 1),
-(588, 1953, '37', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de entes descentralizados financieros bancarios a largo plazo', 1),
-(589, 1953, '38', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos de entes descentralizados financieros no bancarios a largo plazo', 1),
-(590, 1953, '39', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos del Poder Estadal a largo plazo', 1),
-(591, 1953, '40', 'Comisiones y otros gastos de la deuda pública interna por préstamos recibidos del Poder Municipal a largo plazo', 1),
-(592, 1954, '01', 'Amortización de la deuda pública interna indirecta a largo plazo de títulos y valores', 1),
-(593, 1954, '02', 'Intereses de la deuda pública interna indirecta a largo plazo de títulos y valores', 1),
-(594, 1954, '03', 'Intereses por mora y multas de la deuda pública interna indirecta a largo plazo de títulos y valores', 1),
-(595, 1954, '04', 'Comisiones y otros gastos de la deuda pública interna indirecta a largo plazo de títulos y valores', 1),
-(596, 1954, '05', 'Descuentos en colocación de títulos y valores de la deuda pública interna indirecta de largo plazo', 1),
-(597, 1955, '01', 'Amortización de la deuda pública interna indirecta por préstamos recibidos del sector privado a largo plazo', 1),
-(598, 1955, '02', 'Amortización de la deuda pública interna indirecta por préstamos recibidos del sector público a largo plazo', 1),
-(599, 1955, '03', 'Intereses de la deuda pública interna indirecta por préstamos recibidos del sector privado a largo plazo', 1),
-(600, 1955, '04', 'Intereses de la deuda pública interna indirecta por préstamos recibidos del sector público a largo plazo', 1),
-(601, 1955, '05', 'Intereses por mora y multas de la deuda pública interna indirecta por préstamos recibidos del sector privado a largo plazo', 1),
-(602, 1955, '06', 'Intereses por mora y multas de la deuda pública interna indirecta por préstamos recibidos del sector público a largo plazo', 1),
-(603, 1955, '07', 'Comisiones y otros gastos de la deuda pública interna indirecta por préstamos recibidos del sector privado a largo plazo', 1),
-(604, 1955, '08', 'Comisiones y otros gastos de la deuda pública interna indirecta por préstamos recibidos del sector público a largo plazo', 1),
-(605, 1956, '01', 'Amortización de la deuda pública externa a corto plazo de títulos y valores', 1),
-(606, 1956, '02', 'Intereses de la deuda pública externa a corto plazo de títulos y valores', 1),
-(607, 1956, '03', 'Intereses por mora y multas de la deuda pública externa a corto plazo de títulos y valores', 1),
-(608, 1956, '04', 'Comisiones y otros gastos de la deuda pública externa a corto plazo de títulos y valores', 1),
-(609, 1956, '05', 'Descuentos en colocación de títulos y valores de la deuda pública externa a corto plazo', 1),
-(610, 1957, '01', 'Amortización de la deuda pública externa por préstamos recibidos de gobiernos extranjeros a corto plazo', 1),
-(611, 1957, '02', 'Amortización de la deuda pública externa por préstamos recibidos de organismos internacionales a corto plazo', 1),
-(612, 1957, '03', 'Amortización de la deuda pública externa por préstamos recibidos de instituciones financieras externas a corto plazo', 1),
-(613, 1957, '04', 'Amortización de la deuda pública externa por préstamos recibidos de proveedores de bienes y servicios externos a corto plazo', 1),
-(614, 1957, '05', 'Intereses de la deuda pública externa por préstamos recibidos de gobiernos extranjeros a corto plazo', 1),
-(615, 1957, '06', 'Intereses de la deuda pública externa por préstamos recibidos de gobiernos extranjeros a corto plazo', 1),
-(616, 1957, '07', 'Intereses de la deuda pública externa por préstamos recibidos de instituciones financieras externas a corto plazo', 1),
-(617, 1957, '08', 'Intereses de la deuda pública externa por préstamos recibidos de proveedores de bienes y servicios externos a corto plazo', 1),
-(618, 1957, '09', 'Intereses por mora y multas de la deuda pública externa por préstamos recibidos de gobiernos extranjeros a corto plazo', 1),
-(619, 1957, '10', 'Intereses por mora y multas de la deuda pública externa por préstamos recibidos de organismos internacionales a corto plazo', 1),
-(620, 1957, '11', 'Intereses por mora y multas de la deuda pública externa por préstamos recibidos de instituciones financieras externas a corto plazo', 1),
-(621, 1957, '12', 'Intereses por mora y multas de la deuda pública externa por préstamos recibidos de proveedores de bienes y servicios externos a corto plazo', 1),
-(622, 1957, '13', 'Comisiones y otros gastos de la deuda pública externa por préstamos recibidos de gobiernos extranjeros a corto plazo', 1),
-(623, 1957, '14', 'Comisiones y otros gastos de la deuda pública externa por préstamos recibidos de organismos internacionales a corto plazo', 1),
-(624, 1957, '15', 'Comisiones y otros gastos de la deuda pública externa por préstamos recibidos de instituciones financieras externas a corto plazo', 1),
-(625, 1957, '16', 'Comisiones y otros gastos de la deuda pública externa por préstamos recibidos de proveedores de bienes y servicios externos a corto plazo', 1),
-(626, 1958, '01', 'Amortización de la deuda pública externa indirecta por préstamos recibidos de gobiernos extranjeros a corto plazo', 1),
-(627, 1958, '02', 'Amortización de la deuda pública externa indirecta por préstamos recibidos de organismos internacionales a corto plazo', 1),
-(628, 1958, '03', 'Amortización de la deuda pública externa indirecta por préstamos recibidos de instituciones financieras externas a corto plazo', 1),
-(629, 1958, '04', 'Amortización de la deuda pública externa indirecta por préstamos recibidos de proveedores de bienes y servicios externos a corto plazo', 1),
-(630, 1958, '05', 'Intereses de la deuda pública externa indirecta por préstamos recibidos de gobiernos extranjeros a corto plazo', 1),
-(631, 1958, '06', 'Intereses de la deuda pública externa indirecta por préstamos recibidos de organismos internacionales a corto plazo', 1),
-(632, 1958, '07', 'Intereses de la deuda pública externa indirecta por préstamos recibidos de instituciones financieras externas a corto plazo', 1),
-(633, 1958, '08', 'Intereses de la deuda pública externa indirecta por préstamos recibidos de proveedores de bienes y servicios externos a corto plazo', 1),
-(634, 1958, '09', 'Intereses por mora y multas de la deuda pública externa indirecta por préstamos recibidos de gobiernos extranjeros a corto plazo', 1),
-(635, 1958, '10', 'Intereses por mora y multas de la deuda pública externa indirecta por préstamos recibidos de organismos internacionales a corto plazo', 1),
-(636, 1958, '11', 'Intereses por mora y multas de la deuda pública externa indirecta por préstamos recibidos de instituciones financieras externas a corto plazo', 1),
-(637, 1958, '12', 'Intereses por mora y multas de la deuda pública externa indirecta por préstamos recibidos de proveedores de bienes y servicios externos a corto plazo', 1),
-(638, 1958, '13', 'Comisiones y otros gastos de la deuda pública externa indirecta por préstamos recibidos de gobiernos extranjeros a corto plazo', 1),
-(639, 1958, '14', 'Comisiones y otros gastos de la deuda pública externa indirecta por préstamos recibidos de organismos internacionales a corto plazo', 1),
-(640, 1958, '15', 'Comisiones y otros gastos de la deuda pública externa indirecta por préstamos recibidos de instituciones financieras externas a corto plazo', 1),
-(641, 1958, '16', 'Comisiones y otros gastos de la deuda pública externa indirecta por préstamos recibidos de proveedores de bienes y servicios externos a corto plazo', 1),
-(642, 1959, '01', 'Amortización de la deuda pública externa a largo plazo de títulos y valores', 1),
-(643, 1959, '02', 'Intereses de la deuda pública externa a largo plazo de títulos y valores', 1),
-(644, 1959, '03', 'Intereses por mora y multas de la deuda pública externa a largo plazo de títulos y valores', 1),
-(645, 1959, '04', 'Comisiones y otros gastos de la deuda pública externa a largo plazo de títulos y valores', 1),
-(646, 1959, '05', 'Descuentos en colocación de títulos y valores de la deuda pública externa a largo plazo', 1),
-(647, 1960, '01', 'Amortización de la deuda pública externa por préstamos recibidos de gobiernos extranjeros a largo plazo', 1),
-(648, 1960, '02', 'Amortización de la deuda pública externa por préstamos recibidos de organismos internacionales a largo plazo', 1),
-(649, 1960, '03', 'Amortización de la deuda pública externa por préstamos recibidos de instituciones financieras externas a largo plazo', 1),
-(650, 1960, '04', 'Amortización de la deuda pública externa por préstamos recibidos de proveedores de bienes y servicios externos a largo plazo', 1),
-(651, 1960, '05', 'Intereses de la deuda pública externa por préstamos recibidos de gobiernos extranjeros a largo plazo', 1),
-(652, 1960, '06', 'Intereses de la deuda pública externa por préstamos recibidos de organismos internacionales a largo plazo', 1),
-(653, 1960, '07', 'Intereses de la deuda pública externa por préstamos recibidos de instituciones financieras externas a largo plazo', 1),
-(654, 1960, '08', 'Intereses de la deuda pública externa por préstamos recibidos de proveedores de bienes y servicios externos a largo plazo', 1),
-(655, 1960, '09', 'Intereses por mora y multas de la deuda pública externa por préstamos recibidos de gobiernos extranjeros a largo plazo', 1),
-(656, 1960, '10', 'Intereses por mora y multas de la deuda pública externa por préstamos recibidos de organismos internacionales a largo plazo', 1),
-(657, 1960, '11', 'Intereses por mora y multas de la deuda pública externa por préstamos recibidos de instituciones financieras externas a largo plazo', 1),
-(658, 1960, '12', 'Intereses por mora y multas de la deuda pública externa por préstamos recibidos de proveedores de bienes y servicios externos a largo plazo', 1),
-(659, 1960, '13', 'Comisiones y otros gastos de la deuda pública externa por préstamos recibidos de gobiernos extranjeros a largo plazo', 1),
-(660, 1960, '14', 'Comisiones y otros gastos de la deuda pública externa por préstamos recibidos de organismos internacionales a largo plazo', 1),
-(661, 1960, '15', 'Comisiones y otros gastos de la deuda pública externa por préstamos recibidos de instituciones financieras externas a largo plazo', 1),
-(662, 1960, '16', 'Comisiones y otros gastos de la deuda pública externa por préstamos recibidos de proveedores de bienes y servicios externos a largo plazo', 1),
-(663, 1961, '01', 'Amortización de la deuda pública externa indirecta a largo plazo de títulos y valores', 1),
-(664, 1961, '02', 'Intereses de la deuda pública externa indirecta a largo plazo de títulos y valores', 1),
-(665, 1961, '03', 'Intereses por mora y multas de la deuda pública externa indirecta a Intereses por mora y multas de la deuda pública externa indirecta a', 1),
-(666, 1961, '04', 'Comisiones y otros gastos de la deuda pública externa indirecta a largo plazo de títulos y valores', 1),
-(667, 1961, '05', 'Descuentos en colocación de títulos y valores de la deuda pública externa indirecta a largo plazo', 1),
-(668, 1962, '01', 'Amortización de la deuda pública externa indirecta por préstamos recibidos de gobiernos extranjeros a largo plazo', 1),
-(669, 1962, '02', 'Amortización de la deuda pública externa indirecta por préstamos recibidos de organismos internacionales a largo plazo', 1),
-(670, 1962, '03', 'Amortización de la deuda pública externa indirecta por préstamos recibidos de instituciones financieras externas a largo plazo', 1),
-(671, 1962, '04', 'Amortización de la deuda pública externa indirecta por préstamos recibidos de proveedores de bienes y servicios externos a largo plazo', 1),
-(672, 1962, '05', 'Intereses de la deuda pública externa indirecta por préstamos recibidos de gobiernos extranjeros a largo plazo', 1),
-(673, 1962, '06', 'Intereses de la deuda pública externa indirecta por préstamos recibidos de organismos internacionales a largo plazo', 1),
-(674, 1962, '07', 'Intereses de la deuda pública externa indirecta por préstamos recibidos de instituciones financieras externas a largo plazo', 1),
-(675, 1962, '08', 'Intereses de la deuda pública externa indirecta por préstamos recibidos de proveedores de bienes y servicios externos a largo plazo', 1),
-(676, 1962, '09', 'Intereses por mora y multas de la deuda pública externa indirecta por préstamos recibidos de gobiernos extranjeros a largo plazo', 1),
-(677, 1962, '10', 'Intereses por mora y multas de la deuda pública externa indirecta por préstamos recibidos de organismos internacionales a largo plazo', 1),
-(678, 1962, '11', 'Intereses por mora y multas de la deuda pública externa indirecta por préstamos recibidos de instituciones financieras externas a largo plazo', 1),
-(679, 1962, '12', 'Intereses por mora y multas de la deuda pública externa indirecta por préstamos recibidos de proveedores de bienes y servicios externos a largo plazo', 1),
-(680, 1962, '13', 'Comisiones y otros gastos de la deuda pública externa indirecta por préstamos recibidos de gobiernos extranjeros a largo plazo', 1),
-(681, 1962, '14', 'Comisiones y otros gastos de la deuda pública externa indirecta por préstamos recibidos de organismos internacionales a largo plazo', 1),
-(682, 1962, '15', 'Comisiones y otros gastos de la deuda pública externa indirecta por préstamos recibidos de instituciones financieras externas a largo plazo', 1),
-(683, 1962, '16', 'Comisiones y otros gastos de la deuda pública externa indirecta por préstamos recibidos de proveedores de bienes y servicios externos a largo plazo', 1),
-(684, 1967, '01', 'Disminución de la deuda pública interna por distribuir', 1),
-(685, 1967, '02', 'Disminución de la deuda pública externa por distribuir', 1),
-(686, 1998, '01', 'Disminución de rentas diferidas por recaudar a corto plazo', 1),
-(687, 1999, '01', 'Disminución del rescate de certificados de reintegro tributario', 1),
-(688, 1999, '02', 'Disminución del rescate de bonos de exportación', 1),
-(689, 1999, '03', 'Disminución del rescate de bonos en dación de pagos', 1),
-(690, 2000, '01', 'Disminución de provisiones para cuentas incobrables', 1),
-(691, 2000, '02', 'Disminución de provisiones para despidos', 1),
-(692, 2000, '03', 'Disminución de provisiones para pérdidas en el inventario', 1),
-(693, 2000, '04', 'Disminución de provisiones para beneficios sociales', 1),
-(694, 2000, '99', 'Disminución de otras provisiones', 1),
-(695, 2002, '01', 'Disminución de depósitos de terceros a la vista de organismos del sector público', 1),
-(696, 2002, '02', 'Disminución de depósitos de terceros a la vista de personas naturales y jurídicas del sector privado', 1),
-(697, 2003, '01', 'Disminución de depósitos a plazo fijo de organismos del sector público', 1),
-(698, 2003, '02', 'Disminución de depósitos a plazo fijo de personas naturales y jurídicas del sector privado', 1);
+INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`) VALUES
+('3', '01', '01', '01', '00', 'Impuesto sobre la renta a personas jurídicas', 1),
+('3', '01', '01', '02', '00', 'Impuesto sobre la renta a personas naturales', 1),
+('3', '01', '01', '03', '00', 'Impuestos sobre sucesiones, donaciones y demás ramos conexos', 1),
+('3', '01', '01', '04', '00', 'Reparos administrativos por impuesto sobre la renta a personas juridica', 1),
+('3', '01', '01', '05', '00', 'Reparos administrativos por impuesto sobre la renta a personas naturales', 1),
+('3', '01', '01', '06', '00', 'Reparos administrativos a impuesto sobre sucesiones, donaciones y demás ramos conexos', 1),
+('3', '01', '02', '01', '00', 'Impuestos de importación', 1),
+('3', '01', '02', '02', '00', 'Impuesto de exportación', 1),
+('3', '01', '02', '03', '00', 'Impuesto sobre la producción, el consumo y transacciones financieras', 1),
+('3', '01', '02', '04', '00', 'Impuestos a las actividades de juegos de envite o azar', 1),
+('3', '01', '02', '05', '00', 'Inmuebles urbanos', 1),
+('3', '01', '02', '06', '00', 'Participación en el impuesto a la propiedad rural', 1),
+('3', '01', '02', '07', '00', 'Patente de industria y comercio', 1),
+('3', '01', '02', '08', '00', 'Patente de vehículo', 1),
+('3', '01', '02', '09', '00', 'Propaganda comercial', 1),
+('3', '01', '02', '10', '00', 'Espectáculos públicos', 1),
+('3', '01', '02', '11', '00', 'Apuestas lícitas', 1),
+('3', '01', '02', '12', '00', 'Deudas morosas', 1),
+('3', '01', '02', '99', '00', 'Otros impuestos indirectos', 1),
+('3', '01', '03', '01', '00', 'Derechos de tránsito terrestre', 1),
+('3', '01', '03', '02', '00', 'Derechos a examen', 1),
+('3', '01', '03', '03', '00', 'Derechos de expedición, renovación y reválida de licencias', 1),
+('3', '01', '03', '04', '00', 'Derechos de registro y traspaso', 1),
+('3', '01', '03', '05', '00', 'Derechos de placas identificadoras', 1),
+('3', '01', '03', '06', '00', 'Derechos por revisión anual', 1),
+('3', '01', '03', '07', '00', 'Derechos por remoción o arrastre de vehículos', 1),
+('3', '01', '03', '08', '00', 'Derechos por estacionamiento de vehículos', 1),
+('3', '01', '03', '09', '00', 'Permiso para uso de rutas extraurbanas', 1),
+('3', '01', '03', '10', '00', 'Copias de documentos', 1),
+('3', '01', '03', '11', '00', 'Tasas para el uso de aeronaves y por licencias de personal aeronáutico', 1),
+('3', '01', '03', '12', '00', 'Tasas aeroportuarias', 1),
+('3', '01', '03', '13', '00', 'Tasas por uso de canales de navegación', 1),
+('3', '01', '03', '14', '00', 'Patente de navegación', 1),
+('3', '01', '03', '15', '00', 'Expedición de licencias de navegación', 1),
+('3', '01', '03', '16', '00', 'Servicio de telecomunicaciones', 1),
+('3', '01', '03', '17', '00', 'Permisos para estaciones privadas de radiocomunicaciones', 1),
+('3', '01', '03', '18', '00', 'Derechos de pilotajes', 1),
+('3', '01', '03', '19', '00', 'Habilitación de pilotaje', 1),
+('3', '01', '03', '20', '00', 'Servicios de remolcadores', 1),
+('3', '01', '03', '21', '00', 'Habilitación de remolcadores', 1),
+('3', '01', '03', '22', '00', 'Habilitación de capitanías de puerto', 1),
+('3', '01', '03', '23', '00', 'Otros servicios de capitanías de puerto', 1),
+('3', '01', '03', '24', '00', 'Tasas de faros y boyas', 1),
+('3', '01', '03', '25', '00', 'Servicios de aduana', 1),
+('3', '01', '03', '26', '00', 'Habilitación de aduanas', 1),
+('3', '01', '03', '27', '00', 'Derechos de almacenaje', 1),
+('3', '01', '03', '28', '00', 'Corretaje de bultos postales', 1),
+('3', '01', '03', '29', '00', 'Servicios de consulta sobre clasificación arancelaria, valoración aduanera y análisis de laboratorio', 1),
+('3', '01', '03', '30', '00', 'Bandas de garantía, cápsulas y sellos', 1),
+('3', '01', '03', '31', '00', 'Servicio de peaje', 1),
+('3', '01', '03', '32', '00', 'Servicio de riego y drenaje', 1),
+('3', '01', '03', '33', '00', 'Estampillas fiscales', 1),
+('3', '01', '03', '34', '00', 'Papel sellado', 1),
+('3', '01', '03', '35', '00', 'Derechos de traslado', 1),
+('3', '01', '03', '36', '00', 'Servicios sanitarios marítimos', 1),
+('3', '01', '03', '37', '00', 'Servicios hospitalarios', 1),
+('3', '01', '03', '38', '00', 'Venta de copias de planos', 1),
+('3', '01', '03', '39', '00', 'Derechos de contraste, verificación y estudios', 1),
+('3', '01', '03', '40', '00', 'Patente de pesca de perlas', 1),
+('3', '01', '03', '41', '00', 'Licencia de caza', 1),
+('3', '01', '03', '42', '00', 'Derechos de cancillería', 1),
+('3', '01', '03', '43', '00', 'Depósitos por el ingreso al país de extranjeros', 1),
+('3', '01', '03', '44', '00', 'Registro sanitario', 1),
+('3', '01', '03', '45', '00', 'Derechos de análisis de sustancias químicas', 1),
+('3', '01', '03', '46', '00', 'Derechos consulares', 1),
+('3', '01', '03', '47', '00', 'Matrícula para importar y exportar sustancias estupefacientes y psicotrópicas', 1),
+('3', '01', '03', '48', '00', 'Permisos municipales', 1),
+('3', '01', '03', '49', '00', 'Certificaciones y solvencias', 1),
+('3', '01', '03', '50', '00', 'Servicio de energía eléctrica', 1),
+('3', '01', '03', '51', '00', 'Servicio de distribución de agua', 1),
+('3', '01', '03', '52', '00', 'Servicio de gas doméstico', 1),
+('3', '01', '03', '53', '00', 'Mensura y deslinde', 1),
+('3', '01', '03', '54', '00', 'Aseo domiciliario', 1),
+('3', '01', '03', '55', '00', 'Matadero', 1),
+('3', '01', '03', '56', '00', 'Mercado', 1),
+('3', '01', '03', '57', '00', 'Cementerio', 1),
+('3', '01', '03', '58', '00', 'Terminal de pasajeros', 1),
+('3', '01', '03', '59', '00', 'Deudas morosas por tasas', 1),
+('3', '01', '03', '99', '00', 'Otros tipos de tasas', 1),
+('3', '01', '04', '01', '00', 'Sobre la plusvalía inmobiliaria', 1),
+('3', '01', '04', '02', '00', 'Contribuciones por mejoras', 1),
+('3', '01', '04', '99', '00', 'Otras contribuciones especiales', 1),
+('3', '01', '05', '01', '00', 'Ingresos por aportes patronales a la seguridad social', 1),
+('3', '01', '05', '02', '00', 'Contribuciones personales a la seguridad social', 1),
+('3', '01', '06', '01', '00', 'Regalías', 1),
+('3', '01', '06', '02', '00', 'Impuesto superficial de hidrocarburos', 1),
+('3', '01', '06', '03', '00', 'Impuesto de extracción', 1),
+('3', '01', '06', '04', '00', 'Impuesto de registro de exportación', 1),
+('3', '01', '06', '05', '00', 'Participación por azufre', 1),
+('3', '01', '06', '06', '00', 'Participación por coque', 1),
+('3', '01', '06', '07', '00', 'Ventajas especiales petroleras', 1),
+('3', '01', '06', '99', '00', 'Otros ingresos del dominio petrolero', 1),
+('3', '01', '07', '01', '00', 'Superficial minero', 1),
+('3', '01', '07', '02', '00', 'Impuesto de explotación', 1),
+('3', '01', '07', '03', '00', 'Ventajas especiales mineras', 1),
+('3', '01', '07', '04', '00', 'Regalía minera de oro', 1),
+('3', '01', '08', '01', '00', 'Impuesto superficial', 1),
+('3', '01', '08', '02', '00', 'Impuesto de explotación o aprovechamiento', 1),
+('3', '01', '08', '03', '00', 'Permiso o autorización para la explotación o aprovechamiento de los productos forestales', 1),
+('3', '01', '08', '04', '00', 'Autorización para deforestación', 1),
+('3', '01', '08', '05', '00', 'Autorización para movilizar productos forestales', 1),
+('3', '01', '08', '06', '00', 'Participación por la explotación en zonas de reserva forestal', 1),
+('3', '01', '08', '07', '00', 'Ventajas especiales por recursos forestales', 1),
+('3', '01', '09', '01', '00', 'Ingresos por la venta de bienes', 1),
+('3', '01', '09', '02', '00', 'Ingresos por la venta de servicios', 1),
+('3', '01', '09', '99', '00', 'Ingresos por la venta de otros bienes y servicios', 1),
+('3', '01', '10', '01', '00', 'Intereses por préstamos concedidos al sector privado', 1),
+('3', '01', '10', '03', '00', 'Intereses por préstamos concedidos al sector externo', 1),
+('3', '01', '10', '04', '00', 'Intereses por depósitos en instituciones financieras', 1),
+('3', '01', '10', '05', '00', 'Intereses de títulos y valores', 1),
+('3', '01', '10', '06', '00', 'Utilidades de acciones y participaciones de capital', 1),
+('3', '01', '10', '07', '00', 'Utilidades de explotación de juegos de azar', 1),
+('3', '01', '10', '08', '00', 'Alquileres', 1),
+('3', '01', '10', '09', '00', 'Derechos sobre bienes intangibles', 1),
+('3', '01', '10', '10', '00', 'Concesiones de bienes y servicios', 1),
+('3', '01', '11', '01', '00', 'Intereses moratorios', 1),
+('3', '01', '11', '02', '00', 'Reparos fiscales', 1),
+('3', '01', '11', '03', '00', 'Sanciones fiscales', 1),
+('3', '01', '11', '04', '00', 'Juicios y costas procesales', 1),
+('3', '01', '11', '05', '00', 'Beneficios en operaciones cambiarias', 1),
+('3', '01', '11', '06', '00', 'Utilidad por venta de activos', 1),
+('3', '01', '11', '07', '00', 'Intereses por financiamiento de deudas tributarias', 1),
+('3', '01', '11', '08', '00', 'Multas y recargos', 1),
+('3', '01', '11', '09', '00', 'Reparos administrativos al impuesto a los activos empresariales', 1),
+('3', '01', '11', '10', '00', 'Diversos reparos administrativos', 1),
+('3', '01', '11', '11', '00', 'Ingresos en tránsito', 1),
+('3', '01', '11', '12', '00', 'Reparos administrativos por impuestos municipales', 1),
+('3', '01', '99', '01', '00', 'Otros ingresos ordinarios', 1),
+('3', '02', '01', '01', '00', 'Colocación de títulos y valores de deuda pública interna a corto plazo', 1),
+('3', '02', '01', '02', '00', 'Obtención de préstamos internos a corto plazo', 1),
+('3', '02', '01', '03', '00', 'Colocación de títulos y valores de la deuda pública interna a largo plazo', 1),
+('3', '02', '01', '04', '00', 'Obtención de préstamos internos a largo plazo', 1),
+('3', '02', '02', '01', '00', 'Colocación de títulos y valores de la deuda pública externa a corto plazo', 1),
+('3', '02', '02', '02', '00', 'Obtención de préstamos externos a corto plazo', 1),
+('3', '02', '02', '03', '00', 'Colocación de títulos y valores de la deuda pública externa a largo plazo', 1),
+('3', '02', '02', '04', '00', 'Obtención de préstamos externos a largo plazo', 1),
+('3', '02', '03', '01', '00', 'Liquidación de entes descentralizados', 1),
+('3', '02', '03', '02', '00', 'Herencias vacantes y donaciones', 1),
+('3', '02', '03', '03', '00', 'Prima en colocación de títulos y valores de la deuda pública', 1),
+('3', '02', '03', '05', '00', 'Ingresos por procesos licitatorios', 1),
+('3', '02', '04', '01', '00', 'Reintegro proveniente de bonos de exportación', 1),
+('3', '02', '04', '02', '00', 'Reintegro de fondos efectuado por organismos públicos proveniente de bonos de exportación', 1),
+('3', '02', '05', '01', '00', 'Ingresos por obtención indebida de devoluciones o reintegros', 1),
+('3', '02', '06', '01', '00', 'Impuesto a las transacciones financieras', 1),
+('3', '02', '06', '02', '00', 'Reparos administrativos al impuesto a las transacciones financieras', 1),
+('3', '02', '06', '03', '00', 'Multas y recargos por el impuesto a las transacciones financieras', 1),
+('3', '02', '99', '01', '00', 'Otros ingresos extraordinarios', 1),
+('3', '03', '01', '01', '00', 'Venta de productos del sector industrial', 1),
+('3', '03', '01', '02', '00', 'Venta de productos del sector comercial', 1),
+('3', '03', '02', '01', '00', 'Venta bruta de servicios', 1),
+('3', '03', '03', '01', '00', 'Ingresos por inversiones en valores', 1),
+('3', '03', '03', '02', '00', 'Ingresos por cartera de créditos', 1),
+('3', '03', '03', '03', '00', 'Ingresos provenientes de la administración de fideicomisos', 1),
+('3', '03', '03', '99', '00', 'Otros ingresos financieros', 1),
+('3', '03', '04', '01', '00', 'Ingresos por inversiones en valores', 1),
+('3', '03', '04', '02', '00', 'Ingresos por cartera de créditos', 1),
+('3', '03', '04', '03', '00', 'Ingresos provenientes de la administración de fideicomisos', 1),
+('3', '03', '04', '99', '00', 'Otros ingresos financieros', 1),
+('3', '03', '05', '01', '00', 'Ingresos por operaciones de primas de seguro', 1),
+('3', '03', '05', '02', '00', 'Ingresos por operaciones de reaseguro', 1),
+('3', '03', '05', '03', '00', 'Ingresos por salvamento de siniestros', 1),
+('3', '03', '05', '99', '00', 'Otros ingresos por operaciones de seguro', 1),
+('3', '03', '99', '01', '00', 'Otros ingresos de operación', 1),
+('3', '04', '01', '01', '00', 'Subsidios para precios y tarifas', 1),
+('3', '04', '02', '01', '00', 'Incentivos a la exportación', 1),
+('3', '04', '99', '01', '00', 'Otros ingresos ajenos a la operación', 1),
+('3', '05', '01', '01', '00', 'Transferencias corrientes internas del sector privado', 1),
+('3', '05', '01', '02', '00', 'Donaciones corrientes internas del sector privado', 1),
+('3', '05', '01', '03', '00', 'Transferencias corrientes internas del sector público', 1),
+('3', '05', '01', '04', '00', 'Donaciones corrientes internas del sector público', 1),
+('3', '05', '01', '05', '00', 'Transferencias corrientes del exterior', 1),
+('3', '05', '01', '06', '00', 'Donaciones corrientes del exterior', 1),
+('3', '05', '02', '01', '00', 'Transferencias de capital internas del sector privado', 1),
+('3', '05', '02', '02', '00', 'Donaciones de capital internas del sector privado', 1),
+('3', '05', '02', '03', '00', 'Transferencias de capital internas del sector público', 1),
+('3', '05', '02', '04', '00', 'Donaciones de capital internas del sector público', 1),
+('3', '05', '02', '05', '00', 'Transferencias de capital del exterior', 1),
+('3', '05', '02', '06', '00', 'Donaciones de capital del exterior', 1),
+('3', '05', '03', '01', '00', 'Situado Constitucional', 1),
+('3', '05', '03', '02', '00', 'Situado Estadal a Municipal', 1),
+('3', '05', '04', '01', '00', 'Subsidio de Régimen Especial', 1),
+('3', '05', '05', '01', '00', 'Subsidio de Capitalidad', 1),
+('3', '05', '06', '01', '00', 'Asignaciones Económicas Especiales (LAEE) Estadal', 1),
+('3', '05', '06', '02', '00', 'Asignaciones Económicas Especiales (LAEE) Estadal a Municipal', 1),
+('3', '05', '06', '03', '00', 'Asignaciones Económicas Especiales (LAEE) Municipal', 1),
+('3', '05', '06', '04', '00', 'Asignaciones Económicas Especiales (LAEE) Fondo Nacional de los Consejos Comunales', 1),
+('3', '05', '06', '05', '00', 'Asignaciones Económicas Especiales (LAEE) Apoyo al Fortalecimiento Institucional', 1),
+('3', '05', '07', '01', '00', 'Fondo Intergubernamental para la Descentralización (FIDES)', 1),
+('3', '05', '08', '01', '00', 'Fondo de Compensación Interterritorial Estadal', 1),
+('3', '05', '08', '02', '00', 'Fondo de Compensación Interterritorial Municipal', 1),
+('3', '05', '08', '03', '00', 'Fondo de Compensación Interterritorial Poder Popular', 1),
+('3', '05', '08', '04', '00', 'Fondo de Compensación Interterritorial Fortalecimiento Institucional', 1),
+('3', '05', '09', '01', '00', 'Aportes del Sector Público al Poder Estadal por transferencia de servicios', 1),
+('3', '05', '09', '02', '00', 'Aportes del Sector Público al Poder Municipal por transferencia de servicios', 1),
+('3', '05', '10', '01', '00', 'Transferencias y donaciones corrientes de Organismos del Sector Público a los Consejos Comunales', 1),
+('3', '05', '10', '02', '00', 'Transferencias y donaciones de capital de Organismos del Sector Público a los Consejos Comunales', 1),
+('3', '06', '01', '01', '00', 'Venta y/o desincorporación de tierras y terrenos', 1),
+('3', '06', '01', '02', '00', 'Venta y/o desincorporación de edificios e instalaciones', 1),
+('3', '06', '01', '03', '00', 'Venta y/o desincorporación de maquinarias, equipos y semovientes', 1),
+('3', '06', '02', '01', '00', 'Venta de marcas de fábrica y patentes de invención', 1),
+('3', '06', '02', '02', '00', 'Venta de derechos de autor', 1),
+('3', '06', '02', '03', '00', 'Recuperación de gastos de organización', 1),
+('3', '06', '02', '04', '00', 'Venta de paquetes y programas de computación', 1),
+('3', '06', '02', '05', '00', 'Venta de estudios y proyectos', 1),
+('3', '06', '02', '99', '00', 'Venta de otros activos intangibles', 1),
+('3', '06', '03', '01', '00', 'Incremento de la depreciación acumulada', 1),
+('3', '06', '03', '02', '00', 'Incremento de la amortización acumulada', 1),
+('3', '07', '01', '01', '00', 'Venta de títulos y valores privados de corto plazo', 1),
+('3', '07', '01', '02', '00', 'Venta de títulos y valores públicos de corto plazo', 1),
+('3', '07', '01', '03', '00', 'Venta de títulos y valores externos de corto plazo', 1),
+('3', '07', '02', '01', '00', 'Venta de títulos y valores privados de largo plazo', 1),
+('3', '07', '02', '02', '00', 'Venta de títulos y valores públicos de largo plazo', 1),
+('3', '07', '02', '03', '00', 'Venta de títulos y valores externos de largo plazo', 1),
+('3', '08', '01', '01', '00', 'Venta de acciones y participaciones de capital del sector privado', 1),
+('3', '08', '02', '01', '00', 'Venta de acciones y participaciones de capital de entes descentralizados sin fines empresariales', 1),
+('3', '08', '02', '02', '00', 'Venta de acciones y participaciones de capital de instituciones de protección social', 1),
+('3', '08', '02', '03', '00', 'Venta de acciones y participaciones de capital de entes descentralizados con fines empresariales petroleros', 1),
+('3', '08', '02', '04', '00', 'Venta de acciones y participaciones de capital de entes descentralizados con fines empresariales no petroleros', 1),
+('3', '08', '02', '05', '00', 'Venta de acciones y participaciones de capital de entes descentralizados financieros bancarios', 1),
+('3', '08', '02', '06', '00', 'Venta de acciones y participaciones de capital de entes descentralizados financieros no bancarios', 1),
+('3', '08', '03', '01', '00', 'Venta de acciones y participaciones de capital de organismos internacionales', 1),
+('3', '08', '03', '99', '00', 'Venta de acciones y participaciones de capital de otros entes del sector externo', 1),
+('3', '09', '01', '01', '00', 'Recuperación de préstamos otorgados al sector privado de corto plazo', 1),
+('3', '09', '02', '01', '00', 'Recuperación de préstamos otorgados a la República de corto plazo', 1),
+('3', '09', '02', '02', '00', 'Recuperación de préstamos otorgados a entes descentralizados sin fines empresariales de corto plazo', 1),
+('3', '09', '02', '03', '00', 'Recuperación de préstamos otorgados a instituciones de protección social de corto plazo', 1),
+('3', '09', '02', '04', '00', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales petroleros de corto plazo', 1),
+('3', '09', '02', '05', '00', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales no petroleros de corto plazo', 1),
+('3', '09', '02', '06', '00', 'Recuperación de préstamos otorgados a entes descentralizados financieros bancarios de corto plazo', 1),
+('3', '09', '02', '07', '00', 'Recuperación de préstamos otorgados a entes descentralizados financieros no bancarios de corto plazo', 1),
+('3', '09', '02', '08', '00', 'Recuperación de préstamos otorgados al Poder Estadal de corto plazo', 1),
+('3', '09', '02', '09', '00', 'Recuperación de préstamos otorgados al Poder Municipal de corto plazo', 1),
+('3', '09', '03', '01', '00', 'Recuperación de préstamos otorgados a instituciones sin fines de lucro de corto plazo', 1),
+('3', '09', '03', '02', '00', 'Recuperación de préstamos otorgados a gobiernos extranjeros de corto plazo', 1),
+('3', '09', '03', '03', '00', 'Recuperación de préstamos otorgados a los organismos internacionales de corto plazo', 1),
+('3', '10', '01', '01', '00', 'Recuperación de préstamos otorgados al sector privado de largo plazo', 1),
+('3', '10', '02', '01', '00', 'Recuperación de préstamos otorgados a la República de largo plazo', 1),
+('3', '10', '02', '02', '00', 'Recuperación de préstamos otorgados a entes descentralizados sin fines empresariales de largo plazo', 1),
+('3', '10', '02', '03', '00', 'Recuperación de préstamos otorgados a instituciones de protección social de largo plazo', 1),
+('3', '10', '02', '04', '00', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales petroleros de largo plazo', 1),
+('3', '10', '02', '05', '00', 'Recuperación de préstamos otorgados a entes descentralizados con fines empresariales no petroleros de largo plazo', 1),
+('3', '10', '02', '06', '00', 'Recuperación de préstamos otorgados a entes descentralizados financieros bancarios de largo plazo', 1),
+('3', '10', '02', '07', '00', 'Recuperación de préstamos otorgados a entes descentralizados financieros no bancarios de largo plazo', 1),
+('3', '10', '02', '08', '00', 'Recuperación de préstamos otorgados al Poder Estadal de largo plazo', 1),
+('3', '10', '02', '09', '00', 'Recuperación de préstamos otorgados al Poder Municipal de largo plazo', 1),
+('3', '10', '03', '01', '00', 'Recuperación de préstamos otorgados a instituciones sin fines de lucro de largo plazo', 1),
+('3', '10', '03', '02', '00', 'Recuperación de préstamos otorgados a gobiernos extranjeros de largo plazo', 1),
+('3', '10', '03', '03', '00', 'Recuperación de préstamos otorgados a organismos internacionales de largo plazo', 1),
+('3', '11', '01', '01', '00', 'Disminución de caja', 1),
+('3', '11', '01', '02', '00', 'Disminución de bancos', 1),
+('3', '11', '01', '03', '00', 'Disminución de inversiones temporales', 1),
+('3', '11', '02', '01', '00', 'Disminución de cuentas comerciales por cobrar a corto plazo', 1),
+('3', '11', '02', '02', '00', 'Disminución de rentas por recaudar a corto plazo', 1),
+('3', '11', '02', '03', '00', 'Disminución de deudas de cuentas por rendir a corto plazo', 1),
+('3', '11', '02', '99', '00', 'Disminución de otras cuentas por cobrar a corto plazo', 1),
+('3', '11', '03', '01', '00', 'Disminución de efectos comerciales por cobrar a corto plazo', 1),
+('3', '11', '03', '99', '00', 'Disminución de otros efectos por cobrar a corto plazo', 1),
+('3', '11', '04', '01', '00', 'Disminución de cuentas comerciales por cobrar a mediano y largo plazo', 1),
+('3', '11', '04', '02', '00', 'Disminución de rentas por recaudar a mediano y largo plazo', 1),
+('3', '11', '04', '99', '00', 'Disminución de otras cuentas por cobrar a mediano y largo plazo', 1),
+('3', '11', '05', '01', '00', 'Disminución de efectos comerciales por cobrar a mediano y largo plazo', 1),
+('3', '11', '05', '99', '00', 'Disminución de otros efectos por cobrar a mediano y largo plazo', 1),
+('3', '11', '06', '01', '00', 'Disminución de fondos en avance', 1),
+('3', '11', '06', '02', '00', 'Disminución de fondos en anticipo', 1),
+('3', '11', '06', '03', '00', 'Disminución de fondos en fideicomiso', 1),
+('3', '11', '06', '04', '00', 'Disminución de anticipos a proveedores', 1),
+('3', '11', '06', '05', '00', 'Disminución de anticipos a contratistas, por contratos a corto plazo', 1),
+('3', '11', '06', '06', '00', 'Disminución de anticipos a contratistas, por contratos a mediano y largo plazo', 1),
+('3', '11', '07', '01', '00', 'Disminución de gastos a corto plazo pagados por anticipado', 1),
+('3', '11', '07', '02', '00', 'Disminución de depósitos en garantía a corto plazo', 1),
+('3', '11', '07', '99', '00', 'Disminución de otros activos diferidos a corto plazo', 1),
+('3', '11', '08', '01', '00', 'Disminución de gastos a mediano y largo plazo pagados por anticipado', 1),
+('3', '11', '08', '02', '00', 'Disminución de depósitos en garantía a mediano y largo plazo', 1),
+('3', '11', '08', '99', '00', 'Disminución de otros activos diferidos a mediano y largo plazo', 1),
+('3', '11', '09', '01', '00', 'Disminución del Fondo de Estabilización Macroeconómica (FEM) de la República', 1),
+('3', '11', '09', '02', '00', 'Disminución del Fondo de Estabilización Macroeconómica (FEM) del Poder Estadal', 1),
+('3', '11', '09', '03', '00', 'Disminución del Fondo de Estabilización Macroeconómica (FEM) del Poder Municipal', 1),
+('3', '11', '10', '01', '00', 'Disminución del Fondo de Ahorro Intergeneracional', 1),
+('3', '11', '12', '01', '00', 'Disminución del Fondo de Aporte del Sector Público', 1),
+('3', '11', '20', '01', '00', 'Disminución de activos financieros en gestión judicial a mediano y largo plazo', 1),
+('3', '11', '20', '02', '00', 'Disminución de títulos y otros valores de la deuda pública en litigio a largo plazo', 1),
+('3', '11', '99', '01', '00', 'Disminución de otros activos financieros circulantes', 1),
+('3', '11', '99', '02', '00', 'Disminución de otros activos financieros no circulantes', 1),
+('3', '12', '01', '01', '00', 'Incremento de sueldos, salarios y otras remuneraciones por pagar', 1),
+('3', '12', '02', '01', '00', 'Incremento de aportes patronales y retenciones laborales por pagar al Instituto Venezolano de los Seguros Sociales (IVSS)', 1),
+('3', '12', '02', '02', '00', 'Incremento de aportes patronales y retenciones laborales por pagar al Instituto de Previsión Social del Ministerio de Educación (Ipasme)', 1),
+('3', '12', '02', '03', '00', 'Incremento de aportes patronales y retenciones laborales por pagar al Fondo de Jubilaciones', 1),
+('3', '12', '02', '04', '00', 'Incremento de aportes patronales y retenciones laborales por pagar al Fondo de Seguro de Paro Forzoso', 1),
+('3', '12', '02', '05', '00', 'Incremento de aportes patronales y retenciones laborales por pagar al Fondo de Ahorro Obligatorio para la Vivienda (FAOV)', 1),
+('3', '12', '02', '06', '00', 'Incremento de aportes patronales y retenciones laborales por pagar por seguro de vida, accidentes personales, hospitalización, cirugía y maternidad (HCM) y gastos funerarios', 1),
+('3', '12', '02', '07', '00', 'Incremento de aportes patronales y retenciones laborales por pagar a cajas de ahorro', 1),
+('3', '12', '02', '08', '00', 'Incremento de aportes patronales y retenciones laborales por pagar a los organismos de seguridad social', 1),
+('3', '12', '02', '09', '00', 'Incremento de aportes patronales y retenciones laborales por pagar al Instituto Nacional de Capacitación y Educación Socialista (Inces)', 1),
+('3', '12', '02', '10', '00', 'Incremento de aportes patronales y retenciones laborales por pagar por pensión alimenticia', 1),
+('3', '12', '02', '99', '00', 'Incremento de otros aportes patronales y otras retenciones laborales por pagar', 1),
+('3', '12', '03', '01', '00', 'Incremento de cuentas por pagar a proveedores a corto plazo', 1),
+('3', '12', '03', '02', '00', 'Incremento de efectos por pagar a proveedores a corto plazo', 1),
+('3', '12', '03', '03', '00', 'Incremento de cuentas por pagar a proveedores a mediano y largo plazo', 1),
+('3', '12', '03', '04', '00', 'Incremento de efectos por pagar a proveedores a mediano y largo plazo', 1),
+('3', '12', '04', '01', '00', 'Incremento de cuentas por pagar a contratistas a corto plazo', 1),
+('3', '12', '04', '02', '00', 'Incremento de efectos por pagar a contratistas a corto plazo', 1),
+('3', '12', '04', '03', '00', 'Incremento de cuentas por pagar a contratistas a mediano y largo plazo', 1),
+('3', '12', '04', '04', '00', 'Incremento de efectos por pagar a contratistas a mediano y largo plazo', 1),
+('3', '12', '05', '01', '00', 'Incremento de intereses internos por pagar', 1),
+('3', '12', '05', '02', '00', 'Incremento de intereses externos por pagar', 1),
+('3', '12', '06', '01', '00', 'Incremento de otras cuentas por pagar a corto plazo', 1),
+('3', '12', '06', '02', '00', 'Incremento de otras obligaciones de ejercicios anteriores por pagar', 1),
+('3', '12', '06', '03', '00', 'Incremento de otros efectos por pagar a corto plazo', 1),
+('3', '12', '07', '01', '00', 'Incremento de pasivos diferidos a corto plazo', 1),
+('3', '12', '07', '02', '00', 'Incremento de pasivos diferidos a mediano y largo plazo', 1),
+('3', '12', '08', '01', '00', 'Incremento de provisiones', 1),
+('3', '12', '08', '02', '00', 'Incremento de reservas técnicas', 1),
+('3', '12', '09', '01', '00', 'Incremento de depósitos recibidos en garantía', 1),
+('3', '12', '09', '99', '00', 'Incremento de otros fondos de terceros', 1),
+('3', '12', '10', '01', '00', 'Incremento de depósitos a la vista', 1),
+('3', '12', '10', '02', '00', 'Incremento de depósitos a plazo fijo', 1),
+('3', '12', '11', '01', '00', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública interna de largo plazo en corto plazo', 1),
+('3', '12', '11', '02', '00', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública interna de corto plazo en largo plazo', 1),
+('3', '12', '11', '03', '00', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública externa de largo plazo en corto plazo', 1),
+('3', '12', '11', '04', '00', 'Incremento por reestructuración y/o refinanciamiento de la deuda pública externa de corto plazo en largo plazo', 1),
+('3', '12', '11', '05', '00', 'Incremento de la deuda pública por distribuir', 1),
+('3', '12', '99', '01', '00', 'Incremento de otros pasivos a corto plazo', 1),
+('3', '12', '99', '02', '00', 'Incremento de otros pasivos a mediano y largo plazo', 1),
+('3', '13', '01', '01', '00', 'Incremento del capital fiscal e institucional', 1),
+('3', '13', '01', '02', '00', 'Incremento de aportes por capitalizar', 1),
+('3', '13', '01', '03', '00', 'Incremento de dividendos a distribuir', 1),
+('3', '13', '02', '01', '00', 'Incremento de reservas', 1),
+('3', '13', '03', '01', '00', 'Ajustes por inflación', 1),
+('3', '13', '04', '01', '00', 'Incremento de resultados acumulados', 1),
+('3', '13', '04', '02', '00', 'Incremento de resultados del ejercicio', 1),
+('4', '01', '01', '01', '00', 'Sueldos básicos personal fijo a tiempo completo', 1),
+('4', '01', '01', '02', '00', 'Sueldos básicos personal fijo a tiempo parcial', 1),
+('4', '01', '01', '03', '00', 'Suplencias a empleados', 1),
+('4', '01', '01', '08', '00', 'Sueldo al personal en trámite de nombramiento', 1),
+('4', '01', '01', '09', '00', 'Remuneraciones al personal en período de disponibilidad', 1),
+('4', '01', '01', '10', '00', 'Salarios a obreros en puestos permanentes a tiempo completo', 1),
+('4', '01', '01', '11', '00', 'Salarios a obreros en puestos permanentes a tiempo parcial', 1),
+('4', '01', '01', '12', '00', 'Salarios a obreros en puestos no permanentes', 1),
+('4', '01', '01', '13', '00', 'Suplencias a obreros', 1),
+('4', '01', '01', '18', '00', 'Remuneraciones al personal contratado', 1),
+('4', '01', '01', '19', '00', 'Retribuciones por becas - salarios, bolsas de trabajo, pasantías y similares', 1),
+('4', '01', '01', '20', '00', 'Sueldo del personal militar profesional', 1),
+('4', '01', '01', '21', '00', 'Sueldo o ración del personal militar no profesional', 1),
+('4', '01', '01', '22', '00', 'Sueldo del personal militar de reserva', 1),
+('4', '01', '01', '29', '00', 'Dietas', 1),
+('4', '01', '01', '30', '00', 'Retribución al personal de reserva', 1),
+('4', '01', '01', '35', '00', 'Sueldo básico de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '01', '36', '00', 'Sueldo básico del personal de alto nivel y de dirección', 1),
+('4', '01', '01', '37', '00', 'Dietas de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '01', '38', '00', 'Dietas del personal de alto nivel y de dirección', 1),
+('4', '01', '01', '99', '00', 'Otras retribuciones', 1),
+('4', '01', '02', '01', '00', 'Compensaciones previstas en las escalas de sueldos al personal empleado fijo a tiempo completo', 1),
+('4', '01', '02', '02', '00', 'Compensaciones previstas en las escalas de sueldos al personal empleado fijo a tiempo parcial', 1),
+('4', '01', '02', '03', '00', 'Compensaciones previstas en las escalas de salarios al personal obrero fijo a tiempo completo', 1),
+('4', '01', '02', '04', '00', 'Compensaciones previstas en las escalas de salarios al personal obrero fijo a tiempo parcial', 1),
+('4', '01', '02', '05', '00', 'Compensaciones previstas en las escalas de sueldos al personal militar', 1),
+('4', '01', '02', '06', '00', 'Compensaciones previstas en las escalas de sueldos de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '02', '07', '00', 'Compensaciones previstas en las escalas de sueldos del personal de alto nivel y de dirección', 1),
+('4', '01', '03', '01', '00', 'Primas por mérito a empleados', 1),
+('4', '01', '03', '02', '00', 'Primas de transporte a empleados', 1),
+('4', '01', '03', '03', '00', 'Primas por hogar a empleados', 1),
+('4', '01', '03', '04', '00', 'Primas por hijos a empleados', 1),
+('4', '01', '03', '05', '00', 'Primas por alquileres a empleados', 1),
+('4', '01', '03', '06', '00', 'Primas por residencia a empleados', 1),
+('4', '01', '03', '07', '00', 'Primas por categoría de escuelas a empleados', 1),
+('4', '01', '03', '08', '00', 'Primas de profesionalización a empleados', 1),
+('4', '01', '03', '09', '00', 'Primas por antigüedad a empleados', 1),
+('4', '01', '03', '10', '00', 'Primas por jerarquía o responsabilidad en el cargo', 1),
+('4', '01', '03', '11', '00', 'Primas al personal en servicio en el exterior', 1),
+('4', '01', '03', '16', '00', 'Primas por mérito a obreros', 1),
+('4', '01', '03', '17', '00', 'Primas de transporte a obreros', 1),
+('4', '01', '03', '18', '00', 'Primas por hogar a obreros', 1),
+('4', '01', '03', '19', '00', 'Primas por hijos de obreros', 1),
+('4', '01', '03', '20', '00', 'Primas por residencia a obreros', 1),
+('4', '01', '03', '21', '00', 'Primas por antigüedad a obreros', 1),
+('4', '01', '03', '22', '00', 'Primas de profesionalización a obreros', 1),
+('4', '01', '03', '26', '00', 'Primas por hijos al personal militar', 1),
+('4', '01', '03', '27', '00', 'Primas de profesionalización al personal militar', 1),
+('4', '01', '03', '28', '00', 'Primas por antigüedad al personal militar', 1),
+('4', '01', '03', '29', '00', 'Primas por potencial de ascenso al personal militar', 1),
+('4', '01', '03', '30', '00', 'Primas por frontera y sitios inhóspitos al personal militar y de seguridad', 1),
+('4', '01', '03', '31', '00', 'Primas por riesgo al personal militar y de seguridad', 1),
+('4', '01', '03', '37', '00', 'Primas de transporte al personal contratado', 1),
+('4', '01', '03', '38', '00', 'Primas por hogar al personal contratado', 1),
+('4', '01', '03', '39', '00', 'Primas por hijos al personal contratado', 1),
+('4', '01', '03', '40', '00', 'Primas de profesionalización al personal contratado', 1),
+('4', '01', '03', '41', '00', 'Primas por antigüedad al personal contratado', 1),
+('4', '01', '03', '46', '00', 'Primas a los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '03', '47', '00', 'Primas al personal de alto nivel y de dirección', 1),
+('4', '01', '03', '94', '00', 'Otras primas a los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '03', '95', '00', 'Otras primas al personal de alto nivel y de dirección', 1),
+('4', '01', '03', '96', '00', 'Otras primas al personal contratado', 1),
+('4', '01', '03', '97', '00', 'Otras primas a empleados', 1),
+('4', '01', '03', '98', '00', 'Otras primas a obreros', 1),
+('4', '01', '03', '99', '00', 'Otras primas al personal militar', 1),
+('4', '01', '04', '01', '00', 'Complemento a empleados por horas extraordinarias o por sobre tiempo', 1),
+('4', '01', '04', '02', '00', 'Complemento a empleados por trabajo nocturno', 1),
+('4', '01', '04', '03', '00', 'Complemento a empleados por gastos de alimentación', 1),
+('4', '01', '04', '04', '00', 'Complemento a empleados por gastos de transporte', 1),
+('4', '01', '04', '05', '00', 'Complemento a empleados por gastos de representación', 1),
+('4', '01', '04', '06', '00', 'Complemento a empleados por comisión de servicios', 1),
+('4', '01', '04', '07', '00', 'Bonificación a empleados', 1),
+('4', '01', '04', '08', '00', 'Bono compensatorio de alimentación a empleados', 1),
+('4', '01', '04', '09', '00', 'Bono compensatorio de transporte a empleados', 1),
+('4', '01', '04', '10', '00', 'Complemento a empleados por días feriados', 1),
+('4', '01', '04', '14', '00', 'Complemento a obreros por horas extraordinarias o por sobre tiempo', 1),
+('4', '01', '04', '15', '00', 'Complemento a obreros por trabajo o jornada nocturna', 1),
+('4', '01', '04', '16', '00', 'Complemento a obreros por gastos de alimentación', 1),
+('4', '01', '04', '17', '00', 'Complemento a obreros por gastos de transporte', 1),
+('4', '01', '04', '18', '00', 'Bono compensatorio de alimentación a obreros', 1),
+('4', '01', '04', '19', '00', 'Bono compensatorio de transporte a obreros', 1),
+('4', '01', '04', '20', '00', 'Complemento a obreros por días feriados', 1),
+('4', '01', '04', '24', '00', 'Complemento al personal contratado por horas extraordinarias o por sobre tiempo', 1),
+('4', '01', '04', '25', '00', 'Complemento al personal contratado por gastos de alimentación', 1),
+('4', '01', '04', '26', '00', 'Bono compensatorio de alimentación al personal contratado', 1),
+('4', '01', '04', '27', '00', 'Bono compensatorio de transporte al personal contratado', 1),
+('4', '01', '04', '28', '00', 'Complemento al personal contratado por días feriados', 1),
+('4', '01', '04', '32', '00', 'Complemento al personal militar por gastos de alimentación', 1),
+('4', '01', '04', '33', '00', 'Complemento al personal militar por gastos de transporte', 1),
+('4', '01', '04', '34', '00', 'Complemento al personal militar en el exterior', 1),
+('4', '01', '04', '35', '00', 'Bono compensatorio de alimentación al personal militar', 1),
+('4', '01', '04', '43', '00', 'Complemento a altos funcionarios y altas funcionarias del poder público y de elección popular por gastos de representación', 1),
+('4', '01', '04', '44', '00', 'Complemento a altos funcionarios y altas funcionarias del poder público y  de elección popular por comisión de servicios', 1),
+('4', '01', '04', '45', '00', 'Bonificación a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '04', '46', '00', 'Bono compensatorio de alimentación a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '04', '47', '00', 'Bono compensatorio de transporte a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '04', '48', '00', 'Complemento al personal de alto nivel y de dirección por gastos de representación', 1),
+('4', '01', '04', '49', '00', 'Complemento al personal de alto nivel y de dirección por comisión de servicios', 1),
+('4', '01', '04', '50', '00', 'Bonificación al personal de alto nivel y de dirección', 1),
+('4', '01', '04', '51', '00', 'Bono compensatorio de alimentación al personal de alto nivel y de dirección', 1),
+('4', '01', '04', '52', '00', 'Bono compensatorio de transporte al personal de alto nivel y de dirección', 1),
+('4', '01', '04', '94', '00', 'Otros complementos a altos funcionarios y altas funcionarias del sector público y de elección popular', 1),
+('4', '01', '04', '95', '00', 'Otros complementos al personal de alto nivel y de dirección', 1),
+('4', '01', '04', '96', '00', 'Otros complementos a empleados', 1),
+('4', '01', '04', '97', '00', 'Otros complementos a obreros', 1),
+('4', '01', '04', '98', '00', 'Otros complementos al personal contratado', 1),
+('4', '01', '04', '99', '00', 'Otros complementos al personal militar', 1),
+('4', '01', '05', '01', '00', 'Aguinaldos a empleados', 1),
+('4', '01', '05', '02', '00', 'Utilidades legales y convencionales a empleados', 1),
+('4', '01', '05', '03', '00', 'Bono vacacional a empleados', 1),
+('4', '01', '05', '04', '00', 'Aguinaldos a obreros', 1),
+('4', '01', '05', '05', '00', 'Utilidades legales y convencionales a obreros', 1),
+('4', '01', '05', '06', '00', 'Bono vacacional a obreros', 1),
+('4', '01', '05', '07', '00', 'Aguinaldos al personal contratado', 1),
+('4', '01', '05', '08', '00', 'Bono vacacional al personal contratado', 1),
+('4', '01', '05', '09', '00', 'Aguinaldos al personal militar', 1),
+('4', '01', '05', '10', '00', 'Bono vacacional al personal militar', 1),
+('4', '01', '05', '13', '00', 'Aguinaldos a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '05', '14', '00', 'Utilidades legales y convencionales a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '05', '15', '00', 'Bono vacacional a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '05', '16', '00', 'Aguinaldos al personal de alto nivel y de dirección', 1),
+('4', '01', '05', '17', '00', 'Utilidades legales y convencionales al personal de alto nivel y de dirección', 1),
+('4', '01', '05', '18', '00', 'Bono vacacional al personal de alto nivel y de dirección', 1),
+('4', '01', '06', '01', '00', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por empleados', 1),
+('4', '01', '06', '02', '00', 'Aporte patronal al Instituto de Previsión y Asistencia Social para el personal del Ministerio de Educación (Ipasme) por empleados', 1),
+('4', '01', '06', '03', '00', 'Aporte patronal al Fondo de Jubilaciones por empleados', 1),
+('4', '01', '06', '04', '00', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por empleados', 1),
+('4', '01', '06', '05', '00', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por empleados', 1),
+('4', '01', '06', '10', '00', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por obreros', 1),
+('4', '01', '06', '11', '00', 'Aporte patronal al Fondo de Jubilaciones por obreros', 1),
+('4', '01', '06', '12', '00', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por obreros', 1),
+('4', '01', '06', '13', '00', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por obreros', 1),
+('4', '01', '06', '18', '00', 'Aporte patronal a los organismos de seguridad social por los trabajadores locales empleados en las representaciones de Venezuela en el exterior', 1),
+('4', '01', '06', '19', '00', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por personal militar', 1),
+('4', '01', '06', '25', '00', 'Aporte legal al Instituto Venezolano de los Seguros Sociales (IVSS) por personal contratado', 1),
+('4', '01', '06', '26', '00', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por personal contratado', 1),
+('4', '01', '06', '27', '00', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por personal contratado', 1),
+('4', '01', '06', '31', '00', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '32', '00', 'Aporte patronal al Instituto de Previsión y Asistencia Social para el personal del Ministerio de Educación (Ipasme) por empleados personal del Ministerio de Educación (Ipasme) por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '33', '00', 'Aporte patronal al Fondo de Jubilaciones por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '34', '00', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '35', '00', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '39', '00', 'Aporte patronal al Instituto Venezolano de los Seguros Sociales (IVSS) por personal de alto nivel y de dirección', 1),
+('4', '01', '06', '40', '00', 'Aporte patronal al Instituto de Previsión y Asistencia Social para el personal del Ministerio de Educación (Ipasme) por personal de alto nivel y de dirección', 1),
+('4', '01', '06', '41', '00', 'Aporte patronal al Fondo de Jubilaciones por personal de alto nivel y de dirección', 1),
+('4', '01', '06', '42', '00', 'Aporte patronal al Fondo de Ahorro Obligatorio para la Vivienda por personal de alto nivel y de dirección', 1),
+('4', '01', '06', '43', '00', 'Aporte patronal al Fondo de Seguro de Paro Forzoso por personal de alto nivel y de dirección', 1),
+('4', '01', '06', '93', '00', 'Otros aportes legales por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '06', '94', '00', 'Otros aportes legales por el personal de alto nivel y de dirección', 1),
+('4', '01', '06', '95', '00', 'Otros aportes legales por personal contratado', 1),
+('4', '01', '06', '96', '00', 'Otros aportes legales por empleados', 1),
+('4', '01', '06', '97', '00', 'Otros aportes legales por obreros', 1),
+('4', '01', '06', '98', '00', 'Otros aportes legales por personal militar', 1),
+('4', '01', '07', '01', '00', 'Capacitación y adiestramiento a empleados', 1),
+('4', '01', '07', '02', '00', 'Becas a empleados', 1),
+('4', '01', '07', '03', '00', 'Ayudas por matrimonio a empleados', 1),
+('4', '01', '07', '04', '00', 'Ayudas por nacimiento de hijos a empleados', 1),
+('4', '01', '07', '05', '00', 'Ayudas por defunción a empleados', 1),
+('4', '01', '07', '06', '00', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización a empleados', 1),
+('4', '01', '07', '07', '00', 'Aporte patronal a cajas de ahorro por empleados', 1),
+('4', '01', '07', '08', '00', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por empleados', 1),
+('4', '01', '07', '09', '00', 'Ayudas a empleados para adquisición de uniformes y útiles escolares de sus hijos', 1),
+('4', '01', '07', '10', '00', 'Dotación de uniformes a empleados', 1),
+('4', '01', '07', '11', '00', 'Aporte patronal para gastos de guarderías y preescolar para hijos de empleados', 1),
+('4', '01', '07', '12', '00', 'Aportes para la adquisición de juguetes para los hijos del personal empleado', 1),
+('4', '01', '07', '17', '00', 'Capacitación y adiestramiento a obreros', 1),
+('4', '01', '07', '18', '00', 'Becas a obreros', 1),
+('4', '01', '07', '19', '00', 'Ayudas por matrimonio de obreros', 1),
+('4', '01', '07', '20', '00', 'Ayudas por nacimiento de hijos de obreros', 1),
+('4', '01', '07', '21', '00', 'Ayudas por defunción a obreros', 1),
+('4', '01', '07', '22', '00', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización a obreros', 1),
+('4', '01', '07', '23', '00', 'Aporte patronal a cajas de ahorro por obreros', 1),
+('4', '01', '07', '24', '00', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por obreros', 1),
+('4', '01', '07', '25', '00', 'Ayudas a obreros para adquisición de uniformes y útiles escolares de sus hijos', 1),
+('4', '01', '07', '26', '00', 'Dotación de uniformes a obreros', 1),
+('4', '01', '07', '27', '00', 'Aporte patronal para gastos de guarderías y preescolar para hijos de obreros', 1),
+('4', '01', '07', '28', '00', 'Aportes para la adquisición de juguetes para los hijos del personal obrero', 1),
+('4', '01', '07', '34', '00', 'Capacitación y adiestramiento al personal militar', 1),
+('4', '01', '07', '35', '00', 'Becas al personal militar', 1),
+('4', '01', '07', '36', '00', 'Ayudas por matrimonio al personal militar', 1),
+('4', '01', '07', '37', '00', 'Ayudas por nacimiento de hijos al personal militar', 1),
+('4', '01', '07', '38', '00', 'Ayudas por defunción al personal militar', 1),
+('4', '01', '07', '39', '00', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal militar', 1),
+('4', '01', '07', '40', '00', 'Aporte patronal a caja de ahorro por personal militar', 1),
+('4', '01', '07', '41', '00', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios personal militar', 1),
+('4', '01', '07', '42', '00', 'Ayudas al personal militar para adquisición de uniformes y útiles escolares de sus hijos', 1),
+('4', '01', '07', '43', '00', 'Aportes para la adquisición de juguetes para los hijos del personal militar', 1),
+('4', '01', '07', '44', '00', 'Aporte patronal para gastos de guarderías y preescolar para hijos del personal militar', 1),
+('4', '01', '07', '52', '00', 'Capacitación y adiestramiento a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '53', '00', 'Ayudas por matrimonio a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '54', '00', 'Ayudas por nacimiento de hijos altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '55', '00', 'Ayudas por defunción a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '56', '00', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '57', '00', 'Aporte patronal a cajas de ahorro por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '58', '00', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '63', '00', 'Capacitación y adiestramiento al personal de alto nivel y de dirección', 1),
+('4', '01', '07', '64', '00', 'Ayudas por matrimonio al personal de alto nivel y de dirección ', 1),
+('4', '01', '07', '65', '00', 'Ayudas por nacimiento de hijos al personal de alto nivel y de dirección', 1),
+('4', '01', '07', '66', '00', 'Ayudas por defunción al personal de alto nivel y de dirección', 1),
+('4', '01', '07', '67', '00', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal de alto nivel y de dirección', 1),
+('4', '01', '07', '68', '00', 'Aporte patronal a cajas de ahorro por personal de alto nivel y de dirección', 1),
+('4', '01', '07', '69', '00', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por personal de alto nivel y de dirección', 1),
+('4', '01', '07', '74', '00', 'Capacitación y adiestramiento al personal contratado', 1),
+('4', '01', '07', '75', '00', 'Becas al personal contratado', 1),
+('4', '01', '07', '76', '00', 'Ayudas por matrimonio al personal contratado', 1),
+('4', '01', '07', '77', '00', 'Ayudas por nacimiento de hijos al personal contratado', 1),
+('4', '01', '07', '78', '00', 'Ayudas por defunción al personal contratado', 1),
+('4', '01', '07', '79', '00', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal contratado', 1),
+('4', '01', '07', '80', '00', 'Aporte patronal a cajas de ahorro por personal contratado', 1),
+('4', '01', '07', '81', '00', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por personal contratado', 1),
+('4', '01', '07', '82', '00', 'Ayudas al personal contratado para adquisición de uniformes y útiles escolares de sus hijos', 1),
+('4', '01', '07', '83', '00', 'Dotación de uniformes al personal contratado', 1),
+('4', '01', '07', '84', '00', 'Aporte patronal para gastos de guarderías y preescolar para hijos del personal contratado', 1),
+('4', '01', '07', '85', '00', 'Aportes para la adquisición de juguetes para los hijos del personal contratado', 1),
+('4', '01', '07', '94', '00', 'Otras subvenciones a altos funcionarios y altas funcionarias del poder público y de elección popular', 1);
+INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`) VALUES
+('4', '01', '07', '95', '00', 'Otras subvenciones al personal de alto nivel y de dirección', 1),
+('4', '01', '07', '96', '00', 'Otras subvenciones a empleados', 1),
+('4', '01', '07', '97', '00', 'Otras subvenciones a obreros', 1),
+('4', '01', '07', '98', '00', 'Otras subvenciones al personal militar', 1),
+('4', '01', '07', '99', '00', 'Otras subvenciones al personal contratado', 1),
+('4', '01', '08', '01', '00', 'Prestaciones sociales e indemnizaciones a empleados', 1),
+('4', '01', '08', '02', '00', 'Prestaciones sociales e indemnizaciones a obreros', 1),
+('4', '01', '08', '03', '00', 'Prestaciones sociales e indemnizaciones al personal contratado', 1),
+('4', '01', '08', '04', '00', 'Prestaciones sociales e indemnizaciones al personal militar', 1),
+('4', '01', '08', '06', '00', 'Prestaciones sociales e indemnizaciones a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '08', '07', '00', 'Prestaciones sociales e indemnizaciones al personal de alto nivel y Prestaciones sociales e indemnizaciones al personal de alto nivel y de dirección', 1),
+('4', '01', '09', '01', '00', 'Capacitación y adiestramiento realizado por personal del organismo', 1),
+('4', '01', '94', '01', '00', 'Otros gastos de los altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '95', '01', '00', 'Otros gastos del personal de alto nivel y de dirección', 1),
+('4', '01', '96', '01', '00', 'Otros gastos del personal empleado', 1),
+('4', '01', '97', '01', '00', 'Otros gastos del personal obrero', 1),
+('4', '01', '98', '01', '00', 'Otros gastos del personal militar', 1),
+('4', '02', '01', '01', '00', 'Alimentos y bebidas para personas', 1),
+('4', '02', '01', '02', '00', 'Alimentos para animales', 1),
+('4', '02', '01', '03', '00', 'Productos agrícolas y pecuarios', 1),
+('4', '02', '01', '04', '00', 'Productos de la caza y pesca', 1),
+('4', '02', '01', '99', '00', 'Otros productos alimenticios y agropecuarios', 1),
+('4', '02', '02', '01', '00', 'Carbón mineral', 1),
+('4', '02', '02', '02', '00', 'Petróleo crudo y gas natural', 1),
+('4', '02', '02', '03', '00', 'Mineral de hierro', 1),
+('4', '02', '02', '04', '00', 'Mineral no ferroso', 1),
+('4', '02', '02', '05', '00', 'Piedra, arcilla, arena y tierra', 1),
+('4', '02', '02', '06', '00', 'Mineral para la fabricación de productos químicos', 1),
+('4', '02', '02', '07', '00', 'Sal para uso industrial', 1),
+('4', '02', '02', '99', '00', 'Otros productos de minas, canteras y yacimientos', 1),
+('4', '02', '03', '01', '00', 'Textiles', 1),
+('4', '02', '03', '02', '00', 'Prendas de vestir', 1),
+('4', '02', '03', '03', '00', 'Calzados', 1),
+('4', '02', '03', '99', '00', 'Otros productos textiles y vestuarios', 1),
+('4', '02', '04', '01', '00', 'Cueros y pieles', 1),
+('4', '02', '04', '02', '00', 'Productos de cuero y sucedáneos del cuero', 1),
+('4', '02', '04', '03', '00', 'Cauchos y tripas para vehículos', 1),
+('4', '02', '04', '99', '00', 'Otros productos de cuero y caucho', 1),
+('4', '02', '05', '01', '00', 'Pulpa de madera, papel y cartón', 1),
+('4', '02', '05', '02', '00', 'Envases y cajas de papel y cartón', 1),
+('4', '02', '05', '03', '00', 'Productos de papel y cartón para oficina', 1),
+('4', '02', '05', '04', '00', 'Libros, revistas y periódicos', 1),
+('4', '02', '05', '05', '00', 'Material de enseñanza', 1),
+('4', '02', '05', '06', '00', 'Productos de papel y cartón para computación', 1),
+('4', '02', '05', '07', '00', 'Productos de papel y cartón para la imprenta y reproducción', 1),
+('4', '02', '05', '99', '00', 'Otros productos de pulpa, papel y cartón', 1),
+('4', '02', '06', '01', '00', 'Sustancias químicas y de uso industrial', 1),
+('4', '02', '06', '02', '00', 'Abonos, plaguicidas y otros', 1),
+('4', '02', '06', '03', '00', 'Tintas, pinturas y colorantes', 1),
+('4', '02', '06', '04', '00', 'Productos farmacéuticos y medicamentos', 1),
+('4', '02', '06', '05', '00', 'Productos de tocador', 1),
+('4', '02', '06', '06', '00', 'Combustibles y lubricantes', 1),
+('4', '02', '06', '07', '00', 'Productos diversos derivados del petróleo y del carbón', 1),
+('4', '02', '06', '08', '00', 'Productos plásticos', 1),
+('4', '02', '06', '09', '00', 'Mezclas explosivas', 1),
+('4', '02', '06', '99', '00', 'Otros productos de la industria química y conexos', 1),
+('4', '02', '07', '01', '00', 'Productos de barro, loza y porcelana', 1),
+('4', '02', '07', '02', '00', 'Vidrios y productos de vidrio', 1),
+('4', '02', '07', '03', '00', 'Productos de arcilla para construcción', 1),
+('4', '02', '07', '04', '00', 'Cemento, cal y yeso', 1),
+('4', '02', '07', '99', '00', 'Otros productos minerales no metálicos', 1),
+('4', '02', '08', '01', '00', 'Productos primarios de hierro y acero', 1),
+('4', '02', '08', '02', '00', 'Productos de metales no ferrosos', 1),
+('4', '02', '08', '03', '00', 'Herramientas menores, cuchillería y artículos generales de ferretería', 1),
+('4', '02', '08', '04', '00', 'Productos metálicos estructurales', 1),
+('4', '02', '08', '05', '00', 'Materiales de orden público, seguridad y defensa', 1),
+('4', '02', '08', '07', '00', 'Material de señalamiento', 1),
+('4', '02', '08', '08', '00', 'Material de educación', 1),
+('4', '02', '08', '09', '00', 'Repuestos y accesorios para equipos de transporte', 1),
+('4', '02', '08', '10', '00', 'Repuestos y accesorios para otros equipos', 1),
+('4', '02', '08', '99', '00', 'Otros productos metálicos', 1),
+('4', '02', '09', '01', '00', 'Productos primarios de madera', 1),
+('4', '02', '09', '02', '00', 'Muebles y accesorios de madera para edificaciones', 1),
+('4', '02', '09', '99', '00', 'Otros productos de madera', 1),
+('4', '02', '10', '01', '00', 'Artículos de deporte, recreación y juguetes', 1),
+('4', '02', '10', '02', '00', 'Materiales y útiles de limpieza y aseo', 1),
+('4', '02', '10', '03', '00', 'Utensilios de cocina y comedor', 1),
+('4', '02', '10', '04', '00', 'Útiles menores médico - quirúrgicos de laboratorio, dentales y de veterinaria', 1),
+('4', '02', '10', '05', '00', 'Útiles de escritorio, oficina y materiales de instrucción', 1),
+('4', '02', '10', '06', '00', 'Condecoraciones, ofrendas y similares', 1),
+('4', '02', '10', '07', '00', 'Productos de seguridad en el trabajo', 1),
+('4', '02', '10', '08', '00', 'Materiales para equipos de computación', 1),
+('4', '02', '10', '09', '00', 'Especies timbradas y valores', 1),
+('4', '02', '10', '10', '00', 'Útiles religiosos', 1),
+('4', '02', '10', '11', '00', 'Materiales eléctricos', 1),
+('4', '02', '10', '12', '00', 'Materiales para instalaciones sanitarias', 1),
+('4', '02', '10', '13', '00', 'Materiales fotográficos', 1),
+('4', '02', '10', '99', '00', 'Otros productos y útiles diversos', 1),
+('4', '02', '11', '01', '00', 'Productos y artículos para la venta', 1),
+('4', '02', '11', '02', '00', 'Maquinarias y equipos para la venta', 1),
+('4', '02', '11', '03', '00', 'Inmuebles para la venta', 1),
+('4', '02', '11', '04', '00', 'Tierras y terrenos para la venta', 1),
+('4', '02', '11', '99', '00', 'Otros bienes para la venta', 1),
+('4', '02', '99', '01', '00', 'Otros materiales y suministros', 1),
+('4', '03', '01', '01', '00', 'Alquileres de edificios y locales', 1),
+('4', '03', '01', '02', '00', 'Alquileres de edificios y locales', 1),
+('4', '03', '01', '03', '00', 'Alquileres de tierras y terrenos', 1),
+('4', '03', '02', '01', '00', 'Alquileres de maquinaria y demás equipos de construcción, campo, industria y taller', 1),
+('4', '03', '02', '02', '00', 'Alquileres de equipos de transporte, tracción y elevación', 1),
+('4', '03', '02', '03', '00', 'Alquileres de equipos de comunicaciones y de señalamiento', 1),
+('4', '03', '02', '04', '00', 'Alquileres de equipos médico - quirúrgicos, dentales y de veterinaria', 1),
+('4', '03', '02', '05', '00', 'Alquileres de equipos científicos, religiosos, de enseñanza y recreación', 1),
+('4', '03', '02', '06', '00', 'Alquileres de máquinas, muebles y demás equipos de oficina y alojamiento', 1),
+('4', '03', '02', '99', '00', 'Alquileres de otras maquinaria y equipos', 1),
+('4', '03', '03', '01', '00', 'Marcas de fábrica y patentes de invención', 1),
+('4', '03', '03', '02', '00', 'Derechos de autor', 1),
+('4', '03', '03', '03', '00', 'Paquetes y programas de computación', 1),
+('4', '03', '03', '04', '00', 'Concesión de bienes y servicios', 1),
+('4', '03', '04', '01', '00', 'Electricidad', 1),
+('4', '03', '04', '02', '00', 'Gas', 1),
+('4', '03', '04', '03', '00', 'Agua', 1),
+('4', '03', '04', '04', '00', 'Teléfonos', 1),
+('4', '03', '04', '05', '00', 'Servicio de comunicaciones', 1),
+('4', '03', '04', '06', '00', 'Servicio de aseo urbano y domiciliario', 1),
+('4', '03', '04', '07', '00', 'Servicio de condominio', 1),
+('4', '03', '05', '01', '00', 'Servicio de administración, vigilancia y mantenimiento del servicio de electricidad', 1),
+('4', '03', '05', '02', '00', 'Servicio de administración, vigilancia y mantenimiento del servicio de gas', 1),
+('4', '03', '05', '03', '00', 'Servicio de administración, vigilancia y mantenimiento del servicio de agua', 1),
+('4', '03', '05', '04', '00', 'Servicio de administración, vigilancia y mantenimiento del servicio de teléfonos', 1),
+('4', '03', '05', '05', '00', 'Servicio de administración, vigilancia y mantenimiento del servicio de comunicaciones', 1),
+('4', '03', '05', '06', '00', 'Servicio de administración, vigilancia y mantenimiento del servicio de aseo urbano y domiciliario', 1),
+('4', '03', '06', '01', '00', 'Fletes y embalajes', 1),
+('4', '03', '06', '02', '00', 'Almacenaje', 1),
+('4', '03', '06', '03', '00', 'Estacionamiento', 1),
+('4', '03', '06', '04', '00', 'Peaje', 1),
+('4', '03', '06', '05', '00', 'Servicios de protección en traslado de fondos y de mensajería', 1),
+('4', '03', '07', '01', '00', 'Publicidad y propaganda', 1),
+('4', '03', '07', '02', '00', 'Imprenta y reproducción', 1),
+('4', '03', '07', '03', '00', 'Relaciones sociales', 1),
+('4', '03', '07', '04', '00', 'Avisos', 1),
+('4', '03', '08', '01', '00', 'Primas y gastos de seguros', 1),
+('4', '03', '08', '02', '00', 'Comisiones y gastos bancarios', 1),
+('4', '03', '08', '03', '00', 'Comisiones y gastos de adquisición de seguros', 1),
+('4', '03', '09', '01', '00', 'Viáticos y pasajes dentro del país', 1),
+('4', '03', '09', '02', '00', 'Viáticos y pasajes fuera del país', 1),
+('4', '03', '09', '03', '00', 'Asignación por kilómetros recorridos', 1),
+('4', '03', '10', '01', '00', 'Servicios jurídicos', 1),
+('4', '03', '10', '02', '00', 'Servicios de contabilidad y auditoría', 1),
+('4', '03', '10', '03', '00', 'Servicios de procesamiento de datos', 1),
+('4', '03', '10', '04', '00', 'Servicios de ingeniería y arquitectónicos', 1),
+('4', '03', '10', '05', '00', 'Servicios médicos, odontológicos y otros servicios de sanidad', 1),
+('4', '03', '10', '06', '00', 'Servicios de veterinaria', 1),
+('4', '03', '10', '07', '00', 'Servicios de capacitación y adiestramiento', 1),
+('4', '03', '10', '08', '00', 'Servicios presupuestarios', 1),
+('4', '03', '10', '09', '00', 'Servicios de lavandería y tintorería', 1),
+('4', '03', '10', '10', '00', 'Servicios de vigilancia y seguridad', 1),
+('4', '03', '10', '11', '00', 'Servicios para la elaboración y suministro de comida', 1),
+('4', '03', '10', '99', '00', 'Otros servicios profesionales y técnicos', 1),
+('4', '03', '11', '01', '00', 'Conservación y reparaciones menores de maquinaria y demás equipos de construcción, campo, industria y taller', 1),
+('4', '03', '11', '02', '00', 'Conservación y reparaciones menores de equipos de transporte, tracción y elevación', 1),
+('4', '03', '11', '03', '00', 'Conservación y reparaciones menores de equipos de comunicaciones y de señalamiento', 1),
+('4', '03', '11', '04', '00', 'Conservación y reparaciones menores de equipos médicoquirúrgicos dentales y de veterinaria', 1),
+('4', '03', '11', '05', '00', 'Conservación y reparaciones menores de equipos científicos, religiosos, de enseñanza y recreación', 1),
+('4', '03', '11', '06', '00', 'Conservación y reparaciones menores de equipos y armamentos de orden público, seguridad y defensa nacional', 1),
+('4', '03', '11', '07', '00', 'Conservación y reparaciones menores de máquinas, muebles y demás equipos de oficina y alojamiento', 1),
+('4', '03', '11', '99', '00', 'Conservación y reparaciones menores de otras maquinaria y equipos', 1),
+('4', '03', '12', '01', '00', 'Conservación y reparaciones menores de obras en bienes del dominio privado', 1),
+('4', '03', '12', '02', '00', 'Conservación y reparaciones menores de obras en bienes del dominio público', 1),
+('4', '03', '13', '01', '00', 'Servicios de construcciones temporales', 1),
+('4', '03', '14', '01', '00', 'Servicios de construcción de edificaciones para la venta', 1),
+('4', '03', '15', '01', '00', 'Derechos de importación y servicios aduaneros', 1),
+('4', '03', '15', '02', '00', 'Tasas y otros derechos obligatorios', 1),
+('4', '03', '15', '03', '00', 'Asignación a agentes de especies fiscales', 1),
+('4', '03', '15', '99', '00', 'Otros servicios fiscales', 1),
+('4', '03', '16', '01', '00', 'Servicios de diversión, esparcimiento y culturales', 1),
+('4', '03', '17', '01', '00', 'Servicios de gestión administrativa prestados por organismos de asistencia técnica', 1),
+('4', '03', '18', '01', '00', 'Impuesto al valor agregado', 1),
+('4', '03', '18', '99', '00', 'Otros impuestos indirectos', 1),
+('4', '03', '19', '01', '00', 'Comisiones por servicios para cumplir con los beneficios sociales', 1),
+('4', '03', '99', '01', '00', 'Otros servicios no personales', 1),
+('4', '04', '01', '01', '00', 'Repuestos mayores', 1),
+('4', '04', '01', '02', '00', 'Reparaciones, mejoras y adiciones mayores de maquinaria y equipos', 1),
+('4', '04', '02', '01', '00', 'Conservación, ampliaciones y mejoras mayores de obras en bienes del dominio privado', 1),
+('4', '04', '02', '02', '00', 'Conservación, ampliaciones y mejoras mayores de obras en bienes del dominio público', 1),
+('4', '04', '03', '01', '00', 'Maquinaria y demás equipos de construcción y mantenimiento', 1),
+('4', '04', '03', '02', '00', 'Maquinaria y equipos para mantenimiento de automotores', 1),
+('4', '04', '03', '03', '00', 'Maquinaria y equipos agrícolas y pecuarios', 1),
+('4', '04', '03', '04', '00', 'Maquinaria y equipos de artes gráficas y reproducción', 1),
+('4', '04', '03', '05', '00', 'Maquinaria y equipos industriales y de taller', 1),
+('4', '04', '03', '06', '00', 'Maquinaria y equipos de energía', 1),
+('4', '04', '03', '07', '00', 'Maquinaria y equipos de riego y acueductos', 1),
+('4', '04', '03', '08', '00', 'Equipos de almacén', 1),
+('4', '04', '03', '99', '00', 'Otra maquinaria y demás equipos de construcción, campo, industria y taller', 1),
+('4', '04', '04', '01', '00', 'Vehículos automotores terrestres', 1),
+('4', '04', '04', '02', '00', 'Equipos ferroviarios y de cables aéreos', 1),
+('4', '04', '04', '03', '00', 'Equipos marítimos de transporte', 1),
+('4', '04', '04', '04', '00', 'Equipos aéreos de transporte', 1),
+('4', '04', '04', '05', '00', 'Vehículos de tracción no motorizados', 1),
+('4', '04', '04', '06', '00', 'Equipos auxiliares de transporte', 1),
+('4', '04', '04', '99', '00', 'Otros equipos de transporte, tracción y elevación', 1),
+('4', '04', '05', '01', '00', 'Equipos de telecomunicaciones', 1),
+('4', '04', '05', '02', '00', 'Equipos de señalamiento', 1),
+('4', '04', '05', '03', '00', 'Equipos de control de tráfico aéreo', 1),
+('4', '04', '05', '04', '00', 'Equipos de correo', 1),
+('4', '04', '05', '99', '00', 'Otros equipos de comunicaciones y de señalamiento', 1),
+('4', '04', '06', '01', '00', 'Equipos médico - quirúrgicos, dentales y de veterinaria', 1),
+('4', '04', '06', '99', '00', 'Otros equipos médico - quirúrgicos, dentales y de veterinaria', 1),
+('4', '04', '07', '01', '00', 'Equipos científicos y de laboratorio', 1),
+('4', '04', '07', '02', '00', 'Equipos de enseñanza, deporte y recreación', 1),
+('4', '04', '07', '03', '00', 'Obras de arte', 1),
+('4', '04', '07', '04', '00', 'Libros, revistas y otros instrumentos de enseñanzas', 1),
+('4', '04', '07', '05', '00', 'Equipos religiosos', 1),
+('4', '04', '07', '06', '00', 'Instrumentos musicales y equipos de audio', 1),
+('4', '04', '07', '99', '00', 'Otros equipos científicos, religiosos, de enseñanza y recreación', 1),
+('4', '04', '08', '01', '00', 'Equipos y armamentos de orden público, seguridad y defensa nacional', 1),
+('4', '04', '08', '02', '00', 'Equipos y armamentos de seguridad para la custodia y resguardo personal', 1),
+('4', '04', '08', '99', '00', 'Otros equipos y armamentos de orden público, seguridad y defensa', 1),
+('4', '04', '09', '01', '00', 'Mobiliario y equipos de oficina', 1),
+('4', '04', '09', '02', '00', 'Equipos de computación', 1),
+('4', '04', '09', '03', '00', 'Mobiliario y equipos de alojamiento', 1),
+('4', '04', '09', '99', '00', 'Otras máquinas, muebles y demás equipos de oficina y alojamiento', 1),
+('4', '04', '10', '01', '00', 'Semovientes', 1),
+('4', '04', '11', '01', '00', 'Adquisición de tierras y terrenos', 1),
+('4', '04', '11', '02', '00', 'Adquisición de edificios e instalaciones', 1),
+('4', '04', '11', '03', '00', 'Expropiación de tierras y terrenos', 1),
+('4', '04', '11', '04', '00', 'Expropiación de edificios e instalaciones', 1),
+('4', '04', '11', '05', '00', 'Adquisición de maquinaria y equipos usados', 1),
+('4', '04', '12', '01', '00', 'Marcas de fábrica y patentes de invención', 1),
+('4', '04', '12', '02', '00', 'Derechos de autor', 1),
+('4', '04', '12', '03', '00', 'Gastos de organización', 1),
+('4', '04', '12', '04', '00', 'Paquetes y programas de computación', 1),
+('4', '04', '12', '05', '00', 'Estudios y proyectos', 1),
+('4', '04', '12', '99', '00', 'Otros activos intangibles', 1),
+('4', '04', '13', '01', '00', 'Estudios y proyectos aplicables a bienes del dominio privado', 1),
+('4', '04', '13', '02', '00', 'Estudios y proyectos aplicables a bienes del dominio público', 1),
+('4', '04', '14', '01', '00', 'Contratación de inspección de obras de bienes del dominio privado', 1),
+('4', '04', '14', '02', '00', 'Contratación de inspección de obras de bienes del dominio público', 1),
+('4', '04', '15', '01', '00', 'Construcciones de edificaciones médico-asistenciales', 1),
+('4', '04', '15', '02', '00', 'Construcciones de edificaciones militares y de seguridad', 1),
+('4', '04', '15', '03', '00', 'Construcciones de edificaciones educativas, religiosas y recreativas', 1),
+('4', '04', '15', '04', '00', 'Construcciones de edificaciones culturales y deportivas', 1),
+('4', '04', '15', '05', '00', 'Construcciones de edificaciones para oficina', 1),
+('4', '04', '15', '06', '00', 'Construcciones de edificaciones industriales', 1),
+('4', '04', '15', '07', '00', 'Construcciones de edificaciones habitacionales', 1),
+('4', '04', '15', '99', '00', 'Otras construcciones del dominio privado', 1),
+('4', '04', '16', '01', '00', 'Construcción de vialidad', 1),
+('4', '04', '16', '02', '00', 'Construcción de plazas, parques y similares', 1),
+('4', '04', '16', '03', '00', 'Construcciones de instalaciones hidráulicas', 1),
+('4', '04', '16', '04', '00', 'Construcciones de puertos y aeropuertos', 1),
+('4', '04', '16', '99', '00', 'Otras construcciones del dominio público', 1),
+('4', '04', '99', '01', '00', 'Otros activos reales', 1),
+('4', '05', '01', '01', '00', 'Aportes en acciones y participaciones de capital al sector privado', 1),
+('4', '05', '01', '02', '00', 'Aportes en acciones y participaciones de capital al sector público', 1),
+('4', '05', '01', '03', '00', 'Aportes en acciones y participaciones de capital al sector externo', 1),
+('4', '05', '02', '01', '00', 'Adquisición de títulos y valores a corto plazo', 1),
+('4', '05', '02', '02', '00', 'Adquisición de títulos y valores a largo plazo', 1),
+('4', '05', '03', '01', '00', 'Concesión de préstamos al sector público a corto plazo', 1),
+('4', '05', '03', '02', '00', 'Concesión de préstamos al sector público a corto plazo', 1),
+('4', '05', '03', '03', '00', 'Concesión de préstamos al sector externo a corto plazo', 1),
+('4', '05', '04', '01', '00', 'Concesión de préstamos al sector privado a largo plazo', 1),
+('4', '05', '04', '02', '00', 'Concesión de préstamos al sector público a largo plazo', 1),
+('4', '05', '04', '03', '00', 'Concesión de préstamos al sector externo a largo plazo', 1),
+('4', '05', '05', '01', '00', 'Incremento en caja', 1),
+('4', '05', '05', '02', '00', 'Incremento en bancos', 1),
+('4', '05', '05', '03', '00', 'Incremento de inversiones temporales', 1),
+('4', '05', '06', '01', '00', 'Incremento de cuentas comerciales por cobrar a corto plazo', 1),
+('4', '05', '06', '02', '00', 'Incremento de rentas por recaudar a corto plazo', 1),
+('4', '05', '06', '03', '00', 'Incremento de deudas por rendir', 1),
+('4', '05', '06', '99', '00', 'Incremento de otras cuentas por cobrar a corto plazo', 1),
+('4', '05', '07', '01', '00', 'Incremento de efectos comerciales por cobrar a corto plazo', 1),
+('4', '05', '07', '99', '00', 'Incremento de otros efectos por cobrar a corto plazo', 1),
+('4', '05', '08', '01', '00', 'Incremento de cuentas comerciales por cobrar a mediano y largo plazo', 1),
+('4', '05', '08', '02', '00', 'Incremento de rentas por recaudar a mediano y largo plazo', 1),
+('4', '05', '08', '99', '00', 'Incremento de otras cuentas por cobrar a mediano y largo plazo', 1),
+('4', '05', '09', '01', '00', 'Incremento de efectos comerciales por cobrar a mediano y largo plazo', 1),
+('4', '05', '09', '99', '00', 'Incremento de otros efectos por cobrar a mediano y largo plazo', 1),
+('4', '05', '10', '01', '00', 'Incremento de fondos en avance', 1),
+('4', '05', '10', '02', '00', 'Incremento de fondos en anticipos', 1),
+('4', '05', '10', '03', '00', 'Incremento de fondos en fideicomiso', 1),
+('4', '05', '10', '04', '00', 'Incremento de anticipos a proveedores', 1),
+('4', '05', '10', '05', '00', 'Incremento de anticipos a contratistas por contratos de corto plazo', 1),
+('4', '05', '10', '06', '00', 'Incremento de anticipos a contratistas por contratos de mediano y largo plazo', 1),
+('4', '05', '11', '01', '00', 'Incremento de gastos a corto plazo pagados por anticipado', 1),
+('4', '05', '11', '02', '00', 'Incremento de depósitos otorgados en garantía a corto plazo', 1),
+('4', '05', '11', '99', '00', 'Incremento de otros activos diferidos a corto plazo', 1),
+('4', '05', '12', '01', '00', 'Incremento de gastos a mediano y largo plazo pagados por anticipado', 1),
+('4', '05', '12', '02', '00', 'Incremento de depósitos otorgados en garantía a mediano y largo plazo', 1),
+('4', '05', '12', '99', '00', 'Incremento de otros activos diferidos a mediano y largo plazo', 1),
+('4', '05', '13', '01', '00', 'Incremento del Fondo de Estabilización Macroeconómica (FEM) de la República', 1),
+('4', '05', '13', '02', '00', 'Incremento del Fondo de Estabilización Macroeconómica (FEM) del Poder Estadal', 1),
+('4', '05', '13', '03', '00', 'Incremento del Fondo de Estabilización Macroeconómica (FEM) del Poder Municipal', 1),
+('4', '05', '14', '01', '00', 'Incremento del Fondo de Ahorro Intergeneracional', 1),
+('4', '05', '16', '01', '00', 'Incremento del Fondo de Aportes del Sector Público', 1),
+('4', '05', '20', '01', '00', 'Incremento de otros activos financieros circulantes', 1),
+('4', '05', '21', '01', '00', 'Incremento de activos en gestión judicial a mediano y largo plazo', 1),
+('4', '05', '21', '02', '00', 'Incremento de títulos y otros valores de la deuda pública en litigio a largo plazo', 1),
+('4', '05', '21', '99', '00', 'Incremento de otros activos financieros no circulantes', 1),
+('4', '05', '99', '01', '00', 'Otros activos financieros', 1),
+('4', '06', '01', '01', '00', 'Gastos de defensa y seguridad del Estado', 1),
+('4', '07', '01', '01', '00', 'Transferencias corrientes internas al sector privado', 1),
+('4', '07', '01', '02', '00', 'Donaciones corrientes internas al sector privado', 1),
+('4', '07', '01', '03', '00', 'Transferencias corrientes internas al sector público', 1),
+('4', '07', '01', '04', '00', 'Donaciones corrientes internas al sector público', 1),
+('4', '07', '01', '05', '00', 'Pensiones de altos funcionarios y altas funcionarias del poder público y de elección popular, del personal de alto nivel y de dirección', 1),
+('4', '07', '01', '06', '00', 'Jubilaciones de altos funcionarios y altas funcionarias del poder público y de elección popular, del personal de alto nivel y de dirección', 1),
+('4', '07', '02', '01', '00', 'Transferencias corrientes al exterior', 1),
+('4', '07', '02', '02', '00', 'Donaciones corrientes al exterior', 1),
+('4', '07', '03', '01', '00', 'Transferencias de capital internas al sector privado', 1),
+('4', '07', '03', '02', '00', 'Donaciones de capital internas al sector privado', 1),
+('4', '07', '03', '03', '00', 'Transferencias de capital internas al sector público', 1),
+('4', '07', '03', '04', '00', 'Donaciones de capital internas al sector público', 1),
+('4', '07', '04', '01', '00', 'Transferencias de capital al exterior', 1),
+('4', '07', '04', '02', '00', 'Donaciones de capital al exterior', 1),
+('4', '07', '05', '01', '00', 'Situado Constitucional', 1),
+('4', '07', '05', '02', '00', 'Situado Estadal a Municipal', 1),
+('4', '07', '06', '01', '00', 'Subsidio de Régimen Especial', 1),
+('4', '07', '07', '01', '00', 'Subsidio de capitalidad', 1),
+('4', '07', '08', '01', '00', 'Asignaciones Económicas Especiales (LAEE) Estadal', 1),
+('4', '07', '08', '02', '00', 'Asignaciones Económicas Especiales (LAEE) Estadal a Municipal', 1),
+('4', '07', '08', '03', '00', 'Asignaciones Económicas Especiales (LAEE) Municipal', 1),
+('4', '07', '08', '04', '00', 'Asignaciones Económicas Especiales (LAEE) Fondo Nacional de los Consejos Comunales', 1),
+('4', '07', '08', '05', '00', 'Asignaciones Económicas Especiales (LAEE) Apoyo al Fortalecimiento Institucional', 1),
+('4', '07', '09', '01', '00', 'Aportes al Poder Estadal por transferencia de servicios', 1),
+('4', '07', '09', '02', '00', 'Aportes al Poder Municipal por transferencia de servicios', 1),
+('4', '07', '10', '01', '00', 'Fondo Intergubernamental para la Descentralización (FIDES)', 1),
+('4', '07', '11', '01', '00', 'Fondo de Compensación Interterritorial Estadal', 1),
+('4', '07', '11', '02', '00', 'Fondo de Compensación Interterritorial Municipal', 1),
+('4', '07', '11', '03', '00', 'Fondo de Compensación Interterritorial Poder Popular', 1),
+('4', '07', '11', '04', '00', 'Fondo de Compensación Interterritorial Fortalecimiento Institucional', 1),
+('4', '07', '12', '01', '00', 'Transferencias y donaciones corrientes a Consejos Comunales', 1),
+('4', '07', '12', '02', '00', 'Transferencias y donaciones de capital a Consejos Comunales', 1),
+('4', '08', '01', '01', '00', 'Depreciación', 1),
+('4', '08', '01', '02', '00', 'Amortización', 1),
+('4', '08', '02', '01', '00', 'Intereses por depósitos internos', 1),
+('4', '08', '02', '02', '00', 'Intereses por títulos y valores', 1),
+('4', '08', '02', '03', '00', 'Intereses por otros financiamientos', 1),
+('4', '08', '03', '01', '00', 'Gastos de siniestros', 1),
+('4', '08', '03', '02', '00', 'Gastos de operaciones de reaseguros', 1),
+('4', '08', '03', '99', '00', 'Otros gastos de operaciones de seguro', 1),
+('4', '08', '04', '01', '00', 'Pérdidas en el proceso de distribución de los servicios', 1),
+('4', '08', '04', '99', '00', 'Otras pérdidas en operación', 1),
+('4', '08', '05', '01', '00', 'Devoluciones de cobros indebidos', 1),
+('4', '08', '05', '02', '00', 'Devoluciones y reintegros diversos', 1),
+('4', '08', '05', '03', '00', 'Indemnizaciones diversas', 1),
+('4', '08', '06', '01', '00', 'Pérdidas en inventarios', 1),
+('4', '08', '06', '02', '00', 'Pérdidas en operaciones cambiarias', 1),
+('4', '08', '06', '03', '00', 'Pérdidas en ventas de activos', 1),
+('4', '08', '06', '04', '00', 'Pérdidas por cuentas incobrables', 1),
+('4', '08', '06', '05', '00', 'Participación en pérdidas de otras empresas', 1),
+('4', '08', '06', '06', '00', 'Pérdidas por auto-seguro', 1),
+('4', '08', '06', '07', '00', 'Impuestos directos', 1),
+('4', '08', '06', '08', '00', 'Intereses de mora', 1),
+('4', '08', '06', '09', '00', 'Reservas técnicas', 1),
+('4', '08', '07', '01', '00', 'Descuentos sobre ventas', 1),
+('4', '08', '07', '02', '00', 'Bonificaciones por ventas', 1),
+('4', '08', '07', '03', '00', 'Devoluciones por ventas', 1),
+('4', '08', '07', '04', '00', 'Devoluciones por primas de seguro', 1),
+('4', '08', '08', '01', '00', 'Indemnizaciones por daños y perjuicios', 1),
+('4', '08', '08', '02', '00', 'Sanciones pecuniarias', 1),
+('4', '08', '99', '01', '00', 'Otros gastos', 1),
+('4', '09', '01', '01', '00', 'Asignaciones no distribuidas de la Asamblea Nacional', 1),
+('4', '09', '02', '01', '00', 'Asignaciones no distribuidas de la Contraloría General de la República', 1),
+('4', '09', '03', '01', '00', 'Asignaciones no distribuidas del Consejo Nacional Electoral', 1),
+('4', '09', '04', '01', '00', 'Asignaciones no distribuidas del Tribunal Supremo de Justicia', 1),
+('4', '09', '05', '01', '00', 'Asignaciones no distribuidas del Ministerio Público', 1),
+('4', '09', '06', '01', '00', 'Asignaciones no distribuidas de la Defensoría del Pueblo', 1),
+('4', '09', '07', '01', '00', 'Asignaciones no distribuidas del Consejo Moral Republicano', 1),
+('4', '09', '08', '01', '00', 'Reestructuración de organismos del sector público', 1),
+('4', '09', '09', '01', '00', 'Fondo de apoyo al trabajador y su grupo familiar de la Administración Pública Nacional', 1),
+('4', '09', '09', '02', '00', 'Fondo de apoyo al trabajador y su grupo familiar de las Entidades Federales, los Municipios y otras formas de gobierno municipal', 1),
+('4', '09', '10', '01', '00', 'Reforma de la seguridad social', 1),
+('4', '09', '11', '01', '00', 'Emergencias en el territorio nacional', 1),
+('4', '09', '12', '01', '00', 'Fondo para la cancelación de pasivos laborales', 1),
+('4', '09', '13', '01', '00', 'Fondo para la cancelación de deuda por servicios de electricidad teléfono, aseo, agua y condominio, de los organismos de la Administración Central', 1),
+('4', '09', '13', '02', '00', 'Fondo para la cancelación de deuda por servicios de electricidad teléfono, aseo, agua y condominio, de los organismos de la  Administración Descentralizada Nacional', 1),
+('4', '09', '14', '01', '00', 'Fondo para remuneraciones, pensiones y jubilaciones y otras retribuciones', 1),
+('4', '09', '15', '01', '00', 'Fondo para atender compromisos generados de la Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras', 1),
+('4', '09', '16', '01', '00', 'Asignaciones para cancelar compromisos pendientes de ejercicios anteriores', 1),
+('4', '09', '17', '01', '00', 'Asignaciones para cancelar la deuda Fogade – Ministerio competente en Materia de Finanzas – Banco Central de Venezuela (BCV)', 1),
+('4', '09', '18', '01', '00', 'Asignaciones para atender los gastos de la referenda y elecciones', 1),
+('4', '09', '19', '01', '00', 'Asignaciones para atender los gastos por honorarios profesionales de bufetes internacionales, costas y costos judiciales', 1),
+('4', '09', '20', '01', '00', 'Fondo para atender compromisos generados por la contratación colectiva', 1),
+('4', '09', '21', '01', '00', 'Proyecto social especial', 1),
+('4', '09', '22', '01', '00', 'Asignaciones para programas y proyectos financiados con recursos de organismos multilaterales y/o bilaterales', 1),
+('4', '09', '23', '01', '00', 'Asignación para facilitar la preparación de proyectos', 1),
+('4', '09', '24', '01', '00', 'Programas de inversión para las entidades estadales municipalidades y otras instituciones', 1),
+('4', '09', '25', '01', '00', 'Cancelación de compromisos', 1),
+('4', '09', '26', '01', '00', 'Asignaciones para atender gastos de los organismos del sector público', 1),
+('4', '09', '27', '01', '00', 'Convenio de Cooperación Especial', 1),
+('4', '10', '01', '01', '00', 'Servicio de la deuda pública interna a corto plazo de títulos valores', 1),
+('4', '10', '01', '02', '00', 'Servicio de la deuda pública interna por préstamos a corto plazo', 1),
+('4', '10', '01', '03', '00', 'Servicio de la deuda pública interna indirecta por préstamos a corto plazo', 1),
+('4', '10', '02', '01', '00', 'Servicio de la deuda pública interna a largo plazo de títulos y valores', 1),
+('4', '10', '02', '02', '00', 'Servicio de la deuda pública interna por préstamos a largo plazo', 1),
+('4', '10', '02', '03', '00', 'Servicio de la deuda pública interna indirecta a largo plazo de títulos y valores', 1),
+('4', '10', '02', '04', '00', 'Servicio de la deuda pública interna indirecta por préstamos a largo plazo', 1),
+('4', '10', '03', '01', '00', 'Servicio de la deuda pública externa a corto plazo de títulos y valores', 1),
+('4', '10', '03', '02', '00', 'Servicio de la deuda pública externa por préstamos a corto plazo', 1),
+('4', '10', '03', '03', '00', 'Servicio de la deuda pública externa indirecta por préstamos a corto plazo', 1),
+('4', '10', '04', '01', '00', 'Servicio de la deuda pública externa a largo plazo de títulos y valores', 1),
+('4', '10', '04', '02', '00', 'Servicio de la deuda pública externa por préstamos a largo plazo', 1),
+('4', '10', '04', '03', '00', 'Servicio de la deuda pública externa indirecta a largo plazo de títulos y valores', 1),
+('4', '10', '04', '04', '00', 'Servicio de la deuda pública externa indirecta por préstamos a largo plazo', 1),
+('4', '10', '05', '01', '00', 'Disminución por reestructuración y/o refinanciamiento de la deuda interna a largo plazo, en a corto plazo', 1),
+('4', '10', '05', '02', '00', 'Disminución por reestructuración y/o refinanciamiento de la deuda interna a corto plazo, en a largo plazo', 1),
+('4', '10', '05', '03', '00', 'Disminución por reestructuración y/o refinanciamiento de la deuda externa a largo plazo, en a corto plazo', 1),
+('4', '10', '05', '04', '00', 'Disminución por reestructuración y/o refinanciamiento de la deuda externa a corto plazo, en a largo plazo', 1),
+('4', '10', '05', '05', '00', 'Disminución de la deuda pública por distribuir', 1),
+('4', '10', '06', '01', '00', 'Amortización de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
+('4', '10', '06', '02', '00', 'Intereses de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
+('4', '10', '06', '03', '00', 'Intereses por mora y multas de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
+('4', '10', '06', '04', '00', 'Comisiones y otros gastos de la deuda pública de obligaciones pendientes de ejercicios anteriores', 1),
+('4', '11', '01', '01', '00', 'Disminución de sueldos, salarios y otras remuneraciones por pagar', 1),
+('4', '11', '02', '01', '00', 'Disminución de aportes patronales y retenciones laborales por pagar al Instituto Venezolano de los Seguros Sociales (IVSS)', 1),
+('4', '11', '02', '02', '00', 'Disminución de aportes patronales y retenciones laborales por pagar al Instituto de Previsión Social del Ministerio de Educación (Ipasme)', 1),
+('4', '11', '02', '03', '00', 'Disminución de aportes patronales y retenciones laborales por pagar al Fondo de Jubilaciones', 1),
+('4', '11', '02', '04', '00', 'Disminución de aportes patronales y retenciones laborales por pagar al Fondo de Seguro de Paro Forzoso', 1),
+('4', '11', '02', '05', '00', 'Disminución de aportes patronales y retenciones laborales por pagar al Fondo de Ahorro Obligatorio para la Vivienda (FAOV)', 1),
+('4', '11', '02', '06', '00', 'Disminución de aportes patronales y retenciones laborales por pagar al seguro de vida, accidentes personales, hospitalización, cirugía, maternidad (HCM) y gastos funerarios', 1),
+('4', '11', '02', '07', '00', 'Disminución de aportes patronales y retenciones laborales por pagar a cajas de ahorro', 1),
+('4', '11', '02', '08', '00', 'Disminución de aportes patronales por pagar a organismos de seguridad social', 1),
+('4', '11', '02', '09', '00', 'Disminución de retenciones laborales por pagar al Instituto Nacional de Capacitación y Educación Socialista (Inces)', 1),
+('4', '11', '02', '10', '00', 'Disminución de retenciones laborales por pagar por pensión alimenticia', 1),
+('4', '11', '02', '98', '00', 'Disminución de otros aportes legales por pagar', 1),
+('4', '11', '02', '99', '00', 'Disminución de otras retenciones laborales por pagar', 1),
+('4', '11', '03', '01', '00', 'Disminución de cuentas por pagar a proveedores a corto plazo', 1),
+('4', '11', '03', '02', '00', 'Disminución de efectos por pagar a proveedores a corto plazo', 1),
+('4', '11', '03', '03', '00', 'Disminución de cuentas por pagar a proveedores a mediano y largo plazo', 1),
+('4', '11', '03', '04', '00', 'Disminución de efectos por pagar a proveedores a mediano y largo plazo', 1),
+('4', '11', '04', '01', '00', 'Disminución de cuentas por pagar a contratistas a corto plazo', 1),
+('4', '11', '04', '02', '00', 'Disminución de efectos por pagar a contratistas a corto plazo', 1),
+('4', '11', '04', '03', '00', 'Disminución de cuentas por pagar a contratistas a mediano largo y plazo', 1),
+('4', '11', '04', '04', '00', 'Disminución de efectos por pagar a contratistas a mediano y plazo', 1),
+('4', '11', '05', '01', '00', 'Disminución de intereses internos por pagar', 1),
+('4', '11', '05', '02', '00', 'Disminución de intereses externos por pagar', 1),
+('4', '11', '06', '01', '00', 'Disminución de obligaciones de ejercicios anteriores', 1),
+('4', '11', '06', '02', '00', 'Disminución de otras cuentas por pagar a corto plazo', 1),
+('4', '11', '06', '03', '00', 'Disminución de otros efectos por pagar a corto plazo', 1),
+('4', '11', '07', '01', '00', 'Disminución de pasivos diferidos a corto plazo', 1),
+('4', '11', '07', '02', '00', 'Disminución de pasivos diferidos a mediano y largo plazo', 1),
+('4', '11', '08', '01', '00', 'Disminución de provisiones', 1),
+('4', '11', '08', '02', '00', 'Disminución de reservas técnicas', 1),
+('4', '11', '09', '01', '00', 'Disminución de depósitos recibidos en garantía', 1),
+('4', '11', '09', '99', '00', 'Disminución de otros fondos de terceros', 1),
+('4', '11', '10', '01', '00', 'Disminución de depósitos a la vista', 1),
+('4', '11', '10', '02', '00', 'Disminución de depósitos a plazo fijo', 1),
+('4', '11', '11', '01', '00', 'Devoluciones de cobros indebidos', 1),
+('4', '11', '11', '02', '00', 'Devoluciones y reintegros diversos', 1),
+('4', '11', '11', '03', '00', 'Indemnizaciones diversas', 1),
+('4', '11', '11', '04', '00', 'Compromisos pendientes de ejercicios anteriores', 1),
+('4', '11', '11', '05', '00', 'Prestaciones sociales originadas por la aplicación de la Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras', 1),
+('4', '11', '98', '01', '00', 'Disminución de otros pasivos a corto plazo', 1),
+('4', '11', '99', '01', '00', 'Disminución de otros pasivos a mediano y largo plazo', 1),
+('4', '12', '01', '01', '00', 'Disminución del capital fiscal e institucional', 1),
+('4', '12', '01', '02', '00', 'Disminución de aportes por capitalizar', 1),
+('4', '12', '01', '03', '00', 'Disminución de dividendos a distribuir', 1),
+('4', '12', '02', '01', '00', 'Disminución de reservas', 1),
+('4', '12', '03', '01', '00', 'Ajuste por inflación', 1),
+('4', '12', '04', '01', '00', 'Disminución de resultados acumulados', 1),
+('4', '12', '04', '02', '00', 'Disminución de resultados del ejercicio', 1),
+('4', '98', '01', '01', '00', 'Rectificaciones al presupuesto', 1);
 
 -- --------------------------------------------------------
 
@@ -3826,15 +4293,13 @@ INSERT INTO `partida_sub_especifica` (`id`, `especifica`, `sub_especifica`, `nom
 -- Estructura de tabla para la tabla `perfil`
 --
 
-CREATE TABLE IF NOT EXISTS `perfil` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `perfil` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
   `cedula` int(8) NOT NULL,
-  `user_accounts` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_accounts` (`user_accounts`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Perfil de usuario' AUTO_INCREMENT=1 ;
+  `user_accounts` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Perfil de usuario';
 
 -- --------------------------------------------------------
 
@@ -3842,11 +4307,10 @@ CREATE TABLE IF NOT EXISTS `perfil` (
 -- Estructura de tabla para la tabla `plan_operativo`
 --
 
-CREATE TABLE IF NOT EXISTS `plan_operativo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `plan_operativo` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `plan_operativo` (
+  `id` int(11) NOT NULL,
+  `plan_operativo` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `plan_operativo`
@@ -3862,18 +4326,18 @@ INSERT INTO `plan_operativo` (`id`, `plan_operativo`) VALUES
 -- Estructura de tabla para la tabla `presentacion`
 --
 
-CREATE TABLE IF NOT EXISTS `presentacion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(60) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+CREATE TABLE `presentacion` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `presentacion`
 --
 
 INSERT INTO `presentacion` (`id`, `nombre`) VALUES
-(1, 'Presentación');
+(1, 'Presentación'),
+(2, 'No disponible');
 
 -- --------------------------------------------------------
 
@@ -3881,7 +4345,7 @@ INSERT INTO `presentacion` (`id`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `programacion_fisica_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
+CREATE TABLE `programacion_fisica_presupuestaria` (
   `id` int(11) NOT NULL,
   `id_proyecto_accion_especifica` int(11) NOT NULL,
   `tipo_distribucion` int(11) DEFAULT NULL,
@@ -3896,10 +4360,7 @@ CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
   `septiembre` decimal(10,0) DEFAULT NULL,
   `octubre` decimal(10,0) DEFAULT NULL,
   `noviembre` decimal(10,0) DEFAULT NULL,
-  `diciembre` decimal(10,0) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_programacion_fisica_presupuestaria_1_idx` (`tipo_distribucion`),
-  KEY `fk_programacion_fisica_presupuestaria_2_idx` (`id_proyecto_accion_especifica`)
+  `diciembre` decimal(10,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3908,8 +4369,8 @@ CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
 -- Estructura de tabla para la tabla `proyecto`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto` (
+  `id` int(11) NOT NULL,
   `codigo_proyecto` varchar(45) DEFAULT NULL,
   `codigo_sne` varchar(45) DEFAULT NULL,
   `nombre` text NOT NULL,
@@ -3927,18 +4388,8 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
   `objetivo_estrategico_institucional` text NOT NULL,
   `ambito` int(11) NOT NULL,
   `aprobado` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Estatus de aprobación',
-  `estatus` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `codigo_proyecto_UNIQUE` (`codigo_proyecto`),
-  UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
-  KEY `estatus_proyecto_fk` (`estatus_proyecto`),
-  KEY `situacion_presupuestaria_fk` (`situacion_presupuestaria`),
-  KEY `clasificacion_sector_fk` (`sector`) USING BTREE,
-  KEY `sub_sector_fk` (`sub_sector`) USING BTREE,
-  KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
-  KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
-  KEY `ambito_fk` (`ambito`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000000 ;
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto`
@@ -3954,8 +4405,8 @@ INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `fecha_
 -- Estructura de tabla para la tabla `proyecto_accion_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_accion_especifica` (
+  `id` int(11) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   `codigo_accion_especifica` varchar(3) NOT NULL,
   `nombre` text,
@@ -3966,27 +4417,23 @@ CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
   `id_unidad_ejecutora` int(11) NOT NULL,
   `fecha_inicio` date NOT NULL COMMENT 'Fecha de inicio de la acción específica',
   `fecha_fin` date NOT NULL COMMENT 'Fecha de fin de la acción específica',
-  `estatus` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
-  KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`),
-  KEY `unidad_medida` (`unidad_medida`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+  `estatus` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `proyecto_accion_especifica`
 --
 
 INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_especifica`, `nombre`, `unidad_medida`, `meta`, `ponderacion`, `bien_servicio`, `id_unidad_ejecutora`, `fecha_inicio`, `fecha_fin`, `estatus`) VALUES
-(20, 999999, '123', 'Acción Específica', 1, 5, 0.1, 'Ninguno', 1, '2016-01-01', '2016-12-31', 1),
-(21, 999999, '1', 'probadno', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 1),
-(22, 999999, '2', 'probando2', 1, 0, 0.0, 'Ninguno', 602, '2016-01-01', '2016-12-31', 0),
-(23, 999999, '4', 'probadno', 1, 0, 0.0, 'Ninguno', 601, '2016-01-01', '2016-12-31', 0),
-(24, 999999, '4', 'probadno', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0),
-(25, 999999, '6', 'probadno3', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0),
-(26, 999999, '7', 'probando', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0),
-(27, 1, '10', 'Acción específica.', 1, 3, 0.1, 'Un bien', 602, '2016-01-01', '2017-12-31', 1),
-(36, 1, '444', 'Otra acción', 1, 1, 0.5, 'Otro bien', 603, '2016-01-01', '2016-12-31', 1);
+(20, 999999, '123', 'Acción Específica 20', 1, 5, 0.1, 'Ninguno', 1, '2016-01-01', '2016-12-31', 1),
+(21, 999999, '1', 'AC21', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 1),
+(22, 999999, '2', 'AC22', 1, 0, 0.0, 'Ninguno', 602, '2016-01-01', '2016-12-31', 0),
+(23, 999999, '4', 'AC23', 1, 0, 0.0, 'Ninguno', 601, '2016-01-01', '2016-12-31', 0),
+(24, 999999, '4', 'AC24', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0),
+(25, 999999, '6', 'AC25', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0),
+(26, 999999, '7', 'AC26', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0),
+(27, 1, '10', 'Acción específica 27', 1, 3, 0.1, 'Un bien', 602, '2016-01-01', '2017-12-31', 1),
+(36, 1, '444', 'Otra acción 36', 1, 1, 0.5, 'Otro bien', 603, '2016-01-01', '2016-12-31', 1);
 
 -- --------------------------------------------------------
 
@@ -3994,8 +4441,8 @@ INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_es
 -- Estructura de tabla para la tabla `proyecto_alcance`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_alcance` (
+  `id` int(11) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   `enunciado_problema` text NOT NULL COMMENT 'Enunciado del problema o necesidad',
   `poblacion_afectada` text NOT NULL COMMENT 'Población afectada',
@@ -4034,10 +4481,8 @@ CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
   `vinculado_nombre_instancia` varchar(80) DEFAULT NULL COMMENT 'Nombre de la instancia responsable del proyecto con el que este se encuentra vinculado',
   `vinculado_nombre_proyecto` text COMMENT 'Nombre del proyecto con el que se encuentra vinculado',
   `vinculado_medida` text COMMENT '¿En que medida se encuentran vinculados los proyectos?',
-  `obstaculos` text NOT NULL COMMENT ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:',
-  PRIMARY KEY (`id`),
-  KEY `id_proyecto` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto' AUTO_INCREMENT=4 ;
+  `obstaculos` text NOT NULL COMMENT ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto';
 
 --
 -- Volcado de datos para la tabla `proyecto_alcance`
@@ -4053,18 +4498,13 @@ INSERT INTO `proyecto_alcance` (`id`, `id_proyecto`, `enunciado_problema`, `pobl
 -- Estructura de tabla para la tabla `proyecto_asignar`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_asignar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_asignar` (
+  `id` int(11) NOT NULL,
   `usuario` int(11) NOT NULL,
   `unidad_ejecutora` int(11) NOT NULL,
   `accion_especifica` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `proyecto_asignar_unico` (`usuario`,`unidad_ejecutora`,`accion_especifica`),
-  KEY `usuario` (`usuario`),
-  KEY `unidad_ejecutora` (`unidad_ejecutora`),
-  KEY `accion_especifica` (`accion_especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de un proyecto' AUTO_INCREMENT=9 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de un proyecto';
 
 --
 -- Volcado de datos para la tabla `proyecto_asignar`
@@ -4073,7 +4513,8 @@ CREATE TABLE IF NOT EXISTS `proyecto_asignar` (
 INSERT INTO `proyecto_asignar` (`id`, `usuario`, `unidad_ejecutora`, `accion_especifica`, `estatus`) VALUES
 (5, 2, 602, 27, 1),
 (7, 2, 1, 20, 1),
-(8, 3, 1, 20, 1);
+(8, 3, 1, 20, 1),
+(9, 2, 603, 36, 1);
 
 -- --------------------------------------------------------
 
@@ -4081,49 +4522,12 @@ INSERT INTO `proyecto_asignar` (`id`, `usuario`, `unidad_ejecutora`, `accion_esp
 -- Estructura de tabla para la tabla `proyecto_distribucion_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_distribucion_presupuestaria` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_distribucion_presupuestaria` (
+  `id` int(11) NOT NULL,
   `id_accion_especifica` int(11) NOT NULL COMMENT 'Acción Específica',
   `id_partida` int(11) NOT NULL COMMENT 'Partida',
-  `cantidad` decimal(20,0) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_accion_especifica` (`id_accion_especifica`),
-  KEY `id_partida` (`id_partida`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Distribución presupuestaria de proyecto' AUTO_INCREMENT=29 ;
-
---
--- Volcado de datos para la tabla `proyecto_distribucion_presupuestaria`
---
-
-INSERT INTO `proyecto_distribucion_presupuestaria` (`id`, `id_accion_especifica`, `id_partida`, `cantidad`) VALUES
-(1, 36, 1, '0'),
-(2, 36, 2, '0'),
-(3, 36, 3, '0'),
-(4, 36, 4, '0'),
-(5, 36, 5, '0'),
-(6, 36, 6, '0'),
-(7, 36, 7, '0'),
-(8, 36, 8, '0'),
-(9, 36, 9, '0'),
-(10, 36, 10, '0'),
-(11, 36, 11, '0'),
-(12, 36, 12, '0'),
-(13, 36, 13, '0'),
-(14, 36, 14, '0'),
-(15, 36, 15, '0'),
-(16, 36, 16, '0'),
-(17, 36, 17, '0'),
-(18, 36, 18, '0'),
-(19, 36, 19, '0'),
-(20, 36, 20, '0'),
-(21, 36, 21, '0'),
-(22, 36, 22, '0'),
-(23, 36, 23, '0'),
-(24, 36, 24, '0'),
-(25, 36, 25, '0'),
-(26, 36, 26, '0'),
-(27, 36, 27, '0'),
-(28, 36, 28, '0');
+  `cantidad` decimal(20,0) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Distribución presupuestaria de proyecto';
 
 -- --------------------------------------------------------
 
@@ -4131,10 +4535,9 @@ INSERT INTO `proyecto_distribucion_presupuestaria` (`id`, `id_accion_especifica`
 -- Estructura de tabla para la tabla `proyecto_fuente_financiamiento`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_fuente_financiamiento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+CREATE TABLE `proyecto_fuente_financiamiento` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -4142,20 +4545,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_fuente_financiamiento` (
 -- Estructura de tabla para la tabla `proyecto_localizacion`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_localizacion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_localizacion` (
+  `id` int(11) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   `id_pais` int(11) NOT NULL,
   `id_estado` int(11) DEFAULT NULL,
   `id_municipio` int(11) DEFAULT NULL,
-  `id_parroquia` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `estados_fk_idx` (`id_estado`),
-  KEY `municipio_fk_idx` (`id_municipio`),
-  KEY `parroquia_fk_idx` (`id_parroquia`),
-  KEY `proyecto_fk_idx` (`id_proyecto`),
-  KEY `id_pais` (`id_pais`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+  `id_parroquia` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_localizacion`
@@ -4173,8 +4570,8 @@ INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`
 -- Estructura de tabla para la tabla `proyecto_pedido`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_pedido` (
+  `id` int(11) NOT NULL,
   `id_material` int(11) NOT NULL,
   `enero` int(11) NOT NULL DEFAULT '0',
   `febrero` int(11) NOT NULL DEFAULT '0',
@@ -4191,11 +4588,17 @@ CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
   `precio` decimal(12,2) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `asignado` int(11) NOT NULL COMMENT 'ID de la asignacion (Usuario-UE-AC)',
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_material` (`id_material`),
-  KEY `asignado` (`asignado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `proyecto_pedido`
+--
+
+INSERT INTO `proyecto_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `precio`, `fecha_creacion`, `asignado`, `estatus`) VALUES
+(1, 2, 11, 0, 0, 0, 4, 0, 0, 0, 25, 0, 0, 0, '230.00', '2016-06-23 20:16:20', 7, 1),
+(2, 3, 1500, 0, 0, 0, 0, 0, 1200, 0, 0, 0, 0, 0, '4620.00', '2016-06-23 20:16:51', 7, 1),
+(3, 49, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '2000000.00', '2016-06-30 06:22:19', 7, 1);
 
 -- --------------------------------------------------------
 
@@ -4203,16 +4606,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
 -- Estructura de tabla para la tabla `proyecto_registrador`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_registrador` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(30) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(80) DEFAULT NULL,
   `telefono` varchar(14) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_proyecto` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_registrador`
@@ -4227,16 +4628,14 @@ INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono
 -- Estructura de tabla para la tabla `proyecto_responsable`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_responsable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_responsable` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(14) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `proyecto_fk` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable`
@@ -4251,17 +4650,15 @@ INSERT INTO `proyecto_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono
 -- Estructura de tabla para la tabla `proyecto_responsable_administrativo`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_responsable_administrativo` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_administradora` varchar(45) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_id_proyecto_idx` (`id_proyecto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -4269,17 +4666,15 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
 -- Estructura de tabla para la tabla `proyecto_responsable_tecnico`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_responsable_tecnico` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_tecnica` varchar(45) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_proyecto_fk` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable_tecnico`
@@ -4294,26 +4689,22 @@ INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `
 -- Estructura de tabla para la tabla `responsable_acc_variable`
 --
 
-CREATE TABLE IF NOT EXISTS `responsable_acc_variable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `responsable_acc_variable` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `oficina` varchar(60) NOT NULL,
-  `id_variable` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_variable` (`id_variable`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+  `id_variable` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `responsable_acc_variable`
 --
 
 INSERT INTO `responsable_acc_variable` (`id`, `nombre`, `cedula`, `email`, `telefono`, `oficina`, `id_variable`) VALUES
-(19, 'walter', 17389814, 'walter86_79@hotmail.com', '02124813639', 'caracas', 31),
-(20, 'walter', 17389814, 'walter86_79@hotmail.com', '02124813639', 'caracas', 32),
-(21, 'walter', 17389814, 'walter86_79@hotmail.com', '02124813639', 'caracas', 33);
+(19, 'walter', 17389814, 'walter86_79@hotmail.com', '02124813639', 'caracas', 31);
 
 -- --------------------------------------------------------
 
@@ -4321,11 +4712,10 @@ INSERT INTO `responsable_acc_variable` (`id`, `nombre`, `cedula`, `email`, `tele
 -- Estructura de tabla para la tabla `sector`
 --
 
-CREATE TABLE IF NOT EXISTS `sector` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sector` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+CREATE TABLE `sector` (
+  `id` int(11) NOT NULL,
+  `sector` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `sector`
@@ -4355,11 +4745,10 @@ INSERT INTO `sector` (`id`, `sector`) VALUES
 -- Estructura de tabla para la tabla `situacion_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `situacion_presupuestaria` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `situacion` varchar(25) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+CREATE TABLE `situacion_presupuestaria` (
+  `id` int(11) NOT NULL,
+  `situacion` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `situacion_presupuestaria`
@@ -4374,11 +4763,10 @@ INSERT INTO `situacion_presupuestaria` (`id`, `situacion`) VALUES
 -- Estructura de tabla para la tabla `sub_sector`
 --
 
-CREATE TABLE IF NOT EXISTS `sub_sector` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sub_sector` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+CREATE TABLE `sub_sector` (
+  `id` int(11) NOT NULL,
+  `sub_sector` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `sub_sector`
@@ -4393,11 +4781,10 @@ INSERT INTO `sub_sector` (`id`, `sub_sector`) VALUES
 -- Estructura de tabla para la tabla `tipo_distribucion`
 --
 
-CREATE TABLE IF NOT EXISTS `tipo_distribucion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+CREATE TABLE `tipo_distribucion` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(45) CHARACTER SET latin1 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -4405,11 +4792,10 @@ CREATE TABLE IF NOT EXISTS `tipo_distribucion` (
 -- Estructura de tabla para la tabla `tipo_financiamiento`
 --
 
-CREATE TABLE IF NOT EXISTS `tipo_financiamiento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `tipo_financiamiento` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `tipo_financiamiento`
@@ -4425,13 +4811,11 @@ INSERT INTO `tipo_financiamiento` (`id`, `tipo`) VALUES
 -- Estructura de tabla para la tabla `unidad_ejecutora`
 --
 
-CREATE TABLE IF NOT EXISTS `unidad_ejecutora` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `unidad_ejecutora` (
+  `id` int(11) NOT NULL,
   `codigo_ue` varchar(5) CHARACTER SET latin1 NOT NULL,
-  `nombre` text CHARACTER SET latin1 NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `codigo_ue_UNIQUE` (`codigo_ue`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=688 ;
+  `nombre` text CHARACTER SET latin1 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `unidad_ejecutora`
@@ -4534,11 +4918,10 @@ INSERT INTO `unidad_ejecutora` (`id`, `codigo_ue`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `unidad_medida`
 --
 
-CREATE TABLE IF NOT EXISTS `unidad_medida` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `unidad_medida` varchar(45) NOT NULL COMMENT 'Unidad de medida',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Unidad de medida para el alcance e impacto del proyecto' AUTO_INCREMENT=623 ;
+CREATE TABLE `unidad_medida` (
+  `id` int(11) NOT NULL,
+  `unidad_medida` varchar(45) NOT NULL COMMENT 'Unidad de medida'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Unidad de medida para el alcance e impacto del proyecto';
 
 --
 -- Volcado de datos para la tabla `unidad_medida`
@@ -5174,8 +5557,8 @@ INSERT INTO `unidad_medida` (`id`, `unidad_medida`) VALUES
 -- Estructura de tabla para la tabla `user_accounts`
 --
 
-CREATE TABLE IF NOT EXISTS `user_accounts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user_accounts` (
+  `id` int(11) NOT NULL,
   `login` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
@@ -5188,11 +5571,8 @@ CREATE TABLE IF NOT EXISTS `user_accounts` (
   `blocked_at` int(11) DEFAULT NULL,
   `confirmed_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_unique_login` (`login`),
-  UNIQUE KEY `user_unique_username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `updated_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `user_accounts`
@@ -5200,9 +5580,784 @@ CREATE TABLE IF NOT EXISTS `user_accounts` (
 
 INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_key`, `administrator`, `creator`, `creator_ip`, `confirm_token`, `recovery_token`, `blocked_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES
 (1, 'catu52@gmail.com', 'admin', '$2y$13$93TebP1Z2QcqANsVIzAwrON2lrPaFFXqUoJswU0VHa63avQoNS6G6', '', 1, -2, 'Local', NULL, NULL, NULL, 1449790220, 1449790220, 1449864304),
-(2, 'antonioluismonasterio@gmail.com', 'antonio', '$2y$13$I/K3TenE57er26KZengHNujOrM7kYiCsGZzG4XXK1MOx/zhsmCZdi', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1449848097, 1449848097, 1458867181),
+(2, 'antonioluismonasterio@gmail.com', 'antonio', '$2y$13$uRtF0rjXFE4jX1RIQ3kIqOBhEKjPzGBJp1zf20M04v8mYmNihVSBe', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1449848097, 1449848097, 1466698373),
 (3, 'walter86_79@hotmail.com', 'soulip', '$2y$13$UjYRjClQAEpe2OzeogsZoederx9EgVItIQCy5bNrV0xz8vQWDI3DS', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1454610570, 1454610571, 1458107096);
 
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `accion_centralizada`
+--
+ALTER TABLE `accion_centralizada`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `accion_centralizada_accion_especifica`
+--
+ALTER TABLE `accion_centralizada_accion_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ac_centr` (`id_ac_centr`);
+
+--
+-- Indices de la tabla `accion_centralizada_ac_especifica_uej`
+--
+ALTER TABLE `accion_centralizada_ac_especifica_uej`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ue` (`id_ue`),
+  ADD KEY `id_v` (`id_ac_esp`);
+
+--
+-- Indices de la tabla `accion_centralizada_asignar`
+--
+ALTER TABLE `accion_centralizada_asignar`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario` (`usuario`),
+  ADD KEY `unidad_ejecutora` (`unidad_ejecutora`),
+  ADD KEY `accion_especifica` (`accion_especifica`);
+
+--
+-- Indices de la tabla `accion_centralizada_desbloqueo_mes`
+--
+ALTER TABLE `accion_centralizada_desbloqueo_mes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ejecucion` (`id_ejecucion`);
+
+--
+-- Indices de la tabla `accion_centralizada_pedido`
+--
+ALTER TABLE `accion_centralizada_pedido`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_material` (`id_material`),
+  ADD KEY `asignado` (`asignado`);
+
+--
+-- Indices de la tabla `accion_centralizada_variables`
+--
+ALTER TABLE `accion_centralizada_variables`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `unidad_medida_2` (`unidad_medida`),
+  ADD KEY `localizacion` (`localizacion`),
+  ADD KEY `meta_programada_variable` (`meta_programada_variable`),
+  ADD KEY `unidad_ejecutora` (`unidad_ejecutora`),
+  ADD KEY `acc_accion_especifica` (`acc_accion_especifica`);
+
+--
+-- Indices de la tabla `accion_centralizada_variables_usuarios`
+--
+ALTER TABLE `accion_centralizada_variables_usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_variable` (`id_variable`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `accion_centralizada_variable_ejecucion`
+--
+ALTER TABLE `accion_centralizada_variable_ejecucion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_programacion` (`id_programacion`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `accion_centralizada_variable_programacion`
+--
+ALTER TABLE `accion_centralizada_variable_programacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_localizacion` (`id_localizacion`);
+
+--
+-- Indices de la tabla `ambito`
+--
+ALTER TABLE `ambito`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `audit_data`
+--
+ALTER TABLE `audit_data`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_data_entry_id` (`entry_id`);
+
+--
+-- Indices de la tabla `audit_entry`
+--
+ALTER TABLE `audit_entry`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_route` (`route`);
+
+--
+-- Indices de la tabla `audit_error`
+--
+ALTER TABLE `audit_error`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_error_entry_id` (`entry_id`),
+  ADD KEY `idx_file` (`file`(180)),
+  ADD KEY `idx_emailed` (`emailed`);
+
+--
+-- Indices de la tabla `audit_javascript`
+--
+ALTER TABLE `audit_javascript`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_javascript_entry_id` (`entry_id`);
+
+--
+-- Indices de la tabla `audit_mail`
+--
+ALTER TABLE `audit_mail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_mail_entry_id` (`entry_id`);
+
+--
+-- Indices de la tabla `audit_trail`
+--
+ALTER TABLE `audit_trail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_trail_entry_id` (`entry_id`),
+  ADD KEY `idx_audit_user_id` (`user_id`),
+  ADD KEY `idx_audit_trail_field` (`model`,`model_id`,`field`),
+  ADD KEY `idx_audit_trail_action` (`action`);
+
+--
+-- Indices de la tabla `auth_assignment`
+--
+ALTER TABLE `auth_assignment`
+  ADD PRIMARY KEY (`item_name`,`user_id`);
+
+--
+-- Indices de la tabla `auth_item`
+--
+ALTER TABLE `auth_item`
+  ADD PRIMARY KEY (`name`),
+  ADD KEY `rule_name` (`rule_name`),
+  ADD KEY `idx-auth_item-type` (`type`);
+
+--
+-- Indices de la tabla `auth_item_child`
+--
+ALTER TABLE `auth_item_child`
+  ADD PRIMARY KEY (`parent`,`child`),
+  ADD KEY `child` (`child`);
+
+--
+-- Indices de la tabla `auth_rule`
+--
+ALTER TABLE `auth_rule`
+  ADD PRIMARY KEY (`name`);
+
+--
+-- Indices de la tabla `cuenta_presupuestaria`
+--
+ALTER TABLE `cuenta_presupuestaria`
+  ADD PRIMARY KEY (`cuenta`);
+
+--
+-- Indices de la tabla `estados`
+--
+ALTER TABLE `estados`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pais` (`id_pais`);
+
+--
+-- Indices de la tabla `estatus_proyecto`
+--
+ALTER TABLE `estatus_proyecto`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `fuente_financiamiento`
+--
+ALTER TABLE `fuente_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `instancia_institucion`
+--
+ALTER TABLE `instancia_institucion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `localizacion_acc_variable`
+--
+ALTER TABLE `localizacion_acc_variable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_variable` (`id_variable`),
+  ADD KEY `id_pais` (`id_pais`),
+  ADD KEY `id_estado` (`id_estado`),
+  ADD KEY `id_municipio` (`id_municipio`),
+  ADD KEY `id_parroquia` (`id_parroquia`);
+
+--
+-- Indices de la tabla `materiales_servicios`
+--
+ALTER TABLE `materiales_servicios`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cuenta` (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`),
+  ADD KEY `unidad_medida` (`unidad_medida`),
+  ADD KEY `presentacion` (`presentacion`);
+
+--
+-- Indices de la tabla `migration`
+--
+ALTER TABLE `migration`
+  ADD PRIMARY KEY (`version`);
+
+--
+-- Indices de la tabla `modelhistory`
+--
+ALTER TABLE `modelhistory`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx-table` (`table`),
+  ADD KEY `idx-field_name` (`field_name`),
+  ADD KEY `idx-type` (`type`),
+  ADD KEY `idx-user_id` (`user_id`);
+
+--
+-- Indices de la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_estado` (`id_estado`);
+
+--
+-- Indices de la tabla `notification`
+--
+ALTER TABLE `notification`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `objetivos_estrategicos`
+--
+ALTER TABLE `objetivos_estrategicos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `directriz` (`objetivo_nacional`);
+
+--
+-- Indices de la tabla `objetivos_generales`
+--
+ALTER TABLE `objetivos_generales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estrategia` (`objetivo_estrategico`);
+
+--
+-- Indices de la tabla `objetivos_historicos`
+--
+ALTER TABLE `objetivos_historicos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `objetivos_nacionales`
+--
+ALTER TABLE `objetivos_nacionales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `directriz` (`objetivo_historico`);
+
+--
+-- Indices de la tabla `pais`
+--
+ALTER TABLE `pais`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `parroquia`
+--
+ALTER TABLE `parroquia`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_municipio` (`id_municipio`);
+
+--
+-- Indices de la tabla `partida_especifica`
+--
+ALTER TABLE `partida_especifica`
+  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`) USING BTREE;
+
+--
+-- Indices de la tabla `partida_generica`
+--
+ALTER TABLE `partida_generica`
+  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`) USING BTREE;
+
+--
+-- Indices de la tabla `partida_partida`
+--
+ALTER TABLE `partida_partida`
+  ADD PRIMARY KEY (`cuenta`,`partida`) USING BTREE,
+  ADD KEY `ramo` (`cuenta`);
+
+--
+-- Indices de la tabla `partida_sub_especifica`
+--
+ALTER TABLE `partida_sub_especifica`
+  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`) USING BTREE;
+
+--
+-- Indices de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_accounts` (`user_accounts`);
+
+--
+-- Indices de la tabla `plan_operativo`
+--
+ALTER TABLE `plan_operativo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `presentacion`
+--
+ALTER TABLE `presentacion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `programacion_fisica_presupuestaria`
+--
+ALTER TABLE `programacion_fisica_presupuestaria`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_programacion_fisica_presupuestaria_1_idx` (`tipo_distribucion`),
+  ADD KEY `fk_programacion_fisica_presupuestaria_2_idx` (`id_proyecto_accion_especifica`);
+
+--
+-- Indices de la tabla `proyecto`
+--
+ALTER TABLE `proyecto`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo_proyecto_UNIQUE` (`codigo_proyecto`),
+  ADD UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
+  ADD KEY `estatus_proyecto_fk` (`estatus_proyecto`),
+  ADD KEY `situacion_presupuestaria_fk` (`situacion_presupuestaria`),
+  ADD KEY `clasificacion_sector_fk` (`sector`) USING BTREE,
+  ADD KEY `sub_sector_fk` (`sub_sector`) USING BTREE,
+  ADD KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
+  ADD KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
+  ADD KEY `ambito_fk` (`ambito`) USING BTREE;
+
+--
+-- Indices de la tabla `proyecto_accion_especifica`
+--
+ALTER TABLE `proyecto_accion_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
+  ADD KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`),
+  ADD KEY `unidad_medida` (`unidad_medida`);
+
+--
+-- Indices de la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_asignar`
+--
+ALTER TABLE `proyecto_asignar`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `proyecto_asignar_unico` (`usuario`,`unidad_ejecutora`,`accion_especifica`),
+  ADD KEY `usuario` (`usuario`),
+  ADD KEY `unidad_ejecutora` (`unidad_ejecutora`),
+  ADD KEY `accion_especifica` (`accion_especifica`);
+
+--
+-- Indices de la tabla `proyecto_distribucion_presupuestaria`
+--
+ALTER TABLE `proyecto_distribucion_presupuestaria`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_accion_especifica` (`id_accion_especifica`),
+  ADD KEY `id_partida` (`id_partida`);
+
+--
+-- Indices de la tabla `proyecto_fuente_financiamiento`
+--
+ALTER TABLE `proyecto_fuente_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `proyecto_localizacion`
+--
+ALTER TABLE `proyecto_localizacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estados_fk_idx` (`id_estado`),
+  ADD KEY `municipio_fk_idx` (`id_municipio`),
+  ADD KEY `parroquia_fk_idx` (`id_parroquia`),
+  ADD KEY `proyecto_fk_idx` (`id_proyecto`),
+  ADD KEY `id_pais` (`id_pais`);
+
+--
+-- Indices de la tabla `proyecto_pedido`
+--
+ALTER TABLE `proyecto_pedido`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_material` (`id_material`),
+  ADD KEY `asignado` (`asignado`);
+
+--
+-- Indices de la tabla `proyecto_registrador`
+--
+ALTER TABLE `proyecto_registrador`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `proyecto_fk` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable_administrativo`
+--
+ALTER TABLE `proyecto_responsable_administrativo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_proyecto_idx` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto_fk` (`id_proyecto`);
+
+--
+-- Indices de la tabla `responsable_acc_variable`
+--
+ALTER TABLE `responsable_acc_variable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_variable` (`id_variable`);
+
+--
+-- Indices de la tabla `sector`
+--
+ALTER TABLE `sector`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `situacion_presupuestaria`
+--
+ALTER TABLE `situacion_presupuestaria`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `sub_sector`
+--
+ALTER TABLE `sub_sector`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_distribucion`
+--
+ALTER TABLE `tipo_distribucion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_financiamiento`
+--
+ALTER TABLE `tipo_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `unidad_ejecutora`
+--
+ALTER TABLE `unidad_ejecutora`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo_ue_UNIQUE` (`codigo_ue`);
+
+--
+-- Indices de la tabla `unidad_medida`
+--
+ALTER TABLE `unidad_medida`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `user_accounts`
+--
+ALTER TABLE `user_accounts`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_unique_login` (`login`),
+  ADD UNIQUE KEY `user_unique_username` (`username`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada`
+--
+ALTER TABLE `accion_centralizada`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_accion_especifica`
+--
+ALTER TABLE `accion_centralizada_accion_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_ac_especifica_uej`
+--
+ALTER TABLE `accion_centralizada_ac_especifica_uej`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_asignar`
+--
+ALTER TABLE `accion_centralizada_asignar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_desbloqueo_mes`
+--
+ALTER TABLE `accion_centralizada_desbloqueo_mes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_pedido`
+--
+ALTER TABLE `accion_centralizada_pedido`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variables`
+--
+ALTER TABLE `accion_centralizada_variables`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variables_usuarios`
+--
+ALTER TABLE `accion_centralizada_variables_usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variable_ejecucion`
+--
+ALTER TABLE `accion_centralizada_variable_ejecucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variable_programacion`
+--
+ALTER TABLE `accion_centralizada_variable_programacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+--
+-- AUTO_INCREMENT de la tabla `ambito`
+--
+ALTER TABLE `ambito`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla `audit_data`
+--
+ALTER TABLE `audit_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_entry`
+--
+ALTER TABLE `audit_entry`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_error`
+--
+ALTER TABLE `audit_error`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_javascript`
+--
+ALTER TABLE `audit_javascript`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_mail`
+--
+ALTER TABLE `audit_mail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_trail`
+--
+ALTER TABLE `audit_trail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
+--
+-- AUTO_INCREMENT de la tabla `estados`
+--
+ALTER TABLE `estados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+--
+-- AUTO_INCREMENT de la tabla `estatus_proyecto`
+--
+ALTER TABLE `estatus_proyecto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `fuente_financiamiento`
+--
+ALTER TABLE `fuente_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT de la tabla `instancia_institucion`
+--
+ALTER TABLE `instancia_institucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `localizacion_acc_variable`
+--
+ALTER TABLE `localizacion_acc_variable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+--
+-- AUTO_INCREMENT de la tabla `materiales_servicios`
+--
+ALTER TABLE `materiales_servicios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+--
+-- AUTO_INCREMENT de la tabla `modelhistory`
+--
+ALTER TABLE `modelhistory`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `notification`
+--
+ALTER TABLE `notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_estrategicos`
+--
+ALTER TABLE `objetivos_estrategicos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_generales`
+--
+ALTER TABLE `objetivos_generales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_historicos`
+--
+ALTER TABLE `objetivos_historicos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_nacionales`
+--
+ALTER TABLE `objetivos_nacionales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT de la tabla `parroquia`
+--
+ALTER TABLE `parroquia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `plan_operativo`
+--
+ALTER TABLE `plan_operativo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `presentacion`
+--
+ALTER TABLE `presentacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `proyecto`
+--
+ALTER TABLE `proyecto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000000;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_accion_especifica`
+--
+ALTER TABLE `proyecto_accion_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_asignar`
+--
+ALTER TABLE `proyecto_asignar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_distribucion_presupuestaria`
+--
+ALTER TABLE `proyecto_distribucion_presupuestaria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_fuente_financiamiento`
+--
+ALTER TABLE `proyecto_fuente_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_localizacion`
+--
+ALTER TABLE `proyecto_localizacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_pedido`
+--
+ALTER TABLE `proyecto_pedido`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_registrador`
+--
+ALTER TABLE `proyecto_registrador`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable_administrativo`
+--
+ALTER TABLE `proyecto_responsable_administrativo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `responsable_acc_variable`
+--
+ALTER TABLE `responsable_acc_variable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+--
+-- AUTO_INCREMENT de la tabla `sector`
+--
+ALTER TABLE `sector`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT de la tabla `situacion_presupuestaria`
+--
+ALTER TABLE `situacion_presupuestaria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `sub_sector`
+--
+ALTER TABLE `sub_sector`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `tipo_distribucion`
+--
+ALTER TABLE `tipo_distribucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tipo_financiamiento`
+--
+ALTER TABLE `tipo_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `unidad_ejecutora`
+--
+ALTER TABLE `unidad_ejecutora`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=688;
+--
+-- AUTO_INCREMENT de la tabla `unidad_medida`
+--
+ALTER TABLE `unidad_medida`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=623;
+--
+-- AUTO_INCREMENT de la tabla `user_accounts`
+--
+ALTER TABLE `user_accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Restricciones para tablas volcadas
 --
@@ -5269,12 +6424,6 @@ ALTER TABLE `accion_centralizada_variable_programacion`
   ADD CONSTRAINT `frk-programacion-localizacion` FOREIGN KEY (`id_localizacion`) REFERENCES `localizacion_acc_variable` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `ac_variable`
---
-ALTER TABLE `ac_variable`
-  ADD CONSTRAINT `frk_ac_variable` FOREIGN KEY (`id_u_ej`) REFERENCES `unidad_ejecutora` (`id`);
-
---
 -- Filtros para la tabla `audit_data`
 --
 ALTER TABLE `audit_data`
@@ -5338,8 +6487,8 @@ ALTER TABLE `localizacion_acc_variable`
 --
 ALTER TABLE `materiales_servicios`
   ADD CONSTRAINT `frk_pre_materiales` FOREIGN KEY (`presentacion`) REFERENCES `presentacion` (`id`),
-  ADD CONSTRAINT `frk_se_materiales` FOREIGN KEY (`id_se`) REFERENCES `partida_sub_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `frk_um_materiales` FOREIGN KEY (`unidad_medida`) REFERENCES `unidad_medida` (`id`);
+  ADD CONSTRAINT `frk_um_materiales` FOREIGN KEY (`unidad_medida`) REFERENCES `unidad_medida` (`id`),
+  ADD CONSTRAINT `materiales_servicios_ibfk_1` FOREIGN KEY (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`) REFERENCES `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`);
 
 --
 -- Filtros para la tabla `objetivos_generales`
@@ -5351,25 +6500,25 @@ ALTER TABLE `objetivos_generales`
 -- Filtros para la tabla `partida_especifica`
 --
 ALTER TABLE `partida_especifica`
-  ADD CONSTRAINT `frk_ge_es` FOREIGN KEY (`generica`) REFERENCES `partida_generica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `partida_especifica_ibfk_1` FOREIGN KEY (`cuenta`,`partida`,`generica`) REFERENCES `partida_generica` (`cuenta`, `partida`, `generica`);
 
 --
 -- Filtros para la tabla `partida_generica`
 --
 ALTER TABLE `partida_generica`
-  ADD CONSTRAINT `fk_partida` FOREIGN KEY (`id_partida`) REFERENCES `partida_partida` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `partida_generica_ibfk_1` FOREIGN KEY (`cuenta`,`partida`) REFERENCES `partida_partida` (`cuenta`, `partida`);
 
 --
 -- Filtros para la tabla `partida_partida`
 --
 ALTER TABLE `partida_partida`
-  ADD CONSTRAINT `partida_partida_ibfk_1` FOREIGN KEY (`cuenta`) REFERENCES `cuenta_presupuestaria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `partida_partida_ibfk_1` FOREIGN KEY (`cuenta`) REFERENCES `cuenta_presupuestaria` (`cuenta`);
 
 --
 -- Filtros para la tabla `partida_sub_especifica`
 --
 ALTER TABLE `partida_sub_especifica`
-  ADD CONSTRAINT `frk_es_se` FOREIGN KEY (`especifica`) REFERENCES `partida_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `partida_sub_especifica_ibfk_1` FOREIGN KEY (`cuenta`,`partida`,`generica`,`especifica`) REFERENCES `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`);
 
 --
 -- Filtros para la tabla `perfil`
@@ -5408,8 +6557,7 @@ ALTER TABLE `proyecto_asignar`
 -- Filtros para la tabla `proyecto_distribucion_presupuestaria`
 --
 ALTER TABLE `proyecto_distribucion_presupuestaria`
-  ADD CONSTRAINT `id_accion_especifica_fk` FOREIGN KEY (`id_accion_especifica`) REFERENCES `proyecto_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `id_partida_fk` FOREIGN KEY (`id_partida`) REFERENCES `partida_partida` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `id_accion_especifica_fk` FOREIGN KEY (`id_accion_especifica`) REFERENCES `proyecto_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `proyecto_localizacion`
