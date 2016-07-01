@@ -87,7 +87,8 @@ class ProyectoAsignarController extends WebController
             'content'=>$this->renderPartial('view', [
                 'model' => $this->findModel($id)
             ]),
-            'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+            'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
 
         ];
     }
@@ -194,7 +195,7 @@ class ProyectoAsignarController extends WebController
         $model = $this->findModel($id);
 
         //Listas desplegables
-        $ue = UnidadEjecutora::find(['estatus' => 1])->all();       
+        $proyectos = Proyecto::find(['estatus' => 1])->all();       
 
         if($request->isAjax){
             /*
@@ -205,8 +206,8 @@ class ProyectoAsignarController extends WebController
                 return [
                     'title'=> "Asignar",
                     'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
-                        'ue' => $ue
+                        'model' => $model,
+                        'proyectos' => $proyectos
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -216,8 +217,7 @@ class ProyectoAsignarController extends WebController
                     'forceReload'=>'true',
                     'title'=> "Asignado",
                     'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
-                        'ue' => $ue
+                        'model' => $model
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -226,8 +226,8 @@ class ProyectoAsignarController extends WebController
                  return [
                     'title'=> "Asignar",
                     'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
-                        'ue' => $ue
+                        'model' => $model,
+                        'proyectos' => $proyectos
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -242,7 +242,7 @@ class ProyectoAsignarController extends WebController
             } else {
                 return $this->render('update', [
                     'model' => $model,
-                    'ue' => $ue
+                    'proyectos' => $proyectos
                 ]);
             }
         }
