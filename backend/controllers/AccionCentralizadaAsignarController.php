@@ -123,7 +123,7 @@ class AccionCentralizadaAsignarController extends WebController
         $model->usuario = $usuario;
         $accion_especifica = AcAcEspec::find()->where(['id' => $model->accion_especifica])->all();
         //Listas desplegables
-        $ue = UnidadEjecutora::find(['estatus' => 1])->asArray()->all(); 
+        $ue = UnidadEjecutora::find(['estatus' => 1])->where(['id'=>$model->unidad_ejecutora])->asArray()->all(); 
         $accion_centralizada = AccionCentralizada::find(['estatus' => 1])->all();
 
         if($request->isAjax){
