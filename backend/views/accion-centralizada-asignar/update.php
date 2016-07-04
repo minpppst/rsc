@@ -9,7 +9,9 @@ use yii\helpers\Html;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'ue' => $ue
+        'ue' => $ue,
+        'accion_centralizada' => $accion_centralizada,
+        'accion_especifica' => $accion_especifica,
     ]) ?>
 
 </div>

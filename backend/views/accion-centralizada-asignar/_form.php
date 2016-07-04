@@ -18,10 +18,24 @@ DepDropAsset::register($this);
 
     <?= Html::activeHiddenInput($model, 'usuario') ?>
 
-    <?= $form->field($model, 'unidad_ejecutora')->dropDownList(ArrayHelper::map($ue,'id','nombre'), ['prompt' => 'Seleccione']) ?>
+    <label class="control-label">Acción Centralizada</label>
+    <?php if(!$model->isNewRecord){ ?>
+    <?= Html::dropDownList('accion_centralizada','accion_centralizada',ArrayHelper::map($accion_centralizada,'id','nombre_accion'),
+    ['options' => [$accion_especifica[0]->id_ac_centr => ['Selected' => 'seleted']], 'class' => 'form-control', 'id' => 'accion_centralizada'])?>
+    <?php }
+    else{ ?>
+    <?= Html::dropDownList('accion_centralizada','accion_centralizada',ArrayHelper::map($accion_centralizada,'id','nombre_accion'),
+    ['prompt' => 'Seleccione', 'class' => 'form-control', 'id' => 'accion_centralizada'])?>
+    <?php
+    } // fin del else
+    ?>
+    <?= $form->field($model, 'accion_especifica')->dropDownList(ArrayHelper::map($accion_especifica, 'id', 'nombre'), ['prompt' => 'Seleccione']) ?>
 
-    <?= $form->field($model, 'accion_especifica')->dropDownList([], ['prompt' => 'Seleccione']) ?>
+    <!--<?= $form->field($model, 'unidad_ejecutora')->dropDownList(ArrayHelper::map($ue,'id','nombre'), ['prompt' => 'Seleccione']) ?>-->
+    
+    <?= $form->field($model, 'unidad_ejecutora')->dropDownList(ArrayHelper::map($ue, 'id', 'name'), ['prompt' => 'Seleccione']) ?>
 
+    
     <?= $form->field($model, 'estatus')->dropDownList([1 => 'Activo', 0 => 'Inactivo'],['prompt' => 'Seleccione']) ?>
 
   
@@ -39,7 +53,12 @@ DepDropAsset::register($this);
     $(document).ready(function(){
         //GE
         $("#accioncentralizadaasignar-accion_especifica").depdrop({
-            depends: ['accioncentralizadaasignar-unidad_ejecutora'],
+            depends: ['accion_centralizada'],
+            url: "<?= Url::to(['ace1']) ?>"
+        });
+
+        $("#accioncentralizadaasignar-unidad_ejecutora").depdrop({
+            depends: ['accioncentralizadaasignar-accion_especifica'],
             url: "<?= Url::to(['ace']) ?>"
         });
         

@@ -67,6 +67,12 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    
+    public function getAccionCentralizada()
+    {
+        $nombre= $this->accionEspecifica->idAcCentr->nombre_accion;
+        return $nombre;//$this->hasOne(AcAcEspec::className(), ['id' => 'accion_especifica']);
+    }
     public function getAccionEspecifica()
     {
         return $this->hasOne(AcAcEspec::className(), ['id' => 'accion_especifica']);

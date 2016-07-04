@@ -132,13 +132,6 @@ class ResponsableAccVariableController extends Controller
             }
         } else{
 
-
-
-
-
-
-
-
         //proceso normal
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

@@ -12,8 +12,12 @@ use yii\widgets\DetailView;
         'attributes' => [
             'id',
             //'usuario',
-            'nombreUe',
+            ['label' => 'Acción Centralizada',
+            'attribute' => 'accionCentralizada',
+            ],
+            
             'nombreAe',
+            'nombreUe',
             'nombreEstatus'
         ],
     ]) ?>

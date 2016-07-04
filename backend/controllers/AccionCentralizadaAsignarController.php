@@ -8,6 +8,7 @@ use johnitvn\userplus\base\WebController;
 use common\models\AccionCentralizadaAsignar;
 use common\models\AccionCentralizadaAsignarSearch;
 use common\models\UnidadEjecutora;
+use common\models\AccionCentralizada;
 use common\models\AcAcEspec;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -120,9 +121,10 @@ class AccionCentralizadaAsignarController extends WebController
         $request = Yii::$app->request;
         $model = new AccionCentralizadaAsignar();
         $model->usuario = $usuario;
-
+        $accion_especifica = AcAcEspec::find()->where(['id' => $model->accion_especifica])->all();
         //Listas desplegables
-        $ue = UnidadEjecutora::find(['estatus' => 1])->all(); 
+        $ue = UnidadEjecutora::find(['estatus' => 1])->asArray()->all(); 
+        $accion_centralizada = AccionCentralizada::find(['estatus' => 1])->all();
 
         if($request->isAjax){
             /*
@@ -134,7 +136,9 @@ class AccionCentralizadaAsignarController extends WebController
                     'title'=> "Asignar",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'ue' => $ue
+                        'ue' => $ue,
+                        'accion_centralizada' => $accion_centralizada,
+                        'accion_especifica' => $accion_especifica,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -154,7 +158,9 @@ class AccionCentralizadaAsignarController extends WebController
                     'title'=> "Asignar",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'ue' => $ue
+                        'ue' => $ue,
+                        'accion_centralizada' => $accion_centralizada,
+                        'accion_especifica' => $accion_especifica,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -170,7 +176,9 @@ class AccionCentralizadaAsignarController extends WebController
             } else {
                 return $this->render('create', [
                     'model' => $model,
-                    'ue' => $ue
+                    'ue' => $ue,
+                    'accion_centralizada' => $accion_centralizada,
+                    'accion_especifica' => $accion_especifica,
                 ]);
             }
         }
@@ -190,8 +198,14 @@ class AccionCentralizadaAsignarController extends WebController
         $model = $this->findModel($id);
 
         //Listas desplegables
-        $ue = UnidadEjecutora::find(['estatus' => 1])->all();       
-
+               
+        $accion_especifica = AcAcEspec::find()->where(['id' => $model->accion_especifica])->all();
+        $ue = UnidadEjecutora::find(['estatus' => 1])
+        ->select(["unidad_ejecutora.id as id", "unidad_ejecutora.nombre as name"])
+        ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id_ue=unidad_ejecutora.id')
+        ->asArray()
+        ->all();
+        $accion_centralizada = AccionCentralizada::find()->all();
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -202,7 +216,9 @@ class AccionCentralizadaAsignarController extends WebController
                     'title'=> "Asignar",
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
-                        'ue' => $ue
+                        'ue' => $ue,
+                        'accion_centralizada' => $accion_centralizada,
+                        'accion_especifica' => $accion_especifica,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -213,7 +229,9 @@ class AccionCentralizadaAsignarController extends WebController
                     'title'=> "Asignado",
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
-                        'ue' => $ue
+                        'ue' => $ue,
+                        'accion_centralizada' => $accion_centralizada,
+                        'accion_especifica' => $accion_especifica,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -223,7 +241,9 @@ class AccionCentralizadaAsignarController extends WebController
                     'title'=> "Asignar",
                     'content'=>$this->renderPartial('update', [
                         'model' => $this->findModel($id),
-                        'ue' => $ue
+                        'ue' => $ue,
+                        'accion_centralizada' => $accion_centralizada,
+                        'accion_especifica' => $accion_especifica,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -249,7 +269,8 @@ class AccionCentralizadaAsignarController extends WebController
      * acciones especificas
      * @return array JSON 
      */
-    public function actionAce()
+    
+    public function actionAce1()
     {
         $request = Yii::$app->request;
 
@@ -262,8 +283,8 @@ class AccionCentralizadaAsignarController extends WebController
                 //Acciones Especificas
                 $ace = AcAcEspec::find()
                     ->select(["accion_centralizada_accion_especifica.id", "CONCAT(accion_centralizada_accion_especifica.cod_ac_espe,' - ',accion_centralizada_accion_especifica.nombre) AS name"])
-                    ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id_ac_esp=accion_centralizada_accion_especifica.id')
-                    ->where(['accion_centralizada_ac_especifica_uej.id_ue' => $request->post('depdrop_parents'), 'accion_centralizada_accion_especifica.estatus' => 1])
+                    ->innerjoin('accion_centralizada', 'accion_centralizada.id=accion_centralizada_accion_especifica.id_ac_centr')
+                    ->where(['accion_centralizada.id' => $request->post('depdrop_parents'), 'accion_centralizada_accion_especifica.estatus' => 1])
                     ->asArray()
                     ->all();                
 
@@ -274,6 +295,44 @@ class AccionCentralizadaAsignarController extends WebController
         }
         
     }
+
+
+
+    public function actionAce()
+    {
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if($request->isPost)
+            {
+                //Acciones Especificas
+                $ace = UnidadEjecutora::find()
+                    ->select(["unidad_ejecutora.id", "CONCAT(unidad_ejecutora.codigo_ue,' - ',unidad_ejecutora.nombre) AS name"])
+                    ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id_ue=unidad_ejecutora.id')
+                    ->where(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $request->post('depdrop_parents')])
+                    ->asArray()
+                    ->all();                
+            
+                    if($ace!=NULL){
+                return [
+                    'output' => $ace
+                ];
+            }
+            
+            }
+        }
+        
+    }
+
+
+
+
+
+
+
 
 
      /**

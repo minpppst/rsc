@@ -47,7 +47,7 @@ class AccionCentralizada extends \yii\db\ActiveRecord
             [['codigo_accion', 'codigo_accion_sne', 'nombre_accion', 'estatus', 'fecha_inicio', 'fecha_fin'], 'required'],
             //[['fecha_inicio', 'fecha_fin'], 'date', 'format'=>'Y-m-d'],
             //['fecha_inicio', 'compare', 'compareAttribute'=>'fecha_fin','operator'=>'<', 'message'=>'Fecha Inicial Debe Ser Menor A Fecha Final'],
-            [['codigo_accion', 'codigo_accion_sne'], 'string', 'max' => 45],
+            //[['codigo_accion', 'codigo_accion_sne'], 'string', 'max' => 45],
             ['fecha_inicio', 'formato_fecha'],
             ['fecha_fin', 'formato_fecha'],
         ];

@@ -27,7 +27,7 @@ class AccController extends Controller
             ("3","003","ACC003","Previsión y protección social", "'.$anio.'/01/01", "'.$anio.'/12/31", 1, 0),
             ("4","004","ACC004","Asignaciones predeterminadas", "'.$anio.'/01/01", "'.$anio.'/12/31", 1, 0),
             ("5","005","ACC005","Dirección y coordinación del servicio de la deuda pública nacional", "'.$anio.'/01/01", "'.$anio.'/12/31", 1, 0),
-            ("6","006","ACC006","Otras", '.$anio.'/"01/01", "'.$anio.'/01/01", 1, 0)')->execute();
+            ("6","006","ACC006","Otras", "'.$anio.'/01/01", "'.$anio.'/12/31", 1, 0)')->execute();
 
        if(is_int($resultado)) //Insertados
         {

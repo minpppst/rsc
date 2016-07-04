@@ -22,8 +22,9 @@ $url = \yii\helpers\Url::to(['ace1']);
  $dataResults = <<< SCRIPT
   function resultado (params) {
     var id=\$("#accioncentralizadavariables-unidad_ejecutora").val();
+    var acc=\$("#accioncentralizadavariables-acc_accion_especifica").val();
     if(id!="")
-   return {q:params.term, id:id}; 
+   return {q:params.term, id:id, acc:acc,}; 
   
  
  } 
@@ -56,14 +57,36 @@ $this->registerJs($dataResults, yii\web\View::POS_HEAD);
 
     <?= $form->field($model, 'fuente_informacion')->textarea(['rows' => 2]) ?>
 
-    <?= $form->field($model, 'unidad_ejecutora')->dropDownList(ArrayHelper::map(UnidadEjecutora::find()->all(), 'id','nombre'), ['prompt'=> 'Selecciones Unidad Ejecutora',]) ?>
-<?php if(empty($acciones_especificas))
-  $acciones_especificas=[];
-  ?>
+    <!-- Se Agrega La Acciones Centralizadas -->
+     <label class="control-label">Acción Centralizada</label>
+    <?php if(!$model->isNewRecord){ ?>
+    
+    <?= Html::dropDownList('accion_centralizada','accion_centralizada',ArrayHelper::map($accion_centralizada,'id','nombre_accion'),
+    ['options' => [$accion_especifica[0]->id_ac_centr => ['Selected' => 'seleted']], 'class' => 'form-control', 'id' => 'accion_centralizada'])?>
+    
+    <?php }
+    
+    else{ ?>
+    
+    <?= Html::dropDownList('accion_centralizada','accion_centralizada',ArrayHelper::map($accion_centralizada,'id','nombre_accion'),
+    ['prompt' => 'Seleccione', 'class' => 'form-control', 'id' => 'accion_centralizada'])?>
+    
+    <?php
+    } // fin del else
+    ?>
+    
+    
+    <?= $form->field($model, 'acc_accion_especifica')->dropDownList(ArrayHelper::map($accion_especifica, 'id', 'nombre'), ['prompt' => 'Seleccione']) ?>
+    
+    <!--<?= $form->field($model, 'unidad_ejecutora')->dropDownList(ArrayHelper::map(UnidadEjecutora::find()->all(), 'id','nombre'), ['prompt'=> 'Selecciones Unidad Ejecutora',]) ?>-->
+    
+    <?= $form->field($model, 'unidad_ejecutora')->dropDownList(ArrayHelper::map($ue, 'id', 'name'), ['prompt' => 'Seleccione']) ?>
+
+    <?php if(empty($acciones_especificas))
+    $acciones_especificas=[];
+    ?>
   
-
-
-    <?= $form->field($model, 'acc_accion_especifica')->dropDownList($acciones_especificas,  ['prompt' => 'Seleccione']) ?>
+    <!--<?= $form->field($model, 'acc_accion_especifica')->dropDownList($acciones_especificas,  ['prompt' => 'Seleccione']) ?>-->
      <div>
     <label class="control-label" for="acespuej-id_ue">Usuarios De Carga</label>
    <?php if(empty($precarga)){
@@ -120,20 +143,27 @@ $this->registerJs(
       '$("document").ready(function(){
         //GE
 
-        $("#accioncentralizadavariables-acc_accion_especifica").depdrop({
-            depends: ["accioncentralizadavariables-unidad_ejecutora"],
+          $("#accioncentralizadavariables-acc_accion_especifica").depdrop({
+            depends: ["accion_centralizada"],
+            url: "'.Url::to(["ace2"]).'"
+        });
+
+        $("#accioncentralizadavariables-unidad_ejecutora").depdrop({
+            depends: ["accioncentralizadavariables-acc_accion_especifica"],
             url: "'.Url::to(["ace"]).'"
         });
-        $("#accioncentralizadavariables-unidad_ejecutora").on("change", function(){
-        $("#accioncentralizadavariables-acc_accion_especifica").empty();
-        
-        //$("#id_usuario").html("").select2({data: null});
+
+        $("#accion_centralizada").on("change", function(){
         $("#id_usuario").select2("val", "");
+        });
         
+        $("#accioncentralizadavariables-acc_accion_especifica").on("change", function(){
+        $("#id_usuario").select2("val", "");
+        });
         
-        
-        
-    });
+        $("#accioncentralizadavariables-unidad_ejecutora").on("change", function(){
+        $("#id_usuario").select2("val", "");
+        });
 
 
         });

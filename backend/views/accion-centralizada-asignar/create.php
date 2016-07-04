@@ -10,6 +10,8 @@ use yii\helpers\Html;
 <div class="accion-centralizada-asignar-create">
     <?= $this->render('_form', [
         'model' => $model,
-        'ue' => $ue
+        'ue' => $ue,
+        'accion_centralizada' => $accion_centralizada,
+        'accion_especifica' => $accion_especifica,
     ]) ?>
 </div>

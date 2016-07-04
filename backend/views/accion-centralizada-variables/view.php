@@ -145,7 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-body">
 
         <!-- Responsable -->
-        <div id="responsable" data-pjax-container data-pjax-timeout="1000">
+        <div id="responsable" data-pjax-container data-pjax-timeout="5">
             <?= Yii::$app->controller->renderPartial('_responsables', [
                 'model' => $model->responsable,
                 'url' => 'responsable-acc-variable',
