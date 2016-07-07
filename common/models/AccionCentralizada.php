@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+use yii\data\ArrayDataProvider;
 
 use Yii;
 
@@ -158,6 +159,11 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         $this->save(false);
      }
 
+      public function getAccionesEspecificas()
+    {
+        return $this->hasMany(AcAcEspec::className(), ['id_ac_centr' => 'id']);
+    }
+
      /**
       * Activar o desactivar
       */
@@ -200,96 +206,7 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         return true;
      }
 
-     public function distribucionPresupuestaria()
-    {
-        //Contador para paginación
-        $contar = Yii::$app->db->createCommand('
-            SELECT COUNT(*) FROM `proyecto_accion_especifica` WHERE id_proyecto = :proyecto', 
-            [':proyecto' => $this->id])
-        ->queryScalar();
-
-        //Construccion del query
-        $sql = "
-            SELECT
-                pae.id AS 'id',
-                pae.nombre AS 'nombre_accion',
-                CONCAT(cp.cuenta,pp.partida) AS 'partida',
-                SUM((
-                    pedido.enero +
-                    pedido.febrero +
-                    pedido.marzo +
-                    pedido.abril +
-                    pedido.mayo +
-                    pedido.junio +
-                    pedido.julio +
-                    pedido.agosto +
-                    pedido.septiembre +
-                    pedido.octubre +
-                    pedido.noviembre +
-                    pedido.diciembre
-                ) * pedido.precio) AS 'total'
-            FROM
-                proyecto_accion_especifica pae, proyecto_asignar pa,
-                materiales_servicios ms, proyecto_pedido pedido, partida_sub_especifica pse, 
-                partida_especifica pe, partida_generica pg, partida_partida pp, cuenta_presupuestaria cp
-            WHERE
-                pae.id = :accion AND
-                pae.id = pa.accion_especifica AND
-                pa.id = pedido.asignado AND
-                pedido.id_material = ms.id AND
-                ms.id_se = pse.id AND
-                pse.especifica = pe.id AND
-                pe.generica = pg.id AND
-                pg.id_partida = pp.id AND
-                pp.cuenta = cp.id AND
-                pedido.estatus = 1
-            GROUP BY
-                pae.id, 
-                cp.cuenta, 
-                pp.partida
-        ";
-
-        //Arreglo para el DataProvider
-        $data = [];
-
-        //Por cada accion especifica del proyecto
-        foreach ($this->accionesEspecificas as $key => $value)
-        {
-            //Obtener los datos mediante el query
-            $query = Yii::$app->db->createCommand($sql,[':accion' => $value->id])->queryAll();
-
-            //Arreglo temporal
-            $arreglo = [
-                'id' => $value->id,
-                'nombre_accion' => $value->nombre
-            ];
-
-            //Por cada resultado del query
-            foreach ($query as $llave => $valor) 
-            {
-               //Se se coloca en el arreglo con formato de moenda
-               $arreglo[$valor['partida']] = \Yii::$app->formatter->asCurrency($valor['total']);
-            }
-
-            $data[] = $arreglo;           
-        }
-
-
-        //DataProvider
-        $dataProvider = new ArrayDataProvider([
-            'allModels' => $data,
-            'totalCount' => $contar,
-            'pagination' => ['pageSize' => 10]
-        ]);
-
-        return $dataProvider;
-    }
-
-
-
-
-     
-
+    
      public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -312,6 +229,131 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public function cabeceras(){
+
+        //cabeceras
+        $model=$this;
+        $columnas=PartidaSubEspecifica::find()
+        ->select([new \yii\db\Expression('concat(cuenta,partida) as partida')])
+        ->where('cuenta in (4)')
+        ->groupBy(new \yii\db\Expression('concat(cuenta,partida)'))
+        ->asArray()
+        ->all();
+    
+        $data[]=
+        [
+                'class' => 'kartik\grid\SerialColumn',
+                'width' => '30px',
+        ];
+        $data[]=
+        [
+                'class' => 'kartik\grid\DataColumn',
+                'width' => '30px',
+                'attribute'=>'nombre_accion',
+                'value' => function  ($model, $index, $dataColumn){
+                    return ($model['nombre']);
+         },
+        ];
+        foreach ($columnas as $key => $value) {
+            $data[]=[
+           'class'=>'\kartik\grid\DataColumn',
+           'attribute'=>$value['partida'],
+           'value' => function  ($model, $index, $dataColumn, $dataProvider){
+                    if (array_key_exists($dataProvider->attribute, $model)) return ($model[$dataProvider->attribute]);
+                }
+            ];
+           
+        }
+
+        return $data;
+    }
+    
+    public function distribucionPresupuestaria()
+    {
+
+        //Contador para paginación
+        $contar = Yii::$app->db->createCommand('
+            SELECT COUNT(*) FROM `accion_centralizada_accion_especifica` WHERE id_ac_centr = :accion_central', 
+            [':accion_central' => $this->id])
+        ->queryScalar();
+
+        //Construccion del query
+        $sql = "
+            SELECT
+               a.id AS 'id',
+               a.nombre AS 'nombre', 
+               CONCAT(ms.cuenta,ms.partida) AS 'partida',
+               SUM((
+                    pedido.enero +
+                    pedido.febrero +
+                    pedido.marzo +
+                    pedido.abril +
+                    pedido.mayo +
+                    pedido.junio +
+                    pedido.julio +
+                    pedido.agosto +
+                    pedido.septiembre +
+                    pedido.octubre +
+                    pedido.noviembre +
+                    pedido.diciembre
+                ) * pedido.precio) AS 'total'
+            FROM
+               accion_centralizada_accion_especifica a, accion_centralizada_asignar b,
+               materiales_servicios ms, accion_centralizada_pedido pedido
+            WHERE
+               a.id = :accion AND
+               a.id = b.accion_especifica AND
+               b.id = pedido.asignado AND
+               pedido.id_material = ms.id AND
+               pedido.estatus = 1
+            GROUP BY
+               a.id,
+               a.nombre,
+               ms.cuenta,
+               ms.partida
+        ";
+
+        //Arreglo para el DataProvider
+        $data = [];
+
+        //Por cada accion especifica del proyecto
+        foreach ($this->accionesEspecificas as $key => $value)
+        {
+            //Obtener los datos mediante el query
+            $query = Yii::$app->db->createCommand($sql,[':accion' => $value->id])->queryAll();
+
+            //Arreglo temporal
+            $arreglo = [
+                'id' => $value->id,
+                'nombre' => $value->nombre,
+                
+
+            ];
+
+            //Por cada resultado del query
+            foreach ($query as $llave => $valor) 
+            {
+               //Se se coloca en el arreglo con formato de moenda
+               $arreglo[$valor['partida']] = \Yii::$app->formatter->asCurrency($valor['total']);
+            
+            }
+
+            $data[] = $arreglo;           
+            
+           
+        }
+        
+
+             //DataProvider
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $data,
+            'totalCount' => $contar,
+            'pagination' => ['pageSize' => 10]
+        ]);
+
+        return $dataProvider;
     }
 
 }

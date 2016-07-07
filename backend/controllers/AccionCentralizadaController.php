@@ -5,6 +5,7 @@ use Yii;
 use yii\helpers\Json;
 use yii\filters\AccessControl;
 use common\models\AccionCentralizada;
+use common\models\PartidaSubEspecifica;
 use common\models\AccionCentralizadaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -16,6 +17,7 @@ use frontend\models\UploadForm;
 use bedezign\yii2\audit\components\Version;
 use bedezign\yii2\audit\models\AuditTrail;
 use bedezign\yii2\audit\models\AuditTrailSearch;
+use yii\data\SqlDataProvider;
 /**
  * AccionCentralizadaController implements the CRUD actions for AccionCentralizada model.
  */
@@ -469,8 +471,8 @@ class AccionCentralizadaController extends Controller
     public function actionDistribucion($accion_centralizada)
     {
         $model = $this->findModel($accion_centralizada);
-
-        return $this->render('distribucion',[
+        
+     return $this->render('distribucion',[
             'model' => $model
         ]);
     }
