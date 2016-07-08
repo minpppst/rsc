@@ -58,53 +58,53 @@ use yii\helpers\Url;
             <tr class="warning">
                 <td><label>TRIM I</label></td>
 
-                <td><?= $form->field($model, 'enero')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1']) ?></td>
+                <td><?= $form->field($model, 'enero')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1 form-control']) ?></td>
 
-                <td><?= $form->field($model, 'febrero')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1']) ?></td>
+                <td><?= $form->field($model, 'febrero')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1 form-control']) ?></td>
 
-                <td><?= $form->field($model, 'marzo')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1']) ?></td>
+                <td><?= $form->field($model, 'marzo')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1 form-control']) ?></td>
 
-                <td><label>Total</label><input type="text" id="total1" size="5" placeholder="0" readonly></td>
+                <td><label>Total</label><input type="text" id="total1" class="form-control" size="5" placeholder="0" readonly></td>
             </tr>
             <tr class="info">
                 <td><label>TRIM II</label></td>
 
-                <td><?= $form->field($model, 'abril')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2']) ?></td>                           
+                <td><?= $form->field($model, 'abril')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2 form-control']) ?></td>                           
 
-                <td><?= $form->field($model, 'mayo')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2']) ?></td>
+                <td><?= $form->field($model, 'mayo')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2 form-control']) ?></td>
 
-                <td><?= $form->field($model, 'junio')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2']) ?></td>
+                <td><?= $form->field($model, 'junio')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2 form-control']) ?></td>
 
-                <td><label>Total</label><input type="text" id="total2" size="5" placeholder="0" readonly></td>
+                <td><label>Total</label><input type="text" id="total2" class="form-control" size="5" placeholder="0" readonly></td>
             </tr>
             <tr class="danger">
                 <td><label>TRIM III</label></td> 
 
-                <td><?= $form->field($model, 'julio')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3']) ?></td>
+                <td><?= $form->field($model, 'julio')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3 form-control']) ?></td>
 
-                <td><?= $form->field($model, 'agosto')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3']) ?></td>
+                <td><?= $form->field($model, 'agosto')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3 form-control']) ?></td>
 
-                <td><?= $form->field($model, 'septiembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3']) ?></td>
+                <td><?= $form->field($model, 'septiembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3 form-control']) ?></td>
 
-                <td><label>Total</label><input type="text" id="total3" size="5" placeholder="0" readonly></td>
+                <td><label>Total</label><input type="text" id="total3" class="form-control" size="5" placeholder="0" readonly></td>
             </tr>
             <tr class="success">
                 <td><label>TRIM IV</label></td>
 
-                <td><?= $form->field($model, 'octubre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4']) ?></td>
+                <td><?= $form->field($model, 'octubre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4 form-control']) ?></td>
 
-                <td><?= $form->field($model, 'noviembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4']) ?></td>
+                <td><?= $form->field($model, 'noviembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4 form-control']) ?></td>
 
-                <td><?= $form->field($model, 'diciembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4']) ?></td>
+                <td><?= $form->field($model, 'diciembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4 form-control']) ?></td>
 
-                <td><label>Total</label><input type="text" id="total4" size="5" placeholder="0" readonly></td>
+                <td><label>Total</label><input type="text" id="total4" class="form-control" size="5" placeholder="0" readonly></td>
             </tr>
             <tr>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><label>Total</label><input type="text" id="total" size="5" placeholder="0" readonly></td>
+                <td><label>Total</label><input type="text" id="total" class="form-control" size="5" placeholder="0" readonly></td>
         </tbody>
         
     </table>

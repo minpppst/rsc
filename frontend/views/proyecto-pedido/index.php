@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'vAlign' => 'middle',
                 'buttons' => [
                     'asignar' => function($url, $model) {
-                        return Html::a('<i class="glyphicon glyphicon-shopping-cart"></i> Requerimientos', 
+                        return Html::a('<i class="glyphicon glyphicon-shopping-cart"></i> Solicitar', 
                             ['pedido', 'asignado' => $model->id],
                             [
                                 'class' => 'btn btn-primary',
