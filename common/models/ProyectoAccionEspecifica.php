@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use yii\base\Model;
 
 /**
  * This is the model class for table "proyecto_accion_especifica".
@@ -12,6 +11,10 @@ use yii\base\Model;
  * @property integer $id_proyecto
  * @property string $codigo_accion_especifica
  * @property string $nombre
+ * @property integer $unidad_medida 
+ * @property integer $meta 
+ * @property double $ponderacion 
+ * @property string $bien_servicio
  * @property integer $id_unidad_ejecutora
  * @property string $fecha_inicio 
  * @property string $fecha_fin
@@ -20,8 +23,8 @@ use yii\base\Model;
  * @property ProgramacionFisicaPresupuestaria[] $programacionFisicaPresupuestarias
  * @property Proyecto $idProyecto
  * @property UnidadEjecutora $idUnidadEjecutora
- * @property ProyectoAsignar[] $proyectoAsignars
- * @property ProyectoPedido[] $proyectoPedidos 
+ * @property ProyectoDistribucionPresupuestaria[] $proyectoDistribucionPresupuestarias
+ * @property ProyectoEspecificaUe[] $proyectoEspecificaUes 
  */
 class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
 {
@@ -47,7 +50,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     {
         return [
             [['id_proyecto', 'codigo_accion_especifica', 'unidad_medida', 'meta', 'ponderacion', 'bien_servicio', 'id_unidad_ejecutora', 'fecha_inicio', 'fecha_fin', 'estatus'], 'required'],
-            [['id_proyecto', 'unidad_medida', 'meta', 'id_unidad_ejecutora', 'estatus'], 'integer'],
+            [['id_proyecto', 'unidad_medida', 'meta', 'id_unidad_ejecutora', 'estatus', 'aprobado'], 'integer'],
             [['nombre', 'bien_servicio'], 'string'],
             [['ponderacion'], 'number'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
@@ -77,34 +80,11 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             'estatus' => 'Estatus',
             'nombreEstatus' => 'Estatus',
             'nombreProyecto' => 'Proyecto',
-            'nombreUnidadMedida' => 'Unidad de Medida'
+            'nombreUnidadMedida' => 'Unidad de Medida',
+            'aprobado' => 'Aprobado'
         ];
     }
-
-    /**
-     * Guardar en la tabla proyecto_distribucion_presupuestaria
-     * @return \yii\db\ActiveQuery
-     */
-    public function afterSave($insert,$changedAttributes) 
-    {
-        $partidas = PartidaPartida::find()->all();
-
-        if (!$insert) {
-            //nada
-        }
-        else{
-            foreach($partidas as $key => $value)
-            {
-                $distribucion = new ProyectoDistribucionPresupuestaria();
-                $distribucion->id_accion_especifica = $this->id;
-                $distribucion->id_partida = $value->id;
-                $distribucion->cantidad = 0;
-                $distribucion->save(false);
-            }
-        }
-
-        return parent::afterSave($insert,$changedAttributes);
-    }
+    
 
     /**
      * @return \yii\db\ActiveQuery

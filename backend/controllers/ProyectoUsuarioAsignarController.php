@@ -6,8 +6,8 @@ use Yii;
 use yii\filters\AccessControl;
 use johnitvn\userplus\base\WebController;
 use common\models\Proyecto;
-use common\models\ProyectoAsignar;
-use common\models\ProyectoAsignarSearch;
+use common\models\ProyectoUsuarioAsignar;
+use common\models\ProyectoUsuarioAsignarSearch;
 use common\models\UnidadEjecutora;
 use common\models\ProyectoAccionEspecifica;
 use yii\web\Controller;
@@ -21,7 +21,7 @@ use johnitvn\userplus\base\models\UserAccounts;
 /**
  * ProyectoAsignarController implements the CRUD actions for ProyectoAsignar model.
  */
-class ProyectoAsignarController extends WebController
+class ProyectoUsuarioAsignarController extends WebController
 {
     public function behaviors()
     {
@@ -103,7 +103,7 @@ class ProyectoAsignarController extends WebController
     {
         //Modelos
         $usuario = UserAccounts::findIdentity($usuario);
-        $searchModel = new ProyectoAsignarSearch(['usuario' => $usuario->id]);
+        $searchModel = new ProyectoUsuarioAsignarSearch(['usuario_id' => $usuario->id]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
 
@@ -123,8 +123,8 @@ class ProyectoAsignarController extends WebController
     public function actionCreate($usuario)
     {
         $request = Yii::$app->request;
-        $model = new ProyectoAsignar();
-        $model->usuario = $usuario;
+        $model = new ProyectoUsuarioAsignar();
+        $model->usuario_id = $usuario;
 
         //Listas desplegables
         $proyectos = Proyecto::find(['estatus' => 1])->all();         
@@ -272,38 +272,6 @@ class ProyectoAsignarController extends WebController
 
                 return [
                     'output' => $pae
-                ];
-            }
-        }
-        
-    }
-
-    /**
-     * Funcion de respuesta para el AJAX de
-     * unidades ejecutoras
-     * @return array JSON 
-     */
-    public function actionAue()
-    {
-        $request = Yii::$app->request;
-
-        if($request->isAjax)
-        {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-
-            if($request->isPost)
-            {
-                //Accion Especifica
-                $ae = ProyectoAccionEspecifica::findOne($request->post('depdrop_parents'));
-                //Unidades Ejecutoras
-                $ue = UnidadEjecutora::find()
-                    ->select(["id", "CONCAT(codigo_ue,' - ',nombre) AS name"])
-                    ->where(['id' => $ae->id_unidad_ejecutora])
-                    ->asArray()
-                    ->all();                
-
-                return [
-                    'output' => $ue
                 ];
             }
         }
@@ -469,7 +437,7 @@ class ProyectoAsignarController extends WebController
      */
     protected function findModel($id)
     {
-        if (($model = ProyectoAsignar::findOne($id)) !== null) {
+        if (($model = ProyectoUsuarioAsignar::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

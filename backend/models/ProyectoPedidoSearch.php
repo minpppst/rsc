@@ -13,7 +13,8 @@ use backend\models\ProyectoPedido;
 class ProyectoPedidoSearch extends ProyectoPedido
 {
     public $nombreMaterial;
-    public $idUnidadEjecutora;
+    public $proyectoEspecifica;
+
     /**
      * @inheritdoc
      */
@@ -58,10 +59,6 @@ class ProyectoPedidoSearch extends ProyectoPedido
             'asc' => ['materiales_servicios.nombre' => SORT_ASC],
             'desc' => ['materiales_servicios.nombre' => SORT_DESC],
         ];
-        $dataProvider->sort->attributes['idUnidadEjecutora'] = [
-            'asc' => ['proyecto_asignar.unidad_ejecutora' => SORT_ASC],
-            'desc' => ['proyecto_asignar.unidad_ejecutora' => SORT_DESC],
-        ];
 
         $this->load($params);
 
@@ -93,7 +90,7 @@ class ProyectoPedidoSearch extends ProyectoPedido
         ]);
 
         $query->andFilterWhere(['like','materiales_servicios.nombre',$this->nombreMaterial]);
-        $query->andFilterWhere(['proyecto_asignar.unidad_ejecutora' => $this->idUnidadEjecutora]);
+        $query->andFilterWhere(['like','proyecto_usuario_asignar.proyecto_especifica',$this->proyectoEspecifica]);
 
         return $dataProvider;
     }

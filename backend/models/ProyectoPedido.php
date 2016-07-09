@@ -4,7 +4,7 @@ namespace backend\models;
 
 use Yii;
 
-use common\models\ProyectoAsignar;
+use common\models\ProyectoUsuarioAsignar;
 use common\models\MaterialesServicios;
 
 /**
@@ -97,7 +97,7 @@ class ProyectoPedido extends \yii\db\ActiveRecord
      */
     public function getAsignado0()
     {
-        return $this->hasOne(ProyectoAsignar::className(), ['id' => 'asignado']);
+        return $this->hasOne(ProyectoUsuarioAsignar::className(), ['id' => 'asignado']);
     }
 
     /**
@@ -105,7 +105,7 @@ class ProyectoPedido extends \yii\db\ActiveRecord
      */
     public function getNombreUsuario()
     {
-        return $this->asignado0->usuario0->username;
+        return $this->asignado0->usuario->username;
     }
 
     /**

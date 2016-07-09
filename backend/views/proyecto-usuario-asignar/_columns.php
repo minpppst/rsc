@@ -25,18 +25,19 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'header' => 'Proyecto',
-        'attribute'=>'accionEspecifica.idProyecto.nombre',
         'value' => function($model){
-            return StringHelper::truncateWords($model->accionEspecifica->idProyecto->nombre,10);
+            return StringHelper::truncateWords($model->proyectoEspecifica->idProyecto->nombre,10);
         }
     ],    
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'nombreAe',
+        'header' => 'Acción Específica',
+        'attribute'=>'proyectoEspecifica.nombre',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'nombreUe',
+        'header' => 'Unidad Ejecutora',
+        'attribute'=>'proyectoEspecifica.idUnidadEjecutora.nombre',
     ],
     [
         'class' => '\kartik\grid\DataColumn',

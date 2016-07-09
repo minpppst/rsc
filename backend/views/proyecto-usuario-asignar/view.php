@@ -12,8 +12,8 @@ use yii\widgets\DetailView;
         'attributes' => [
             'id',
             //'usuario',
-            'nombreUe',
-            'nombreAe',
+            'proyectoEspecifica.nombre',
+            'proyectoEspecifica.idUnidadEjecutora.nombre',
             'nombreEstatus'
         ],
     ]) ?>

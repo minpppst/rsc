@@ -372,11 +372,11 @@ class Proyecto extends \yii\db\ActiveRecord
                     pedido.diciembre
                 ) * pedido.precio) AS 'total'
             FROM
-               proyecto_accion_especifica pae, proyecto_asignar pa,
+               proyecto_accion_especifica pae, proyecto_usuario_asignar pa,
                materiales_servicios ms, proyecto_pedido pedido
             WHERE
                pae.id = :accion AND
-               pae.id = pa.accion_especifica AND
+               pae.id = pa.proyecto_especifica AND
                pa.id = pedido.asignado AND
                pedido.id_material = ms.id AND
                pedido.estatus = 1

@@ -25,9 +25,7 @@ DepDropAsset::register($this);
         <?= Html::dropDownList('proyectos',null,ArrayHelper::map($proyectos,'id','nombre'), ['prompt' => 'Seleccione', 'class' => 'form-control', 'id' => 'proyecto']) ?>
     </div>
 
-    <?= $form->field($model, 'accion_especifica')->dropDownList([], ['prompt' => 'Seleccione']) ?>
-
-    <?= $form->field($model, 'unidad_ejecutora')->dropDownList([], ['prompt' => 'Seleccione']) ?>    
+    <?= $form->field($model, 'proyecto_especifica')->dropDownList([], ['prompt' => 'Seleccione']) ?>    
 
     <?= $form->field($model, 'estatus')->dropDownList([1 => 'Activo', 0 => 'Inactivo'],['prompt' => 'Seleccione']) ?>
 
@@ -46,15 +44,9 @@ DepDropAsset::register($this);
     $(document).ready(function(){
 
         //Accion Especifica
-        $("#proyectoasignar-accion_especifica").depdrop({
+        $("#proyectousuarioasignar-proyecto_especifica").depdrop({
             depends: ['proyecto'],
             url: "<?= Url::to(['pae']) ?>"
-        });
-
-        //Unidad Ejecutora
-        $("#proyectoasignar-unidad_ejecutora").depdrop({
-            depends: ['proyectoasignar-accion_especifica'],
-            url: "<?= Url::to(['aue']) ?>"
-        });        
+        });       
     });
 </script>

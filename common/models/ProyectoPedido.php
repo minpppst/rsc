@@ -129,7 +129,7 @@ class ProyectoPedido extends \yii\db\ActiveRecord
      */
     public function getAsignado0()
     {
-        return $this->hasOne(ProyectoAsignar::className(), ['id' => 'asignado']);
+        return $this->hasOne(ProyectoUsuarioAsignar::className(), ['id' => 'asignado']);
     }
 
     /**

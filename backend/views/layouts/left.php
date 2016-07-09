@@ -49,7 +49,7 @@
                     //PEDIDOS
                     ['label' => 'Requerimientos/Solicitudes', 'options' => ['class' => 'header']],
                     //Items
-                    ['label' => 'Asignar a proyecto', 'icon' => 'fa fa-folder-o', 'url' => ['/proyecto-asignar/index']],
+                    ['label' => 'Asignar a proyecto', 'icon' => 'fa fa-folder-o', 'url' => ['/proyecto-usuario-asignar/index']],
                     ['label' => 'Asignar acción centralizada', 'icon' => 'fa fa-folder-open-o', 'url' => ['/accion-centralizada-asignar/index']],
                     ['label' => 'Proyecto requerimiento', 'icon' => 'fa fa-shopping-cart ', 'url' => ['/proyecto-pedido/index']],
                     ['label' => 'ACC requerimiento', 'icon' => 'fa fa-shopping-basket ', 'url' => ['/accion-centralizada-pedido/index']],

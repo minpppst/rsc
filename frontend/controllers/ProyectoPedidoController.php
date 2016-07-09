@@ -6,8 +6,8 @@ use Yii;
 use yii\filters\AccessControl;
 use common\models\ProyectoPedido;
 use common\models\ProyectoPedidoSearch;
-use common\models\ProyectoAsignar;
-use common\models\ProyectoAsignarSearch;
+use common\models\ProyectoUsuarioAsignar;
+use common\models\ProyectoUsuarioAsignarSearch;
 use common\models\MaterialesServicios;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -67,11 +67,11 @@ class ProyectoPedidoController extends Controller
         //El usuario
         $usuario = UserAccounts::findOne(\Yii::$app->user->id);
         //Modelo de busqueda y dataprovider
-        $searchModel = new ProyectoAsignarSearch();
+        $searchModel = new ProyectoUsuarioAsignarSearch();
         //Si no es sysadmin
         if(\Yii::$app->authManager->getAssignment('sysadmin',\Yii::$app->user->id) == null)
         {
-            $searchModel->usuario = $usuario->id;
+            $searchModel->usuario_id = $usuario->id;
             $searchModel->estatus = 1;
         }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
@@ -100,7 +100,7 @@ class ProyectoPedidoController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         //Datos de la asignacion
-        $asignado = ProyectoAsignar::findOne($asignado);
+        $asignado = ProyectoUsuarioAsignar::findOne($asignado);
 
         return $this->render('pedido', [
             'searchModel' => $searchModel,

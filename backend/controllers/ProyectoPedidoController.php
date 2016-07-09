@@ -19,8 +19,8 @@ use backend\models\ProyectoAccionEspecifica;
 use backend\models\ProyectoAccionEspecificaSearch;
 use backend\models\ProyectoPedido;
 use backend\models\ProyectoPedidoSearch;
-use common\models\ProyectoAsignar;
-use common\models\ProyectoAsignarSearch;
+use common\models\ProyectoUsuarioAsignar;
+use common\models\ProyectoUsuarioAsignarSearch;
 use common\models\MaterialesServicios;
 use common\models\UnidadEjecutora;
 
@@ -83,14 +83,15 @@ class ProyectoPedidoController extends Controller
      * @param integer $ue unidad ejecutora
      * @return mixed
      */
-    public function actionPedido($ue, $id = null)
+    public function actionPedido($proyectoEspecifica, $id = null)
     {
         //Datos para el gridview
-        $searchModel = new ProyectoPedidoSearch(['idUnidadEjecutora' => $ue, 'id' => $id]);
+        $searchModel = new ProyectoPedidoSearch(['proyectoEspecifica' => $proyectoEspecifica]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         //Otros datos
-        $ue = UnidadEjecutora::findOne($ue);
+        $pua = ProyectoUsuarioAsignar::findOne(['proyecto_especifica' => $proyectoEspecifica]);
+        $ue = UnidadEjecutora::findOne($pua->proyectoEspecifica->id_unidad_ejecutora);
 
         return $this->render('pedido', [
             'searchModel' => $searchModel,
