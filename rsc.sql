@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.5.4.1deb2ubuntu2
 -- http://www.phpmyadmin.net
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 04-07-2016 a las 12:04:49
--- Versión del servidor: 5.6.17
--- Versión de PHP: 5.5.12
+-- Servidor: localhost
+-- Tiempo de generación: 09-07-2016 a las 00:30:00
+-- Versión del servidor: 5.7.12-0ubuntu1.1
+-- Versión de PHP: 7.0.4-7ubuntu2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de datos: `rsc`
@@ -26,17 +26,23 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `accion_centralizada`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada` (
+  `id` int(11) NOT NULL,
   `codigo_accion` varchar(45) NOT NULL,
   `codigo_accion_sne` varchar(45) NOT NULL,
-  `nombre_accion` text NOT NULL,
+  `nombre_accion` varchar(45) NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `estatus` tinyint(1) NOT NULL,
-  `aprobado` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+  `aprobado` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `accion_centralizada`
+--
+
+INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `nombre_accion`, `fecha_inicio`, `fecha_fin`, `estatus`, `aprobado`) VALUES
+(3, '01', '01', 'probando', '2016-04-01', '2016-04-30', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -44,17 +50,22 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada` (
 -- Estructura de tabla para la tabla `accion_centralizada_accion_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_accion_especifica` (
+  `id` int(11) NOT NULL,
   `id_ac_centr` int(11) NOT NULL,
-  `cod_ac_espe` varchar(6) NOT NULL,
+  `cod_ac_espe` varchar(3) NOT NULL,
   `nombre` text NOT NULL,
   `estatus` tinyint(1) NOT NULL,
   `fecha_inicio` date NOT NULL COMMENT 'fecha de inicio de la acciones especifica',
-  `fecha_fin` date NOT NULL COMMENT 'fecha fin de la accion especifica',
-  PRIMARY KEY (`id`),
-  KEY `id_ac_centr` (`id_ac_centr`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+  `fecha_fin` date NOT NULL COMMENT 'fecha fin de la accion especifica'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `accion_centralizada_accion_especifica`
+--
+
+INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`, `estatus`, `fecha_inicio`, `fecha_fin`) VALUES
+(7, 3, '01', 'probando', 1, '2016-04-01', '2016-04-30');
 
 -- --------------------------------------------------------
 
@@ -62,14 +73,19 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
 -- Estructura de tabla para la tabla `accion_centralizada_ac_especifica_uej`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_ac_especifica_uej` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_ac_especifica_uej` (
+  `id` int(11) NOT NULL,
   `id_ue` int(11) NOT NULL,
-  `id_ac_esp` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_ue` (`id_ue`),
-  KEY `id_v` (`id_ac_esp`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=243 ;
+  `id_ac_esp` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `accion_centralizada_ac_especifica_uej`
+--
+
+INSERT INTO `accion_centralizada_ac_especifica_uej` (`id`, `id_ue`, `id_ac_esp`) VALUES
+(233, 600, 7),
+(234, 601, 7);
 
 -- --------------------------------------------------------
 
@@ -77,17 +93,20 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_ac_especifica_uej` (
 -- Estructura de tabla para la tabla `accion_centralizada_asignar`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_asignar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_asignar` (
+  `id` int(11) NOT NULL,
   `usuario` int(11) NOT NULL,
   `unidad_ejecutora` int(11) NOT NULL,
   `accion_especifica` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `usuario` (`usuario`),
-  KEY `unidad_ejecutora` (`unidad_ejecutora`),
-  KEY `accion_especifica` (`accion_especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada' AUTO_INCREMENT=8 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada';
+
+--
+-- Volcado de datos para la tabla `accion_centralizada_asignar`
+--
+
+INSERT INTO `accion_centralizada_asignar` (`id`, `usuario`, `unidad_ejecutora`, `accion_especifica`, `estatus`) VALUES
+(3, 2, 600, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -95,13 +114,18 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_asignar` (
 -- Estructura de tabla para la tabla `accion_centralizada_desbloqueo_mes`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_desbloqueo_mes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_desbloqueo_mes` (
+  `id` int(11) NOT NULL,
   `id_ejecucion` int(11) NOT NULL,
-  `mes` int(11) NOT NULL COMMENT 'mes que se desbloquea/bloquea',
-  PRIMARY KEY (`id`),
-  KEY `id_ejecucion` (`id_ejecucion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+  `mes` int(11) NOT NULL COMMENT 'mes que se desbloquea/bloquea'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `accion_centralizada_desbloqueo_mes`
+--
+
+INSERT INTO `accion_centralizada_desbloqueo_mes` (`id`, `id_ejecucion`, `mes`) VALUES
+(19, 34, 1);
 
 -- --------------------------------------------------------
 
@@ -109,8 +133,8 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_desbloqueo_mes` (
 -- Estructura de tabla para la tabla `accion_centralizada_pedido`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_pedido` (
+  `id` int(11) NOT NULL,
   `id_material` int(11) NOT NULL,
   `enero` int(11) NOT NULL DEFAULT '0',
   `febrero` int(11) NOT NULL DEFAULT '0',
@@ -127,11 +151,8 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
   `precio` decimal(12,2) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `asignado` int(11) NOT NULL COMMENT 'ID de la asignacion (Usuario-UE-AC)',
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_material` (`id_material`),
-  KEY `asignado` (`asignado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -139,8 +160,8 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
 -- Estructura de tabla para la tabla `accion_centralizada_variables`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variables` (
+  `id` int(11) NOT NULL,
   `nombre_variable` text NOT NULL,
   `unidad_medida` int(11) NOT NULL,
   `localizacion` int(11) NOT NULL,
@@ -149,14 +170,15 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
   `fuente_informacion` text NOT NULL,
   `meta_programada_variable` int(11) NOT NULL,
   `unidad_ejecutora` int(11) NOT NULL,
-  `acc_accion_especifica` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `unidad_medida_2` (`unidad_medida`),
-  KEY `localizacion` (`localizacion`),
-  KEY `meta_programada_variable` (`meta_programada_variable`),
-  KEY `unidad_ejecutora` (`unidad_ejecutora`),
-  KEY `acc_accion_especifica` (`acc_accion_especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
+  `acc_accion_especifica` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `accion_centralizada_variables`
+--
+
+INSERT INTO `accion_centralizada_variables` (`id`, `nombre_variable`, `unidad_medida`, `localizacion`, `definicion`, `base_calculo`, `fuente_informacion`, `meta_programada_variable`, `unidad_ejecutora`, `acc_accion_especifica`) VALUES
+(31, 'Variable ACC 1', 2, 1, 'probando', 'dos', 'dos', 0, 600, 7);
 
 -- --------------------------------------------------------
 
@@ -164,15 +186,19 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
 -- Estructura de tabla para la tabla `accion_centralizada_variables_usuarios`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variables_usuarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variables_usuarios` (
+  `id` int(11) NOT NULL,
   `id_variable` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `id_variable` (`id_variable`),
-  KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `accion_centralizada_variables_usuarios`
+--
+
+INSERT INTO `accion_centralizada_variables_usuarios` (`id`, `id_variable`, `id_usuario`, `estatus`) VALUES
+(32, 31, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -180,8 +206,8 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variables_usuarios` (
 -- Estructura de tabla para la tabla `accion_centralizada_variable_ejecucion`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_ejecucion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variable_ejecucion` (
+  `id` int(11) NOT NULL,
   `id_programacion` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
@@ -196,11 +222,16 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_ejecucion` (
   `septiembre` int(11) DEFAULT NULL,
   `octubre` int(11) DEFAULT NULL,
   `noviembre` int(11) DEFAULT NULL,
-  `diciembre` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_programacion` (`id_programacion`),
-  KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
+  `diciembre` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `accion_centralizada_variable_ejecucion`
+--
+
+INSERT INTO `accion_centralizada_variable_ejecucion` (`id`, `id_programacion`, `id_usuario`, `fecha`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`) VALUES
+(32, 31, 2, '2016-06-23 19:22:43', 102, 200, 10, 22, 4, 12, NULL, NULL, NULL, NULL, NULL, 300),
+(34, 29, 2, '2016-06-23 23:38:39', 99880, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -208,8 +239,8 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_ejecucion` (
 -- Estructura de tabla para la tabla `accion_centralizada_variable_programacion`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variable_programacion` (
+  `id` int(11) NOT NULL,
   `id_localizacion` int(11) DEFAULT NULL,
   `enero` decimal(10,0) DEFAULT NULL,
   `febrero` decimal(10,0) DEFAULT NULL,
@@ -222,10 +253,16 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
   `septiembre` decimal(10,0) DEFAULT NULL,
   `octubre` decimal(10,0) DEFAULT NULL,
   `noviembre` decimal(10,0) DEFAULT NULL,
-  `diciembre` decimal(10,0) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_localizacion` (`id_localizacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
+  `diciembre` decimal(10,0) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `accion_centralizada_variable_programacion`
+--
+
+INSERT INTO `accion_centralizada_variable_programacion` (`id`, `id_localizacion`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`) VALUES
+(29, 51, '10', '12', '10', '6', '8', '9', '0', '20', '0', '0', '0', '0'),
+(31, 54, '10', '10', '10', '0', '0', '0', '0', '0', '0', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -233,11 +270,10 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
 -- Estructura de tabla para la tabla `ambito`
 --
 
-CREATE TABLE IF NOT EXISTS `ambito` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ambito` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+CREATE TABLE `ambito` (
+  `id` int(11) NOT NULL,
+  `ambito` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `ambito`
@@ -259,15 +295,62 @@ INSERT INTO `ambito` (`id`, `ambito`) VALUES
 -- Estructura de tabla para la tabla `audit_data`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_data` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_data` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `data` blob,
-  `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_data_entry_id` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `created` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `audit_data`
+--
+
+INSERT INTO `audit_data` (`id`, `entry_id`, `type`, `data`, `created`) VALUES
+(1, 1, 'audit/request', 0x789ced99796fe3b815c0ffefa720026431b3b2adc3679c4d0bc7561c37f1b1b63c57b7106889b699c8924687939941be7bdfa328f99864a7d36eb140314112dbe423dfe33b7e2465dad66bed2f71bbd93e597a345eb3f8e49cb6b5f697a7b8ad6bed9338a1491a7703979d9cf3765533ce631c7112b18f298b936b465d1689317a15e781ae75102727285607b1d8a92ca873cf7cb7e2b2ad6886599dc0f79993f0c0cf5bee190bcbd4e35b762235804cc2fca4ec317f95acb1151a75bd5613025510a0ce9a95512c0a3c6c3c6b9f6ce86399aed885869f1bed9320e22b2e941806589624615b559f31ca005bd37015c16acadc8f999346ac2cd7180b85a03bb7358d59845afc6c991a8c1d069fb9e751b55ed1c8ab77ba7e4e6eb99f3e92c756c36ed45e934e187aec2d5bdcf044ad579b956a83bcbab9b686b725e2f17b46faccb90f5e93ee3a0a364cadeb15ad6234b55a45d71a64469734e27298d068ecbc937c0a85c7aae0100a4ab843d1adea63f9e1e1a1bc0ca24d398dc0850e44d0954ea18ec342617b135c9ab0c7445d271baf74301e5b94c7e3d68d77fef142ab9c95f8061ca03eb04558fa59fd5934b6c48c981a4b16b14828d35e72baca7d973d56c275f8b7e8228c824f900ec1a971b5e5ece127ee5e9c899f3c8d328bcb6219dc5fe519b0faccc3127119646ec28e643deaaf52b051441764595c627e793ecb4c85f7e24d43bac409827b9ec962846d278e9617674ec35d54eb559dd69cc552ab9d69cd8661305d5bea2d662c75a7e91a0b43a7f0a33759dd6968cd96d664cd5a7d593f6bd51af4b4da31e0efb479c9e1453bad5ec6f05ac726c3103ae0155ab15797bd5523ebb66eccc6afebdef6b6617e18df6c6e2691662fccb71f06ef36b53b8ff6b391a7cdde39995c4f66e66c36e85db43677ae5ff33d8fb51cafe5864d8faf8cd4a08deac9f993ac4816870164f85ee5d62500ccc790474ca4bb01b564add312d1cfc828d8c24b4b275aab5d37da9a46fa432b0f4157146177578455d0e107e53809225622f04e9469896cd238818ada428dbb325ae0f74944571b8a1f5a629810961f6f832cebfeb04482b2e9cab2b164d918fb05704e9c358d62965cccadab724bb80c3d16a432bb60bdb90615e72fea293713dc73226dfb4d82c90327ff3691a3ba455bbb9d8d7a03d3bc7a9d9b97b54d6844371953db5f785bcbb4e40bc138ea05802f03f7134a0af8eead9058df0b06909b52b124846c5e03a3fbd11b6686f5f77797bc7b7939ee3f9a9ba91fea667770355c9d353fdc5d797fffb46a8dde86e0f4fee7f5707039efb90fa7d51efcfe942ffcb47ec9ddd37a4f8663bf1d4b7a15d845e8a4d03322b1cf9eebf583cd22123d79a3e232258c52b6a0fb724b06e1b5b9cf1d2eb4683a582cfe199adef85a72c97d14aba2846e6462cd7d31966d8e07a6ebfb02314f520ada7c1061711a62c000e53413cc87953710b29d03ca2e8fc38b5aa3526fb64e8d6eadb63fe3a128ce536b805ce550ca65b113f11035a3482fe5b1422189151ec1bea6b88117440af79588815d6b485616f1041bb6819786b028a66c99074d2c8e99e2c0ce966eb2514c61a9b24c579c268a9fc28ea784b8a0248d2a8af988e06569a4c4dc4f94c0712883a4539c34c492c711810f7109b80b090a4b53e2d4176a9dd40ba9f231e54ab05c4278280410f658ecdd40b58021d4e71b85bb6050a278741144e9a672e0697c8dbe0e40bab05fe80a6183b08390455016dbaf43172cee1876d8b0cd838cf7b200980473b015770248ae388198a3e3b321c0375809ac832ad13af09d3456621a72e6e3f23f625ca23481c5284bf0775c5186e032e6d35801f31cb40de59858bc0faee7f126709584fb0e77d3cc87b00ffbe83bba01c7408018e84a5729c33e70f912f20f660645611a81f688c7f01f0e5f8ac7828a3261002300460c3001096fcb7d1a89a138879820820d17cf36ca16a2946272603fe6c246a600140a5fc0ac7780f8208b6becf010c206e99570585da635cb3bc82cc5e5f4307e74b3e0b28004816037ea318126920464074481b9ba8493202e90f13b18a5ee08757121f799dc0c01dc062a008cf2fcb07478103982953c9516125a2101ac3aea6ce00687a412927b7ae10043325ae5dbc03ea9f279355d855f24953cea1690ca25aabaaa1b28d1142d0d3cf31c026aff208b3bdf4b7c3a38f082dc2175a4db72f0643b46fb640f3ad9390a3614240f41f210411e223280709f1c90071b0af210411e82e4211979b2518cb09464e42122ed48411e5290872079484e1e529007ce213ec9c95322c81d542ab843a00c89e40ec9b94332ee10e40ee12e9893909c3b329819578eef063be21c3bf1103807bd785139e2cd7e7fb5b6d7ff226e84d39b9a385309e6104a247348c69c122e3526197148461c921387e4c429112616ed13c91b52f0064e71481b82b42192364490a244c0c9056b88600d11554f8035045943f6594372d694b2f162784e1a5290066e47c8191970c91922388351cc28432465a4be2cc7208b88a04c7e461380d979154e51466b779c7b6e0f967596edc4254cf4a72731d7cc9cbe31a70247021720746d5913fb7a3cb37eefe25b9772ddf1686476adc178f4f2ed17642c7364d9b7e6a86f5d1fdf7e5bf94c9deeb589f359d3f1ed7357602c4c21399e0efa83d1b72fc2554d0e984ffad34ecfb407a399d99d4f4d7b6afe3a3767d6ec2073f325cdc12776a70f16ff7957e2dc65d6fb89f95d27dfc2499d6ed79c58ff9b8b315a28944ccd2b738ae9f3c7dc6a0cedc078db1c75c7bdc1a8ffe21df978c06d67d49f43e8fe8d8b72e1a8ee787c3330ffafafcba2e0269dacf630506a1a47aa0777524f8d17dc6fef7d2e3eee3ac49bece3426ed10539ecd9a03fea58505422d5a0fd17eabab003c77fed847801568d0ae4798bbc9a2f80bae96b3263d1964508c9a33c2193204a484bfb45cd67f84b5e97b9aef195f5b693a9c2d27f5e431e5d3968d4199abf47b29d64a7d79b4af0e846136a54abe8472293f154d414286f15509a9ac3b165be3c1c0f0fe3ee7c88053d1d8fad9c4dea96462ad4b1284cac1a55da8625a7e6f494acb26780c76c25b5acd20ef0faceb227508d8377d80a7367f9bcebfc4f0d30f6bc33cca08bc4fe871f101925b202d4fbff2c42d59d0ea012af06407be9f9ead9b7541584387269ee6e98b7da3a6b68f979badfb1ccb79df70074cb9c5e75baa67c5cd7ed0f54bda21fa5cd643ab6c6dd6c5391bb4d21b5e7e0a1695d8f7b79b5e4fb1f3800baa7efed9935952832f0c1e0379ecfe8bb79e7d381f002a8fe8e073c7ae1ca2281b5fd09f203fff5c49e99b757cf0b60a87233acc1d0b4af6ec71d58970b0b6f34cf6af556a35ad1ea55d42a17bb2f8e8fc9778278ce8054ee9b161e170cf190061cf1e2d3a4e76e1e4f7bcefd7103fa7103fa7103fa7103fad36e4062aafcf82789b64f231df7c8fffa2488f3660fbe777303563113000edf3aeb8199d2f2e2a82752032cffc61724a00d37e1d9ee3bd026ee883003ded5247ca1c9b6c597a57b5f95ead8085148237f1ee5b9ab4a00da36c21417f0f4f42f1f0764cd, '2016-07-08 02:44:23'),
+(2, 1, 'audit/db', 0x789ced5d6d739bb816fede5fc1f84bd23b492d09810499dc996c373b9b3b69d2cdcbee17cfd8182b31ad0d5ec049b33bf9ef57c2368680eb1830b11da5a98341483a8fce73747424816542f3dfc0a46663c882c0ba6741e3c832756cfeeb9808f2434d1c81a3c054799aebdf2fff527ebb3d3f573e5f9edf7eb9b8567ebbbafca274c601f3db966d7b63370c3a8d23c784fc3f05fc03f15b11341b4f8ed3ea755b9fbde1d0727ba6f9f798f94f22a57ad43321d6898135aaab9f800e2846fc3ce685c349e1512d02139b8d3b67c01a3c47ca736c3e587ef3f1f1b1d90f8783a61fd8cd07e6f63cbff9cdebbb4ef8e0367999e850d4ed70341807cdc0b79b5d2b60cda1d76383a079cbaf9c4c2bfd69d41f898c791903c76551c574fd2842e66eecdaa1e3b9e23a1175707b976e540dcd6cd8032b08c4315263217fe1859cf05b1ed815b33dbf37cd387c1a457721b3619a8da3e7e7670e0f2a87b1a117c218214ae0fb01192741d621cfe4faf4fcf4f3cd0785ff7cb7c79f6ccf0d42df72dcb0ed5a437690b830180fdd17277d76c77ce6daacd70eadee802dbe9cb8fd43d48c8e7be7f9434b48da0eec3e1b5ab3e4a1630ddaf37a04cac9b5e2db1ffe7779769177d777f634cb7d2c782b92f3c295cb8ba81efbd1678e78b6155a03ef5e39e699e79dbfbc8aefdc5f70ebd9b57221f4f3e4e2d705994c537c8cb2fa2812e6213d91245393e9e90537092833b744f8fef5fbe9d5697e5ec74a8fd74ca8e57e549b28d349d3e5a4f830156cdeb6fcf25e8a7f7b2f72c94f54d2102242de9121d424472547df8ea3053b52152162bc1f92922449319a7154f94fae93a24c9abbe3f43ac7b0a4315431a5ef07675a1ee7a20a4d54f87e145a0549a0359801da1a87fd362fc2b97787dcfec750470d20f0de8365bb79ac62b0d417d7411ee25dcbfece416f726b1afade60c0fca0f9d5f79e981d7a9fe37339e06a46165b0ea06db92f71856822cb23ebb6448b65c13cfcef0c4c58219805d517131d2c55dfad00534d8189f3c17442368c61141d1cc77034ad73f3c1618fa595d3d0969b83adc013578b6741fdd420213b0167ca13d0690c676764f911b75fa0dab6fbcea017633bf956b1b26aaab174c0b415e0d275825b547375a2ef02b838dde51baf37043ebb77c4a0853b396deec838b6575a6189b113c615c335605a504f75b03c6ab21598a60222aaba38323ca379d9c0bb4e9036450ed5841c0664bd4ebe0064ed5218282b843111e28b18ebbc144384f9a785b51285b5b285fd4c3ff4c2fa51905994e2d817940ab2f90a92f622808ca8ca88eaca11d599ed58144c8daf97ec7b0c5583d2b46c8d6931a46991a6a56ed352cc6d2100622a4dcbb698162d3594c4d9385deccd26673df68ce8a7642f4400d654e9e16e8faea02a74a5a05981aa0ea4cbb23dba928aff639ad115affb8d717cbca07dcf5ce65b0356e90436d1305e3a815d35d0340b3457092fab2990c6a24cb4e48f891c8be1d4aa82b320fd083070ddb3a6ebc493644cd982684e1eb0255593682ada252c69155816d44b8ae82e61a9a7664b74a4c9919e1ce9ad3ad2cba1d9a2415f5ed292d68d62b8431daf0e2521252137839045bb486ad0baa7bdd7c9c8f44aadecb2b739844cb465c8ee1ddbab7670612003d70e69ceac3707b2cd15252c35129d238b2b44b6a0b21a3a516bf7e7d68f6c6af21893d7b8c82988cbea2ba1ea0eea2ba908d562ba4a810ae10eea6a7ab24985d2e3911e4f718f2749b8e54e4f2a7539a34781a6ee60274d80a4a7a4e726d1b360ef0901a87be1680dec4c4f916557e6ceb1742d9b57a1ea790f0a55acd5ed94f0a65c3bb06a65c016d5571dd7bd20bf0e5cd3134bda6b7ce804c0659595d43e495707a67a259816d4534401de414cd3ab6b11916e8f747b8abb3d73ba2d777a12694b9a3b15193bd9371b929b929b9bc2cd82dd2686b5ef0dac819a14beda6dee3b41e8f9554f95508cb151bfcd836b07f6f503bd65c01655589dbe4167b27e60f1eace7302e1b2da4a70ed21fd3a402d30cacb01b5a0a66a808fde770f5322bd1ee9f554e6f5cce9b6dceb49a42d69ef340476b21391d102c9cd8de166d16e535bfe60e6eda3a6915e50a92edf44647b3de7de6bc7e7273b8af694f3b32f67370a2a69017595eab50ffc20cac2ccaf07d643b94d457394d19a502ea8cb0468daee819c5e2f97dd94b308e4c065156b31c17afda3ecf503ac550f704105a6902e7ff0ecf6019c1ac340839775fbf5d7939bd324b4d7a7374ae78ed97dab7de7b81c5704203984e850857b074a8705a1158e8384e580fc6ce084e32836c7cfb3603c1a8b64be634daf8a84fef478dc6d27bf8f0696dbf646ccb744873a3937eb5e678ba22767ad61d789ca4b865526bb4db37452b3adcd7e307b1cb2fcf6d6e02e128aee787bcfd9bd5a7b1b9868b5c728d6dedc22c09c7c6895be38ee638d7b4ed8e68312ffa9640ccd3080a1cfa8a32ec292e462397da47197f5d83fcefdf491c651d5a2c7194f9f647c224e9c8aaae6a1ca1d8d7c1736a8c285cddfb1bd3669349c1586b7a21f5731b5719b0f736785b54461ada8b0d6a4a0d6bca085b2a11cd944b7bbb26c515939f2209ad33a5c20db675698d1fa1202c58f9c16439a121c28e42e40802189f7dc480e480ebc350752abe77460c878988c87ad1a0f4b98c74561b06492525e04b7a044955e84b4a01b6341b1b4a0d282be8d052de8836a864aa401950674430c686a513cd479bab38bebd3ab1be5ece2e6323df852f63bbe370e59e760feb21a7ee88cc4a7f5cdfa21fefaec6f11646a0f59d8f7a2eb93daf73a1f953f4fce6f4faf95fd17af643850e081b20711f904f83f11cd02fcfbd7cbeb1b7e28c25cfa212087802a0089e7182175ef63c94022040420e30d4782796f75aa2cc62459b8752c245bcdc282e15d085515a8928592851bc24263b590a4f04407e5c2f2106268c0e503ea9fbd69f0a7c8de883afec2fad683e3e5cd762094f3482008c5a34643bb7fe6720393f10b217e29e06a14589b30d0c879302c9c327a9e43467968bef264cb5c890e6b9413e570037291a27c4ec2d077badce406950b1ad104ae387b95a649b15113e4437bc912c9922d62099291291999aa24321519d09f47a626494aba22faabbc716964a591dd18232b2750a5917d23235bd491250848232b8dec1619d9d4726fa4a1dce0e46494a7ec77a228e5342899884f7a835efbc11a8ca3b8a5cb1ee75fac48247114456be283e98d770e1b2c8860c269ccd220e01040fe3b8d54ce97c5ee4dd6d18a239babaee7b66621a1f8bd29e2daf45d38fc285e60bbb6a907a8d37803d1a618006236e21a4bee4beecfb9af4bee5738e18130d024f725f7b783fba95d2934b12925351d19ed4be98dfd6810d33906e2058248d30d4c3181403704a5d9d0e3766168fde81c238ca1a68325cfb25991569a1e6f1359f812baf54d2392faa711ab9d6a5373b6178baf8e6b0d9c7faa9c6c4b689751b7761535da2a379bf1149d54af2d50afe7e7ff038c53076b, '2016-07-08 02:44:23'),
+(3, 1, 'audit/log', 0x789ced5c6b739bb81afede5fc1e48bd3334d8c8410974ece4cda6667b3934b4f2edb2f9eb16550625a0c5e2e49b39dfef72301c608e43829b6b7cdd236290621bd7af4dea5d7c406f6b7d836ed9d298d63724be39db7c4d691fdcdb3557e955fc4b6aedb3befc230899388cc947b2f99289fc349e02577c1208d6934f3d3785036b0edf1fc72f7f5ce5bcf06ecc7643f9075a5017be7c1f3066312d3c1e16ce67b0e49bc30a8bcc45fd1deba3640d8b0906e626d5fd5750362de0f6274a9f6b7efdf79b71512a16aef9c84c4f5825b651abaa94f6d251a13a73e3ec495f14ff386f62d4df2cb25435bb036345c353447650d436300ea436bc2c2188d85195397feeddd060336141c90d4f5920d2f0d4626b24422d153b9872fd116b807eb962152a83f9542f2997c75a2d4dd348558af8388ab2402abc964b79eb70e1ec3b83eb2511d59d31ae0f011fcf076f0c18b672471264d5eff61184c5daf11630ab2069a30b8749cdeae0308d3306bc26655c746480a44367c39c40658c3801aa8610204f58ca09430c61e1b250b2154d7c860d55a65fa680d6b65200c6b630b3a19a94f528c8732727e14101336f80788da9acdf3634493e441b9be38518230516840c63e75f795eb98c3e4d21b92fa49f67846a2ec1e1334cfd96f10097322efe978701df9a72460f63bb26dfe16bda07fa5344ee4542258973020a86bdef34598265489f26ea86b2bbd59143e502709fb771ebdef35a8410b6a04c4262470fd15f4605c2347d0cdd0989393844a9406b62290d2a044ad2cdefb3048a2d0f73930ecd543871325a7c2d0b43a2aa2fe6526e2927949ac03254e48c450990f8de66c0c1620144d6d3b9c51f9889666d4994554bbcc2dbbfcfdfc93f2dbf5c989f2fefce4faf4ec52f9ede2fc541971ef62481c274c83241e2da3c31d3300a653b602b6cdf08f1ee47498489b13022a9e1f93217be7c6e3f2c75c44d665ff8e44fdfbfbfbfe2499fafd2876fa773470c3a83f37957d2e587b9cb63d6ed2fb71e4f4f932f499f0533fee5fb3278705d1fbb3c98c77ccc6f0bd209771c60799337a9306c542c5b6c16908dcf3202383ad81e39338e6d7502b67f98e0dc2d7f68e319a13466ed171f230cbde62fc6cdb3b6fbf67180bd684b9ba3be76c81b8987d78a7386110d06c685b993ec47ff9f6248c93033f7488cfafdebae3804ce9019b7b0373ad8279d9cb23ab6f5aa54e7ff9a843410d62c03ab93c3a397a7ff54a617fbe38e93e839e2b562f48861ce23795077e3a0d6a37237a43231a38d41d265c7f2e7f5c79fd55263b5e701346d34c3b0d63e6b94cc9bc79e2117fb8a023560e2f95c879f5c7f9f199ecad2ff461de7bca6327de9c0dae9c9f6574ec66bf25d3639a913095ae1cb0ce65f7cf2fca377797bc7a7ca99c71a57078f6614927458bd75957af794319d2f94c1a9414b797bcc4a16cbc92e1fbe9f7a38b23795f078acb28e36cb99b5193759a2f9da4c5ab62628bb5658f7b82d2ebd57a91376aa519313420fc17c928aebb94b9882aff911a1d255fed91e78e0e403b9c3584cc7f11ce424ca18306ce244d264336047355a74c2b954867f873b87ba025632368e92b4d3e566580b370fd0bc3bcef949e55dcff58f8630b6f4b822df3391bd032fc1c12d4610555cf364ba3d4b1dcfb6f81a506ebd65c86a597d069892257140c42b93bfb83705a405fc9bfbf049c82e3cd7dfaf713ea7ce1ded18c46532f77691ff7bf51e17ff3c4cee0c3b88c4b1cde13933de617331149596873278decb00e317c19cc2928546c96cc3962315a26d8351e1d3a13cf774b4ecd3fad9755750dbf0c6c45256a3d5df0237aeb71e784998d21330d9e13b685d4c0e825408a045dca937ea5f033427836bd81dcda651f036cbc08fe445a5df62fd2200b3349115f16f40e2af40e9af4da76defe4f26fa92cc5d356f761cf0191d16816794069fbc64f29144641acbb1d68026e61f10aa73c0b2fcc35c25b54b3de06ace1b6e69b9916a6cd6c72bf7a536390b0b362761e59338e5ae6e7d1a3c99f4348e7b8ca985fc1456bb28be8be29f1dc5cf55c7b200be7cde4eb5589ada69965f46b3e8e27656338e2b0d4e35edd0b3b23fed38c550915ae6bf3b56f9f95945f0ac90d9609570fc99327cc278784b031a119fae33596520a8e36d07fb96297551c326a700b39c4bce25ffcb27b21c4edc90bc253e9f0cd776501ac840dbf6f63709a5109362a877ee51e71e3dd73d9248d9324f49d6b49d409a9ab5f5f4d00605128bd9e166a67d8120e54b99d05bcf09d76a2d2ca86f3dd36e49121a0cc7216393a49567b10056c81323e329464340b825a8c64bc45438988035d0598fce7afcb8f5a88adb6a0322b46e259ca68a2c6debfef1c6a5d3100e36a2e67ec302cb80388c8435871d26d0c0b6751e50d58dc32a649c91fe144352c1b725a44699007f49908a495a7e7ab2b3239d1df9513bb290b6d556a4d2b69d646ac0d25f9e649aea936dc8c48b93305a7330622204b7bebb0a54b0715cb5e71b910ac02d3135207c8190e2ce887446646d4664216dab8d48a56d3bc9d481b9f5ecf2364453cc32b356bf1136199757c7c43451d22026375421491279635e35d3f3dc1e9307a5e730ccc260901f852d375d7acdca224dacc6a2be6d87c175d6efe1bc5b29e45885ab4b49d60d3990ec42f1e721711b1944549fd923405baa989059bd27e984ae771b0ecbfbf906654f39393e3dbe52603b76c61afe69b08dc95dbb3dca05c8627d5c73376f19c87140d78baf81e0b68ff16d01de5a09311bebfae387c3aba32ab0974757cae8863a1332bcf102862a5481b107e09e067a6f94118d1392a47185ad01bb1b7b499ab9fbec3e8dd3192fef2391478aa7bc61545ca7e361f5f3cc27c1309cd18870859fdf9babfff94e467e974cc75e365ed507cef7fc1f2dbf2ad69a7ea5ce324d6522eb254a93601bf8e9c0659e7056fd3a643e54f4d0ce01b62c15ce63356d19908614c8a276635e969bd76e648465751b45c94656a17bc4099541aaeb4bec6dbc0e7b2b3f45b1b1d9e8a83919b6865149a2709882f9e4b28ae6c2bc2f065a3a3728991bd7c0cf9e5b3696643ed094ac0e9b901351923458bec58416d59daab0e58755ab0b5cbac0e5b9814b45392e8b57aa4ddae84fa0225c7e6740a73f3bfdf94feb4f61671ff0f0f2f8ecf2e8e24a393ebb3a17fd06657714f1ef6518bd59d426b24b6fc67ff36fcde1ff175f21319cd2641266cf73eaddd16be5cfc393eba34b65b756e1f44661ce5f0f40635f657fb90faab2cf1fcf2fafd825774ef19e6aeca9a6a2427e600d6abdd7eddc41a0e2c5173cfd034228ab3a5d9b5fd8c9e02f2783e6f3bc786e00fd565e3c0008e878a5003c5681fd28ae579cc2777442eebc5016194128390406003f2d9c3893e380299786359ae77216f37b9e006c6c32c0929ced06853c2f7a68b08e29679de698cf12860dce134a24837f4b4ed64f99288cd73ed1fc8ba640e7e8778efe5a1cfd4c7f3eeee8e74ddaa9580c0dc3ea746ca7637f1d1d2b9cce823a940603b9fbc182812c2a2882804a3c10faeef08ef869162704f47ef1212f6de657997f545e142fde78d45f1231802246b00c754f05ec5f11192cd2d6bd3ccfcdaf8a7dafb913b6d8f962cf8a0a32765526c0371564006c42ed675300cc5f2d49ee64bf93fd85ec0bc708cdcac6919002c8f68edc34cafc98d181caeb2979811c3291c1c36a2ed2741a32bd30255f470710f140437dfc4cd3f3c40aea3a862b4b7d3717bc1bdb0fded71be06a92230b6656c5497cefef7586b805777dfffe7f3acc001b, '2016-07-08 02:44:23'),
+(4, 1, 'audit/profiling', 0x789ced5d6d739bb816fede5fc1f84bd23b492d09810499dc99b4cdcee64e9af436e9dd2f99b13156625a0c2ee0a4d99dfef72b611b43c0750c98d88ebabb5d0c42d279749ea3a3a3172c5335ff094ddd6c0dd9d00f1e5b478e8930869a0e8e42139badc819b2d651df04ef00a1c4201412a40284b00e0c9e828a17c3d0ba6361ebc83275ddfcc731a1c12f35712532d1782e9723e639de9df2f1bd62fb9ec7ecc8f13d53193e863f5c73e087d1b1ebdb962bae8efa3dcf1ab2e320b4456520ff8f02512b9e1552cdd6a3e3dcf47b371fe6d9983ecf5da455793d21d6898135aaabef806618481319605e1f38a94f5cb158b25bc7e5927111a0d96adf5b41fbe1e1a13d88866e9b17ddbe675edf0fdadffc81e744f75e9b178b0ec7210b0e47ee386c8781ddee59216b0ffd3e73c3f657fee4c4b6fdb11785ef4683516b829eeb782cae99ae4fc0ba1d7b71a5c57322eae0f52fbdb81a9ad9b25d2b0c5b5939dff3424ef82bf7ec0bb3fda03fcd387a1cc56f21b3659aada35fbf7e718440bdb01b7a39d8754034e315c10ed3b0abbcb4ab3f2fff52fef87a7eae7cb83cfffae9e24af9e3cbe527a52be4e858d3ea76f3da0d53300f8796d737cd1f633621651e648ad1ebc11855c378aeca2b618c1025af4891711a641df24cae4ecf4f3f5cbf51f89feff6f81d37226114588e177584b138483d70c743efc9cd80ddb2807936eb7722abe7b2c58f53afbf899bd1f16efd606809493ba13d60436b963c722cb733af47a89c5c2981fde63f976717456f7d678fb3dcc7a29712c979e1cae5455c8ffdf8ef02f16c2bb25cff4e39e69917ddbffc92bcb9bfe0d5b32be542e8e7c9c5c705994c53bc8db37a2b1216213d91245793e9ed052f092873afc4f8fef5e7e997d3e2bc8e953eaf9950cbfdb83671a693a62b48f1662ad8bc6df9e3bd0cfff69ee4529ca8a2214484bc2243a8498e4a8ebe1c474b76a42a42c4783d242569926234e3a8f2af422745993477d7e9778f614563a8624a5f0fceb43ace65159aa8f0f528b49a1d59c21cd0d6381a747811ce9d37e4f63f813a6e0081f71eacdacd631583a5beb80e8a10ef59f6770e7a9b5bd328f05d970561fb73e03ff281acff21b95700ae66e4b1e500da96f714578826b23cb0de8d68b13c9887ff9e81096b04b3a4fa6222c237bb00a6fa34e65104a613b16102a3e8e03886a3699ddbf70e7ba8ac9c86b6dc1c6c059eb85e3c4beaa70609d90938339e804e1338bb232b88b9fd04d58e3d70dc7e82ede457cdcaaaa9c6d201d356804bd7096e59cdd589be0be0e26c976f3cdf1004ecce118316eee474b823e3d87e658525c64e18570cd78069493dd5c1f2a8c956609a0988a8eae2c8f08ce65503ef3a41da1439d410721890f53af90290b54b61a0bc10c644884f62acf3540c11e69f1676932aec265fd8eff4432fad1f259945294e7c41a9209baf20592f02c888aa8ca8ae1c519dd98e45c1d4e479c5bec75093f50cd2b46cbe6931a46991a6a569d352ce6d2100622a4dcbb698162d3394c4f9385de2cda6673df68cf84fc55e8800aca9d2c3dd1e5d4175e84a49b302551d4897657b742513ffc734a72b7eef1be3f8f861e78e792cb05c56eb0436d1305e3a815d37d0340f3457093faf299026a24cb4e4bf133916c3a9d5056749fa1160e0a6674dd78927c999b205d19c22602baa26d154b44b58d23ab02ca99714d15dc252cfcc96e84893233d39d25b75a45740b34583bea2a415ad1bc570873a5e1d4a424a426e0621cb7691d4a04d4f7baf9391d9955af9656f73089968cb88dd39b65fefe0c240066e1cd282596f0e64872b4a5469243a4716d7886c49653574a236eecfad1fd9cce43126cf7191331057d55742d51dd4575213aae574950215c21dd4d5ec64930aa5c7233d9ef21e4f9a70cb9d9e4cea6a468f024dddc14e9a00494f49cf4da267c9de1302d0f4c2d106d8999d22cbafcc9d63e95936af42ddf31e14aa78f9512535e3ca9b72edc0aab5015b565f75dcf482fc2670cd4e2c69cff1a15300575556d2f8245d1398eab5605a524f1105780731cdaeae4544ba3dd2ed29eff6cce9b6dce949a5ad68ee5464ec64df6c486e4a6e6e0a374b769b1836be37b0016a52f86cb779e084911fd43d554231c6cbcff0ab1d58b876609f3fd05b066c5985d5e90b7426eb0716afee3ca710aeaaad04371ed26f02d412a3bc02504b6aaa06f8e87df73025d2eb915e4f6d5ecf9c6ecbbd9e54da8af64e4360273b11192d90dcdc186e96ed36b5e507336f1f358dec824a75f92622dbef3b777e27b93fd951b4a79c9f7d3abb5650450ba8ab546f7ce007511e66fe3cb4eeab6d2a9aa38cd68472495d2640d3760fe4ec7ab9fca69c4520871eab598b09d69b1f65af1f60ad7e804b2a308574f9c1b3db0770660c030d5ed6d7cf1f4fae4fd3d05e9d5e2bdd5b660facceade3715c1180e410a24315ee1d285d164656340e539603f2bba1138de3d81cbfcfc2f1682c92058e357d2a1206d3eb71af93fe3d722dafe38f5860890e75726fd6bdce16454fee5ac39e1397970eab4c769be6e9a4e65b9bfd64f63862c5edadc15d2414ddf1f62efed4c8f2f63630d11a8f51acbdb94580397d6895be38ee638dfb4ed4e18392e0b1620ccd3080a1cfa8a32ec2921462393dd2b8c7faec6fe76e7aa4715cb5f838e3e949c627e2c6a9a86a11aadcd1287661c33a5cd8e21ddb6b9346c37961782b064915331bb7f9307756d88d28ec262eec6652d0cdbca085b2a102d944b7bbb26c715905f2205ad03a5c203b605694d3fa0a0225474e8b214d050e94721720c090247b6e240724075e9a0399d5733a30643c4cc6c3568d87a5cce3a230583a49252f825b50a24a2f425ad08db1a0585a5069415fc68296f441354325d2804a03ba210634b3281eea3cddd9c5d5e9976be5ece2fa323bf852f6bb813f8e58f760feb11a7ee98cc4dfd637eba7f87fc07e88205367c8a2811f3f9fd4bedf7dabfcefe4fcebe995b2ffe4930c070a3c50f62022ef00ff4744b300fffdf9f2ea9a5f8a30977e08c821a00a40e21c23a4eebdad184884800064bce048b0e8ab4eb5c598240bb78e8564ab595832bc0ba1aa0255b250b270435868ac1692149ea85b2d2c0f2186065c3ea0fedd97067f8becb5a8e37b36b0ee1dbf68b603a18223812014478d46f6e0cce30626e71742fc54c0d528b03661a05170302c9c327a9e434e7968b1f2e4cb5c890e6b94131570037291e27c4ea228707adce486b50b1ad304ae387b95a549b95113e4437bc912c9922d62099291291999aa2532151bd0df47a626492aba22fab3bc716964a591dd18232b2750a5917d21235bd691250848232b8dec1619d9cc726fa4a1c2e0e46494a7ec77e328e53428998a4ffa6ebf736fb9e3386ee9b187f90f2b16495cc5d19ae462fae2adc3dc05114c388d591a041c02c8ff9d462ae7cb62f726eb68c595cd55d7f76e6621a1e4bb29e2d9f45b38fc2a5960bbb6a907a8d36403d1a6180062b6921a4bee4beecfb9af4beed738e18130d024f725f7b783fb995d2934b52925331d19ef4be98f837810d33d06e2038248d30d4c3181403704a5d9d0e7766168fdec1e238ca1a6832567d9ac482b4d4fb6892cfc08ddfaa61149f3d388f54eb5a905db8bc54fc7b35ce7ef3a27db52da6534ad5d658db6cacd66324527d56b0bd4ebd7afff03dc5e0ae5, '2016-07-08 02:44:23'),
+(5, 2, 'audit/request', 0x789cdd586d6fe24812febebfc242ca6a6615f01b36c62cbb728c0dde00668c4932fb22abb11b703036631b4832ca7fbf6abb0d4c94ccccddede9a4458ab0bbabebe5a9aaa78b20956faa9f33b5a5d61611ca5638ab7590caa99f9f3395e7d45a96a37c97e949806b9d501538ae939113b5147fdae12c1f6014e0b438c34b440f6cad922caf113109c432bf3147fe1ac74123c0fb6219b4fa491c633f0f93b85a5963bcada328dce31ab50032398ef37a84e365be22aba25a93e5267992d5da3645cb0d222f8a5a8b93ba8ffc557916c48a973ad19026d12b32703e49c36558981704f039cfb72acbbee62eec3ed4fd2c5dd4f30436c89a04e76f07cee1761d18f31b636099fca771ef80ecded830af66abe1eac3477b35ba359f8cc8baca427399cc0777370bf3d0ed5601ef329cd6d112222c5700ac51f214461162a506c7bcbbe3f90e330ce3dd03f3a0c89edc7ccf68db6d846ff1fc3acc59496c35449979773d7047c34b260ad798e9637f9dbc67f4559a6c302bf10dae21b4b86683e764668a16280de9b12aae0ae2fc715bc202306d76511e6e519ab38b24ddd40394a30e334f767180d2c76e1d3ea50726ec5ed1e5f9623bfe2dbfd60e0fda44db4b1b0a31f27dbccd69e67e627f2accca044e5a3d38a81fc232b724e377a3e100f2e0949b64b5450a6d81539c166fedb712c58671801f1adbd5f6d7b4bb4d934728aea4becb761073524759b88c517a2198f4e947bad315aa3a2d5dade3d84f82305e5675b47c0ab7974c80a13572fc423642f17207092c4a0864717689e3fa6cdaf9d4e51a0a3c170f32c5c24f927558ca92ec7ba4a0ba8ae00b1c0e044991f05c5c2c440505cabc2dc8818fb826d76a0552d0141690c485d0569a0b5942cd0005022f05625bf64574216a02fc5db4ae42f8e22ec4ab0cbe25b22408850df88655b2cbd35d51a0db6e9dcb1e0ee19a0becc5fda3355f2e467b34faed69fea4fdce0b6679f2a2d5eb3093c1646a4ca756afdb8206babf8fb6b2fc095c6aaf51eb5e99f39b7d28d53acfb4e571b64de20c9f5143c530c6c3364c09c3000a904b77b5bb64f836334ef6f0a5f00ca7a892a0721cd31fb9550af4a295f5532b8b52d1cb599ea4f892a9bafa92d9ecb21c0a6b0f2412d06c01ee93376902ea5fa7f5efd2fa1779c82e3459e823c24dec7d96c41dc65fa134c37977e69a75a508934499ecf2e399b72a8ef5537c72051d098ff419adde3f29494500d59f13aa6756aad14a2dfa5142554b1d7aa1f6ddfb2a8e72758252b429a958fd1caa0553ab35a14c0c7fa4ecab24783c713cf835359c1bc3214ba24212059919b8eec41bd853f76b3c2e5139dd1e8f0dddb5ecf1db640e32ae3176bda131eebb832fc99cf856289a385a7fa4bd962ba532a5e9038318741d7bf89a60a5ca76acbe35fe0e766fd103779e3e754ccfb5af8df1df42f1153a3380d7d3fa10fcff8fe72bf4dd8f13e3efe6f923e49aae1b13f74bb617f823bc8ef161664c5da3e7dd5a6505bc4ef9c4dfe28863988643eaf27f46fc02f785eb9e31d6ed9e35eebfc9fe2f0f0cb5717f06b9fd8e2be008936edbd796f18fbe088a2970a295599621487697a56c94f82862b37918ab67efc7d7d346f150bececb098d3fb29437b5fa63cd9d3905822d58ff190501dc29d92fda96b0002b34a01114e6dd6cbe8bf3dd7b668ad33d4e1994332f4a87992469ce28dccf6ca5e187aa712b5bb6e9de6aa5294223af5ba8b24b0f8db591f135d63c496abd5e51dd50dcbcd08226e61afc0b9189ed141d05c615aeda738c91ed1a6f1f8742ecd9fa6c443adeb1edb2254916f670231d0e0776956f22d2482cf58d3de0395b7524ed536f0a4c5b46d22c9bef0b2abf7381ad0dd3ba23aba0bb6af66af33f754038436754123821ff3fe284a159629670adc47f1d53a53b1674a269c1cd429117dbdf3275248d1790567083de26cc235c7543f435d7b8d53e7a1604e7989a6ed0d954ef5b2c4f513f95cdc4b15d5b3fde4fa4eb8f5267008f0c7760f7aa6ea9ee5a0000b69d8fded4752815c9e4eefe1ab99553c689db7ef4ba7c5356385194045e91a45394a5e59963150180adefe5cfef3541d3716c02eedc04050448c49b1a43f3750192eeca51d71a199e39b435c026502b83a2d0682bad367c2860e7e2e457ea49908c3ed00e7dc32dc61b32dd1030ff8db9ad457ea9159bb5e33c557c7b55afbdc0e1f92c9fd4a44469be9a2be65c741bac57cdf98d7518dce57dfba021fbe048a3fbf5ce587d98f7a6cd83fdd4fcddba5ade5c3f1e44631d2d4cad9c2b080fbd3e261ecdbde172fb14af07233af6c305ccb9945d048e068bcb1ffcf4245fc4737632a3b36cbbf814bb32e9faf24e43a0ea45bc3c69fcfffa7a237acb89f6a41bf24cd208ce7feb02033729511eefaf226cf0fc1bbf67c01a6196e9695e6e9136070d64d83de1ed79c53f4fcefe75422ac44b71be4be3591a513859daed9e17066500cfcfff02ea094f90, '2016-07-09 03:05:33'),
+(6, 2, 'audit/db', 0x789ced5c5d73da38147dcfaff0f002d9498225f93b939da1299d66270ddd40b6fbc00c28b652dc1a9bb54dd2b493ffbe920d060793141b7042944ea8b16549f7e89ee3ab2b39d800c6afc0d08cca900401fe4a82ca31362468fcb20d08e8a1cc8ec4e3c040b44cfb63eb8bf0e1eafc5c386d9d5f7dba680b1f2e5b9f84fe38207e0f9ba63776c3a05f39b60d407f35917e407a2b0446e5deb6bbd675f7d41b0eb16b19c67f63e2dfb392e8d83280a4682242328247ba2ec940a2e725da38881b8f7a11189251b9b11d52a1356ab4c6fa2df6eb777777f5413874ea7e60d66f896b797efd9b3770edf0d6add336e121ebdbe1c81907f5c037ebd73820f5a1671127a85fd12b8d49a78f468311ab98b6e1d82e893aa628c711323763d70c6dcf65d755d607d76ab9513764a3623a3808d831448991ef68230d7acb2db924a6e75b938ac3fb517417342a8651397e7878a0f0c06218eb4a3e8c754d066f0764691e6405d04adacdf3e669674fa03fdfcdf191e9b941e863db0d7b2e1e9283b90bce78e83e3ae9931be213d724562fc4d70e597e79eef6bd68186df7c6f3879859da0bcc0119e269f1d0c64e6fd68f4068b405dfdcfbab75769175d777723fad7dcc78cb8ad3c685d645d48f5af499619e8943ec785f85135a79d6f9d66572676dc9ad676de182f967e3e2fd924a2625f6a3aaf659c12ca4634b167a3239bde42606e5c22d11be5f3e362f9bd9759d0816ed1973cb5ad49ba8d278e8324aec4d0c9b8d2dbd5c4df1affaa896ec4205855086407d43249539493949cb2369ce27a92c43f5ed70549de7288d12271415fec80c528478b4fbb6d53f0145c55051de10ce5a719cf3fab3a62a6fe7a183c479a065b000341e87831e6dc2feea0ea9fc27504703c0f0ae82a28f7905a8cfc7e2aa9485f83536bf53d0eb544c43df731ce207f5cfbe774fccd0bb0ac6d8b7bd06eb3af64f931219504b194853384dec3e4619c0d8b23b72dd65e3b708ede19f5368c11aa1cde9cc0a4240df4168d13cb4eaa23c44d0da211926a0b2671f457434b180d23232e110c736d44d9fe090147665093d3b757f85704b9b863ba77b6bfa4e0a472ac8d09404eefe08fb91503c42bd670e6cc74ab08fbf6ddcd77551df4569d1b60b7e4ecfd7910477107d291d8ea8ab2b4d6f827361efa6f8ee22c060ed00e7f56045dc457c53491c495f9ece4ef09c08c414d7a2ab072cb15d2eb080ce921790a578f67a01090b4d5b66302b6b833987fba22351142194ca8d3db60173ea61a82099a724794a72d594e432062ecb4e2e2d5f401823c62258f213671b8cd5396339635f1a63f33e631524ed3c63e554440ea585887c8a6e91c03042535551b960223133e2c68eb310716b8965318c7fc7662d4711ae8a625e9f647b477617c654a60fa1e7e3eaa25e09a0a2ec2e9c726e3873ba2750f592f3421bc53395195544be45824737b9a39be7a299a2f30d3adb287bbeb1492a6a9c8a9c8adba662cea72294a05672b26e835454d2397d3d897d9bff9eb53bedda6f6f9da9c2ea7e51d1d355b95ca0256d11687a3dc0b7c5b6cccce0861b803ba76323a0a2921d7bf378a7e62440a4359e5db49b971de1eca2d37a22c32fd4fad35314ee83b992241811d3beb14dcc4e9320c4e138e8ef0bff34ceaf9a6da1060f04281e0820830d687178c80f628e43923d405478767e80e4f20768c69f150748d660c9f3cfcd8f4f6ad68494e5b3503cb6ecb047e326ffbee8bc5e53a569b6092dc5557c6217e535b1c84f0a5fbc8b32ea59b48372b279b2c14e34594fb330a513ef0da6ed18305bb44696168da183e8275d9cb706a94665da589735d68d1aebc60d75670d2db50d66d8266b396c8bdacab0076a19a3430d8a77c6acd1a06497aba2156140ce67b30e15ce00ce8097c100554c4fd7753e5de7d3f555a7eb73e2b86cc63e5fa46004a14b307911830b2817d09205147001e5025a8e80e60d403551e502ca05f4850868ea9d2da0c14759a2f9999750ebfbde38242cf9337d1b8e1eda23f689bfe11fec7f9f50d70fc2de9084032fba1e77de9acb133dfb1ac681000e842a80ea9148ff81c9f7cfad76871e56a1089443513d1475414486281b086565c8574b39011140a93c5a66bd55bab6741367e56b63a5b463accc9b0806923cdb1ecc69c969592e2d95d512962c54750aa6ec810211783e5e7cea2f1f3c096c87f5f11d19e05bdbcb5a088130632104d0e6ae71680ece5caa380b7123901e1bb81a0336660cd033360e8309a167352cf88e96ed3b8b6daec4860dda0933a801a849513d8d30f4ed6baab8c1da0d8d58b2e2c2569a25f9665540d575ce12ce9257c4129d67ae78e66a2d99ab48409fce5cc5450a46229a22cacfc7e25c63b9c6be108dd5f8f22ad7d8923436671cab2351e612cb25f6d5486c7adbb52666662ae3299e50eb4729cb4986722e59e93956ef163be32889e992bbd9171c59c48ea2444d7230b9f1c626ce9274268cd3932c350958aeb27a7ad96c749aecc8a47eeab9dd69eea79bbd3f7476a76d2d4d701ea41a82c5da996dbbfdddf6c4620d66ececfdcd960b223ad93bbcb9d51c5dd2949716abaa4625e932d750aea1898622aea15c4337a6a179d7de2002a2c625944be86b90d0d4cb4e1aadf2eaf37bcaab474be5ed6647e85b633f9a51f74fc423eaeb92aa89102810a8a2c494910c3d2aaf43fca37f425d5043a234ff76202c1a9940449b9aae54c0edaf68abdb5fd15eefaa2f028b0668d1df5fc78efd739debbe33ef52b6ed5db9355b9125993bd7eb71ae8787ff01e7e36569, '2016-07-09 03:05:33'),
+(7, 2, 'audit/log', 0x789ced5b6d53dbb816fede5fa1e14be00e104b7e37c39d49693acb0e255c02dbfd9099a0d88278ebd859bf40d90efffd1ed98ee3570224812d4d3b8063cb3a47cf79d17324851ad8f811189ab1356141406f58b075400d49347ed886005772721118b26c6c7df4bc30087d3a45777638467f7963d70e6fdd4114307fea44c1206b6018a3d9e5f6ced6816d60f8d1e08740572236b6ee6d7b30a2011b74a653c73669687b6eee25fe8a78601958523441146591eceb3a167455870712e825183f1e1e78b7391589606c9d78d4b2dd1b34f1acc86106f247d42ccb274a4efe97a4a171c3c2e4b25e3496555c144d1689e6a8ac42b48c4b83160b76512b7619318bfd63dfb80390440634b2ec70dd96d1885082477aaaf3700bbd86f3e8420946f9a91ad2bfe877d38facb56b2829450d95bc8658afbad88d6dafc2c3749994b051f39245b1820d97e07837834f7630a5a139ae7afa4b512082a6955c492b441aaec260b15174b302200816cab2f5bc6c49aa0522169f895883671051d14a79af909b2552ab1778c75ab59274b5a4155e64a93819adc252322e271c5c48c892f0a4b4d8a9d3e7c580e8a25c9e9f8ab91a067ae6b330bc4797e727c8f542c45c3a7298b58f2e038e93c5ae69e484f1e329f5e37b1067b6b95f5192244adeb1d1e0d277be5017266fdf30f85bec9cfd1db120acd55214ca69061773352077ee4521437ed20bb30cd49afade3d33436f2f0a22eadbde1e0d004aeab74d9fd190b52aea4973f50a108ea96b390b1454f5328c855c2dc9330d430ff9916ba005da55941372063ef2dcd0f71c8783079d754cae67bd62a4423f8a191af4ea038b82f75110521f909b499666ae8ee7b0a44d0dc39bb206810a2ec77d3131036debffd6fb8a3e5f9e9ca0a3dec9e597d33efa7cdefb82ae38fb1852d3f422370cae9af4b04630fec9046c62186011ffbe5e0f5dcb1c1be7982198c2d8bab6798c0285842edbb780f9dddd5d7b1c4e9cb61f98ed5be65a9edf9ecda56d1e7b7b5cb73d3ee7b703df6c732bb421413027685fc2934eaaf4fe743ce51d830cc776933ca028073159bd8edcd44e81a1721d5cabe7c66a800d4c870601bf266236ca8f20849bf6165ccff47c2bed38bc9fc66f413019c6d6c1438c7161be91a1550f0cc423f1d347647aaecb62d1069adc077f3bc6d80bc243c733a9c3af0eac914b27ec10c65ec15ccc619ef5d26c7d4910f12f033a29244a054327fdee49f7e8e203827fdfcc681f90e7a9d776c321477837f7c089266ee9a6cfae99cf5c9359c39067d8e6c7b9d73fc4a163bbd79e3f89d3d530006a33a1b3e6a14d9de15c8f0075fac8373ffcde3b3ead7beb1bbb9ff51ef1d28a3707e1a8771aebb11dffae191ea44a0a491f1d42e775f77be7d99bdb0daf1ef7d129cf099dd34f0d9da42d76e2ae7678c33aa493915434496f37bcc4a1acbc12e3fbf5b7ee79b7beaf43648166dc2db7636de24e13d3d5b4f8900e6c6e5b78dc2ae4bc56a997fa46cb254628cdc82f14a34a997426218afe533be7a0c4da57b675758897c45991f45f08e742d121e30ace340ac74310011c67025929433ac69fc3ddc24b3ab682657911deaa54873754f3df00f2b699d1aaa07d96d2b3cb849d75127236275e35404b353803982675cb18e33c118e975ccac0eefd3705562c94086ad5816360ed904d324879d6003c9f4a7f5f88b684a585fcea2784bbb8c2028f8ec6ccfcc699d494f9133ba1bfcf25ef524adef9bad1e0d3282b7c4cde37842eb06a88b0086aa7dbfada5117b0f20ec12e24674dc97cfb0a2ac23849945c7c688e6dc7ca1c3df9b46e4fd705f53d3a7a3161abcfcf2bc314e565e19504fd1de22b15f2365f9ec9120928c2e6296406e3ea7386226b0b09c84f086ca1ead2a0d579e4c6a52e4d6bdc54fb414efbc122ed0d2379fb28ce18350b8ef9f5be63978fb09316c37ee47eb5c3f119f5e924a8b7844ac4d22a8c5458bf92f4e64591cc4fd2e436f39725d747744d5c5caaafd53b3051abee014e311c062c5c8a95ce7da5b0f4a488f2a642df54e8cfadd09b02b0a9586f6cfff28015f7054110853726dcaf10b072618f8848155632037789ec1783a9cae46db11485dab9913a4e656ed4b2912528fe2f19563388851992ef842e9a5b9644130b127e63d75c279c852a451136cbbc9b49e4c593c8a24963c9498208ca3b0ec442c9aa41af9f298cc9e25baa3003a1c80de83543340c7d7bc4b75a5be90cdc8210402d13e0f3dc41b268da5010b4aa7bd66271a39f3986e1b997b1a8ce4c52bd2d34417a5b5b485ad516fcb947ad8a31a4f2301f3184523c65a767b374f7cfe3fe457ffbc94bec2dd2da59d2e1f5375ef46d0239a0b7cb2dadcfd12e4ce758801e8f4ffbddf30b747c7ad17ba44044db57b35b00f66eae250ba6ccb4af6d93f2db2c08691805573be88fcec965b78fb6c92e22c22ec255e38855e3b0efcc6c8a019180f6efdc3c057ac0d7099ad8567c7c670873b57fbf24e1d2d4ec9085d808abf0c8d6d2ec5c51b2b5142b166f2ba53b4af111a32e57b40e5288b8359601d901d9d7198d2c55070336f43315f3a3115563abee48563aa7cc05358e8dd48c4dd65e30b65856cd788856631d18d06c63626503cab6fe14bdc88ff50d3fdef0e3e7f2e35c6e6ca2c8f926cba54f7e4c69933e37e9f35f913ed5c24611d64889dee55903303a9f1f22e5ac6d7670022eed29ffcd8ffcf3bfe911d8e18485632f7e9e286fe508dec22d53207fbba88589ba2fc07f9c7e3eebf52fe0b24504acec09ea9ea023413480918a620d917f1e57c49cd6bc5d54d61d9259194fdc04e5cf1694f2f3483d9f109de5483d5670b649d8ecff8f9d177b14d60baee14736a6b7b657572811525328611037e2df95397621db5466a7d9a2c17c7ccff3ffb50d06eb353b15380de7790f15cfd1ea3da72af359b1b0c671929ac0e047fae37eb2e5a960e5038d6344dbf0fe0def5f09ef8fd3e7e3bc3f69b25c86d5e0cf26c56e52ec4f9362b5c29713654da8ad0d12f201b5415c24a43541ae3cf01c6b784b9d282e1b5c7637ff909c79e2573139ca2ed217af6de63414102429087831807975d03a3aef762ebafc2add6799f1ada69d96ec4ddb6a2c29760b82c87272e66be14f95272c27b066b9fd89929744345dd05f5ba5a6c307fc2fcba340fa33953729749342b3145a3868a9419797679f20ae4a0b2bfdee05bab2223f66835787c23e38bba46a02c10ac1aa20f1ccc8261ea4d709fd7e75082ea8898294dfcb244b4615111521fb7e3879fd0510f5f5174056bb4820e2ea00b4f86b4ed4b1ff59e53241ea5c0f0fff07889ce2d1, '2016-07-09 03:05:33'),
+(8, 2, 'audit/profiling', 0x789ced5d6d53db4610fe9e5fa1f1174807f0bde995a1330e712774284e31b4fde019fb2c1db11a597225194232fcf7de497e1396712cd918cc2513224ba7bbdde7761fedee9d30b5b0f523b234abd267fd20bcaf1cbb1642868101398e2c625562b7cf2ac78e058e00d60dac0364a80013a89b9ac95b18e2c628a25f585439a61621d60fd782263f54c511e04d54de4b63c07cd7ffa27cfca0d881ef333b7603df52faf7d17f9ed50ba2f8c40b6cea89a363a7ebd33e3b09235b0803f93f0308a97857085b957bd76d39ddd6e9b41b2be0bd8bb698cb098966008c558c8e4c93001599fc02e1f2c0549e44b044b31bd7e39a7115a055a9ded2b07a777757edc57dafca87aede32df09c2eabf41cf77e35bbfca874587c3888587036f1855a3d0ae7669c4aafdc0615e54bde6576ab61d0cfd383a1af40695143dcff5592299a6a560dd0cfd4468715d1732f84ec34fc450ad8aedd128aa64f5fcc007a9f15b6ed925b383d019751cdf0f92bb9055b1accaf1c3c3034708ac1776532b0a3b318cb7833a9c451df3d19a9f1a7f2bbf5d9f9f2ba78df3eb3f2e9aca6f978d3f948ed0a34d47e276e68d1bcea0dcef53dfb1acff862cf5c9798c5548de0ec6a81cc6534b5e0d63d350e1db0199cc82ac41de49b37e5e3fbd7aa7f03f5fede111e790280ea9ebc76dc115073317bc61df7f743264372c64becd9c764cbb1e5b7c79e6f677c934bafe4d10f6a9d0b41dd93dd6a7e3e6b14bbdf6548e48a93595d07ef77be3ec22efaeafec7edcfb503ca444733eb8d2b848e4d84f7ee6a867d3987ac117e584779e77be7139b9737fc1ad674de542d867ede2e3824e462dde275dbd170df3904e35999364747ac14d02cab95b127cfffe54bface7f775a2385c326196fb893449a7e9d4e5b47837526c3ab7fcf25ec6fff61ef592dfa82411aa08ea6fc84955e9a4d249b7e7a4059fa4aa8af4b7e3a3faac8f12347651e597dc20454967bbe33a9d1358960c35ed0de16c94c7b9a83d1bbaf6761e3a389b58c239a0e930eeb5f910ee17bfcfe97f0275320102ef3d58f631af417d792cae933cc4bbd4feca41af72328dc3c0f35818553f87c13dcf6383eb68484337a809d169783a69910335c9419ac36953ff31ca10a59addb16e4bccdf3cb487bf8ea1856b84b6a0316b18c3a5559257082d9e85569fa787045a3766fd09a8e2d9c7111d8c34e06e99a87048531daa76c868cc4a9b32c14b53f7570837d934dc05cddb30779238324186a14de0ee0c689810c523d4db76cff59c09f6e9a78ddbba09cc5da416e379c12f68f92626cbcbdfaf0f7d920d47f4d599a63dc2b9b475737c771160b876808b5ab0067611df4c1187988bcbd9133c470431c6b5ecea81286c6f1758c8b3e43964399eed76c4e25269cb14666d6d3017305f7c040040886c37f6780e98330f430dabb224294b92ab96241779e0a2eae4c2f6258831f1588cb6fcc4790e8f35a5c74a8f7d691e5bf419ab61b2f31eab66227244e622f231ba6502c3044d5dc7db051383dc889b7ade5cc46d4c344b61fc33556b318a6855148bdaa4d83bb2bb30662a7d182f8fabcb5a25449ab6bb70aa85e12c689e5037b75c17da289e99caa806e4160919dd148e6e96453365f30d9e6d6c3bdfd8a42b1ad215a52b3eb72b167c2a22828c2d17eb36e88a5ab6a66f4e62dffa3f67cdabe6fe4f6f9dd9437befcb929ea9abdb059a18f340f3eb11bd2db765660a37da00dc050d1b431d6fd9b0378f7726278180f77876d1ac5f5e296717578d272afcca7e677c8ac37d30d392450366bb37ae4dc56916c5341e469df7ca5fb5f3eb7a53d947070a02070accf1063c3f3dec1bb38731cb9f204e3c3b3f41eaf62728ff85a69f9820d5405bce3f373f3f99ac096b8bb3503a74dcb8cde3a6f0be6c5e6fe8645c6dc20b71054feca2ec32877de7f0a5bb2813c9921d94a3cd933571a22e24cdc39427de1b2cdb09609e511b95cc2bc327319c8838ab0dd6adca78b09618ac950cd64a076a4d075aa81bcad14d350ae8968c95a30f327266872b94ee8c59a342935dae9a51c6030a3e9b4da4490f901ef0323c4007d974dd94e9ba4cd7574dd767c87151c63edba4640461123479114312a824d02d132894042a09743b045a340035802e095412e80b21d0cc3b5bd0408faa44b39997b2df098361cc44f167fc361c3f7407e227fd977e13ff878c9b7e14b7fb2cee05c9f5547867a64eb4f4358c03051e287b10e94780ff85a3cf9f1bcd2b7eb88700d40e817e084c05600ba816c67915f2d54a4e104044b6e796796f95aeaddc24bdf2b57925d931af2c5a0886449d6e0f966e29dd72bb6ea9ad56b014a1aa57b2640f3584e1f278f1a9df7cf024b05742c60fac476fdd206f2104a19c8510c887ebd2d8ee9df99c71e6e246481e2bb89a076c4c1968e66c1c8623879ef630673b46beedcc8fb992376c504f94e31a90ab94f4538be3d0ed72c68dd6ae68e2252b2e6c65bda458560575d3945e22bde4157989292b57b272b596ca5542a04f57aed2262523114303eaf2585c72ace4d817c2b1865c5e951cbb258e2d18c79a18a8926225c5be1a8acd6ebb36406ea5324df194fd4e52b21c5528678a9581e7b46fa9374c8a983ebb9b7ea08946e22829d44c0e4637deb8cc5b50ce446979529426a1a855ee9d5ed66b57757164733b0dfcd6b8f6d3cadf1f3abdd3751616380f3203a172e34cb7ddfeec78a0dc80393b7b7f72e492888ef60e6f6e35c72486f6d26255ddaa4c44961c2a3974c2a15872a8e4d08d7168d1b53784213024854a0a7d0d149a79d9c9e05d5e7ffec8fdead15279b37ea5749c619864d49d13f1155b98e8064050435007443063f2ad5ced3efdd639197d2fd7ecdb81a86c6482301f6abc52819e7f455b7ffe15edf5aefa6238af8091fcfe75eab9dfd7b9ee3bb52eedb9adab30676b2a51a571bd1ee37a78f81f68c768a9, '2016-07-09 03:05:33'),
+(9, 3, 'audit/request', 0x789cdd587b6fe24812ffff3e858594d5cc2ae01736c42c7b32c63c9280893193646f57566337e089b19db6094946f9ee576dbb8130c9667437d2491729c2aeae57d7e3d7d5469a58d7bea55a43ab2c4294ae705a69214dd0bebda49a2868953443d92635621f575a812609422ba5121582ef3738cd0618f998e432a242f5c0d22a4eb30a6553812df56a0b1247198efc9a8f1f723aa8f5e228c25e16c411a3dc619c5451183ce04a69c2cbc5b26a88a365b6a254204a92daa08fa03b2168b946f4a5a955a2b8ea216f5508cb204c5faa540589c33778403e26c132c8ed4b20b0cab244e3f9371d96b4ca63d54bc9a29ac5773817514081278d14e4d8f2b4ab772ebe5cdddf76678a7f652efd67b17fd5496eacabd96c72edd993c152b9186c4dcff8e30c6fdb6db6e54d8a49152d618f0545d12aa3f8390843c42b3581fb74238a2dee3288368fdc635375d5fa674e4f92105fe3f94590f18adca8c92af7e962e08c2e4fb930b8c35c1f7b77f167ce5891788d7945ac0935a921d46ba2a07253b4402428c5d8be5890b3a7a4880bc469bd09b3204124e3173159577d94a116378f37918fc853bb0a7f85073d58ed946471156e8d5962611cdf049dceb48c31f23c9ce4db8310ffcaffcaeae2b15a1610f6abdba0c82ecdf9cde8720089b08b454a6dd05a5b608249fe26bd9b293e887cfc584b56c93f493b21f113d4575c4db01ff8f189d42b1e7e4169b08c901fb74531b7a9301fab38f2623f8896ac8296cf4172caf918da22c347bc218a961bc81c2b1e9c9ee2a83a9bb6eedb42ad09cff9835a06c18be3bba0e0a569776925b5657456f7e7a2a7c8e262815549111b6775c1ab63242b928f9182e60d4fa8a3f91c4b6243467871566f608ce6aaa88adec24727b22ec1ff49a313c08f70227752f855284992721bf00b54ba2a96abb2542c93f3b5e174ee4d628c1dd2b097e78baa335d6483f30b73ddbd522e0ac99346b7c54d0693a9399d0ebbed70e1875febc93d0a9214e2a09e616fad2a4aa4ca95d64b111e82d3248e527c000b0c5dccc72420145d200a675ac5596d4e39f18c1bc70ff0d31439a1a9299226085c7fe4b0141879131bfb269695bc8bd32c26f89463fd7ccaad37690615f500f8e197d982b84fde0508a822a32c7ca72c7c5984ec4277051ea2b0c47f4de3a8c5792b44529cb5674eafdaccb74977196f0a1b924451e855a5f11ec17b0fd00ee25450cfaaf5cf12964208d19f93527e928b1bbb154d2b848d5cdfa7cfccef823a4104ad0bd8d5be051a456558a3354d3321eef0b913fb4f7b40078fa6a6fdc5b429496ed2cc402a068e337107d6d4f95bd0564a46c31a8f4dc3195ae3f7911b781c73ecb897e6b8ef0c8e909b7a976b9ad87a7fa4bf959e26b3a51b03935a746cebf22d46a6cab287fde1f847a0bc514adcb8c6d4eeb98e75618e7f0a9eb3f8cc20c2aede87edffef409dc5dfb99d983f1bd47731d70dc39c38afa15d1277e1b5cdab993975ccae7b3d2c6ae06d7ca7fee622b6d9336d5a9a3f1fe525e195cfae3936acee70dc7f17ea8f052ef5717f0649fd01bcdfc5c7b0ac8ba1f97f8dfa795f4ff422bd2a6c92dfa4840f630f857c3a0f22ede07df7ba5fc81f8ad7793188893b8472a7c3fe587766761ec106b4ed6fc8f7e100497fd713daffbc54830e68729f66f34d946d3e73534c1e30e150c61dd70c378949c63585df78a6e21fac659931abe75ceb852d0aea6f9b60e92d85c6fac8fc5bc8dcb3eadd6e5ed880b6a2d480fe156ae211cbc4b2f36602eb4d81add9e6c872ccf7c5a114bb96311bd166b72dcb610719ff8008bfdd6ef955b60e690ff1cc397e8be73cebc6b247dd29c06cb1977ad178af80fcc601a8367bc31b4a8524b346678bffb107d2417c46057c53e8ff57147365a2b8259c2ad15fbb6c19f610bab1378483a50c7e5df8d0d60e318ea2ca220e8a15515105763ef475c7bcd66fdd216ccfeee986598ea1467fc88b35f1a87426b6e558c6ee78a2adbfe33a08f1c874065697b50c3b6c2102b06cdfba53c72ef148819cbe856cc55c51221b0160fbc56d8b75b529c88a2aa96aa3b1df5d6171660ff3b6047b1f80e60fab2ee3bf2b7ce150751900400e776a5ef6de66a0f9650e3ac391e9f62e2d1d62e16bcca0acd464a55906e79095de3ff74c74ce8148f54d279f65e82843a79e8fa7324864b9d1ca7e68ca855dd652477b7f39c8198219ea5b5e3239d6b2c9e1ea4e5c8cbf9c4329ccb69de773a9b31a0fbdae6e99d7e6f28f7536358cece9f6ca949d1b61d85925b7bda53e5a2ccbc9812a7f3504ee6fd334e881efaec17712a0b07454da5d80b117c4e58b24032c08653de30893b8e416cb5d2ff09ceca98c738dc8f3310dcd49101ed2ea94efe998edeb260abea785af6974085ec630b01f12f30f0b708f0af01a7c3a5c013f632fdb1c51cfe8d8f7f03d37d0fdc0fb9ede6439f6e38324bf14b10e1e5035898907c33ffa8ad9ba54ea4b3773b8e46745ace53cace513c8b10a060c56ce0eff9ae5f67792f02c290d3a111463371b0610183baa1f518668fcd77301d55bdc03f6baa15fa8ebb0bd8f4e7e70b3dcffeee0cf03039e7f70eb036b148ea7fb4b4683422368a01784b23381e4baf9e7a5838f4bb4e35c82b30d896684951b5f969beb067efec1a9f5f2f26f7ab0969d, '2016-07-09 03:40:35'),
+(10, 3, 'audit/db', 0x789ced5d6d739bb816fede5fc1f88bd33b498c24c48b33bd3369eb9dcd9d36ee26e9f68b676c199498164316b05b77a7fffd4ae017b0218ec1843855b79b62033a3a0fe7393a3a1c29a40ddaff066dbddd18d320207734689c913656daffda6d08f8213f92cf823662d75cffd9fd22fdf1f9c307e95df7c3e78f97d7d21f57dd8fd2601250bf4f4cd39bb86130689cd96dc0fed765f603b25b21683766b6ddb386bd77de784c5cabddfe6742fd19bf129d596da0a8ba8cb08af029d26445c1ec7b850907b1f0a817415b69376e6d8736588b3a6bb135257eebfbf7efad5138765a7e60b6a6d4b53cbff5d51bb97638755b4c263ce17d3bb97726412bf0cdd69004b435f62cea04adcfecccf9bcd3a7f7a37bde3093e1d82e8d3aa6aa671132b713d70c6dcfe5e735de07d7eaba513770bb613a2408f831444b25df3221e7ec9629bda2a6e75bf386c3d97d74176c37daedc6d9af5fbf183cb01cc6865a0c6343537f1f8c9524c62a608d5c773e74deddbc92d89f6fe6e4d4f4dc20f489ed867d978ce971e2843319bb6b5ffaf496fad435a9d50fc9d0a1f9a713b7bf8a9ea2edde7afe98704dfb8139a263b2b83cb489d35ff52390ceaf25df7cf5bfeec565d65ddfe86cd1fa84d3965fce844bddcba81f47d1cf0cf54c1212c7bb93deb0c6b3beef5e2def3ccab9f5e25abae4e6797ef93ea791f915afa3a65ef30bb3908e35d9e8c9fceb9c9b38941bb744f87ef9b373d5c96eeb8d64b19e71b33c8a7a13351a3fba8c2b5ecd155b3d5b76ba99a25f73ad95ec8b4afa41002106bf0f49b120a920697d242d3890028c75e3f721a99624a902171c95fe9319a448f1e31ed8d6e00d2ceb0d35047f1f9cf5f23817356843d37f1b9c919cc419830d9cc9241cf59908fbce1d33f7bf443ac29fc3dd846587798800dc3accab5a16e2b7bee7860cf516f3a6a1ef390ef583d627df9b5133f43e51cbb6bc77cb3319186379136286a349dc7578018c55fa4e873dfee036313df9ef0253b0474c0b1a31c448794990a2546c84b221b5433a5e82c9073b86e4fdbce727f751d75ba64f49484b9bacaa6cf5118704af5211bc45ad57676ef825e19b8a1a346d89efe09ef891075883b96f8e6cc75a821d7faacc980d75fb34eb90d0d69f04ed82b68d8022bf24b4957404a1eeee3bfa31be65cd1841f925f96405ec1bd7a2068bb6c7c387846b2acda2c8f9f9e6351ccb66f5912a1b35111f60b88924c3afdf0f68586a22b182552d0b6b51f3348cbafce953c09a1acb54a089a4a0480aee9a145c1f1072d2827b1e8f1588ea9ad63f05310d414c41cc7a895970c454f00be6254e85cdea2a6c1eb8de78e8d3c17194253ee67108356d2ffa3c258b39212304f5196b68c0bae44f6d7645e9720e45dd5a695011dc1aca0ca089e36c04d0fa52a318e8bf6275f27186d5e15cd4ae0db0fd4dd401229d4ace29383fb2aec4780db5a64472a598e2bd605ad0503182a82e0f5c25a8a92ca70a45482442a29d43a22cbee5c54599d796f4775831ea7af550293775c14dc1cde7c2cda2e3a68e8c1718e0a9a937284866f75f5c5e77ae6ea48bcb9bee66c2543a1ad02024e124e0413575a91f45d7b79485ddf1e198f83fa30332f46d27fe66167df175e2daf303273e20775e10464701bd0f6dba08de3d339ccc0f5d6fbafade628f72f981f01a0662796b71bed55f3cfeb863e688f4f9db3376de1dbc96fe3efff0b9732d1d816389fd95b7fd05eca22644f2a92c378f25c83fc8403d91b513d99064c493cd08375f6f3a7eb4695cf407352721cd342f4d0175591733eb0deb62e703322d57e7b3b231206c6c8f36b67260bbd998aec0da2a1b9ec0c852553a48cd9f55918965877d36e2fbb39213545dc1cc35c780a23c4035f98172bd21b5e84f666271b95ed4b3a8546f5ea577cebfe8f09e6626b47095092d0ecc136a83954d65d843f4975d4c6a8398912e84f5b8b05e24ac170beaad04e5ea063374c37a01dd225919fa403de3e93085e2428e3d2ab42ca75495320c281616e918e0653a41504050a0660aa40a0154d910334d31d3dc75a699f08e7913cce4252543088cb022fca7f09fcfc37f6ac27f0aff598fff2c1a80263227c2810a075ab3034d5566010dada5ba92332fe968e07b9330ca332d565ff1e4d27d9478fa4a7ef07f7dca4c3f08fb631a8ebce87cdc792b9166ca5b2c10e79200d44e65f61f6846d9a8e6a7eef54db3aa3ca6ae22c5a8918e59cb16f79666126c3c30366af2cb6063d18cafa1caaa5e637646b051b031c146b85b7e9247a64ec90cbda12275fb70f4d082fa0771bde15d7c4b47646a7b59af3d20d43741064cdc9084e6e8c2657e66234a04caba7ebb11a0326580a1652833e7f3aa850dd3d1b34d6753e64e64a8504f98c10cc0548ada390f43df1e32871bec5dd188243bbec64a93a4d81cca507555112c112c391c966091a71279aabde4a92207fa709e2abea46420a2c98f99180b1f2b7cec73f1b1e25daaf0b135f9d84271ac22ebb281848f153ef6707c6c6a65043030cecc50c6933c5e16cb532cf3cc642249e939567f4a9c495ccc4abfaf3e9048a5a84096676a9607f31b6f6deae4a431519cafe4b94985ff7877d539bfe9f02393d9a9e7f616b99f5eba0c7479836de5e6358f53cdc382cd2f6b701f2907149213951f3f52825c48c2bcaeb9521951c174a512a24aec8a759855ab42543b5eb104a7620971b57ba5225665f4958a99d7e7572a6359f85fa994e58a82c73ac4c55280dd45c56b141e2b27e392620e2cb9fee1b1deb8983b5e2cc8a8d6e7c7ab4faa7a4bce025565b5b9fc730954b57663d96511a38a187519a31a22461531aa8851458c2a625411a38a18f5c062d482b5630a0010c2e7964c1531aa8851b362543db5c38086571bc22d22d02dbffd22da89bd8aadc1198f90ae2d7804f3788433cb166357b0284f4c3b82cc4790b1673550db8d3b1af28da92face0edecca7336c933df35c41f12b3f77ef891b8e42e771feb6c0255b36d0094333462929831ddcd7b98a5077f23c51fcdbde7b287fc90ddc027b09b622fb30050912ecce6799a4d6aa5bda16c6c8fef7aa17d6b9bd1bbe785ad1c257ec50e68c66f548f06dfe88c7d762774bab49bc4a9e86a2523dfb49b25e9bab13ddb841f1819c6c41c79133f1e1892ca05adcbe4a78f9e357168c61351b31fc8de7e9d54cea85e50a7397392aa65f146ce2e098fda9aadeba4b0337391f1309712d9cb803157d5ccdaf0fd7802b83f8de6f16b52b11c8d224ae17a2855d0394320ebdb8363412941a91a29955acccd5770e49592a7b85572b0814097eb66464e194e7f5e29363137cb70702204e80ebf52336ffc17b438745ae8a5685174c0c058b042b0e2d9b2c2482d95550110d5bea2da77d76adfa401e695fba6ae291b6b68e011cb9b8557155eb52eaf0a8457155eb52eaf5a305445b2f288d5c0c2ab0aaf5a97574dad91077c917caa202d9d2a8c1382c7d28037156f034eddb5e2b4795e705564d62761724b97543291574bd05b3271c266bc7df7b1a41c4b97dd2f47af4b57860204355c2ff7b48cbca252f1a62d827b07c33de5d973af70c50b56f4472cd116e413e4ab8b7ca925d9055e92c1277def8c550cea9e9e8b976482520f524aab875205e76658d7b7ef162e1825185523a38c671521c27dcece54597bc47682224214e4ab897c40969f3dfb0acfcf5403c09ae349c13ec1be87d897aa27d759273e7f7a7f7ed359db6afaba73230dac891fb3f08d7c2a63555320300062066f687c052c1d7bfeac3f263f066f2062f62f2bcb9a731648a2d243990657755ab9f5e5d56d0dad3dfdd6d0fbdd3e19814d05f4280e268efd734389b23b42c7e6859edabc0afb6a43d791b0aec3b1ae5fbffe0fe16d9b28, '2016-07-09 03:40:35');
+INSERT INTO `audit_data` (`id`, `entry_id`, `type`, `data`, `created`) VALUES
+(11, 3, 'audit/log', 0x789ced5c5b53db4a127ecfaf50f162d802acfb8d62ab08e1d4618b6096cbe6c555f6581ab01259f2d1c5c449e5bf6fcf489675196183ad10122524c8d668fa32dd3d5f4fb78d4cc1fc1e9abab933c161881e70b873844c5937bf3b260f574a72119a8a62eebcf7fd288c0234e51e9d68cc7df6c79e13cdbc7e1ce260eac6613f1b609aa3c5e5eedece91630af04f877f224c2509e6cedc71fa2314e2fec974ea3a168a1cdfcb3d441e918e6c5390559d971455520e25555045c5801b32f0c59bdf7ffc20d3e658147973e7c247b6e33d7013df8e5d6c72c1085965faa29aa3ff3119683ee028b9ac21ad6925d2e22ad2442b5b202dca022f14494b8585d12a0b33c236fee63c787d2025f6516c3b51c34b23c93c5fd28fbcaef59025fa09d6037f8d921e957559449fd1572b88eda659d404adc4a29a675130aa56f6e0385b30324993caeba7e5294b5245398482eb3ff43f38e11445d6b86aec2f568361882566f482b3095535d878143f6c4111320fce5ea46de469cb325311947c46a201d39015492d85be42789645265f601d8d72a5c97239220bab968ac6a36d2c95a64a25da85982cf36b05c613163b2f558822eb7ac97c8462b40639af021c4573eeeefa82f3fc88c31e1ab9d83ee4ee42a2261bdfa3d88de8ed290ae87be0678e755861524c987cc4a3fe5de07e441eecdf816992a7f035fe27c661c4e65215b4129385682d83f4d77e1c612e4866c1b6c975a6813fc756e41f4cb1edd87ed70a308a70a7c295bce4aaa0b931f26c77055f4a79450b215a52177c453e17c49ec9b179aab0c4e756f3d4f7a2c0775da22998e3c422dc31d95179becc4e311cc38e7103a8099ee7c20805a0a605657961d6c25219e950d3f4a7b886a0cacb65eb298661c069377ff73e717fdd5d5c70a7bd8bbb8f9737dc5fd7bd8fdc90c08d01b22c3ff6a27058c7883d02054c26b014a6090b11cc998c68a2ba706b218704c132cc9d7b87f823404698b13b4341f7f1f1b13b8e266e3708adee0c7bb61f74173b679738da0161ed806cf1dd30b0ba6415ba100cb01b76efe0ce49caf3e1743c2513030dd7f1129f57d5230a4eef632f5da7d0d4080f9eddf3281bb006968bc2905c8b5226e47b20429676060667f9819d4e1ccda7f429f01cd3dc39fa41555cd85c1418d58305226ef7e13d67f99e872969939bccc37f5c73ec87d1b1eb5bc8255747f6c843137c0cb257542ee5549ecd52bffa9a24e97f8ed6c54258540598e4e6ece2ecf4f61d077fbe58f121a89e045ac78b0644c5fbb91b6e3cf14a6f06f81e07d8b3b03d88483cadbf9d7bfc1d751dc7bbf783098d52831080cc042d86470e72074b3e42eee4860bac77ffe99d5fb29efa82e78bd963924b91e1409ceb5d523e76e9ff0cf120422208f1dc314cce7abf779d3db95bf3e8f90d774962c2c9e5879a49d2117b74aa3d3290a5e944920a27e9db350f1155561ea1fafdf4f7d9f5197bae63ce06ce8859ee526ee8a4c9d23146bc4b055bae2ddcee14625ea7340b7bd046815113443e4bc6fe001f55cb10337151ee5fcc3d874b567be8d8c36371433d6bc21fa4e64286a1081535a3381a0f800420d70904a54cd154fd44db1d7143bb1645435ca56f5563e9fb3e003c053aef5a19ae0abb57292cbba2a86c89b8181a56f8aa82418b16f2caca15f270979ead94357af0ef54a35221115025b6469d084f325d9268018a5c01725fa85d55d47e27ed1640b90cf39d8eb1f58520a6290e264e0273d7c4e6728acdc92950ffc3284b622c32257826806670a018f2a019330dd444dd1056c2a6b7a4dd42d0d5b4cc768790d751ef2f99f0c01a3bae9d1972f2aa294b36e4dfca928d726efedc383148b4bba15a256135f27f436a950be19764df59800046f03234a4dadb7a4c906451fd9df4299543c275ecd10c15a5a9e982ed7e8eed7e1ddba6993c764a2302e334307f1677ee11d14ed2e43588bd4f4e34be42019a8435aad7f57225a078b8c4d79f6194ec62b3530c4d525e6d671014b16a07b0fa834188a38d50e3d228b46202adb509749b403f37812e6f633529f476773b5914e4dfd72f95425d465d628aa1e74f46011eeed30c799f443b6c393e7d3d430b58070e8103f01a1c024bc1cc81111b9ee66ab22a2bafa56f4d62ee87c8752bfba19ec99468fabf8940f58a2eec8ab252bfad34a15343d67f439516720fc85adb3da5dd539ebba7b0bcad6e63618eddcc331559d3569e1dbe41d7348a39153c7f7e7973767dcb9d5fdef6aad099db1de23042511c920d067b38a03bcd3d862d28b99ca0e01bbd40a3c0719377e6f48dcfb1e7a4176e72811efc30a257219e460e5e6c64be15c5e9a5e7cf96efdbb092d90b440e2e91ed97f63c7bb058fd84316b8c06e49002ee7bc33dee7f2717776737dcaeb0cfc10fbfea4780411d51e20f79beb3cf89e4052fa807bc76c01b1c2f91b443523a7b15db92aab685bf427219b1334b4d325e0dbb1846d5bae07e88669b1d446736a616f376b57e47a5ad130388c5c17cb38d549715396bf691ea14aaf14f1cf52f9a3a92a37eca193de64f4ff8697fc719e19489079526f160d6a0f873a451e4aa30b08841c6625e1a098c94d50f9310ea2f09d5ca26326453f417c8466931e41175c6ea80408b93e4ad09949562d4c2d1b6ca1b2d006a01d07301502e38d6e19efc90cde2a7228919dc69e3671b3f5f397e167aa9000f97506a1e3700420d48331f417f8b4a36c185538a193fa3afe477da803898e068ecd3fb09f3760e21d695ba12182888da21a0c243a1438164e7aa7773db69081eeaaa68bc269a61752b6c0d21b6cef8c69c51139e07e7c94ee86e06e70d55928cd50ef054e7ce937abd252cbec76334737c568e248a7a55c902901b918f289c7b10662adb922097057c9e0334268c60680c61527f5ece50311d9d6d3a559acf728606e514199e419aabe93c275114382308b8e1d605a54e22b788bf45fc5b41fc347e3e8df893219b85588dcfbac9da08db46d85f3fc2161a1504837cd092911424e8831c5b1358932603b9bcc077edc10cb97172d88c1f972f926e167a804dd05176913e78ef60b7267390921481a40332f9eff4faece4f68c5c5960a7bed75fe0ad522f4df68063d7a612fb85e9c5174e9f9d91af494778111d5a1e589302ff220a69dda1511ab4a0d128055a2969588679b322d0da4ec314dc862924d5a846492ccb5c8d9249eb678dd2c80a738d52c92a7eeb06c445a9eef9a4921ae2ba7418435e16c0f2f5c975a3f1cbc2f1a260da6ccc4faac30d1d85c9bc2ef3ea2f0653357327e3b845a82d425d2054bdd0b2a729cb96bd05fe5cf1412cfa318c063e19200b02f9045ae245629d1729cc23d8240c2c8e5a8b4180b9008cce754135771e7044dad3cfedf0fdfcda77abaea3b39af59fe53ecdf44b883c4322a004a6f49072c89223fd9280c9d4f760899fb29a42ffa121573e3ce2f991739f7efdc1c25476731fda133ac981c3eef00b9ec36b2fc6b3cc6c72b7e868b91a909f6748babafa5c5679c2bd27c81afb719078775eb4b07b997f957c6307633d54f6726ceda39435a1f98532a57e93178de5353cbb4a41e79a976592e14e4a32895505927d861a6b4565962bb61307c4ed49944290bc604fd42bf442f729a980d4d52b0a9eb5995f8882b246c1a259c7a839511ba447beb1553d515372c1aa37fa8cadba48d57ac55bf78a42e3a72a086d81a22d503cb7409137c0ba0a4561cc86415535d6684a6a836a1b545f29a81a854e6781f446144a1245e89e00f47d6e48a64a9ae0b1572a4fa4387d596618a028dfa35400f7e4bc2cf99ab74ed2bcbecfc9fbdc65efd3eedea6e72e82242acaebba9ec600fa4d7721b5aef7665c4fd9306d167f66da0cbff8d7dec9dabcb9f5a8273d4affa53633718b9b99ca2baf9c9cb79b59eb7af5ae47be9a3de77b3a307177f5e1e4f6acd4ea7e7376cb0ded38487cf0983fe415957c0f82214860ef86465a56f0c40fe68309fa3a3c1625307f5ece7fa19eb4a92b69a22aafaa2434d799aefdfccef4ed766f4b4255009deec2c875be6db37f3b2d30fcf8f17f487d66d4, '2016-07-09 03:40:35'),
+(12, 3, 'audit/profiling', 0x789ced5d5b739bba167eefaf60fc92f44c12eb82c4a5933393b6d9b373a68d7b92f4f42533360625a11b4336e0b4ee9efef723812f60431c8309b9a84d533042d2fa58dfd2d26249b64c6cfe1399d4ec8cd82808279d77ae8930c504a8ef2253353bb13b629d778e090e00059a460c8320a212482940bc842e6e8c22eb9a459d779649a8f98f6b42431c8a23c08b105e4bef96f9ae7fad7c7cafd881ef333b7603df544693e86fcfbc09a2f8d00b6ccb1347ef9ca16f8dd86118d9a23390ffd381e815af0a61b33371dd4b6778f961518d19f0da4559ccfb0955aa034cb80407986a98525181cafb03d3fe241d4b24bb723d2e1917019a9dee9d15767ffcf8d1bd89475e9737ddbd63be1384ddefc18defc6777e97378bf6c7110bf76fbd71d48d42bb3bb422d61d050ef3a2ee577ee5c8b683b11f4707b737b79d143dcff559d2334a53b0aec67ed269715d137df09d9e9f7483981ddbb3a2a89397f33d6fe488df72c7ce981d84ceb4e278729bdc85cc8e6976defdfefd9b2304b60bbb41abc1ae011500e3f5c00eb3b063dedaf99fbd6fca1f5f3f7d523ef43e7dfd7c7aaefc71d6fbac0c841c7d6bdaddc1aa76c30ccca391e53ba6f9f798a5a42c005925af0763540fe3852a6f86b1a1d1d783b19ac598425ec9f9f1a7e30f176f14fee72f7b7cc06d48148796ebc77d612bf63217bcf1c85ffa3064572c64becd9c7e6c0d3d567e3973fb9be429bafe55108e2c21693fb26fd8c89a158f5dcbeb2ffa112947e74a68bff94fefe4b4e8aebfd86456fb580c52a2386f5ce99d26fdd84d7e1788675bb1e505d7ca21afbce8f3ded9fccedd925b4fce9553a19e47a71f4b2a9996789b54f556142c423a9564a527d38f4b6e1250aedc92e0fbedcfe3b3e3e2ba0e1587f74ca8e56ed29ba4d2f4d115947833156cf16cf9e59d1cfd76966a292e54d30e4284c82b1ae38924a924697b24ad38904242f457e4116a5992aa68c651e55f854e8a923eee81eb0c0e515d6ba861f47a70d6ebe35c55a10d4d7f3538e3fcc412aee06c8de39b3e6fc2bdf647dcfccf914ef01770efa0bac33cc210ad1de6a95684f85518f83147bdcbad691c069ec7c2a8fb250c267c221b7c618eeb041fe6570a30266015628ea36df9cbf042948af4830d2fc5835bc574ffdf334ce11631ada8c48860f525418a73be112e86d48dd9680ea618ec3892b7d39eefdf265defda21b362565b65a9bad6463c2778d586e0adaabd3a37c32f09df9cd7a069737c07b7569858802598fbf68deb3973b0d3b3c694d9a0eba759cf096dfd51d0aea8db18aae025a1ade63d08bab9ede8a7f8d655638cc04bb2c92adc36ae551516aff7879f13aeb9308b0acae3cd4b38d68dea630a8c96880f095a4592e3d7ef472cae359158c04aebc25a553d0da32d7bfa18b0e6c6320a3519149441c14d8382cb0342495870cbe3b18a705bd3fac720a621892989d92e312b8e982a79c1bc2439b7992edce6811f8c86211bec2551e23de18730db0d92f33b6b3627e4846021670d8b7897c23b9797a89dcea1d2b599060dc1ade14207daf2bc15075a9f4b9402fddf549c729c51733857d56b03ae7f13f50c91ce05e75452ee5937a2bc066d2990dc28a6642b9856545482116ecb0237096a2eca49917489a44bb4b14b54c4b732bfa8b06c4d7b4754a3ad570f8d725397dc94dc7c2adcac3a6eead878810e1ecdbd41c180df7f727a7e7c76a19c9c5ef45603a6caee8045b1158f23e154339f8589777dc5b8db9d1e8eacf05772600d43d74b3f99241f7c1ffbeef4c04b0faceb208a93a388ddc62e9b39ef811d8fa7877e70b7f8dce18f727e62891c06cb0996fc7ca73f7bfc69c7ec1bab2fde9ef1ebfee0adf2bfa34f5f8fcf955db8a7f01fb0ee07f2423b0883030076f614244e00a4fb40db078602b0083663b2f3f6fe252553e5623f993d8e59a17a692a6c4bbbb85aaf6817bf1e5977f5f27c163a06a58e6d51c78ad7cfacd7315d45ad65363c8292e5b274302d9f555963c78dfb7cc40f273527a8ba4ab8694e01c565806ae09e74bd2173d82fae6269ba5ed2b324556f9aa577243e38163d2d0c689126035a0298479486a8abc2f08718cebb98950673259d3576291abb4c1abb4c1bba5c34542a1b2a908de815644bda2a9007e9054f870b9426726c51a0793a2555eb30a09a5ba41348e6e104490149819629904b04a0c090334d39d3dc74a699b18e6513cc6c919a2e04c14495f653dacfa7613f35693fa5fd6cc77e5675403391136940a5016dd980e632b3a08697425dd99997b23b0883719cc49966abaf4470e936093c7db77e8aff43c6553f8afb2316df04c9f5b4f34e26cc54b658208d2541a41d00fe17ee24d1a89d2fbdf38b9da6e2983ac5aad1221d8b962d6e2dcc24d9f8ccd8a88197c1c6aa115f8302aab7189d916c946cccb0116d169f149ea95733426f504cd70f47f72da8bf17d70bd1c5f7ecc6ba7383a2d71e08e9ab2043dedcd08aed9b139fdb99152f11aacbf26d4680c68481865620cc94cf8b1a5654472f569dd5363722438372a20266402e5252cf511c87ee901bdc68eb822624d9f035569e24d5e65006d5a92a592259f27c5842649c4ac6a9b612a74a0ce8fd71aab4484d4744030f99184b1b2b6dec53b1b1f25daab4b12dd9d84a7eac0a7460606963a58d7d3e3636b732021a84144628d3499e488b15219669643213a40c3ca77f6779e3349995fd589c5889484982ac88d4cc0fa6375eb9cc2b0963e2345e296293aaf8f5e1ecf8e8e2581cd95c4f03ff7216fbb9cca781ce6f709dd2b8e65eae7a54b1fa790eee03db8195da49d28f1fd802a8d4c234afb9d1369284e9465b4832b11b9661d2ac0849ee78c32d780db79066bb37dac4228dbed166a6f9f98db6314ffc6fb495f98a82871ac4d95280cd9b4ad7283cb49d8222d50c5876fdc343ad7135733c5b90d1accd4f579f34f5969c3baaea6273f9a7e2a86a6667de65e9a34a1f75eea31ad247953eaaf451a58f2a7d54e9a34a1ff599f9a81573c7540811424f2d982a7d54e9a316f9a87a6e87018d2c36849b79a06bbefd22d989bd89adc1398fb0aecd7884ca78440ad3165353304b4fcc1b82c24750b06735a466e79ac56263ea13277a3f390bbc55f24c770d0987967df971f8d9f2adebd27dac8b09d4ccb601081448c45be2ca743ded61911ce28d947834b781cf1ff27d7a831e416faabdcc8290625daacdd3549bdc4a7b435dd91edf0f62f7cab59377cf335dd9cd7cc50edc49dfa8ee0efe62137eee8fd9dd5c6f329792d26a41bc69334dd275637db489dc33328c2cfb261887e9c090152eea9e66cf3e07ced863054f84163f90ad7d9d54c9a85e51a62973b2a215f10614a78427754d966552c57761a74da6c35caec9cb02184b452dcc0ddf8e2540db9368eabf66052b9128a114698752158d3382405fef1c4b4a494ab548a9dc626eb182a32c953cc7ad9a830d823a689b19256938fd69a6d8d85e4dc3211917a037fcceecb2f15fd2e2b9d342af458baa030621921592154f9615466ea92c855066fbca6cdf4db37db30a5896ee9b2b53d7d7d0e00396374bab2aad6a5b56154aab2aad6a5b56b5a2ab8a81fa80d5c0d2aa4aabda9655cdad918762917c2e212d1f2a4c03827bca4054956e03cefca5e4b4695c709164d6b7e2ec962eb960a2c8966057d6d88b77d2edbbf714754f39ed7ddb7d5b3b331462a49176b9a715c415d586376d91dc7b36dc539f3cf72a67bc10557fc0126d493e49beb6c8975b925de125197ad4f7ce8412d8f6f45cbe249394ba97525a3b94aa383723babe7eb770c928c9a81619653c290f116d73764681f680ed04a58728c9d712f920004f9e7d95e767d480a8657f52b24fb2ef3ef6e5f2c975de89af5f3e1e5d1c2f6d357d7e7ca10c9c7198b2f0101c00423515410362aef0862656c0b251104efa23ebe7e01061aeff409de79c734712d71eca34b4c8d32acd2f6f6e6b68edf1b786deeef6c918ae0aa0277eb0e5b9bf5684a8bb2374aa5ef8b1d5abb2ad36741d4bed7a3edaf5fbf7ff01c0049e84, '2016-07-09 03:40:35'),
+(13, 4, 'audit/request', 0x789cdd58796fe24816ff7f3f85859451f728e00b1b30c3ae1c638e246062cce4d85959855d8013633b6513926ee5bbef2bdb05844926addd96565a2484fdea5df58e5fbd0269625dfb9e6a0dadb20851bac269a58d3441fbfe9a6aa2a055d20c659bd4887d5c69079a2408ed944a54087edce0341b60e46392cb880ad5034bab38cd2a944d05b6d4ab2d481c6538f26b3e7ecae9a0d68ba3087b5910478cf28071524561f0842ba5092f17cbaa218e96d98a52812849aa4a1f417742d0728de84b53ab4471d543deaa10964198be54a90a1287eff0807c4c826590db974060956589c6f3ef3a2c6995e7aa979245358b1f702ea280024f1a29c8b1e569573fbbf8fdeaf1b63b53fc2b73e97f13fb5767c98d75359b4dae3d7b32582a1783ade919772dbced74d89637292655b4843d161445ab8ce26f4118225ea909dc971b516c739741b479e69e9baaabd6bf727a9284f81acf2f828c57e4464d56b92f1703677479ca85c103e6fad87b88bf72c68ac46bcc2b624da8490da15e1305959ba205224129c6f6c5829cbd24455c204eeb4d9805092219bf88c9baeaa30cb5b979bc897c445e3a55f8141ef460f5ac249f2d8c687bd1d3ebcf9bed766c4cca1823cfc349be3d08f1affcafac2e9eab650161bfba0d8aecd29cdf8c2e079008bb58a4d406adb5052698e46fd28799e283c8c7cfb56495fc83741212bf407dc5d504fb811f9f48bde2e1179406cb08f9714714739b0af3b18a232ff68368c92a68f92d484e391f435b64f8883744d172039963c583d3531c5567d3f66347a835e1397f6085eac5f14350f0d2b4bbb4923a326ad5fdb9e829b2b858605552c446ab2e78758c6445f23152d0bce10975349f63496cc8082f5af506c668ae8aaae82d7c7422eb127c4f1a6701fc0827f2590abf0a2549526e037e814a57c57255968a6572be369cb3479318638734ece5f9a2ea4c17d9e0fcc25c77af948b42f2a4d16d7393c1646a4ea7c36e275cf8e17d3d79444192421cd416f6d6aaa244aa5c69bf16e121384de228c507b0c0d0c57c4e0242d105a2d0d22ace6a73ca892d6e1c3fc14f53e484a6a6489a2070fd91c35260e44d6cec9b5856f22e4eb398e0538ef5f329b7dea41954d413e0875f660be23ef91020a08a8cb2f09db2f06511b20bdd157888c2127f9fc6519bf35688a438ebcc9c5eb5996f93ee32de14362489a2d09b4ae33d82f71ea01dc4a9a09e55eb1f252c8510a23f26a5fc241737762b9a56081bb9be2f5f99df057582085a17b0ab7d0f348acab0466b9a6642dce1f359ecbfec011d3c9a9af6efa64d49729366065231709c893bb0a6ce5f82b652321ad6786c1aced01a7f8cdcc0e39863c7bd34c77d677084dcd4bb5cd3c4d6fb23fdbdf434992ddd1898d4a2635b97ef313255963dec0fc73f02e58d52e2c635a676cf75ac0b73fc53f09cc567061176f53e6cff7f07ea2cfeceedc4fcd9a0be8bb96e18e6c4790bed92b80baf6d5ecdcca96376ddeb615103efe33bf53717b1cd9e69d3d2fcf9282f096f7c76cdb1617587e3fe87507f2c70a98ffb3348ea0fe0fd2e3e86655d0ccdff6bd4cffb7aa217e9556193fc26257c187b28e4d379106907efbbd7fd42fe50bcce8b414cdc21943b1df6c7ba33b3f30836a06d7f43be0f0748fa773da1fdcf4b35e88026f76536df44d9e62b37c5e409130e65dc71cd709398645c53f88d672afec65a9619b37aceb55ed8a2a0febe0996de5268ac8fccbf84cc3dabdeede6850d682b4a0de85fa1261eb14c2c3b6f26b0de14d89a6d8e2cc7fc581c4ab16b19b3116d76dbb21c7690f14f88f0dbed965f65eb90f610cf9ce3b778ceb36e2c7bd49d02cc167ba9178df706c86f1c806ab337bca15448326b74b6f81f7b201dc46754c03785fe7f463157268a5bc2a912fd6b972dc31e4237f68670b094c1af0b9fdada21c6515459c441b12236a53a3b1ffaba635eebb7ee10b667f774c32cc750a33fe4c59a78543a13db722c63773cd1d6df711d8478643a03abcb5a861db6100158b66fdda9639778a4404edf43b662ae28918d00b0fde276c4bada1464458593b5a9ee7757589cd9c3bc2dc1de27a0f9c3aacbf8ef0a5f38545d060090c39d9a97bdf719687e9983ce7064babd4b4b8758f85a69b02543752b6a0b3e65800ed9e91d74cf48671d8856df74f279868e3374f2f97c328364969badec07a75cd8656d75b4ffd783bc2198a3bee76593e32d9b1ec653058de4decdcccc06775d7f7b6ecf56dd073febf5bdeead3e4c17c24abe7b193e9feb63fece6ee1f1d55da8ebe5f44095bf1904f7376a1af8c077d7e03b0950583a2aee2ec1d80be2f2456a42f084b2a67184497cc84daff8784ef654c6b946e4db310dcd49101ed2ea94efe58d4260bbdf44c1b1e8fd267c4ba383f03286a1fd9098ffb90077a900afc1a7c315f033f6b2cd11b54547bfa73f7303dd0fbc3fd39b2cc77e7c90e4d722d6c113aa2631f1e00280ee315b974a7de9660e17fdac8835d482a20ae513c83194501b35b175f82977bf13846715c05aca8daa142e8b790081ada3f2116508c67f3d1a50bdc55560af1bda857a0ebbfbecf00737cbedefcefe3c2ee0f927173fb0461179babf6734283a82067a47281b1348ae9bffc374f0ff126d3897e06c43a21961d5c697d5e6ba819fffe7d47e7dfd37a88296f3, '2016-07-09 03:45:30'),
+(14, 4, 'audit/db', 0x789ced5d6d73daba12fede5fe1e10be99da458f23b99de99b4e5ccc99d36f426e9ed176640d84a708fb173fc424bcff4bf5f490663831d828d6342d5491363cb5aed6a9fd56ab512a80bbaff045dbddb9ae22040f738689da3ae2277ffb1bb10d04b7a259e075d8994b9f9b3ff55f8e3cbc78fc2fbfec72f9fae6e843faefb9f845114607f884cd38bdc3018b5ceed2e20ff7591fc82e45508baadb96d0facf1e0bd379d22d7ea76ff8eb03fa725a573ab0b64551725c590c437a22a414d27f765421cc4c4592b82aedc6dddd90e6e911a7552636786fccef7efdf3b9370ea74fcc0ecccb06b797ee79b3771ed70e676084d7846db76f6e0444127f0cdce1805b833f52cec049d2fe4c9c5a2d16f1e260fb46242c3b15dcc1aa6aae74c3277916b86b6e7d2e71a6d836bf55dd60ca5db321d1404f41a4a0993ef08910bf2ca0c5f63d3f3ad45c5e1fc81bd05bbad6eb775feebd72f221e584dc6865a4ac6b20865e3f711b29c16b20a482537bd8fbdf7b7af04f2ef2f337a637a6e10fac876c3a18ba6f834f5c089a6eeda4d1fdf611fbb26b686211a3bb8f871eaf557ac1b6df7cef3a788723a0ccc099ea265f1d046ce70d58e40b8b8117cf3d57ffa9757796ffd85e7cbda238a5b5a9c1017fa57ac1d27ec770e7b260a91e3dd0b6f49e579f7fbd7c99b2705af5ede0857543f2fae3e1454b228f19a55f59a16cc9374ccc9464b16b70b5ea2a2dc7885c9f7eb9fbdeb5e7e5d6f058bb48caae5096b0dab34eeba9c12af168cadfa963c6e67f0d75eab25bf504543284b22fc7d30aa708c728c3687d1b203a90a0df0fb80544b8354864b8c0affca755284b8bb47b6357a0bab1a435dfc8de4ac57977359853674f5f7f10c25312d68056c081a45e1644848d8f7ee94d8ff44d4ac03a8bcdbb0ea30af48c6d6615ed5f2047ee77b6e4884de21d634f43dc7c17ed0f9ec7b736c86de676cd996f73e7992236245dc943011a389dc75e9021873f41d8f07b4df36457af6efa548c11e455a52891555d4b65a8b97245329e31c49f932b5433c4da449473b22ca8745cbcf1e58d33ba68f51882babac262a47255fb926f996d55f9db815c724df8cdfa069897c470fc86736604dcc4373623b5622ecf8535ddaac8a503d2661ebcf22ec92aaad427d7be4e905495bce7a10eaeea66318cbb7b216cbe0a86cb20cf62dd8921a6b00f1b83436136991c5e290f39a20ab06f60d32876b489040819b9224f21b0e031c569a4aacc4aa56156b59fd24723d5ea966063315683c2cc8c382bb8605d7078482c0e07e07644d84f2f1c2d2e0b0e4b06c1696e5864b4d3480de909ffc0cc054325eb3baf29a47ae371dfb7874cac2c4a7d40bc1a6edb1cf33b49c131244609fc00607a449fecc2625aae67368a0a9d935d0a45cf71939ce86fbac271cc582fe6fcc4eb19c617d722ea9d85082ca110a3a139a939562b7ba0edd8592ae1da14c95bdc8b4ac9eeada311a844c885385dc23e21ed1ce1e511edc8adca2dcb215cd9d040da9a9084d9dd8d4393639360f059b25874d4933b667c0bc3c6caa99f5134924ef5f5eddf4ae6f85cbabdbfe66b0543819e12044611450971abbd867bef51d264e777c3945fe4f7681c6beedc477e6ecc6b7c8b517174e7c81eebd206457017e086dbc74dd3d338c1697ae375bddb74857261f104d614096b7e6e55bc365f7c70d33276848d7cec87377f45af8dfc5c72fbd1be1049c0ae4475cfea4afd33f803c68439d6880d866a5da5004ea99a89d8986204ad47b93c4f6eb4dc32f6d2a17fe81cd28c4b9eaa590697143da65189bda459e0768562dcb67a56380ebd81e756c65c076d4315d929b9a4dd5af6399141d492d9e53a1c8b2c32119f0fd79d5e9a9ae89f2724c908a24aa898f24eb8db1857f12158b93f558d358a2de2247ef82dee8d1a6e686b3943ac3595432cfc88d226f32437ad14f9a98e646225aba2436a0c4068cd820263458112ae40de6f0a6e8257863b472f8817a4eef1086e2348e3d32942453aa72150894738b74a026cb2c1c011c010d23209303a08a069f68f289e6ae13cd94712c9a5fa68b54732174402c28b79fdc7e1e86fdd4b8fde4f6b319fb59d2ff84404a921ab901e506b461039ac9cb029ab416e94a4fbc849391ef45210b332df75ed1d8d2038b3b7d433fe85f1f13d50fc2e11487138f3d8f1b6fa5a24c453b054e05782ab401d4de10a0bc018bd0d2e7fecd6dbbae30a60e25b1c1e960de96c5bd459938185f181835f138c05836deabcbaac2b1c8b178105884bbc526a95bea540ccfebb22e69db7dc3c7f6d23f2ad85bdac677788266b697b7e801a1be296540c88d51684e2e5d6266367c4420af33b81b026a6306185a0e330b40af6ad8d01d3d5f773669ee84861af98439d000842556cf4518faf698d8db60ef8c3294ecb888954549c91994a224ab821c241c24870f128507a978906a2f412a663f1f0f52c5452a3a228a0eb4ed7902dcc6721b7b2836962fa4721bdb908d2de9c6aa4055f8648fdbd897636333bb2280a128b9f1c9788e47536269886511974c85283dc71ace9013c589acf8fbea03622cb1e4581aa9492e162fded9d8290862ca71b492462615faebfd75efe2b647af4ca2a79e3b58c67e06d91cd0e405db2a8c6a9e66aa0725ab4ff26f6ba5c3528f9f48412c456191d35c2b0d962c5d2b0596855d6b4fd0f4ee5a596079e33553706aa61067bad74a6295425f2b99456e7ead3492a4ff5aa924bb099e4825d906b03ba9787fc253e9e4142967c0d27b1f9e6a03ca1981e5668c7a6d7ebcf3a4be25725596e1a139aa5ab7953499fba8dc474d7c5483fba8dc47e53e2af751b98fca7d54eea3be301fb574e698f1844d29dc43e51e6af31eaa9e395b40535607c12dfdcf2d5f7bc14e60afe54870dd90f4e4cb8960118e94dca4c5d8102c9313b36620b70b724eaa066ab7758f437a1cf5a515bc9b5f7bce267816e785f863640e3e8c3f2117dd179e5e9d0fa07a4e0c80620e47841251a6fb450bf3f8a0eb51b46b1e3c9774f2637a039f416f4a2e65192a14b9de1ca8de6436d91bf2c6b1f8ae17da77b6c9969e97ca7292fa721dd08e17544f467fe139f9ec467896284eea112bade4849b7653254395b6079b944786862932275ee4c723439ab9a07395fef4c9b32207e7f4889adf217bfb1ea98261bd244f0be4a459cbc38d989f11ceea9aaff32493270b92f138972139c8116321abb9a9e1fbb104707f1c2ddcd73463051c314829cd40aa9c753644a0a9db93b938a438a41a8454662337ddc05194489ec156b5c1c610e1f6fd46f5e2a2200767b848138bcccd1c1c25e500f4c7dfb05934fa7350bc7450e895405172b88086029a1e2e382c382c0a616164b6c9aa00f05c5f9eebbb6bae6f5a018b927d33652aba1a12101b9fd772abcaad6ab15505dcaa72abda94552de9ab4a92cc8d2a37aa876b5433fbe301dd209fc946cb060ae370e0a930a255c5e77f63772d336d11155c65980d51983ecd25134aa4a912f80e454ed85e9ee7ad9c0a57fdaf27af2ba7851a92f294fd4bb5824fcb092bca351fd9c2c1f762c0271f3cf8cae6bb18b2069b1ef938f838f81e015f664376893532f89ccbce86ac6b7ad39e245f23e3907a14525a33902a39375344797b4e26471447548388320eca4384fb9c9e29507dc2113edc43e4e06b087c40140f1e7da5e767647ab6fd58690e3e0ebec6c0974927d74923be7cfe7071db5b3b65faa6772b8cacc88f41f896a8b6a42b9202800e4449841addfe8aa79e3f1f4ed18fd15b28a912f1fb929473e247ca9547324dd196df3459985c5edfb1d0daf31f0bbddfa39325b0c980cebc60e4d83f3798a87a1a74ac5dd2736b57694b6de8c6f63d2f5cbd0e47bd7efdfa3fcbbb993a, '2016-07-09 03:45:30'),
+(15, 4, 'audit/log', 0x789ced5c5953dbca127ecfaf50f102dc02acd12e51dc2a9270ea708b0097e5e6c555f6581ab01259f2d1027152f9efb767b458cb88cd56c8a21410d91a4d2fd3ddf3754fdbd842d6b7c832ac8d1989227c4ba28d7d6c2986f5cdb544b852d38bc852556be36d10c4511ce2b970efc653e15330f5ddf8ce1f261109e75e120d8b019635c92fb7b637f65d0bc1af01bf124c25236b63e1bac3098ec8f0703ef75c1bc76ee0971ea28fc8fb8e8514cd1065d594c53d5113454d37e186027c89d6b7efdfe9b4251625d1da3809b0e3fab7c22c70128f584238c1769dbea495e87f48075ab7244e2ff9a4912657294b8f51a64a5907654593aa94e5cab2e88d659910877c756ffd215092863871dcb8eb85d115135599549e6a3b74817e84ed18526d01d5a772883fe12f7698389d73a8ab35ebd6ca2c22b36963b7aebb0e13330ca9b67c7a99b22c3794432978c1edf0bd1bcd716c4f9ba6fe52352051d66bcc181557434d35386492dcae411148548d2a69b34c5a51b87a60d40b0a1d580652d49a465025342b12972f308e4eb952f5bad520f4d84ab168b48e95521b268b2a1159119f14170f79fcbc542392881afb53355883a0e72189e385707d7122f8412c101f4f3ce2ec09d711d593436e70e2c5ecf61c87ec3df033d7de6b3029a54cde93c9f03af43e601f36efd0b2e853e482fc9390286ee1d26ca8ae12ad1510ff2248622284e934c4b184cd79182c881d07bb73e2b84e30b0438263b2d9604b59b25551dd14fb8ef73063083518ab046959cb198b03214c7c4be033d5e0492cade7bbc08fc3c0f3a8ae608e439bb2c7e747526ad100550332ec1997009ae079218a71087aca292bb965a3a536b2a19615cc490b4145536b04ab711850dae5df671f85bfae4f4e84776727d71f4e2f85bf2ece3e08638a3646d8b683c48fa3711b1fce04e49fcd60292c0b16225cf0f9d00c2db763540282601ad6c68d4b5d1210234c39b8c3e1e0fefe7e308d67de208cecc11df19d201ce47be780bada2ee56d97eef18328b407741506100f88170daee1ce61c6f4de7c3aa713030dcff553b7d7b47d864d6f123f5ba7c8d2290fbe73e63336600d6c0f4711bd96e442cab740842eed1d589c1d844e3671bc98b3a7c0772c6b63ff3bd371657b5161d4192c1075bcf76f053bf07dc2485bc26c11fde359d3208a0fbcc0c61ebdda77263e9e910390bda173b9a4f3629607565f47d29fa375a912183504935c1e9d1cbdbb7a23c0bfcf76b207aaa7a1d6f5e31155f14ee98697ccfcda9b21b92121f16de28c621a51db6f971e7fc37cc7f56f8270c6c2d428022833c3f9f0d8c5de68c947241c5e0aa1fde63f67c7a7bca73e93453e7b4253293a1c880b67a78c8f2df697231e84480c415e3880c979ef9f5d144f6eb53c7a7c299cd2a07078fabe65926cc4369b6a9b0ee4693a95a4c149f676cb4354958d47987e3ffe7d7471c49feb407080336a965b8c1b3669ba749c116f32c1966b0bb7372b416fb3360b7fd06a91519134f4e7b8a8560799a9870affe2ee3942bad863d7191f482baa5937fe1c2d57520c1535b48c93783a0212805c6710920a3d33ed53656f4a2b5ab52a2feb2aad0ad7749ec26f428053a0f4815dc0aa68709ea1b27306ca96808ba362556c6a18d46863bfae5d54c6bbacb45257e9eebf3395ca954c4093f92a7563322b9449830568f21190fb42f56a86fa3b69b782c91598efdd94d89f29609a9370e6a628f789d05cc9a039ad020ddf4f8a2cc6a653826b0266060f4a2011bae32782aaa9fc56a65b89b9ba5e98ee18f23ae6fd350b1ed953d7730a3b4e5f7564c8b400fb5b29dbac27e7cf8d13a354bdabea55361e47febf905e954afca5d97711218011b28c0d99fad61e144c4944bf9542e57a54b8487c96a2e22c37cdd91e96d81eb6b16d59e963ef5850e05404cbf5b8639f8a769865af61e27f74e3e9390ef12ce2eb5e16eb551ca55a5e12dbab1835c358b18e612a8afc4a668054a96907b0faa35144e29580e3d228f46a06adf719749f413f3783ae6f642d39f45af73b1d02c4efeb966ae568465b828ab11fcc262119efb0147987063b62bb017b7d87736007fe4042701a12014be19d0b23562ce7ea4892cdd7d2b72e73b743ec798dedd028644a35fddf54a07645573645456ddf553ad0a9446b03bf9f4a2bd98726f55b4abfa53c7b4be1795bdbbec21dbb9a67ca92fa5ac5ac4e5dd3ace654f0fcf1e9e5d1c595707c7a75d644cec2d69844318e93886e30c42721db696e086c41e9e50c875fd9059e84ae97beb3606f7c4a7c37bbf0d20b7c1b4431bb8ac83c7649be9105769c64977e70b77cdf81952c5e605abac44e50dbf39c51befa2963f6148f689902eefbe36de17f8727d74797c216da11e047cc7fcad7e51f04373625032c40dc64a3362107d476457d57340551a6fb832c6e6e376c4b6eda16f902c965cccd2c75d530f457322ed8c31bc605f7237cb75a25ba3031ad9ab66bed1b2aeb9d1841280e172beea386a62979b628b72954171fa8f5e75d1d69ad9f71c6eafc59899f35781c514eb97050ed120e16ed893f461a55690a038b18162c96a591c148790d3129a1e19250ab6c124736d578816c8c16471ec9e0ac0e08945792d726507116a3554adb9a68f6f8a7c73fcfc53fa5e0d8067bca43568a9f06d24dd1ece3671f3f7f8ef85969a502385c03a965dc000035a4bd7c14fce547d91416ce1964fc84bfd0ffb306c4d18cc4d380dd4f99774a00b1edac6b479000052249df0347d943192a3c3fbbbcdaec081d1a9264a0574433bc7685b521c4de197f3167d4d1f3e03cdd09bdd5e0bca118cb0ee8760778a875e741bd5e5116df9229be73035e8e04fed75432027213fa1985631fc24c635b424a5dc0e7394067c22053e70893f9f3728686e9187cd369d27c96337428a7c4f10cda5bcde6398ce3d09d40c08dd62e287312a547fc3de25f0be267f1f361c49f0e592dc4aa7a1f61fb08fb0b45d84a9b0232e9272d3949418a3e68d59ac29a2c1928e50581e78ceeb097a4b56672bf7c91f6b2b0fa354547c545f6e08d4bbc96cc414953049a0ea8f4cfbb8ba3c3ab237a65839d06fe30c75bb54e9ae201d7694d25762ad3a3174e5f94c83ba5c34e079e48417c1185ecd8a1531aec3ca3530aeca0a4d395a027309d8ac08e763aa6e0754c213d8cea94c4f294ab5332d9f159a7348a73b94ea914077e4fa4529cd43d9f547a84f8543a9c212f0b60e5e3c9a7c680970581fcbcb4db989f1e0e77560ad314e9a7c3a9bab551b0dc43d41ea2e610d5a8b4ece9eab2652f07a08f7c148b7d10a38b8f0618a6ace69f1d92dabc48e5d660d33890d75aab5180bb009cc675a4591bb724a6dde9c74ef4767111784dd73178cdfacf729f6e1a2624912311500253bacd38e4c9917d49c06c1ef8b0c40f594da5ffd0541a9f1ef183d8bdc9beff203795add2c7f6d0665a71d81a7f260b78ed27e4ae309bd22d365a6d46e4e7199229998f1f4da80ff8f70cdbd3200953f72ecb160d4ecbafd26fede02c88c65f8fb57d9ab22536bf50a6cc71caa2f1dc46e49f53b0b916759914b893914c835585e490a3c65651b90716eb0904d2fa24ca404859b0074e2c8c4afb293d03693bb1a8b8d64a8e618a92f4384ee9d62f5a4a6aa3ace69bd8cd929a5a0a5667934fc46e8b54bd53fcea4e5169fcd410ea4f28fa138ae79e50940db0ed88a23266b5982a8bc66b638d3ea6f631b535a69a954e67447b232a471255e49ee2f31d614ca74a7be0895f3b9ec860faf2986184e3728f5205dbd37a59fa3d6f9b794fbbba239c9e7ddcda5eb5ee02f9a2f2ca7046e7c0fcaebb907ad7fb655c4f5d316b967e60d66c2a86aabff246d627cdbd433de850c64fb597496bdccb54497e65efebf7b2def5da5d0f8995165b0398b83e7f7f787554eb74bf3cba12c64e12a63e7800a62d1baaac2264205116259d76ac9059102e4633fc657c20c99aac8a4af9fbf494555d49578b6fb66e3d47e8ae315dfff18de9eb6dde9651530083edc2d873bfaeb37d3b3b5ef8fefdffb153657c, '2016-07-09 03:45:30'),
+(16, 4, 'audit/profiling', 0x789ced5d6d739bb816fede5fc1f84bd23b498d245e0499dc99b4f5cee64e1bf726e9ed17cfd81894982e862ce0b4ee4efffb950063b0218ec10427d14eb7c546483a8fce73747438920d1de9ff04baa277a664eaf9f3ce89ad43a42059944e025dd23ba13d259d134b17df891294b026ca00038c255591155a02b30783c0b82541e7c4d06545ffc7d681c62ed995488bc8b496fe1d716df756f8f85e303dd72566687bae2e4ce7c1df8e3ef182f0d4f14cc3615727d6d835a6e4d40f4cd61940ffc722eb15ad0a22bd33b7ed81351e7c5856a37bb4765616d17e0249c1229235443bac4015628dde90687f40dc9fa863916437b64325a32200bdd3bd37fcee8f1f3fba9370ea7469d3dd7be25a9edffdee4d5c3bbc77bbb459783c0b887f7ce7cc826ee09bddb11190eed4b3881374bfd23b67a6e9cddc30787737b9ebc4e839b64ba29e290958373337ea34bbafb23eb856df8dba21eb1dd33182a09397f33d6de48c3e724f2e89e9f956527138bf8b9e827a47d73b27bf7fffa60889bb855d532ac28e20d2c0eb811d646147b4b5ab3ffbdf843fbe7efa247ce87ffafaf9e24af8e3b2ff591831398646d2ddd1ba76830cccd3a9e15abafef78cc4a42c0059c5af0763580fe3a52a6f85b12442e915d90f290bb202682557bd4fbd0fd76f04fadf5fe6ec1d352241e81bb61b0e99b138cadc70665377e54b9fdc109fb826b186a1317648f9edcce36fa261b4dd1bcf9f1a4cd261604ec8d458140f6dc3192efb11086757826fbef94ffffca2e8a9bfc87c51fb8ccd52ac386d5ce85f44fd388cfe2e10cf3442c3f16e85535a79d1f7fdcbf4c9c39247cfaf840ba69f67171f4b2a494abc8daa7acb0a16211d4bb2d693e4eb928718946b8f44f87efbb377d92baeeb54b068cf985a1e46bd892a8d87aea0c49b44b0e5d8d2db0739fe1dacd4525ca8a6219490085f0f4765ce51ced1f6385a752255e06bf208d52c4925b8e0a8f0af42274588877b645ba35358d71862f115e18cebe35c55a135acbc1ecf10e55796600d6863164e86b409fbd69d52fb9f421d0d00c3fb00d69de665a46d9ce615b508f01bdf73430a7a975ad3d0f71c87f841f78befcde942d6fb422cdbf23ea4770a2096c57584298ca6e1aea20b602cd10f321eb0715b87f4f8df0b48c10e21ada8c4b222aa1badc573c214e59c23548ca91d92698a269bed28947749cf8fefa2ae774d9f1821a9adb2aa28bf287ca586f0adaabf98ba152f09df9cdfa0aa29bea33bc38f6cc00acc4373623b560a76fca9296d5644a8bc24b0f193805d51b5158837479e9e11da52de8350b6371dc318dfda5a2c8117659325b06b602b6aac06c497a5b1b9488b2496879c5780ac1bd8d7e81aae2520810cd791a4f80d8701096b2d2596b02a7561adaa9f14d7978b6a6e325380cac3823c2cb86d5870754228090cee7642564528bd5c5a6a9c969c96edd2b2da74a98a1ac02df9c94f404c39e7352b4baf79e47ad3b14f46475198f8887921c4b4bde8f3bdb158135246109fd28604b44bfebd4d4bd4cde750415bab6ba0a242f7d9709c35f719a712c540ff3716a71c67d81cce15151b2228bf40a073a139492e77ab9bd05d88b0fa023195778269553dc5ea4b3408b910a702b947c43da2ad3da222ba95b94585656b9a3b0435d45684a6496e62ce4dcecd7de166c56913a9dae60c98e7c74d25f7fe0489f4f9f38babdee5b5707e71dd5f0f960a8723128446380b984b4d5ce247bef50da14e777c3935fc5fd18531f66d27fe661e7df17de6dac985135f18b75e10465701b90b6db270dd3d339c2597ae77bffcdea243997e30580a8361792b5ebe355c0c7fdc3173620cd9bb337adf1dbd15fe77f6e96bef4a38044702fd232efe64afb37f00bd710031d500f1202a750045a01c8beab1a8092262de1b120fde3ebca324512ef29398b39014aa974c97c52d6997a6ad6b17bd1f18f7f5b27c963a06b88eed50c78ab7cf3c42c73092da5a4d35af63b9141da494afa98c996587433ae1fbf3bacb53ac8ad2624e406588aae203c97a6362915f54c5e264bda86b51a25e92a377c6bee8b1ae1686b3e426c3590c9927944696d685a1a3e8a75dcc4a83a8962e1a1bb0c606516383b8a1c1b2a152d960816c32ae205bd456813c10178c0e15284ee3d8a1406932a522d5a14035b70803257dcdc219c019d032037239008aa8f185265f686ebbd0cc18c7b2f565b6483d1702036a41b9fde4f6733feca7caed27b79fedd8cf8afe2704284d6ae406941bd0960d682e2f0ba86825d2955d78098723df9b85519869b1f78ac596eea2b8d377e327fbd72754f583703825e1c48beec79db73251a6b29d0247023c120e0054df51a2bc034968e94bffeafaa0a9302686486c713958b465716751264ec6674646557c1964ac1aefc59222732e722eee0517e176b149e6963a35c3f358c248ddec1b3eb497fe4160af591fdf9389716f7b452f3d20c4eb2803dadcd808cdc9b94bcdcc9a8f08a45501b7634063c2004d2d102621f4b28635ddc1c5bab3dee6566c68504e58400d40458aea390b43df1e537b1bec5cd088255bbec4cab3a4e20a4a96d3b7829c249c24fb4f129907a978906a2741aac87e3e1ca48a8bd47444640cd4cd7902dcc6721bbb2f3696bf48e536b6251b5bd18d558022f3c51eb7b1cfc7c6e67645004d960be393f11a8fa5c4b2104b1297cc84283dc71ade1bce2c4e64253f961f8c48a4283996456ad28be4c11b9b3825414c298e56b2c8a4ccfefa70d93bbbeeb12b93eaa9e70e16b19f413e07347dc0b64aa39a47b9ea41c5ead3fcdb46db89528f1fd98258a98524a7b9d136a264e9465b88b2b01b1d0996dedda80851de78c32d380db71067ba37dac43285bed16692dcfc46db4893fe1b6d25dd4df0c856d26d00db3715ef4f786c3b0545aa19b0ecde87c7da806a4660b119a3599b1fef3c69ee15b9224970df1c5555efa45de63e2af751531f55e33e2af751b98fca7d54eea3721f95fba8cfcc47ad9c39a63d62530af750b987dabe878a73670ba8f2f220b885ffb9e1672fa213d81b39121c6b08a73f4e04cb782417262dc68660919c98370385435070523550f4ce2d09d971d4e756f07e7ee939ebe449ce0bf1c78639f838fe6cb8c66de9e9d5c5046ae6c400281648445ba2ca749bf4b0480ef63e8a0dcd9de7d2417e486fe013e84dc557599a0245ae377baa37b94df69ab4762cbeeb85f68d6d46af9e17ca7298f9711d7010bf503d1cfd45e6f4b33b23f7a9e2646e45a5e58270d376aaa4296873b0497e606a981ae6c49bf9f1cc90152ee85e643f7df6ac99430a4644291e909dfd8e54c9b45e51a6843959d18a78231667844775cd576592d8af60c74dc6f35caec941018ca5a216a686efc612c0dd4994b8af59c14a248a2825b743a96ad6591381aa6c4ee6e294e2946a9152b98ddc6c03475922798e5bf5261b4d849bf71b35cb8b921c9c6192263633d77370e48c03d01f7f2766d9eccf49f1dc49816b91a2e274013519b43d5d705a705a94d242cb6d935500e0b9be3cd777db5cdfac029625fbe6cad4743510105b5fd772abcaad6ab95505dcaa72abda9655ade8ab222471a3ca8deafe1ad5dcfe78c036c8e7b2d1f281c2381c78248c5855f1f9dfc45dc94c4ba282cb0cb3a111664f73c9851259aa04b931664e78b038cf5b3e122efadf0edfd64e0bd590fc98fd4b8d924f2d082b4a0d1fd9c2c9f76cc827ed3df9aae6bb68920adb9ef938f938f91e205f6e4376857764f0295f3b6b125671db9e247f47c629f520a5d4762855716d268bd2e69c4cce28cea81619a5ed95870877b93c93a1f288237cb887c8c9d712f98028ee3dfb2aafcfe8f26cf3b1d29c7c9c7cad912f974e8e6927be7ef97876dd5b3965faaa772d8cac991f93f094aa36c2329201c040442254d9f65732f5fcf9706afc1c9d42a420eaf7a529e7d48f946acf64aaac2e7e69b234b9bcb963a1d5a73f167ab7472723b02e008ebc60c3b17fad0951f734e858bbd0536b57654bad616df39e17ae5efba35ebf7fff1f89e09c9c, '2016-07-09 03:45:30'),
+(17, 5, 'audit/request', 0x789cdd576d6fa34812febebf0259ca6a66159b171bece0f5ad08c62f93d810686f32777b426d68db4c309006e76546f3dfb71a68c7899ccdea6ea493ce9205745755573d55f550605deee8df72bdab375631ce37246ff4b12ee9dfbee7ba2ce98dbcc0c52e37d39034fa91ae48523f671a0d4aee76242f26048784963ab2caecc0d626cd8b0613d3402c0f5a2b9a260549c25648eecb75301ba4494282224a13be724b48d6c471744f1af51141a956346392ac8b0d5b55f446a7c36ec07246f17a8bd9434f6f246933c0c1a6526d832a7b683203348d8fc8807e4aa375549eae80c2a628325d148fba0ba73e36839cae9a457a4b4a15150c04ca4cc5c86d7b43e3fce2f7abbbcfc3851a5e59ebf0ab3cbe3acf6eecabc5c2b90e5c67b2562f260f5660fef38c3c0c063ce05d4e6813af21c26a45d51bb3f46b14c758545b92f0e14696fbc26594ec1e85c79ee66b9d8f82916531b926cb8ba810d576b7d5d6840f171334bb3c15e2e896086312dca61f057343d32d1155b925b594aed469c992267878856954abf1b838c4c55356e102386d777111659816e22aa5db66880bdc1796e92e09317d1a34e157793082ddf37a79be7878ba77b44cddf4366a30bba931c64140b2323c80f817f1175e158fcdba7c48d87c88aadcb28cdfcc2e279008b7da64ab5d56692b42092d9f943733254649481e5bd926fb8d0e329a3e4175a5cd8c8451989e28a3eae6679c47eb0487e94096cb3355ee639324411a46c99a57d0fa6b949d0a2181a628c82bd91827eb1d648e170fc94f49d25c78fdbb81d4eac17d79a3d52004697a1b55b22ced3eaba4411b9f75c2a51ca86d79b5229aa2caddb38e1474086eab4a48b08a97dd40eae0e5922872b78dc9eaacd325042f3559938355884fda8602ff93ee790417e9a47d9ec355654b8a529e01575865bb72bddb56aa6dfa696ba2f33b8b9a7344bbeefad3aa89bc5531f974616d8757ea45a579d21df60567e27896e74d87837815c65f3ad91d8eb21c70d0ce48b0d55435d1da8dfef70a1e4af22c4d7272400a9c5bacc72ca28c5b008533bd8136bb53413e13e6e93d5c7ab220f57455d1254918cf104f815936b1f9dcc46db5ece2bc48293915783f9f0adb5d5e4045dd037b8475b60077e74d82802a32ebc24775e1b765c82e74571460464ae2973c4dfa42b0c13427c5608146cd5e19268b32dd5567280a63a11795268624267b0ff09ee03430cfabf58f9a966280e80fa7d6774a7573bfa3eb95f2b0b4f7e123f7bb5a7530c5db8a74f56f915e723250639508794fcee769f8f4cce6e09067b9bf5b2e5b6af75862201313841c7f627be82f195bad054d7b3eb74c34b5e76fd336c8206b8efc4b6b3e469317b4cd7c2bed38ae319e19c772d3e32719e6c462e721d7be3c26c84dd9ee743c9dff1d1eefd61a37bee9b9231fd917d6fc879039476701f8fac61882ffdf313a471f7d76ac1fcde87bcc0dd3b41cf492d715790faf6b5d2d2c0f5943ff7a5a55c0717267fe962aae35b25c56983f9ee215e985cfbe3537ede1743e7e93e75f2b5c1af3f10292fa37c87e8f8f69db1753ebff9af2cb49cf31aaf46a10a4b8cba918a7018ec57c1925fac1f3fef179a3bca91e97d51426eff9c9f7a6e3b981166e896017daf6571c86f0f6c8ff6164acff45a5051dd0133e2c96bba4d87d143c42ef09157021bcae19c1496921f4a45f456ee227deb2fc307b84ae8dea2cc6e8c78fe0e9ad95e6c6ccfa4bc27c163586c3b2b0816b65a50bfd2bb5e457228eeda29a277b12df73ad998dacb7d5a11487b6b998b166776d1bf1b798788fa9f8f0f0206e8a6dcc7a48e4ce890f6429f26eac7bd4f78066ab583a55e3bda0f11b04546d8da665fb439279a3f3cdffd803e5009f5945df8cfaff95a4429d28610def94e4dffb6c99ee14ba713485d74a0d7e477af7ac3d63bc4295230e8655459235fe7e181bc8ba363efb5308cf1d19a655cfa0e6782aca2df955e938ae8d6c73ff7a62adbf973a807866a1893de42dc35fb580006cbb9f7d0fb9351f31f08e315b3554fc1c8583ce731c95ed853b2d0d83b577e8f188911ad37d314b8746eaa0800d7ccfba1c1d176039e3aea0e9ccf24797b601f1850080d693da9adcd55a3d5539835f1df4a138fba47c1664d30b54f5d8426c4251d880c200797fd482cd286c1c0e417ba00f861f4ecab569b5e6e5aa9920b2ff9a9f99dd6a187bb60df1b1c48287ef3130f85df7f99e80cbd8c0f377466f388db585f71c6d9795285860631acc7af50ceefbe517fec1f7bdcc162929763459d0b84650ac2bd5f719a8f0cddffffefd4fa647e1f0, '2016-07-09 03:49:36'),
+(18, 5, 'audit/db', 0x789ced5c6d539b4a14feeeaf60f2257a470dfbc22ee07867aca653ef58e39878fb253309c26a68134881686dc7ff7e7721ef217a03894974ed98125876cf7938cfc3e1eca26502f34f68ea66a1c3c2d0ba6761e1c8321131ffb826047c53135bea516822dea6faa5f24df97c7371a19c562e6ebe5e5695cfd795af4ab317b2a061d9b6dff3a2b05938724dc07f75957f407e2a0466e1c975ebce6dfdd4ef742ccf31cd9f3d163c8996e8c8310126ba8a08a0e450272a3254831fc07c74908c1e9b119ad82cdcb96d56e05deabccbd28315941e1f1f4bada8d32e05a15d7a609ee307a5ef7ecb73a307afc4078507c2b8836ebb1796c2c02edd5a212b757c87b5c3d20d3f72d2b7fab0dbea8a8ef9186dd763b165841cc5d0dcf53c3b727d4f1ca7c206cfa978b1199a59b0db56188a6d88865e7ee2839cf0531ed835b3fdc0e9771c3d75e3b3a05930cdc2d1f3f333c707e603d92099400690eae0e3808cc741268077522d5f944f6b3b0afff961f70e6ddf0ba3c072bda8e1591db63f76a0ddeb78533b0376c702e6d9cc6944d66d9bcd3f3c76fa4e7c195defce0f3a96f0b411da2dd6b106cd23d76a37467684ca495509ec9d7f2ae7976967fd604f83de7b82b8a2391f5ca95cc676ecc69f29eed95664b5fd7be598779eb6bf723d3c7377cea9e755e552c4e7c9e5d99c4efa2df6e2aef644c334a4134f662ce9ef9e73928072e69418df6f5fcad7e5f4be8e15875b26c27237b626ee34b974292d76fa8e8dae2d3f5c9ce05f71aa97f44639951042a47e20926a92a492a4eb2369c63b2982847ca074858e9314c3014795bf52b31425b9dc4dd7691ec39c6a8808fa4062a8e7c73963401348e987c119a9e3386b600667ab17b51a7c08f7deeb70f91f221de32fe02ec2bcb77962bc1ad784a6e17d17f85ec4312f712d8d02bfdd664158ba0afc276647fe15735cc73f1d1e494158536701e628da96370d2e8089438fecb62e2edb2ca2077f0f10054b4434630853a0c1f704299ac88c503aa46ec43a4330c5ad8e23d9ed5b7ed08d4d2f71deb188e50d580a097e4ff0e215c19b357a317835a1d826782752064a87f036bb56100bc014ca0dbbe5b69d21d6c9b795c5b2a6917725bffa9ba09d35b4294f6cde0fd878327b208b2b472381377714bf5eccdb2658c1b261cd18ae3ae05afc9e809d28b160757eb1790ac8bc357d1d69c32417be2d9018a3d53e460860deca19c4e573c6192371e6ab78aa9a7607f32f8341eb6383d6e70dfa52f490bcd19395865427327ab63d7a2612137e656579579677172def4edfdfe71478979c5d192a94eab3e5ea6348f591eab35ef5c998fd1890ea527eb65b7eb489275a3cfb443b9d318f4fe81471ee1b18d2a84ca0b73d86e0726228ab0c61c39021b4e5213431d3216695cf7808d5caff2380f0ac04a1d9f061bf98dd8b587a00e9eb9a354ac59cf327a969cfd4d38ca15f2fc7ce08562d3fac23562e062b85c058578d72e5b84ecc1c2132bfe064f51c376af00c3a78ca59aaa410033a103a340f4faabeb0fee19639ecb77bdf5fff109b16af7de82f7b38113bcac2d41448018fa51948398a8d46c8a25c4a17a39aae742bf386eb4d5a7c044313c7bd413c460783d5c560f578b07a32507d34d05cdf608a6f9a9ec1b778ac147fa09e7275b84376c0acd980cfe1d0707d8aa6e7a140b65b3de50f1c543240326023184026e658896ac8ca8dacdc2c5ab91913c779559bf1267953080343a99f523f37433f81d44fa99febd1cf8cf9270254eaa7d4cf0dd1cf89c5d780f22b7e7e592d5fd794f3cb5a65f2b94bd96d067e2f62cdfdd17276bee976c5a7f5ddfa25fe0f188ffc306a7458d4f2e3e389f14e734ff9f7e4e2a65c5576e72dbfdc57e0be5204901eaafc1fe0df01ff7e55a9d6f86611aa801ca8f44035141599d8e0cf8bc5bdbc753b8a90a6af8f8d692f81f0e3a1f590aff02bc9b89564c4ef838c99abbd1813c945c9c58de02259ac3429b2d276deea3c2674b890783e035e7a3bf145606bc2c64fac653db87eda8c07c4e961e37a5c6066b24380a75d5b2cf657e6068060d60da826541ef570963a8f23fe46495aeccc8ebc101b56e8ad9ae22df728ee66e9dec5d45870e26a921a199f9a0caca9921a921a1b4e0d4396a364396a29e5a858355f2e47254d72e61c06c5480aab14d6cd16562ae749a5b0ae4958b365acbaaa634d0aab14d60d1756385973a4a935c7e4114ed96d5ab155a292189721fb55c7b102645c63196ef477a6541d9335a4c57d454b0a8d368f3adfab0f6a3453eb7f45c911af6c124007aa0ed74ad594ea16bf104393255725570557d1fbe16ad639021d11f4faf24d495549d5f55275e2a5099d7779737576522b4f4de255cb35a5e9f482f8b9a079ac1eaad040d4d0312644d32015dc641d9f93b763fd6a1e43156143c5e3af5868b96f7e980ff9eaeb73ab9b76a36f3fedb6dca92994125b7afcca93d5767f2f73726a145de4ada32bb35c53805effdb3832ba3627ba9e9fff033452bd5a, '2016-07-09 03:49:36'),
+(19, 5, 'audit/log', 0x789ced5b5953db48107ecfaf98e2c5b015b08ed149b1554ef0d6b20598c2b07971952d4b03d64687a303964df1dfb76724cb3a461cb19ddd10270591add174f737dd3d5ff72896299a5f635337777c12c7d62d89770e2d5336ccafae29c095925dc4a6a2983b1fc2308993c89aa37b3799a1bfc259e02677c1288d4934f7d278540c30cde9e272776fe7d03545f8d1e14782a964d1dc7970ddd1d48ac9a8379f7bae6d256e18941ea28fc8878e296255176455d4d4035d510c5536e00606bd04f3ebe3239db6a4a224983ba7a1e5b8c12df24327f58889a2a965d7e54b6a49fe5936d0bc254976c915ad0aa22e56454bcf89a6a8ac43b4acc935d1726561b4c6c24c8943fe716f831188924656eab8c98697465515a1a6247ea9f7d025fa0edea36ab25af31ee5a52a5a7f597fdb51ea6c5c45d5a8a1a89655148da697ddbaee3a9c4cd394aa60ad2c58961bd850015e783b3a76e3b995d8b3a6af7f330a8628d4164aafc49ad844c121d3f4761d3818f55833caa231e6e2c0a4171236e0189a688835bdc44a76c6125731708e8daa256b524d2bf1b99562d9680d2ba5c9ba5487a49292b1f0a2bcd8e3e9f3cd80e8aa5ed3a99aabc1ce8b8824c903babe3c454198201258538f3807e83aa63039e4c64abd84dd9e5b11fb0ec2ccb50f1a3a4a998ef7643aba8ebc332b80dd3b324dfa14b9245f5212275c257541acaf5a25576330fe324c1382a26c16e298a8338fc2076227e1fe9c38ae13761de29184741a5ae1a55615e06656e078cfe8254bf5edbd92a16575a15812a2280d4cc457aaa193505acd8f619044a1e751a8608e9e4dd5e3eb23095a4d9d6a36860d6308a4099e4771624580d342325ef8b5b844231f6a9ae19cb40854b57afa17ab691868daf0f7c127f4dbf5e929fa3838bd3e3b1fa2df2e07676842d9c6d8b2ed300d9278d2a6883305007c1fd6c2346125a207ae2286a02e3c442c1141700d73e7c6a501098c1166ecde5951f7fefebe3b4b7caf1bc576f78e044e1875171b679706da3e556d9feef0dd38b2bb7415ba900d881777afe14e2fd7f9603e9bd3894186e70659d0abea21e3a6376990af536c6a5487c019044c0d5803dbb3e2985e4b7261e407104297f60e3cce0e23279f387998b3a720744c73e7f091415cd95c1418358005a27177fc01d961101026da44fe43fcc53367619c1c79a16d79f4ead09906964f8ec0f606e47209f26296f6d5870c2fff34a04b95b4a88a30c9b07fdaff78f50ec19fcf767a00c8d33ceb06c99822fcbe74c34bfda0f665446e4844029b38e384e6d3f6dba5c7dfb1c871839b30f259961ac7c0637c6b313c712d6fbcd42346bd218aec777f0c4ece794f7d260f8bd9535a49d1e1201c0dce991ebbec37c73cc89016a478740493f3be1f5c164feeb63c7a3244e73425f4ce8f5b26c947ecb1a9f6e8401ed299250d4df2af5b1ea250361e61f87efabd7fd9e7cf75841cd08cbae52ed3864d9a2d1d67c4bbdcb0e5dac2ed4e25e5756ab3f007ad94175549940a1af613c4a85a67985988a25fb85b0eca567be23a932369359c65a8f47f1e982b1586223660b6d264360611405c7d484a05d00c7e8a76475ad1af55eadacf01ae6a3cc06f22e053007ad72e7855dcbdc869d90563654bc6c58158119a08038cb615d4d115cb7c97b556ea90eeff9a432a570a0155e643ea26c42fc0a4e902907c86e57e1bbc9a84f15b42b742ca31ccf77146eccf9431cd49e4bb19cd7d2137c73937a74da0d1f1b4a8626c3a258426906688a0140aa13b6e1da86ab8e85cbc09702b4957d30ad79d405dc7a2bfe6c1637be67a4ee1c7d9a74d39b202576f096ca35e9cbf364f8c337857c555338a8ed75bc01557f22f2dbf8b0c018a90656ec8e15b7b52d081a9bd2940e57a56b84c0356a35a7971ba507b54527bd4a6b669668f1db3a4c0e90796db71270135ad9797af511a7c7293d98515597edc82bd866b6d1c5ced2f09ed5d8c9a63acd6c750751917ed5ce9fbba018625db28752ccebebe8331b2a4378d313263ce2893ae9b83e1c3ab3cf229dfd7aaad026ddb2ad8b60a5edb2aa8efd72dcd82f56eeb862014dbfa36fdfca0e947a99eb33539627dcb2af7413a78551792b1b4ddc17e7417aab037da483b0617baeabfc081f093a70ab9fb90bf810c277c266ce8f83f22c25cc8217c167d801a19360abb9e769d25aa954a9952d63652c90e7ac7b049470fab114a4d928bc6a4dc86a6263cd1985c9c40678d49a6186b4ae6fd487618dda78a72001515a5092860381ec72459291c19a6fc70dc98350ae67a4754a858b646060fe51dde6782464b41adb6491cdb14fd1b6c63b238f6483a6775c0203b2256d3dd5730a8681c2b95ee852a185b62bc25c6af25c6a5dcd8468acb43564c9f86241adbfcb9cd9fff8bfca956ba94a2062b7e723eec5f5ea193f3ab419536a0dd4944df3c9abc5f9ebbc1a53ba7bfe9dba1f4dffc75a9b14f9259c8ee67ca3b933df467eff4ba3f44bb6d8df9f7487a8f3aa2a41d08f05784cf227cbe180cafe0b22309a2ba2f68fb828104d9c406d09dcede8ad45093e56537ff3f8846ded92adc8fadbbd56a8b6d30fe90c1d878d3ef69364f77426f45368f55ac3cbf1d3df59ec193b85e51153f909975e786bc02899e0af340760348308d0d49c475d35ee7fa1b334394c4a619f4ff43d0485ece70cc2dfbe81b8dad6fe55624bf2a183668adc0b1162cca5f6b5eb3752c32f42dcddfd2fcb5d07c96349fa6f9d990d5f2aaa16af236ad6ed3eaff3aad6a6295fd6b5cf69fd10c60ffd98139e5f4ac20c8f97fa9146064a7b8c8bfe4f0ffacf50ba45ec928bf0d5e1706a30559aaf59729f9c79baa007451c02fa8003618a91c9609eb50a8bc0dd56da8d250adbc3ea2c394d717c7bdab7ead441ff6afd0c44923c634264750474b86ac193ac6aaaa2892466393f82104af0ff5fa9124c8d81070f9b4455935a0f0f24dcfd6d3bacd55d4daf7afa8d75b75ca1ccfd2d9219de5b9ffacb3eecc7debf1f15f381b7b7e, '2016-07-09 03:49:36'),
+(20, 5, 'audit/profiling', 0x789ced5c6d53a33a14feeeaf60fa45bda396bc90008e77c6d5eeac775cebd87af74b675a8468d9a5d005aaebeef8df6f027da3a57a85d6fa1277742984e49c27cf79484e422d13997f229398951eeb05e17d65df3521503134c87e6462b312bb3d56d9774c754f4558d3884e346240807442212fa18b1ba3c8ba615165df32916efe714d60f0434d1ca9bc88c66ba9f799effa37caf127c50e7c9fd9b11bf8a6d2bb8f7e7a663788e2032fb02d4f1ced3b57bed5630761640b6300ffd5556115af0a22b372efba2de7aa7534a9c60c78eda22ce276024c74151140c99eae1900217e1e7373406a4e6257e2d8b5eb71c7b807c0ac546fadb07a777757edc63dafca5baede32df09c2eaf7a0ebbbf1ad5fe5adc2dd41c4c2ddbe3788aa516857afac88557b81c3bca87ac9af1cda7630f0e368afdfed5752f03cd767896184a4585d0ffcc466719d0a1b7ca7ee27666866c5f6ac28aa64ddfcc41b39e4b7dcb20b6607a133ac38beef277741b3629a95fd8787070e90ba5cd439030aa14e5484e8c7411d4ca3cef95f697ca97f533e5f9e9e2a47f5d3cbaf670de5f345fdabd2117eb4ada1b99d796e8329947b3dcb774cf3e780a5219983b1a11a1f0764580ee409959f05328054071f07643c0d3201bc9246edb476d4dc50f8cf0f7bb0c745248a43cbf5e3b6108b9da90bdea0e7cf9c0cd9350b996f33a71d5b571e5b7c79eaf68da41b5dff3a087b96f0b41dd95dd6b346c563d7f2da133b22e5b0a184f6c63ff593b3bcbb7eb0fb51ed03f19012c579e34afd2cb1632bf99be39e6dc59617dc2807bcf2bcf3f58bf19d5b0b6e3d692867829f8767c70b2a1996d84eaada1605f3904e3d99b364787ac14d02cab95b127cbf7da95dd4f2eb3a501c6e99a0e556624d5269da75392536868e4dfa965fdeccc4dfe64c2df9854a2a218448fd4041aac9209541babe202df8244590900f345ca1d3418ae1284695bf7247294adadd1dd7e91cc0926a8808fa4062a897c7b920a109a41f678e83b2334b3087b33588bb6dde847be3f7b8fc8f914ef017706fc2b28f79623cc96b42f3f0be0e033fe69857b996c661e0792c8caae76170cfe7b1c139735c27381a5fc9415853e701e628da963f0b2e80a94377ecaa25ba6d1ed1ddbf47888225225a90c21468f03d418a322323940fa91bb3de184cf1a8e348f68796eff613d3ab3cee58ccca12964282df13bc7845f016652f064f0e28de12bc992103a563783b7d2b4c046006e5b6dd753d678c75fa69655cd634f2aee4577f11b48b529bf281cdfb011b67470fe4f9cad14ee12dcde2a793796f0956b06c580bd255075c8bdf13b099140b5617279b67802c9bd3d791361ee4c297051263b4da698400e6a59c415c3ee79c315267be8a59d5ac3b987f1835da9a6ab4b5a8d1c7d843cab2a76818529d48f6bc75f6640626bc67657a57a6779f9bde9d7dbe2f48f02e797465a850aacf1b571f43aa8f549ff5aa4fc1d18f01a92ee5e76dcb8f9699d1e2f919edec88797a416713977e80218dca01f45be7105c0e878aca10360c49a1374ea1cc4a8758553ee6146ad6fe0781f0e33b9687f461bf983d88593e81f475ad1ae562cee327cd69cfe5d38cb15f8f736702ab561ed6fc2dc94fc34a2130d695a35c39ae9995234416279cac81e3c66d3e820eef4ba62a29c4808e840e2dc293aa8fec7fb8620efbedde0cf73f24a6257b1f86db1e0ec5899a30350752c0b934072947b1dd8e585c4ae91254f3956e65de70bdc9e347383671da1bc4393a6aac251a6b258db5d2865a938616fa06737cd3f402be256de5f803f59cdee10ed921b3e6095fc2a1f1fe144d2f1302c51ef5944f38a88c001901af220248668d95a886ccdcc8cccd73333753e2b8286b335da4ec10c2c050eaa7d4cfd7a19f40eaa7d4cff5e867c1f1270254eaa7d4cf57a29f99cdd780f21e3f396bd42e9acac959b39e9d77295b9d3018c4acb333d9cece0fddbef86b7db77e89ff43c6991fc5ed1e8bbb41723d35dee96c2bff1e9e5ed61acad6a2ed973b0adc513601a47b2aff07f867c03f9fd71b4d7eb80955407655baab1a8a8a4c6cf0f9e2e676d9bc1d4548d3d7178d792f81f0eb91755b2ef12b83f14d06237e1fc15838db8b3191b12863f155c422795e6a528c4abdb2d9794ce87823f1e20878ecedc447816d0a1b3fb1ae75eb06792b1e10e7d3c6f5b9c0cc8d0e019e75ed79dc5f991b00827937a09a86f2a486e3dc751cf11d2579dc996ff959d1b0426fd51c6fb94749354bf72e098d672e5c6543a3e0acc9c09a2a434386c62b0f0d43a6a3643a6a29e9a844351f4f47a5454a8e390c8a91145629acaf5b58a95c2795c2ba26612d3662d5551d6b5258a5b0be726185d99c23cdcd39a6533865ab632556894c6292861c661da71290498e657c303c9993754cf7906eee285a9a68b439eb02bf35cad1ccecff152947bcb245001da83a5c6ba8e664b778478c4d96b12a6355c42a7a3fb15a748d4047043dbd7d5386aa0cd5f5866ae6a5099d5779797e7cd8accd2ce2356a4da5e30cc2645ed03950f75468206ae81813a269908ad84cbedebfddb37e750ea08ab0a1e2e9572cb4d20f3fcc9b7cf2f5b9d52dbbd1975f765beed214cae1969ebcf26479eeef652e4e4dd8455e9a5d85e59a02f4f477e34876bd1e763d3cfc075005c061, '2016-07-09 03:49:36');
+INSERT INTO `audit_data` (`id`, `entry_id`, `type`, `data`, `created`) VALUES
+(21, 6, 'audit/request', 0x789cdd57fb6f9b4810fefdfe0a6429555bc5e661836d5cdf8960fca81f38b06e927b08ad616dd360200b4ed256f9df6f9687e3444e53dd553ae92c59c0eecceccc37331f0356c586fa2d519b6a6515e06443924a07ab82faed21514541ad24294e77891e79a4d2f15549103a09d3a85072b323493a24d82334d311656607b63651925698980262895b5bd1284c49e8d53c729bad8359370a43e2a67e14962bd784c4551cf8b7a4521ce1666a693520e13addb05549ad341aec062cc714afb7983db4d44a18555dec6e72d53aa8b2872a3340a3e0880ce847d45ffbd9e912286cd2345679fea8bb70ea7dd54de8aa9a46d7245391c1802b4d658cacbaddd3cec69fce6fae7a0bd93b37d6de5771707e165f9ae78bc5fcc2b5e6c3b53c1ede19aefe7b9bdc75bb65c0bb84d02a5e4384f98aac56a6d1573f08302fd704eeeda52876b8891feeeeb9fb96e2288d779c16c701b920cbb19ff272bd59ab2bdcdbf1104d27a75ce05f136e40dcebe81da76f68b425bc2cd6849ad4141a355150381baf30f50bb532ae12e2f44b9ce302386d7741eac798a6fc2aa2dbaa8753dce196d12ef430fdd2adc22ff7a00fbb67c5f2b261ad6923fa3a599f8f3fb583cb0263ecba24cec20388dff3efcbaab8af16e543bcea9d9fe79665fc723a194222ac7c93ad3659a5ad0825347b925ecc14ef871eb9afc59bf837da8d69f405aa2baac6c4f3bde844eae7376f70e2af43ec455d51ccce944b1fab247423cf0fd76505adbffaf129e711688a943c930d70b8de41e6cae221c92909ab0bbb73d3156a2db8cf6e940204378aaefd5c96a5dd6195d4ade376c35b8aae5c17572ba248b2d86c3704b741705d963c8265bc6cba42032f9744129b754c56ed469310bc54444574571e3ea96b12fc4f9a673e5c8493fa590257992d495276065c6195ed8ac56e5dcab7e9c7ad8ece6e0caacf106d5aeb8fab2ab257e9f0e3d8d8f6cee571ae79d2ec75b8f9706e1bb63dea758395177c6ec437d88f13c041691377abc872a8d42b9d871c1e4a92380a1372400a25b718f7b14f19b7000a6db58236bb534e6c73b3e8162e2d91135aaa2ca982c00da6a84c819e35b1fed8c47539ebe2248d2839e5ca7e3ee5b6bb24858aba05f6f08a6c01eef3170902aa482f0a1f15855f1721bbd05dbe8b1929f19f9328ec70ee06d384a4dd05ea575b59982cca68979f21498c859e541aef9180ec3dc07b8253c07c59ad7f16b41400447fce0bfd79a6aeef77543557ee65f6debe2bfdce57e798e26d4ebaea375fcd3859adc87922c43d399f45de97473607876cc3fa64586ca9de6289814c0c119a3b43d346df656cb910d4cdd9ccd0d1c89cbd4cdb20838c197226c66c80864f689bf996d9995bda60aa1dcb4dab3c49d387063b0f59e6e4986069cab44683d1ec4778bc59685c3aba6df51d648e8dd94f21f3129d05e0eb680308febf63f4127d7435377e36a3ef31d774dd98a3a7bc2e897b782de37c61d8c8e83917a3bc028e933bf33753b18cbe61b1c2fcf9142f094f7c768c996ef646b3c18b3cff5c61a2cd060b48ea0f90fd1e1fdd34c723e37f4df9d9a437d7f2f42a1024bf4b281f442e0ef864e987eac1f3fef17123bbc91f97f91426eef9c9b1478399861656866013daf603f63c787b24bf6a31eb7f5eaa4107b4b8b78be52e4c77ef389bd05b42399c72cf6b869b4734e55ac207be34f14bd9b2e561661f5d68f9598cd18f1f51a6b7509a6953e3bb84f928aaf57a596103d78a5213fa57a889cf44e6a6850a9e6c09e59e654c4d64bcac0ea5d833f5c59435bb659aa87c8bf1b798f2777777fc26dd06ac87f8d239fe8e2cf9b21b8b1e756ca0d93c9646de784f68fc1201551bfd51d6fe90e4b2d1cbcd7fec817480cf34a76f46fd7f841157248a5bc33b25fc6b9f2ddd1a4137f647f05a29c06f08af9eb5678c67a896888361591244a57c3f0c34645c6857ce08c2b3fa9a6e1433a83e18f1624d7c563a73cb44a6be7f3db1d6df4b1d403c35d0d0ec952d53be6a0101d8b6ae1c1b59051f31f08e315b3e54bcf1bdaefc18476e7b618d32c360ed157a3c62a4c0745fccc2a19122286003c73626fde3022c67a52b6834359cfec4d4203e0f00505a425d018eab8992dc865f11f4a138fba47c1464d30b54f5c0406c4291d880c200797dd4824ddfab1c0e417ba00f869f92940bd372c1cb79334164ff9a9f99dd7c187bb40df1b1c48287af3130f85df4f99e80b3d8c0f357466f388db585fd186d9395285860631acc7ac50cee38d917fec1f7bdc816294977345cd0a040902f2ad57118a8f0cddf7978f81b4a35e201, '2016-07-09 03:49:39'),
+(22, 6, 'audit/db', 0x789ced5c5b53db38147ee75778f212d801625d2c5f187686423a6587128684ed4b6612630be2d6b1b3b6c3a51dfefb4a76ee76a0b113d204d121756c593ae7d3f98ea54f32a6018c5fa1a119a52e0d43f39e86a523d340c4f8e51810b043851fc947a1815899fa97da37e9f3cdc585745abbb8f97a59973e5fd7be4aed7e48839669597edf8bc276e9c83100fbd564f601d9ad1018a567c769dab7cd53bfdb353ddb30feebd3e099974447b60130d1644480aa1f0204159db0f398350e92c6632b42031ba53bc7a52556a3c66aac3c9841e5f1f1b1d289ba6e2508adca03f56c3fa87cf73b9e133d7815d6263ce0b61df4dc7e580903ab726b86b4d2f56dea86951b76e56460f461afd3e315b3365cc7a3b161841cc5c8dcf53d2b727c8f5f57b90d9e5df3623314a364b96618f26388464e7e628d9cb05b1ee835b5fcc01e541c3df7e2bba051328cd2d1cbcb0b830716c338866a718c91aac8fac701194f824c00aba45ebda89e367624f6f3c3ea1f5abe174681e97851cb33bb747fe282dbef7a3327037a4703ea59d46e45e6ad4be75f9eb87d27ee46c7bbf383aec93d6d85568776cd61f1c831ddd6d88e503aa94b81b5f34fedfc32ebae1ff479587b9ff39617678d4bb5cbd88eddf833c33dcb8c4cd7bf978e59e559e76bd7a33b77e7dc7a5e972e797c9e5c9ecda96450622fae6a8f17cc423af12465c9e0f49c9b3894a95b627cbf7da95e57b3eb3a966c66190fcbddd89ab8d2a4eb324aec0c1c1bf72dbb5c9ee25f79a696ec42051321060af940245504490549d747d29c4f528c15e5e370549de42886438a4a7f650e52a4a4b7db8edd3e86459321c11f0867ad38ce79e359431af830402379126805a48036fb51a7c59a70eebd2e4bff23a8e30ee0789761d1c7bc0234f426e244cd42fc2ef0bd88a15e61d9340a7cd7a54158b90afc676a45fe15b51ddb3f1d5dc9c05891d310331c2dd39b8517c0c4a5477adbe41d97c6f4e0ef21a6608998e68c628505f19b43a74dc2144d0d8e5036a64e44bb2334f9d38e41d91b587ed08b4daf30ead188168e59acea5b852f5e11be79e39728689be09d1a37a8ea08de76cf0ce214308372cbea38ae3dc23af9b6b2605655b455c1acbd0bda79435bc76fca7b1b04369e1e4190c533472b81b768141359d6b60957b06c5c73c62b0158dea6e1199ed259b03c5f719e01b2a8ae4f10024320e1fb0289315aed5c8203f35ece20363b4c39a327ce7ce553ab597730fb326cb439d168735ea3af450f291a3d79694846034e113c9b1a3c530313d6b142e21512efa212efece37d8ec8bbecd1958e45f6d9f0eca38bec23b2cf7ab34fcec18f0ac60a85c83f1b9a7f94a9192d4ecf686747cc93cb3a65a5e8134c85581131b4e9310497134379f310862286363e86a6d63af8e2f2198ba146f537224849e720948e1ffa44ad7e44b32348d1c09ad4b44cd0198312593ba5a8e923c75e0f9e31ae4a715cc7bc5c0c574c800cb714d6a9b52344e62b4e66df76a2161b4307cf05b54a7e38dc6d82e6c1a9caaf6c82b8a536fde9dc0f3641c496c51b20067b1f4ef8892ab7340351c02229852803b1d50a695428d1c5a06627ba9579c3d24d567804231327bd412c44878d357963cdb8b166d25073dcd05cdf60866f8a96c3b7b8ad0c7fa096d13bcc212ba0663ade0b3834daa4a268451890ef51cf3ed5d1b287a080a0c07a2940a6565989ac0bed4668378b6a3713d9719e6e3359a4d81082400054913f45fefc33f22710f953e4cff5e4cf9c035024eba357144502150974cd09746a033650598f9f5fd6abd70de9fcb2519b9e7949bbedc0ef47b4bd3fded3ce0e9d1eff34bf9b4ffcff80b2d00fa35697461d3fbe9e186fb7f7a47f4f2e6eaa756977de0ecc7d09ee4b6500d54399fd03ec3b60dfaf6af5063b2c43199003593d9075494606d60da497f78a0a770469649df3c1ac9741d8f5d07c2826fd0a366e241bf176b031afdc4b7442b4353e1c051b051b27d84816d327f9c8d42da8d0ab32c06f3f8e5e7b4df1555c1bdcc44fb4633e387ed6a207c4d951e3782cc3a4c68700cf7ab658e8afcc0d0041da0d28274c1ed77096b994c3ff584956e8a45b5e880c2bf456cef096791457b374ef62662cb87635cd8c7c13271510f8b6f024982198b15666e842901282d45204a93869be2e4825450a8e38808e7f63062c12ab48aceb4cacaa58291589754d8935e780152a3211895524d63f3cb1c269cd51cdd41c93199cb4db3663abb89218cb9003d57142808c1596d1c1e06486ea986c222def4b24111a2d1675bed71c2a34333b80b9e4a8ac6c154085445d2f5533b42dd6112393055705573957d1f67035ef1a81aa69da6f2ca00bae0aaeae97ab53af4d68acca9babb39346756615af5e6d486dbb1fc41383f6b17c282b10212cab329415a2699c9cb4eb33f676cda7f6319411d6653cf9920529fcf4d331026fbefeb4ba5537f5fd57dd96bb328532624b8bdf7a325de7e732d7a6c6d145de3bbaf2e66b4d8104bff9f7714474fd39d1f5f2f23f3657be01, '2016-07-09 03:49:39'),
+(23, 6, 'audit/log', 0x789ced5b5b53dbc8127ecfaf50f1623815b066741f8a53e5046f2da7005318362faeb26569c0dac89257175836c57f3f3d2359d6656c20b6934de2a402b2359ae9fefa325ff7283641e44b4c4cb237a5716cdfd378efd8268a45be7844862b2dbb8889a691bd0f6198c44964cfa4472f99487f8693c04b1e82411ad368e6a7f1a01840c8787eb97fb077ec1104ff4cf887612a0591bd27cf1b8ced980e3ab399ef3976e28541e921f68872ec12a4eaa6ace8c8b08e10367413c3f72a8825932fcfcf6cd6928458267be7a1ed7ac1bd340dddd4a7448ac6b6535f1eeba5e52fb281e49e26d9a578654333507569fcd2d20c940d2c6d225dafaeac54cc6234cc32a62efdc7bb0f06b0121ed8a9eb255b368ca96935c3a8af751d66a06fe03aa6ae595509b5d74a68ff69ffed44a9bb6d090d64d55c4c2f8b88aca68bdd7bde263cccc0f5958df2ca8ad20087ade087f783532f9ed98933697afa57c360615cb394598934d484c1a5e3f47e1340582aaa016195d7565521107cf962892db886a52a754c502537ab582818b8c756c582745c830ba1976cc5d3d1066c6519723d23a34a4a56e55725c68e489eaf444491cda6a1aad91a14bd8a68923c49b7d7e7521026120decb14fdd23e9366638b9f4ce4efd84df9ed911ff0e22cd738e1a42e24cc8473a1edc46fe851dc0ee1d11c29ea2d7f4af94c689504a045735212be95a05edafc334a15294cd425d22b56651f8449d243c9c51d773c3b64b7d9ad056432a75215505b9891db8fe0b7299664dae4a9256f4b95c492845694024b14c0d91e492353f86411285becf9082393a0e934e2c0ec45d4d9c6a42863da30f9c099e97e2c48e00a6f9caeadcafd1028c7c2821e18c2e5950c775fdab7918485afff7de27e9b7dbf373e963effcf6e2b22ffd76ddbb90468c6c0c6dc709d3208947cbe470c7a0ff740a962004ec103d89e5b0e4f96e8e4a34101c83ecdd792c1e812fc28ced073b6a3f3e3eb627c9d46f47b1d37ea0811b46edf9d6d9667176c8443b645b7c3b8e9c3633421b9201f5e3f62ddce9e4321fcd26333631ace17b4116f3407c3833bd4b83dc4c3131980c81db0bb8186002c7b7e3985d63a550f2032cc22cfb00fee684919b4f9c3ccdf853103884ec1d3f73882bbb8b06a37a601f1675a71f24270c02ca9726d2f429fecb2793304e4efcd0b17d7675ec8e037b4a4f40f706e44a09f2629615c6b714e597011d5792a28e60927ef7bcfbf1e69d047f3e3be91120cfd2ac17244386f0fbd20d3f9d06b52f237a47231a38d41d262c9b2ebf5d7afc1d8f1c2fb80ba329cf51c31888ccd49e0f4f3cdb1f2ee488a54e5f8a9c77ffeb9d5d8a9efa4c9fe6b3a7ac8e62c36171a977c9e5d8e73f05ea417eb421c14b2730b9e8fbde75f1e4fe9247cffad2254b099dcbd32593e4230ef854076ca008e94c938624f9d74b1e6250361ee1f87efabd7bdd15cf7522b9201973cb7d2e0d9f34339d60c4bb5cb1856de176ab92f25ab559c483d6cb8b2ac24511f10bc4a85e679859884aff116e395266ed91e78e4ef09a38eb58fb7560ae54181a6ac06ca7c964084b006f9d42522a80e6f033b45b784dbfd68078a09700d70d11e07711d02900bded14b42a6e5fe5acec8a93b205e11240acc94d840146c70eeae8a232dbe59d953aa487ffcd21552a7580ae8821f5123a2dc064e902907c81e37e25bcaa8e7e2a782ba45c85f93e4ea8f39951a6198da65e46735fc9cdd59c9bb336d0e0745c14310e9b126213483384500a75d083b00e543443462f26e51f09dd4ada358cc2794750d7f1f8aff9f0d09978be5b7872f6695bae6c68da4fe5ca56bd387f6ba61866f0ae8bab65fd542942ad6460567f17290204a18be490c3b7f1ac00bf8c9f0a50a59e15aed38057a9765e9ecec51e94c41e2c139b90ecb1539e14041dc1723fee2c60aa75f202364a834f5e32b9b2237b1a8bb1c72aaa35c1d46a7f495edec7a839c69a9d0c5d4145bec2dfd60d5430d956c96371f8f50d9451b0d954c6ca94b9605cbaae8e0a1fdee491ab7cdfa8360b8c5db360d72c786bb3a0be5f2f69176c765bd72d2c5bbbf4f363a71fad7ad2d6e488f52dabdc0969696bba908115b4dbc17e7417aab037d64a3b0517bae9bec281b495e70ab9fbd0bf810c2762266c68baf17d88b01072089f7923a04686ad42afd5aeb340b5522933caba8c54f293de216cd2d1d37a8452d58d7967525906a621afe84cce4fa0b3ce24978b7725f386243f8cee32390578224d6be209100e87314dd68a460ea9381ab7a68da60a9d232a442c6ba380838a0eefb385068b8596ea8605ba69e657e8c6d712e8834d8175402127a276d3dbd750a8e81c6b95e6852e5b3b5ebce3c56fe5c5a5d4b88c139787ac953d752c17af32eed2e72e7d7edff4a9577a94c8008b9f5df6bbd737d2d9e54daf4a1aa4fd51c45e3c1abd5f9cbbc1a537633fd9fba1ec77feb2d4704a9349c8ef67c2bba303e98fcef96db72fed2f6bcbbf97f07ba985b07124c35f049f117cbeeaf56fe0b28565a41fcac6a16c49b242548b2856eb604d62a82be6f70b45d1c12adc8fed87f5ca8a5d24fe9091d878cb6f359167bba0bf1e913764d92adee5581e00ab5e325889eb0d13f1039dd80f5e28aa8db02af61a2f80ecd2d88d905a57ed6daebf353510464d35d8ff856091bc98e15458f1b1d71997be915b59f94dc1b0456d6581b6a051fe4af386b5e39161ee28fe8ee26f84e2f3a4b99ae26743d6cbabc834d12eadeed2eabf3aad1aa84afd0d21f5cf680650ffecac9c117a5e0de4e4bf540770b2535ce45f0ac87fd6f50546af677cdf01af0b83c19c2cd55acb8cf96bdba2ff06d655fc3d03554032c10c85c4bb48dd452a8bd4ca8b23264c797b75dab9e9d6caf37ef7461ab969c489c6e8046a680d2b8a2a1b329635dd345968d26908b13b855afd04cb8a6ac96af99c455f379e2cc57af9ac777b15b5f1ed2beacd569d8ac0b54c7e3e67fbde3f9bac3b73e77a7efe3fa23e7964, '2016-07-09 03:49:39'),
+(24, 6, 'audit/profiling', 0x789ced5c5b53db38147ee75778f212d801a29be50bc3ced0929db243094360fb9299c4d882b875ecd476a0b4c37f5fc9cecd89438a1d48036aa7a963cbd2399fbe732c7d926399d8fc1599d4acf4582f081f2a07ae892020c8a0079149cc4aecf658e5c031c13ea000ab86a1121d634327585379095ddc1845d62d8b2a07968975f3976b42831faae208f0222aafa5d167beebdf2ac71f143bf07d66c76ee09b4aef21faee99dd208a0fbdc0b63c7174e05cfb568f1d86912d8c81fc9f0e8455bc2a84cdca83ebb69cebd6c7493566c06b176531b71312aa034ca166ec430c0da21bfc02e1f6c0d49ec4b0c4b31bd7e39e7117a059a9dd5961edfefebed68d7b5e8d375dbb63be1384b5af41d777e33bbfc69b457b8388857b7d6f10d5a2d0ae5d5b11abf502877951ed8a5f39b2ed60e0c7d17ebfdbafa4e879aecf12cb284dc1ba19f889d1e2ba266cf09d869f98a19a15dbb3a2a892f5f3036fe488df72c72e981d84ceb0e2f8a19fdc85cc8a69560e1e1f1f394260b5b0730a14831da9c07847b0c369d87904549a9f1a5f947fae4e4f958f8dd3abcf674de59f8bc667a523fc685b43733bf3ec865330f77a96ef98e6f7014b833207e4a47fde09c6a81cc6132a3f0b639ee3c03b2232990699425e49b37e5aff78b9a5f03fdfecc13e4f22511c5aae1fb745b2d89dbae00d7afeccc990ddb090f93673dab175edb1c597a76edf4abad1f56f82b067094fdb91dd653d6b543c762daf3db123528e9a4a686ffddb3839cbbbeb1b7b18d53e104f29519c37ae34ce123bb693cf1cf76c2bb6bce05639e495e79d6f5c8cefdc5e70eb49533913fc3c3a3b5e50c9b0c44e52d58e28988774eac99c25c3d30b6e1250cedd92e0fbe553fda29e5fd7a1e270cb042db7136b924ad3aecb29b135746cd2b7fc7235137fd5995af20b954c8404aaf41d05a92a835406e9fa82b4e0939410557d3f31aa4dc72841a31055feca1da428696f775ca77388ca26434ade11ce7a799c8bf259c73a7c3740e3eccc12ce016d0de26e9b37e1defa3d9efec750271d20f0aea2b28f7915ea7829e254cb43fc260cfc98a35ee3d9340e03cf6361543b0f83073e930dce99e33ac1c7f1951c8c55300f31c7d1b6fc5978214a5dba67d72dd171f398eefd3dc214ae10d3822c563989970e9d3609539c191ce17c4cdd98f5c6688aa71d87b23fb47caf9f985ee3a1c762569ab3445b2e846c12bee485f02dca5faae2b7046f66dca06963783b7d2b4c52c00cca6dbbeb7ace18ebf4db8b9159d3f09b22b3fe2a6817a5b64196ca7b1b0436c98e20e8f333473b85b72c8b2900fa5bc215ae1ad7827ca59080b7343c23199d8580c58af30c9065757d8a311c01895e174842f0cbce250430afe50ce6b3c339678cd499cf626a35eb0ee15f468db6a61a6d2d6af429f6d0b2ec291a86743ce094e4d954f2640626bc63a5c42b25dee74abcb38ff70522efaa47570691d967c3b38f21b38fcc3eebcd3e05073f1a9c281432ff6c68fe5133335a323fa39d1d314f2feb54d5b24f300d11557268d3398456c3a1a2798820c9a18de75066ad432c2e1f730e5dd67f8341ead31b9787fc613f983d88593e83541dae494dcb059d47502a6bcf296ac6d8b1a7c933c1552d8f6bfecee4e5b8120a017aa3b066d68e305dac385903c78ddb7c0c1d3e94d42ac5e168b7095e04a7069ed80471cd1cf6d3bd1d6e82482c4b36400cf73e1c89137561690ea25055e711e520b6db118b4b25ba04d4fc44f762def07493478f706ce2b437985374d4584b34d64a1a6ba50db5260d2df40de5f8a6ea057c4bdacaf107e939bdc31db24366cdf3bd8443e34d2aaa5e26028a3deaf9a7365ef69021204360bd214033abac141852bb91dacd73b59ba9ecb848b7992e526e084111849acc9f327ffe19f913cafc29f3e77af267c1012806c6f81545994065025d7302cd6cc0861aeff193b366fde2523939bb6c64675eca76270c0631ebec4ef6b4f343b72f3eadafd60ff17fc838f5a3b8dd63713748aea7c63b9d1de5bfa3d3ab7a53d95eb403735741bb4a15226d1ff0bf907f87fcfb79a379c90fab0840ba07b43d6028009bc430b151dd292bdc51acd375ce07f35e06e1d723ebae9cf42ba37123a391bc8d682c2af75283527d8d0f47198d321aa7a2913e4f9f142353afa442af0148963f8e9e7a4df1495c2f85891f58d7ba7383bc450f44f259e3fa3cc3cc8d0f2199f5ec79d47f31372082f36e209046f2a486e3dca51cf1632579d4996ff959c1f082de821c6fb94749352bf72e898c67ae5d6523a3d8c44983142d179e6464c8c8586b641852909282d44a04a924693e2d48a5454a8e38a0417e63062c13ab4caceb4cac9a5c299589754d89b5e08015a980cac42a13eb1f9e58515673d47235c77406a76c77acc42aa1242632e450759c12201385657c303c99a33aa69b48abbb0a4d85469bb32ef05b2385666607b0901cd5175b05d010d5d61baa39da16ef88b1c9325665ac8a58c56f27568bae1168baaeffc602ba8c5519abeb8dd5cc6b133aaff2eafcf8e8b23eb38ad7ac5f2a1d6710261383ce21d8072ac298000d20a0525d17c199fcd07fbb67fde81c22808901c8f44b16b4f4d3cf20182e7dfde9e556ddb4d75f755bedca14cee1969ebcf56479eecf55ae4d4dd8455f9b5d45f3b5ae224a96fe3e8e64d79fc3aec7c7ff01d90bc17b, '2016-07-09 03:49:39'),
+(25, 7, 'audit/request', 0x789cdd58796fa34816ff7f3f05b29451f7283697c1361ecf8a607c746ce3009ea4676784ca50b649309002e7e856befbbe02ca763cc9746bb7a59536526478f5ae7ac7af5e8134b1a97dcdb496565b4528dbe0acd6459aa07d7dc93451d06a598ef25d662401ae75434d12846e46256a04dfef70968f300a3029644485ea81a54d92e535caa6025be637562489731c078d003f147450eb27718cfd3c4c6246b9c338ada3287cc0b5ca845f88e5f508c7eb7c43a9409424b54d1f41774ad07a8be84b5babc549dd47fea614964198bed4a90a92446ff0807c42c27558d897406093e7a9c6f36f3a2c69b5a7ba9f91553d4fee7021a280025f9a2ac8b565a7af5f5cfe7675ffb9bf50822b731d7c11875717e98d75b558ccaf7d7b3e5a2b97a347d3377eefe0c75e8f6d79976152476bd8634951b4da34f9124611e29586c07db811c52e3709e3dd13f7d4563db5f991d3d334c2d7787919e6bc22b71ab2ca7db81cb9d3c939178577981b62ff2ef9c8191b926c31af880da121b58466431454ce412b44c24a8ced8b05397f4ecbb8409cb6bb280f5344727e95906d3d4039ea72cb641707883cf7eaf0577a3080d58b8a3c20bf3fa917edd5e355f01cedb2a72ac6c8f7715a6c0f42fc33ff33ab8ba77a554038a83f86657669ce6fa6931124c22e1729b5456b6d850926c59bf46ea6f8300ef05323dda4ff24bd9424cf505f493dc541182467d2a07cf80965e13a4641d213c5c2a6c27cace3d84f82305eb30a5a7f09d3732ec0d016393ee18d50bcde41e658f1e0ec1cc7f585d3bdef098d363c170f6a15043f49eec29297a6dda395d49351a7192c455f91c5d50aab9222b63a4dc16f62242b52809182962d5f68a2e5124b624b4678d569b630464b5554457f15a0335997e0ffac7511c28f70265f64f0ab5092241536e017a87455ac5665a95c269fb6867b716f1263e69296bdfeb4aabbce2a1f7dba34b7fd2be5b2943c6bf5bbdc7c34774cc719f77bd12a886e9be93d0ad30ce2a076b0bf55152556e55af7a50c0fc1599ac4193e8205862ee6531a128a2e10858e567337bb734eec70b3e4017eda2227b43545d204811b4e5d9602a36862e3d0c4b25274719627049f73ac9fcfb9ed2ecba1a21e003f822a5b10f7f9bb000155645485ef56852f8b905de8aed0471496f8db2c89bb9cbf4124c3796fe10eeaed629b7497c9aeb4214914855e551aef137cf000ed214e05f5ac5affa860298210fd31afe4e785b8b15fd1b452d828f47df8c8fc2ea97344d0b6845ded6ba8515486355ad33413e21e9f2f92e0f900e8e09163dabf993625c96d9a1948c5c875e7dec872dcbf056da56234acd9cc34dcb1357b1fb981c73567ae37316743777482dcd4bb42d3dcd68753fdadf4b4992ddd1899d4a26b5b93b718992acb1e0fc7b3ef81f2562571e3198e3df05cebd29cfd103c67f15940843d7d08dbffdf813a8bbffb796efe6850dfc75c370c73eebe867649dc87d736af16a6e39a7def7a5cd6c0dbf84efd2d446c7360dab4347f3cca4bc22b9f3d736658fdf16cf82ed49f0a4cf4d9700149fd0ebcdfc7c7b0accbb1f97f8dfa455fcff532bd2a6c92df65848f121f457cb60c63ede87dff7a58281ecad7653988897b84f29cf170a6bb0bbb88600bdaf6171404708064bfea29ed7f5e6a4007b4b90f8be52ece771f390793074c389473a735c3cd1392736de1179ea9f8076b5966cc1ab8d77a698b82fadb26587a2ba1993e35ff16320fac7abf5f1436a0ad28b5a07f858678c232b7eca299c07a5b606bb639b55cf37d7128c5be652ca6b4d96dcb72d941c63f20c23f3e3ef29b7c1bd11ee29973fc235ef2ac1bab1ef51c80d9722fcdb2f15e01f98d0b506d0ec637940a49668dce16ff630fa4a3f84c4bf8a6d0ffaf38e1aa44716b3855e23ff7d932ec3174e3600c074b15fca6f04d5b7bc438892a8b38285624a1d566e7c35077cd6bfdb33786edd903dd30ab31d4188e79b1219e94cedcb65ccbd81f4fb4f5f75c47219e9aeec8eab39661872d440096edcf9ee3da151e2990d3b790ad9c2b2a6423006c3f793db1a9b605595125556db70ebb2b2d2eec71d19660ef1ba0f9ddaaabf8ef0b5f38565d050090c373ccc9e06d069a5fe6a03b9e9ade6062e9108b402b0daa92d869b49b52159c63567aff3c30d13907223534dd6296a1a30c9d7abe3d954122ab8dd60e435321ecb1963ad9fbcb51ce10cc505f8b9229b0964d0e8b61305a8eae72e776114e9ce4613c6cb77c637c67b8ebe170b37186ebc1bd650493792ca0893ebe988e9ef8d5ba9a1ca8f25743e0e1364d831e06de167c27218a2a47a5fd0518fb6152bd4832c08250d5338e31492a6eb9daf50a2fc981ca38b7887c39a5a12509a3635a93f23d9fb2ddeee2f0afb4e8358d0ec1eb0406f66362f16101ee5121de824fc72be067e2e7bb136a878e7d0f7fe5067a10faafe86255866c02384af24b19ebf001d5d384f830fca35bccd6a54a5fb65bc2253f2f630db5d09184ea09e458058ba2d0903bc77fd5f6f792b06d51808c340bb32a05cb721a4060eda4804419c2f15f0f06546f791138e88686a1bec3febe75f4839b5500f6277f1119f0fc1bd73eb046f1d839dc325a141b4103bd2154ad0924cf2bbe2f1d7d5da22de7119cef48bc20acdef8aade3c2f0c8a2f4edd97977f03cc2e97b2, '2016-07-09 03:50:19'),
+(26, 7, 'audit/db', 0x789ced5d5f739bba127fefa760fce2f44e124b020422d33b93b63e7372a78d7b92f4f4c533360625a6c59003d8ad7ba6dffd4ae07fd810db60623b55dba4608456bbdadf6ab55ac9a6018d7f4343376a031a86e6030d6b17a6a12ac6bf8e8120bfe457e022346456e6f6cfd617e98fcf1f3e48ef5a1f3e7fbcbe95feb8697d94bac390061dd3b2fca11785ddda856340f6a303f60bb15711346a63c769dbbdf63b7f30303ddb30fe19d260cc4bca17b60115ac03192348ce7505639d10f64061d461423d6e46682846edde71698d55a9b32a1b2333687cfffebdd18f066e2308adc6887ab61f34befa7dcf89465e83114567bc71678fee306c8481d5e899216d0c7c9bba61e3337b723969f5f963ff9157cc68b88e47e396617c118be67ee85991e37bfcb9c6dbe0d92d2f6e866ad42cd70c437e8de419976f19914bf6ca88de50cb0fec49c5d1f8317e0b1935c3a85dfcfaf58bc907951332c18584ac2100e1ef23646551c818b24a6e9b1f9aefee5e49eccf376b786ef95e1805a6e3451dcf1cd0d38507ee70e02d7d18d07b1a50cfa27627327b2ecd7fbcf0faabb81b1defde0f0626e7b4135a7d3a30a7c523c7743bf37684d2e5ad1458affed7babace7aeb1b1d4f6b1f72e0f2e28cb8d4ba8edb7112ffce60cf3223d3f51fa437acf2accf5b37b3374f725ebdba95aeb97e5e5ebfcfa96452e2755cd56b5e304bd209272b2d997c9cf31217e5ca2bb17cbffcd9bc6966d7f546b259cbb85a9ec4ad892b4dba2ea3c4ab0963f3be658feb29fcd5976ac92e54d2126a8af21b615415181518dd1f468b0ea49aa6fe46de8ab60852054d312afd27d3499192eeee3a76f70d2a6b0c89827e236ba8971774418dd621c6bf8d9c65b0286715aec8d91c46fd0e23e13c780366ff67928ee5cfc55d476587795d5def8a632d4be0f781ef454ce80d664da3c0775d1a848d4f813fa656e47fa2b663fbef664f3244ac82550933315aa6b72c5d88128ebed35e9bf7dbaa48cffe3b1529dca1488beab006d05aab7c4c329553ce919c2d5327a2839934f968c744f93869f9d963dcf486155033a2a5555647eb8df131c957a948be05f59700a0bc24f1a6dc064d9b89b7fb6806b109589272c7ea3bae3d93757257953213a8e82f49d8fab308bba8662b407b499659493b10787bcbd149e45b5a8bd9df972457b86bb91655584cc08b52d8549c4501f901e72541968deb13a2ec0bf95045ab9264f2eb74421a959a48ccc58acb8ab5987eaa4056d62f971caf58538319869a880a8aa8e0b651c1e51121272eb8db01590518c2170c4c22802980b95f60161d31097ab1b054536e339ebbcd5dcf1ff402da3d8d83c4a7dc0da196e3c7f723733a276478a001030d0d59938291c34a94cde75021d0e53dc95b93331d68d375571c687dc65222e9bf127ef2058daa137441bd86ca06391d4728e9546c4e51f33deb4ab45759bfbc778432557722d3a28aaa11f9252a6a2aca89917089844bb4b54b9485b73cbf28b36c597b47b0f612b1a90b6c0a6c1e0a360b8e9b0869fb9ab954084d9c5a4191017bffeafab67973275d5ddfb556e3a5d249978691190d43ee53538f06b1737d4f99d79d5c0ecce0677c61f602c74d3e19c71f7c1d7acee4c24d2ecc073f8ce2ab903e460e9dfaeebe150d27979e3f9a7f6eb39e9cdd983c87c1b4fd2537dfee4c7b3f6998d5373b7cf58c3df7baafa5bf2f3f7c6ede4a27f054924f25f0e43f5606b29f3a92c13900f55309f11b00f119d0ce0091806ca8c080a4fe7ad5eecbabba457f506b18d14ced92357d5f869f9055ed62cf4373542ecd67ae6350e8d80e756c6ebfb6d431a2c8fbb260d5eb582a4747c6f9732a73683b51878df7c1b8ecf494796bd3e08a9c27500d3c91acd7a336fdc9342c49d68b5b1627ea4d72f42ef9074dded2cc78965a653c8b0be619b951955566582706b3262e722333259d126b7362ed98583b21d49e13cae50d65f0a6ea05788b6965f083f48cde610c25791c3b6468964c8995320828e61461006599080808081c0604526900181031cf14f3cc6de7990bd6316f7ab958a49c0b810122000a032a0ce86118504d18506140f763408b7aa0aaa209032a0ce88118d0546216d4e4a550d7e2d44b3ae906fe308ae34cd3dd573cb8f418079ebe9a3ff8ff0165aa1f469d018dfa7efc3c69bcbd1066cadb2c90c49220d2ce01fb0beb71b0a9fea9757b57af2a8e8901d6f53d4e08b3762dee2cce24d0786468d4c0cb4063d1882f56b1a208340a341e061ad176014aee99ba2543f4582508ad47c0531bea9f14ec1d6fe35bda37478e9fb5f08190be2a65c8c8f5ccc8ea5f79ccd0acb889505966703b0454c60c245a06331340cf6b58d11d3d5b7756696e85860af94419d0808ca5b89ecb280a9c1eb3b8e1ce198d51b2e542561a25c526511a061a16281128391e94a822502502553b0954c506f4e9405552a49c27a2618617616185853d160b2bd6528585dd93852deac5aa64fd4a8030b1c2c41e8a894d6d8b80445533e393c90c8f27c5f200cb242eb910a2f45dbb3332dd6192ca4abfcf6fcc98a5383d96c76966179317ef1deae60431b5245ac9239398ff7a77d3bcbc6bf22b8be9a9efb5a7919f763a0b74f68263e746354f53d5a382d5cf327037a42317a213271f6f480114a230c96aae94469c2e5d2985380fbb621ec6d5b210678e574cc1ad984292eb5e298979127da56426d9f995d298a5fd6f480516a232db4fb0a9419c6e04d89e54b24361533a19458a19b0c5dd0f9b8ab2982ca7db312aedb0c9de93b5ab7245d7c835accf8e3c3c143f55336ab3160b1755b8a8331795081755b8a8c245152eaa7051858b2a5cd42373518b268ee93a513648e3143eaaf051f7efa3eaa9e30534757e18dcd4035df3d517f131ec959c0bae1388a6533d94072335336531b104d3d4c4b41dc8ec818ce3aa21366a0f34e267525fd9e1dbf18defae6267726248d033adf6fbde47d3331f728fb0cec64f3567062090c111a3c474e961d2c22c3ef87214ef9947df637dfc94daa067509b622b593a91c96c294be8cd81e94d6a9f3d5156cec6f7fcc8b977ac78e579aa2c270bdfaf03ebc97aea49f71b1db37b6f484733c559781497c619e1a6ed5409236dfd48ae3e31320c4cabef0f83646058642e6c5c2fde7df4eda14b337a046777c8cebe4a2a67542fc8d304398bac65e10664e783c7758d977952d89309c964984b916c67883197d5ccc4f0dd5802b43b8e26feeb2263391cc59052f703a9a2d659231be4940b480948ed1152a99ddc7cfb465e1a790a5b65079b4d5636aa05464e124e67922636b4569370d4050fa0d5fb4aadbce15fa0e2d851a1974245b1f1820004d1fac434010b018b3dc182a4f6c9620845aeafc8f5dd36d7775101f3927d5365caf91a04c8f36fee15565558d5c3b3aa5058556155f765558bfaaa58d85461530fd7a6a676c743be3d3e958e960e1426e1c053a9cbab4a4e00a7de526ada242a384f31eb98d1e2692ea95022cf95a0f7e6d08dead3c3bbf1a974ddfa72f2ba745a28013a217b0e2b6a196145a5e2035b04f88e067ccac183af68c20bc1f20647b90bec09eced0b7ba9edd80596c8d073ae3a138c55b4673f52ac9009443d89286d3f882a3831c34495f73d35139012907a1252e4a01c44b4cbd99906d57de751090f51802f1f7c108083475fc1e9190108a30dbe6748a04fa06f6fe84ba593ebac119f3fbdbfbc6b2e9d327ddbbc93baf6304850f8069c0395100501a001ace890f0fdaf74e007e3cec0fcd17d83642cab4099a59c334f522b39941120cb603a39cb4d2eafee5068edf90f85deedc1c9cc0d5f61408fdd60d3757eae3051f62ce844bbe4e7d6aec2a69a004d59bb7741a8d7e1a8d7af5fff07bdde9cf6, '2016-07-09 03:50:19'),
+(27, 7, 'audit/log', 0x789ced5c5953dbca127ecfaf50f162b80558eb68a1b85524e1d4e116012ecbcd8babecb1346025b2e4a3c5c43995ff7e7b46b2ac65c4662b241c2521c8d6687a99ee9eafa7dbc69664fd1d5986b535255184ef48b475802dd5b0fe762d11aeb4f422b234cdda7a1f047114877826dcbbf144f8124c7c379efb832422e1cc4ba2413ec0b2c6cbcbed9dad03d792e0c7801f19a652246b6be1ba83318ec8e06836f35c1bc76ee0171ea28f28078e25a9c81015244be6bea12a26fc861b2af0255a7ffff841a72db0288bd6d669801dd7bf13a6819378c412c231b6abf46554a0ff291d68dd9138bd6c206dca65caf26394a95236405995f5aad04a695df4daba8c8943bebb77fe0048c9039c386edcf2caa89a8ca43293ea538d87aed04f301e5533b58a1eb5a7b288bfe06f7698386db38894ea52a3228b9259b7b23bd7dd849121c5a8ac9f5ea4ac2835e5500a5e7037f8e846331cdb93bab1bf580dba6656d460949c4daaabc121e3e46e138ad075b54cda2c925655ae1e18f59c420b96a1897225fc48a5e0acca5cbec0385ae54a32cc8ad548d2632bc5c2d106564a93cc1af1524c56c52705c6231e3f2fd688a657792a076b90f3222471bc106e2e4f053f8805e2e3b1479c7de126a26a72c82d4ebc98dd9ee190bd076ee6dafb351ee594c77b321edc84de27ecc3ee1d5a167d8a5c92bf1212c57c26912c57b92c456b15a4bf0c929808613a0d712ca1370b8305b1e3606f461cd709fa7648704c7a35b6d4155b25cd4db0ef788f30a6549c4f2a8568052df98a03214c7c4be0f35463492cace687c08fc3c0f3a8aa608e239b72c7674757f42adc28c763d832ae0035c1044214e310f4b424ad2e0d5b5a69231b6a59c18c3450340db14ab11c8701a75dfd79fe59f8e3e6f454f8707e7af3e9ec4af8e3f2fc9330a27863886d3b48fc381a3531e28c4103d329ac8565c14a840b2e23f02bdf89a4021404dbb0b66e5dea92801961cafe1c87fdfbfbfbfe249e7afd30b2fb73e23b41d85fee9d7dea6a7b94b73dbac9f7a3d0eed375e8433c205ed4bf813b4719d3fbb3c98c4e0c343cd74fdd1ea103864e6f133f5ba9c8d2290fbe73ee333660116c0f4711bd96955ccaf740842eee1c4cce0e42279b385eccd853e03c96b575f083e9b8b4bd6830ea1c56887adec7f7821df83e61a42d61ba88fef2ac4910c5875e60638f5e1d38631f4fc921c85ed3b952d0793e4bf3f2237965706f5feb722932220926b93a3e3dfe70fd4e803f5fed641f544f43adebc743aae2ddc20d2f99fa953743724b42e2dbc419c634a436df2e3cfe8ef98eebdf06e194c5a9610450668a97c363177bc3151f9170742584f6bbff9c9f9cf19efa4a16cbd9139a4cd1e1405c383f637c6cb3ff39e2418cc410e58543989cf7fef965fee476c3a32757c2190d0a47671f1b26c946ecb0a976e8409ea653496a9c646f373c4455597b84e9f7f39fc797c7fcb90e050738a366b9cdb86193a64bc719f12e136cb5b670bb570a7abdca2cfc41eb45465d95b47f908fa22aca4c5d54f81777d311d2d51eb9cee8505e53cfe60aa4fc03f45cca3234a9a6679cc493219000f03a85a8946b9ae99faabb27af69d8f0f751bb463a4fdfb721402ad079dfcea155d4bfc890d90503662bd0c5d1b026d6150c5ab4b15f55ae5484bcec78a5aad1bd7f671a554ab90052f81a756332cd7549c30528f2119cfb42ed1aa2f8a6d45b02e62accf76142ecaf1433cd48387553a4fb447cae66f89c9e040d3e8ef34cc6a653826b026e060f4a20199af373415344fa5b526e29eaea7a6ebb23c8ed98f7574c78684f5ccfc90d397dd592259b926cbc255d9bd5fcfcb97162986a775db5aabaf286d4aa96c22f4dc0f3f8008c905564c8b4b7f990a0abf25b0ab8aa528d099789cf72549c25a74bb60705b6074d6c5b56fad8071612384782c503b9139f8a7694a5af61e27f76e3c9050ef134e2ebde1097e178590c289f2f89cda71815bb58f31cc33465f35114d98e15489a5c370358fce13022f15aa87165137a3983d6bb0cbacba09f9b4157b7b1861c7aa3bb9d266aa6f276fd522bd566d00a538cfc603a0ec96897a5c8bb34da11db0dd8eb395ec23a70081282d79008580ae72e8c58f33c579344f44aa04d0258c3db0db1e7d5764323172955f47f53799af55cda1355ad79576943a5aafa5a195dab3a2de51e48eef6946e4f79f69ec273b7a68d853b764dd78464eab57697365dd32ce754f0fcc9d9d5f1e5b57072767d5e87cec2f68844318e93886e30c42721db696e096c41e9e51487dfd9051e87ae97beb3606f7c497c37bbf0d20b7c174431bb8ac82c76c972230bec38c92efd60be7adf8195cc5f607a70899da0b2e739c3e5eaa78cd9133ca4871470df1fed08ff3b3abd39be12b6a55d41d915c407ffc118097e7ab222ee8b626f5790e90b51427ba2be279a82a8c0b66c49666fa7665b4addb6c837482e636e66a929bafa5a71df34ebc605f7233c5fef1c3a3731544edb51f38eca9a2786108ac3c59a1ba989d4bc774c6952a82e3e70d2bf6ceb484ffa1967ec943f3be0671d1ec794532e1cd4da84837987e2cf914653ebc2c02286398b45691430525e474c4a68b022d4289bcc914d335e201ba3c591473638ab03022dcf913726505e8941a5836d249a1dfee9f0cf73f14f213836c19ee290b5e22712656474f1b38b9fbf48fc2cf552011cae80d4226e00801ad2763e0afe96856c0a0b670c327ec1dfe8efac05713825f12460f753e69d02406caa74a5285092f57d0085fb528fc1c4dec5f9d575af2574884484f21eae57f0465eb3c2c61062e78cbf9933ead2f3e03cdd09bdf5e03cd20cdd7c7c3b7aa871e741bd5e5316df93099ebb012f479265a3ae6409c88de987144e7c0833b56d4952ab023ecf015a134632758e30993faf66a8998ec1379d3acd6739438b72ca1ccfa0ddd56c9ea3380edd3104dc68e3823227513bc4df21fe8d207e163f1f46fce990b542ac8e20c87521b60bb1bf4f882d352a4826fdac25272b48e1073db6a6b826cb060a8941e039c339f692f4b099dcaf5ea4cd2cec009bc2a3fc227bf0d6255e43eaa0a73902cd0710fdefc3e5f1d1f531bdb2c14e037fb0045c95569afc01d769cc25764bd3cb2f9c3e3f237f221de545745879e08914c41751c8ea0eadd260058d5629b04a49cb322cda1581d5765aa6e0b54c21ad46b54a6255e66a954c563f6b95465e987b2215e94554f28adf5303e2b254f77c52690df1a97438435e16c08af5c9a7aaf265ba5c164c5b5db0ac3adcd659988e0c4579fc2cece7e254dddaca59ee206a07519710d528f5ece9daaa676f09401ff92416fb1c461b1f0d304c49cc5bd9e52637d2b8a7b06920589eb696c300770538adeb12b2b6ee484cfbd34f9ce8fde232f0eabe63f0daf59fe53fedb44cc8224722a004b6749771c89323fba680e92cf0618d1f329b520ba2a9d63e3ee207b17b9b7d07c2d256b60b1fdb937ae999c3f6e82b59c06b3f21f3dc6e0ab7d868540fc9cfb324243ee16c567bc0c1a7d89e044998fa7751b6a87f567c957e71076741107f3d36f669ca86e0fc429932c7298ac6731b915fa960732daa32a97027239946ab12c901478d8da2724b169b0904f2e624ca504851b0076a1646a9019556419a6a1625d75ad3310c457c6dc76838541b66c7be895d3f54d30ad1ea7cfc85d84da1aaf38adfdd2b4abd9f4892ba224557a4786e91a268804d558ad298b582aa292a5d50ed82ea2f1c54cd52b7b344fb234a558932764f11faae30a253a57df0c4af542832a0beaa340c715cec532aa17b7a64967edb5b6fd9c28e7685b3f3cfdb3beb1ebd98a261bcb6efe91ca4df762b52e77bbf8def696b26cef24f4c9c4d8424f4f849669738771ef58a1e65fc52bb99bcc1dd4c97d46e33eb5cef97753d492c35da1ac0c4cdc5c7a3ebe34abffbd5f1b530729230f5c143715fd44c5395455117916a48266d5b21d3205c0ca7f8dbe8505690a2896af15bf5f4f55c09723219a1478b09edf5a7eb3fbf3f7db33ddc8a5417c060db30f6dcef9bece2ce6a0c3f7efc1fdccd69cd, '2016-07-09 03:50:19'),
+(28, 7, 'audit/profiling', 0x789ced5d6d739bb816fede5fc1f84bd23b492c0910884cee4cda666773a78dbb49bafd92195b0625a6c590059cd6dde97fbf12f80d1b621b4cec24dadd76b11192cec3798e8e8e8e646aa9d6bf9185ad469ff58370d838762da4625507da716469562376fbac71ec58e00860c3242a312151559da886ce0b98e2b928a2772c6a1c534bc7d6bfae0589b814578017d17925ad7be6bbfe9df2e19d6207becfecd80d7c4be90fa37f3cab1744f18917d8d41357c74ed7a77d761246b6e80be47f4c203ac5ab42aad518baee8dd3bd793fadc60a78eda2accabb09356c021523488e4c0d235d171568bc3f30ed4fd2b144b05bd7e3827111a0d5683ed0b0f9e3c78f662fee7b4dde74f381f94e1036bf053ddf8d1ffc266f161d0e22161ede7b83a8198576b34b23d6ec070ef3a2e6177ee7d4b683811f4747f7bdfb460a9ee7fa2ce919c62958b7033fe9b4b86f883ef84ecb4fbaa15b0ddba351d4c8caf98e3772ca1f796097cc0e426754713cbc4f9e4256c3b21ac7bf7fffe60881cdc24e7059d8b1f69a6087b3b0abbcb5ab3f5b5f953fbe7cfca8bc6f7dfcf2e9e24af9e3b2f549e90839da74d4ddcea276c31998fb7dea3b96f5cf80a59ccc01d924e4f5808caa813cd5e5b540361080af4893b5599031e4955c9d7d3c7b7ffd46e1ff7cb70747dc8a4471485d3f6e0b6b713073c31bf4fdb92f4376cb42e6dbcc69c7b4ebb1e2db338fbf495ea3ebdf06619f0a49db91dd637d3a2e1ebbd46b4ffb1129a7574a68bff95febfc22efa9ef6c38ae7d208629519c37aeb42e927eec277fe78867d3987ac19d72c22bcffbbe75397972bfe0d1f32be542e8e7e9c587824a4625de2655bd1505f3904e2559e8c9e8eb828704940b8f24f87efdf3ecf22cbfae13c5e13d136ab99ff426a9347d753925de8c049bbe5b7e7b2fc3bfbdb95af20b55b48486a6bd228eea92a392a3dbe368d981d430f457e4ad18b324d5d098a3ca7f729d14257ddd1dd7e99ca0aac69068e8155943b33ad02535da8418bf1a9cd5ecd4122ee04c0771afcd9b70effc3eb7ff13a413fc05dc7ba8ea306feacb5d716ce4017e1b067ecc416f726b1a8781e7b1306a7e0e83219fc9069f99e33ac1fbc99d1c8875b0883087d1a6fe3cba10a512fd60dd1bf1de16213dfcef1852b84148cbeab001d052abfc9c305533ce919a8fa91bb3fe044d31da7128ef473d3fbc4fbadeb44346635659654db4dc183f277cb59af02da9bf0400ed25c19b711b0c63026fe79e8689099843b96df75ccf99609d7eaa4b9909d4cc9704b6f9246097d56c0d182fc9326b590702af6f39da29be95b598fffb9270859bc6b5acc262025e94c266e22c1a280e38cf015935ae4f88b62de6431d2d22c9f16bb72316579a484c61c555612da79f3a50b5e5cb25cf17d6cc6086a121a382322ab86e54707e4428880b6e7640d60186f005139348624a626e979865474c825e2c2df58cdb8ca76e73c70ffadd90750e9220f181704398ed06c9e7073a9e13723eb090938645bc4be183cb4b54cde7d02130d52de16da8b90e34f5bc0507da9c889422fd572a4f31d0a83ea04bea35d456c8e97886486762739a5eec59d7a2bddaf2e5bd6788a9be114ccb2aaa41d497a8a899282746d225922ed1da2e511edf8afca2dcb255ed1dc1c64be4a629b929b9b92bdc2c396e22646c6be65223357166054505fcf9f38babb3cb6be5fce2bab5182f55f63b2c8a693c88844fcd7c1626cef52de35e777ad9a7e1afe4827643d74bbf19265f7c1bf8eee8c24b2fe85d10c5c955c4ee63978d7df7c08e07a34b3f78987eeff03739f940450e0375823937df698fdf7eda31bb47db62f58cdff73b6f95bf4f3f7e39bb52f6e181a21e28e0d1ff7819c8ffec21151c01b077a020f101407c088c434014a05a3ab020d97bfbf89e92916eb19fcc1ec42c57bb54c3dc96e1276451bbf8fd883e544bf399ea18943ab6411dcbdf40b3828e114ddd9605ab5fc732393a2a2e9e53d181e3c66d3ede87c3aad353eead8d832b6a11a006782459afcb1cf68b6b589aac97f42c49d41be5e89d8a2fce444f73e3597a9df12c01cc134aa36b8bc2f097184eba382b8dca9574dcd88d68ec2669ec266de866da50a16c284736dd2c215bd2568e3cc8cc793b5ca0348f6383024d9229b1568501e59c220ca0aa1249014981dda040260d000322e799729eb9ee3c73c63a164d2f678b547321304004406940a501dd0d036a48032a0de8760c68590f54d70c6940a501dd11039a49cc82863a17ea9a9d7a29fb9d3018c4499c69bcfb4a0497ee93c0d337fa53fc3f645cf5a3b8dd67712f48eea79d7766c24c459b05d2581244c611e0ffc2bd24d8b4f7b97575bd57571c13036c9a5b9c10e6ed5adc589c49b2f199b1d1002f838d6523be58c79a26d928d9b81b6c44eb05288567ea550cd1639d20b49c018f6da87f14d86bd1c777ac471fdc206fe10321731165c89bebd2d8ee9dfbdcd02cb889509b17703d06d4260c24468e3023424f6b58d01d335f7716db5c8b0d35ca8972a801b948493da7711cba5d6e71a38d0b9ab064cd85ac2c4bca4da20c0c0c2c592259f27c58a2cb40950c546d24509518d0c7035569916a9e8881395fa4859516f6b95858b9962a2dec962c6c592f5627cb5702a489952676574c6c665b0424ba9e1b9f4c677822295604584671c9991065e039ed07ea0dd25456f663fa81262225e9b1224e33b9183d78eb32af208869a4d14a1199c4e2aff79767a7d767e2cae67a1af837e3c8cf4d360b74f280eb1446350f32d5a392d54f3270576c472dd54e927cbc620ba0540ba3ace65adb48d2a56b6d21c9c3ae598661bd222499e335b7e0d5dc429aeb5e6b13d324fa5a9b1965e7d7dac624ed7fc55660a95626fb09563588e38d00eb3795ee5058b59d9c22e50cd8ecee8755a12c87e5783b46ad2f6cb4f764e9aa5cd93572039b93230f77c54f35acc6a4c7d245952eeac44525d245952eaa7451a58b2a5d54e9a24a17f599b9a86513c74c93682ba4714a1f55faa8dbf751cdccf102863e3d0c6eec812ef9e98be418f65ace05370944e3a91e2aa2919e9bb2985a82716a62d60ee4be819ce3aa21b61a772c1667529f3bd1bbe165e02d7267746248d8a5f6cd87ee27ead3bbc223acf3f953cf990108e448c45be2ba7437ea619e1c62394abc99fbc0e7eff831b5414fa036e556b2c4efe14e96b2a4deec98de64f6d9136de16c7c3f88dd5bd74e569ec7cab23ff3fb3a702f5d4fddef7c6743fed91fb08789e2ccdc4a4ae39c70d37aaa8491b17c24d71f1919fad4ee0583301d1866858b9a17b39f3e05cec063396f04e7bf908dfd9454c1a85e52a611736645cbe30dc8cf074fea1acecba4891fc24e9b4c87b94c93373930168a9a9b18be194b803627d1c87f9d15ac40a28452fa762855d63a1b64859c72492949a92d522ab3935b6cdf284a23cf70abea60b3caca46bdc42848c2698fd2c406f662128e3ee301b4badf985d34fc4b563c7756989558516ebc200041b43c314dd242d2624bb420997db2184299eb2b737dd7cdf59d55c0a264df4c996abe0601eaf4977ba555955675f7ac2a9456555ad56d59d5b2be2a963655dad4ddb5a999ddf1506c8fcfa4a36503856938f040e988aad213c0993f979a368a0a4e53ccda349e3dcd25134a14b912ec960ebc786f7c78373e502e5a5ff7df564e0b25c02464cb61452327aca8d57c608b24dfb3219fb6f3e42b9bf042b0bac251ee927b927bdbe25e663b76892532f494abce04631d6dd98f942b6492518f32cad80ea34a4ecc30d1d56d4fcd24a524a51ea514d92907116d727666407ddb7954d24394e42b261f0460e7d957727a4600c26885df1992ec93ecdb1afb32e9e426efc497cf1f4eafcfe64e99be3abb563ace204c5978028e804e8886003000d64c48c4fe57d60fc261bb4f7f764e908a551d68939473ee491a1587320254158c276785c9e5f51d0a6d3cfda1d09b3d3899bbe10b0298891b4c3df7d7821055cf824eb54b7d6aed2a6daa0930b4a57b17a47aed8e7afdfefd7f8858a03a, '2016-07-09 03:50:19'),
+(29, 8, 'audit/request', 0x789cdd57fb6fa34610febd7f05b294eaae8acdcb601b9f5b118c1f716c1c5837b93e84d6b0b6b9602080f3b8d3fdef9d05d67122a739b527556aa4c8b03b333bf3cdccb703d6c4a6f625d35a5a6d15e26c43b25a176b82f6e56ba6898256cb729cef3223f649ad1b6892207433aa514bc9ed8e64f988609fa4858ea8503bb0b589b3bc46c55410cbbcc62a8da39c447ec32777c53a98f5e228225e1ec4115bb92124a9e330b823b5ea08af50cbeb2189d6f986ae4a5aadd9a40f603949f17a8be94b5bab4571ddc3dea654954195bed4a981340e8fc8807e9c06eba0385d02854d9e271acf1f75174e7da87b59baaae7f10d29541430e0495305235b76fafad9e4d7cbdb8ffd85e25f9a6bffb338bc3c4baeadcbc5627ee5d9f3d15a998cee4dcff8ad43ee7b3d16f02e23691daf21c27245d16ad3f873108698571a02f7ee5a14bbdc4510ed1eb887b6eaaacdf79c9e2421b922cb4990f38adc6ac82af76e3242d38b532e0c6e083724de4dfc9e333669bc25bc22368486d4129a0d51503907af701a546a2c2e0671fe9894b8004edb5d9807094e737e15a7dbba8f73dce596f12ef271fad8abc35fe9c10076cfaa655defc7ce793b994d1ec7f6d45e541863cf2349111e40fc13ff13ab8a877a553ec4afdf07656e69c6afa7172348845d6ed2d516adb41549495abc49af668a0f229f3c34924df24bda4bd2f811aa2bae27c40ffcf8441a940f3fe22c5847d88f7ba2589ca9301feb24f2623f88d6ac82d69f83e494f30934454e5ec886385aef2073ac7848764aa2fac2e9def684461b9e8b07b502c18be39ba094a569776925f564dc69fa4bd1536471b522aaa488ad4e53f09a04cb8ae413ace065cb139a78b92492d8923159759a2d42f0521555d15bf9f844d625f83f699d05f0239cc86719fc2a7449928a33e01756e9ae58edca52b99d9e6f0d74766ba6c60ca52d7b7dbeaa2367958fce27e6b67fa94c4acd9356bfcbcd4773c7749c71bf17aefcf05333b9c54192010e6a87785b55512255ae75bf96f0a4244be2282307a4c0b8c57c488294720ba0d0d16a68b33be5c40e378befe0a72d72425b53244d10b8e114b1141845131b4f4d2c2b451767799c92538ef5f329b7dd653954d41db0875f650b709fbf4a1050454655f8a82a7c5984ec4277051ea6a4c47fcae2a8cb791b9c6624ef2dd0a0de2ec2a451c6bbf20c49a22cf4acd2789f8464ef01de139c0ae659b5fe51d1520810fd31aff4e785bab1dfd1b452b95fd87bf79ef95daece718ab725e96a5f02ade064ada6968910f7e47c16fb8f4f6c0e0e39a6fdab69d325b94d13039918213477479683fe96b1954ad0b06633d340636bf63a6d830c3267c8bd306743347a46dbd4b7c2cedcd68753fd586edaec24dd1899f43c645b17c7049929cb1e0fc7b36fe1f156a571ed1a8e3d7091353167df85cc193a0bc0d7d58710fc7fc7e80c7df4716e7e6f46df63ae1b863947cf795d12f7f0dae6e5c27490d977afc665051c2777ea6fa1629b03d3a685f9fd295e129ef9ec9a33c3ea8f67c35779fea5c2853e1b2e20a9df40f67b7c0ccb9a8ccdff35e51793de5c2fd3ab4290fc2e4bf930f670c867cb20d20edef7af4f1bc543f9ba2ca73071cf4fae331ece74b4b00b045bd0b61fb0efc3ed91fdac27b4ff79a9011dd0e6de2d96bb28dfbde71c92de9194c339f7b266b8799ce65c5bf8c033133fb0966587590374a5976751463f7e044b6fa534d3a7e6df12e693a8deef17850d5c2b4a2de85fa121be10995b36aa78b22db03ddb9c5ac87c5d1d4ab16f198b296d76dbb210bbc5f83b9cf2f7f7f7fc26df86b48778e61c7f4f963cebc6aa475d0768b68ca55936de331abf4640d5e6607c4d5721c9acd1d9e63ff6403ac0675ad237a5fedfa398ab12c5ade14e89fedc67cbb0c7d08d83315c2b15f84de1cdb3f68cf102558638185624b9a3b2fb61a823f34affe88e213c7ba01b6635831ac3312f36c417a533b72d6419fbeb89b6fe5eea00e2a98946569fb50cbb6a0101d8b63fba0eb22b3ea2e01d63b672a8f831f07bea531ca5ed853d2e0c83b537e8f188910ad37d310b8746aaa0800d5cc7bc181c17a03963aea0f1d4740717960ef1f90080da16645595d446b353c57b2849bf269f64e8e002053d34111d4e243a9b502cde9eb26033f06b87f3cf1ee383b987f171655aa928b9ec2308ea5f5333b55bce614fb6213e9a53f0f02df205bfab16df736f111b78fec6d40da7d18e709ea26dd1ea040b74428331af1abf5db7f8b83ff8b417e9624af25d1a2dd2b04290af8ad47529a8f0b9dffdfaf52f1e8ee031, '2016-07-09 03:57:06'),
+(30, 8, 'audit/db', 0x789ced5c5b53e248147ef757a47841b754d297742e965be52853e3962396e0ce0b5510935632131236095e66caffbedd09022141870464d01e6b30247d39e7cbf9be749fee681ac0f8151a9a51e9d330346f695839300d448c5f8e01013b54f8917c101a8895697e697c933e5f9d9d49c78db3abafe74de9f365e3abd41d8634e89896e50fbd28ec560e1c03b0ff9acc3e20ab0a815179749cb67ddd3ef6fb7dd3b30de3bf210d1e794974601b00134d468440b28f754290caab63d63b487a8fcd080d6c546e1c975658931a6bb2766706b5fbfbfb5a2feabbb520b46a77d4b3fda0f6ddef794e74e7d558a7708f1bb7377087612d0cacdab519d25adfb7a91bd6aed895a391d5fb83de8037ccfa701d8fc696117210437333f4acc8f13d7e5de5367876c38bcd508c8ae59a61c88f211a7bf9897572c4aadcd14b6af9813d6a387a1cc4b5a051318ccac1d3d313c3079603592785405611821f08643c0d3201ac9166fdac7edcda92d8bf1fd670dff2bd300a4cc78b3a9ed9a7bb5317dc61df9b3919d01b1a50cfa2762732af5d3afff254f5adf8363ade8d1ff44dee6927b47ab46f3e178f1cd3ed4cec08a5a3a614585bff344ecff36afda08fcfad0f39717971d6b9d4388fedd88e3f73dcb3ccc874fd5be990359e77be7139aeb93da7ea69533ae7f179747e32a79151899db8a91d5e300fe9c4938c25a3d3732a71283355627cbf7da95fd6f3db3a946c66190fcbedd89ab8d1e4d6e594d81a3936b9b7ec7235c5bfea4c2bf9854a2aa14a00fc381c5504470547d7c7d1820f524d513fd268459d262986cf1c95feca1da448c9edee3a76f7109614435dc658ff38406be5812e18d1ba02f48f13d1489e065a0119a0cd61d4ebb02e9c5bafcf1e0063a8e31bc0f1aec272cf79459691fcba8610350ff19bc0f722867a8de96914f8ae4b83b07611f88fd48afc0b6a3bb67f3cbe9283b122672166385aa6370b2f80894bf7f4bacd6f5c16d3bdbf9f31054bc4b45014334c55005e958b4dc214a58647281f5327a2fd319afc79c7a01c8c2cdf1bc4a6d718f568444bc7aca668ef2a66f18af02d18bf00e057c7fe9b046f6ae0a0aa6378bb033388256006e58ed5735c7b8c75f26d55c10c902cbfab60d6de04eda2a1cd94e33d49334e0f21c8e2d2d149f02d1dc644d1de15b060d9c0168d5855c3ef491f702ad782e5f949e71920cbe5f615192a188d70846f8b23661daf7432c171792b67109b1e669cd11367bef2b9d5ac3b987d79eeb43dd5697b5ea72f050f291b3c055988544501227a363c7a524313025491e61569de45d3bcb38ff73989de250faf30c2ba2ef467c3f54717fa23f467bdfa5370fca3b06988d09f0dd71f2535a7c5d939edeca0797a69a74aca3ec3144c44046d7804c1e544505115d28898856d7c0ca5563bf8f2f2098ba156fd37228864150865e3873e506b18d1dc082218ac2b4d990b3a635092d8ce64d4f4b1632f07cf0457a53cae135e2e862b800a58d72ac6ca714d2d1f21323fe7640e6d27eab02174f05832590990a2692338d13c3855f9857d10d7d4a63f9ddbd13e88d8b2780fc468fbc3113f51e796e6200a582865106520763a218d4a295d0c6abed2adcc1ba63779e1118c4d9cf606b1107deeaccd3b6bc79db5938eda938ee6fa06737c53b402bec57de5f803b59cbbc31cb2026a66e3bd8443e37d2a8a568601c59ef5106993adf882028202eba50049adb3125917a91b91ba59347533a58ef3d236d345ca0d212006040bfd14faf967e82710fa29f4733dfa597000aaa870bce426045408e89a0534b5071ba8ec8e9f9e37eb972de9f4bcd548cfbca4ed6ee00f23dadd9d6c6b6787ce807f9adfcd07fe3ba02cf4c3a8d3a751cf8faf27c6dbdd1de9dfa3b3ab7a53da9eb709735782bb521540755f663f807d07ecfb45a3d96287552803b227ab7bb22ec9c850544326d59db2993b4874455d1f1bf35e0761d743f3ae5cea57907123c988df07198ba67b11d4c91a1f8d828c828c5364248b6527f9b8d42d999f474851c8ab0478e93dc517716d71133fd19e79e7f8794b1e10e7478de33181c98c0e019ef56cb1d05f991b0082ac1b504e983c69e124772187ffb992bcd0c9f6bc101956e8ad9ce32df3286e66e9dec5cc5870e52acd8c62d32684b14e5ecfdb0b6a086aac951abac847897cd452f251b16abe9c8f4a8a941c726022845508eb9f2eacaa582815c2ba26612d3862e53b9385ae0a5dfdb37515a6538e6a6eca3199c149db5d33b68a2712e32ce428e938957f8c332ce383d1c99ca463b287b4ba2b69499ed16251e77bede70ccdcc06609e71242b5b03400a20f0f5bce30aa99a93db6237626cb2e0aae02ae72a7a3f5c2dba44800190f5b54e57045705577f83aba9b72634d6e4d5c5c951ab3eb388d7acb7a4ae3d0ce27941f750de97f93b0faa863515e904624e4edaf7197bfbe643f710ca08eb329e7ec7422bfbf4c390b5faea3b98ab5b7553df7ed56db92b532827b6b4f8a527d3757e2e736d6a125de4ada3abb05e6b40c722ba3628ba9e9efe0715b7be81, '2016-07-09 03:57:06'),
+(31, 8, 'audit/log', 0x789ced5b6d53db4610fe9e5fa1e18ba113b0ee743abd30748604774a073083a1f9e2195b960eac46965cbd406986ffde3d4996f572c610dba4499c4c886c9d6e779fdbdd7b764f582632bf44a66eee4c581459772cda39b44cc530bfb8a60c576a761199aa6aee7c0882388a436b2a3db8f158fa2b18fb6e7ceff7938885532f89fac500d31ccd2e77f7760e5d13c13f1dfe61984a41e6cea3ebf64756c4fac7d3a9e7da56ec067ee921fe8872e89888505d5628c5f48018484594cf43402fd9fcf2f4c4a72da9886573e72cb01cd7bf9326819378cc94c29165d7e5635a927f9e0d34ef589c5d8a45d3aa5cbc4c2e87640d723126b866b2525915adb12a23e6b07fdd3bbf0fa270df4a1c37def0ba280a55ab3a92977a0e5f9e37f01c4535e41a8cea4b55b4feb2feb1c3c4d9b48a9452a3aa222dab888ca693ddb9ee1a7c4ca15a5db25696ac280d70b8042fb8eb9fb8d1d48aed71d3d7bf1a06036b555df44aa8a1260a0e1b2577ebc0c1a04a55b451164d881086547a2161038e4130ad21822a899960a15ee01b1bd54ad18d7a2e46cb562a4d466b5829a2187a5d78252313f94569f158a4cf5723a269f575aaa66ab0f3326471fc28dd5c9d497e104bccb7461e730ea49b88c3e4b05b2bf1e2f4f6d40ad3ef20ca5cfba0a123ce747c60a3fe4de89d5b3eecdca169f2a7d815fb3b61512c5652277a4dc94aae2660fc5590c44c0ab35998634aad69183c323b0ef6a7cc719da0ed308fc5acd5d08accb5aa0037b67cc75ba297568b3d5449d00a9de915075298f8a624d6a9a1925c5acc8f811f8781e771a4608e639b6b2754479511aa3b58351bc386d103c2041348516c8580d34c3499f9359aa3910f35cd60ca16482446dd7baa4918185aeff7ee27e9b79bb333e963f7ece6fca227fd76d53d97869c6b0c2cdb0e123f8e868bf4704600c064024b619ab010e1a3500f2a170b814a1c103cc3dcb975793c02598419dbf756d87e7878688fe389d70e23bb7dcf7c2708dbb37db3cde36c9fabb6cf37f87614da6dbe0a6d4806cc8bda3770e738d7f9603a9ef2894186e7fa59cc537a98d2d2dbc4cfd7293235ae83ef74fd540d5802dbb3a2885f63a530f20308e14b7b0f0e6707a1934f1c3f4ed3a720724c73e7f02985b8b2b7a830aa0bebc3c3eee4836407becf52d1a634798cfef6cc7110c5475e605b1ebf3a7446be356147607b0372a5047931cbe2c5a748fe7940c795ac48114cd2eb9c753e5ebf93e0cf673b3900e4799a75fd78c0117e5fbae12513bff665c86e59c87c9b398398a7d3c5b74b8fbf4b23c7f56f83709226a941042c6662cd86c7aee50de67a44d2714f0aed777f744f2f444f7d668fb3d9135e44f1e1205cea5ea47aeca63f05e64182b420c34b4730b9e8fbee55f1e4ee82474f7bd2054f09c717270b26c947eca553edf18122a4334b1a9ae45f2f788843d97824c5f7d3ef9dab8e78ae23c901cdb85beea6daa493664b2718f12e376cbeb670bb554979adda2ce241abe5454dd5d0cf13a2b44e30b308957e11ee3852b6d843d7191ee1d560366459377e1e9c2b05868a1a385b493c1e8008e0ad13484a05d229fe1cee165ec9af5559c61a590a38d54480df86c0a700f4b65df0aaa87d99d3b2cb9495cd19970062556e220c30da965f471795e96eda58a943baff6b0ea952a903a82286d48dd9a40093a70b407209c9fd4a7875052fcd1bdf13bc15564e60be8f63667fe69469cac2899bd1dc179273929373de04ea9f8c8a2ac6e653426c026986104aa010ba17d58140d2b1acfc50e856f2aea615ce3b84c22e8dff9a0f0fecb1eb398527679f36e4ca08ebf847c2daa817e7af4d14830cdd5561a58af603c14a2af99797df45820045d83c35e4e8ad3f27e8ea8fe4a644a9a784abc44f4b542baf4d676af74b6af717a96d9ad96327694610b403cbcdb8539f9b769c57af61e27f72e3f1a5155a9348083d46aa566b24936a77495edcc4a8f9c54a6d0c508568852af86ddd80c0926d943916a75e6f608c82f5a6314666cc3927d27573087c7895473ee7fb5ab553a06d3b05db4ec16b3b05f5dd7a41af60bd9b3a51e4a27fbc4d3fdf69fa51abc76c4d8658dfb2ca7d90165dd1855482e97607fbde5da8c2de7823ed045ce8baf30207a2cf1e2ae4eec3fe012e1c8b893055f4e5adb437c41ce267d606a8b161a330ec79df99c35aa99339675dc42ad373de01ecd2e1e36a8c122984921c4d65119a9afc4c637276009d352653c5d2a664de8f4ccfa23b5c5101a048559b8002868341c4e295e231c5541c8f1bb3462542ef080b15cbd628e0a1a2b3fb4c507f2e68a16d58609baa7f856da92c813d5817ac0e186487cc6abafb0a06158d63b5d2bca0b2b165c65b66fc5a665cca8d8b587179c84ae9131384f56dfadca6cfff45faa4952625d260c54f2f7a9dab6be9f4e2ba5b650dd2ee30e42f1e0ddfcf8fdde0d29df29ffcdd50fe7ffeb2d460c2e27190decf9477867bd29fc767379d9eb4bba82bff5ec2efa516c2da810c7f117c46f0f9b2dbbb86cb169611dd97b57dd9906485bfee2bd3d6de8ad4100a0bb97879ef1b44a3e86815ee47d6fd6ab5c53618bfcb606cbce8f73c99e71ba1b71a995714a8af97faff736f193c0beb35d7f0031b5bf76e202a8f30113b8deb437e69ec4788d42d7b9de76fcc0c8451d30cfebb103c90e7339c088b3efe3ee3c257722b925f150b1bb45616580b16e5ef34afd9ba3430f42dc9df92fcb590fc34673e4ff2b321aba55542357939afd8e6d56d5efd9679554355f6af09d97f463380fd6707e69cd3a70541ceff4ba5404a768a8bfc4b01ffcf5abf40eaf58cf2dbe07581df9f91a55a7f99937fbaa90a405111d1be65a00a48262c43a1f13652b791ca23b5f2f6880e53de5c9e1c5f776a157aaf732d0d9d244c99c6f008ca68156155d3f92f151914131e9a6c1240ec4ea05c3fc2b2420c99940f5bf415e389604497bf6fb2b98a5a7bfb8a7abd55a722702d3d3da4b33cf7df75d69db9733d3dfd07e424796f, '2016-07-09 03:57:06');
+INSERT INTO `audit_data` (`id`, `entry_id`, `type`, `data`, `created`) VALUES
+(32, 8, 'audit/profiling', 0x789ced5c6d53e23a14feeeafe8f005bda392b7a62f8e77c655eeac775c7144ef7e61066a1ba5bba565dba2ebeef8df6fd2225028bab620a27147b7b46972ced3e73c494e522c139bbf23939a951eeb05e17d65cf3511040419742f32895989dd1eabec3926d805146000351d6800501dab06e1257471631459372caaec5926d6cddfae090d7ea88a23c08ba8bc96469ff9ae7fa31c7d52ecc0f7991dbb816f2abdfbe88767768328def702dbf2c4d19e73e55b3db61f46b63006f25f1d08ab7855089b957bd76d3957adc3713566c06b176531b71312aa034c29a2bbc4a010f1d3845b03536b12b312bfae5d8ffbc51d8066a5766b85b5bbbbbb5a37ee7935de70ed96f94e10d6be055ddf8d6ffd1a6f14ed0c2216eef4bd41548b42bb766545acd60b1ce645b54b7ee5c0b683811f47bbfd6ebf9262e7b93e4beca23485ea7ae027268beb9ab0c1771a7e62866a566ccf8aa24ad6cb4fbc91037ecb2d3b6776103ac38ae3fb7e7217322ba659d97b7878e0f880c582ce095010740af48f833a9c449dd3bfd2fcdcf8aafc737972a21c364e2ebf9c36957fce1b5f948ef0a36d0dcdedcc521b4ea0dceb59be639a3f062c8dc81c8cb1063f0ec8a81cc8632abf08640d63f4814026932053c82b69d64fea87171b0afff96e0f76b988447168b97edc1662b13d71c11bf4fca99321bb6621f36de6b463ebca63f32f4fdcbe913c46d7bf0ec29e253c6d477697f5acc7e2b16b79edb11d9172d054427be3dfc6f169de5ddfd9fd63ed03d14789e2bc71a5719ad8b199fccd71cfb662cb0b6e947d5e79def9c6f9e8cecd39b71e379553c1cf83d3a339950c4b6c25556d89827948a79ecc58323c3de72601e5cc2d09be5f3fd7cfebf975ed2b0eb74cd07233b126a9347d74392536868e8d9f2dbf5ccdc45f75aa96fc42259550fb507dbc2a6354c6e8ea62b46047aaabda471aad6893414ad0638c2a7fe50e5294f471775ca7b38f4a8aa10108313e0ed07a79a00b32da50a1f171188db3534b3803b43588bb6dde847be3f7780730823a790002ef2a2ad7cfab0060f0bc86502d0ff1eb30f0638e7a8deb691c069ec7c2a8761606f77c2a1b9c31c77582c3d1951c8c55300b31c7d1b6fc6978214a5dba63572df1e06631ddf9fb1153b8404c0bb19863aa41f8ac5cac13a638333cc2f998ba31eb8dd014fd1d87b23fb47ca79f985ee3a1c762569ab3baaabf2bce9225e15b90bf109267c7feeb046f66e0a06923783b7d2b4c24600ae5b6dd753d678475fa695964861880774566fd55d02e4a6dae1cef499a497608415f2e1ded14dfd234a6aafeae80858b06b62863359dbc277d20995c0b01f393ce534096cbedab00a9040f7144af8b23e10d2f75322170792d67309f1ece3863a4ce7c1173ab697708fff0d8686ba2d1d6bc469f220f2d4b9e825188355585923d6bce9eccd084424da679659af7a569dee9ee7d4ea277c1c32b82896148fd5973fd31a4fe48fd59adfe141cffa87c1a22f567cdf547cdcc69c9ec9c767ad03cb9b453a565fb309550c9a03567105a0c838aaa904ee52c6ced399459ed10cbcb479c4317f53f60107d7ae7f2903fec27b30731cb651025705569ca5cd07904a589ed998c9a3172ec69f28c7155cbe39abf39f9795c2152e1aa5631968e6b66f908d3f939276be0b8719b0fa1c3fb92c94a8855fd71b3379e07a7069ed80771c51cf6cbbd19ee83482c4bf6400cb73f1c88137561690ea290536906510e62bb1db1b894d225a0e62bddd2bc51492e3dc2918993de604ed1c7c65aa2b156d2582b6da8356e68ae6f28c737552fe05bd2568e3f48cf793adc213b64d62cdf4b3834daa7a2ea6522a0585f8fb03ede8a2f434086c06a438066d659293064ea46a66e5e9aba9950c779699bc922e5861088404aa47e4afd7c1bfa09a57e4afd5c8d7e161c80aa1a1a2db949019502ba6201cdecc1861a7fe2c7a7cdfaf985727c7ad1c8cebc94cd4e180c62d6d91e6f6be7876e5ffcb5be593fc5ff21e3d48fe2768fc5dd20b99e1aef74b694ff0e4e2eeb4d6573de26cc6d056d2b5588b45dc0ff41fe19f2cf678de6053fac2200e90ed07680a1006caa9a096875ab6ce60e5143d556178d79af83f0eb91755b2ef52b83712d8391bc8f602c9aeec5c8a02bec1a6530ca609c0846fab2eca418977a25f3f318ab2a7d36009e7a4ff1495c2f84899f58d7ba7583bc250f44f259e3fa5c60664687904c7bf632ea2fcd0d88e0ac1b08a4913caee1287721477c5d491e75665b7e51302cd15b90e32df728a966e1de2591f1c295ab6c64149b366122be1e4a86860c8db71d1a86cc47c97cd442f251896a3e9d8f4a8b941c72102a85550aeb5b17564d2e944a615d91b0161cb18a9dc95257a5aebe6d5d45d994a3969b724c6770ca66c74aac1289c4240b394c3a4ee41f930ccbe860783227e998ee21ad6e2b7a9a67b439eb02bff598a199da002c328e74696b005885143d9f775c62a8e6e4b6f88318992c6355c6aa8855fc7e62b5e812018110182b9daec85895b1fa07b19a796b42e7555e9e1d1d5cd4a716f19af50ba5e30cc2645ed0d907bb40bcf3a0e944d7b0411111c1997cd17fbb67fdecec23808901c8e43b167ad9de8f205eebb3ef602e6fd54d7bfd55b7c5ae4ce11c6ee9c94b4f96e7fe5ae4dad4985df4b5d95558af756810c9ae3562d7c3c3ff87d2c144, '2016-07-09 03:57:06'),
+(33, 9, 'audit/request', 0x789cdd586b6fe24a12fdbebfc242cad5cc55c02f6cc05c76e518f3980026c64c92d9bbb21abb0127c676da26af51fefb56db6e204c7233da1d69a58d1481ababaaab4f551d578334b1ae7d4fb586565986285de3b4d2469aa07d7f493551d02a6986b26d6ac43eaeb4034d1284764a2d2a04df6d719a0d30f231c96d4485fa81a5759c6615aaa6825aead596248e321cf9351fdfe77270ebc55184bd2c882326b9c538a9a230b8c795720b2f37cbaa218e56d99a4a4128490d917e05df0941ab0da20f4dad12c5550f79ebc2580663fa50a52e481cbea103f631095641bebf0406eb2c4b349e7f336049ab3c56bd942cab597c8b7313051c78d258418e2dcfbafad9f9d78bbbebee5cf12fcc95ff2cf62fce922beb623e9f5e7af674b052ce070fa6677c6be1874e871d799b6252452b38632151b4ca387e0ec210f14a4de03e5d89629b1b05d1f6917b6caaae5affcce94912e24bbc380f325e911b3559e53e9d0f9cf1e8940b835bccf5b1771b7fe68c3589379857c49a50931a42bd260a2a37434b4482d28c9d8b819c3d25052e80d3661b66418248c62f63b2a9fa28436d6e116f231f91a74e15fe8a087ab07a568a07236ff4b8b9454b9cf8c4d0cf4b8c91e7e1243f1e40fc3bff3bab8bc76a5940d8af3e04457669ceafc6a30124c22e16a9b4416b6d890926f993f46ea6f820f2f1632d5927ff209d84c44f505f7135c17ee0c72752aff8f21b4a835584fcb823e66504455bc658c59117fb41b46215b47a0e9253cec7d016193ed20d51b4da42e658f1e0f41447d5f9ac7dd7116a4df89e7f514b10bc38be0d0a5d9a769756524746adbabf103d4516974bac4a8ad868d505af8e91ac483e460a5a343ca18e160b2c890d19e165abdec0182d545115bda58f4e645d82ff93c659001fc2897c96c2a742459294ef019f20a5ab62b92a4bc532f9b2319cb33b9318138734ecd59765d5992db3c1977373d3bd50ce0bcb9346b7cd4d07d399399b0dbb9d70e98737f5e40e05490a38a82dec6d54458954b9d27e29e021384de228c507b4c0d8c57c4c0242d9055068691567bd3de5c4163789efe1a32972425353244d10b8fed8612930f22636f64d2c2b7917a7594cf029c7faf994db6cd30c2aea1ef8c32fb305b84fdf2508a822a32c7ca72c7c5984ec4277051ea2b4c4dfa471d4e6bc352229ce3a73a7576de6c7a4a78cb7c51e924459e855a5f11ec1fb08d08ee25470cfaaf5cf92964280e8cf69693fcdcd8ddd8aa615c646eeefd3671677219d22823605ed6adf038db232acd19aa6991077fc7c16fb4f7b42878866a6fdd5b4a9486ed2cc402a068e337507d6ccf94bd2564a45c39a4c4cc3195a93f7991b741c73e2b82373d2770647cc4da3cb3d4d6dbd3fd6df4a4f93eda51b0393eee8d8d6e82d45e6cab287fde1e467a8bc515a5cb9c6cceeb98e756e4e7e099f337ce680b0abf7e1f8ff3b5267f83bd753f35793fa0e73dd30cca9f39ada257107af6d5ecccd996376ddcb6151036ff33b8d3737b1cd9e69d3d2fcf52c2f09af6276cd8961758793febb547f6c30d227fd3924f527f87e878f6159e743f3ff9af5f3be9eea457a553824bf4d091fc61e0af9741144dac1f3ee71bf907f291e17c52026ee18ca9d0dfb13dd99db39820d68db3f90efc30b24fdbb9ed0fee7a51a744093fb345f6ca36cfb999b61728f098732eeb866b8694c32ae29fcc133177f632dcb36b37acea55eec4549fded2d587a4ba3893e36ff9232f7aa7ab79b1736b0ad2835a07f859a78a432b5ecbc9960f7a6c0d66c736c39e6fbe6508a5dcb988f69b3db96e5b017197f8f08fff0f0c0afb34d487b8867c1f10f78c1b36e2c7bd49d01cd1667a9178df78ac8af1ca06ab337bca25248326b74b6f81f47201de0332ee89b52ff3fa3982b13c5ade0ad12fd6b972dc31e4237f686f06229c1af0b1feeb5638c235419e2e05891eaa2c0de0f7ddd312ff56b7708c7b37bba619663a8d11ff2624d3c2a9da96d3996b17b3dd1d6df691d403c369d81d5652dc35eb680002cdbd7eeccb14b3e5220a76f315b315794cc4680d87e733b625d6d0ab2a24aaada6cee4f57ec38b787795bc27e1f90e64fbb2ef1df15be70e8ba040098c39d99a3dedb0a34bf2c40673836dddec8d2010b5f2b36545559aab524591004b104e8509dde41f78a74d601b4faa693cf33749ca193cfc7931924b33c6c653f38e5c62e6baba3f3bf1ce40dc11cf53d2f9b9c6fd9f430eb7d791e5f7e25be60aafd33e5693cbbed9f75637b7a39bfba32e61bfdc6c6df9ceb89fe706bf49d6fded0490c63554e0fd4f9ab41707fa3a6c007bebb81d84980c23250797709c65e109787aaab1270835016358e30894b75a9d458e205d94b99e60691e763195a90203c94d5a9ded3b1dacd360a7e9485af6574125ec530b51f0af35f17e03215e00dc474b80271c65eb63d92b6e8ec77ffa336c8fdc0fb51de6449f6e3832cbf146007f7a89ac4c4831b00bac16c5d2afda5db05dcf4b3026cd06e4975a11c74c090d5b1280acd5a53d8ff49e5f977a670105190eba0956fac52ce2c860204fb1dd590280320fff57c40fd16f781bd6fe8191a3c9cf0a30900c22c21d80d00393610f907b73fd88dd2f26c7fd968508a040ff4a2507627885c37ff99e9e04726da752ec1d9964473c22a8e2f9177ddc0cf7f786abfbcfc1bed71981e, '2016-07-09 03:57:13'),
+(34, 9, 'audit/db', 0x789ced5d5f739bba127fefa760f292f44e124b4248e04cef4cdae6ccc99d36ee49d2d317cfd818949816430e60b7ee997ef72b818d8d0d890d26765cf54f024668b5abfdad56ab956c3661f3dfb0a9370f062c0ccd7b161e9c994d0d37ff759a088a4b7105cec2a6cacbdcfcd9faa2fcf1f9c307e55debc3e78f5737ca1fd7ad8f4a7718b2a0635a963ff4a2b07b70e63421ffaf03fe03f157116c1e8c1da76df7daeffcc1c0f4ec66f39f210bc6a2a47a663721263a500951d1a9812845d4e00f30a70e13ea7133c2266e1edc392e3be055eabccac6c80c1adfbf7f6ff4a381db0842ab31629eed078daf7edf73a291d7e044d18968dcc9833b0c1b6160357a66c81a03df666ed8f8cc9f9c4f5a7dfad07f1015731aaee3b1b865849cc5a2b91b7a56e4f89e784e451b3cbbe5c5cdd09a07966b86a1b8466acae55b4ee49cbf3262d7ccf2037b5271347e88df42cd8366f3e0ecd7af5f5c3ea89a900d524ac83ad2d0ef23633c2f6302792537171f2ededdbe52f89f6fd6f0d4f2bd300a4cc78b3a9e3960c7730fdce1c05bf83060772c609ec5ec4e64f65c56fc78eef557712f3ade9d1f0c4cc16927b4fa6c604e8b478ee97666ed0895f31b25b05efdaf757995f7d637369ed63e14b815c53971a57515b7e328fe99c39e6546a6ebdf2b6f78e5799fb7aed3378f0a5ebdbc51ae847a9e5fbd2fa86452e2755cd56b51304fd209274b2d997c5cf09210e5d22bb17cbffc79717d915fd71bc5e62d136a7914b726ae34e9ba9c12af268ccdfa963f3eccc0ef70a196fc42150da14e0c0a7f1f906a12a412a4db0369c981d40008fd4620a5f320c5688a51e53fb94e8a927477d7b1bb6f50456b6860827e23b750af2ee8b21aad6beaef236815cc0b5a834b82368751bfc34938f7de800f00a9a8e30e10f23e4415077a158215663c84e649fc2ef0bd884bbdc1ed6914f8aecb82b0f129f0c7cc8afc4fcc766cff5dfa2447c61a58163197a3657a8be2852861e93bebb545c72dcbf4e4bf5399c20dcab49c16ab10735bb547225533de919a2f52276283549862b8e3927c98b4fce4216e7ac30a9819b1ca2aab19fba5b2b826f996555fdd807b25df8ce340692adfee8319c4266041cc1dabefb8762aece4ae2e6d4610ec9736ebcf22ed92ba8d30c07b246c9cf520c8faa6a39388b7b2166b70afe40a372dd7b2fa4a3078728af792049b89b460501c725e1064c5c8be8a0c6d5b831ad4d0b224b9fc3a9d904595661233b192aa622da99ffcb7b6bf52cd0c65045219169461c175c3828b0342416070c3e331864f07ac5e2e2e0d894b89cbede2b2e47889297e3ac0f96281a965dc6632739bbb9e3fe805ac7b1c87898f851bc22cc78fef47e6744ac811c1020e1b16f22605238797a89ad1a16a00e32d39d090aab91eb4e9ba4b1eb49ef29488faaf84a16249a3fa245d52b509d4f46da9769d92ce44e7b056ec5ad7a1be046d2d1657ab50b58d08b5a4a65288b63569a953a699302741d22b925ed1da5e511edc8a5ca3dcb215ed1d5529d94368ea129a129abb02cd92a326bfda43479a6456505460340f2eaf6e2eae6f95cbabdbd672bc5439eab23032a361285c6ae6b120f6adef1877ba93cb8119fc8c2fcc5ee0b8c927e3f883af43cf995cb8c98579ef87517c15b287c86153d7ddb7a2e1e4d2f347b3cf6dde93e98d2972184cdb5ff0f2edceb4f79386597db32316cff873affb5af9fbfcc3e78b1be5081e2be858014ffd83bcdc2126089c027078aca8fc0e01484e003d01860254ee7634213a7cbd6cf7d565e5623f98358c58ae7a1986ba35fd328c65fde2cf4373542dd367a665506ad926b56c66c2d6d332ac51637f952c93a7a392e2499539b49da8c387fc605c71828a09c0690eaa5a24510a1ec9d8eb319bfde43a9664ecc54d8bb3f526897ae7e2830bd1d4dc989656674c4b48e619b9d1f03233bc1783b489f3dca85c4ba7c4da82583b26d64e08b567840a794339bc697a09de625a39fc203da7773843492ac706194a332a09ae0281728e11261a4c337824042404b60c814c2a0011ae869c6bcab9e67a73cd39eb5834c59c2f52d587203a92f653dacfddb09f54da4f693fb7633f4b3aa014002ce760d280ee8801cd646741aa2ec4bae6675eca5137f087511c689a6ec012d1a58738f2f4d5fc217e078cab7e1875062ceafbf1f3a4f1f65c9ca968bb401c7e3a84889e02fe17f27b1169fad4bab93dac2b928929a4708bf3c1bc9d8b1b8b334934be303452b01f682c1bf1d51046448251827127c088d60b4f0ac7d4ad18a1d710bf7eda3b7c6c4ffda382bd156d7ccbfae6c8f1f3d63d10d297a50c39b99e1959fd4b8fdb99252f11e24506d743406dcc4083e6303301f4ac8625ddd1f3756799e65a68a8914f94030dc8598aeb398fa2c0e971831b6e9cd118256bae636551526e0e4590ae1b4f3b6d12251225bb82124dc6a9649c6a2371aad8803e1ea74a8a54f344880a08963656dad8976363e55aaab4b15bb2b125fd58156b54cef6a48d7d393636b337021ae2b0959c086532c91379b122c632894cce05297dd7ee8c4c779864b3b2efb31b336629ce9015a19af462f2e29dc3dc8230a691c42b456c928a1fefae2fce6f2fc495c5f5d4f7dad3e04f3b9b079abee0d88571cde34cf56ac9ead324dc15e9a05274e2fce315298052142689cdb5d28833a66ba510a762d7ccc3b85e16e2e4f19a29b8355348d2dd6b2531cba3af95cc2441bf561a69e67fad54d22d052b5299ed05589f56b24b61558b9853a49c059bdf01b1227108cb29f8644bc6aa54ca19fd64ff496dcbe444a550ddb568006d1ea44d964eaa74525327d5904eaa7452a5932a9d54e9a44a27553aa92fcd492d9b3d460c95925d0ba74a27553aa9794eaa9e3964806ab333e1a62ee8135f81119fc65ecbf9e0c420283ddd0115e148cbcd5c4c4cc13443316b0872bb20e7dc6ac8fdf57b1689c3a92fedf0edf8da7797c133393a24e89956fb7defa3e999f7856759e703a89e930310c8e18853e2ca743f69611e1f624d4a74cd83eff14e7e4c6fd033e84dc9e52c434fbf2b52aacd8ea94d66afbd8197cec8f7fcc8b973ac78f579aa2b4773dfb3030f9335d5a3ee3736e6f7de908d52bd997b1497a63901a775348902b8c2baa8f6c8c03030adbe3f0c9271619eb7b071357ff7d1b7872ecbe91092df1f1bfb4aa98241bd244f13e0ccb396071b909f141ed7355ee409f3271392c9289721d9ce116321abb9d9e19b310468731c4ddcd779c60a388a11a56d0751e56c33052a7e7a6785449444d4161195d9cc2db67014a59267a05575a8c12add32300ab2703a9344b1a1b59c85a3cd8dffadde5766150dfe12152f1d157a2554941b2e74005788a4485448546c09154666a72c815026fbca64df75937de715b028db3753a69aabc12fb46dfbe0d2a84aa35a6c54a134aad2a86ecba896f55489ae49a32a8deace1ad5cc0679a82e26a365c3844930f058e98aaa9243c099b79098368909ce12cc3a66347f9e4b2690283225d89d3974a3c3e4f0ee63851e2b57ad2f47af2b6785eac058e530dd5ac14773a28ab8e6335b24f85e0cf8f0ce83af6cb68b4e2041127c127cbb0bbecc86ec122b64e839d79c75a262b9402601b5cb80a2db0154c99919d1b415ce3293909290da22a48c9d7210d126676784e22daf6c4bff5062af187b10809d075fd9d999010d55dff2e027d127d1f718fa3299e43a6fc4e74fefcf6f2f168e99beb9b855baf6304850f8069c02420d4c75823515610ac5e65736f083716760fee8be412a513580d36c73ee481a55473203a94fef47a8ef5868fafcc7426ff6e8642ebc2506f4d80b365de7e71213554f834eb44b7d6eed2a65aad553002800c090eaf572d4ebd7afff0340f69e1e, '2016-07-09 03:57:13'),
+(35, 9, 'audit/log', 0x789ced5c5953dbca127ecfaf50f162b80558fb96e25611e253875b0473596e5e5c658fa5012b91251f2d264e2afffdf68c6459cb08f0a290455420b2359a5ea6bbe7ebe9b6912998df425337f7a6380cd1030ef7de2253d6cd6f8ec9c395925c84a6a2987bef7c3f0aa300cdb847279a709ffc89e744736f10873898b97138c80698e67879b97fb0f7d63105f8d5e15784a924c1dc5b38ce608c423c389dcd5cc74291e37bb987c823d25bdb146455e7255595c4634394759d4c23035bbcf9edfb77326b8e439137f72e7c643bde0337f5edd8c526178c9155262faa39f21f9281e6038e924b366543948c2269f139d244293b20ad086a89b2545816adb22c636ce3afce8337004ae200c5b61335bc308a22c82526e597da0e59a11f603b8aa2cb25e3515eca22fa84be58416c37cda22aa8450ed53c878251b5b107c7d98589a9a2585a3e2d4f59922aba21145cff61f0de096728b2265553df580b9a565a27bde06942550b361ec70fbbd0836694f560e469cb32530f947c46a201c35079592ec5bd42689645265f601c8d72250a256509c2732b4583d10e560a0c562fd12ec463997f51543c65b1b3b13e14912f6f4fc5500d725e05388a16dcddf505e7f911873d3476b17dccdd85444d36be47b11bd1db3314d0f7c0cb1cebb8c2a49830f988c783bbc0fd803cd8ba03d3244fe16bfc4f8cc3a8864b552a315908d532487fedc711e68264166c9b5c6716f80b6c45fed10cdb8eed77ad00a308772a5cc92bae0a9a9b20cf769fe14b53cae65408d092ba642cf2b920f64c8ecd5485273eb79c67be1705beeb1255c11ca716618fcd0ffc94d8294663d82f6e0031c1f35c18a100f4b4a42c2fed5a5869231d6a9afe0cd710d40da3ac806214068c76f377ff23f7d7ddc50577d6bfb8fb7079c3fd75ddffc08d08d61822cbf2632f0a47758cd86350c0740a6b619ab012c182c98826a819e2107230106cc3dcbb778847025e8429bb7314741f1f1fbb9368ea7683d0eaceb167fb4177b9717689ab1d11de8ec80edf0d03ab4b96a10be100bb61f70eee9ca64c1fcf26333231d0701d2ff17a58018a4cef632f5da8d0d4080f9eddf7281bb008968bc2905c8b5226e53b2042d6760e2667f9819d4e1c2d66f429f01dd3dc7bfb9deab8b0bb2830aa0f2b441ceffd3bcef23d0f53d226375d84ffb8e6c40fa313d7b7904baededa630f4df109c85ed1b994d379364bfdf26b82a1ff395a170b81511560929bde45efecf60d073f9fadf818544f42ade34543a2e2c3dc0d379e7aa537037c8f03ec59d81e4624a2d6dfce3dfe86fa8ee3ddfbc194c6a9610840668a96c32307b9c3151f21777ac305d69bfff4cf2f594f7dc68be5ec3149a4c87020cef52f291ffbf42f433c889108823c770293b3deef5f674feed73c7a7ec35d92a0707af9be669274c4019dea800c64693a91a4c249fa76cd4344959547a87e3ffeddbbeeb1e73ae16ce08c98e53ee5864e9a2c1d63c49b54b0d5dac2ed4e21e8754ab3b0076d1719755536fe201f55cb18337151ee5fcc4d874b567be4d8a313713b3d1b59a6f60768b99061284245cb288e26432001d0750a3129d333d53e517647dcceac25de0028ff9cc2558da5f0fb00001528bd6b65c02aec5ea5b8ec8ac2b215e462a858e1ab1a06355ac82b6b57c8035e7ab25256e9d1bf53954a85544095d82a75223ccd9449a20568f21998bb997a0545fd9d945b00e532cc7736c1d66702986638983a09cc7d213697536c4ece8006efc75916639129c13301348303c59008cd9979a024189af63b29b71072352db3dc11e475d4f94b063cb4268e6b67669cbc6ac88e455e537e275d1be5dc7cdd28314cb4bbad5a6583ff9da2af5c88be24fbce0204308257a12155dfce630264d2f2b328ed5752a8540e0ad7b147335494a6a64bb60739b607756c9b66f2d8198d098ce3c0fc69dcb947443b4d93d720f63e3ad1e40a05681ab275afa952e90c4c2e1e2ff1f5871825c3d8ee18431209b0791d331014b16a07b0fac36188a3ad60e3ca28b46202adb509749b40af9b409737b29a147ab7fb9dcc1bda2bed773fc02f954261465da18a91e74fc7011e1dd20cf990443b6c393e7d3d474b60070e8103f01a1c024bc1dc81115b1ee74a0a2f3e7f9cdb90be3589b91f22d7adec877a2653a2e9ff2602d52bbab02bca4afdb6d2804e55517db5bda5499d16d20f556c37957653597b5361b95bddcec21cbb9d6b6ad22b25a98d3aa651cca90c73effcf2a6777dcb9d5fdef6abc899db1fe13042511c92fd057b38a01bcd3d861d28b99ca2e02bbd40e3c071937716f48d4fb1e7a4176e72811efc30a257219e450e5eee63be15c5e9a5e7cf57efdbb08ed90b440e2e91ed97b63c7bb85cfb84316b8286e49402ee7ba303ee7fa71777bd1b6e5f38e4c4438e7fee9f00e33ab22af2c73cdf39e4247825f2827ac46b47bcc1f112e99212c4ce41c5b4a4aa69e12f905d46ecd4d23078fd95accb30aad605f74334dfee203ab331b598b7abf51b2aed9d1842240e16dbeda3b20a8bb4c482529d4235fe89a3fe65574772d44f39a3c7fce9093f6df0e8114e99705069120e66dd893f461a45ae0a038b18642ce6a591c048590d3109a1c18a50ad6c22433645df40364a8b218fa8335607045a9e24ef4ca0ac14a3168eb65512655bf8d3c29ff5e04f2e38d6a19efc902de367d6a3d446cf367abe72f42c3452011a2e61d43c6a007c1a90563e82fd96756c820a6714317e425fc8ff69ffe1708aa3894fef27ccdb397c5857e9a2b0b12388da3140c263015e138478d5bfb9ed34840d654d50b2338157f04656afc2cef061eb8cbf98336ac27a609eec83ee76605e115545791ecc3fd5b7f3a45e6f098beff004cd1d9f9521918ef08a92052037269f4f38f720cc54b625412e0bb89e0334268c60680c61527f5ecd50311d9d6d3a559a6b394383728a0ccf20add5749ed3280a9c3104dc70e7825227915bbcdfe2fd9de07d1a3f9fc6fbc990ad42ac2af1b2d846d836c2fe3211b6d0a52018a4cb8a911424e8831c5a1358932603b9bcc077ede11cb97172d48c1f572f9256167a7c4dd05176913e78ef60b7267330921481a4031af97376dd3bbded912b0becd4f7064bbc556aa4c91e70ecda54e2b030bdb4e1f4d909f90be9881bd1a1c5811752e037a290561d1aa541cb198d52a07592866558342b02adec344cc16d9842528b6a94c4aac8d52899b47ad6288dac2cd72895acdef7422aab42ddfab49212e24b232263c866112c5f9e7c217141d8ccc0d37ae94ba96c16f493e270536761aaa4f13fdb498066ee651cb710b585a84b88aa171af63465d5b0b704a0cf7c0e8b7e0ca3894f06a886622c3faa2fd67991c23c834dc2c0f2acb51804980bc0e85b1700ab3fe08834a79fdbe1bbc5b5ef565d4767f5eaafe53ecdb44b883c4322a004a6f49072c89223fd8e80e9ccf760899fb29a42f7a121573e3ce2f991739f7efdc1d254f6739fd9133ac989c3fee8335ec06b2fc6f3cc6c72b7e868ad1a90d7312408c6b2f07c694279c2bfa7c89af87190b8775eb6b07b997f957c6507634154f67aececa39435b179439952c7c98bc6721b9e5da7a0732dca32c97027259904ab02c901438db5a2320b16bb0904e2ee244a31485eb0272a167aa1f794d440ea2a1605d7dad231645e7f6dc7a839531ba687beb1553d535372d1aa3ffe84adba50d57ac5afee1585c64f5510da12455ba258b7449137c0ba1a4561cc5641152ec436a6b631f5a78da946a1d15990ca358922744f00fa21372253253df0d82bd527529cbeaa330c51946f522a807b7260967ccd5b27e95d3fe4b443eeb2ff71ff60db73171dd08cf6cabea731807ed37d48adeffd32bea76c99378b3f306fd65569f5ddbb6ddedc7ad44fe951fa4fb59b893bdccd544d7cedecbcddcd5adfabf73d812fb4d9eac0c4ddd5fbd3db5ea9dbfda677cb8dec38489cf0843fe655cd90355d95154994358174ade0a91f2c8653f46574224aaaa4f072fe0bf58c2d7dc91025de5896e46a8b09cd75a76b3fbe3b7db71ddc92501540a7fb30729dafbbece14e6b0cdfbfff1f82ff67f8, '2016-07-09 03:57:13'),
+(36, 9, 'audit/profiling', 0x789ced5d5b739bba167eefaf60fc92f44c124b42884b2667266db367e74c1b7727e9ee4b666c0c4a4c8b211b705a774ffffb91846fd810c760623b512f091821697dac6f6969b124db966afd1b5bc46af4693f8c868d63cf422a5135808f630b5b8dc4ebd3c6b16b8123606008d81f034060108c34839530f88d716cdfd1b8716c5b1ab1fef52c68f2437e0458118dd5d2baa78117dc291fde294e1804d449bc30b094fe30fec7b77a619c9cf8a163fbfce8d8ed06769f9e44b1c33b03d97f03f05eb1aa906a35869e77e3766fde4fabb142563b2fabb27e424c0ca012a2a22313e908e9ec73ccba03d3ee887e09c16e3d9f09c6248056a3f96047cd1f3f7e347b49df6fb2969b0f3470c3a8f92dec055ef2103459abe87010d3e8f0de1fc4cd38729a5d3ba6cd7ee8523f6e7e61574e1d271c04497c74dfbb6fa4e0f95e4045c70849b1ba1d04a2cffcbacefb10b8ad407443b31a8e6fc771232be63bd6c829bbe5815e52278cdc51c5c9f05edc85ac8665358e7ffffecd0002eb45dd24655127e2d657823a9c455d65ad5dfdd9faaafcf1e5e347e57debe3974f1757ca1f97ad4f4a87cbd1b647dded2cea369c41b9dfb703d7b2fe19d094928b18eb48375f0fc8a81ac853555e09640369e8f5608c67312690557275f6f1ecfdf51b85fdf9ee0c8e980d8993c8f682a4cd6dc5c1cc057fd00fe63e8ce82d8d68e050b79dd85d9f165f9eb9fd8d788a5e701b467d9b4bda8e9d1eeddbe3e28967fbed693f62e5f44a899c37ff6b9d5fe4ddf59d0ec7b50ff818c58bb3c695d685e8c7bef899239e6327b61fde2927acf2bccf5b97933bf70b6e3dbf522eb87a9e5e7c28a86454e2ada8ea2d2f9887742ac9424f461f17dcc4a15cb845e0fbf5cfb3cbb3fcba4e1497f58cabe5bee88da8347d743925de8c049b3e5b76792f43bfbdb95af20b553484063175f87a48aa49924a926e8ea42507521320f48a48aacf9214a3314795ffe43a294afab83b9edb394115ada189097a456ea1511de8b21a6d68eaeb015acd4e2de102d0f620e9b55913de5dd06703c0046af10038de7ba8e240af42f084190fd1f310bf8dc22061a837993d4da2d0f76914373f47e1904d65c3cfd4f5dcf0fde44a0ec61a588498e1e8d8c13cbc10a522fda0dd1bfee016313dfcef1853b8464ccb69b10af1f2f8c82e41aa66bc23351f522fa1fd09987cb86348de8f7a7e782fbade74226a27b4b2ca6ae6cb52595c13be65d5d730e18bc237e338e8fa04dfcebd1d0913300773dbe979be3b013b3dab4b9b11042f4b9b8d6741bba46e230cf00b021b673d08b2bae968a7f056d6620dbe285ce1ba712dabaf0483a553bc5d02361369c1a038e43c0764c5c8be8a4c6d53831ad4d022920cbf763ba649a599c414565215d692fac97e6b2f17d5cc5046a02ec382322cb86a58707e4028080cae793cc67079c06a7779694a5e4a5e6e969725c74bace3e501ce9d25a696719bc9d46dee0461bf1bd1ce8108131f7037843a5e28ce1fecf194903182468c3634665d8a1e3c56a26a4607cfb8c21b72a0a1aee67ad0b6ef2f78d0c644a614eabf52818a9146f5215d52b509d48c4da9769d4867a273582b76adeb505f8236168bab15546d2da096d4541da24d4d5aeac43413e624487a45d22b5ad92bcaa35b916b945bb6a2bdd3557d6992eb0e52d390d494d4dc166a961c35d9d10b74a449e60d8a0a4cab717e71757679ad9c5f5cb716e3a5ca7e87c6899d0c62ee52d38046c2b7bea5cce94e0ffb76f44b1cd8ddc8f3d34f86e2836f83c01b1df8e9817d17c689388ae97de2d1b1eb1e3ac9607418840fd3cf5df624272736cf61b0dd70cecb77dbe3a79f76cce9d96dfef28c5d0f3a6f95bf4f3f7e39bb52f6e181820e14b0ec1f64e5f63041e00880bd0345656708407208f443602a40656e8705d1dedbc717958c948bfea4ce20a1b9ea659aeac6f4cb3417f58b5d8fed876a993e532d8352cbd6a965f98b68966b19d674f3e52a59264f4725c5932a7be07a499b0df9d1b0e2041513802739a86a11a23a782463af4b5dfa8be9589ab127ba26b2f546897aa7fc8333ded5dc989656674c8b23f38cd268785118f614a3491767a55199968e1bbbe18ddd88c66ed2866ea60d15ca867264d38c12b289b672e44146ced36102a5a91c6b146892514970150a94738c30d1e024834752405260c314c8a40210ee6ac8b9a69c6bae36d79cb18e4553ccd922557d086220693fa5fddc0efba94bfb29ede766ec674907540700cb399834a05b624033d9595057e7625db3332f65bf13858344049ac60bb07874e95e449ebed93ff9ef8832d58f93769f26bd505c4f3befcec4998a960b88f0d31e44fa11607f213be791a6cfadabebbdba229958873adce07c306fe5e2dae24c928d3bc6461dbc0c36968df86a082322c928c9b8156444ab8527b963ea578cd06b881d2ff70e1f5b53ff28b0d7bc8fef68cf7ef0c2bcf71e08198b2843d65cd74e9cde79c0eccc829708f1bc80ab31a03661a0a9e7083322f4b48605dd31f27567b1cd95d850a39c28871a908924ea394d92c8eb32831baf5d50c19215df636559526e0e45906198cb9d36c912c9926d618926e354324eb596389530a08fc7a9d222d53c11a20282a58d953676776cac7c972a6dec866c6c493f56c59a2e677bd2c6ee8e8dcdac8d8026df6c252742994ef2785e2c8fb18c22933341cad077db0fb63f48b359e98fe9892d441219b23c54333918dd78eb51bf208c69a6f14a1e9bd4f98ff79767a7d767fcc8617a1a0637e3e0cf4d360f747283e716c6350f32d5ab25ab9f24e13eb11d54aa1d917ffcc41640a9164689cdb5b62132a66b6d41a462d72cc3b05e1144f278cd2df835b790a6bbd7dac4348fbed6664609fab5b631c9fcafb595c9928227b6325d0bb07a5be92a85a75ac49c22e52cd8ec0a8827360e6139051f2dc9786a2be58c7ebafea4b6d7e444d5a1ba6dd100dd6a4cba2c9d54e9a44e9c54533aa9d249954eaa7452a5932a9d54e9a4ee9a935a367b8c98aa4eb62d9c2a9d54e9a4e639a9466693015d9bee09377641977c0586d88dbd96fdc18949d064770754c4232d3773313505e30cc5ac21c87d0439fb5643e6afdfd1846f4e7deec6ef8697a1bf489ed1d62151d7766e3e743fd9817d57b897753e81ead93900811c89584b4c99ee463dcc9383bf93e28fe63e0cd8437e4c6fd033e84dc9d759a631f9ae48a9365ba63699b5f6265ed8233f0813efd673c4dbe7b1aeeccf7ccf0edc4bdfa9ee77bed3213b0f06f461a237339744693d27e0b48a26e9003ee1bda8f6c8c0d0b79d5e3888d2716156b6b879317bf62974073ecd792024ff79aced2ba50a06f592328d88332b5a1e6d407e52b8a86b382f13e65f889d36998e7299266f72602c1435373b7c3d8600ad4fa291fb3a2b5881448251da661855ce36eb40c5cb5756484649466d905199c5dc7c0947512a79865a55871aacea1b264641164e7b9428367016b370b499f1bfd5fd469da2c15fb262d75961546245b9e1c200f0099114c90ac98a0db1c2ccac942510ca645f99ecbb6ab2efac021665fb66ca547335d881b6691f5c1a5569548b8d2a9446551ad54d19d5b29e2a31346954a551dd5aa39a59200fd5f964b46c98300d061e281d5e55ba09380de612d34631c1698259db4e66f773c9041279a604bdb5077eb2976ede7da0e807ca45ebebfedbca59a106309fb2996eade4d373a28ab8e63d5b24f976867c78ebc95736dbc5209020493e49beed255f664176893764e839df391b44c5f2059924d436134adf0ca14acecc88a63d612f33492949a90d52cadc2a0711ad73764674bce137dbd23f94dc2be61e0460ebc957767666425335363cf849f649f63dc6be4c26b9c13af1e5f387d3ebb3b96da6afceae958e3b8852169e8023407413eb06c19a8ab00ef9e257da0fa361bb6fffec9c2095a81ac0936c73e6489a55473213a9cbd723d4b72db4fefcdb42af77eb6406de820086f0826ddffbb52044d5dda053ed529f5bbb4a996af508001d00604af5da1df5fafdfbff0ce7a10b, '2016-07-09 03:57:13'),
+(37, 10, 'audit/request', 0x789cdd587b6fe24812ffff3e858594d5cc2ae0173660963b39c63c12c0c4984932b727abb11b70626ca76df29851befb55db6e204cb219dd8d74d2458a6c575755d7f3d7d5204dac6bdf53ada15596214ad738adb4912668df5f524d14b44a9aa16c9b1ab18f2bed409304a19d52890ac1f75b9c66038c7c4c721951a17a60691da75985b2a9c0967ab52589a30c477ecdc70f391dd47a7114612f0be28851ee304eaa280c1e70a5dcc2cbc5b26a88a355b6a654204a92aad057d09d10b4da20fad1d42a515cf590b72e846510a61f55aa82c4e11b3c201f936015e4fb4b20b0ceb244e3f9370d96b4ca53d54bc9b29ac5773817514081278d15e4d8f2acab9f5d7cb9bcbfe9ce15ffd25cf9dfc4fee559726d5dcee7d32bcf9e0e56cac5e0d1f48caf2dfcd8e93097b7292655b4021f0b8aa255c6f1b7200c11afd404eed3b528b6b951106d9fb8a7a6eaaaf5cf9c9e2421bec28b8b20e315b9519355eed3c5c0198f4eb930b8c35c1f7b77f167ce589378837945ac0935a921d46ba2a07233b4442428c5985f2cc8d97352c405e2b4d98659902092f1cb986caa3eca509b5bc4dbc847e4b95385bfc2821eac9e95e4488ea5db697a7d955ae75fae7a7a1963e47938c9dd8310ffceffceeae2a95a1610f6ab8f41915d9af3ebf1680089b08b454a6dd05a5b628249fe25bd9b293e887cfc544bd6c93f482721f133d4575c4db01ff8f189d42b5e7e4369b08a901f774431df5361365671e4c57e10ad5805adbe05c929e763688b0c1ff186285a6d2173ac78707a8aa3ea7cd6beef08b526bce72f6a19042f8eef828297a6dda595d49151abee2f444f91c5e512ab9222365a75c1ab63242b928f9182160d4fa8a3c5024b62434678d9aa3730460b5554456fe9a3135997e0ffa47116c0433891cf52782a942449f91ef0042a5d15cb55592a96c9f9c670ceee4d624c1cd2b057e7cbaa335b6683f30b73d3bd542e0ac99346b7cd4d07d399399b0dbb9d70e987b7f5e41e05490a71505bd8dba88a12a972a5fd528487e03489a3141fc0024317f3290908451788424bab38ebed2927b6b849fc008fa6c8094d4d913441e0fa6387a5c0c89bd8d837b1ace45d9c6631c1a71cebe7536eb34d33a8a807c00fbfcc16c47dfa2e4040151965e13b65e1cb226417ba2bf0108525fe368da336e7ad114971d6993bbd6a3377937a196f8b3d2489a2d0ab4ae33d82f716a01dc4a9a09e55eb9f252c8510a23fa7a5fc341737762b9a56081bb9be4f9f99dd05758a08da14b0ab7d0f348acab0466b9a6642dce1f359ec3fef011d2c9a99f617d3a624b9493303a91838ced41d5833e72f415b29190d6b32310d67684dde476ee071cc89e38ecc49df191c2137b52ed734b5f5fe587f2b3d4db6976e0c4cbaa3635ba3b718992acb1ef687939f81f2462971ed1a33bbe73ad68539f92578cee2338708bb7a1fdcffdf813a8bbf7333357f35a8ef62ae1b8639755e43bb24eec26b9b977373e6985df76a58d4c0dbf84eedcd456cb367dab4347f3dca4bc22b9b5d736258dde1a4ff2ed41f0b8cf4497f0e49fd09bcdfc5c7b0ac8ba1f97f8dfa795f4ff522bd2a38c96f53c287b187423e5d049176f0bdfbdc2fe42fc5e7a218c4c41d42b9b3617fa23b733b8f6003daf60fe4fb7080a47fd713daffbc54830e68729fe68b6d946d3f73334c1e30e150c61dd70c378d49c635853f78a6e26fac65d96656cfb9d28bbd28a8bfbd054b6f2934d1c7e65f42e69e55ef76f3c206b415a506f4af50138f58a6969d3713ecde14d89a6d8e2dc77c5f1c4ab16b19f3316d76dbb21c7690f10f88f08f8f8ffc3adb84b48778661cff88173cebc6b247dd19c06ce14bbd68bc57407eed00549bbde135a5429259a3b3c5ffd802e9203ee302be29f4ff338ab93251dc0a4e95e85fbb6c19f610bab1378483a50c7e5df870af1d621c4595451c142b52bd29b1f3a1af3be6957ee30ec13dbba71b6639861afd212fd6c4a3d299da966319bbe389b6fe8eeb20c463d319585dd632ecb08508c0b27de3ce1cbbc4230572fa16b2157345896c0480ed37b723d6d5a6202baaa4aacdd6debb62c7b93dccdb12f6fb00347f5a7519ff5de10b87aacb000072b83373d47b9b81e69719e80cc7a6db1b593ac4c2d78a0dd586d0aad505a50cce212bbd7fee99e89c0391ea9b4e3ecbd051864e3d1f4f6590c8d2d1ca7e68ca855dd65247bebf1ce40cc10cf53d2f991c6bd9e4803736195da5cfa3f9cd70b4faba9dca679efeb88aceafefbe9e5d37d763fdbc8f9df5fceab2fe387a56f49134bee95e96930355fe6a08dcdfa669d003dfdd80ed24406169e8fe028cbd202e4b58956b8250bee30893b864164aa79778418ea8c0b941e4db310d2d48101ed2ea94eff998ed761b053fd2c2d7343a03af6298d74ba2c8ca22856b54803760d3919db1976d8fa82d3af53dfcc80d743ff07ea437598afdf820c72f45a88307544d62e2c1ec8f6e315b974a7de9760177fcac08b544a35a0e3820c6eab7515354e1f04f29bddf09c27b4300ae7c53952265310a205079543da20cc1f8afa702aab7b805ec7543b750d3c1898fce7d30b3747f77ece7ee83e51fdcf960370ac6b3fd15a341811134d0eb41d9974072ddfcc7a5839f9668bfb904675b12cd09ab36beac36d70dfcfce7a6f6cbcbbf0121f295ab, '2016-07-09 03:58:29'),
+(38, 10, 'audit/db', 0x789ced5d6d739bba12fede5fc1f88bd33b498c5e102f9dde99b4cd99933b6dd29ba4b75f32636350127a30e4004eeb9ee97fbf92c02fd810c7608293aa6d5c0c42ab5dedb35aad568a6d01eb9fd832acce88c6b17d43e3ce1bdbd2b0f58f6741c02ff995fa26b6102b73f1e7d957e58f2f1f3f2aefcf3e7ef9747aa1fc717ef649198c631af56dc709c741120f3a6f3c0bb01f43651f90bd0a81d59978de953bbc7a1f8e4676e05ad6df631a4d7849f4c6b50026868a88ae9a8718000d11761f33e220252e5a115bd8ea5c7b3eedb01a0d5663efde8e7adfbf7fefdd2623bf17c54eef9e066e18f5be85b78197dc073d46131ef0b61ddcf9e3b817474e6f68c7b4370a5deac7bd2fecc951d6e8c3bbdb3b5e31a3e17b01150d23e48d90ccf53870122f0cf8739db72170cf02d10ccdea38be1dc7fc1aa21993ef189123f6ca3d3da74e18b959c5c9e44ebc05ad8e6575defcfaf58b8907d693b1492ac91842edf711315e143101ac928be38fc7ef2f5f29eccf5fcef8d0098338896c2f48fa813da2fb0b0ffcf12858ba19d16b1ad1c0a16e3fb1873e2d7fbcf0fa2bd1895e701d46239b73da8f9d5b3ab2a7c513cff6fbf376c4cad1851239affe7376725af4d65f7432ad7dcc51cb8b33e2cad9a968c79ef82c60cfb113db0f6f94b7acf2a2fb67e7b337f74a5e3db9504eb9761e9d7e28a9242bf15a54f59a172c9274cac94a4bb2db252f7151aebc22e4fbf5cfe3f3e3e2bade2a2e6b1957cb3dd11a5169da7505255e658ccdfb963deee6d0d75daaa5b8504d33080982bf0f4635895189d1f6305a711845aa89c0ef03527d11a4184e31aafcabd04551d2ee1e78eee02dac690c1102bf913134eacbb9aa426bbf9342237551d01a5811b43d4e6efb8c8477138c98fd9f895a7400977717d61de68511592771a21749fc3a0a838449bdc7cc691285be4fa3b8f7390a27d449c2cfd4f5dcf0fdec49818c357555c44c8e8e1d2c8b17c094a5ef7478c53b6e55a607ff9eca146c51a615b518631dbf2491a29c73848a45ea25743413261fed9824efb2961fdc89a6f79c88da09adadb2447f49d2c50d49b7aaf29a405b6b829f937c735e83aecfe43bb8b323610096c4dc776e3ddf9d093bfdd6942e6b009a2fcafc1a4f22ed8abaadf1f1ee05491be71d08b2b9ede8a7f2adadc61a591bd07b4e7205db966b5585d5f59734d6e15c9805abe5d1e62539d68de9138cd7c6f49b9123d0e0aa2099f8fafd9826b5a61173a992ba52ada89d86aab63577780ab1e68632027419139431c14d6382cbe341495470cbc3b1a113f88281694a604a60b60bcc8a23a6895ff080a9e5bc6632f79a0741381a4674b02f82c4fbdc0fa18e178aeff7f6744ac8004123861a1ab32645f71e2b513b97c334704bfe33d051a1036dfbfe8a036dcc584a25fddf949f7241c3e6045d4db12120a6d696663729e95c700e6be5ae7503da0ba10a604be18a4685aa6d45a815351501d2567cb351a1e6c29c044aa7483a451b3b4545782bf38c0acbd6347848335a5a386b149a8684a684e6ae40b3e2b08935b03e33e3f96193e4565090ca183839bd383ebf544e4e2fcf5623a6cade80c6899d8c63ee54d38046c2bbbea6cced4e2f4776f4535cd8c3c8f3d33b1371e3db38f0b20b3fbdb06fc238115731bd4b3c3a75de432719679741783fbfefb2ae9c7db1790a83ed864b7ebedb9f767fda30e7d6eef3d533f63c18bc56fe77f4f1cbf185b207f615b5e8dfd27dc0be77093a54d5eebea2b16be6939203553f504d4545ccb459d0ecbe5e35fb6855b7e80fea8c135aa85d3a44a42ded32cd55ed62cf63fbbe5e9acf5cc780d4b1ede9d8dc7e6da663089b1a6e6b8adabc8ee5727410299f53d963d74bfa6cc08f2635e7a748c360baaa86ca04aaab0f24eb0da94b7f320d4b93f544cb44a25e96a377c46f1cf3961606b4b426035a5c304fc88d865799619d18cd9ab8c80d624a3a2576c5895d09625729a1ab39a152de60016f0c679bf3266815f0038d82de610ca5791c5b6468964c49701d0454f38ab0860d4322402260371090cb0320aa29e799729eb9e93c73c138964d2f178bd4f320b046cc994f260da834a02d1b505d1a506940db31a0151d5002341548032a0de86e18d05c6616d0d152a46b71e6a5ec0da2709c8830d374ef158f2ddd89b8d337fb07ff3fa24cf5e3a43fa2c96d289ea78d7717a24c657b05f615b8af7401d40f55f6177445dca9fbf9ece2b2db541c1313acb507c6a22d8b5b0b32492c3e332ceaeacbc062d578af0674825b1c1a251a251a17d008378b4e72bfd4af199fd7a08ad647271fda4cffa05c2f7913dfd15bfbde0b8b163d203456850c18b9a19d38b72701b3332b3e22c0cbfc6d0680c69801a65ec04c86e7790d2baa6314abce2acd8dc0d0209fb0001980b124ea394a92c81b32831b6f9d5101920d17b1f220a93683d22036d78f1212241224bb02124d06a964906a2b412a613f1f0e52a545eafa21c440eba3fcd2c64a1bbb2b3656aea44a1bdb928dade8c62215ead2c44a13fb6c4c6c6e530413392c8c4fa6533c9e11cb032c595c72214419fa6effdef6c7691e2bfd3eff620b96446e2c8fd3cc2eb217af3dea970431819a862b7968d2e01fefcf8f8f2e8ff995c314350caea6a19fab7c0ee8ec05cf2d0d6beee7ebd72ad63f4bc07d2c21b51221917cdc2c892cadb959222261ba59122215bb692e260d3321d2c79b26e13f9e04a8d61522e5bd5936e6c9f4cdd2c9d2f49b2532db00d02c99d9d682c792996e0ad89c54ba59e1b1748aca54b3658b3b211eade415b53cdb9bd12c96b29d288d2d996b08c15d8bbfea5667d662e9b34a9f75e6b39ad267953eabf459a5cf2a7d56e9b34a9ff5b9fbac9553cb4c6c489f55faaccfc1673572870fe8dafcacb8a947bae6f7628843da1b39355c33099e1d530acb70a4152635a696609abc98b703855d50709c352056e78626fcccea13377e37390ffd55f064078a4443dbb9fa30fc6407f64de911d7c5006ae64801a81670c4283165bac95a58c4075fb0e25d731706ac931fd21bf8047a5371adcb34e647b849bdd931bdc96dc337f1cad1f9419878d79e23d6a6a7cab2b7f0db7740375d71dd1bfc4527ec7b30a6f733c55978244a1b05f1a74d5489a8407dc40654ed81a161643bb7e1384a478645e6e2dee9e2b74fa13bf669418f90e20ed9da6f9a2a19d62bf294216791b522dca8c519e3a2aec9324f983dc948a6e35c8ee45581184b592d4c1ddf8e2580dbe328f35f17192be148404a6b0752d5ac33511126125212523b0da9dc4e6fbec1a32cd33c87adba830d06eb73749a0546499a4e3f4b241b3bab693ada82077036fc469db2e15fa2e2b9a3c2a8858aaae38501b0448544c5aea2c2cc6da42500c86460990cbc6932f0a202966503e7cad475354cb27eeba734aad2a8b665548134aad2a8b665542b7aaa00a98fd8c726adaab4aa6d59d5dc067ac077d0e7f2d3f281c2341cb8af0c7855e901e13458ca55cba282f39cb3be9d2c9ef7920b25f274097a6d8ffda43b3de7dbd8574ecfbeeebdae9d274a8086b596c1a717841571c347ba48f03d1bf0e19d075fd58417f609d61f6c26b127b1d716f6721bb62b2c91c1275d75d6812197c824a4761b527a3b90aa3837d3314212511251bb8c2873a71c44b8cdd9994e70cbf0930ea2c45e39f680aaee3cf8aacece7448d0234eba95e893e86b0d7db96c72c3b43a5f3e7f38ba3c5e3a86fae2f85219b8e32845e15bf5502504999a8a3182443720df0f4b476134e98fec1f83b71011c41ece32ce991f09d4ba43998e009ac63a4a93cb9b3b365a7ffa63a3b77bb43202ab0c18c20db67defe70a13754f8b4ed50b3db97a5535d686ae99eb37bd48fdda1dfdfaf5ebff78c3a263, '2016-07-09 03:58:29'),
+(39, 10, 'audit/log', 0x789ced5c5b53db4a127ecfaf50f162d802acd15da2d82a423875d822c072d9bcb8ca1e4b0356224b3eba409c54fefbf68c64599711375b09214a0291add1f465ba7bbe9e6e1b5bc8fa1e5986b5312551846f49b4b1872dc5b0bebb9608576a7a1159aa6a6dbc0f82388a433c13eedd78227c0e26be1bdff9832422e1cc4ba2413ec0b2c68bcbcdad8d3dd742f063c08f0453c9c8da98bbee608c23323898cd3cd7c6b11bf88587e823f29e632145334459d3457357117559954cb8a1005fa2f5fdc70f3a6d814549b4364e02ecb8fead300d9cc42396108eb15da52f6905fa1fd381d62d89d34b3e694552ca94a5c72853a5ac83b2a16865ca726959f4dab28c8943beb9b7fe002849039c386edcf2c218122ab3a83cd572e8f2fc04cb3164a4542c477d2a8bf833fe6a8789d33a8b7a45895a914364d62decd675d76060866ca08a6ef4226559aee98652f082dbc107379ae1d89ed40dfdc55a5035bdcc8b51f23354d78243c6c9ed3af4a01a7a450f6691b6a270f5c0c8e724da300c53ada8049502b32271f902e368932b13a12a57e8b19562a1680d2b652259aed02e4563457c524c3ce0b1f3627dc00e51f15f540ed420e77948e2782e5c5f9c087e100bc4c7638f38bbc27544d5e4901b9c7831bb3dc3217b0fbcccb5776b4c4a2993f7643cb80ebd8fd8878d3bb42cfa14b920ff24248af95c82b357982c856a05a4bf08929808613a0b712ca1370b8339b1e36067461cd709fa7648704c7a35ae94255725cd4db0ef788ff0a55557b4149f656dc1571c0861e25b029fa71a4b6261350f033f0e03cfa39a82390e6cca1d8f1d248aa65a051ae5680cfbc525e025984088621c829e16a495855da3a536b2a19615cc480345a51a835139080340bbfcfbec93f0d7f5c98970787672fdf1f452f8ebe2eca330a24063886d3b48fc381a35f1e18c4101d3292c8565c14284733e1fba964b8e0a18104cc3dab871a94302588429fb7738ecdfdfdff727f1d4eb8791ddbf23be1384fdc5bed9a79eb64379dba11b7c3f0aed3e5d863e4403e245fd6bb8739031bd3b9bcce8c440c373fdd4e9356d8fc1d29bc4cf162ab274ca83ef9cf98c0d5803dbc35144af253997f23d10a16b7b07166707a1934d1ccf67ec29701dcbdad8fbc1745cda5c541875060b44fdeec37bc10e7c9f30d296309d47ff78d62488e27d2fb0b147aff69cb18fa7641f64afe95c2ee83c9fe581d537c43f48eb52292e6a0826b93c3a393abc7a27c09f2f76b20baaa791d6f5e32155f176e186974cfdca9b21b92121f16de20c631a509b6f171e7fc77cc7f56f8270cac2d430021c33c58be1b18bbde1928f4838b81442fbdd7fce8e4f794f7d21f3c5ec09cda2e870202e9c9d323e36d96f8e78102231c478611f26e7bd7f76913fb9d9f0e8f1a5704a83c2c1e9878649b2115b6caa2d3a90a7e954921a27d9db0d0f5155d61e61fafdf4f7d1c5117fae7dc101cea8596e326ed8a4e9d27146bccb045bae2ddcee95825eaf320b7fd06a9151524de90ff251ad0a31531715fec5dd748474b547ae33da9756d3b32c197f8e964b09868a6a5ac6493c19020940ae538849b99e99f6a9b27bd28a664d912b7a4ce19ace53f84d08800a94deb7736015f5cf335c76ce60d912727154ac8a750d831a6dec57b58b8a78971dab5455baf3ef4ca5722913d064be4add984c7365d268019a7c04e5be50bd9afcb6d45b82e50acc773821f6170a9966249cba29ce7d223a5732744e0f81061fc6791a63d329c1370135830b259009dd711341a48aa2fca6b45b8ababa9e1bef08323be6ff151b1eda13d773724b4e5fb564ca2aa4456f4ad966353d7f6ea418a6ea5d55afaafca68c582945609a81e721021821cbe090a96ffd51c180ffdf9242e56a54b8487c96a5e22c3d5db03d28b03d6862dbb2d2c70e5950e09c08160fe48e7d2ada4196c08689ffc98d27e738c4d388ab7b4d34cc6a2da07cc224361f64540c63c5a30c4d367f95192055aadb01acfe7018917825e8b8340abd9c44eb5d12dd25d1cf4da2ab1b59431abddefdced091f676fd522dd566b425aa18f9c1741c92d136cb92b769b423b61bb0d7777881ecc02148085e43226029bc7361c4aa47baa681945f842f902e73f743ec79b5fdd0c8654a35fddf54a06645977645456dde56d6af5309999af406555a4a3f34a9db53ba3de5d97b0acfdb9a3616eed8d53c535655f416a39d594eaa4080e3d3cba38b2be1f8f4eaac0e9d85cd1189621c2711dd60884f42b6d3dc10d882d2cb290ebfb10b3c0e5d2f7d67cedef89cf86e76e1a517f836886276159159ec92c54616d871925dfac1ddf27d0756327f81e9e9257682ca9ee70c17ab9f32664ff0909e53c07d7fb425fcefe0e4fae852d844db82c8fb57791fc1eb9e26ef8a626f5b50e15a1291b623ea3ba22988b2a51a9664f6b66aa625d74d8b7c85e432e66696920e9be9af822ea659372eb81fe1bbd50ea37313d3ca79bbd6bca1b2f6892184e270beda3e2aabb29e9f7dc84d0ad5c5078efb178d1de9713fe38c1df567a7fcacc7e38872ca85836a9b7030ef4efc39d2a84a5d1858c43067b1288d0c46caeb8949090d96841a659338b2819b3d5f36468b238f64705607045a9c25af4da0bc1ca3950eb735d1ecf04f877f9e8b7f0ac1b109f61487ac143f1555d3b42e7e76f1f395c4cf523b15c0e10a482de20600a8216de8a3e06f51cda6b070c620e367fc95fe9f35210ea7249e04ec7ecabc5300884dc5ae6d41021888247d5784bfa8c72063effcecf2aad7123c543445d47fa137f23a16d686103b67fccd9c5147cf83f37427f45683f32a7895f4b8033cd4bdf3a05eaf288befc904dfb9012f479224a3ae6404e4c6f4430ac73e8499dab68494aa80cf7380d68441a6ce1126f3e7e50c35d331f8a653a7f92c6768514e89e319b4bf9acd7310c7a13b86801bad5d50e6244a87f83bc4bf16c4cfe2e7c3883f1db262887d0ae0ef226c17615f4b842df52980ca256e5290a20f7a6a4d614d960c14f282c0738677d84bd2b36672bf7c9136b3b0f36b8a8ef28becc11b97780d990312d31c81e60306fd75787174707544af6c30d4c01f2c0057a597267fc0751a7389edf2fcea0be7cf0fc99f4a487c11215620689744567a6897082b6ab44b82954bda9662deb210acc4d33609efe924d0cb968295a5da156359f06a974e564a6b97485ea46b974c5efe7b2a9945e1eef9a4d282e253e9f0c6bc2c9615ab954f36f2175a79563f6dd797b26a715b6763aa2c8bc66b03aebab591b3dc61d60eb32e30ab51eae1d3d5650fdf02913ef2f12cf6d18c363e2ca09a5a7ec026357991ca3d944de3c0e2f0b51c05b80bc06965479ab5714b62daaf7eec44efe7178157771d83d7beff2cf769a78342123912012530a5db8c439e1cd957074c67810f4bfc90d5941a124da5f679123f88dd9bec4b1116a6b259f8281feaa547109ba32f640eaffd84dce56653b8c5461bf588fc1c43d244d1501e0dc7ea03ee3dc5f62448c2d4bb8ba245fdd3e2abf47b3c38eba1f197636d1fb06c08cd2f9429f39ba2683caf11f9750b36d7bc2a930277329269ac2a911c70d4d8282ab780b19e3820ad4fa20c8314057ba0826194da51694da4a98251f2ac15fd42369f70c0d6ae63349cb10db343e0c4ae9fb1a985607536fe4ceca648d579c5efee15a54e500da1ae64d1952c9e5bb2281a6053cda23466c5a06a2af9d7ef7541b50baaaf2ea89aa5de6744bb254a458a32744f01fab630a253a55df1c4af142c329cbe2c3c0c715cec5a2a817b7a66967ef95b6fd1dc6e6c0ba7679f36b7563d78d1908a7eb1ebe91ca0df765f52e77abf8deba92ba6cdd2cf4c9b75b4fc7ebc2e6fee3cea557a94f1aa3633698d9b99ae4972b79b75bef76a7d0f89a5b65bc3b436aecf3f1c5c1d55badf2f8fae84919384a913ee8bbba2a6c9a62a2a8a2c69ba21d12e16320dc2f9708abf8ef6255993e166f16bf690b8a233e932cabf1fa5b196d05eb7bafef3bbd5d7dbd12da3ba0006db87b1e77e5b674f775662f8f1e3ff723b6b4f, '2016-07-09 03:58:29'),
+(40, 10, 'audit/profiling', 0x789ced5d5b53dbba167eefaff0e425f40c10eb62f9c2706668cb9ecd99967403dd7d6126716c41dc3a36db7668d33dfdef47927373621362c72480da421d5f24ad4feb5b5a5a5e526c0b59ffc616b11a033a08a351e3c8b320224853f1516c61ab917803da38722df5503520d2d9795333814a30d610bbc3e00fc6b17d4be3c6916d69c4fad7b380c90ff991ca6ed15829ed3b1a78c1adf2e19de28441409dc40b034b198ce27f7cab1fc6c9b11f3ab6cf8f8edc5e600fe871143bbc3180fd182a6f152b0a22ab31f2bc6bb777fd7e568c15b2d2f9bd88b5136062a888e8aa7988816a20d616cfc2ac3d206d8f689890ecc6f399644c0460355af776d4faf1e347ab9f0cfc16abba754f03378c5adfc27ee025f7418b550b0f86318d0eeefc61dc8a23a7d5b363da1a842ef5e3d61776e5c471c26190c48777fdbb468a9eef0554b48c9014ac9b61201acdafebbc0d81db0e443334abe1f8761c37b272be63959cb047eee90575c2c81d179c8ceec453d06a5856e3e8f7efdf0c2175b3b09ba424ec00bf22d0c13ce888d576f967fbabf2c7978f1f95f7ed8f5f3e9d5f2a7f5cb43f295d2e47c71e37b7bbacdb600ee4c1c00e5ccbfa6748534a2e43ac21f27a3086d5309e29f25a1843a8bd1e88f13cc404b0422e4f3f9ebebf7aa3b03fdf9de12133207112d95e9074b8a1d89fbbe00f07c1c2c988ded088060e753b89ddf369f1e5b9c7df884ef4829b301ad85cd24eecf4e9c09edc9e78b6df99b523564e2e95c879f3bff6d979de53dfe96852fa908f50fc7656b9d23e17edd813bf73c473ecc4f6c35be598159e77be7d317d72afe0d1b34be59c6be7c9f9878242c677bc1545bde537e6219d4ab2d492f1e9828738944b8f087cbffe797a719a5fd6b1e2b29671b5dc13ad1185a65d9773c79bb160b3be65979b19f635174ac9bfa9a2198404c1d7c3514d725472747b1c2d398c22d544e0f590549f272986138e2affc9755194b4bbbb9edb3d86158d2142e0151943a33ace65155a7b4d0a8db2b34ab004b43d4cfa1d5685771b0c98fd9f422d3a80e3dd84558779614456214ef43cc46fa2304818ea2d664e9328f47d1ac5adcf513862b3d8f033753d377c3fbd9283b1a62e43cc7074ec60115e0053917ed0de35efb8654c0ffe3bc1146c10d3925a8cb18e5f12a428e31ca17c48bd840ea660f2d18e2179376ef9c19d687acb89a89dd0ca2a4bf497842eae09ddb2ca6b026da5097e4ef866bc065d9fe2dbbdb32361001660ee387dcf77a760a79fead2650d40f345995fe349d02ea9db1a1fef5e10da38eb4090f56d4727c5b7b21a6b646540ef39e10a368d6b5985d5f59734d6e14c9805abc5d1e6051cabc6f409c62b63faf5e00834b80c2483afd3896952691a3143955445b5a4761aaabaadb9c353c09a19ca08d0654c50c604d78d092e8e070551c10d0fc7864ee00b26a629892989b95d62961c314dfc82074c2de3359399d7dc0dc2412fa2dd7d1124dee77e0875bc507cbeb727534246081a31d6d0983529baf7d81d9573394c036fc97f063aca75a06ddf5f72a08da94829d27fa5f214030deb03ba9c6243404c6d5b9a5d27d299e01cd68a5deb1ab4174215c02d852b6a0555db08a825351501b2adf866ada066c29c044aa7483a456b3b45797c2bf28c72efad68f090666ce9c559add4342435253577859a25874dac81d59919cf8f9b24f30605a94c80b3f3cbd38b2be5ecfcaabd1c3155f6ba344eec641873a79a063412def50d656e777a38b0a35fe2c0ee459e9f9e198913df8681373ef0d303fb368c137114d3bbc4a313e73d7492e1f83008ef67e75dd695d30f364f61b0dd70c1cf773b93ee4f1be6f4ed0e7f7bc6ae07ddb7cadf271fbf9c5e2a7b605f51f3fe2d9c07ec7393a043556dee2b1a3b663e293950f503d55454c44c9b05cde6db8757938c758bfea4ce30a1b9daa54344b6a55da6b9ac5dec7a6cdf574bf399e918903ab6391dcb5f3ab35ac71036b5d58b679ead8e65727410299e53d943d74b3a6cc08f4615e7a748c360f2560d1501aaab0f24ebf5a84b7f310d4b93f544cb44a2de3847ef849f38e52dcd0d68697506b438304f288d869785619d184d9b382f0d624a3aa9ec9a57762d2abb4e2bba9e5554281bcc918df16c7dd9445d39f24023a7779840691ec706059a2653125c8501e5bc22ac61c3900c900cd80d0664f200886aca79a69c67ae3bcf9c338e45d3cbf95baa79105823e6d4279306541ad02d1b505d1a506940b763404b3aa004682a9006541ad0dd30a099cc2ca0a38548d7fccc4bd9eb46e1301161a6c9da2b1e5bba1371a76ff64ffe7f4499eac7496740937e28aea78d77e7a24c456b05f615b8af3401d40f55f6173445dca9f9b97d79d5ac2b8e8909d6b647c6bc258b1b0b32492e3e332eeaeacbe062d978af067482b738344a364a36ceb111ae179de47ea95f313eaf4115ad8e4e3eb498fe415caf7813dfd1be7def85792f3d2034964106acba9e9d38fdb380d999251f11e045f9d623406dc20053cf1166cce759094baa63e4abce729d6b91a14639610e330013499473922491d7630637deb8a082246bbec4ca92a4dc0c4a83d85c3d4a48924892ec0a493419a49241aa8d04a984fd7c384895de52d50f21065a1de5973656dad85db1b1f24daab4b15bb2b125dd58a4425d9a5869629f8d89cd2c8a6090c3dcf8643ac5e319b13cc0328e4bce852843dfeddcdbfe30cd63a53f661f6c2192c88de5719ae9c1f8c11b8ffa05414ca0a6e14a1e9a34f8aff717a72757a7fcc8618a1a06d793d0cf75360774fa80e7168635f7b3e56b25cb9f26e03eb622b5544522f9b8de2ac669cdf5562212a6ebad42a462d72dc5a8662144fa78dd55f88faf0294eb0a91f25eaf18b364fa7aeb19a7e9d75bc9740140bdd54c97163cb69ac9a280f5ab4a172b3cb69ebc7bcad9b2f995108f56f2925a3e5e9b512f97c62b516a7b65ae2104772dfeaa5b8d698ba5cf2a7dd6a9cf6a4a9f55faacd267953eabf459a5cf2a7dd6e7eeb3964e2d33b1217d56e9b33e079fd5c86c3ea06bb3bde2261ee98aefc5109bb4d7b26bb866123cdda61416f148cb4d6a4c2dc12479316b0772bb20673b6b40acc62d4df89ed5676efc6e7411facbe4196f2812f56ce7fa43ef931dd8b7855b5ce713a89e2d05a09a2311ab8929d3edb8857972f01756bc6beec28075f2437a039f406f4abeeb328dd9166e526f764c6f32cbf04dbcb4757e1026de8de78877d31365d99bfbf61dd04cdfb8ee75bfd311fb1c0ce9fd5471e62e89bb8d9cf8d33aaa4454a03e6201aaf6c0d030b09d7e388cd291615eb8b8753effe953e80e7d9ad32324bf4336f64d5305c37a4999c6cc99172d8f376a7ec6b8286bb42813e6df919d56998e73992aaf73602c143537757c3396006e4ea2b1ff3a2f5881448252da762855ce3a13156122292529b5d394caacf4e60b3c8a32cd33dcaa3ad860b03a47a75e6214a4e974c689644367394d479bf300dabd6fd4291afe252b9e3b2b8c4aac283b5e18004b564856ec2a2bcccc425a02804c0696c9c0eb2603cf2b60513670e69eaaae8649562ffd9446551ad56d1955208daa34aadb32aa253d5580d447ac639356555ad56d59d5cc027ac057d067f2d3b281c2341cb8af747951e906e13458c8551b47056739671d3b99dfef25134ae4e912f4c61efa4973b2cfb7b1af9cb7bfeebdad9c274a8086b52d934fcf092be29ab77491e47b36e4c33b4fbeb2092fec3758bdb199e49ee4deb6b89759b05de215197cd2b7ce3a30e42b3249a9dda694be1d4a959c9be91821c928c9a85d6694b9530e22dce4ec4c2778cbf4930ea2e45e31f780aaee3cf9cacece7448d02376ba95ec93ecdb1afb32d9e4866935be7cfe707275bab00df5e5e995d2758751cac263f5502504999a8a31824437205f0f4b076134ea0cec9fdd6388086217a719e7cc8f046ad5a14c47004d621d85c9e5f56d1bad3ffdb6d19bdd5a198165010ce106dbbef76b4988aabb45a7ea859e5cbdca1a6b43d7ccd58b5ea47eed8e7efdfefd7f1668a557, '2016-07-09 03:58:29');
 
 -- --------------------------------------------------------
 
@@ -275,8 +358,8 @@ CREATE TABLE IF NOT EXISTS `audit_data` (
 -- Estructura de tabla para la tabla `audit_entry`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_entry` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_entry` (
+  `id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `user_id` int(11) DEFAULT '0',
   `duration` float DEFAULT NULL,
@@ -284,2414 +367,24 @@ CREATE TABLE IF NOT EXISTS `audit_entry` (
   `request_method` varchar(16) DEFAULT NULL,
   `ajax` int(1) NOT NULL DEFAULT '0',
   `route` varchar(255) DEFAULT NULL,
-  `memory_max` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`),
-  KEY `idx_route` (`route`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2393 ;
+  `memory_max` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `audit_entry`
 --
 
 INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
-(1, '2016-07-04 15:50:02', 1, 0.474027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422736),
-(2, '2016-07-04 15:50:07', 1, 0.653038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(3, '2016-07-04 15:50:13', 1, 0.656038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(4, '2016-07-04 15:50:16', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(5, '2016-07-04 15:50:24', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(6, '2016-07-04 15:50:26', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(7, '2016-07-04 15:50:35', 1, 0.223013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(8, '2016-07-04 15:50:36', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(9, '2016-07-04 15:50:46', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(10, '2016-07-04 15:50:47', 1, 0.541031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(11, '2016-07-04 15:50:57', 1, 0.496028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(12, '2016-07-04 15:50:57', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(13, '2016-07-04 15:51:07', 1, 0.492028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(14, '2016-07-04 15:51:08', 1, 0.488028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(15, '2016-07-04 15:51:17', 1, 0.559032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(16, '2016-07-04 15:51:19', 1, 0.473027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(17, '2016-07-04 15:51:27', 1, 0.505029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(18, '2016-07-04 15:51:29', 1, 0.287017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(19, '2016-07-04 15:51:31', 1, 2.59915, '127.0.0.1', 'GET', 0, 'proyecto/index', 7395160),
-(20, '2016-07-04 15:51:35', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(21, '2016-07-04 15:51:36', 1, 0.288016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(22, '2016-07-04 15:51:37', 1, 0.918053, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7309096),
-(23, '2016-07-04 15:51:39', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(24, '2016-07-04 15:51:46', 1, 0.270015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(25, '2016-07-04 15:51:50', 1, 0.249014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(26, '2016-07-04 15:51:56', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(27, '2016-07-04 15:51:57', 1, 0.278016, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4914136),
-(28, '2016-07-04 15:51:58', 1, 0.51503, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7047016),
-(29, '2016-07-04 15:52:00', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(30, '2016-07-04 15:52:07', 1, 0.463026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(31, '2016-07-04 15:52:10', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(32, '2016-07-04 15:52:17', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(33, '2016-07-04 15:52:20', 1, 0.278015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(34, '2016-07-04 15:52:27', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(35, '2016-07-04 15:52:30', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(36, '2016-07-04 15:52:36', 1, 0.247014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(37, '2016-07-04 15:52:40', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(38, '2016-07-04 15:52:47', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(39, '2016-07-04 15:52:50', 1, 0.390022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(40, '2016-07-04 15:52:53', 0, 3.04117, NULL, 'CLI', 0, 'help/index', 6883192),
-(41, '2016-07-04 15:52:57', 1, 0.451025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(42, '2016-07-04 15:53:00', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(43, '2016-07-04 15:53:07', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(44, '2016-07-04 15:53:10', 1, 0.238014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(45, '2016-07-04 15:53:16', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(46, '2016-07-04 15:53:20', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(47, '2016-07-04 15:53:27', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(48, '2016-07-04 15:53:30', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(49, '2016-07-04 15:53:36', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(50, '2016-07-04 15:53:40', 1, 0.416024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(51, '2016-07-04 15:53:47', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(52, '2016-07-04 15:53:50', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(53, '2016-07-04 15:53:56', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(54, '2016-07-04 15:54:00', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(55, '2016-07-04 15:54:07', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(56, '2016-07-04 15:54:10', 1, 0.390022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(57, '2016-07-04 15:54:17', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(58, '2016-07-04 15:54:20', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(59, '2016-07-04 15:54:24', 0, 0.382022, NULL, 'CLI', 0, 'acc/crear-acc-prueba', 3929112),
-(60, '2016-07-04 15:54:27', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(61, '2016-07-04 15:54:30', 1, 0.231013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(62, '2016-07-04 15:54:33', 1, 0.661038, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7112672),
-(63, '2016-07-04 15:54:37', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(64, '2016-07-04 15:54:39', 1, 1.59209, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 8268376),
-(65, '2016-07-04 15:54:42', 1, 0.506029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(66, '2016-07-04 15:54:46', 1, 0.265015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(67, '2016-07-04 15:54:50', 1, 0.705041, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7347936),
-(68, '2016-07-04 15:54:52', 1, 0.264015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(69, '2016-07-04 15:54:56', 1, 0.304018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(70, '2016-07-04 15:54:58', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada/bulk-delete', NULL),
-(71, '2016-07-04 15:55:02', 1, 0.481027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(72, '2016-07-04 15:55:04', 1, 0.495029, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4914168),
-(73, '2016-07-04 15:55:04', 1, 0.656038, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7170592),
-(74, '2016-07-04 15:55:07', 1, 0.502029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(75, '2016-07-04 15:55:08', 1, 0.373021, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4914144),
-(76, '2016-07-04 15:55:09', 1, 0.735043, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7160696),
-(77, '2016-07-04 15:55:11', 1, 0.447026, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4914152),
-(78, '2016-07-04 15:55:12', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(79, '2016-07-04 15:55:12', 1, 0.947054, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7154888),
-(80, '2016-07-04 15:55:15', 1, 0.482027, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4914152),
-(81, '2016-07-04 15:55:16', 1, 0.792046, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7149080),
-(82, '2016-07-04 15:55:17', 1, 0.300017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(83, '2016-07-04 15:55:19', 1, 0.498028, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4914168),
-(84, '2016-07-04 15:55:19', 1, 0.88105, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7139160),
-(85, '2016-07-04 15:55:22', 1, 0.254014, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4914128),
-(86, '2016-07-04 15:55:22', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(87, '2016-07-04 15:55:22', 1, 0.811046, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7047016),
-(88, '2016-07-04 15:55:27', 1, 0.460026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(89, '2016-07-04 15:55:32', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(90, '2016-07-04 15:55:37', 1, 0.419024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(91, '2016-07-04 15:55:42', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(92, '2016-07-04 15:55:47', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(93, '2016-07-04 15:55:52', 1, 0.374022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(94, '2016-07-04 15:55:57', 1, 0.395022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(95, '2016-07-04 15:56:02', 1, 0.451026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(96, '2016-07-04 15:56:07', 1, 0.445025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(97, '2016-07-04 15:56:13', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(98, '2016-07-04 15:56:16', 1, 0.17501, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(99, '2016-07-04 15:56:24', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(100, '2016-07-04 15:56:27', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(101, '2016-07-04 15:56:35', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(102, '2016-07-04 15:56:37', 1, 0.369022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(103, '2016-07-04 15:56:46', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(104, '2016-07-04 15:56:47', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(105, '2016-07-04 15:56:57', 1, 0.498028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(106, '2016-07-04 15:56:57', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(107, '2016-07-04 15:57:06', 1, 0.188011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(108, '2016-07-04 15:57:08', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(109, '2016-07-04 15:57:17', 1, 0.241014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(110, '2016-07-04 15:57:19', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(111, '2016-07-04 15:57:27', 1, 0.443026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(112, '2016-07-04 15:57:30', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(113, '2016-07-04 15:57:37', 1, 0.489028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(114, '2016-07-04 15:57:41', 1, 0.394022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(115, '2016-07-04 15:57:47', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(116, '2016-07-04 15:57:52', 1, 0.257015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(117, '2016-07-04 15:57:57', 1, 0.453026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(118, '2016-07-04 15:58:03', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(119, '2016-07-04 15:58:07', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(120, '2016-07-04 15:58:14', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(121, '2016-07-04 15:58:17', 1, 0.240014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(122, '2016-07-04 15:58:25', 1, 0.36602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(123, '2016-07-04 15:58:27', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(124, '2016-07-04 15:58:36', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(125, '2016-07-04 15:58:37', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(126, '2016-07-04 15:58:47', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(127, '2016-07-04 15:58:47', 1, 0.448026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(128, '2016-07-04 15:58:57', 1, 0.293017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(129, '2016-07-04 15:58:58', 1, 0.226013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(130, '2016-07-04 15:59:07', 1, 0.475027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(131, '2016-07-04 15:59:09', 1, 0.225012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(132, '2016-07-04 15:59:17', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(133, '2016-07-04 15:59:20', 1, 0.412023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(134, '2016-07-04 15:59:27', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(135, '2016-07-04 15:59:31', 1, 0.237013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(136, '2016-07-04 15:59:37', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(137, '2016-07-04 15:59:42', 1, 0.387023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(138, '2016-07-04 15:59:47', 1, 0.429025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(139, '2016-07-04 15:59:53', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(140, '2016-07-04 15:59:57', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(141, '2016-07-04 16:00:04', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(142, '2016-07-04 16:00:07', 1, 0.351021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(143, '2016-07-04 16:00:14', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(144, '2016-07-04 16:00:17', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(145, '2016-07-04 16:00:21', 0, 0.406023, NULL, 'CLI', 0, 'acc/crear-acc-prueba', 3929112),
-(146, '2016-07-04 16:00:24', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(147, '2016-07-04 16:00:26', 1, 0.544031, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7112064),
-(148, '2016-07-04 16:00:27', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(149, '2016-07-04 16:00:30', 1, 0.819046, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 8240536),
-(150, '2016-07-04 16:00:31', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(151, '2016-07-04 16:00:37', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(152, '2016-07-04 16:00:41', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(153, '2016-07-04 16:00:43', 1, 0.719042, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', 5824640),
-(154, '2016-07-04 16:00:47', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(155, '2016-07-04 16:00:51', 1, 0.663037, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7347328),
-(156, '2016-07-04 16:00:51', 1, 0.299017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(157, '2016-07-04 16:00:51', 1, 1.09206, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7347328),
-(158, '2016-07-04 16:00:52', 1, 1.02006, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7347328),
-(159, '2016-07-04 16:00:53', 1, 0.282016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(160, '2016-07-04 16:00:57', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(161, '2016-07-04 16:01:03', 1, 0.371022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(162, '2016-07-04 16:01:07', 1, 0.447025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(163, '2016-07-04 16:01:13', 1, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(164, '2016-07-04 16:01:17', 1, 0.18301, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(165, '2016-07-04 16:01:23', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(166, '2016-07-04 16:01:27', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(167, '2016-07-04 16:01:33', 1, 0.381021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(168, '2016-07-04 16:01:37', 1, 0.302018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(169, '2016-07-04 16:01:43', 1, 0.396022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(170, '2016-07-04 16:01:47', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(171, '2016-07-04 16:01:53', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(172, '2016-07-04 16:01:57', 1, 0.391023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(173, '2016-07-04 16:02:03', 1, 0.280016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(174, '2016-07-04 16:02:07', 1, 0.408024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(175, '2016-07-04 16:02:13', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(176, '2016-07-04 16:02:17', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(177, '2016-07-04 16:02:23', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(178, '2016-07-04 16:02:27', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(179, '2016-07-04 16:02:31', 1, 0.629036, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 8240488),
-(180, '2016-07-04 16:02:32', 1, 0.249015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(181, '2016-07-04 16:02:37', 1, 0.271016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(182, '2016-07-04 16:02:39', 1, 0.820047, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', 6357240),
-(183, '2016-07-04 16:02:42', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(184, '2016-07-04 16:02:47', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(185, '2016-07-04 16:02:51', 1, 0.611035, '127.0.0.1', 'POST', 1, 'ac-ac-espec/update', 6144056),
-(186, '2016-07-04 16:02:51', 1, 0.627036, '127.0.0.1', 'GET', 1, 'accion-centralizada/view', 7924392),
-(187, '2016-07-04 16:02:52', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(188, '2016-07-04 16:02:56', 1, 0.564032, '127.0.0.1', 'GET', 0, 'proyecto-asignar/index', 7101760),
-(189, '2016-07-04 16:02:57', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(190, '2016-07-04 16:02:57', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(191, '2016-07-04 16:02:58', 1, 0.424024, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7113984),
-(192, '2016-07-04 16:02:59', 1, 0.236014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(193, '2016-07-04 16:03:00', 1, 0.945055, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 7149368),
-(194, '2016-07-04 16:03:02', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(195, '2016-07-04 16:03:07', 1, 0.455026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(196, '2016-07-04 16:03:12', 1, 0.250015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(197, '2016-07-04 16:03:17', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(198, '2016-07-04 16:03:23', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(199, '2016-07-04 16:03:27', 1, 0.294017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(200, '2016-07-04 16:03:34', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(201, '2016-07-04 16:03:37', 1, 0.406023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(202, '2016-07-04 16:03:45', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(203, '2016-07-04 16:03:47', 1, 0.557031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(204, '2016-07-04 16:03:50', 1, 0.412024, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908400),
-(205, '2016-07-04 16:03:55', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(206, '2016-07-04 16:03:56', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
-(207, '2016-07-04 16:03:57', 1, 0.300018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(208, '2016-07-04 16:03:58', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
-(209, '2016-07-04 16:04:02', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
-(210, '2016-07-04 16:04:05', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
-(211, '2016-07-04 16:04:05', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(212, '2016-07-04 16:04:07', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
-(213, '2016-07-04 16:04:07', 1, 0.431025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(214, '2016-07-04 16:04:15', 1, 0.287017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(215, '2016-07-04 16:04:15', 1, 0.462026, '127.0.0.1', 'GET', 0, 'proyecto-asignar/index', 7101088),
-(216, '2016-07-04 16:04:21', 1, 1.05206, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7347376),
-(217, '2016-07-04 16:04:23', 1, 0.540031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(218, '2016-07-04 16:04:27', 1, 0.488028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(219, '2016-07-04 16:04:29', 1, 0.752043, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7113984),
-(220, '2016-07-04 16:04:30', 1, 0.236014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(221, '2016-07-04 16:04:32', 1, 0.643037, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 7149368),
-(222, '2016-07-04 16:04:33', 1, 0.278015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(223, '2016-07-04 16:04:36', 1, 0.423025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(224, '2016-07-04 16:04:36', 1, 0.420024, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908400),
-(225, '2016-07-04 16:04:40', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
-(226, '2016-07-04 16:04:43', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(227, '2016-07-04 16:04:44', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
-(228, '2016-07-04 16:04:46', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(229, '2016-07-04 16:04:53', 1, 0.410023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(230, '2016-07-04 16:05:00', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(231, '2016-07-04 16:05:03', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(232, '2016-07-04 16:05:08', 1, 0.538031, '127.0.0.1', 'GET', 0, 'proyecto-asignar/asignar', 7113496),
-(233, '2016-07-04 16:05:13', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(234, '2016-07-04 16:05:13', 1, 0.254015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(235, '2016-07-04 16:05:16', 1, 0.669038, '127.0.0.1', 'GET', 1, 'proyecto-asignar/create', 5949680),
-(236, '2016-07-04 16:05:23', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(237, '2016-07-04 16:05:25', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(238, '2016-07-04 16:05:33', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(239, '2016-07-04 16:05:35', 1, 0.466027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(240, '2016-07-04 16:05:42', 1, 0.962055, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7346704),
-(241, '2016-07-04 16:05:43', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(242, '2016-07-04 16:05:48', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(243, '2016-07-04 16:05:53', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(244, '2016-07-04 16:05:58', 1, 0.238014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(245, '2016-07-04 16:06:03', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(246, '2016-07-04 16:06:08', 1, 0.310017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(247, '2016-07-04 16:06:13', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(248, '2016-07-04 16:06:18', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(249, '2016-07-04 16:06:23', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(250, '2016-07-04 16:06:28', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(251, '2016-07-04 16:06:32', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
-(252, '2016-07-04 16:06:33', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(253, '2016-07-04 16:06:38', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(254, '2016-07-04 16:06:43', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(255, '2016-07-04 16:06:48', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(256, '2016-07-04 16:06:52', 1, 0.578033, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 8239816),
-(257, '2016-07-04 16:06:53', 1, 0.426024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(258, '2016-07-04 16:06:57', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(259, '2016-07-04 16:07:00', 1, 0.547032, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7113312),
-(260, '2016-07-04 16:07:03', 1, 0.168009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(261, '2016-07-04 16:07:03', 1, 0.267015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(262, '2016-07-04 16:07:06', 1, 0.781045, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 7148696),
-(263, '2016-07-04 16:07:09', 1, 0.417024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(264, '2016-07-04 16:07:13', 1, 0.584034, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908560),
-(265, '2016-07-04 16:07:13', 1, 0.222012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(266, '2016-07-04 16:07:16', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
-(267, '2016-07-04 16:07:20', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(268, '2016-07-04 16:07:23', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(269, '2016-07-04 16:07:30', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(270, '2016-07-04 16:07:33', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(271, '2016-07-04 16:07:39', 1, 0.18301, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(272, '2016-07-04 16:07:42', 1, 0.86905, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 6973120),
-(273, '2016-07-04 16:07:42', 1, 1.08006, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 6973120),
-(274, '2016-07-04 16:07:43', 1, 1.26807, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 6973120),
-(275, '2016-07-04 16:07:43', 1, 0.452026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(276, '2016-07-04 16:07:44', 1, 0.208012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(277, '2016-07-04 16:07:45', 1, 0.630036, '127.0.0.1', 'GET', 0, 'rbac/role/index', 6925168),
-(278, '2016-07-04 16:07:46', 1, 0.218013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(279, '2016-07-04 16:07:50', 1, 0.275016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(280, '2016-07-04 16:07:51', 1, 0.451025, '127.0.0.1', 'GET', 1, 'rbac/role/view', 5260784),
-(281, '2016-07-04 16:07:56', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(282, '2016-07-04 16:08:00', 1, 0.264016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(283, '2016-07-04 16:08:04', 1, 0.839048, '127.0.0.1', 'GET', 0, 'user/manager/index', 7039704),
-(284, '2016-07-04 16:08:05', 1, 0.252014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(285, '2016-07-04 16:08:07', 1, 0.36002, '127.0.0.1', 'GET', 1, 'rbac/assignment/assignment', 5273376),
-(286, '2016-07-04 16:08:08', 1, 0.468026, '127.0.0.1', 'GET', 1, 'user/manager/index', 6802984),
-(287, '2016-07-04 16:08:10', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(288, '2016-07-04 16:08:15', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(289, '2016-07-04 16:08:19', 1, 0.232013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(290, '2016-07-04 16:08:22', 1, 0.546031, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 6973024),
-(291, '2016-07-04 16:08:23', 1, 0.252014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(292, '2016-07-04 16:08:25', 1, 0.473027, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(293, '2016-07-04 16:08:30', 1, 0.290016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(294, '2016-07-04 16:08:33', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(295, '2016-07-04 16:08:40', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(296, '2016-07-04 16:08:43', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(297, '2016-07-04 16:08:50', 1, 0.276015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(298, '2016-07-04 16:08:53', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(299, '2016-07-04 16:09:00', 1, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(300, '2016-07-04 16:09:03', 1, 0.252015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(301, '2016-07-04 16:09:06', 1, 0.429025, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5285024),
-(302, '2016-07-04 16:09:06', 1, 0.637037, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6728728),
-(303, '2016-07-04 16:09:09', 1, 0.912052, '127.0.0.1', 'GET', 0, 'rbac/role/index', 6925168),
-(304, '2016-07-04 16:09:10', 1, 0.452025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(305, '2016-07-04 16:09:10', 1, 0.228013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(306, '2016-07-04 16:09:16', 1, 0.640036, '127.0.0.1', 'GET', 1, 'rbac/role/update', 6070304),
-(307, '2016-07-04 16:09:20', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(308, '2016-07-04 16:09:20', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(309, '2016-07-04 16:09:28', 1, 0.327019, '127.0.0.1', 'POST', 1, 'rbac/role/update', 5589216),
-(310, '2016-07-04 16:09:29', 1, 0.375022, '127.0.0.1', 'GET', 1, 'rbac/role/index', 6680560),
-(311, '2016-07-04 16:09:30', 1, 0.189011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(312, '2016-07-04 16:09:31', 1, 0.680039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(313, '2016-07-04 16:09:38', 1, 0.69404, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908560),
-(314, '2016-07-04 16:09:41', 1, 0.837048, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 4793104),
-(315, '2016-07-04 16:09:41', 1, 0.70004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(316, '2016-07-04 16:09:41', 1, 0.621035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(317, '2016-07-04 16:09:41', 1, 0.265015, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793088),
-(318, '2016-07-04 16:09:44', 1, 0.431025, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793136),
-(319, '2016-07-04 16:09:51', 1, 0.452026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(320, '2016-07-04 16:09:51', 1, 0.483028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(321, '2016-07-04 16:09:54', 1, 0.550031, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 5548664),
-(322, '2016-07-04 16:09:55', 1, 0.664038, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 7194304),
-(323, '2016-07-04 16:10:01', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(324, '2016-07-04 16:10:02', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(325, '2016-07-04 16:10:11', 1, 0.267016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(326, '2016-07-04 16:10:12', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(327, '2016-07-04 16:10:21', 1, 0.200012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(328, '2016-07-04 16:10:22', 1, 0.202012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(329, '2016-07-04 16:10:32', 1, 0.669038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(330, '2016-07-04 16:10:33', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(331, '2016-07-04 16:10:40', 1, 1.02606, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/index', 7004600),
-(332, '2016-07-04 16:10:42', 1, 0.915052, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(333, '2016-07-04 16:10:42', 1, 0.309017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(334, '2016-07-04 16:10:43', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/create', NULL),
-(335, '2016-07-04 16:10:44', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(336, '2016-07-04 16:10:45', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(337, '2016-07-04 16:10:52', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(338, '2016-07-04 16:10:55', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(339, '2016-07-04 16:11:02', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(340, '2016-07-04 16:11:05', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(341, '2016-07-04 16:11:11', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(342, '2016-07-04 16:11:15', 1, 0.348019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(343, '2016-07-04 16:11:22', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(344, '2016-07-04 16:11:25', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(345, '2016-07-04 16:11:32', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(346, '2016-07-04 16:11:35', 1, 0.241014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(347, '2016-07-04 16:11:42', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(348, '2016-07-04 16:11:45', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(349, '2016-07-04 16:11:52', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(350, '2016-07-04 16:11:55', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(351, '2016-07-04 16:12:02', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(352, '2016-07-04 16:12:05', 1, 0.212012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(353, '2016-07-04 16:12:12', 1, 0.580033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(354, '2016-07-04 16:12:15', 1, 0.382021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(355, '2016-07-04 16:12:22', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(356, '2016-07-04 16:12:25', 1, 0.400022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(357, '2016-07-04 16:12:31', 1, 0.223013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(358, '2016-07-04 16:12:35', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(359, '2016-07-04 16:12:42', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(360, '2016-07-04 16:12:45', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(361, '2016-07-04 16:12:52', 1, 0.654037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(362, '2016-07-04 16:12:55', 1, 0.199012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(363, '2016-07-04 16:13:02', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(364, '2016-07-04 16:13:05', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(365, '2016-07-04 16:13:12', 1, 0.407023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(366, '2016-07-04 16:13:15', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(367, '2016-07-04 16:13:22', 1, 0.408023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(368, '2016-07-04 16:13:25', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(369, '2016-07-04 16:13:32', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(370, '2016-07-04 16:13:35', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(371, '2016-07-04 16:13:42', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(372, '2016-07-04 16:13:45', 1, 0.412024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(373, '2016-07-04 16:13:51', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(374, '2016-07-04 16:13:55', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(375, '2016-07-04 16:14:02', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(376, '2016-07-04 16:14:05', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(377, '2016-07-04 16:14:12', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(378, '2016-07-04 16:14:15', 1, 0.245014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(379, '2016-07-04 16:14:22', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(380, '2016-07-04 16:14:25', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(381, '2016-07-04 16:14:32', 1, 0.311017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(382, '2016-07-04 16:14:35', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(383, '2016-07-04 16:14:42', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(384, '2016-07-04 16:14:45', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(385, '2016-07-04 16:14:52', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(386, '2016-07-04 16:14:55', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(387, '2016-07-04 16:15:02', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(388, '2016-07-04 16:15:05', 1, 0.230013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(389, '2016-07-04 16:15:12', 1, 0.407023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(390, '2016-07-04 16:15:15', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(391, '2016-07-04 16:15:22', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(392, '2016-07-04 16:15:25', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(393, '2016-07-04 16:15:32', 1, 0.503029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(394, '2016-07-04 16:15:35', 1, 0.432024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(395, '2016-07-04 16:15:42', 1, 0.292017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(396, '2016-07-04 16:15:45', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(397, '2016-07-04 16:15:52', 1, 0.286016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(398, '2016-07-04 16:15:55', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(399, '2016-07-04 16:16:02', 1, 0.245014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(400, '2016-07-04 16:16:05', 1, 0.36602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(401, '2016-07-04 16:16:12', 1, 0.346019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(402, '2016-07-04 16:16:15', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(403, '2016-07-04 16:16:22', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(404, '2016-07-04 16:16:25', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(405, '2016-07-04 16:16:32', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(406, '2016-07-04 16:16:35', 1, 0.292016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(407, '2016-07-04 16:16:42', 1, 0.414024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(408, '2016-07-04 16:16:45', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(409, '2016-07-04 16:16:52', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(410, '2016-07-04 16:16:55', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(411, '2016-07-04 16:17:02', 1, 0.284016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(412, '2016-07-04 16:17:05', 1, 0.355021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(413, '2016-07-04 16:17:12', 1, 0.330018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(414, '2016-07-04 16:17:15', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(415, '2016-07-04 16:17:22', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(416, '2016-07-04 16:17:25', 1, 0.289017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(417, '2016-07-04 16:17:32', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(418, '2016-07-04 16:17:35', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(419, '2016-07-04 16:17:42', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(420, '2016-07-04 16:17:45', 1, 0.379021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(421, '2016-07-04 16:17:52', 1, 0.566033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(422, '2016-07-04 16:17:55', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(423, '2016-07-04 16:18:02', 1, 0.390022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(424, '2016-07-04 16:18:05', 1, 0.374022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(425, '2016-07-04 16:18:12', 1, 0.378022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(426, '2016-07-04 16:18:15', 1, 0.235013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(427, '2016-07-04 16:18:22', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(428, '2016-07-04 16:18:25', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(429, '2016-07-04 16:18:32', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(430, '2016-07-04 16:18:35', 1, 0.373022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(431, '2016-07-04 16:18:41', 1, 0.180011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(432, '2016-07-04 16:18:45', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(433, '2016-07-04 16:18:52', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(434, '2016-07-04 16:18:55', 1, 0.247015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(435, '2016-07-04 16:19:02', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(436, '2016-07-04 16:19:05', 1, 0.244014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(437, '2016-07-04 16:19:12', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(438, '2016-07-04 16:19:15', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(439, '2016-07-04 16:19:25', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(440, '2016-07-04 16:19:27', 1, 0.501029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(441, '2016-07-04 16:19:35', 1, 0.253015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(442, '2016-07-04 16:19:37', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(443, '2016-07-04 16:19:45', 1, 1.61109, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(444, '2016-07-04 16:19:47', 1, 1.53309, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(445, '2016-07-04 16:19:55', 1, 0.289017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(446, '2016-07-04 16:19:57', 1, 0.391023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(447, '2016-07-04 16:20:05', 1, 0.200011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(448, '2016-07-04 16:20:07', 1, 0.397022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(449, '2016-07-04 16:20:15', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(450, '2016-07-04 16:20:17', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(451, '2016-07-04 16:20:25', 1, 0.231013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(452, '2016-07-04 16:20:27', 1, 0.16201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(453, '2016-07-04 16:20:35', 1, 0.462026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(454, '2016-07-04 16:20:37', 1, 0.433024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(455, '2016-07-04 16:20:45', 1, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(456, '2016-07-04 16:20:47', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(457, '2016-07-04 16:20:55', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(458, '2016-07-04 16:20:57', 1, 0.374022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(459, '2016-07-04 16:21:05', 1, 0.410023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(460, '2016-07-04 16:21:07', 1, 0.456026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(461, '2016-07-04 16:21:15', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(462, '2016-07-04 16:21:17', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(463, '2016-07-04 16:21:25', 1, 0.461026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(464, '2016-07-04 16:21:27', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864);
-INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
-(465, '2016-07-04 16:21:35', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(466, '2016-07-04 16:21:37', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(467, '2016-07-04 16:21:45', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(468, '2016-07-04 16:21:47', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(469, '2016-07-04 16:21:55', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(470, '2016-07-04 16:21:57', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(471, '2016-07-04 16:22:05', 1, 0.435025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(472, '2016-07-04 16:22:07', 1, 0.414023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(473, '2016-07-04 16:22:13', 1, 1.6841, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/index', 7005080),
-(474, '2016-07-04 16:22:15', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(475, '2016-07-04 16:22:16', 1, 0.187011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(476, '2016-07-04 16:22:18', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/create', NULL),
-(477, '2016-07-04 16:22:18', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(478, '2016-07-04 16:22:25', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(479, '2016-07-04 16:22:26', 1, NULL, '127.0.0.1', 'GET', 1, 'debug/default/toolbar', NULL),
-(480, '2016-07-04 16:22:35', 1, 0.382021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(481, '2016-07-04 16:22:45', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(482, '2016-07-04 16:22:54', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(483, '2016-07-04 16:22:55', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(484, '2016-07-04 16:22:56', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(485, '2016-07-04 16:22:59', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4423008),
-(486, '2016-07-04 16:23:05', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(487, '2016-07-04 16:23:08', 1, 0.223012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(488, '2016-07-04 16:23:15', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(489, '2016-07-04 16:23:19', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(490, '2016-07-04 16:23:25', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(491, '2016-07-04 16:23:29', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(492, '2016-07-04 16:23:35', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(493, '2016-07-04 16:23:39', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(494, '2016-07-04 16:23:45', 1, 0.195011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(495, '2016-07-04 16:23:49', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(496, '2016-07-04 16:23:55', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(497, '2016-07-04 16:23:59', 1, 0.409024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(498, '2016-07-04 16:24:05', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(499, '2016-07-04 16:24:09', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(500, '2016-07-04 16:24:15', 1, 1.58309, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(501, '2016-07-04 16:24:19', 1, 0.569032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(502, '2016-07-04 16:24:25', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(503, '2016-07-04 16:24:29', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(504, '2016-07-04 16:24:35', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(505, '2016-07-04 16:24:39', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(506, '2016-07-04 16:24:45', 1, 0.239013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(507, '2016-07-04 16:24:49', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(508, '2016-07-04 16:24:55', 1, 0.623035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(509, '2016-07-04 16:24:59', 1, 0.370022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(510, '2016-07-04 16:25:05', 1, 0.265015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(511, '2016-07-04 16:25:09', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(512, '2016-07-04 16:25:15', 1, 0.423025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(513, '2016-07-04 16:25:19', 1, 0.389023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(514, '2016-07-04 16:25:25', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(515, '2016-07-04 16:25:29', 1, 0.36302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(516, '2016-07-04 16:25:35', 1, 0.465026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(517, '2016-07-04 16:25:39', 1, 0.639036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(518, '2016-07-04 16:25:45', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(519, '2016-07-04 16:25:49', 1, 0.464026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(520, '2016-07-04 16:25:55', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(521, '2016-07-04 16:25:59', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(522, '2016-07-04 16:26:06', 1, 1.33408, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(523, '2016-07-04 16:26:28', 1, 19.9911, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(524, '2016-07-04 16:26:35', 1, 20.2742, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(525, '2016-07-04 16:26:35', 1, 17.291, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(526, '2016-07-04 16:26:36', 1, 11.7777, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(527, '2016-07-04 16:26:37', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(528, '2016-07-04 16:26:37', 1, 9.29053, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(529, '2016-07-04 16:26:40', 1, 4.33325, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(530, '2016-07-04 16:26:45', 1, 0.53603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(531, '2016-07-04 16:26:55', 1, 0.70704, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(532, '2016-07-04 16:27:05', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(533, '2016-07-04 16:27:15', 1, 0.425024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(534, '2016-07-04 16:27:25', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(535, '2016-07-04 16:27:35', 1, 0.688039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(536, '2016-07-04 16:27:45', 1, 0.518029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(537, '2016-07-04 16:27:58', 1, 3.34819, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(538, '2016-07-04 16:28:05', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(539, '2016-07-04 16:28:15', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(540, '2016-07-04 16:28:25', 1, 0.36402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(541, '2016-07-04 16:28:35', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(542, '2016-07-04 16:28:45', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(543, '2016-07-04 16:28:55', 1, 0.376021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(544, '2016-07-04 16:29:05', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(545, '2016-07-04 16:29:15', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(546, '2016-07-04 16:29:25', 1, 0.36402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(547, '2016-07-04 16:29:35', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(548, '2016-07-04 16:29:45', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(549, '2016-07-04 16:29:55', 1, 0.269015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(550, '2016-07-04 16:30:05', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(551, '2016-07-04 16:30:15', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(552, '2016-07-04 16:30:23', 1, 1.7891, '127.0.0.1', 'GET', 0, 'proyecto-asignar/index', 7101808),
-(553, '2016-07-04 16:30:25', 1, 0.187011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(554, '2016-07-04 16:30:28', 1, 0.805046, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7113984),
-(555, '2016-07-04 16:30:29', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(556, '2016-07-04 16:30:30', 1, 0.793045, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 7149368),
-(557, '2016-07-04 16:30:32', 1, 0.255014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(558, '2016-07-04 16:30:33', 1, 0.362021, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908456),
-(559, '2016-07-04 16:30:42', 1, 0.379021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(560, '2016-07-04 16:30:42', 1, 0.35202, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 4793128),
-(561, '2016-07-04 16:30:43', 1, 0.276016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793112),
-(562, '2016-07-04 16:30:52', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(563, '2016-07-04 16:31:02', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(564, '2016-07-04 16:31:12', 1, 0.416023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(565, '2016-07-04 16:31:22', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(566, '2016-07-04 16:31:32', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(567, '2016-07-04 16:31:42', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(568, '2016-07-04 16:31:52', 1, 0.398022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(569, '2016-07-04 16:31:52', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(570, '2016-07-04 16:32:02', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(571, '2016-07-04 16:32:12', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(572, '2016-07-04 16:32:22', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(573, '2016-07-04 16:32:33', 1, 0.418024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(574, '2016-07-04 16:32:38', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(575, '2016-07-04 16:32:43', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(576, '2016-07-04 16:32:43', 1, 0.494028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4423008),
-(577, '2016-07-04 16:32:53', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(578, '2016-07-04 16:32:53', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(579, '2016-07-04 16:33:03', 1, 0.392022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(580, '2016-07-04 16:33:03', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(581, '2016-07-04 16:33:13', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(582, '2016-07-04 16:33:13', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(583, '2016-07-04 16:33:23', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(584, '2016-07-04 16:33:23', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(585, '2016-07-04 16:33:33', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(586, '2016-07-04 16:33:33', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(587, '2016-07-04 16:33:43', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(588, '2016-07-04 16:33:43', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(589, '2016-07-04 16:33:53', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(590, '2016-07-04 16:33:53', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(591, '2016-07-04 16:34:03', 1, 0.376021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(592, '2016-07-04 16:34:03', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(593, '2016-07-04 16:34:13', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(594, '2016-07-04 16:34:13', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(595, '2016-07-04 16:34:23', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(596, '2016-07-04 16:34:23', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(597, '2016-07-04 16:34:33', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(598, '2016-07-04 16:34:33', 1, 0.288017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(599, '2016-07-04 16:34:43', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(600, '2016-07-04 16:34:43', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(601, '2016-07-04 16:34:53', 1, 0.353021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(602, '2016-07-04 16:34:53', 1, 0.290017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(603, '2016-07-04 16:35:03', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(604, '2016-07-04 16:35:03', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(605, '2016-07-04 16:35:13', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(606, '2016-07-04 16:35:13', 1, 0.287017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(607, '2016-07-04 16:35:23', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(608, '2016-07-04 16:35:23', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(609, '2016-07-04 16:35:33', 1, 0.505029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(610, '2016-07-04 16:35:33', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(611, '2016-07-04 16:35:43', 1, 0.395023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(612, '2016-07-04 16:35:43', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(613, '2016-07-04 16:35:53', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(614, '2016-07-04 16:35:53', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(615, '2016-07-04 16:36:03', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(616, '2016-07-04 16:36:03', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(617, '2016-07-04 16:36:13', 1, 0.460026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(618, '2016-07-04 16:36:13', 1, 0.406023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(619, '2016-07-04 16:36:23', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(620, '2016-07-04 16:36:23', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(621, '2016-07-04 16:36:33', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(622, '2016-07-04 16:36:33', 1, 0.280016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(623, '2016-07-04 16:36:43', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(624, '2016-07-04 16:36:43', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(625, '2016-07-04 16:36:53', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(626, '2016-07-04 16:36:53', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(627, '2016-07-04 16:36:57', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(628, '2016-07-04 16:37:03', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(629, '2016-07-04 16:37:13', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(630, '2016-07-04 16:37:23', 1, 0.482027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(631, '2016-07-04 16:37:33', 1, 0.299017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(632, '2016-07-04 16:37:34', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(633, '2016-07-04 16:37:43', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(634, '2016-07-04 16:37:53', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(635, '2016-07-04 16:38:03', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(636, '2016-07-04 16:38:13', 1, 0.244014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(637, '2016-07-04 16:38:14', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(638, '2016-07-04 16:38:23', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(639, '2016-07-04 16:38:33', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(640, '2016-07-04 16:38:43', 1, 0.376021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(641, '2016-07-04 16:38:53', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(642, '2016-07-04 16:39:03', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(643, '2016-07-04 16:39:03', 1, 0.445026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(644, '2016-07-04 16:39:10', 1, NULL, '127.0.0.1', 'GET', 1, 'debug/default/toolbar', NULL),
-(645, '2016-07-04 16:39:13', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(646, '2016-07-04 16:39:23', 1, 0.309017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(647, '2016-07-04 16:39:33', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(648, '2016-07-04 16:39:37', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(649, '2016-07-04 16:39:43', 1, 0.472027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(650, '2016-07-04 16:39:53', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(651, '2016-07-04 16:40:03', 1, 0.425024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(652, '2016-07-04 16:40:13', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(653, '2016-07-04 16:40:23', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(654, '2016-07-04 16:40:33', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(655, '2016-07-04 16:40:43', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(656, '2016-07-04 16:40:53', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(657, '2016-07-04 16:41:03', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(658, '2016-07-04 16:41:13', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(659, '2016-07-04 16:41:23', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(660, '2016-07-04 16:41:33', 1, 0.233013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(661, '2016-07-04 16:41:43', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(662, '2016-07-04 16:41:44', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(663, '2016-07-04 16:41:47', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(664, '2016-07-04 16:41:53', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(665, '2016-07-04 16:41:53', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', NULL),
-(666, '2016-07-04 16:41:57', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(667, '2016-07-04 16:42:02', 1, 0.840048, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 6973552),
-(668, '2016-07-04 16:42:03', 1, 0.843049, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(669, '2016-07-04 16:42:04', 1, 0.209012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(670, '2016-07-04 16:42:07', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(671, '2016-07-04 16:42:14', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(672, '2016-07-04 16:42:17', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(673, '2016-07-04 16:42:24', 1, 0.406024, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(674, '2016-07-04 16:42:25', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(675, '2016-07-04 16:42:27', 1, 0.542031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(676, '2016-07-04 16:42:35', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(677, '2016-07-04 16:42:37', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(678, '2016-07-04 16:42:45', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(679, '2016-07-04 16:42:47', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(680, '2016-07-04 16:42:55', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(681, '2016-07-04 16:42:57', 1, 0.433024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(682, '2016-07-04 16:42:57', 1, 0.406024, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5284992),
-(683, '2016-07-04 16:42:57', 1, 0.482028, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6729144),
-(684, '2016-07-04 16:43:05', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(685, '2016-07-04 16:43:07', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(686, '2016-07-04 16:43:15', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(687, '2016-07-04 16:43:15', 1, 0.469027, '127.0.0.1', 'GET', 0, 'rbac/role/index', 6925168),
-(688, '2016-07-04 16:43:16', 1, 0.279016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(689, '2016-07-04 16:43:17', 1, 0.192011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(690, '2016-07-04 16:43:20', 1, 0.51403, '127.0.0.1', 'GET', 1, 'rbac/role/update', 6069632),
-(691, '2016-07-04 16:43:26', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(692, '2016-07-04 16:43:27', 1, 0.418024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(693, '2016-07-04 16:43:36', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(694, '2016-07-04 16:43:37', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(695, '2016-07-04 16:43:43', 1, 0.393022, '127.0.0.1', 'POST', 1, 'rbac/role/update', 5561096),
-(696, '2016-07-04 16:43:44', 1, 0.482027, '127.0.0.1', 'GET', 1, 'rbac/role/index', 6680560),
-(697, '2016-07-04 16:43:46', 1, 0.464027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(698, '2016-07-04 16:43:47', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(699, '2016-07-04 16:43:53', 1, 0.475027, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4772824),
-(700, '2016-07-04 16:43:56', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(701, '2016-07-04 16:43:57', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(702, '2016-07-04 16:43:58', 1, 0.478027, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4772824),
-(703, '2016-07-04 16:44:03', 1, 0.483027, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4772824),
-(704, '2016-07-04 16:44:06', 1, 0.238014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(705, '2016-07-04 16:44:07', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(706, '2016-07-04 16:44:08', 1, 0.34902, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4772824),
-(707, '2016-07-04 16:44:16', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(708, '2016-07-04 16:44:17', 1, 0.472027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(709, '2016-07-04 16:44:26', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(710, '2016-07-04 16:44:27', 1, 0.497028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(711, '2016-07-04 16:44:36', 1, 0.36102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(712, '2016-07-04 16:44:37', 1, 0.480027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(713, '2016-07-04 16:44:46', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(714, '2016-07-04 16:44:47', 1, 0.438025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(715, '2016-07-04 16:44:56', 1, 0.228013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(716, '2016-07-04 16:44:57', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(717, '2016-07-04 16:45:06', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(718, '2016-07-04 16:45:07', 1, 0.292016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(719, '2016-07-04 16:45:16', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(720, '2016-07-04 16:45:17', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(721, '2016-07-04 16:45:26', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(722, '2016-07-04 16:45:27', 1, 0.378022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(723, '2016-07-04 16:45:36', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(724, '2016-07-04 16:45:37', 1, 0.432025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(725, '2016-07-04 16:45:46', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(726, '2016-07-04 16:45:47', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(727, '2016-07-04 16:45:56', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(728, '2016-07-04 16:45:57', 1, 0.507029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(729, '2016-07-04 16:46:06', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(730, '2016-07-04 16:46:07', 1, 0.486028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(731, '2016-07-04 16:46:16', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(732, '2016-07-04 16:46:17', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(733, '2016-07-04 16:46:26', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(734, '2016-07-04 16:46:27', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(735, '2016-07-04 16:46:36', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(736, '2016-07-04 16:46:37', 1, 0.239013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(737, '2016-07-04 16:46:46', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(738, '2016-07-04 16:46:47', 1, 0.238014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(739, '2016-07-04 16:46:56', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(740, '2016-07-04 16:46:57', 1, 0.443025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(741, '2016-07-04 16:47:06', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(742, '2016-07-04 16:47:07', 1, 0.241013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(743, '2016-07-04 16:47:16', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(744, '2016-07-04 16:47:17', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(745, '2016-07-04 16:47:26', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(746, '2016-07-04 16:47:27', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(747, '2016-07-04 16:47:36', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(748, '2016-07-04 16:47:37', 1, 0.346019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(749, '2016-07-04 16:47:46', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(750, '2016-07-04 16:47:47', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(751, '2016-07-04 16:47:56', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(752, '2016-07-04 16:47:57', 1, 0.255014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(753, '2016-07-04 16:48:06', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(754, '2016-07-04 16:48:07', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(755, '2016-07-04 16:48:16', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(756, '2016-07-04 16:48:17', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(757, '2016-07-04 16:48:26', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(758, '2016-07-04 16:48:27', 1, 0.269015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(759, '2016-07-04 16:48:36', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(760, '2016-07-04 16:48:37', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(761, '2016-07-04 16:48:46', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(762, '2016-07-04 16:48:47', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(763, '2016-07-04 16:48:56', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(764, '2016-07-04 16:48:57', 1, 0.240013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(765, '2016-07-04 16:49:06', 1, 0.379021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(766, '2016-07-04 16:49:07', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(767, '2016-07-04 16:49:16', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(768, '2016-07-04 16:49:17', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(769, '2016-07-04 16:49:26', 1, 0.162009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(770, '2016-07-04 16:49:27', 1, 0.211012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(771, '2016-07-04 16:49:36', 1, 0.36602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(772, '2016-07-04 16:49:37', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(773, '2016-07-04 16:49:46', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(774, '2016-07-04 16:49:47', 1, 0.254015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(775, '2016-07-04 16:49:56', 1, 0.397022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(776, '2016-07-04 16:49:57', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(777, '2016-07-04 16:50:06', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(778, '2016-07-04 16:50:07', 1, 0.497029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(779, '2016-07-04 16:50:13', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(780, '2016-07-04 16:50:16', 1, 0.307017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(781, '2016-07-04 16:50:20', 1, NULL, '127.0.0.1', 'GET', 1, 'debug/default/toolbar', NULL),
-(782, '2016-07-04 16:50:26', 1, 0.377021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(783, '2016-07-04 16:50:35', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(784, '2016-07-04 16:50:36', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(785, '2016-07-04 16:50:40', 1, 0.19001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4423008),
-(786, '2016-07-04 16:50:46', 1, 0.598034, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4775208),
-(787, '2016-07-04 16:50:46', 1, 0.496028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(788, '2016-07-04 16:50:50', 1, 0.431024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(789, '2016-07-04 16:50:56', 1, 0.428025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(790, '2016-07-04 16:50:59', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', NULL),
-(791, '2016-07-04 16:51:00', 1, 0.52103, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(792, '2016-07-04 16:51:06', 1, 0.278016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(793, '2016-07-04 16:51:10', 1, 0.563032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(794, '2016-07-04 16:51:16', 1, 0.398022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(795, '2016-07-04 16:51:20', 1, 0.463026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(796, '2016-07-04 16:51:26', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(797, '2016-07-04 16:51:30', 1, 0.352021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(798, '2016-07-04 16:51:30', 1, 0.572032, '127.0.0.1', 'GET', 1, 'rbac/role/create', 6005584),
-(799, '2016-07-04 16:51:34', 1, 0.752043, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 6973872),
-(800, '2016-07-04 16:51:35', 1, 0.269015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(801, '2016-07-04 16:51:37', 1, 0.262015, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(802, '2016-07-04 16:51:39', 1, 0.220013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(803, '2016-07-04 16:51:45', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(804, '2016-07-04 16:51:50', 1, 0.465027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(805, '2016-07-04 16:51:55', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(806, '2016-07-04 16:52:00', 1, 0.393023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(807, '2016-07-04 16:52:06', 1, 1.15007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(808, '2016-07-04 16:52:10', 1, 0.282017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(809, '2016-07-04 16:52:15', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(810, '2016-07-04 16:52:20', 1, 0.249014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(811, '2016-07-04 16:52:25', 1, 0.243014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(812, '2016-07-04 16:52:30', 1, 0.243014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(813, '2016-07-04 16:52:35', 1, 0.279016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(814, '2016-07-04 16:52:40', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(815, '2016-07-04 16:52:45', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(816, '2016-07-04 16:52:50', 1, 0.469027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(817, '2016-07-04 16:52:51', 1, 0.36102, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5285024),
-(818, '2016-07-04 16:52:52', 1, 0.499029, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6733672),
-(819, '2016-07-04 16:52:54', 1, 0.460026, '127.0.0.1', 'GET', 0, 'rbac/role/index', 6925168),
-(820, '2016-07-04 16:52:55', 1, 0.299017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(821, '2016-07-04 16:52:58', 1, 0.615035, '127.0.0.1', 'GET', 1, 'rbac/role/update', 6078784),
-(822, '2016-07-04 16:53:00', 1, 0.393023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(823, '2016-07-04 16:53:05', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(824, '2016-07-04 16:53:10', 1, 0.630036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(825, '2016-07-04 16:53:15', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(826, '2016-07-04 16:53:17', 1, 0.573033, '127.0.0.1', 'POST', 1, 'rbac/role/update', 5575088),
-(827, '2016-07-04 16:53:17', 1, 0.530031, '127.0.0.1', 'GET', 1, 'rbac/role/index', 6680560),
-(828, '2016-07-04 16:53:20', 1, 0.267015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(829, '2016-07-04 16:53:25', 1, 0.434025, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773216),
-(830, '2016-07-04 16:53:25', 1, 0.503029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(831, '2016-07-04 16:53:30', 1, 0.583033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(832, '2016-07-04 16:53:35', 1, 0.348019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(833, '2016-07-04 16:53:40', 1, 0.415024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(834, '2016-07-04 16:53:45', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(835, '2016-07-04 16:53:50', 1, 0.291016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(836, '2016-07-04 16:53:55', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(837, '2016-07-04 16:54:00', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(838, '2016-07-04 16:54:05', 1, 0.381021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(839, '2016-07-04 16:54:10', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(840, '2016-07-04 16:54:15', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(841, '2016-07-04 16:54:20', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(842, '2016-07-04 16:54:25', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(843, '2016-07-04 16:54:30', 1, 0.451026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(844, '2016-07-04 16:54:35', 1, 0.466026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(845, '2016-07-04 16:54:40', 1, 0.291017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(846, '2016-07-04 16:54:45', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(847, '2016-07-04 16:54:50', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(848, '2016-07-04 16:54:55', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(849, '2016-07-04 16:55:00', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(850, '2016-07-04 16:55:05', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(851, '2016-07-04 16:55:10', 1, 0.18301, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(852, '2016-07-04 16:55:15', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(853, '2016-07-04 16:55:20', 1, 0.429024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(854, '2016-07-04 16:55:25', 1, 0.432025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(855, '2016-07-04 16:55:30', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(856, '2016-07-04 16:55:35', 1, 0.218012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(857, '2016-07-04 16:55:40', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(858, '2016-07-04 16:55:45', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(859, '2016-07-04 16:55:50', 1, 0.36602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(860, '2016-07-04 16:55:55', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(861, '2016-07-04 16:56:00', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(862, '2016-07-04 16:56:05', 1, 0.277016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(863, '2016-07-04 16:56:09', 1, 0.983056, '127.0.0.1', 'GET', 0, 'proyecto-asignar/index', 7101712),
-(864, '2016-07-04 16:56:10', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(865, '2016-07-04 16:56:11', 1, 0.246014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(866, '2016-07-04 16:56:11', 1, 0.608035, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7113984),
-(867, '2016-07-04 16:56:13', 1, 0.266016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(868, '2016-07-04 16:56:14', 1, 0.650037, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 7361240),
-(869, '2016-07-04 16:56:15', 1, 0.248014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(870, '2016-07-04 16:56:20', 1, 0.515029, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 5765544),
-(871, '2016-07-04 16:56:20', 1, 0.485028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(872, '2016-07-04 16:56:25', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(873, '2016-07-04 16:56:30', 1, 0.419024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(874, '2016-07-04 16:56:35', 1, 0.192011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(875, '2016-07-04 16:56:36', 1, 0.284016, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773216),
-(876, '2016-07-04 16:56:40', 1, 0.481028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(877, '2016-07-04 16:56:43', 1, 0.714041, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(878, '2016-07-04 16:56:43', 1, 0.560032, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(879, '2016-07-04 16:56:46', 1, 0.637036, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(880, '2016-07-04 16:56:46', 1, 0.605035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(881, '2016-07-04 16:56:46', 1, 0.454026, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(882, '2016-07-04 16:56:46', 1, 0.389022, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773376),
-(883, '2016-07-04 16:56:49', 1, 0.443026, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(884, '2016-07-04 16:56:49', 1, 0.853049, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(885, '2016-07-04 16:56:50', 1, 0.264016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(886, '2016-07-04 16:56:50', 1, 0.859049, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(887, '2016-07-04 16:56:50', 1, 0.854049, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(888, '2016-07-04 16:56:54', 1, 0.410024, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(889, '2016-07-04 16:56:55', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(890, '2016-07-04 16:56:56', 1, 0.560032, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(891, '2016-07-04 16:56:57', 1, 0.386022, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773320),
-(892, '2016-07-04 16:56:58', 1, 0.690039, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(893, '2016-07-04 16:57:00', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(894, '2016-07-04 16:57:00', 1, 0.551032, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(895, '2016-07-04 16:57:01', 1, 0.330019, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773344),
-(896, '2016-07-04 16:57:05', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(897, '2016-07-04 16:57:09', 1, 0.457026, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4775160),
-(898, '2016-07-04 16:57:10', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(899, '2016-07-04 16:57:14', 1, 0.491028, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4775208),
-(900, '2016-07-04 16:57:15', 1, 0.390022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(901, '2016-07-04 16:57:20', 1, 0.488028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(902, '2016-07-04 16:57:26', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(903, '2016-07-04 16:57:30', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(904, '2016-07-04 16:57:35', 1, 0.373022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(905, '2016-07-04 16:57:40', 1, 0.370022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(906, '2016-07-04 16:57:45', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(907, '2016-07-04 16:57:50', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(908, '2016-07-04 16:57:55', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(909, '2016-07-04 16:58:00', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(910, '2016-07-04 16:58:05', 1, 0.374022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(911, '2016-07-04 16:58:10', 1, 0.429024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(912, '2016-07-04 16:58:15', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(913, '2016-07-04 16:58:20', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(914, '2016-07-04 16:58:25', 1, 0.360021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(915, '2016-07-04 16:58:30', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(916, '2016-07-04 16:58:35', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(917, '2016-07-04 16:58:40', 1, 0.591034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(918, '2016-07-04 16:58:45', 1, 0.193011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(919, '2016-07-04 16:58:50', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(920, '2016-07-04 16:58:55', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(921, '2016-07-04 16:59:00', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(922, '2016-07-04 16:59:06', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(923, '2016-07-04 16:59:10', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(924, '2016-07-04 16:59:15', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760);
-INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
-(925, '2016-07-04 16:59:20', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(926, '2016-07-04 16:59:25', 1, 0.36102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(927, '2016-07-04 16:59:30', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(928, '2016-07-04 16:59:36', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(929, '2016-07-04 16:59:40', 1, 0.287017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(930, '2016-07-04 16:59:45', 1, 0.372022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(931, '2016-07-04 16:59:50', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(932, '2016-07-04 16:59:55', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(933, '2016-07-04 17:00:00', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(934, '2016-07-04 17:00:03', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(935, '2016-07-04 17:00:05', 1, 0.233013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(936, '2016-07-04 17:00:06', 1, 0.193011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(937, '2016-07-04 17:00:12', 1, 0.407024, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4775208),
-(938, '2016-07-04 17:00:16', 1, 0.538031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(939, '2016-07-04 17:00:16', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(940, '2016-07-04 17:00:26', 1, 0.271016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(941, '2016-07-04 17:00:26', 1, 0.571033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(942, '2016-07-04 17:00:36', 1, 0.420024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(943, '2016-07-04 17:00:36', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(944, '2016-07-04 17:00:46', 1, 0.450026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(945, '2016-07-04 17:00:46', 1, 0.447025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(946, '2016-07-04 17:00:50', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(947, '2016-07-04 17:00:53', 1, 0.17601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(948, '2016-07-04 17:00:55', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(949, '2016-07-04 17:01:03', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(950, '2016-07-04 17:01:05', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(951, '2016-07-04 17:01:13', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(952, '2016-07-04 17:01:15', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(953, '2016-07-04 17:01:23', 1, 0.456027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(954, '2016-07-04 17:01:25', 1, 0.169009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(955, '2016-07-04 17:01:33', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(956, '2016-07-04 17:01:36', 1, 0.510029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(957, '2016-07-04 17:01:40', 1, 0.408023, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4775208),
-(958, '2016-07-04 17:01:41', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(959, '2016-07-04 17:01:44', 1, 0.195011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(960, '2016-07-04 17:01:46', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(961, '2016-07-04 17:01:54', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(962, '2016-07-04 17:01:56', 1, 0.370022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(963, '2016-07-04 17:02:04', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(964, '2016-07-04 17:02:05', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(965, '2016-07-04 17:02:14', 1, 0.267015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(966, '2016-07-04 17:02:15', 1, 0.160009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(967, '2016-07-04 17:02:18', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(968, '2016-07-04 17:02:21', 1, 0.222012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(969, '2016-07-04 17:02:26', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(970, '2016-07-04 17:02:31', 1, 0.280016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(971, '2016-07-04 17:02:36', 1, 0.36402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(972, '2016-07-04 17:02:41', 1, 0.211012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(973, '2016-07-04 17:02:46', 1, 0.412024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(974, '2016-07-04 17:02:51', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(975, '2016-07-04 17:02:56', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(976, '2016-07-04 17:03:01', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(977, '2016-07-04 17:03:05', 1, 0.291017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(978, '2016-07-04 17:03:11', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(979, '2016-07-04 17:03:16', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(980, '2016-07-04 17:03:21', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(981, '2016-07-04 17:03:26', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(982, '2016-07-04 17:03:31', 1, 0.192011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(983, '2016-07-04 17:03:35', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(984, '2016-07-04 17:03:42', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(985, '2016-07-04 17:03:46', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(986, '2016-07-04 17:03:52', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(987, '2016-07-04 17:03:56', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(988, '2016-07-04 17:04:01', 1, 0.353021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(989, '2016-07-04 17:04:05', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(990, '2016-07-04 17:04:12', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(991, '2016-07-04 17:04:16', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(992, '2016-07-04 17:04:21', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(993, '2016-07-04 17:04:26', 1, 0.394022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(994, '2016-07-04 17:04:27', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(995, '2016-07-04 17:04:31', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(996, '2016-07-04 17:04:36', 1, 0.407023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(997, '2016-07-04 17:04:41', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(998, '2016-07-04 17:04:45', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(999, '2016-07-04 17:04:51', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1000, '2016-07-04 17:04:56', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1001, '2016-07-04 17:05:01', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1002, '2016-07-04 17:05:06', 1, 0.392022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1003, '2016-07-04 17:05:11', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1004, '2016-07-04 17:05:15', 1, 0.165009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1005, '2016-07-04 17:05:21', 1, 0.460026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1006, '2016-07-04 17:05:26', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1007, '2016-07-04 17:05:31', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1008, '2016-07-04 17:05:35', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1009, '2016-07-04 17:05:41', 1, 0.275016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1010, '2016-07-04 17:05:46', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1011, '2016-07-04 17:05:51', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1012, '2016-07-04 17:05:56', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1013, '2016-07-04 17:06:01', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1014, '2016-07-04 17:06:05', 1, 0.254014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1015, '2016-07-04 17:06:11', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1016, '2016-07-04 17:06:16', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1017, '2016-07-04 17:06:21', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1018, '2016-07-04 17:06:26', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1019, '2016-07-04 17:06:31', 1, 0.270016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1020, '2016-07-04 17:06:36', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1021, '2016-07-04 17:06:41', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1022, '2016-07-04 17:06:46', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1023, '2016-07-04 17:06:51', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1024, '2016-07-04 17:06:55', 1, 0.273016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1025, '2016-07-04 17:07:01', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1026, '2016-07-04 17:07:06', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1027, '2016-07-04 17:07:11', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1028, '2016-07-04 17:07:16', 1, 0.411024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1029, '2016-07-04 17:07:21', 1, 0.301018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1030, '2016-07-04 17:07:26', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1031, '2016-07-04 17:07:31', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1032, '2016-07-04 17:07:36', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1033, '2016-07-04 17:07:41', 1, 0.558032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1034, '2016-07-04 17:07:46', 1, 0.227013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1035, '2016-07-04 17:07:51', 1, 0.656037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1036, '2016-07-04 17:07:57', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1037, '2016-07-04 17:08:01', 1, 0.409023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1038, '2016-07-04 17:08:08', 1, 0.310017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1039, '2016-07-04 17:08:11', 1, 0.274016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1040, '2016-07-04 17:08:19', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1041, '2016-07-04 17:08:21', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1042, '2016-07-04 17:08:30', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1043, '2016-07-04 17:08:31', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1044, '2016-07-04 17:08:40', 1, 0.491028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1045, '2016-07-04 17:08:41', 1, 0.494029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1046, '2016-07-04 17:08:44', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1047, '2016-07-04 17:08:47', 1, 0.220012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1048, '2016-07-04 17:08:50', 1, 0.319019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1049, '2016-07-04 17:08:55', 1, 0.578033, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4775128),
-(1050, '2016-07-04 17:08:56', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', NULL),
-(1051, '2016-07-04 17:08:57', 1, 0.53503, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1052, '2016-07-04 17:09:00', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', NULL),
-(1053, '2016-07-04 17:09:00', 1, 0.683039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1054, '2016-07-04 17:09:07', 1, 0.405024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1055, '2016-07-04 17:09:10', 1, 0.244014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1056, '2016-07-04 17:09:17', 1, 0.476027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1057, '2016-07-04 17:09:18', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', NULL),
-(1058, '2016-07-04 17:09:20', 1, 0.455026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1059, '2016-07-04 17:09:20', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', NULL),
-(1060, '2016-07-04 17:09:27', 1, 0.405024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1061, '2016-07-04 17:09:30', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1062, '2016-07-04 17:09:33', 1, 0.455026, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 6978496),
-(1063, '2016-07-04 17:09:34', 1, 0.262015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1064, '2016-07-04 17:09:36', 1, 0.487027, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(1065, '2016-07-04 17:09:37', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1066, '2016-07-04 17:09:44', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1067, '2016-07-04 17:09:47', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1068, '2016-07-04 17:09:54', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1069, '2016-07-04 17:09:55', 1, 0.369021, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5281120),
-(1070, '2016-07-04 17:09:55', 1, 0.534031, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6734072),
-(1071, '2016-07-04 17:09:57', 1, 0.51403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1072, '2016-07-04 17:09:57', 1, 0.662037, '127.0.0.1', 'GET', 0, 'rbac/role/index', 6925168),
-(1073, '2016-07-04 17:09:59', 1, 0.269015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1074, '2016-07-04 17:10:01', 1, 0.261015, '127.0.0.1', 'GET', 1, 'rbac/role/update', 6079728),
-(1075, '2016-07-04 17:10:07', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1076, '2016-07-04 17:10:09', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1077, '2016-07-04 17:10:16', 1, 0.462026, '127.0.0.1', 'POST', 1, 'rbac/role/update', 5589224),
-(1078, '2016-07-04 17:10:16', 1, 0.498028, '127.0.0.1', 'GET', 1, 'rbac/role/index', 6680560),
-(1079, '2016-07-04 17:10:17', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1080, '2016-07-04 17:10:19', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1081, '2016-07-04 17:10:23', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1082, '2016-07-04 17:10:25', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1083, '2016-07-04 17:10:29', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1084, '2016-07-04 17:10:32', 1, 0.452026, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4775128),
-(1085, '2016-07-04 17:10:33', 1, 0.312018, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4775176),
-(1086, '2016-07-04 17:10:35', 1, 0.568032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1087, '2016-07-04 17:10:38', 1, 0.413024, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4775224),
-(1088, '2016-07-04 17:10:38', 1, 0.246014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1089, '2016-07-04 17:10:45', 1, 0.432025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1090, '2016-07-04 17:10:49', 1, 0.287016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1091, '2016-07-04 17:10:55', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1092, '2016-07-04 17:10:57', 1, 0.906052, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7347280),
-(1093, '2016-07-04 17:10:59', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1094, '2016-07-04 17:11:05', 1, 0.750043, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7113984),
-(1095, '2016-07-04 17:11:05', 1, 0.537031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1096, '2016-07-04 17:11:06', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1097, '2016-07-04 17:11:10', 1, 0.745043, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 7361240),
-(1098, '2016-07-04 17:11:11', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1099, '2016-07-04 17:11:15', 1, 0.52303, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1100, '2016-07-04 17:11:20', 1, 0.560032, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 5765544),
-(1101, '2016-07-04 17:11:21', 1, 0.287016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1102, '2016-07-04 17:11:25', 1, 0.552031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1103, '2016-07-04 17:11:31', 1, 0.395022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1104, '2016-07-04 17:11:35', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1105, '2016-07-04 17:11:41', 1, 0.225013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1106, '2016-07-04 17:11:45', 1, 0.418024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1107, '2016-07-04 17:11:51', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1108, '2016-07-04 17:11:55', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1109, '2016-07-04 17:12:01', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1110, '2016-07-04 17:12:05', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1111, '2016-07-04 17:12:11', 1, 0.208012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1112, '2016-07-04 17:12:15', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1113, '2016-07-04 17:12:21', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1114, '2016-07-04 17:12:25', 1, 0.439025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1115, '2016-07-04 17:12:31', 1, 0.390023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1116, '2016-07-04 17:12:36', 1, 0.680039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1117, '2016-07-04 17:12:41', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1118, '2016-07-04 17:12:45', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1119, '2016-07-04 17:12:51', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1120, '2016-07-04 17:12:55', 1, 0.577033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1121, '2016-07-04 17:12:56', 1, 0.541031, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4775176),
-(1122, '2016-07-04 17:13:00', 1, 0.382022, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4775224),
-(1123, '2016-07-04 17:13:01', 1, 0.198011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1124, '2016-07-04 17:13:05', 1, 0.566032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1125, '2016-07-04 17:13:11', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1126, '2016-07-04 17:13:15', 1, 0.457026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1127, '2016-07-04 17:13:21', 1, 0.371022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1128, '2016-07-04 17:13:25', 1, 0.289016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1129, '2016-07-04 17:13:31', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1130, '2016-07-04 17:13:35', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1131, '2016-07-04 17:13:42', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1132, '2016-07-04 17:13:45', 1, 0.412023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1133, '2016-07-04 17:13:53', 1, 0.395023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1134, '2016-07-04 17:13:56', 1, 0.603035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1135, '2016-07-04 17:14:04', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1136, '2016-07-04 17:14:05', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1137, '2016-07-04 17:14:15', 1, 0.286017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1138, '2016-07-04 17:14:15', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1139, '2016-07-04 17:14:25', 1, 0.434025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1140, '2016-07-04 17:14:26', 1, 0.237013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1141, '2016-07-04 17:14:35', 1, 0.385023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1142, '2016-07-04 17:14:37', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1143, '2016-07-04 17:14:45', 1, 0.414024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1144, '2016-07-04 17:14:48', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1145, '2016-07-04 17:14:55', 1, 0.423025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1146, '2016-07-04 17:14:59', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1147, '2016-07-04 17:15:05', 1, 0.461027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1148, '2016-07-04 17:15:10', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1149, '2016-07-04 17:15:15', 1, 0.461026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1150, '2016-07-04 17:15:21', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1151, '2016-07-04 17:15:25', 1, 0.411023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1152, '2016-07-04 17:15:32', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1153, '2016-07-04 17:15:35', 1, 0.277015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1154, '2016-07-04 17:15:43', 1, 0.439025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1155, '2016-07-04 17:15:45', 1, 0.450026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1156, '2016-07-04 17:15:54', 1, 0.286016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1157, '2016-07-04 17:15:55', 1, 0.393023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1158, '2016-07-04 17:16:05', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1159, '2016-07-04 17:16:05', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1160, '2016-07-04 17:16:16', 1, 0.545032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1161, '2016-07-04 17:16:16', 1, 0.288016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1162, '2016-07-04 17:16:25', 1, 0.443026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1163, '2016-07-04 17:16:27', 1, 0.18801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1164, '2016-07-04 17:16:35', 1, 0.444025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1165, '2016-07-04 17:16:38', 1, 0.417024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1166, '2016-07-04 17:16:45', 1, 0.395022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1167, '2016-07-04 17:16:49', 1, 0.240014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1168, '2016-07-04 17:16:55', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1169, '2016-07-04 17:17:00', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1170, '2016-07-04 17:17:05', 1, 0.421025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1171, '2016-07-04 17:17:11', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1172, '2016-07-04 17:17:16', 1, 0.688039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1173, '2016-07-04 17:17:22', 1, 0.353021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1174, '2016-07-04 17:17:25', 1, 0.442025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1175, '2016-07-04 17:17:33', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1176, '2016-07-04 17:17:35', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1177, '2016-07-04 17:17:44', 1, 0.235013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1178, '2016-07-04 17:17:45', 1, 0.262015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1179, '2016-07-04 17:17:55', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1180, '2016-07-04 17:17:55', 1, 0.433025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1181, '2016-07-04 17:18:05', 1, 0.278016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1182, '2016-07-04 17:18:06', 1, 0.220013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1183, '2016-07-04 17:18:15', 1, 0.445026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1184, '2016-07-04 17:18:17', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1185, '2016-07-04 17:18:25', 1, 0.407023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1186, '2016-07-04 17:18:28', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1187, '2016-07-04 17:18:35', 1, 0.286017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1188, '2016-07-04 17:18:39', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1189, '2016-07-04 17:18:46', 1, 0.587033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1190, '2016-07-04 17:18:50', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1191, '2016-07-04 17:18:56', 1, 0.52303, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1192, '2016-07-04 17:19:01', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1193, '2016-07-04 17:19:06', 1, 0.452026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1194, '2016-07-04 17:19:12', 1, 0.306017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1195, '2016-07-04 17:19:15', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1196, '2016-07-04 17:19:23', 1, 0.226013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1197, '2016-07-04 17:19:25', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1198, '2016-07-04 17:19:34', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1199, '2016-07-04 17:19:35', 1, 0.433025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1200, '2016-07-04 17:19:45', 1, 0.292017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1201, '2016-07-04 17:19:45', 1, 0.256015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1202, '2016-07-04 17:19:55', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1203, '2016-07-04 17:19:56', 1, 0.211012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1204, '2016-07-04 17:20:05', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1205, '2016-07-04 17:20:07', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1206, '2016-07-04 17:20:15', 1, 0.249015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1207, '2016-07-04 17:20:18', 1, 0.389023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1208, '2016-07-04 17:20:26', 1, 0.643037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1209, '2016-07-04 17:20:26', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', NULL),
-(1210, '2016-07-04 17:20:28', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1211, '2016-07-04 17:20:35', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1212, '2016-07-04 17:20:38', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1213, '2016-07-04 17:20:45', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1214, '2016-07-04 17:20:49', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1215, '2016-07-04 17:20:55', 1, 0.409024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1216, '2016-07-04 17:21:00', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1217, '2016-07-04 17:21:05', 1, 0.199011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1218, '2016-07-04 17:21:11', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1219, '2016-07-04 17:21:15', 1, 0.346019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1220, '2016-07-04 17:21:22', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1221, '2016-07-04 17:21:25', 1, 0.475027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1222, '2016-07-04 17:21:32', 1, 0.247014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1223, '2016-07-04 17:21:33', 1, 0.485027, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774448),
-(1224, '2016-07-04 17:21:35', 1, 0.471027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1225, '2016-07-04 17:21:42', 1, 0.430024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1226, '2016-07-04 17:21:45', 1, 0.453026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1227, '2016-07-04 17:21:52', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1228, '2016-07-04 17:21:56', 1, 0.497029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1229, '2016-07-04 17:22:02', 1, 0.212012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1230, '2016-07-04 17:22:05', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1231, '2016-07-04 17:22:12', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1232, '2016-07-04 17:22:16', 1, 2.12712, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1233, '2016-07-04 17:22:20', 1, 0.421024, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1234, '2016-07-04 17:22:22', 1, 0.415024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1235, '2016-07-04 17:22:26', 1, 0.818047, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1236, '2016-07-04 17:22:26', 1, 0.785045, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1237, '2016-07-04 17:22:32', 1, 2.18812, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1238, '2016-07-04 17:22:35', 1, 0.407024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1239, '2016-07-04 17:22:42', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1240, '2016-07-04 17:22:45', 1, 0.427024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1241, '2016-07-04 17:22:52', 1, 0.238013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1242, '2016-07-04 17:22:56', 1, 0.568033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1243, '2016-07-04 17:23:02', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1244, '2016-07-04 17:23:02', 1, 0.638036, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7114032),
-(1245, '2016-07-04 17:23:03', 1, 0.233013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1246, '2016-07-04 17:23:05', 1, 0.871049, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 7149368),
-(1247, '2016-07-04 17:23:06', 1, 0.535031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1248, '2016-07-04 17:23:06', 1, 0.259015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1249, '2016-07-04 17:23:08', 1, 0.487027, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908456),
-(1250, '2016-07-04 17:23:11', 1, 0.461026, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 4793128),
-(1251, '2016-07-04 17:23:12', 1, 0.305018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793112),
-(1252, '2016-07-04 17:23:14', 1, 0.462026, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793160),
-(1253, '2016-07-04 17:23:15', 1, 0.261015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1254, '2016-07-04 17:23:16', 1, 0.257015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1255, '2016-07-04 17:23:23', 1, 0.622036, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 5548688),
-(1256, '2016-07-04 17:23:24', 1, 0.740042, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 7194232),
-(1257, '2016-07-04 17:23:26', 1, 0.846049, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1258, '2016-07-04 17:23:26', 1, 0.254015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1259, '2016-07-04 17:23:30', 1, 0.555032, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1260, '2016-07-04 17:23:35', 1, 0.422024, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772488),
-(1261, '2016-07-04 17:23:35', 1, 0.463027, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772488),
-(1262, '2016-07-04 17:23:35', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1263, '2016-07-04 17:23:37', 1, 0.657038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1264, '2016-07-04 17:23:37', 1, 0.564033, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772488),
-(1265, '2016-07-04 17:23:37', 1, 0.407023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772488),
-(1266, '2016-07-04 17:23:38', 1, 0.499029, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772488),
-(1267, '2016-07-04 17:23:39', 1, 0.554032, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772464),
-(1268, '2016-07-04 17:23:46', 1, 0.605035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1269, '2016-07-04 17:23:46', 1, 0.16701, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1270, '2016-07-04 17:23:55', 1, 1.54609, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1271, '2016-07-04 17:23:56', 1, 1.87811, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1272, '2016-07-04 17:24:05', 1, 0.33402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1273, '2016-07-04 17:24:06', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1274, '2016-07-04 17:24:15', 1, 0.205012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1275, '2016-07-04 17:24:16', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1276, '2016-07-04 17:24:25', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1277, '2016-07-04 17:24:26', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1278, '2016-07-04 17:24:35', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1279, '2016-07-04 17:24:36', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1280, '2016-07-04 17:24:46', 1, 0.520029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1281, '2016-07-04 17:24:46', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1282, '2016-07-04 17:24:55', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1283, '2016-07-04 17:24:56', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1284, '2016-07-04 17:25:06', 1, 0.727041, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1285, '2016-07-04 17:25:06', 1, 0.221012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1286, '2016-07-04 17:25:11', 1, 0.543031, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1287, '2016-07-04 17:25:15', 1, 0.392022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1288, '2016-07-04 17:25:16', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1289, '2016-07-04 17:25:25', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1290, '2016-07-04 17:25:26', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1291, '2016-07-04 17:25:31', 1, 0.330018, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908456),
-(1292, '2016-07-04 17:25:34', 1, 0.442025, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 4793128),
-(1293, '2016-07-04 17:25:35', 1, 0.296017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793112),
-(1294, '2016-07-04 17:25:36', 1, 0.580033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1295, '2016-07-04 17:25:36', 1, 0.425024, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793160),
-(1296, '2016-07-04 17:25:36', 1, 0.246014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1297, '2016-07-04 17:25:45', 1, 0.392023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1298, '2016-07-04 17:25:46', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1299, '2016-07-04 17:25:50', 1, 0.380022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 4793128),
-(1300, '2016-07-04 17:25:50', 1, 0.271016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793112),
-(1301, '2016-07-04 17:25:54', 1, 0.377022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793160),
-(1302, '2016-07-04 17:25:56', 1, 0.426024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1303, '2016-07-04 17:25:56', 1, 0.223013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1304, '2016-07-04 17:26:03', 1, 0.769044, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7347376),
-(1305, '2016-07-04 17:26:04', 1, 0.211013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1306, '2016-07-04 17:26:06', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1307, '2016-07-04 17:26:07', 1, 1.13506, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 8254936),
-(1308, '2016-07-04 17:26:09', 1, 0.310017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1309, '2016-07-04 17:26:14', 1, 0.743042, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', 5824608),
-(1310, '2016-07-04 17:26:15', 1, 0.254015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1311, '2016-07-04 17:26:18', 1, 0.711041, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', 6357208),
-(1312, '2016-07-04 17:26:19', 1, 0.415023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1313, '2016-07-04 17:26:26', 1, 0.490028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1314, '2016-07-04 17:26:29', 1, 0.250015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1315, '2016-07-04 17:26:36', 1, 0.467027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1316, '2016-07-04 17:26:39', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1317, '2016-07-04 17:26:46', 1, 0.445025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1318, '2016-07-04 17:26:49', 1, 0.477027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1319, '2016-07-04 17:26:56', 1, 0.559032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1320, '2016-07-04 17:26:57', 1, NULL, '127.0.0.1', 'POST', 1, 'ac-ac-espec/update', NULL),
-(1321, '2016-07-04 17:27:06', 1, 0.480027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1322, '2016-07-04 17:27:06', 1, 0.495028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1323, '2016-07-04 17:27:16', 1, 0.430025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1324, '2016-07-04 17:27:16', 1, 0.661038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1325, '2016-07-04 17:27:26', 1, 0.436025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1326, '2016-07-04 17:27:26', 1, 0.777044, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1327, '2016-07-04 17:27:36', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1328, '2016-07-04 17:27:37', 1, 0.211012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1329, '2016-07-04 17:27:46', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1330, '2016-07-04 17:27:48', 1, 0.465027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1331, '2016-07-04 17:27:56', 1, 0.478028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1332, '2016-07-04 17:27:59', 1, 0.371022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1333, '2016-07-04 17:28:06', 1, 0.417024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1334, '2016-07-04 17:28:10', 1, 0.429025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1335, '2016-07-04 17:28:16', 1, 0.549031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1336, '2016-07-04 17:28:20', 1, 0.439026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1337, '2016-07-04 17:28:21', 1, 0.843048, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7347328),
-(1338, '2016-07-04 17:28:22', 1, 0.347019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1339, '2016-07-04 17:28:26', 1, 0.447026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1340, '2016-07-04 17:28:28', 1, 0.913052, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 8240488),
-(1341, '2016-07-04 17:28:29', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1342, '2016-07-04 17:28:36', 1, 0.508029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1343, '2016-07-04 17:28:37', 1, 0.617035, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', 5845592),
-(1344, '2016-07-04 17:28:39', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1345, '2016-07-04 17:28:42', 1, 0.733042, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', 6367392),
-(1346, '2016-07-04 17:28:46', 1, 0.453025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1347, '2016-07-04 17:28:49', 1, 0.422024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1348, '2016-07-04 17:28:53', 1, 0.604035, '127.0.0.1', 'POST', 1, 'ac-ac-espec/update', 6161600),
-(1349, '2016-07-04 17:28:53', 1, 0.571032, '127.0.0.1', 'GET', 1, 'accion-centralizada/view', 7924392),
-(1350, '2016-07-04 17:28:56', 1, 0.450026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1351, '2016-07-04 17:28:59', 1, 0.860049, '127.0.0.1', 'GET', 0, 'proyecto-asignar/index', 7101760),
-(1352, '2016-07-04 17:29:00', 1, 0.743042, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1353, '2016-07-04 17:29:00', 1, 0.228013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1354, '2016-07-04 17:29:01', 1, 0.723041, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7113984),
-(1355, '2016-07-04 17:29:03', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1356, '2016-07-04 17:29:05', 1, 0.733042, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 7149368),
-(1357, '2016-07-04 17:29:06', 1, 0.632036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1358, '2016-07-04 17:29:06', 1, 0.456026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1359, '2016-07-04 17:29:08', 1, 0.285016, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908456),
-(1360, '2016-07-04 17:29:12', 1, 0.450026, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 4793128),
-(1361, '2016-07-04 17:29:12', 1, 0.304017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793112),
-(1362, '2016-07-04 17:29:13', 1, 0.450026, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793160),
-(1363, '2016-07-04 17:29:16', 1, 0.53203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1364, '2016-07-04 17:29:16', 1, 0.416024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1365, '2016-07-04 17:29:22', 1, 0.487028, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 5548688),
-(1366, '2016-07-04 17:29:23', 1, 0.605035, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 7194232),
-(1367, '2016-07-04 17:29:26', 1, 0.671038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1368, '2016-07-04 17:29:26', 1, 0.594034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1369, '2016-07-04 17:29:32', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1370, '2016-07-04 17:29:36', 1, 0.522029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1371, '2016-07-04 17:29:36', 1, 0.422024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1372, '2016-07-04 17:29:41', 1, 0.306017, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774352),
-(1373, '2016-07-04 17:29:41', 1, 0.383022, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774400),
-(1374, '2016-07-04 17:29:43', 1, 0.498028, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774448),
-(1375, '2016-07-04 17:29:46', 1, 1.17207, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1376, '2016-07-04 17:29:46', 1, 1.87411, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1377, '2016-07-04 17:29:51', 1, 0.34702, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1378, '2016-07-04 17:29:56', 1, 0.618035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1379, '2016-07-04 17:29:56', 1, 0.70204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1380, '2016-07-04 17:29:57', 1, 0.377022, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360);
-INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
-(1381, '2016-07-04 17:30:06', 1, 0.676038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1382, '2016-07-04 17:30:06', 1, 0.648037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1383, '2016-07-04 17:30:06', 1, 1.09806, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1384, '2016-07-04 17:30:10', 1, 0.607035, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1385, '2016-07-04 17:30:16', 1, 0.662038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1386, '2016-07-04 17:30:17', 1, 1.49509, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1387, '2016-07-04 17:30:17', 1, 1.45008, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1388, '2016-07-04 17:30:26', 1, 0.795045, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1389, '2016-07-04 17:30:26', 1, 0.667038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1390, '2016-07-04 17:30:36', 1, 0.570033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1391, '2016-07-04 17:30:36', 1, 0.913053, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1392, '2016-07-04 17:30:46', 1, 0.458026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1393, '2016-07-04 17:30:46', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1394, '2016-07-04 17:30:56', 1, 0.667039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1395, '2016-07-04 17:30:56', 1, 0.552032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1396, '2016-07-04 17:31:06', 1, 0.709041, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1397, '2016-07-04 17:31:06', 1, 0.603035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1398, '2016-07-04 17:31:35', 1, 10.0246, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1399, '2016-07-04 17:31:35', 1, 9.60555, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1400, '2016-07-04 17:31:40', 1, 22.8693, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1401, '2016-07-04 17:31:40', 1, 23.1423, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1402, '2016-07-04 17:31:40', 1, 4.88528, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1403, '2016-07-04 17:31:41', 1, 5.2653, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1404, '2016-07-04 17:31:46', 1, 0.273015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1405, '2016-07-04 17:31:46', 1, 0.52803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1406, '2016-07-04 17:31:56', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1407, '2016-07-04 17:31:56', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1408, '2016-07-04 17:32:06', 1, 0.464026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1409, '2016-07-04 17:32:06', 1, 0.455026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1410, '2016-07-04 17:32:16', 1, 0.299017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1411, '2016-07-04 17:32:16', 1, 0.186011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1412, '2016-07-04 17:32:26', 1, 0.52303, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1413, '2016-07-04 17:32:26', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1414, '2016-07-04 17:32:36', 1, 0.414023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1415, '2016-07-04 17:32:36', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1416, '2016-07-04 17:32:46', 1, 0.51603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1417, '2016-07-04 17:32:49', 1, 3.33919, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1418, '2016-07-04 17:32:56', 1, 0.414024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1419, '2016-07-04 17:32:56', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1420, '2016-07-04 17:33:06', 1, 0.283017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1421, '2016-07-04 17:33:06', 1, 0.228013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1422, '2016-07-04 17:33:16', 1, 0.468027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1423, '2016-07-04 17:33:16', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1424, '2016-07-04 17:33:22', 1, 2.97817, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/index', 7010512),
-(1425, '2016-07-04 17:33:26', 1, 0.447026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1426, '2016-07-04 17:33:29', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1427, '2016-07-04 17:33:35', 1, 0.484028, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/index', 7010512),
-(1428, '2016-07-04 17:33:36', 1, 0.17201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1429, '2016-07-04 17:33:39', 1, 0.187011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1430, '2016-07-04 17:33:40', 1, 1.19607, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7114032),
-(1431, '2016-07-04 17:33:42', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1432, '2016-07-04 17:33:45', 1, 1.27207, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7347376),
-(1433, '2016-07-04 17:33:47', 1, 0.222012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1434, '2016-07-04 17:33:49', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1435, '2016-07-04 17:33:50', 1, 1.6491, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 8240408),
-(1436, '2016-07-04 17:33:53', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1437, '2016-07-04 17:33:59', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1438, '2016-07-04 17:33:59', 1, 0.547031, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', 5824576),
-(1439, '2016-07-04 17:34:01', 1, 0.52003, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', 6357176),
-(1440, '2016-07-04 17:34:02', 1, 0.17701, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1441, '2016-07-04 17:34:09', 1, 0.444026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1442, '2016-07-04 17:34:11', 1, 0.587033, '127.0.0.1', 'POST', 1, 'ac-ac-espec/update', 6143896),
-(1443, '2016-07-04 17:34:12', 1, 0.623035, '127.0.0.1', 'GET', 1, 'accion-centralizada/view', 7924312),
-(1444, '2016-07-04 17:34:13', 1, 0.294017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1445, '2016-07-04 17:34:19', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1446, '2016-07-04 17:34:23', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1447, '2016-07-04 17:34:29', 1, 0.466026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1448, '2016-07-04 17:34:31', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/create', NULL),
-(1449, '2016-07-04 17:34:32', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1450, '2016-07-04 17:34:33', 1, 0.53803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1451, '2016-07-04 17:34:41', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1452, '2016-07-04 17:34:43', 1, 0.406023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1453, '2016-07-04 17:34:45', 1, 0.52903, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774352),
-(1454, '2016-07-04 17:34:46', 1, 0.363021, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774400),
-(1455, '2016-07-04 17:34:50', 1, 0.446025, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774352),
-(1456, '2016-07-04 17:34:50', 1, 0.35202, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774400),
-(1457, '2016-07-04 17:34:51', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1458, '2016-07-04 17:34:52', 1, 0.652037, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774448),
-(1459, '2016-07-04 17:34:53', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1460, '2016-07-04 17:34:56', 1, 0.292017, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1461, '2016-07-04 17:35:02', 1, 0.376021, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1462, '2016-07-04 17:35:02', 1, 0.598035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1463, '2016-07-04 17:35:03', 1, 0.421024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1464, '2016-07-04 17:35:11', 1, 0.414023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1465, '2016-07-04 17:35:13', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1466, '2016-07-04 17:35:21', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1467, '2016-07-04 17:35:23', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1468, '2016-07-04 17:35:31', 1, 0.388023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1469, '2016-07-04 17:35:33', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1470, '2016-07-04 17:35:41', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1471, '2016-07-04 17:35:43', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1472, '2016-07-04 17:35:51', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1473, '2016-07-04 17:35:53', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1474, '2016-07-04 17:36:01', 1, 0.222013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1475, '2016-07-04 17:36:02', 1, 0.180011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1476, '2016-07-04 17:36:11', 1, 0.473027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1477, '2016-07-04 17:36:13', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1478, '2016-07-04 17:36:14', 1, 0.457026, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772360),
-(1479, '2016-07-04 17:36:21', 1, 0.446025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1480, '2016-07-04 17:36:23', 1, 0.376021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1481, '2016-07-04 17:36:31', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1482, '2016-07-04 17:36:33', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1483, '2016-07-04 17:36:41', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1484, '2016-07-04 17:36:43', 1, 0.411024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1485, '2016-07-04 17:36:51', 1, 0.185011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1486, '2016-07-04 17:36:52', 1, 0.169009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1487, '2016-07-04 17:37:01', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1488, '2016-07-04 17:37:03', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1489, '2016-07-04 17:37:11', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1490, '2016-07-04 17:37:13', 1, 0.265015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1491, '2016-07-04 17:37:21', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1492, '2016-07-04 17:37:23', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1493, '2016-07-04 17:37:31', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1494, '2016-07-04 17:37:33', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1495, '2016-07-04 17:37:41', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1496, '2016-07-04 17:37:42', 1, 0.17301, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1497, '2016-07-04 17:37:51', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1498, '2016-07-04 17:37:53', 1, 0.360021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1499, '2016-07-04 17:38:01', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1500, '2016-07-04 17:38:03', 1, 0.404024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1501, '2016-07-04 17:38:11', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1502, '2016-07-04 17:38:13', 1, 0.412023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1503, '2016-07-04 17:38:21', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1504, '2016-07-04 17:38:23', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1505, '2016-07-04 17:38:31', 1, 0.246014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1506, '2016-07-04 17:38:32', 1, 0.157009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1507, '2016-07-04 17:38:41', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1508, '2016-07-04 17:38:43', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1509, '2016-07-04 17:38:51', 1, 0.411024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1510, '2016-07-04 17:38:53', 1, 0.429024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1511, '2016-07-04 17:39:01', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1512, '2016-07-04 17:39:03', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1513, '2016-07-04 17:39:11', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1514, '2016-07-04 17:39:14', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1515, '2016-07-04 17:39:22', 1, 0.548031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1516, '2016-07-04 17:39:25', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1517, '2016-07-04 17:39:28', 1, 0.392022, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772528),
-(1518, '2016-07-04 17:39:32', 1, 0.471027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1519, '2016-07-04 17:39:36', 1, 0.679038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1520, '2016-07-04 17:39:36', 1, 0.738042, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1521, '2016-07-04 17:39:37', 1, 0.257015, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1522, '2016-07-04 17:39:39', 1, 0.53003, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1523, '2016-07-04 17:39:42', 1, 0.508029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1524, '2016-07-04 17:39:44', 1, 0.509029, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772528),
-(1525, '2016-07-04 17:39:47', 1, 0.193011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1526, '2016-07-04 17:39:49', 1, 0.478027, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772528),
-(1527, '2016-07-04 17:39:51', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1528, '2016-07-04 17:39:52', 1, 0.669038, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772528),
-(1529, '2016-07-04 17:39:58', 1, 0.419024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1530, '2016-07-04 17:40:00', 1, 0.460026, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772528),
-(1531, '2016-07-04 17:40:02', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1532, '2016-07-04 17:40:09', 1, 0.462027, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772528),
-(1533, '2016-07-04 17:40:09', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1534, '2016-07-04 17:40:11', 1, 0.261015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1535, '2016-07-04 17:40:16', 1, 0.500029, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1536, '2016-07-04 17:40:16', 1, 0.305017, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1537, '2016-07-04 17:40:18', 1, 0.399023, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1538, '2016-07-04 17:40:20', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1539, '2016-07-04 17:40:22', 1, 0.498028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1540, '2016-07-04 17:40:23', 1, 0.468027, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1541, '2016-07-04 17:40:24', 1, 0.35402, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1542, '2016-07-04 17:40:25', 1, 0.419024, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1543, '2016-07-04 17:40:29', 1, 0.430025, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1544, '2016-07-04 17:40:30', 1, 0.309018, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1545, '2016-07-04 17:40:31', 1, 0.558032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1546, '2016-07-04 17:40:31', 1, 0.519029, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1547, '2016-07-04 17:40:32', 1, 0.346019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1548, '2016-07-04 17:40:34', 1, 0.243014, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772528),
-(1549, '2016-07-04 17:40:40', 1, 0.439025, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772528),
-(1550, '2016-07-04 17:40:42', 1, 0.429025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1551, '2016-07-04 17:40:42', 1, 0.395022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1552, '2016-07-04 17:40:45', 1, 0.422024, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772528),
-(1553, '2016-07-04 17:40:52', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1554, '2016-07-04 17:40:53', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1555, '2016-07-04 17:40:57', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1556, '2016-07-04 17:41:00', 1, 0.199011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1557, '2016-07-04 17:41:04', 1, 0.440026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1558, '2016-07-04 17:41:08', 1, 0.424024, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1559, '2016-07-04 17:41:08', 1, 0.303017, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1560, '2016-07-04 17:41:10', 1, 0.461026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1561, '2016-07-04 17:41:11', 1, 0.437025, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1562, '2016-07-04 17:41:15', 1, 0.459026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1563, '2016-07-04 17:41:17', 1, 0.396023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1564, '2016-07-04 17:41:20', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1565, '2016-07-04 17:41:23', 1, 0.336019, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1566, '2016-07-04 17:41:26', 1, 0.218013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1567, '2016-07-04 17:41:29', 1, 0.420024, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1568, '2016-07-04 17:41:30', 1, 0.289017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1569, '2016-07-04 17:41:34', 1, 0.441025, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1570, '2016-07-04 17:41:35', 1, 0.35102, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1571, '2016-07-04 17:41:37', 1, 0.455026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1572, '2016-07-04 17:41:37', 1, 0.446026, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1573, '2016-07-04 17:41:40', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1574, '2016-07-04 17:41:45', 1, 0.545031, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1575, '2016-07-04 17:41:48', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1576, '2016-07-04 17:41:50', 1, 0.441025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1577, '2016-07-04 17:41:59', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1578, '2016-07-04 17:42:00', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1579, '2016-07-04 17:42:10', 1, 0.517029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1580, '2016-07-04 17:42:10', 1, 0.625036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1581, '2016-07-04 17:42:18', 1, 0.264015, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1582, '2016-07-04 17:42:20', 1, 0.395023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1583, '2016-07-04 17:42:20', 1, 0.327019, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1584, '2016-07-04 17:42:21', 1, 0.210012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1585, '2016-07-04 17:42:23', 1, 0.462026, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1586, '2016-07-04 17:42:25', 1, 0.469027, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1587, '2016-07-04 17:42:26', 1, 0.333019, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1588, '2016-07-04 17:42:28', 1, 0.403023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1589, '2016-07-04 17:42:30', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1590, '2016-07-04 17:42:30', 1, 0.34302, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1591, '2016-07-04 17:42:32', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1592, '2016-07-04 17:42:33', 1, 0.441025, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1593, '2016-07-04 17:42:37', 1, 0.404023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1594, '2016-07-04 17:42:40', 1, 0.604035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1595, '2016-07-04 17:42:42', 1, 0.34502, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1596, '2016-07-04 17:42:43', 1, 0.265015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1597, '2016-07-04 17:42:47', 1, 0.53103, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1598, '2016-07-04 17:42:50', 1, 0.407023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1599, '2016-07-04 17:42:54', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1600, '2016-07-04 17:43:00', 1, 0.473027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1601, '2016-07-04 17:43:05', 1, 0.36402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422728),
-(1602, '2016-07-04 17:43:10', 1, 0.491028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1603, '2016-07-04 17:43:11', 1, 0.747043, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7113984),
-(1604, '2016-07-04 17:43:12', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1605, '2016-07-04 17:43:14', 1, 0.823047, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 7361248),
-(1606, '2016-07-04 17:43:15', 1, 0.256015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1607, '2016-07-04 17:43:17', 1, 0.433025, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908456),
-(1608, '2016-07-04 17:43:20', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1609, '2016-07-04 17:43:25', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1610, '2016-07-04 17:43:26', 1, 0.504029, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908456),
-(1611, '2016-07-04 17:43:30', 1, 0.254015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1612, '2016-07-04 17:43:32', 1, 0.297017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/delete', 4911096),
-(1613, '2016-07-04 17:43:35', 1, 0.476028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1614, '2016-07-04 17:43:40', 1, 0.52403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1615, '2016-07-04 17:43:44', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', NULL),
-(1616, '2016-07-04 17:43:45', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1617, '2016-07-04 17:43:50', 1, 0.551032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1618, '2016-07-04 17:43:50', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', NULL),
-(1619, '2016-07-04 17:43:51', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
-(1620, '2016-07-04 17:43:52', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1621, '2016-07-04 17:43:57', 1, 0.434024, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 7114032),
-(1622, '2016-07-04 17:43:58', 1, 0.206012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1623, '2016-07-04 17:44:00', 1, 0.842049, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 7149368),
-(1624, '2016-07-04 17:44:00', 1, 0.656037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1625, '2016-07-04 17:44:01', 1, 0.288017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1626, '2016-07-04 17:44:03', 1, 0.444025, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908456),
-(1627, '2016-07-04 17:44:08', 1, 0.402023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1628, '2016-07-04 17:44:10', 1, 0.444025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1629, '2016-07-04 17:44:11', 1, 0.391023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1630, '2016-07-04 17:44:14', 1, 0.391023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1631, '2016-07-04 17:44:18', 1, 0.413023, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 5908456),
-(1632, '2016-07-04 17:44:20', 1, 0.540031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1633, '2016-07-04 17:44:21', 1, 0.263015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1634, '2016-07-04 17:44:23', 1, 0.282016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 4793128),
-(1635, '2016-07-04 17:44:24', 1, 0.284017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793112),
-(1636, '2016-07-04 17:44:25', 1, 0.224013, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 4793160),
-(1637, '2016-07-04 17:44:30', 1, 0.408023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1638, '2016-07-04 17:44:31', 1, 0.422024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1639, '2016-07-04 17:44:38', 1, 0.397023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 5548688),
-(1640, '2016-07-04 17:44:38', 1, 0.471027, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 7194152),
-(1641, '2016-07-04 17:44:40', 1, 0.500028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1642, '2016-07-04 17:44:41', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1643, '2016-07-04 17:44:44', 1, 0.469027, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1644, '2016-07-04 17:44:49', 1, 0.380022, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1645, '2016-07-04 17:44:49', 1, 0.378022, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1646, '2016-07-04 17:44:50', 1, 0.272015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1647, '2016-07-04 17:44:51', 1, 0.215012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1648, '2016-07-04 17:44:51', 1, 0.297017, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1649, '2016-07-04 17:44:52', 1, 0.285017, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1650, '2016-07-04 17:44:53', 1, 0.284017, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1651, '2016-07-04 17:44:55', 1, 0.532031, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1652, '2016-07-04 17:44:55', 1, 0.342019, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1653, '2016-07-04 17:44:57', 1, 0.456026, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1654, '2016-07-04 17:45:00', 1, 0.450026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1655, '2016-07-04 17:45:01', 1, 0.463026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1656, '2016-07-04 17:45:02', 1, 0.450026, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1657, '2016-07-04 17:45:05', 1, 0.387022, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1658, '2016-07-04 17:45:06', 1, 0.358021, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1659, '2016-07-04 17:45:07', 1, 0.409023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1660, '2016-07-04 17:45:08', 1, 0.311018, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1661, '2016-07-04 17:45:10', 1, 0.412024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1662, '2016-07-04 17:45:11', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1663, '2016-07-04 17:45:20', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1664, '2016-07-04 17:45:21', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1665, '2016-07-04 17:45:30', 1, 0.386023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1666, '2016-07-04 17:45:31', 1, 0.360021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1667, '2016-07-04 17:45:40', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1668, '2016-07-04 17:45:41', 1, 0.292016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1669, '2016-07-04 17:45:50', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1670, '2016-07-04 17:45:51', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1671, '2016-07-04 17:46:00', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1672, '2016-07-04 17:46:01', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1673, '2016-07-04 17:46:07', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1674, '2016-07-04 17:46:11', 1, 0.370022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1675, '2016-07-04 17:46:11', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1676, '2016-07-04 17:46:15', 1, 0.469027, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772416),
-(1677, '2016-07-04 17:46:20', 1, 0.501029, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1678, '2016-07-04 17:46:21', 1, 0.532031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1679, '2016-07-04 17:46:21', 1, 0.51203, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1680, '2016-07-04 17:46:21', 1, 0.688039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1681, '2016-07-04 17:46:23', 1, 0.519029, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1682, '2016-07-04 17:46:26', 1, 0.488028, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1683, '2016-07-04 17:46:29', 1, 0.392023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1684, '2016-07-04 17:46:31', 1, 0.494028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1685, '2016-07-04 17:46:31', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1686, '2016-07-04 17:46:34', 1, 0.541031, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1687, '2016-07-04 17:46:34', 1, 0.322019, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1688, '2016-07-04 17:46:36', 1, 0.333019, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772416),
-(1689, '2016-07-04 17:46:41', 1, 0.561033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1690, '2016-07-04 17:46:41', 1, 0.655038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1691, '2016-07-04 17:46:51', 1, 0.677039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1692, '2016-07-04 17:46:51', 1, 0.587033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1693, '2016-07-04 17:46:53', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1694, '2016-07-04 17:46:58', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1695, '2016-07-04 17:47:01', 1, 0.237014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1696, '2016-07-04 17:47:02', 1, 0.286016, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1697, '2016-07-04 17:47:02', 1, 0.214012, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1698, '2016-07-04 17:47:04', 1, 0.318018, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1699, '2016-07-04 17:47:07', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1700, '2016-07-04 17:47:11', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1701, '2016-07-04 17:47:14', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1702, '2016-07-04 17:47:18', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1703, '2016-07-04 17:47:21', 1, 0.379021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1704, '2016-07-04 17:47:24', 1, 0.458026, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1705, '2016-07-04 17:47:24', 1, 0.317018, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1706, '2016-07-04 17:47:26', 1, 0.457026, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1707, '2016-07-04 17:47:28', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1708, '2016-07-04 17:47:29', 1, 0.303018, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1709, '2016-07-04 17:47:31', 1, 0.53603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1710, '2016-07-04 17:47:34', 1, 0.507029, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1711, '2016-07-04 17:47:35', 1, 0.368021, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1712, '2016-07-04 17:47:38', 1, 0.376021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1713, '2016-07-04 17:47:38', 1, 0.659038, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772416),
-(1714, '2016-07-04 17:47:41', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1715, '2016-07-04 17:47:48', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1716, '2016-07-04 17:47:51', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1717, '2016-07-04 17:47:58', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1718, '2016-07-04 17:48:01', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1719, '2016-07-04 17:48:08', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1720, '2016-07-04 17:48:11', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1721, '2016-07-04 17:48:18', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1722, '2016-07-04 17:48:21', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1723, '2016-07-04 17:48:28', 1, 0.376021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1724, '2016-07-04 17:48:31', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1725, '2016-07-04 17:48:38', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1726, '2016-07-04 17:48:41', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1727, '2016-07-04 17:48:48', 1, 0.369022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1728, '2016-07-04 17:48:51', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1729, '2016-07-04 17:48:58', 1, 0.414024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1730, '2016-07-04 17:48:59', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1731, '2016-07-04 17:49:01', 1, 0.352021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1732, '2016-07-04 17:49:03', 1, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1733, '2016-07-04 17:49:11', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1734, '2016-07-04 17:49:13', 1, 0.541031, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1735, '2016-07-04 17:49:13', 1, 0.647037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1736, '2016-07-04 17:49:13', 1, 0.265015, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1737, '2016-07-04 17:49:15', 1, 0.405023, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1738, '2016-07-04 17:49:19', 1, 0.386022, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1739, '2016-07-04 17:49:21', 1, 0.263015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1740, '2016-07-04 17:49:23', 1, 0.414023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1741, '2016-07-04 17:49:29', 1, 0.385022, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1742, '2016-07-04 17:49:31', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1743, '2016-07-04 17:49:31', 1, 0.435025, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772416),
-(1744, '2016-07-04 17:49:33', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1745, '2016-07-04 17:49:41', 1, 0.404024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1746, '2016-07-04 17:49:43', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1747, '2016-07-04 17:49:51', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1748, '2016-07-04 17:49:53', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1749, '2016-07-04 17:50:00', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1750, '2016-07-04 17:50:01', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1751, '2016-07-04 17:50:03', 1, 0.266016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1752, '2016-07-04 17:50:09', 1, 0.442025, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774480),
-(1753, '2016-07-04 17:50:09', 1, 0.311018, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774528),
-(1754, '2016-07-04 17:50:11', 1, 0.544031, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774576),
-(1755, '2016-07-04 17:50:11', 1, 0.514029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1756, '2016-07-04 17:50:13', 1, 0.458027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1757, '2016-07-04 17:50:16', 1, 0.447025, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1758, '2016-07-04 17:50:21', 1, 0.377021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1759, '2016-07-04 17:50:22', 1, 0.483027, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1760, '2016-07-04 17:50:23', 1, 0.293017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1761, '2016-07-04 17:50:29', 1, 0.322018, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1762, '2016-07-04 17:50:31', 1, 0.244014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1763, '2016-07-04 17:50:33', 1, 0.498028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1764, '2016-07-04 17:50:35', 1, 0.436025, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1765, '2016-07-04 17:50:41', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1766, '2016-07-04 17:50:43', 1, 0.485027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1767, '2016-07-04 17:50:52', 1, 0.300017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1768, '2016-07-04 17:50:53', 1, 0.494028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1769, '2016-07-04 17:51:03', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1770, '2016-07-04 17:51:03', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1771, '2016-07-04 17:51:13', 1, 0.641037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1772, '2016-07-04 17:51:13', 1, 0.794046, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1773, '2016-07-04 17:51:21', 1, 0.570032, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1774, '2016-07-04 17:51:23', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1775, '2016-07-04 17:51:23', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1776, '2016-07-04 17:51:23', 1, 0.464026, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1777, '2016-07-04 17:51:28', 1, 0.478027, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1778, '2016-07-04 17:51:33', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1779, '2016-07-04 17:51:33', 1, 0.504029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1780, '2016-07-04 17:51:42', 1, 0.415024, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4772656),
-(1781, '2016-07-04 17:51:43', 1, 0.283016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1782, '2016-07-04 17:51:43', 1, 0.480028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1783, '2016-07-04 17:51:53', 1, 0.513029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1784, '2016-07-04 17:51:53', 1, 0.588033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1785, '2016-07-04 17:52:03', 1, 0.400023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1786, '2016-07-04 17:52:04', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1787, '2016-07-04 17:52:13', 1, 0.167009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1788, '2016-07-04 17:52:15', 1, 0.448025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1789, '2016-07-04 17:52:23', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1790, '2016-07-04 17:52:26', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1791, '2016-07-04 17:52:33', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1792, '2016-07-04 17:52:37', 1, 0.212012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1793, '2016-07-04 17:52:43', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1794, '2016-07-04 17:52:48', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1795, '2016-07-04 17:52:51', 1, 0.457026, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773088),
-(1796, '2016-07-04 17:52:53', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1797, '2016-07-04 17:52:55', 1, 0.444025, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773088),
-(1798, '2016-07-04 17:52:59', 1, 0.250014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1799, '2016-07-04 17:53:01', 1, 0.536031, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773088),
-(1800, '2016-07-04 17:53:03', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1801, '2016-07-04 17:53:04', 1, 0.286016, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773088),
-(1802, '2016-07-04 17:53:10', 1, 0.392023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1803, '2016-07-04 17:53:13', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1804, '2016-07-04 17:53:20', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1805, '2016-07-04 17:53:21', 1, 0.475027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1806, '2016-07-04 17:53:23', 1, 0.474027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1807, '2016-07-04 17:53:29', 1, 0.200011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1808, '2016-07-04 17:53:32', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1809, '2016-07-04 17:53:34', 1, 0.493029, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774912),
-(1810, '2016-07-04 17:53:35', 1, 0.317018, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774960),
-(1811, '2016-07-04 17:53:37', 1, 0.597034, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4775008),
-(1812, '2016-07-04 17:53:39', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1813, '2016-07-04 17:53:40', 1, 0.52903, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773088),
-(1814, '2016-07-04 17:53:43', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1815, '2016-07-04 17:53:44', 1, 0.570033, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773088),
-(1816, '2016-07-04 17:53:48', 1, 0.290017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1817, '2016-07-04 17:53:54', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1818, '2016-07-04 17:53:59', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1819, '2016-07-04 17:54:05', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1820, '2016-07-04 17:54:09', 1, 0.379021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1821, '2016-07-04 17:54:16', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1822, '2016-07-04 17:54:19', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1823, '2016-07-04 17:54:27', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1824, '2016-07-04 17:54:29', 1, 0.443026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4423008),
-(1825, '2016-07-04 17:54:29', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1826, '2016-07-04 17:54:33', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4423008),
-(1827, '2016-07-04 17:54:35', 1, 0.495028, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774936),
-(1828, '2016-07-04 17:54:35', 1, 0.35302, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774984),
-(1829, '2016-07-04 17:54:37', 1, 0.423024, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4775032),
-(1830, '2016-07-04 17:54:38', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1831, '2016-07-04 17:54:39', 1, 0.34702, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1832, '2016-07-04 17:54:42', 1, 0.226013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864);
-INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
-(1833, '2016-07-04 17:54:49', 1, 0.400023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1834, '2016-07-04 17:54:52', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1835, '2016-07-04 17:54:59', 1, 0.405023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1836, '2016-07-04 17:55:00', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1837, '2016-07-04 17:55:02', 1, 0.430024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1838, '2016-07-04 17:55:07', 1, 0.341019, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1839, '2016-07-04 17:55:11', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1840, '2016-07-04 17:55:12', 1, 0.475027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1841, '2016-07-04 17:55:20', 1, 0.395022, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1842, '2016-07-04 17:55:22', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1843, '2016-07-04 17:55:22', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1844, '2016-07-04 17:55:33', 1, 0.588034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1845, '2016-07-04 17:55:33', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1846, '2016-07-04 17:55:42', 1, 0.352021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1847, '2016-07-04 17:55:44', 1, 0.412024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1848, '2016-07-04 17:55:52', 1, 0.300017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1849, '2016-07-04 17:55:55', 1, 0.304018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1850, '2016-07-04 17:56:02', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1851, '2016-07-04 17:56:06', 1, 0.171009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1852, '2016-07-04 17:56:12', 1, 0.198011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1853, '2016-07-04 17:56:17', 1, 0.267016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1854, '2016-07-04 17:56:22', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1855, '2016-07-04 17:56:28', 1, 0.270016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1856, '2016-07-04 17:56:32', 1, 0.486028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1857, '2016-07-04 17:56:34', 1, 0.451026, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1858, '2016-07-04 17:56:39', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1859, '2016-07-04 17:56:41', 1, 0.418024, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1860, '2016-07-04 17:56:42', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1861, '2016-07-04 17:56:45', 1, 0.403023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1862, '2016-07-04 17:56:50', 1, 0.391023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1863, '2016-07-04 17:56:51', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/create', NULL),
-(1864, '2016-07-04 17:56:53', 1, 0.18401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1865, '2016-07-04 17:57:01', 1, 0.400023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1866, '2016-07-04 17:57:03', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1867, '2016-07-04 17:57:12', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1868, '2016-07-04 17:57:21', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1869, '2016-07-04 17:57:23', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1870, '2016-07-04 17:57:29', 1, 0.467027, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4774936),
-(1871, '2016-07-04 17:57:29', 1, 0.412024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1872, '2016-07-04 17:57:30', 1, 0.462027, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4774984),
-(1873, '2016-07-04 17:57:31', 1, 0.391023, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4775032),
-(1874, '2016-07-04 17:57:34', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1875, '2016-07-04 17:57:34', 1, 0.293017, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1876, '2016-07-04 17:57:38', 1, 0.406023, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1877, '2016-07-04 17:57:39', 1, 0.412024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1878, '2016-07-04 17:57:41', 1, 0.360021, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1879, '2016-07-04 17:57:44', 1, 0.316018, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4773112),
-(1880, '2016-07-04 17:57:45', 1, 0.208012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1881, '2016-07-04 17:57:49', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1882, '2016-07-04 17:57:50', 1, 0.822047, '127.0.0.1', 'POST', 0, 'accion-centralizada-variables/create', 5250584),
-(1883, '2016-07-04 17:57:51', 1, NULL, '127.0.0.1', 'GET', 0, 'responsable-acc-variable/create', NULL),
-(1884, '2016-07-04 17:57:53', 1, 0.256014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1885, '2016-07-04 17:57:56', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422760),
-(1886, '2016-07-04 17:58:03', 1, 0.282016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1887, '2016-07-04 17:58:05', 1, 1.11106, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 6978896),
-(1888, '2016-07-04 17:58:06', 1, 0.242014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1889, '2016-07-04 17:58:12', 1, 0.476027, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(1890, '2016-07-04 17:58:13', 1, 0.241013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1891, '2016-07-04 17:58:17', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1892, '2016-07-04 17:58:23', 1, 0.592034, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/index', 7118576),
-(1893, '2016-07-04 17:58:25', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1894, '2016-07-04 17:58:26', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1895, '2016-07-04 17:58:26', 1, 0.18801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1896, '2016-07-04 17:58:29', 1, 0.924053, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/view', 7628688),
-(1897, '2016-07-04 17:58:31', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1898, '2016-07-04 17:58:36', 1, 0.221013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1899, '2016-07-04 17:58:41', 1, 0.259014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1900, '2016-07-04 17:58:47', 1, NULL, '127.0.0.1', 'GET', 1, 'responsable-acc-variable/create', NULL),
-(1901, '2016-07-04 17:58:47', 1, 0.449026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1902, '2016-07-04 17:58:54', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1903, '2016-07-04 17:58:57', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1904, '2016-07-04 17:58:59', 1, NULL, '127.0.0.1', 'GET', 1, 'responsable-acc-variable/create', NULL),
-(1905, '2016-07-04 17:59:05', 1, 0.302018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1906, '2016-07-04 17:59:06', 1, 0.230014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1907, '2016-07-04 17:59:15', 1, 0.406024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1908, '2016-07-04 17:59:17', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1909, '2016-07-04 17:59:25', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1910, '2016-07-04 17:59:27', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1911, '2016-07-04 17:59:30', 1, 0.443026, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5281072),
-(1912, '2016-07-04 17:59:30', 1, 0.68704, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6734448),
-(1913, '2016-07-04 17:59:33', 1, 0.433025, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(1914, '2016-07-04 17:59:35', 1, 0.304018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1915, '2016-07-04 17:59:37', 1, 0.289016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1916, '2016-07-04 17:59:45', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1917, '2016-07-04 17:59:47', 1, 0.360021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1918, '2016-07-04 17:59:49', 1, 0.332019, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5281104),
-(1919, '2016-07-04 17:59:49', 1, 0.529031, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6734840),
-(1920, '2016-07-04 17:59:50', 1, 0.493028, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(1921, '2016-07-04 17:59:55', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1922, '2016-07-04 17:59:57', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1923, '2016-07-04 18:00:05', 1, 0.473027, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5281088),
-(1924, '2016-07-04 18:00:05', 1, 0.470027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1925, '2016-07-04 18:00:05', 1, 0.663038, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6735224),
-(1926, '2016-07-04 18:00:07', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1927, '2016-07-04 18:00:10', 1, 0.755044, '127.0.0.1', 'GET', 0, 'rbac/role/index', 6925168),
-(1928, '2016-07-04 18:00:11', 1, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1929, '2016-07-04 18:00:15', 1, 0.426024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1930, '2016-07-04 18:00:17', 1, 0.86705, '127.0.0.1', 'GET', 1, 'rbac/role/update', 6081392),
-(1931, '2016-07-04 18:00:21', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1932, '2016-07-04 18:00:25', 1, 0.289016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1933, '2016-07-04 18:00:31', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1934, '2016-07-04 18:00:35', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1935, '2016-07-04 18:00:40', 1, 0.463027, '127.0.0.1', 'GET', 1, 'rbac/role/update', 6081392),
-(1936, '2016-07-04 18:00:41', 1, 0.274016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1937, '2016-07-04 18:00:45', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1938, '2016-07-04 18:00:51', 1, 0.286016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1939, '2016-07-04 18:00:55', 1, 0.394022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1940, '2016-07-04 18:01:01', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1941, '2016-07-04 18:01:04', 1, 0.609035, '127.0.0.1', 'POST', 1, 'rbac/role/update', 5631008),
-(1942, '2016-07-04 18:01:05', 1, 0.750043, '127.0.0.1', 'GET', 1, 'rbac/role/index', 6680560),
-(1943, '2016-07-04 18:01:05', 1, 0.52803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1944, '2016-07-04 18:01:11', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1945, '2016-07-04 18:01:12', 1, 0.640037, '127.0.0.1', 'GET', 1, 'responsable-acc-variable/create', 5677952),
-(1946, '2016-07-04 18:01:16', 1, 0.17301, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1947, '2016-07-04 18:01:21', 1, 0.415024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1948, '2016-07-04 18:01:23', 1, 0.550032, '127.0.0.1', 'POST', 1, 'responsable-acc-variable/create', 5276024),
-(1949, '2016-07-04 18:01:24', 1, 0.745043, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/view', 7451632),
-(1950, '2016-07-04 18:01:27', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1951, '2016-07-04 18:01:31', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1952, '2016-07-04 18:01:31', 1, 0.809046, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/view', 7640736),
-(1953, '2016-07-04 18:01:34', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1954, '2016-07-04 18:01:38', 1, 0.536031, '127.0.0.1', 'GET', 1, 'responsable-acc-variable/update', 5906616),
-(1955, '2016-07-04 18:01:41', 1, 0.481027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1956, '2016-07-04 18:01:44', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1957, '2016-07-04 18:01:51', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1958, '2016-07-04 18:01:52', 1, 0.560032, '127.0.0.1', 'GET', 1, 'responsable-acc-variable/update', 5906616),
-(1959, '2016-07-04 18:01:56', 1, 0.510029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1960, '2016-07-04 18:02:01', 1, 0.220012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1961, '2016-07-04 18:02:05', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1962, '2016-07-04 18:02:11', 1, 0.391023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1963, '2016-07-04 18:02:15', 1, 0.486028, '127.0.0.1', 'GET', 1, 'rbac/role/update', 6083728),
-(1964, '2016-07-04 18:02:15', 1, 0.276016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1965, '2016-07-04 18:02:21', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1966, '2016-07-04 18:02:25', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1967, '2016-07-04 18:02:27', 1, 0.508029, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/view', 7640736),
-(1968, '2016-07-04 18:02:30', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1969, '2016-07-04 18:02:31', 1, 0.445025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1970, '2016-07-04 18:02:34', 1, 0.651037, '127.0.0.1', 'GET', 1, 'responsable-acc-variable/update', 5906616),
-(1971, '2016-07-04 18:02:41', 1, 0.542031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1972, '2016-07-04 18:02:41', 1, 0.427024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1973, '2016-07-04 18:02:51', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1974, '2016-07-04 18:02:51', 1, 0.273015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1975, '2016-07-04 18:03:01', 1, 0.393023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1976, '2016-07-04 18:03:01', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1977, '2016-07-04 18:03:11', 1, 1.51309, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1978, '2016-07-04 18:03:11', 1, 2.65115, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1979, '2016-07-04 18:03:14', 1, NULL, '127.0.0.1', 'GET', 1, 'localizacion-acc-variable/create', NULL),
-(1980, '2016-07-04 18:03:21', 1, NULL, '127.0.0.1', 'GET', 1, 'localizacion-acc-variable/create', NULL),
-(1981, '2016-07-04 18:03:21', 1, 0.244014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1982, '2016-07-04 18:03:23', 1, 0.379021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1983, '2016-07-04 18:03:31', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1984, '2016-07-04 18:03:33', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1985, '2016-07-04 18:03:38', 1, 0.665038, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 6979952),
-(1986, '2016-07-04 18:03:39', 1, 0.187011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1987, '2016-07-04 18:03:41', 1, 0.513029, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(1988, '2016-07-04 18:03:43', 1, 0.249014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1989, '2016-07-04 18:03:50', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1990, '2016-07-04 18:03:53', 1, 0.392022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1991, '2016-07-04 18:04:00', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1992, '2016-07-04 18:04:03', 1, 0.250015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1993, '2016-07-04 18:04:05', 1, 0.36202, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5284992),
-(1994, '2016-07-04 18:04:06', 1, 0.543031, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6735640),
-(1995, '2016-07-04 18:04:08', 1, 0.266016, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(1996, '2016-07-04 18:04:09', 1, 0.17801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1997, '2016-07-04 18:04:13', 1, 0.412024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(1998, '2016-07-04 18:04:20', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(1999, '2016-07-04 18:04:23', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2000, '2016-07-04 18:04:30', 1, 0.302018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2001, '2016-07-04 18:04:31', 1, 0.371021, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5284992),
-(2002, '2016-07-04 18:04:31', 1, 0.552032, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6736056),
-(2003, '2016-07-04 18:04:33', 1, 0.276016, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(2004, '2016-07-04 18:04:33', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2005, '2016-07-04 18:04:40', 1, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2006, '2016-07-04 18:04:43', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2007, '2016-07-04 18:04:50', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2008, '2016-07-04 18:04:53', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2009, '2016-07-04 18:05:00', 1, 0.271016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2010, '2016-07-04 18:05:03', 1, 0.387023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2011, '2016-07-04 18:05:06', 1, 0.463027, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5284992),
-(2012, '2016-07-04 18:05:07', 1, 0.560032, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6736472),
-(2013, '2016-07-04 18:05:10', 1, 0.579034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2014, '2016-07-04 18:05:13', 1, 0.497028, '127.0.0.1', 'GET', 1, 'rbac/permission/update', 5674608),
-(2015, '2016-07-04 18:05:13', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2016, '2016-07-04 18:05:19', 1, 0.369021, '127.0.0.1', 'POST', 1, 'rbac/permission/update', 5682000),
-(2017, '2016-07-04 18:05:20', 1, 0.239013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2018, '2016-07-04 18:05:23', 1, 0.411023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2019, '2016-07-04 18:05:25', 1, 0.515029, '127.0.0.1', 'POST', 1, 'rbac/permission/update', 5392824),
-(2020, '2016-07-04 18:05:25', 1, 0.619035, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6736464),
-(2021, '2016-07-04 18:05:27', 1, 0.254015, '127.0.0.1', 'GET', 1, 'rbac/permission/update', 5666208),
-(2022, '2016-07-04 18:05:30', 1, 0.265015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2023, '2016-07-04 18:05:34', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2024, '2016-07-04 18:05:37', 1, 0.629036, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6656336),
-(2025, '2016-07-04 18:05:40', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422920),
-(2026, '2016-07-04 18:05:41', 1, 0.457026, '127.0.0.1', 'GET', 1, 'rbac/permission/update', 5674736),
-(2027, '2016-07-04 18:05:43', 1, 0.300017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2028, '2016-07-04 18:05:47', 1, 0.34902, '127.0.0.1', 'POST', 1, 'rbac/permission/update', 5392984),
-(2029, '2016-07-04 18:05:47', 1, 0.51903, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6656680),
-(2030, '2016-07-04 18:05:50', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422920),
-(2031, '2016-07-04 18:05:53', 1, 0.608035, '127.0.0.1', 'GET', 0, 'rbac/role/index', 6925504),
-(2032, '2016-07-04 18:05:53', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2033, '2016-07-04 18:05:54', 1, 0.206012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2034, '2016-07-04 18:05:57', 1, 0.394022, '127.0.0.1', 'GET', 1, 'rbac/role/update', 6084976),
-(2035, '2016-07-04 18:06:04', 1, 0.392023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2036, '2016-07-04 18:06:04', 1, 0.414023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2037, '2016-07-04 18:06:09', 1, 0.553032, '127.0.0.1', 'POST', 1, 'rbac/role/update', 5673336),
-(2038, '2016-07-04 18:06:10', 1, 0.630036, '127.0.0.1', 'GET', 1, 'rbac/role/index', 6680560),
-(2039, '2016-07-04 18:06:14', 1, 0.394022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2040, '2016-07-04 18:06:14', 1, 0.554031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2041, '2016-07-04 18:06:16', 1, 1.06606, '127.0.0.1', 'GET', 1, 'localizacion-acc-variable/create', 6150688),
-(2042, '2016-07-04 18:06:24', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2043, '2016-07-04 18:06:25', 1, 0.373022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2044, '2016-07-04 18:06:30', 1, 0.668038, '127.0.0.1', 'POST', 1, 'localizacion-acc-variable/create', 5646784),
-(2045, '2016-07-04 18:06:31', 1, 0.679039, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/view', 7628328),
-(2046, '2016-07-04 18:06:34', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2047, '2016-07-04 18:06:35', 1, NULL, '127.0.0.1', 'GET', 1, 'localizacion-acc-variable/view', NULL),
-(2048, '2016-07-04 18:06:37', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2049, '2016-07-04 18:06:42', 1, 0.736042, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 6981200),
-(2050, '2016-07-04 18:06:43', 1, 0.267016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2051, '2016-07-04 18:06:47', 1, 0.275016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2052, '2016-07-04 18:06:47', 1, 0.272016, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 5653448),
-(2053, '2016-07-04 18:06:53', 1, 0.395022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2054, '2016-07-04 18:06:57', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2055, '2016-07-04 18:07:03', 1, 0.231013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2056, '2016-07-04 18:07:07', 1, 0.425024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2057, '2016-07-04 18:07:10', 1, 0.321019, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 5284976),
-(2058, '2016-07-04 18:07:11', 1, 0.53203, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 6736880),
-(2059, '2016-07-04 18:07:13', 1, 0.196011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2060, '2016-07-04 18:07:14', 1, 0.53603, '127.0.0.1', 'GET', 0, 'rbac/role/index', 6925168),
-(2061, '2016-07-04 18:07:15', 1, 0.253015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2062, '2016-07-04 18:07:17', 1, 0.472027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2063, '2016-07-04 18:07:18', 1, 0.602035, '127.0.0.1', 'GET', 1, 'rbac/role/update', 6086968),
-(2064, '2016-07-04 18:07:25', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2065, '2016-07-04 18:07:27', 1, 0.414023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2066, '2016-07-04 18:07:28', 1, 0.638037, '127.0.0.1', 'POST', 1, 'rbac/role/update', 5688144),
-(2067, '2016-07-04 18:07:29', 1, 0.626036, '127.0.0.1', 'GET', 1, 'rbac/role/index', 6680560),
-(2068, '2016-07-04 18:07:35', 1, 0.463027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2069, '2016-07-04 18:07:36', 1, 0.599034, '127.0.0.1', 'GET', 1, 'localizacion-acc-variable/view', 5743576),
-(2070, '2016-07-04 18:07:38', 1, 0.433025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2071, '2016-07-04 18:07:41', 1, 0.626036, '127.0.0.1', 'GET', 1, 'localizacion-acc-variable/update', 6155408),
-(2072, '2016-07-04 18:07:45', 1, 0.395022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2073, '2016-07-04 18:07:49', 1, 0.409024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2074, '2016-07-04 18:07:55', 1, 0.907051, '127.0.0.1', 'GET', 1, 'responsable-acc-variable/update', 5906616),
-(2075, '2016-07-04 18:07:55', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2076, '2016-07-04 18:08:00', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2077, '2016-07-04 18:08:05', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2078, '2016-07-04 18:08:10', 1, 0.377021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2079, '2016-07-04 18:08:15', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2080, '2016-07-04 18:08:20', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2081, '2016-07-04 18:08:25', 1, 0.36402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2082, '2016-07-04 18:08:30', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2083, '2016-07-04 18:08:35', 1, 0.374022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2084, '2016-07-04 18:08:40', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2085, '2016-07-04 18:08:45', 1, 0.279016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2086, '2016-07-04 18:08:48', 1, 0.753043, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/view', 7825824),
-(2087, '2016-07-04 18:08:50', 1, 0.272016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2088, '2016-07-04 18:08:53', 1, 0.647038, '127.0.0.1', 'GET', 1, 'responsable-acc-variable/update', 5906616),
-(2089, '2016-07-04 18:08:55', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2090, '2016-07-04 18:09:01', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2091, '2016-07-04 18:09:05', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2092, '2016-07-04 18:09:11', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2093, '2016-07-04 18:09:15', 1, 0.395023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2094, '2016-07-04 18:09:21', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2095, '2016-07-04 18:09:25', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2096, '2016-07-04 18:09:31', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2097, '2016-07-04 18:09:35', 1, 0.373022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2098, '2016-07-04 18:09:41', 1, 0.433025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2099, '2016-07-04 18:09:45', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2100, '2016-07-04 18:09:51', 1, 0.351021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2101, '2016-07-04 18:09:55', 1, 0.292017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2102, '2016-07-04 18:10:01', 1, 0.438025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2103, '2016-07-04 18:10:05', 1, 0.379021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2104, '2016-07-04 18:10:11', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2105, '2016-07-04 18:10:15', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2106, '2016-07-04 18:10:21', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2107, '2016-07-04 18:10:25', 1, 0.285016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2108, '2016-07-04 18:10:31', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2109, '2016-07-04 18:10:35', 1, 0.417024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2110, '2016-07-04 18:10:41', 1, 0.319019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2111, '2016-07-04 18:10:45', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2112, '2016-07-04 18:10:51', 1, 0.262015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2113, '2016-07-04 18:10:55', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2114, '2016-07-04 18:11:01', 1, 0.422024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2115, '2016-07-04 18:11:05', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2116, '2016-07-04 18:11:11', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2117, '2016-07-04 18:11:15', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2118, '2016-07-04 18:11:21', 1, 0.392022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2119, '2016-07-04 18:11:21', 1, 0.510029, '127.0.0.1', 'POST', 0, 'responsable-acc-variable/delete', 4793880),
-(2120, '2016-07-04 18:11:22', 1, NULL, '127.0.0.1', 'GET', 0, 'responsable-acc-variable/index', NULL),
-(2121, '2016-07-04 18:11:23', 1, 0.226013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2122, '2016-07-04 18:11:25', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2123, '2016-07-04 18:11:32', 1, 0.679039, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/index', 7118528),
-(2124, '2016-07-04 18:11:34', 1, 0.270016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2125, '2016-07-04 18:11:35', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2126, '2016-07-04 18:11:37', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/update', NULL),
-(2127, '2016-07-04 18:11:42', 1, 0.71404, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/index', 7118528),
-(2128, '2016-07-04 18:11:43', 1, 0.287017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2129, '2016-07-04 18:11:45', 1, 0.406024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2130, '2016-07-04 18:11:45', 1, 0.741042, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/view', 7813552),
-(2131, '2016-07-04 18:11:47', 1, 0.226013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2132, '2016-07-04 18:11:50', 1, 0.583034, '127.0.0.1', 'GET', 1, 'responsable-acc-variable/create', 5677952),
-(2133, '2016-07-04 18:11:55', 1, 0.239014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2134, '2016-07-04 18:11:58', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2135, '2016-07-04 18:12:05', 1, 0.400023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2136, '2016-07-04 18:12:08', 1, 0.373022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2137, '2016-07-04 18:12:15', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2138, '2016-07-04 18:12:18', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2139, '2016-07-04 18:12:25', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2140, '2016-07-04 18:12:28', 1, 0.309017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2141, '2016-07-04 18:12:35', 1, 0.87005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2142, '2016-07-04 18:12:38', 1, 0.466027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2143, '2016-07-04 18:12:45', 1, 0.441025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2144, '2016-07-04 18:12:48', 1, 0.545031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2145, '2016-07-04 18:12:55', 1, 0.499029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2146, '2016-07-04 18:12:58', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2147, '2016-07-04 18:13:05', 1, 0.417024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2148, '2016-07-04 18:13:08', 1, 0.580033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2149, '2016-07-04 18:13:15', 1, 0.52503, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2150, '2016-07-04 18:13:18', 1, 0.476027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2151, '2016-07-04 18:13:25', 1, 0.660038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2152, '2016-07-04 18:13:35', 1, 0.531031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2153, '2016-07-04 18:13:40', 1, 0.405024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2154, '2016-07-04 18:13:45', 1, 0.776044, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2155, '2016-07-04 18:13:47', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2156, '2016-07-04 18:13:55', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2157, '2016-07-04 18:13:57', 1, 0.186011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2158, '2016-07-04 18:14:05', 1, 0.567033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2159, '2016-07-04 18:14:10', 1, 3.38019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2160, '2016-07-04 18:14:15', 1, 0.373022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2161, '2016-07-04 18:14:17', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2162, '2016-07-04 18:14:25', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2163, '2016-07-04 18:14:27', 1, 0.429024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2164, '2016-07-04 18:14:29', 1, 0.901051, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/index', 7118576),
-(2165, '2016-07-04 18:14:32', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2166, '2016-07-04 18:14:34', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/update', NULL),
-(2167, '2016-07-04 18:14:35', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2168, '2016-07-04 18:14:45', 1, 0.389023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2169, '2016-07-04 18:14:55', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2170, '2016-07-04 18:15:05', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2171, '2016-07-04 18:15:15', 1, 0.422024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2172, '2016-07-04 18:15:25', 1, 0.400023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2173, '2016-07-04 18:15:35', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2174, '2016-07-04 18:15:45', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2175, '2016-07-04 18:15:50', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/update', NULL),
-(2176, '2016-07-04 18:15:55', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2177, '2016-07-04 18:16:05', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2178, '2016-07-04 18:16:15', 1, 0.390022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2179, '2016-07-04 18:16:25', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2180, '2016-07-04 18:16:35', 1, 0.395022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2181, '2016-07-04 18:16:45', 1, 0.397022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2182, '2016-07-04 18:16:55', 1, 0.440025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2183, '2016-07-04 18:16:56', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/update', NULL),
-(2184, '2016-07-04 18:17:05', 1, 0.406023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2185, '2016-07-04 18:17:15', 1, 0.258015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2186, '2016-07-04 18:17:25', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2187, '2016-07-04 18:17:35', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2188, '2016-07-04 18:17:45', 1, 0.235014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2189, '2016-07-04 18:17:55', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2190, '2016-07-04 18:18:05', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2191, '2016-07-04 18:18:15', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2192, '2016-07-04 18:18:25', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2193, '2016-07-04 18:18:34', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/update', NULL),
-(2194, '2016-07-04 18:18:35', 1, 0.227013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2195, '2016-07-04 18:18:45', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2196, '2016-07-04 18:18:55', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2197, '2016-07-04 18:19:05', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2198, '2016-07-04 18:19:15', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2199, '2016-07-04 18:19:25', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2200, '2016-07-04 18:19:35', 1, 0.425024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2201, '2016-07-04 18:19:45', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2202, '2016-07-04 18:19:55', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2203, '2016-07-04 18:20:05', 1, 0.286017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2204, '2016-07-04 18:20:10', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/update', NULL),
-(2205, '2016-07-04 18:20:13', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4423008),
-(2206, '2016-07-04 18:20:15', 1, 0.450026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2207, '2016-07-04 18:20:23', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2208, '2016-07-04 18:20:25', 1, 0.412023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2209, '2016-07-04 18:20:26', 1, 0.463027, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4781480),
-(2210, '2016-07-04 18:20:26', 1, 0.476027, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4781528),
-(2211, '2016-07-04 18:20:29', 1, 0.336019, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4781576),
-(2212, '2016-07-04 18:20:33', 1, 0.441025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2213, '2016-07-04 18:20:34', 1, 0.444025, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace2', 4781480),
-(2214, '2016-07-04 18:20:34', 1, 0.466026, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4781528),
-(2215, '2016-07-04 18:20:35', 1, 0.347019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2216, '2016-07-04 18:20:37', 1, 0.414024, '127.0.0.1', 'POST', 1, 'accion-centralizada-variables/ace', 4781576),
-(2217, '2016-07-04 18:20:40', 1, 0.327019, '127.0.0.1', 'GET', 1, 'accion-centralizada-variables/ace1', 4779656),
-(2218, '2016-07-04 18:20:43', 1, 0.226013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2219, '2016-07-04 18:20:43', 1, 0.483028, '127.0.0.1', 'POST', 0, 'accion-centralizada-variables/update', 5291936),
-(2220, '2016-07-04 18:20:44', 1, 0.557032, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/view', 7820064),
-(2221, '2016-07-04 18:20:45', 1, 0.187011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2222, '2016-07-04 18:20:45', 1, 0.236013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2223, '2016-07-04 18:20:55', 1, 0.768044, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/index', 7125120),
-(2224, '2016-07-04 18:20:55', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2225, '2016-07-04 18:20:56', 1, 0.209012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2226, '2016-07-04 18:20:58', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-variables/update', NULL),
-(2227, '2016-07-04 18:21:00', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2228, '2016-07-04 18:21:05', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2229, '2016-07-04 18:21:10', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2230, '2016-07-04 18:21:15', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2231, '2016-07-04 18:21:20', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2232, '2016-07-04 18:21:25', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2233, '2016-07-04 18:21:30', 1, 0.279016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2234, '2016-07-04 18:21:35', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2235, '2016-07-04 18:21:40', 1, 0.383021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2236, '2016-07-04 18:21:45', 1, 0.289017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2237, '2016-07-04 18:21:51', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2238, '2016-07-04 18:21:55', 1, 0.416024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2239, '2016-07-04 18:22:01', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2240, '2016-07-04 18:22:06', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2241, '2016-07-04 18:22:10', 1, 0.261015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2242, '2016-07-04 18:22:17', 1, 0.272016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2243, '2016-07-04 18:22:21', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2244, '2016-07-04 18:22:28', 1, 0.453026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2245, '2016-07-04 18:22:31', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2246, '2016-07-04 18:22:39', 1, 0.211012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2247, '2016-07-04 18:22:41', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2248, '2016-07-04 18:22:50', 1, 0.480027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2249, '2016-07-04 18:22:51', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2250, '2016-07-04 18:23:01', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2251, '2016-07-04 18:23:01', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2252, '2016-07-04 18:23:11', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2253, '2016-07-04 18:23:12', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2254, '2016-07-04 18:23:21', 1, 0.36102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2255, '2016-07-04 18:23:23', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2256, '2016-07-04 18:23:31', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2257, '2016-07-04 18:23:34', 1, 0.407023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2258, '2016-07-04 18:23:41', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2259, '2016-07-04 18:23:45', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2260, '2016-07-04 18:23:51', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2261, '2016-07-04 18:23:56', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2262, '2016-07-04 18:24:01', 1, 0.422024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2263, '2016-07-04 18:24:07', 1, 0.282016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2264, '2016-07-04 18:24:11', 1, 0.259015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2265, '2016-07-04 18:24:18', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2266, '2016-07-04 18:24:21', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2267, '2016-07-04 18:24:29', 1, 0.478028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2268, '2016-07-04 18:24:30', 1, 0.200012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2269, '2016-07-04 18:24:40', 1, 0.485028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2270, '2016-07-04 18:24:41', 1, 0.597034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2271, '2016-07-04 18:24:51', 1, 0.486028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2272, '2016-07-04 18:24:51', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2273, '2016-07-04 18:25:01', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2274, '2016-07-04 18:25:02', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2275, '2016-07-04 18:25:11', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2276, '2016-07-04 18:25:13', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2277, '2016-07-04 18:25:21', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2278, '2016-07-04 18:25:24', 1, 0.256015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2279, '2016-07-04 18:25:31', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2280, '2016-07-04 18:25:35', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2281, '2016-07-04 18:25:41', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2282, '2016-07-04 18:25:46', 1, 0.544031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2283, '2016-07-04 18:25:51', 1, 0.436025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2284, '2016-07-04 18:25:57', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2285, '2016-07-04 18:26:01', 1, 0.870049, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2286, '2016-07-04 18:26:08', 1, 0.615035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2287, '2016-07-04 18:26:11', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2288, '2016-07-04 18:26:19', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2289, '2016-07-04 18:26:21', 1, 0.69304, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2290, '2016-07-04 18:26:30', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696);
-INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
-(2291, '2016-07-04 18:26:31', 1, 0.544031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2292, '2016-07-04 18:26:41', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2293, '2016-07-04 18:26:41', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2294, '2016-07-04 18:26:51', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2295, '2016-07-04 18:26:52', 1, 0.51103, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2296, '2016-07-04 18:27:01', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2297, '2016-07-04 18:27:03', 1, 0.190011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2298, '2016-07-04 18:27:11', 1, 0.394022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2299, '2016-07-04 18:27:14', 1, 0.406023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2300, '2016-07-04 18:27:21', 1, 0.283016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2301, '2016-07-04 18:27:25', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2302, '2016-07-04 18:27:31', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2303, '2016-07-04 18:27:36', 1, 0.409023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2304, '2016-07-04 18:27:41', 1, 0.459026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2305, '2016-07-04 18:27:47', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2306, '2016-07-04 18:27:51', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2307, '2016-07-04 18:27:58', 1, 0.299018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2308, '2016-07-04 18:28:01', 1, 0.381021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422864),
-(2309, '2016-07-04 18:28:08', 1, 2.46614, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 7346704),
-(2310, '2016-07-04 18:28:09', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2311, '2016-07-04 18:28:13', 1, 0.288017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2312, '2016-07-04 18:28:16', 1, 0.469027, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4913504),
-(2313, '2016-07-04 18:28:16', 1, 0.672039, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7170040),
-(2314, '2016-07-04 18:28:20', 1, 0.553032, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4913448),
-(2315, '2016-07-04 18:28:20', 1, 0.52303, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2316, '2016-07-04 18:28:20', 1, 0.485028, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7160144),
-(2317, '2016-07-04 18:28:23', 1, 0.367021, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4913456),
-(2318, '2016-07-04 18:28:24', 1, 0.52603, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7154336),
-(2319, '2016-07-04 18:28:25', 1, 0.187011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2320, '2016-07-04 18:28:27', 1, 0.373021, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4913456),
-(2321, '2016-07-04 18:28:28', 1, 0.554032, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7148528),
-(2322, '2016-07-04 18:28:31', 1, 0.673039, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4913504),
-(2323, '2016-07-04 18:28:31', 1, 0.476028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2324, '2016-07-04 18:28:31', 1, 0.51203, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7138576),
-(2325, '2016-07-04 18:28:34', 1, 0.440025, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 4913432),
-(2326, '2016-07-04 18:28:35', 1, 0.577033, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 7046432),
-(2327, '2016-07-04 18:28:38', 1, 0.283016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2328, '2016-07-04 18:28:42', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2329, '2016-07-04 18:28:48', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2330, '2016-07-04 18:28:53', 1, 0.198011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2331, '2016-07-04 18:28:58', 1, 0.434024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2332, '2016-07-04 18:29:04', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2333, '2016-07-04 18:29:08', 1, 0.457026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2334, '2016-07-04 18:29:14', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2335, '2016-07-04 18:29:18', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2336, '2016-07-04 18:29:25', 1, 0.189011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2337, '2016-07-04 18:29:28', 1, 0.233014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2338, '2016-07-04 18:29:36', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2339, '2016-07-04 18:29:38', 1, 0.353021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2340, '2016-07-04 18:29:47', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2341, '2016-07-04 18:29:48', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2342, '2016-07-04 18:29:58', 1, 0.271016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2343, '2016-07-04 18:29:58', 1, 0.295017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2344, '2016-07-04 18:30:08', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2345, '2016-07-04 18:30:09', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2346, '2016-07-04 18:30:18', 1, 0.352021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2347, '2016-07-04 18:30:20', 1, 0.353021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2348, '2016-07-04 18:30:28', 1, 0.467027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2349, '2016-07-04 18:30:31', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2350, '2016-07-04 18:30:38', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2351, '2016-07-04 18:30:42', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2352, '2016-07-04 18:30:48', 1, 0.191011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2353, '2016-07-04 18:30:53', 1, 0.794045, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2354, '2016-07-04 18:30:58', 1, 0.52003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2355, '2016-07-04 18:31:04', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2356, '2016-07-04 18:31:08', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2357, '2016-07-04 18:31:15', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2358, '2016-07-04 18:31:18', 1, 0.394022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2359, '2016-07-04 18:31:26', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2360, '2016-07-04 18:31:28', 1, 0.452026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2361, '2016-07-04 18:31:37', 1, 0.401022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2362, '2016-07-04 18:31:38', 1, 0.392023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2363, '2016-07-04 18:31:48', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2364, '2016-07-04 18:31:48', 1, 0.451026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2365, '2016-07-04 18:31:58', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2366, '2016-07-04 18:31:59', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2367, '2016-07-04 18:32:08', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2368, '2016-07-04 18:32:10', 1, 0.238014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2369, '2016-07-04 18:32:18', 1, 0.411023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2370, '2016-07-04 18:32:21', 1, 0.415024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2371, '2016-07-04 18:32:32', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2372, '2016-07-04 18:32:33', 1, 3.38819, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2373, '2016-07-04 18:32:38', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2374, '2016-07-04 18:32:43', 1, 0.208012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2375, '2016-07-04 18:32:48', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2376, '2016-07-04 18:32:54', 1, 0.413023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2377, '2016-07-04 18:32:59', 1, 0.414024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2378, '2016-07-04 18:33:05', 1, 0.457026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2379, '2016-07-04 18:33:09', 1, 0.454026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2380, '2016-07-04 18:33:16', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2381, '2016-07-04 18:33:18', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2382, '2016-07-04 18:33:27', 1, 0.250014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2383, '2016-07-04 18:33:28', 1, 0.230013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2384, '2016-07-04 18:33:38', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2385, '2016-07-04 18:33:38', 1, 0.244014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2386, '2016-07-04 18:33:48', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422832),
-(2387, '2016-07-04 18:33:49', 1, 0.249015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4422696),
-(2388, '2016-07-04 12:04:34', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5818848),
-(2389, '2016-07-04 12:04:34', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5818736),
-(2390, '2016-07-04 12:04:39', 1, 0.70104, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5818848),
-(2391, '2016-07-04 12:04:44', 1, 0.473027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5818736),
-(2392, '2016-07-04 12:04:48', 1, 0.256015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5818848);
+(1, '2016-07-08 02:44:23', 1, 0.0702569, '127.0.0.1', 'POST', 0, 'proyecto/view', 2441560),
+(2, '2016-07-09 03:05:33', 1, 0.033478, '127.0.0.1', 'POST', 1, 'proyecto-usuario-asignar/create', 2288304),
+(3, '2016-07-09 03:40:35', 2, 0.0567422, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 2363504),
+(4, '2016-07-09 03:45:30', 2, 0.0385351, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 2363504),
+(5, '2016-07-09 03:49:36', 2, 0.0293798, '127.0.0.1', 'POST', 1, 'proyecto-pedido/delete', 2034904),
+(6, '2016-07-09 03:49:39', 2, 0.0523341, '127.0.0.1', 'POST', 1, 'proyecto-pedido/delete', 2034904),
+(7, '2016-07-09 03:50:19', 2, 0.059942, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 2363504),
+(8, '2016-07-09 03:57:06', 2, 0.0512578, '127.0.0.1', 'POST', 1, 'proyecto-pedido/delete', 2034904),
+(9, '2016-07-09 03:57:12', 2, 0.0679479, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 2363504),
+(10, '2016-07-09 03:58:29', 2, 0.066395, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 2363504);
 
 -- --------------------------------------------------------
 
@@ -2699,8 +392,8 @@ INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `reques
 -- Estructura de tabla para la tabla `audit_error`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_error` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_error` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `message` text NOT NULL,
@@ -2709,12 +402,8 @@ CREATE TABLE IF NOT EXISTS `audit_error` (
   `line` int(11) DEFAULT NULL,
   `trace` blob,
   `hash` varchar(32) DEFAULT NULL,
-  `emailed` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_error_entry_id` (`entry_id`),
-  KEY `idx_file` (`file`(180)),
-  KEY `idx_emailed` (`emailed`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `emailed` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2722,17 +411,15 @@ CREATE TABLE IF NOT EXISTS `audit_error` (
 -- Estructura de tabla para la tabla `audit_javascript`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_javascript` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_javascript` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `type` varchar(20) NOT NULL,
   `message` text NOT NULL,
   `origin` varchar(512) DEFAULT NULL,
-  `data` blob,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_javascript_entry_id` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `data` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2740,8 +427,8 @@ CREATE TABLE IF NOT EXISTS `audit_javascript` (
 -- Estructura de tabla para la tabla `audit_mail`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_mail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_mail` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `successful` int(11) NOT NULL,
@@ -2753,10 +440,8 @@ CREATE TABLE IF NOT EXISTS `audit_mail` (
   `subject` varchar(255) DEFAULT NULL,
   `text` blob,
   `html` blob,
-  `data` blob,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_mail_entry_id` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `data` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2764,8 +449,8 @@ CREATE TABLE IF NOT EXISTS `audit_mail` (
 -- Estructura de tabla para la tabla `audit_trail`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_trail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_trail` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `action` varchar(255) NOT NULL,
@@ -2774,13 +459,8 @@ CREATE TABLE IF NOT EXISTS `audit_trail` (
   `field` varchar(255) DEFAULT NULL,
   `old_value` text,
   `new_value` text,
-  `created` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_trail_entry_id` (`entry_id`),
-  KEY `idx_audit_user_id` (`user_id`),
-  KEY `idx_audit_trail_field` (`model`,`model_id`,`field`),
-  KEY `idx_audit_trail_action` (`action`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=308 ;
+  `created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `audit_trail`
@@ -3060,40 +740,104 @@ INSERT INTO `audit_trail` (`id`, `entry_id`, `user_id`, `action`, `model`, `mode
 (271, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'fecha_creacion', '', '2016-06-30 02:22:19', '2016-06-30 02:22:19'),
 (272, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'asignado', '', '7', '2016-06-30 02:22:19'),
 (273, 10617, 2, 'CREATE', 'common\\models\\ProyectoPedido', '3', 'estatus', '', '1', '2016-06-30 02:22:19'),
-(274, 27, 1, 'DELETE', 'common\\models\\AccionCentralizada', '3', NULL, NULL, NULL, '2016-07-04 15:51:57'),
-(275, 72, 1, 'DELETE', 'common\\models\\AccionCentralizada', '1', NULL, NULL, NULL, '2016-07-04 15:55:04'),
-(276, 75, 1, 'DELETE', 'common\\models\\AccionCentralizada', '2', NULL, NULL, NULL, '2016-07-04 15:55:08'),
-(277, 77, 1, 'DELETE', 'common\\models\\AccionCentralizada', '3', NULL, NULL, NULL, '2016-07-04 15:55:11'),
-(278, 80, 1, 'DELETE', 'common\\models\\AccionCentralizada', '4', NULL, NULL, NULL, '2016-07-04 15:55:15'),
-(279, 83, 1, 'DELETE', 'common\\models\\AccionCentralizada', '5', NULL, NULL, NULL, '2016-07-04 15:55:19'),
-(280, 85, 1, 'DELETE', 'common\\models\\AccionCentralizada', '6', NULL, NULL, NULL, '2016-07-04 15:55:22'),
-(281, 321, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '4', 'id', '', '4', '2016-07-04 16:09:54'),
-(282, 321, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '4', 'usuario', '', '1', '2016-07-04 16:09:54'),
-(283, 321, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '4', 'unidad_ejecutora', '', '601', '2016-07-04 16:09:54'),
-(284, 321, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '4', 'accion_especifica', '', '1', '2016-07-04 16:09:54'),
-(285, 321, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '4', 'estatus', '', '1', '2016-07-04 16:09:54'),
-(286, 1255, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '5', 'id', '', '5', '2016-07-04 17:23:24'),
-(287, 1255, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '5', 'usuario', '', '2', '2016-07-04 17:23:24'),
-(288, 1255, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '5', 'unidad_ejecutora', '', '601', '2016-07-04 17:23:24'),
-(289, 1255, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '5', 'accion_especifica', '', '1', '2016-07-04 17:23:24'),
-(290, 1255, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '5', 'estatus', '', '1', '2016-07-04 17:23:24'),
-(291, 1365, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'id', '', '6', '2016-07-04 17:29:22'),
-(292, 1365, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'usuario', '', '3', '2016-07-04 17:29:22'),
-(293, 1365, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'unidad_ejecutora', '', '603', '2016-07-04 17:29:22'),
-(294, 1365, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'accion_especifica', '', '1', '2016-07-04 17:29:22'),
-(295, 1365, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'estatus', '', '1', '2016-07-04 17:29:22'),
-(296, 1612, 1, 'DELETE', 'common\\models\\AccionCentralizadaAsignar', '6', NULL, NULL, NULL, '2016-07-04 17:43:32'),
-(297, 1639, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '7', 'id', '', '7', '2016-07-04 17:44:38'),
-(298, 1639, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '7', 'usuario', '', '3', '2016-07-04 17:44:38'),
-(299, 1639, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '7', 'unidad_ejecutora', '', '600', '2016-07-04 17:44:38'),
-(300, 1639, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '7', 'accion_especifica', '', '6', '2016-07-04 17:44:38'),
-(301, 1639, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '7', 'estatus', '', '1', '2016-07-04 17:44:38'),
-(302, 2312, 1, 'DELETE', 'common\\models\\AccionCentralizada', '1', NULL, NULL, NULL, '2016-07-04 18:28:16'),
-(303, 2314, 1, 'DELETE', 'common\\models\\AccionCentralizada', '2', NULL, NULL, NULL, '2016-07-04 18:28:20'),
-(304, 2317, 1, 'DELETE', 'common\\models\\AccionCentralizada', '3', NULL, NULL, NULL, '2016-07-04 18:28:23'),
-(305, 2320, 1, 'DELETE', 'common\\models\\AccionCentralizada', '4', NULL, NULL, NULL, '2016-07-04 18:28:28'),
-(306, 2322, 1, 'DELETE', 'common\\models\\AccionCentralizada', '5', NULL, NULL, NULL, '2016-07-04 18:28:31'),
-(307, 2325, 1, 'DELETE', 'common\\models\\AccionCentralizada', '6', NULL, NULL, NULL, '2016-07-04 18:28:34');
+(274, 1, 1, 'UPDATE', 'common\\models\\Proyecto', '999999', 'fecha_fin', '1970-01-01', '2017-12-31', '2016-07-08 02:44:23'),
+(275, 2, 1, 'CREATE', 'common\\models\\ProyectoUsuarioAsignar', '11', 'id', '', '11', '2016-07-09 03:05:33'),
+(276, 2, 1, 'CREATE', 'common\\models\\ProyectoUsuarioAsignar', '11', 'usuario_id', '', '2', '2016-07-09 03:05:33'),
+(277, 2, 1, 'CREATE', 'common\\models\\ProyectoUsuarioAsignar', '11', 'proyecto_especifica', '', '20', '2016-07-09 03:05:33'),
+(278, 2, 1, 'CREATE', 'common\\models\\ProyectoUsuarioAsignar', '11', 'estatus', '', '1', '2016-07-09 03:05:33'),
+(279, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'id', '', '4', '2016-07-09 03:40:35'),
+(280, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'id_material', '', '2', '2016-07-09 03:40:35'),
+(281, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'enero', '', '1', '2016-07-09 03:40:35'),
+(282, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'febrero', '', '0', '2016-07-09 03:40:35'),
+(283, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'marzo', '', '0', '2016-07-09 03:40:35'),
+(284, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'abril', '', '0', '2016-07-09 03:40:35'),
+(285, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'mayo', '', '0', '2016-07-09 03:40:35'),
+(286, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'junio', '', '0', '2016-07-09 03:40:35'),
+(287, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'julio', '', '0', '2016-07-09 03:40:35'),
+(288, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'agosto', '', '0', '2016-07-09 03:40:35'),
+(289, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'septiembre', '', '0', '2016-07-09 03:40:35'),
+(290, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'octubre', '', '0', '2016-07-09 03:40:35'),
+(291, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'noviembre', '', '0', '2016-07-09 03:40:35'),
+(292, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'diciembre', '', '0', '2016-07-09 03:40:35'),
+(293, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'precio', '', '230.00', '2016-07-09 03:40:35'),
+(294, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'fecha_creacion', '', '2016-07-09 03:40:35', '2016-07-09 03:40:35'),
+(295, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'asignado', '', '11', '2016-07-09 03:40:35'),
+(296, 3, 2, 'CREATE', 'common\\models\\ProyectoPedido', '4', 'estatus', '', '1', '2016-07-09 03:40:35'),
+(297, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'id', '', '5', '2016-07-09 03:45:30'),
+(298, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'id_material', '', '1', '2016-07-09 03:45:30'),
+(299, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'enero', '', '1', '2016-07-09 03:45:30'),
+(300, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'febrero', '', '0', '2016-07-09 03:45:30'),
+(301, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'marzo', '', '0', '2016-07-09 03:45:30'),
+(302, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'abril', '', '0', '2016-07-09 03:45:30'),
+(303, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'mayo', '', '1', '2016-07-09 03:45:30'),
+(304, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'junio', '', '0', '2016-07-09 03:45:30'),
+(305, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'julio', '', '0', '2016-07-09 03:45:30'),
+(306, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'agosto', '', '0', '2016-07-09 03:45:30'),
+(307, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'septiembre', '', '0', '2016-07-09 03:45:30'),
+(308, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'octubre', '', '0', '2016-07-09 03:45:30'),
+(309, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'noviembre', '', '0', '2016-07-09 03:45:30'),
+(310, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'diciembre', '', '0', '2016-07-09 03:45:30'),
+(311, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'precio', '', '280.00', '2016-07-09 03:45:30'),
+(312, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'fecha_creacion', '', '2016-07-09 03:45:30', '2016-07-09 03:45:30'),
+(313, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'asignado', '', '11', '2016-07-09 03:45:30'),
+(314, 4, 2, 'CREATE', 'common\\models\\ProyectoPedido', '5', 'estatus', '', '1', '2016-07-09 03:45:30'),
+(315, 5, 2, 'DELETE', 'common\\models\\ProyectoPedido', '4', NULL, NULL, NULL, '2016-07-09 03:49:36'),
+(316, 6, 2, 'DELETE', 'common\\models\\ProyectoPedido', '5', NULL, NULL, NULL, '2016-07-09 03:49:39'),
+(317, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'id', '', '6', '2016-07-09 03:50:19'),
+(318, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'id_material', '', '2', '2016-07-09 03:50:19'),
+(319, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'enero', '', '3', '2016-07-09 03:50:19'),
+(320, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'febrero', '', '0', '2016-07-09 03:50:19'),
+(321, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'marzo', '', '0', '2016-07-09 03:50:19'),
+(322, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'abril', '', '0', '2016-07-09 03:50:19'),
+(323, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'mayo', '', '0', '2016-07-09 03:50:19'),
+(324, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'junio', '', '0', '2016-07-09 03:50:19'),
+(325, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'julio', '', '0', '2016-07-09 03:50:19'),
+(326, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'agosto', '', '0', '2016-07-09 03:50:19'),
+(327, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'septiembre', '', '0', '2016-07-09 03:50:19'),
+(328, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'octubre', '', '0', '2016-07-09 03:50:19'),
+(329, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'noviembre', '', '0', '2016-07-09 03:50:19'),
+(330, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'diciembre', '', '1', '2016-07-09 03:50:19'),
+(331, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'precio', '', '230.00', '2016-07-09 03:50:19'),
+(332, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'fecha_creacion', '', '2016-07-09 03:50:19', '2016-07-09 03:50:19'),
+(333, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'asignado', '', '11', '2016-07-09 03:50:19'),
+(334, 7, 2, 'CREATE', 'common\\models\\ProyectoPedido', '6', 'estatus', '', '1', '2016-07-09 03:50:19'),
+(335, 8, 2, 'DELETE', 'common\\models\\ProyectoPedido', '6', NULL, NULL, NULL, '2016-07-09 03:57:06'),
+(336, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'id', '', '7', '2016-07-09 03:57:12'),
+(337, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'id_material', '', '3', '2016-07-09 03:57:12'),
+(338, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'enero', '', '2', '2016-07-09 03:57:12'),
+(339, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'febrero', '', '0', '2016-07-09 03:57:12'),
+(340, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'marzo', '', '0', '2016-07-09 03:57:12'),
+(341, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'abril', '', '0', '2016-07-09 03:57:12'),
+(342, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'mayo', '', '0', '2016-07-09 03:57:12'),
+(343, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'junio', '', '0', '2016-07-09 03:57:12'),
+(344, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'julio', '', '0', '2016-07-09 03:57:12'),
+(345, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'agosto', '', '0', '2016-07-09 03:57:12'),
+(346, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'septiembre', '', '0', '2016-07-09 03:57:12'),
+(347, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'octubre', '', '0', '2016-07-09 03:57:12'),
+(348, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'noviembre', '', '0', '2016-07-09 03:57:12'),
+(349, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'diciembre', '', '0', '2016-07-09 03:57:12'),
+(350, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'precio', '', '4620.00', '2016-07-09 03:57:12'),
+(351, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'fecha_creacion', '', '2016-07-09 03:57:12', '2016-07-09 03:57:12'),
+(352, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'asignado', '', '11', '2016-07-09 03:57:12'),
+(353, 9, 2, 'CREATE', 'common\\models\\ProyectoPedido', '7', 'estatus', '', '1', '2016-07-09 03:57:12'),
+(354, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'id', '', '8', '2016-07-09 03:58:29'),
+(355, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'id_material', '', '5', '2016-07-09 03:58:29'),
+(356, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'enero', '', '0', '2016-07-09 03:58:29'),
+(357, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'febrero', '', '0', '2016-07-09 03:58:29'),
+(358, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'marzo', '', '0', '2016-07-09 03:58:29'),
+(359, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'abril', '', '0', '2016-07-09 03:58:29'),
+(360, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'mayo', '', '0', '2016-07-09 03:58:29'),
+(361, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'junio', '', '0', '2016-07-09 03:58:29'),
+(362, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'julio', '', '0', '2016-07-09 03:58:29'),
+(363, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'agosto', '', '1', '2016-07-09 03:58:29'),
+(364, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'septiembre', '', '0', '2016-07-09 03:58:29'),
+(365, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'octubre', '', '0', '2016-07-09 03:58:29'),
+(366, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'noviembre', '', '0', '2016-07-09 03:58:29'),
+(367, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'diciembre', '', '0', '2016-07-09 03:58:29'),
+(368, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'precio', '', '63.00', '2016-07-09 03:58:29'),
+(369, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'fecha_creacion', '', '2016-07-09 03:58:29', '2016-07-09 03:58:29'),
+(370, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'asignado', '', '11', '2016-07-09 03:58:29'),
+(371, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'estatus', '', '1', '2016-07-09 03:58:29');
 
 -- --------------------------------------------------------
 
@@ -3101,11 +845,10 @@ INSERT INTO `audit_trail` (`id`, `entry_id`, `user_id`, `action`, `model`, `mode
 -- Estructura de tabla para la tabla `auth_assignment`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_assignment` (
+CREATE TABLE `auth_assignment` (
   `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`item_name`,`user_id`)
+  `created_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -3145,17 +888,14 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 -- Estructura de tabla para la tabla `auth_item`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_item` (
+CREATE TABLE `auth_item` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` int(11) NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `data` text COLLATE utf8_unicode_ci,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`),
-  KEY `rule_name` (`rule_name`),
-  KEY `idx-auth_item-type` (`type`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -3173,12 +913,11 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('ac-esp-uej/index', 2, 'Lista de UE asociadas a una acción específica de ACC', NULL, NULL, 1456114628, 1456114667),
 ('ac-esp-uej/update', 2, 'Cambiar la asignación de una UE de acción específica de ACC', NULL, NULL, 1456114758, 1456114758),
 ('acc_accion_especifica', 1, 'Crear, editar y eliminar acciones específicas de ACC', NULL, NULL, 1456113925, 1456114942),
-('acc_variables', 1, 'Ver, crear, editar y eliminar variables de ACC', NULL, NULL, 1467389461, 1467648448),
-('accion_centralizada', 1, 'ver las acciones centralizadas', NULL, NULL, 1455129653, 1459443467),
-('accion_centralizada_asignar', 1, 'Asignar usuarios a Acciones Centralizadas', NULL, NULL, 1459442993, 1467641368),
+('acc_variables', 1, 'Ver, crear, editar y eliminar variables de ACC', NULL, NULL, 1467389461, 1467389461),
+('accion_centralizada', 1, 'ver las acciones centralizadas', NULL, NULL, 1455129653, 1467945778),
+('accion_centralizada_asignar', 1, 'Asignar usuarios a Acciones Centralizadas', NULL, NULL, 1459442993, 1459443946),
 ('accion_centralizada_requerimiento', 1, 'permisos para poder realizar requerimientos de acciones centralizadas', NULL, NULL, 1459774903, 1459788763),
 ('accion-centralizada-asignar/ace', 2, 'JSON con las Acciones Específicas a asignar', NULL, NULL, 1459443928, 1459443928),
-('accion-centralizada-asignar/ace1', 2, 'Asginar permiso para ver las acciones especificas en asignaciones', NULL, NULL, 1467641346, 1467641346),
 ('accion-centralizada-asignar/asignar', 2, 'Asignar usuario a acción específica de ACC', NULL, NULL, 1459443071, 1459443071),
 ('accion-centralizada-asignar/create', 2, 'Crear asignacion', NULL, NULL, 1459443103, 1459443103),
 ('accion-centralizada-asignar/delete', 2, 'Eliminar asignacion', NULL, NULL, 1459443147, 1459443147),
@@ -3195,9 +934,6 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('accion-centralizada-pedido/pedido', 2, 'pedir requerimiento de accion centralizada', NULL, NULL, 1459774549, 1459774549),
 ('accion-centralizada-pedido/update', 2, 'modiifcar requerimiento de accion centralizada', NULL, NULL, 1459774383, 1459774383),
 ('accion-centralizada-pedido/view', 2, 'ver el detalle del requerimiento', NULL, NULL, 1459788595, 1459788595),
-('accion-centralizada-variables/ace', 2, 'ver las unidades ejecutoras de variables', NULL, NULL, 1467644995, 1467644995),
-('accion-centralizada-variables/ace1', 2, 'cargar los usuarios relacionados a la unidad ejecutora y accion especifica', NULL, NULL, 1467643971, 1467643971),
-('accion-centralizada-variables/ace2', 2, 'permiso para cargar acciones especificas en variables', NULL, NULL, 1467643377, 1467643377),
 ('accion-centralizada-variables/create', 2, 'crear variables para acciones centralizadas', NULL, NULL, 1455136899, 1467389622),
 ('accion-centralizada-variables/delete', 2, 'poder borrar la variable', NULL, NULL, 1455136995, 1467389629),
 ('accion-centralizada-variables/index', 2, 'poder ir al inicio del modulo variables ', NULL, NULL, 1455136979, 1467389635),
@@ -3205,15 +941,12 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('accion-centralizada-variables/view', 2, 'ver el detalle de variable', NULL, NULL, 1455136945, 1467389646),
 ('accion-centralizada/create', 2, 'crear acciones centralizadas', NULL, NULL, 1455130416, 1455130416),
 ('accion-centralizada/delete', 2, 'borrar acciones centralizadas', NULL, NULL, 1455130459, 1455130459),
+('accion-centralizada/distribucion', 2, 'Ver distribución presupuestaria de acción centralizada', NULL, NULL, 1467945503, 1467945666),
 ('accion-centralizada/importar', 2, 'Importar acciones centralizadas', NULL, NULL, 1458862735, 1458862842),
 ('accion-centralizada/index', 2, 'ver el inicio de acciones centralizadas', NULL, NULL, 1455129506, 1455130004),
 ('accion-centralizada/update', 2, 'actualizar acciones centralizadas', NULL, NULL, 1455130436, 1455136413),
 ('accion-centralizada/view', 2, 'ver el detalle de la accion centralizada', NULL, NULL, 1455130492, 1455130492),
 ('gestor_proyecto', 1, 'Administrador de proyecto', NULL, NULL, 1456979251, 1464408657),
-('localizacion-acc-variable/create', 2, 'crear localizaciones y programación de variables', NULL, NULL, 1467648245, 1467648245),
-('localizacion-acc-variable/delete', 2, 'borrar la localización y programación de variables', NULL, NULL, 1467648306, 1467648306),
-('localizacion-acc-variable/update', 2, 'editar la localización y programación de variables', NULL, NULL, 1467648271, 1467648347),
-('localizacion-acc-variable/view', 2, 'ver la localización y programación de la variable', NULL, NULL, 1467648430, 1467648430),
 ('materiales_servicios', 1, 'Crea, modifica y elimina materiales y servicios', NULL, NULL, 1455502889, 1455502889),
 ('materiales-servicios/create', 2, 'Crear materiales y servicios', NULL, NULL, 1455502798, 1455502798),
 ('materiales-servicios/delete', 2, 'Eliminar materiales y servicios', NULL, NULL, 1455502828, 1455502828),
@@ -3233,23 +966,6 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto-alcance/delete', 2, 'Eliminar alcance de proyecto', NULL, NULL, 1452221699, 1452221699),
 ('proyecto-alcance/update', 2, 'Editar alcance de proyecto', NULL, NULL, 1452221681, 1452221681),
 ('proyecto-alcance/view', 2, 'Ver alcance de proyecto', NULL, NULL, 1452223025, 1452223025),
-('proyecto-asignar/asignar', 2, 'Lista de asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458228890, 1458228890),
-('proyecto-asignar/aue', 2, 'Respuesta JSON', NULL, NULL, 1467244885, 1467244905),
-('proyecto-asignar/bulk-activar', 2, 'Activar múltiples asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458229012, 1458229060),
-('proyecto-asignar/bulk-delete', 2, 'Eliminar múltiples asignaciones de usuario a proyecto/acción específica', NULL, NULL, 1458228933, 1458228933),
-('proyecto-asignar/bulk-desactivar', 2, 'Desactivar múltiples asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458229050, 1458229050),
-('proyecto-asignar/create', 2, 'Crear asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228779, 1458228779),
-('proyecto-asignar/delete', 2, 'Eliminar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228811, 1458228811),
-('proyecto-asignar/index', 2, 'Lista de usuarios asignados a proyectos', NULL, NULL, 1458228739, 1458228739),
-('proyecto-asignar/pae', 2, 'Respuesta JSON', NULL, NULL, 1458275263, 1467242280),
-('proyecto-asignar/toggle-activo', 2, 'Activar/Desactivar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228960, 1458228960),
-('proyecto-asignar/update', 2, 'Modificar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228795, 1458228795),
-('proyecto-asignar/view', 2, 'Ver asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228845, 1458228845),
-('proyecto-distribucion-presupuestaria/create', 2, 'Crear distribución presupuestaria de proyecto', NULL, NULL, 1452649234, 1452649234),
-('proyecto-distribucion-presupuestaria/delete', 2, 'Eliminar distribución presupuestaria de proyecto', NULL, NULL, 1452649263, 1452649263),
-('proyecto-distribucion-presupuestaria/index', 2, 'Lista de distribución presupuestaria de proyecto', NULL, NULL, 1452649290, 1452649290),
-('proyecto-distribucion-presupuestaria/update', 2, 'Editar distribución presupuestaria de proyecto', NULL, NULL, 1452649249, 1452649249),
-('proyecto-distribucion-presupuestaria/view', 2, 'Ver distribución presupuestaria de proyecto', NULL, NULL, 1452649220, 1452649220),
 ('proyecto-internacional/create', 2, 'Ámbito internacional crear', NULL, NULL, 1451487147, 1451487539),
 ('proyecto-internacional/delete', 2, 'Ámbito internacional eliminar', NULL, NULL, 1451487197, 1451487564),
 ('proyecto-internacional/index', 2, 'Ámbito internacional lista', NULL, NULL, 1451487641, 1451487656),
@@ -3288,6 +1004,18 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto-responsable/delete', 2, 'Eliminar responsable de proyecto', NULL, NULL, 1452019408, 1452019408),
 ('proyecto-responsable/update', 2, 'Editar responsable de proyecto', NULL, NULL, 1452005753, 1452005753),
 ('proyecto-responsable/view', 2, 'Ver responsable de proyecto', NULL, NULL, 1452006168, 1452006168),
+('proyecto-usuario-asignar/asignar', 2, 'Lista de asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458228890, 1468031810),
+('proyecto-usuario-asignar/aue', 2, 'Respuesta JSON', NULL, NULL, 1467244885, 1468031836),
+('proyecto-usuario-asignar/bulk-activar', 2, 'Activar múltiples asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458229012, 1468031953),
+('proyecto-usuario-asignar/bulk-delete', 2, 'Eliminar múltiples asignaciones de usuario a proyecto/acción específica', NULL, NULL, 1458228933, 1468031942),
+('proyecto-usuario-asignar/bulk-desactivar', 2, 'Desactivar múltiples asignaciones de un usuario a proyecto/acción específica', NULL, NULL, 1458229050, 1468031930),
+('proyecto-usuario-asignar/create', 2, 'Crear asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228779, 1468031848),
+('proyecto-usuario-asignar/delete', 2, 'Eliminar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228811, 1468031921),
+('proyecto-usuario-asignar/index', 2, 'Lista de usuarios asignados a proyectos', NULL, NULL, 1458228739, 1468031856),
+('proyecto-usuario-asignar/pae', 2, 'Respuesta JSON', NULL, NULL, 1458275263, 1468031909),
+('proyecto-usuario-asignar/toggle-activo', 2, 'Activar/Desactivar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228960, 1468031897),
+('proyecto-usuario-asignar/update', 2, 'Modificar asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228795, 1468031887),
+('proyecto-usuario-asignar/view', 2, 'Ver asignación de usuario a proyecto/acción específica', NULL, NULL, 1458228845, 1468031873),
 ('proyecto/aprobar', 2, 'Aprobar/desaprobar proyecto', NULL, NULL, 1464384527, 1464384527),
 ('proyecto/bulk-activar', 2, 'Activar múltiples proyectos', NULL, NULL, 1456979084, 1456979084),
 ('proyecto/bulk-delete', 2, 'Eliminar múltiples proyectos', NULL, NULL, 1456979023, 1456979023),
@@ -3303,9 +1031,6 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('registrador_alcance', 1, 'Crea, edita y elimina "alcance e impacto" de proyecto', NULL, NULL, 1452221931, 1452223040),
 ('registrador_basico', 1, 'Crea, edita y elimina datos básicos de proyecto', NULL, NULL, 1450393912, 1460242009),
 ('registrador_distribucion_presupuestaria', 1, 'Crea, edita y elimina la distribución presupuestaria de proyecto', NULL, NULL, 1452649340, 1452649340),
-('responsable-acc-variable/create', 2, 'creando responsable de variable', NULL, NULL, 1467647970, 1467647970),
-('responsable-acc-variable/delete', 2, 'borrando al responsable de la variable', NULL, NULL, 1467648005, 1467648005),
-('responsable-acc-variable/update', 2, 'modificando al responsable de la variable', NULL, NULL, 1467647989, 1467647989),
 ('site/audit', 2, 'Auditoría', NULL, NULL, 1458665093, 1458665093),
 ('site/configuracion', 2, 'Configurar el sistema', NULL, NULL, 1450736795, 1450736795),
 ('sysadmin', 1, 'Administrador del sistema', NULL, NULL, 1450736017, 1459774580),
@@ -3321,11 +1046,9 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 -- Estructura de tabla para la tabla `auth_item_child`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_item_child` (
+CREATE TABLE `auth_item_child` (
   `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`parent`,`child`),
-  KEY `child` (`child`)
+  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -3352,7 +1075,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('acc_accion_especifica', 'ac-esp-uej/update'),
 ('accion_centralizada_asignar', 'accion-centralizada-asignar/ace'),
 ('sysadmin', 'accion-centralizada-asignar/ace'),
-('accion_centralizada_asignar', 'accion-centralizada-asignar/ace1'),
 ('accion_centralizada_asignar', 'accion-centralizada-asignar/asignar'),
 ('sysadmin', 'accion-centralizada-asignar/asignar'),
 ('accion_centralizada_asignar', 'accion-centralizada-asignar/create'),
@@ -3379,9 +1101,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('accion_centralizada_requerimiento', 'accion-centralizada-pedido/update'),
 ('sysadmin', 'accion-centralizada-pedido/update'),
 ('accion_centralizada_requerimiento', 'accion-centralizada-pedido/view'),
-('acc_variables', 'accion-centralizada-variables/ace'),
-('acc_variables', 'accion-centralizada-variables/ace1'),
-('acc_variables', 'accion-centralizada-variables/ace2'),
 ('acc_variables', 'accion-centralizada-variables/create'),
 ('acc_variables', 'accion-centralizada-variables/delete'),
 ('acc_variables', 'accion-centralizada-variables/index'),
@@ -3391,6 +1110,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sysadmin', 'accion-centralizada/create'),
 ('accion_centralizada', 'accion-centralizada/delete'),
 ('sysadmin', 'accion-centralizada/delete'),
+('accion_centralizada', 'accion-centralizada/distribucion'),
 ('accion_centralizada', 'accion-centralizada/importar'),
 ('sysadmin', 'accion-centralizada/importar'),
 ('accion_centralizada', 'accion-centralizada/index'),
@@ -3399,10 +1119,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sysadmin', 'accion-centralizada/update'),
 ('accion_centralizada', 'accion-centralizada/view'),
 ('sysadmin', 'accion-centralizada/view'),
-('acc_variables', 'localizacion-acc-variable/create'),
-('acc_variables', 'localizacion-acc-variable/delete'),
-('acc_variables', 'localizacion-acc-variable/update'),
-('acc_variables', 'localizacion-acc-variable/view'),
 ('materiales_servicios', 'materiales-servicios/create'),
 ('sysadmin', 'materiales-servicios/create'),
 ('materiales_servicios', 'materiales-servicios/delete'),
@@ -3423,23 +1139,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('registrador_alcance', 'proyecto-alcance/delete'),
 ('registrador_alcance', 'proyecto-alcance/update'),
 ('registrador_alcance', 'proyecto-alcance/view'),
-('proyecto_asignar', 'proyecto-asignar/asignar'),
-('proyecto_asignar', 'proyecto-asignar/aue'),
-('proyecto_asignar', 'proyecto-asignar/bulk-activar'),
-('proyecto_asignar', 'proyecto-asignar/bulk-delete'),
-('proyecto_asignar', 'proyecto-asignar/bulk-desactivar'),
-('proyecto_asignar', 'proyecto-asignar/create'),
-('proyecto_asignar', 'proyecto-asignar/delete'),
-('proyecto_asignar', 'proyecto-asignar/index'),
-('proyecto_asignar', 'proyecto-asignar/pae'),
-('proyecto_asignar', 'proyecto-asignar/toggle-activo'),
-('proyecto_asignar', 'proyecto-asignar/update'),
-('proyecto_asignar', 'proyecto-asignar/view'),
-('registrador_distribucion_presupuestaria', 'proyecto-distribucion-presupuestaria/create'),
-('registrador_distribucion_presupuestaria', 'proyecto-distribucion-presupuestaria/delete'),
-('registrador_distribucion_presupuestaria', 'proyecto-distribucion-presupuestaria/index'),
-('registrador_distribucion_presupuestaria', 'proyecto-distribucion-presupuestaria/update'),
-('registrador_distribucion_presupuestaria', 'proyecto-distribucion-presupuestaria/view'),
 ('registrador_basico', 'proyecto-internacional/create'),
 ('registrador_basico', 'proyecto-internacional/delete'),
 ('registrador_basico', 'proyecto-internacional/index'),
@@ -3478,6 +1177,18 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('registrador_basico', 'proyecto-responsable/delete'),
 ('registrador_basico', 'proyecto-responsable/update'),
 ('registrador_basico', 'proyecto-responsable/view'),
+('proyecto_asignar', 'proyecto-usuario-asignar/asignar'),
+('proyecto_asignar', 'proyecto-usuario-asignar/aue'),
+('proyecto_asignar', 'proyecto-usuario-asignar/bulk-activar'),
+('proyecto_asignar', 'proyecto-usuario-asignar/bulk-delete'),
+('proyecto_asignar', 'proyecto-usuario-asignar/bulk-desactivar'),
+('proyecto_asignar', 'proyecto-usuario-asignar/create'),
+('proyecto_asignar', 'proyecto-usuario-asignar/delete'),
+('proyecto_asignar', 'proyecto-usuario-asignar/index'),
+('proyecto_asignar', 'proyecto-usuario-asignar/pae'),
+('proyecto_asignar', 'proyecto-usuario-asignar/toggle-activo'),
+('proyecto_asignar', 'proyecto-usuario-asignar/update'),
+('proyecto_asignar', 'proyecto-usuario-asignar/view'),
 ('gestor_proyecto', 'proyecto/bulk-activar'),
 ('gestor_proyecto', 'proyecto/bulk-delete'),
 ('gestor_proyecto', 'proyecto/bulk-desactivar'),
@@ -3489,9 +1200,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('gestor_proyecto', 'proyecto/toggle-activo'),
 ('registrador_basico', 'proyecto/update'),
 ('registrador_basico', 'proyecto/view'),
-('acc_variables', 'responsable-acc-variable/create'),
-('acc_variables', 'responsable-acc-variable/delete'),
-('acc_variables', 'responsable-acc-variable/update'),
 ('sysadmin', 'site/audit'),
 ('sysadmin', 'site/configuracion'),
 ('sysadmin', 'unidad-medida/create'),
@@ -3505,12 +1213,11 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 -- Estructura de tabla para la tabla `auth_rule`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_rule` (
+CREATE TABLE `auth_rule` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `data` text COLLATE utf8_unicode_ci,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3519,10 +1226,9 @@ CREATE TABLE IF NOT EXISTS `auth_rule` (
 -- Estructura de tabla para la tabla `cuenta_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `cuenta_presupuestaria` (
+CREATE TABLE `cuenta_presupuestaria` (
   `cuenta` char(1) NOT NULL,
-  `nombre` varchar(15) NOT NULL,
-  PRIMARY KEY (`cuenta`)
+  `nombre` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3539,13 +1245,11 @@ INSERT INTO `cuenta_presupuestaria` (`cuenta`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `estados`
 --
 
-CREATE TABLE IF NOT EXISTS `estados` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `estados` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `id_pais` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_pais` (`id_pais`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+  `id_pais` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `estados`
@@ -3584,11 +1288,10 @@ INSERT INTO `estados` (`id`, `nombre`, `id_pais`) VALUES
 -- Estructura de tabla para la tabla `estatus_proyecto`
 --
 
-CREATE TABLE IF NOT EXISTS `estatus_proyecto` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `estatus` varchar(25) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Lista de estatus de proyecto' AUTO_INCREMENT=4 ;
+CREATE TABLE `estatus_proyecto` (
+  `id` int(11) NOT NULL,
+  `estatus` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Lista de estatus de proyecto';
 
 --
 -- Volcado de datos para la tabla `estatus_proyecto`
@@ -3605,11 +1308,10 @@ INSERT INTO `estatus_proyecto` (`id`, `estatus`) VALUES
 -- Estructura de tabla para la tabla `fuente_financiamiento`
 --
 
-CREATE TABLE IF NOT EXISTS `fuente_financiamiento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fuente` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+CREATE TABLE `fuente_financiamiento` (
+  `id` int(11) NOT NULL,
+  `fuente` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `fuente_financiamiento`
@@ -3634,11 +1336,10 @@ INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
 -- Estructura de tabla para la tabla `instancia_institucion`
 --
 
-CREATE TABLE IF NOT EXISTS `instancia_institucion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Tipo de instancia o institución' AUTO_INCREMENT=4 ;
+CREATE TABLE `instancia_institucion` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tipo de instancia o institución';
 
 --
 -- Volcado de datos para la tabla `instancia_institucion`
@@ -3655,20 +1356,22 @@ INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
 -- Estructura de tabla para la tabla `localizacion_acc_variable`
 --
 
-CREATE TABLE IF NOT EXISTS `localizacion_acc_variable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `localizacion_acc_variable` (
+  `id` int(11) NOT NULL,
   `id_variable` int(11) NOT NULL,
-  `id_pais` smallint(3) unsigned zerofill NOT NULL,
+  `id_pais` smallint(3) UNSIGNED ZEROFILL NOT NULL,
   `id_estado` int(11) DEFAULT NULL,
   `id_municipio` int(11) DEFAULT NULL,
-  `id_parroquia` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_variable` (`id_variable`),
-  KEY `id_pais` (`id_pais`),
-  KEY `id_estado` (`id_estado`),
-  KEY `id_municipio` (`id_municipio`),
-  KEY `id_parroquia` (`id_parroquia`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
+  `id_parroquia` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `localizacion_acc_variable`
+--
+
+INSERT INTO `localizacion_acc_variable` (`id`, `id_variable`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
+(51, 31, 862, 2, NULL, NULL),
+(54, 31, 862, 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3676,8 +1379,8 @@ CREATE TABLE IF NOT EXISTS `localizacion_acc_variable` (
 -- Estructura de tabla para la tabla `materiales_servicios`
 --
 
-CREATE TABLE IF NOT EXISTS `materiales_servicios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `materiales_servicios` (
+  `id` int(11) NOT NULL,
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
@@ -3688,12 +1391,8 @@ CREATE TABLE IF NOT EXISTS `materiales_servicios` (
   `presentacion` int(11) DEFAULT NULL,
   `precio` decimal(12,2) NOT NULL,
   `iva` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `cuenta` (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`),
-  KEY `unidad_medida` (`unidad_medida`),
-  KEY `presentacion` (`presentacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=76 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `materiales_servicios`
@@ -3782,10 +1481,9 @@ INSERT INTO `materiales_servicios` (`id`, `cuenta`, `partida`, `generica`, `espe
 -- Estructura de tabla para la tabla `migration`
 --
 
-CREATE TABLE IF NOT EXISTS `migration` (
+CREATE TABLE `migration` (
   `version` varchar(180) NOT NULL,
-  `apply_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
+  `apply_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -3813,8 +1511,8 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 -- Estructura de tabla para la tabla `modelhistory`
 --
 
-CREATE TABLE IF NOT EXISTS `modelhistory` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `modelhistory` (
+  `id` bigint(20) NOT NULL,
   `date` datetime NOT NULL,
   `table` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `field_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -3822,13 +1520,8 @@ CREATE TABLE IF NOT EXISTS `modelhistory` (
   `old_value` text COLLATE utf8_unicode_ci,
   `new_value` text COLLATE utf8_unicode_ci,
   `type` smallint(6) NOT NULL,
-  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx-table` (`table`),
-  KEY `idx-field_name` (`field_name`),
-  KEY `idx-type` (`type`),
-  KEY `idx-user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -3836,13 +1529,11 @@ CREATE TABLE IF NOT EXISTS `modelhistory` (
 -- Estructura de tabla para la tabla `municipio`
 --
 
-CREATE TABLE IF NOT EXISTS `municipio` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `municipio` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
-  `id_estado` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_estado` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id_estado` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3850,33 +1541,27 @@ CREATE TABLE IF NOT EXISTS `municipio` (
 -- Estructura de tabla para la tabla `notification`
 --
 
-CREATE TABLE IF NOT EXISTS `notification` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL,
   `key` varchar(255) NOT NULL,
   `key_id` int(11) DEFAULT NULL,
   `type` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `seen` tinyint(1) NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `notification`
 --
 
 INSERT INTO `notification` (`id`, `key`, `key_id`, `type`, `user_id`, `seen`, `created_at`) VALUES
-(2, 'nuevo_pedido', 8, 'default', 1, 1, '2016-04-17 17:05:44'),
-(3, 'nuevo_pedido', 9, 'default', 1, 1, '2016-04-17 18:28:30'),
-(4, 'nuevo_pedido', 9, 'default', 2, 0, '2016-04-17 18:28:30'),
-(5, 'nuevo_pedido', 10, 'default', 1, 1, '2016-06-02 20:54:55'),
-(6, 'nuevo_pedido', 10, 'default', 2, 0, '2016-06-02 20:54:55'),
-(7, 'nuevo_pedido', 1, 'default', 1, 1, '2016-06-23 12:16:20'),
-(8, 'nuevo_pedido', 1, 'default', 2, 0, '2016-06-23 12:16:20'),
-(9, 'nuevo_pedido', 2, 'default', 1, 1, '2016-06-23 12:16:51'),
-(10, 'nuevo_pedido', 2, 'default', 2, 0, '2016-06-23 12:16:51'),
-(11, 'nuevo_pedido', 3, 'default', 1, 1, '2016-06-29 22:22:19'),
-(12, 'nuevo_pedido', 3, 'default', 2, 0, '2016-06-29 22:22:19');
+(17, 'nuevo_pedido', 6, 'default', 1, 1, '2016-07-08 23:50:19'),
+(18, 'nuevo_pedido', 6, 'default', 2, 0, '2016-07-08 23:50:19'),
+(19, 'nuevo_pedido', 7, 'default', 1, 1, '2016-07-08 23:57:12'),
+(20, 'nuevo_pedido', 7, 'default', 2, 0, '2016-07-08 23:57:12'),
+(21, 'nuevo_pedido', 8, 'default', 1, 1, '2016-07-08 23:58:29'),
+(22, 'nuevo_pedido', 8, 'default', 2, 0, '2016-07-08 23:58:29');
 
 -- --------------------------------------------------------
 
@@ -3884,13 +1569,11 @@ INSERT INTO `notification` (`id`, `key`, `key_id`, `type`, `user_id`, `seen`, `c
 -- Estructura de tabla para la tabla `objetivos_estrategicos`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_estrategicos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `objetivos_estrategicos` (
+  `id` int(11) NOT NULL,
   `objetivo_estrategico` text NOT NULL,
-  `objetivo_nacional` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `directriz` (`objetivo_nacional`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos estrategicos - Area estrategica' AUTO_INCREMENT=150 ;
+  `objetivo_nacional` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos estrategicos - Area estrategica';
 
 --
 -- Volcado de datos para la tabla `objetivos_estrategicos`
@@ -3933,7 +1616,7 @@ INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_na
 (34, 'Consolidar el aparato agroindustrial bajo control de empresas socialistas, garantizando al menos un % de la capacidad de almacenamiento y procesamiento en rubros básicos (cereales, oleaginosas, leguminosas, azúcar, carne y leche) y un % en el resto de los rubros alimenticios.', 4),
 (35, 'Desarrollar un sistema de apoyo e incentivos para la promoción del comercio internacional de exportación de rubros agrícolas.', 4),
 (36, 'Establecer mecanismos para ejercer la nueva institucionalidad revolucionaria que garantice la participación de los pequeños y medianos productores en las decisiones en materia agropecuaria, a través de los consejos campesinos y las redes de productores y productoras libres y asociados.', 4),
-(37, 'Promover los modelos de producción diversificados, a partir de la agricultura familiar, '' campesina, urbana, periurbana e indígena, recuperando, validando y divulgando modelos tradicionales y sostenibles de producción.', 4),
+(37, 'Promover los modelos de producción diversificados, a partir de la agricultura familiar, \' campesina, urbana, periurbana e indígena, recuperando, validando y divulgando modelos tradicionales y sostenibles de producción.', 4),
 (38, 'Consolidar un estilo científico, tecnológico e innovador de carácter transformador, diverso, creativo y dinámico, garante de la independencia y la soberanía económica, contribuyendo así a la construcción del Modelo Productivo Socialista, el fortalecimiento de la Ética Socialista y la satisfacción efectiva de las necesidades del pueblo venezolano.', 5),
 (39, 'Fortalecer los espacios y programas de formación para el trabajo liberador, fomentando los valores patrióticos y el sentido crítico.', 5),
 (40, 'Impulsar el desarrollo y uso de equipos electrónicos y aplicaciones informáticas en tecnologías libres y estándares abiertos.', 5),
@@ -4053,13 +1736,11 @@ INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_na
 -- Estructura de tabla para la tabla `objetivos_generales`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_generales` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `objetivos_generales` (
+  `id` int(11) NOT NULL,
   `objetivo_general` text NOT NULL,
-  `objetivo_estrategico` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `estrategia` (`objetivo_estrategico`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos generales - Area estrategica' AUTO_INCREMENT=23 ;
+  `objetivo_estrategico` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos generales - Area estrategica';
 
 --
 -- Volcado de datos para la tabla `objetivos_generales`
@@ -4095,11 +1776,10 @@ INSERT INTO `objetivos_generales` (`id`, `objetivo_general`, `objetivo_estrategi
 -- Estructura de tabla para la tabla `objetivos_historicos`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_historicos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `objetivo_historico` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos historicos - Area estrategica' AUTO_INCREMENT=6 ;
+CREATE TABLE `objetivos_historicos` (
+  `id` int(11) NOT NULL,
+  `objetivo_historico` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos historicos - Area estrategica';
 
 --
 -- Volcado de datos para la tabla `objetivos_historicos`
@@ -4118,13 +1798,11 @@ INSERT INTO `objetivos_historicos` (`id`, `objetivo_historico`) VALUES
 -- Estructura de tabla para la tabla `objetivos_nacionales`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_nacionales` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `objetivos_nacionales` (
+  `id` int(11) NOT NULL,
   `objetivo_nacional` text NOT NULL,
-  `objetivo_historico` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `directriz` (`objetivo_historico`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos nacionales - Area estrategica' AUTO_INCREMENT=25 ;
+  `objetivo_historico` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos nacionales - Area estrategica';
 
 --
 -- Volcado de datos para la tabla `objetivos_nacionales`
@@ -4162,10 +1840,9 @@ INSERT INTO `objetivos_nacionales` (`id`, `objetivo_nacional`, `objetivo_histori
 -- Estructura de tabla para la tabla `pais`
 --
 
-CREATE TABLE IF NOT EXISTS `pais` (
-  `id` smallint(3) unsigned zerofill NOT NULL,
-  `nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `pais` (
+  `id` smallint(3) UNSIGNED ZEROFILL NOT NULL,
+  `nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -4421,13 +2098,11 @@ INSERT INTO `pais` (`id`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `parroquia`
 --
 
-CREATE TABLE IF NOT EXISTS `parroquia` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `parroquia` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) CHARACTER SET latin1 NOT NULL,
-  `id_municipio` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_municipio` (`id_municipio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id_municipio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -4435,14 +2110,13 @@ CREATE TABLE IF NOT EXISTS `parroquia` (
 -- Estructura de tabla para la tabla `partida_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_especifica` (
+CREATE TABLE `partida_especifica` (
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
   `especifica` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`) USING BTREE
+  `estatus` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -5034,14 +2708,14 @@ INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`,
 ('4', '02', '04', '03', 'Cauchos y tripas para vehículos', 1),
 ('4', '02', '04', '99', 'Otros productos de cuero y caucho', 1),
 ('4', '02', '05', '01', 'Pulpa de madera, papel y cartón', 1),
-('4', '02', '05', '02', 'Envases y cajas de papel y cartón', 1);
-INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`) VALUES
+('4', '02', '05', '02', 'Envases y cajas de papel y cartón', 1),
 ('4', '02', '05', '03', 'Productos de papel y cartón para oficina', 1),
 ('4', '02', '05', '04', 'Libros, revistas y periódicos', 1),
 ('4', '02', '05', '05', 'Material de enseñanza', 1),
 ('4', '02', '05', '06', 'Productos de papel y cartón para computación', 1),
 ('4', '02', '05', '07', 'Productos de papel y cartón para la imprenta y reproducción', 1),
-('4', '02', '05', '99', 'Otros productos de pulpa, papel y cartón', 1),
+('4', '02', '05', '99', 'Otros productos de pulpa, papel y cartón', 1);
+INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`) VALUES
 ('4', '02', '06', '01', 'Sustancias químicas y de uso industrial', 1),
 ('4', '02', '06', '02', 'Abonos, plaguicidas y otros', 1),
 ('4', '02', '06', '03', 'Tintas, pinturas y colorantes', 1),
@@ -5454,13 +3128,12 @@ INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`,
 -- Estructura de tabla para la tabla `partida_generica`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_generica` (
+CREATE TABLE `partida_generica` (
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`cuenta`,`partida`,`generica`) USING BTREE
+  `estatus` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -5706,13 +3379,11 @@ INSERT INTO `partida_generica` (`cuenta`, `partida`, `generica`, `nombre`, `esta
 -- Estructura de tabla para la tabla `partida_partida`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_partida` (
+CREATE TABLE `partida_partida` (
   `cuenta` char(1) NOT NULL COMMENT 'ID Cuenta',
   `partida` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`cuenta`,`partida`) USING BTREE,
-  KEY `ramo` (`cuenta`)
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -5753,15 +3424,14 @@ INSERT INTO `partida_partida` (`cuenta`, `partida`, `nombre`, `estatus`) VALUES
 -- Estructura de tabla para la tabla `partida_sub_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_sub_especifica` (
+CREATE TABLE `partida_sub_especifica` (
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
   `especifica` char(2) NOT NULL,
   `subespecifica` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`) USING BTREE
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -6309,12 +3979,12 @@ INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifi
 ('4', '01', '07', '79', '00', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal contratado', 1),
 ('4', '01', '07', '80', '00', 'Aporte patronal a cajas de ahorro por personal contratado', 1),
 ('4', '01', '07', '81', '00', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por personal contratado', 1),
-('4', '01', '07', '82', '00', 'Ayudas al personal contratado para adquisición de uniformes y útiles escolares de sus hijos', 1);
-INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`) VALUES
+('4', '01', '07', '82', '00', 'Ayudas al personal contratado para adquisición de uniformes y útiles escolares de sus hijos', 1),
 ('4', '01', '07', '83', '00', 'Dotación de uniformes al personal contratado', 1),
 ('4', '01', '07', '84', '00', 'Aporte patronal para gastos de guarderías y preescolar para hijos del personal contratado', 1),
 ('4', '01', '07', '85', '00', 'Aportes para la adquisición de juguetes para los hijos del personal contratado', 1),
-('4', '01', '07', '94', '00', 'Otras subvenciones a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
+('4', '01', '07', '94', '00', 'Otras subvenciones a altos funcionarios y altas funcionarias del poder público y de elección popular', 1);
+INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`) VALUES
 ('4', '01', '07', '95', '00', 'Otras subvenciones al personal de alto nivel y de dirección', 1),
 ('4', '01', '07', '96', '00', 'Otras subvenciones a empleados', 1),
 ('4', '01', '07', '97', '00', 'Otras subvenciones a obreros', 1),
@@ -6773,15 +4443,13 @@ INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifi
 -- Estructura de tabla para la tabla `perfil`
 --
 
-CREATE TABLE IF NOT EXISTS `perfil` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `perfil` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
   `cedula` int(8) NOT NULL,
-  `user_accounts` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_accounts` (`user_accounts`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Perfil de usuario' AUTO_INCREMENT=1 ;
+  `user_accounts` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Perfil de usuario';
 
 -- --------------------------------------------------------
 
@@ -6789,11 +4457,10 @@ CREATE TABLE IF NOT EXISTS `perfil` (
 -- Estructura de tabla para la tabla `plan_operativo`
 --
 
-CREATE TABLE IF NOT EXISTS `plan_operativo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `plan_operativo` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `plan_operativo` (
+  `id` int(11) NOT NULL,
+  `plan_operativo` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `plan_operativo`
@@ -6809,11 +4476,10 @@ INSERT INTO `plan_operativo` (`id`, `plan_operativo`) VALUES
 -- Estructura de tabla para la tabla `presentacion`
 --
 
-CREATE TABLE IF NOT EXISTS `presentacion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(60) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `presentacion` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `presentacion`
@@ -6829,7 +4495,7 @@ INSERT INTO `presentacion` (`id`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `programacion_fisica_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
+CREATE TABLE `programacion_fisica_presupuestaria` (
   `id` int(11) NOT NULL,
   `id_proyecto_accion_especifica` int(11) NOT NULL,
   `tipo_distribucion` int(11) DEFAULT NULL,
@@ -6844,10 +4510,7 @@ CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
   `septiembre` decimal(10,0) DEFAULT NULL,
   `octubre` decimal(10,0) DEFAULT NULL,
   `noviembre` decimal(10,0) DEFAULT NULL,
-  `diciembre` decimal(10,0) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_programacion_fisica_presupuestaria_1_idx` (`tipo_distribucion`),
-  KEY `fk_programacion_fisica_presupuestaria_2_idx` (`id_proyecto_accion_especifica`)
+  `diciembre` decimal(10,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -6856,8 +4519,8 @@ CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
 -- Estructura de tabla para la tabla `proyecto`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto` (
+  `id` int(11) NOT NULL,
   `codigo_proyecto` varchar(45) DEFAULT NULL,
   `codigo_sne` varchar(45) DEFAULT NULL,
   `nombre` text NOT NULL,
@@ -6875,18 +4538,8 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
   `objetivo_estrategico_institucional` text NOT NULL,
   `ambito` int(11) NOT NULL,
   `aprobado` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Estatus de aprobación',
-  `estatus` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `codigo_proyecto_UNIQUE` (`codigo_proyecto`),
-  UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
-  KEY `estatus_proyecto_fk` (`estatus_proyecto`),
-  KEY `situacion_presupuestaria_fk` (`situacion_presupuestaria`),
-  KEY `clasificacion_sector_fk` (`sector`) USING BTREE,
-  KEY `sub_sector_fk` (`sub_sector`) USING BTREE,
-  KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
-  KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
-  KEY `ambito_fk` (`ambito`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000000 ;
+  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto`
@@ -6894,7 +4547,7 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
 
 INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `fecha_inicio`, `fecha_fin`, `estatus_proyecto`, `situacion_presupuestaria`, `monto_proyecto`, `descripcion`, `objetivo_general_proyecto`, `sector`, `sub_sector`, `plan_operativo`, `objetivo_general`, `objetivo_estrategico_institucional`, `ambito`, `aprobado`, `estatus`) VALUES
 (1, '0001', '0001', 'Lorem ipsum dolor sit amet, per an accusata petentium conceptam, an case causae oporteat mel. Te epicuri praesent constituam mel, semper recusabo dissentiet ea qui. Quo dictas prompta constituam et.', '2016-01-01', '2016-12-31', 1, 1, '514124.12', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '', 1, 1, 1, 1, 'Aliquam aliquam lectus orci, rhoncus ultricies quam cursus at. Pellentesque ac ultrices est. Sed at cursus ante. Nunc molestie facilisis nisi quis congue. Donec vel vulputate leo. Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 4, 0, 1),
-(999999, '9999', '9999', 'Proyecto de prueba', '2016-01-01', '1970-01-01', 1, 1, '46578.44', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '', 1, 1, 1, 1, 'Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 1, 0, 1);
+(999999, '9999', '9999', 'Proyecto de prueba', '2016-01-01', '2017-12-31', 1, 1, '46578.44', 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '', 1, 1, 1, 1, 'Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -6902,8 +4555,8 @@ INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `fecha_
 -- Estructura de tabla para la tabla `proyecto_accion_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_accion_especifica` (
+  `id` int(11) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   `codigo_accion_especifica` varchar(3) NOT NULL,
   `nombre` text,
@@ -6915,26 +4568,23 @@ CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
   `fecha_inicio` date NOT NULL COMMENT 'Fecha de inicio de la acción específica',
   `fecha_fin` date NOT NULL COMMENT 'Fecha de fin de la acción específica',
   `estatus` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
-  KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`),
-  KEY `unidad_medida` (`unidad_medida`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+  `aprobado` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `proyecto_accion_especifica`
 --
 
-INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_especifica`, `nombre`, `unidad_medida`, `meta`, `ponderacion`, `bien_servicio`, `id_unidad_ejecutora`, `fecha_inicio`, `fecha_fin`, `estatus`) VALUES
-(20, 999999, '123', 'Acción Específica 20', 1, 5, 0.1, 'Ninguno', 1, '2016-01-01', '2016-12-31', 1),
-(21, 999999, '1', 'AC21', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 1),
-(22, 999999, '2', 'AC22', 1, 0, 0.0, 'Ninguno', 602, '2016-01-01', '2016-12-31', 0),
-(23, 999999, '4', 'AC23', 1, 0, 0.0, 'Ninguno', 601, '2016-01-01', '2016-12-31', 0),
-(24, 999999, '4', 'AC24', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0),
-(25, 999999, '6', 'AC25', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0),
-(26, 999999, '7', 'AC26', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0),
-(27, 1, '10', 'Acción específica 27', 1, 3, 0.1, 'Un bien', 602, '2016-01-01', '2017-12-31', 1),
-(36, 1, '444', 'Otra acción 36', 1, 1, 0.5, 'Otro bien', 603, '2016-01-01', '2016-12-31', 1);
+INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_especifica`, `nombre`, `unidad_medida`, `meta`, `ponderacion`, `bien_servicio`, `id_unidad_ejecutora`, `fecha_inicio`, `fecha_fin`, `estatus`, `aprobado`) VALUES
+(20, 999999, '123', 'Acción Específica 20', 1, 5, 0.1, 'Ninguno', 1, '2016-01-01', '2016-12-31', 1, 0),
+(21, 999999, '1', 'AC21', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 1, 0),
+(22, 999999, '2', 'AC22', 1, 0, 0.0, 'Ninguno', 602, '2016-01-01', '2016-12-31', 0, 0),
+(23, 999999, '4', 'AC23', 1, 0, 0.0, 'Ninguno', 601, '2016-01-01', '2016-12-31', 0, 0),
+(24, 999999, '4', 'AC24', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0, 0),
+(25, 999999, '6', 'AC25', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0, 0),
+(26, 999999, '7', 'AC26', 1, 0, 0.0, 'Ninguno', 600, '2016-01-01', '2016-12-31', 0, 0),
+(27, 1, '10', 'Acción específica 27', 1, 3, 0.1, 'Un bien', 602, '2016-01-01', '2017-12-31', 1, 0),
+(36, 1, '444', 'Otra acción 36', 1, 1, 0.5, 'Otro bien', 603, '2016-01-01', '2016-12-31', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -6942,8 +4592,8 @@ INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_es
 -- Estructura de tabla para la tabla `proyecto_alcance`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_alcance` (
+  `id` int(11) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   `enunciado_problema` text NOT NULL COMMENT 'Enunciado del problema o necesidad',
   `poblacion_afectada` text NOT NULL COMMENT 'Población afectada',
@@ -6982,10 +4632,8 @@ CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
   `vinculado_nombre_instancia` varchar(80) DEFAULT NULL COMMENT 'Nombre de la instancia responsable del proyecto con el que este se encuentra vinculado',
   `vinculado_nombre_proyecto` text COMMENT 'Nombre del proyecto con el que se encuentra vinculado',
   `vinculado_medida` text COMMENT '¿En que medida se encuentran vinculados los proyectos?',
-  `obstaculos` text NOT NULL COMMENT ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:',
-  PRIMARY KEY (`id`),
-  KEY `id_proyecto` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto' AUTO_INCREMENT=4 ;
+  `obstaculos` text NOT NULL COMMENT ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto';
 
 --
 -- Volcado de datos para la tabla `proyecto_alcance`
@@ -6998,58 +4646,12 @@ INSERT INTO `proyecto_alcance` (`id`, `id_proyecto`, `enunciado_problema`, `pobl
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `proyecto_asignar`
---
-
-CREATE TABLE IF NOT EXISTS `proyecto_asignar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario` int(11) NOT NULL,
-  `unidad_ejecutora` int(11) NOT NULL,
-  `accion_especifica` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `proyecto_asignar_unico` (`usuario`,`unidad_ejecutora`,`accion_especifica`),
-  KEY `usuario` (`usuario`),
-  KEY `unidad_ejecutora` (`unidad_ejecutora`),
-  KEY `accion_especifica` (`accion_especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de un proyecto' AUTO_INCREMENT=10 ;
-
---
--- Volcado de datos para la tabla `proyecto_asignar`
---
-
-INSERT INTO `proyecto_asignar` (`id`, `usuario`, `unidad_ejecutora`, `accion_especifica`, `estatus`) VALUES
-(5, 2, 602, 27, 1),
-(7, 2, 1, 20, 1),
-(8, 3, 1, 20, 1),
-(9, 2, 603, 36, 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `proyecto_distribucion_presupuestaria`
---
-
-CREATE TABLE IF NOT EXISTS `proyecto_distribucion_presupuestaria` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_accion_especifica` int(11) NOT NULL COMMENT 'Acción Específica',
-  `id_partida` int(11) NOT NULL COMMENT 'Partida',
-  `cantidad` decimal(20,0) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_accion_especifica` (`id_accion_especifica`),
-  KEY `id_partida` (`id_partida`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Distribución presupuestaria de proyecto' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `proyecto_fuente_financiamiento`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_fuente_financiamiento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+CREATE TABLE `proyecto_fuente_financiamiento` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -7057,20 +4659,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_fuente_financiamiento` (
 -- Estructura de tabla para la tabla `proyecto_localizacion`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_localizacion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_localizacion` (
+  `id` int(11) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   `id_pais` int(11) NOT NULL,
   `id_estado` int(11) DEFAULT NULL,
   `id_municipio` int(11) DEFAULT NULL,
-  `id_parroquia` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `estados_fk_idx` (`id_estado`),
-  KEY `municipio_fk_idx` (`id_municipio`),
-  KEY `parroquia_fk_idx` (`id_parroquia`),
-  KEY `proyecto_fk_idx` (`id_proyecto`),
-  KEY `id_pais` (`id_pais`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+  `id_parroquia` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_localizacion`
@@ -7088,8 +4684,8 @@ INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`
 -- Estructura de tabla para la tabla `proyecto_pedido`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_pedido` (
+  `id` int(11) NOT NULL,
   `id_material` int(11) NOT NULL,
   `enero` int(11) NOT NULL DEFAULT '0',
   `febrero` int(11) NOT NULL DEFAULT '0',
@@ -7106,20 +4702,16 @@ CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
   `precio` decimal(12,2) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `asignado` int(11) NOT NULL COMMENT 'ID de la asignacion (Usuario-UE-AC)',
-  `estatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_material` (`id_material`),
-  KEY `asignado` (`asignado`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_pedido`
 --
 
 INSERT INTO `proyecto_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `precio`, `fecha_creacion`, `asignado`, `estatus`) VALUES
-(1, 2, 11, 0, 0, 0, 4, 0, 0, 0, 25, 0, 0, 0, '230.00', '2016-06-23 20:16:20', 7, 1),
-(2, 3, 1500, 0, 0, 0, 0, 0, 1200, 0, 0, 0, 0, 0, '4620.00', '2016-06-23 20:16:51', 7, 1),
-(3, 49, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '2000000.00', '2016-06-30 06:22:19', 7, 1);
+(7, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '4620.00', '2016-07-09 07:57:12', 11, 1),
+(8, 5, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, '63.00', '2016-07-09 08:27:01', 11, 1);
 
 -- --------------------------------------------------------
 
@@ -7127,16 +4719,14 @@ INSERT INTO `proyecto_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`,
 -- Estructura de tabla para la tabla `proyecto_registrador`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_registrador` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(30) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(80) DEFAULT NULL,
   `telefono` varchar(14) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_proyecto` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_registrador`
@@ -7151,16 +4741,14 @@ INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono
 -- Estructura de tabla para la tabla `proyecto_responsable`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_responsable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_responsable` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(14) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `proyecto_fk` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable`
@@ -7175,17 +4763,15 @@ INSERT INTO `proyecto_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono
 -- Estructura de tabla para la tabla `proyecto_responsable_administrativo`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_responsable_administrativo` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_administradora` varchar(45) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_id_proyecto_idx` (`id_proyecto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -7193,17 +4779,15 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
 -- Estructura de tabla para la tabla `proyecto_responsable_tecnico`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_responsable_tecnico` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_tecnica` varchar(45) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_proyecto_fk` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable_tecnico`
@@ -7215,20 +4799,38 @@ INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `proyecto_usuario_asignar`
+--
+
+CREATE TABLE `proyecto_usuario_asignar` (
+  `id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL COMMENT 'Llave foránea de usuario',
+  `proyecto_especifica` int(11) NOT NULL COMMENT 'llave foránea de acción especifica',
+  `estatus` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de un proyecto';
+
+--
+-- Volcado de datos para la tabla `proyecto_usuario_asignar`
+--
+
+INSERT INTO `proyecto_usuario_asignar` (`id`, `usuario_id`, `proyecto_especifica`, `estatus`) VALUES
+(11, 2, 20, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `responsable_acc_variable`
 --
 
-CREATE TABLE IF NOT EXISTS `responsable_acc_variable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `responsable_acc_variable` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `oficina` varchar(60) NOT NULL,
-  `id_variable` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_variable` (`id_variable`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+  `id_variable` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `responsable_acc_variable`
@@ -7243,11 +4845,10 @@ INSERT INTO `responsable_acc_variable` (`id`, `nombre`, `cedula`, `email`, `tele
 -- Estructura de tabla para la tabla `sector`
 --
 
-CREATE TABLE IF NOT EXISTS `sector` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sector` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+CREATE TABLE `sector` (
+  `id` int(11) NOT NULL,
+  `sector` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `sector`
@@ -7277,11 +4878,10 @@ INSERT INTO `sector` (`id`, `sector`) VALUES
 -- Estructura de tabla para la tabla `situacion_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `situacion_presupuestaria` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `situacion` varchar(25) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+CREATE TABLE `situacion_presupuestaria` (
+  `id` int(11) NOT NULL,
+  `situacion` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `situacion_presupuestaria`
@@ -7296,11 +4896,10 @@ INSERT INTO `situacion_presupuestaria` (`id`, `situacion`) VALUES
 -- Estructura de tabla para la tabla `sub_sector`
 --
 
-CREATE TABLE IF NOT EXISTS `sub_sector` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sub_sector` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+CREATE TABLE `sub_sector` (
+  `id` int(11) NOT NULL,
+  `sub_sector` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `sub_sector`
@@ -7315,11 +4914,10 @@ INSERT INTO `sub_sector` (`id`, `sub_sector`) VALUES
 -- Estructura de tabla para la tabla `tipo_distribucion`
 --
 
-CREATE TABLE IF NOT EXISTS `tipo_distribucion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+CREATE TABLE `tipo_distribucion` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(45) CHARACTER SET latin1 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -7327,11 +4925,10 @@ CREATE TABLE IF NOT EXISTS `tipo_distribucion` (
 -- Estructura de tabla para la tabla `tipo_financiamiento`
 --
 
-CREATE TABLE IF NOT EXISTS `tipo_financiamiento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `tipo_financiamiento` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `tipo_financiamiento`
@@ -7347,13 +4944,11 @@ INSERT INTO `tipo_financiamiento` (`id`, `tipo`) VALUES
 -- Estructura de tabla para la tabla `unidad_ejecutora`
 --
 
-CREATE TABLE IF NOT EXISTS `unidad_ejecutora` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `unidad_ejecutora` (
+  `id` int(11) NOT NULL,
   `codigo_ue` varchar(5) CHARACTER SET latin1 NOT NULL,
-  `nombre` text CHARACTER SET latin1 NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `codigo_ue_UNIQUE` (`codigo_ue`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=688 ;
+  `nombre` text CHARACTER SET latin1 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `unidad_ejecutora`
@@ -7456,11 +5051,10 @@ INSERT INTO `unidad_ejecutora` (`id`, `codigo_ue`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `unidad_medida`
 --
 
-CREATE TABLE IF NOT EXISTS `unidad_medida` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `unidad_medida` varchar(45) NOT NULL COMMENT 'Unidad de medida',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Unidad de medida para el alcance e impacto del proyecto' AUTO_INCREMENT=623 ;
+CREATE TABLE `unidad_medida` (
+  `id` int(11) NOT NULL,
+  `unidad_medida` varchar(45) NOT NULL COMMENT 'Unidad de medida'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Unidad de medida para el alcance e impacto del proyecto';
 
 --
 -- Volcado de datos para la tabla `unidad_medida`
@@ -8096,8 +5690,8 @@ INSERT INTO `unidad_medida` (`id`, `unidad_medida`) VALUES
 -- Estructura de tabla para la tabla `user_accounts`
 --
 
-CREATE TABLE IF NOT EXISTS `user_accounts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user_accounts` (
+  `id` int(11) NOT NULL,
   `login` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
@@ -8110,11 +5704,8 @@ CREATE TABLE IF NOT EXISTS `user_accounts` (
   `blocked_at` int(11) DEFAULT NULL,
   `confirmed_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_unique_login` (`login`),
-  UNIQUE KEY `user_unique_username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `updated_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `user_accounts`
@@ -8125,6 +5716,766 @@ INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_k
 (2, 'antonioluismonasterio@gmail.com', 'antonio', '$2y$13$uRtF0rjXFE4jX1RIQ3kIqOBhEKjPzGBJp1zf20M04v8mYmNihVSBe', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1449848097, 1449848097, 1466698373),
 (3, 'walter86_79@hotmail.com', 'soulip', '$2y$13$UjYRjClQAEpe2OzeogsZoederx9EgVItIQCy5bNrV0xz8vQWDI3DS', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1454610570, 1454610571, 1458107096);
 
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `accion_centralizada`
+--
+ALTER TABLE `accion_centralizada`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `accion_centralizada_accion_especifica`
+--
+ALTER TABLE `accion_centralizada_accion_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ac_centr` (`id_ac_centr`);
+
+--
+-- Indices de la tabla `accion_centralizada_ac_especifica_uej`
+--
+ALTER TABLE `accion_centralizada_ac_especifica_uej`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ue` (`id_ue`),
+  ADD KEY `id_v` (`id_ac_esp`);
+
+--
+-- Indices de la tabla `accion_centralizada_asignar`
+--
+ALTER TABLE `accion_centralizada_asignar`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario` (`usuario`),
+  ADD KEY `unidad_ejecutora` (`unidad_ejecutora`),
+  ADD KEY `accion_especifica` (`accion_especifica`);
+
+--
+-- Indices de la tabla `accion_centralizada_desbloqueo_mes`
+--
+ALTER TABLE `accion_centralizada_desbloqueo_mes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ejecucion` (`id_ejecucion`);
+
+--
+-- Indices de la tabla `accion_centralizada_pedido`
+--
+ALTER TABLE `accion_centralizada_pedido`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_material` (`id_material`),
+  ADD KEY `asignado` (`asignado`);
+
+--
+-- Indices de la tabla `accion_centralizada_variables`
+--
+ALTER TABLE `accion_centralizada_variables`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `unidad_medida_2` (`unidad_medida`),
+  ADD KEY `localizacion` (`localizacion`),
+  ADD KEY `meta_programada_variable` (`meta_programada_variable`),
+  ADD KEY `unidad_ejecutora` (`unidad_ejecutora`),
+  ADD KEY `acc_accion_especifica` (`acc_accion_especifica`);
+
+--
+-- Indices de la tabla `accion_centralizada_variables_usuarios`
+--
+ALTER TABLE `accion_centralizada_variables_usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_variable` (`id_variable`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `accion_centralizada_variable_ejecucion`
+--
+ALTER TABLE `accion_centralizada_variable_ejecucion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_programacion` (`id_programacion`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `accion_centralizada_variable_programacion`
+--
+ALTER TABLE `accion_centralizada_variable_programacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_localizacion` (`id_localizacion`);
+
+--
+-- Indices de la tabla `ambito`
+--
+ALTER TABLE `ambito`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `audit_data`
+--
+ALTER TABLE `audit_data`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_data_entry_id` (`entry_id`);
+
+--
+-- Indices de la tabla `audit_entry`
+--
+ALTER TABLE `audit_entry`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_route` (`route`);
+
+--
+-- Indices de la tabla `audit_error`
+--
+ALTER TABLE `audit_error`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_error_entry_id` (`entry_id`),
+  ADD KEY `idx_file` (`file`(180)),
+  ADD KEY `idx_emailed` (`emailed`);
+
+--
+-- Indices de la tabla `audit_javascript`
+--
+ALTER TABLE `audit_javascript`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_javascript_entry_id` (`entry_id`);
+
+--
+-- Indices de la tabla `audit_mail`
+--
+ALTER TABLE `audit_mail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_mail_entry_id` (`entry_id`);
+
+--
+-- Indices de la tabla `audit_trail`
+--
+ALTER TABLE `audit_trail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_trail_entry_id` (`entry_id`),
+  ADD KEY `idx_audit_user_id` (`user_id`),
+  ADD KEY `idx_audit_trail_field` (`model`,`model_id`,`field`),
+  ADD KEY `idx_audit_trail_action` (`action`);
+
+--
+-- Indices de la tabla `auth_assignment`
+--
+ALTER TABLE `auth_assignment`
+  ADD PRIMARY KEY (`item_name`,`user_id`);
+
+--
+-- Indices de la tabla `auth_item`
+--
+ALTER TABLE `auth_item`
+  ADD PRIMARY KEY (`name`),
+  ADD KEY `rule_name` (`rule_name`),
+  ADD KEY `idx-auth_item-type` (`type`);
+
+--
+-- Indices de la tabla `auth_item_child`
+--
+ALTER TABLE `auth_item_child`
+  ADD PRIMARY KEY (`parent`,`child`),
+  ADD KEY `child` (`child`);
+
+--
+-- Indices de la tabla `auth_rule`
+--
+ALTER TABLE `auth_rule`
+  ADD PRIMARY KEY (`name`);
+
+--
+-- Indices de la tabla `cuenta_presupuestaria`
+--
+ALTER TABLE `cuenta_presupuestaria`
+  ADD PRIMARY KEY (`cuenta`);
+
+--
+-- Indices de la tabla `estados`
+--
+ALTER TABLE `estados`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pais` (`id_pais`);
+
+--
+-- Indices de la tabla `estatus_proyecto`
+--
+ALTER TABLE `estatus_proyecto`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `fuente_financiamiento`
+--
+ALTER TABLE `fuente_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `instancia_institucion`
+--
+ALTER TABLE `instancia_institucion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `localizacion_acc_variable`
+--
+ALTER TABLE `localizacion_acc_variable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_variable` (`id_variable`),
+  ADD KEY `id_pais` (`id_pais`),
+  ADD KEY `id_estado` (`id_estado`),
+  ADD KEY `id_municipio` (`id_municipio`),
+  ADD KEY `id_parroquia` (`id_parroquia`);
+
+--
+-- Indices de la tabla `materiales_servicios`
+--
+ALTER TABLE `materiales_servicios`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cuenta` (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`),
+  ADD KEY `unidad_medida` (`unidad_medida`),
+  ADD KEY `presentacion` (`presentacion`);
+
+--
+-- Indices de la tabla `migration`
+--
+ALTER TABLE `migration`
+  ADD PRIMARY KEY (`version`);
+
+--
+-- Indices de la tabla `modelhistory`
+--
+ALTER TABLE `modelhistory`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx-table` (`table`),
+  ADD KEY `idx-field_name` (`field_name`),
+  ADD KEY `idx-type` (`type`),
+  ADD KEY `idx-user_id` (`user_id`);
+
+--
+-- Indices de la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_estado` (`id_estado`);
+
+--
+-- Indices de la tabla `notification`
+--
+ALTER TABLE `notification`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `objetivos_estrategicos`
+--
+ALTER TABLE `objetivos_estrategicos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `directriz` (`objetivo_nacional`);
+
+--
+-- Indices de la tabla `objetivos_generales`
+--
+ALTER TABLE `objetivos_generales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estrategia` (`objetivo_estrategico`);
+
+--
+-- Indices de la tabla `objetivos_historicos`
+--
+ALTER TABLE `objetivos_historicos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `objetivos_nacionales`
+--
+ALTER TABLE `objetivos_nacionales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `directriz` (`objetivo_historico`);
+
+--
+-- Indices de la tabla `pais`
+--
+ALTER TABLE `pais`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `parroquia`
+--
+ALTER TABLE `parroquia`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_municipio` (`id_municipio`);
+
+--
+-- Indices de la tabla `partida_especifica`
+--
+ALTER TABLE `partida_especifica`
+  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`) USING BTREE;
+
+--
+-- Indices de la tabla `partida_generica`
+--
+ALTER TABLE `partida_generica`
+  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`) USING BTREE;
+
+--
+-- Indices de la tabla `partida_partida`
+--
+ALTER TABLE `partida_partida`
+  ADD PRIMARY KEY (`cuenta`,`partida`) USING BTREE,
+  ADD KEY `ramo` (`cuenta`);
+
+--
+-- Indices de la tabla `partida_sub_especifica`
+--
+ALTER TABLE `partida_sub_especifica`
+  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`) USING BTREE;
+
+--
+-- Indices de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_accounts` (`user_accounts`);
+
+--
+-- Indices de la tabla `plan_operativo`
+--
+ALTER TABLE `plan_operativo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `presentacion`
+--
+ALTER TABLE `presentacion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `programacion_fisica_presupuestaria`
+--
+ALTER TABLE `programacion_fisica_presupuestaria`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_programacion_fisica_presupuestaria_1_idx` (`tipo_distribucion`),
+  ADD KEY `fk_programacion_fisica_presupuestaria_2_idx` (`id_proyecto_accion_especifica`);
+
+--
+-- Indices de la tabla `proyecto`
+--
+ALTER TABLE `proyecto`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo_proyecto_UNIQUE` (`codigo_proyecto`),
+  ADD UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
+  ADD KEY `estatus_proyecto_fk` (`estatus_proyecto`),
+  ADD KEY `situacion_presupuestaria_fk` (`situacion_presupuestaria`),
+  ADD KEY `clasificacion_sector_fk` (`sector`) USING BTREE,
+  ADD KEY `sub_sector_fk` (`sub_sector`) USING BTREE,
+  ADD KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
+  ADD KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
+  ADD KEY `ambito_fk` (`ambito`) USING BTREE;
+
+--
+-- Indices de la tabla `proyecto_accion_especifica`
+--
+ALTER TABLE `proyecto_accion_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
+  ADD KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`),
+  ADD KEY `unidad_medida` (`unidad_medida`);
+
+--
+-- Indices de la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_fuente_financiamiento`
+--
+ALTER TABLE `proyecto_fuente_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `proyecto_localizacion`
+--
+ALTER TABLE `proyecto_localizacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estados_fk_idx` (`id_estado`),
+  ADD KEY `municipio_fk_idx` (`id_municipio`),
+  ADD KEY `parroquia_fk_idx` (`id_parroquia`),
+  ADD KEY `proyecto_fk_idx` (`id_proyecto`),
+  ADD KEY `id_pais` (`id_pais`);
+
+--
+-- Indices de la tabla `proyecto_pedido`
+--
+ALTER TABLE `proyecto_pedido`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_material` (`id_material`),
+  ADD KEY `asignado` (`asignado`);
+
+--
+-- Indices de la tabla `proyecto_registrador`
+--
+ALTER TABLE `proyecto_registrador`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `proyecto_fk` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable_administrativo`
+--
+ALTER TABLE `proyecto_responsable_administrativo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_proyecto_idx` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto_fk` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_usuario_asignar`
+--
+ALTER TABLE `proyecto_usuario_asignar`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario` (`usuario_id`),
+  ADD KEY `proyecto_especifica_ue` (`proyecto_especifica`);
+
+--
+-- Indices de la tabla `responsable_acc_variable`
+--
+ALTER TABLE `responsable_acc_variable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_variable` (`id_variable`);
+
+--
+-- Indices de la tabla `sector`
+--
+ALTER TABLE `sector`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `situacion_presupuestaria`
+--
+ALTER TABLE `situacion_presupuestaria`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `sub_sector`
+--
+ALTER TABLE `sub_sector`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_distribucion`
+--
+ALTER TABLE `tipo_distribucion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_financiamiento`
+--
+ALTER TABLE `tipo_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `unidad_ejecutora`
+--
+ALTER TABLE `unidad_ejecutora`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo_ue_UNIQUE` (`codigo_ue`);
+
+--
+-- Indices de la tabla `unidad_medida`
+--
+ALTER TABLE `unidad_medida`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `user_accounts`
+--
+ALTER TABLE `user_accounts`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_unique_login` (`login`),
+  ADD UNIQUE KEY `user_unique_username` (`username`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada`
+--
+ALTER TABLE `accion_centralizada`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_accion_especifica`
+--
+ALTER TABLE `accion_centralizada_accion_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_ac_especifica_uej`
+--
+ALTER TABLE `accion_centralizada_ac_especifica_uej`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_asignar`
+--
+ALTER TABLE `accion_centralizada_asignar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_desbloqueo_mes`
+--
+ALTER TABLE `accion_centralizada_desbloqueo_mes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_pedido`
+--
+ALTER TABLE `accion_centralizada_pedido`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variables`
+--
+ALTER TABLE `accion_centralizada_variables`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variables_usuarios`
+--
+ALTER TABLE `accion_centralizada_variables_usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variable_ejecucion`
+--
+ALTER TABLE `accion_centralizada_variable_ejecucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variable_programacion`
+--
+ALTER TABLE `accion_centralizada_variable_programacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+--
+-- AUTO_INCREMENT de la tabla `ambito`
+--
+ALTER TABLE `ambito`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla `audit_data`
+--
+ALTER TABLE `audit_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+--
+-- AUTO_INCREMENT de la tabla `audit_entry`
+--
+ALTER TABLE `audit_entry`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT de la tabla `audit_error`
+--
+ALTER TABLE `audit_error`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_javascript`
+--
+ALTER TABLE `audit_javascript`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_mail`
+--
+ALTER TABLE `audit_mail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_trail`
+--
+ALTER TABLE `audit_trail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=372;
+--
+-- AUTO_INCREMENT de la tabla `estados`
+--
+ALTER TABLE `estados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+--
+-- AUTO_INCREMENT de la tabla `estatus_proyecto`
+--
+ALTER TABLE `estatus_proyecto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `fuente_financiamiento`
+--
+ALTER TABLE `fuente_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT de la tabla `instancia_institucion`
+--
+ALTER TABLE `instancia_institucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `localizacion_acc_variable`
+--
+ALTER TABLE `localizacion_acc_variable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+--
+-- AUTO_INCREMENT de la tabla `materiales_servicios`
+--
+ALTER TABLE `materiales_servicios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+--
+-- AUTO_INCREMENT de la tabla `modelhistory`
+--
+ALTER TABLE `modelhistory`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `notification`
+--
+ALTER TABLE `notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_estrategicos`
+--
+ALTER TABLE `objetivos_estrategicos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_generales`
+--
+ALTER TABLE `objetivos_generales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_historicos`
+--
+ALTER TABLE `objetivos_historicos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_nacionales`
+--
+ALTER TABLE `objetivos_nacionales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT de la tabla `parroquia`
+--
+ALTER TABLE `parroquia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `plan_operativo`
+--
+ALTER TABLE `plan_operativo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `presentacion`
+--
+ALTER TABLE `presentacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `proyecto`
+--
+ALTER TABLE `proyecto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000000;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_accion_especifica`
+--
+ALTER TABLE `proyecto_accion_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_fuente_financiamiento`
+--
+ALTER TABLE `proyecto_fuente_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_localizacion`
+--
+ALTER TABLE `proyecto_localizacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_pedido`
+--
+ALTER TABLE `proyecto_pedido`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_registrador`
+--
+ALTER TABLE `proyecto_registrador`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable_administrativo`
+--
+ALTER TABLE `proyecto_responsable_administrativo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_usuario_asignar`
+--
+ALTER TABLE `proyecto_usuario_asignar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT de la tabla `responsable_acc_variable`
+--
+ALTER TABLE `responsable_acc_variable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT de la tabla `sector`
+--
+ALTER TABLE `sector`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT de la tabla `situacion_presupuestaria`
+--
+ALTER TABLE `situacion_presupuestaria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `sub_sector`
+--
+ALTER TABLE `sub_sector`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `tipo_distribucion`
+--
+ALTER TABLE `tipo_distribucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tipo_financiamiento`
+--
+ALTER TABLE `tipo_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `unidad_ejecutora`
+--
+ALTER TABLE `unidad_ejecutora`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=688;
+--
+-- AUTO_INCREMENT de la tabla `unidad_medida`
+--
+ALTER TABLE `unidad_medida`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=623;
+--
+-- AUTO_INCREMENT de la tabla `user_accounts`
+--
+ALTER TABLE `user_accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Restricciones para tablas volcadas
 --
@@ -8167,7 +6518,6 @@ ALTER TABLE `accion_centralizada_pedido`
 -- Filtros para la tabla `accion_centralizada_variables`
 --
 ALTER TABLE `accion_centralizada_variables`
-  ADD CONSTRAINT `frk_accesp_variable` FOREIGN KEY (`acc_accion_especifica`) REFERENCES `accion_centralizada_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_uej_variable` FOREIGN KEY (`unidad_ejecutora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_unidad_medida_variable` FOREIGN KEY (`unidad_medida`) REFERENCES `unidad_medida` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -8216,14 +6566,155 @@ ALTER TABLE `audit_mail`
   ADD CONSTRAINT `fk_audit_mail_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
 
 --
+-- Filtros para la tabla `audit_trail`
+--
+ALTER TABLE `audit_trail`
+  ADD CONSTRAINT `fk_audit_trail_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
+
+--
+-- Filtros para la tabla `auth_assignment`
+--
+ALTER TABLE `auth_assignment`
+  ADD CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `auth_item`
+--
+ALTER TABLE `auth_item`
+  ADD CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `auth_item_child`
+--
+ALTER TABLE `auth_item_child`
+  ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `localizacion_acc_variable`
 --
 ALTER TABLE `localizacion_acc_variable`
-  ADD CONSTRAINT `frk_parroquia_variable` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `frk_estado_variable` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `frk_localizacion_variable` FOREIGN KEY (`id_variable`) REFERENCES `accion_centralizada_variables` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `frk_acc_variable_localizacion` FOREIGN KEY (`id_variable`) REFERENCES `accion_centralizada_variables` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `frk_estados_variables` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_municipio_variable` FOREIGN KEY (`id_municipio`) REFERENCES `municipio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `frk_pais_localizacion` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `frk_pais_variable` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `frk_parroquia_variable` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `materiales_servicios`
+--
+ALTER TABLE `materiales_servicios`
+  ADD CONSTRAINT `frk_pre_materiales` FOREIGN KEY (`presentacion`) REFERENCES `presentacion` (`id`),
+  ADD CONSTRAINT `frk_um_materiales` FOREIGN KEY (`unidad_medida`) REFERENCES `unidad_medida` (`id`),
+  ADD CONSTRAINT `materiales_servicios_ibfk_1` FOREIGN KEY (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`) REFERENCES `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`);
+
+--
+-- Filtros para la tabla `objetivos_generales`
+--
+ALTER TABLE `objetivos_generales`
+  ADD CONSTRAINT `objetivos_generales_ibfk_1` FOREIGN KEY (`objetivo_estrategico`) REFERENCES `objetivos_estrategicos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `partida_especifica`
+--
+ALTER TABLE `partida_especifica`
+  ADD CONSTRAINT `partida_especifica_ibfk_1` FOREIGN KEY (`cuenta`,`partida`,`generica`) REFERENCES `partida_generica` (`cuenta`, `partida`, `generica`);
+
+--
+-- Filtros para la tabla `partida_generica`
+--
+ALTER TABLE `partida_generica`
+  ADD CONSTRAINT `partida_generica_ibfk_1` FOREIGN KEY (`cuenta`,`partida`) REFERENCES `partida_partida` (`cuenta`, `partida`);
+
+--
+-- Filtros para la tabla `partida_partida`
+--
+ALTER TABLE `partida_partida`
+  ADD CONSTRAINT `partida_partida_ibfk_1` FOREIGN KEY (`cuenta`) REFERENCES `cuenta_presupuestaria` (`cuenta`);
+
+--
+-- Filtros para la tabla `partida_sub_especifica`
+--
+ALTER TABLE `partida_sub_especifica`
+  ADD CONSTRAINT `partida_sub_especifica_ibfk_1` FOREIGN KEY (`cuenta`,`partida`,`generica`,`especifica`) REFERENCES `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`);
+
+--
+-- Filtros para la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD CONSTRAINT `user_accounts_idfk` FOREIGN KEY (`user_accounts`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `programacion_fisica_presupuestaria`
+--
+ALTER TABLE `programacion_fisica_presupuestaria`
+  ADD CONSTRAINT `fk_programacion_fisica_presupuestaria_1` FOREIGN KEY (`tipo_distribucion`) REFERENCES `tipo_distribucion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `proyecto_accion_especifica`
+--
+ALTER TABLE `proyecto_accion_especifica`
+  ADD CONSTRAINT `fk_accion_especifica_proyecto_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_accion_especifica_proyecto_2` FOREIGN KEY (`id_unidad_ejecutora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  ADD CONSTRAINT `proyecto_alcance_ibfk_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `proyecto_localizacion`
+--
+ALTER TABLE `proyecto_localizacion`
+  ADD CONSTRAINT `estado_fk` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `municipio_fk` FOREIGN KEY (`id_municipio`) REFERENCES `municipio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `parroquia_fk` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `proyecto_fk` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `proyecto_pedido`
+--
+ALTER TABLE `proyecto_pedido`
+  ADD CONSTRAINT `frk_asignado_pedido` FOREIGN KEY (`asignado`) REFERENCES `proyecto_usuario_asignar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `frk_materiales_pedido` FOREIGN KEY (`id_material`) REFERENCES `materiales_servicios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `proyecto_registrador`
+--
+ALTER TABLE `proyecto_registrador`
+  ADD CONSTRAINT `proyecto_registrador_ibfk_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
+  ADD CONSTRAINT `fk_responsable_proyecto_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `proyecto_responsable_administrativo`
+--
+ALTER TABLE `proyecto_responsable_administrativo`
+  ADD CONSTRAINT `idx_id_proyecto_fk` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
+  ADD CONSTRAINT `fk_id_proyecto` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `proyecto_usuario_asignar`
+--
+ALTER TABLE `proyecto_usuario_asignar`
+  ADD CONSTRAINT `proyecto_usuario_asignar_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `proyecto_usuario_asignar_ibfk_2` FOREIGN KEY (`proyecto_especifica`) REFERENCES `proyecto_accion_especifica` (`id`);
+
+--
+-- Filtros para la tabla `responsable_acc_variable`
+--
+ALTER TABLE `responsable_acc_variable`
+  ADD CONSTRAINT `frk_acc_variable_responsable` FOREIGN KEY (`id_variable`) REFERENCES `accion_centralizada_variables` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
