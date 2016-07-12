@@ -10,6 +10,8 @@ use common\models\AcAcEspec;
  * @property integer $id
  * @property integer $id_ue
  * @property integer $id_ac_esp
+ * @property integer $estatus
+ * @property integer $aprobado
  *
  * @property AcEspUej $idAcEsp
  * @property AcEspUej[] $acEspUejs
@@ -45,6 +47,8 @@ class AcEspUej extends \yii\db\ActiveRecord
             'id' => 'ID',
             'id_ue' => 'Unidad Ejecutora',
             'id_ac_esp' => 'Accion Especifica',
+            'estatus' => 'Estatus',
+            'aprobado' => 'Aprobado',
         ];
     }
 
@@ -70,6 +74,10 @@ class AcEspUej extends \yii\db\ActiveRecord
     public function getIdUe()
     {
         return $this->hasOne(UnidadEjecutora::className(), ['id' => 'id_ue']);
+    }
+    public function getIdAccionEspecifica()
+    {
+        return $this->hasOne(AcAcEspec::className(), ['id' => 'id_ac_esp']);
     }
 
     public function nombre_accion($accion){
@@ -121,7 +129,41 @@ public function getnombreaccion(){
     }
 
 
+    public function getPedidoEjecutado(){
 
+    //buscar si la asignacion ya fue ejecutada
+    $asignacion=AccionCentralizadaAsignar::find()
+        ->select(['accion_centralizada_pedido.id'])
+        ->innerjoin('accion_centralizada_pedido', 'accion_centralizada_pedido.asignado=accion_centralizada_asignar.id')
+        ->where(['accion_centralizada_asignar.accion_especifica_ue' => $this->id])
+        ->One();
+        //print_r($asignacion);
+
+        if($asignacion!=NULL){
+            return 1;
+        }else{
+            return 0;
+        }
+
+    }
+
+
+     public function toggleAprobar()
+     {
+        if($this->aprobado == 1)
+        {
+            $this->aprobado = 0;
+        }
+        else
+        {
+            $this->aprobado = 1;
+        }
+        
+        if($this->save())        
+        return true;
+        else
+       return false; //print_r($model->getErrors());
+        }
 
 
 

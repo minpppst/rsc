@@ -1,22 +1,21 @@
 <?php
 
 namespace common\models;
+//use frontend\models\AcEspUej;
 
 use Yii;
 use johnitvn\userplus\base\models\UserAccounts;
 
 /**
- * This is the model class for table "proyecto_asignar".
+ * This is the model class for table "accion_centralizada_asignar".
  *
  * @property integer $id
  * @property integer $usuario
- * @property integer $unidad_ejecutora
- * @property integer $accion_especifica
+ * @property integer $accion_especifica_ue
  * @property integer $estatus
  *
  * @property UserAccounts $usuario0
- * @property UnidadEjecutora $unidadEjecutora
- * @property ProyectoAccionEspecifica $accionEspecifica
+ * @property AcEspUej $accion_especifica_ue0
  */
 class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
 {
@@ -41,10 +40,21 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['usuario', 'unidad_ejecutora', 'accion_especifica', 'estatus'], 'required'],
-            [['usuario', 'unidad_ejecutora', 'accion_especifica', 'estatus'], 'integer']
+            [['usuario', 'accion_especifica_ue', 'estatus'], 'required'],
+            [['usuario',  'estatus'], 'integer'],
+            ['usuario', 'unique', 'targetAttribute' => ['usuario', 'accion_especifica_ue'], 'message' => 'Error, Este usuario ya fue asignado a esta acción-unidad'],
+            //[['usuario','accion_especifica_ue'], 'unique', 'targetAttribute' => ['estatus'], 'message' => 'Error, Este usuario ya fue asignado a esta acción-unidad'],
+
         ];
     }
+
+    /* public function verificar_repetido($attribute){
+
+        if($this->usuario)
+             $this->addError($attribute, 'Error, Necesita Cargar Al Menos Una Cantidad Positiva En Uno De Los Meses');
+
+    }*/
+
 
     /**
      * @inheritdoc
@@ -54,11 +64,8 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'usuario' => 'Usuario',
-            'unidad_ejecutora' => 'Unidad Ejecutora',
-            'accion_especifica' => 'Accion Especifica',
+            'accion_especifica_ue' => 'ID Acción-Unidad',
             'estatus' => 'Estatus',
-            'nombreUe' => 'Unidad Ejecutora',
-            'nombreAe' => 'Acción Específica',
             'nombreEstatus' => 'Estatus'
         ];
     }
@@ -70,12 +77,12 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
     
     public function getAccionCentralizada()
     {
-        $nombre= $this->accionEspecifica->idAcCentr->nombre_accion;
-        return $nombre;//$this->hasOne(AcAcEspec::className(), ['id' => 'accion_especifica']);
+        $nombre= $this->accion_especifica_ue0->idAccionEspecifica->idAcCentr->nombre_accion;
+        return $nombre;
     }
     public function getAccionEspecifica()
     {
-        return $this->hasOne(AcAcEspec::className(), ['id' => 'accion_especifica']);
+        return $this->accion_especifica_ue0->idAccionEspecifica->nombre;
     }
 
     /**
@@ -86,13 +93,21 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
         return $this->hasOne(UserAccounts::className(), ['id' => 'usuario']);
     }
 
+    public function getaccion_centralizada_ac_especifica_uej(){
+
+         return $this->hasOne(AcEspUej::className(), ['id' => 'accion_especifica_ue']);
+
+    }
+
+    public function getAccion_especifica_ue0()
+    {
+        return $this->hasOne(AcEspUej::className(), ['id' => 'accion_especifica_ue']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUnidadEjecutora()
-    {
-        return $this->hasOne(UnidadEjecutora::className(), ['id' => 'unidad_ejecutora']);
-    }
+    
 
     /**
      * @return string
@@ -111,13 +126,13 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
      * @return string
      */
     public function getNombreUe()
-    {
-        if($this->unidadEjecutora == null)
+    {   
+        if($this->accion_especifica_ue0->idUe->nombre == null)
         {
             return null;
         }
 
-        return $this->unidadEjecutora->nombre;
+        return $this->accion_especifica_ue0->idUe->nombre;
     }
 
     /**
@@ -125,12 +140,12 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
      */
     public function getNombreAe()
     {
-        if($this->accionEspecifica == null)
+        if($this->accion_especifica_ue0->idAccionEspecifica->nombre == null)
         {
             return null;
         }
 
-        return $this->accionEspecifica->nombre;
+        return $this->accion_especifica_ue0->idAccionEspecifica->nombre;;
     }
 
     /**
@@ -183,4 +198,24 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
 
         return true;
      }
+
+     public function requerimiento_pendiente($user){
+
+        $model=AccionCentralizadaAsignar::find()->where(['usuario' => $user])->All();
+        
+        if($model!=null){
+        $bandera=0;
+        foreach ($model as $key => $value) {
+        if($value->accion_centralizada_ac_especifica_uej->aprobado==0){
+            return true;
+        }
+        }//fin del for
+        return false;
+    }//fin del if
+    }
+
+    
+
+
+
 }

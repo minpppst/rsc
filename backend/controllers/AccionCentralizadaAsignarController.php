@@ -6,6 +6,7 @@ use Yii;
 use yii\filters\AccessControl;
 use johnitvn\userplus\base\WebController;
 use common\models\AccionCentralizadaAsignar;
+use common\models\AcEspUej;
 use common\models\AccionCentralizadaAsignarSearch;
 use common\models\UnidadEjecutora;
 use common\models\AccionCentralizada;
@@ -121,9 +122,15 @@ class AccionCentralizadaAsignarController extends WebController
         $request = Yii::$app->request;
         $model = new AccionCentralizadaAsignar();
         $model->usuario = $usuario;
-        $accion_especifica = AcAcEspec::find()->where(['id' => $model->accion_especifica])->all();
+        if(!$model_ue_acc=AcEspUej::find()->where(['id'=>$model->accion_especifica_ue])->One()){
+           $model_ue_acc=new AcEspUej();
+        }
+        
+        
+        $accion_especifica = AcAcEspec::find()->where(['id' => $model_ue_acc->id_ac_esp])->all();
+        
         //Listas desplegables
-        $ue = UnidadEjecutora::find(['estatus' => 1])->where(['id'=>$model->unidad_ejecutora])->asArray()->all(); 
+        $ue = UnidadEjecutora::find(['estatus' => 1])->where(['id'=>$model_ue_acc->id_ue])->asArray()->all(); 
         $accion_centralizada = AccionCentralizada::find(['estatus' => 1])->all();
 
         if($request->isAjax){
@@ -196,16 +203,25 @@ class AccionCentralizadaAsignarController extends WebController
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-
+        if(!$model_ue_acc=AcEspUej::find()->where(['id'=>$model->accion_especifica_ue])->One()){
+           $model_ue_acc=new AcEspUej();
+        }
         //Listas desplegables
-               
-        $accion_especifica = AcAcEspec::find()->where(['id' => $model->accion_especifica])->all();
+        $accion_especifica = AcAcEspec::find()->where(['id' => $model_ue_acc->id_ac_esp])->all();
+        $i=0;
+         foreach($accion_especifica as $row){
+         $acciones[$i]=$row->id;
+         $i++;
+        }
+
         $ue = UnidadEjecutora::find(['estatus' => 1])
-        ->select(["unidad_ejecutora.id as id", "unidad_ejecutora.nombre as name"])
+        ->select(["unidad_ejecutora.id as id", "unidad_ejecutora.nombre as nombre"])
         ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id_ue=unidad_ejecutora.id')
+        ->andWhere(['accion_centralizada_ac_especifica_uej.id_ac_esp'=> $acciones])
         ->asArray()
         ->all();
         $accion_centralizada = AccionCentralizada::find()->all();
+        $accion_especifica = AcAcEspec::find()->where(['id_ac_centr' => $model_ue_acc->idAcEsp->idAcCentr->id])->all();
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -214,8 +230,8 @@ class AccionCentralizadaAsignarController extends WebController
             if($request->isGet){
                 return [
                     'title'=> "Asignar",
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
+                    'content'=>$this->renderAjax('update', [
+                        'model' => $model,
                         'ue' => $ue,
                         'accion_centralizada' => $accion_centralizada,
                         'accion_especifica' => $accion_especifica,
@@ -237,10 +253,11 @@ class AccionCentralizadaAsignarController extends WebController
                             Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
+                //print_r($model->getErrors()); exit();
                  return [
                     'title'=> "Asignar",
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $this->findModel($id),
+                    'content'=>$this->renderAjax('update', [
+                        'model' => $model,
                         'ue' => $ue,
                         'accion_centralizada' => $accion_centralizada,
                         'accion_especifica' => $accion_especifica,
@@ -321,6 +338,37 @@ class AccionCentralizadaAsignarController extends WebController
                     'output' => $ace
                 ];
             }
+            
+            }
+        }
+        
+    }
+
+    public function actionAce2()
+    {
+        $request = Yii::$app->request;
+
+        if($request->isAjax)
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if($request->isPost)
+            {
+             
+                //Acciones Especificas
+                $ace = AcEspUej::find()
+                ->where(['id_ue'=>$request->post('id_unidad')])
+                ->andwhere(['id_ac_esp'=>$request->post('id_especifica')])
+                ->One();
+                    
+            
+                if($ace!=NULL){
+                return  $ace->id;
+                }
+                else
+                {
+                return null;
+                }
             
             }
         }

@@ -10,19 +10,20 @@ use common\models\AccionCentralizadaAsignar;
 /**
  * ProyectoAsignarSearch represents the model behind the search form about `app\models\ProyectoAsignar`.
  */
-class AccionCentralizadaAsignarSearch extends ProyectoAsignar
+class AccionCentralizadaAsignarSearch extends AccionCentralizadaAsignar
 {
     //variables
     public $nombreUe;
     public $nombreAe;
+    public $accion_especifica_ue0;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'usuario', 'unidad_ejecutora', 'accion_especifica'], 'integer'],
-            [['nombreUe', 'nombreAe'], 'safe']
+            [['id', 'usuario'], 'integer'],
+            [['accion_especifica_ue0'], 'safe']
         ];
     }
 
@@ -46,15 +47,16 @@ class AccionCentralizadaAsignarSearch extends ProyectoAsignar
     {
         $query = AccionCentralizadaAsignar::find();
         // Join para la relacion
-        $query->joinWith(['unidadEjecutora']);
-        $query->joinWith(['accionEspecifica']);
+        //$query->joinWith(['unidadEjecutora']);
+        $query->joinWith(['accion_centralizada_ac_especifica_uej']);
+        //$query->joinWith(['accion_centralizada_accion_especifica', 'accion_centralizada_ac_especifica_uej.id_ac_esp=accion_centralizada_accion_especifica.id']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         //Ordenamiento
-        $dataProvider->sort->attributes['nombreUe'] = [
+        /*$dataProvider->sort->attributes['nombreUe'] = [
             'asc' => ['unidad_ejecutora.nombre' => SORT_ASC],
             'desc' => ['unidad_ejecutora.nombre' => SORT_DESC],
         ];
@@ -62,7 +64,7 @@ class AccionCentralizadaAsignarSearch extends ProyectoAsignar
             'asc' => ['accion_centralizada_accion_especifica.nombre' => SORT_ASC],
             'desc' => ['accion_centralizada_accion_especifica.nombre' => SORT_DESC],
         ];
-
+        */
 
         $this->load($params);
 
@@ -75,13 +77,15 @@ class AccionCentralizadaAsignarSearch extends ProyectoAsignar
         $query->andFilterWhere([
             'id' => $this->id,
             'usuario' => $this->usuario,
-            'unidad_ejecutora' => $this->unidad_ejecutora,
-            'accion_especifica' => $this->accion_especifica,            
+           // 'unidad_ejecutora' => $this->unidad_ejecutora,
+           // 'accion_especifica' => $this->accion_especifica,            
         ]);
 
         $query->andFilterWhere(['accion_centralizada_asignar.estatus' => $this->estatus]);
-        $query->andFilterWhere(['like', 'unidad_ejecutora.nombre', $this->nombreUe]);
-        $query->andFilterWhere(['like', 'accion_centralizada_accion_especifica.nombre', $this->nombreAe]);
+        $query->andFilterWhere(['accion_centralizada_ac_especifica_uej.aprobado' => 0]);
+
+        //$query->andFilterWhere(['like', 'unidad_ejecutora.nombre', $this->nombreUe]);
+        //$query->andFilterWhere(['like', 'accion_centralizada_accion_especifica.nombre', $this->nombreAe]);
 
         return $dataProvider;
     }

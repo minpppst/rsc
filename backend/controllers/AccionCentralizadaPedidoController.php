@@ -90,11 +90,12 @@ class AccionCentralizadaPedidoController extends Controller
      * @param integer $ue unidad ejecutora
      * @return mixed
      */
-    public function actionPedido($ue)
+    public function actionPedido($ue,$acc)
     {
         //Datos para el gridview
-        $searchModel = new AccionCentralizadaPedidoSearch(['idUnidadEjecutora' => $ue]);
+        $searchModel = new AccionCentralizadaPedidoSearch(['idUnidadEjecutora' => $ue, 'idAcc' => $acc]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = AcEspUej::find()->where(['id_ue' => $ue])->andWhere(['id_ac_esp' => $acc])->One();
 
         //Otros datos
         $ue = UnidadEjecutora::findOne($ue);
@@ -102,7 +103,8 @@ class AccionCentralizadaPedidoController extends Controller
         return $this->render('pedido', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'ue' => $ue
+            'ue' => $ue,
+            'model' => $model,
         ]);
     }
 
@@ -113,11 +115,7 @@ class AccionCentralizadaPedidoController extends Controller
      */
     public function actionView($id)
     {
-        /*
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-        */
+        
         $request = Yii::$app->request;
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -432,4 +430,29 @@ class AccionCentralizadaPedidoController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+      public function actionAprobar($id)
+    {
+
+        
+        $model = AcEspUej::find()->where(['id' => $id])->One();
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model->id != null && $model->toggleAprobar()) {
+            return ['forceClose' => true, 'forceReload' => '#aprobar'];
+        } else {
+
+            return [
+                'title' => 'Ocurrió un error.',
+                'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
+                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+            ];
+            return;
+        }
+    }
+
+
+
+
 }

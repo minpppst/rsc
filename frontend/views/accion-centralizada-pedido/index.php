@@ -32,9 +32,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'nombreAe',
-            'nombreUe',            
+            ['attribute' => 'nombreAe',
+             'label' => 'Nombre Acción Específica'
+            ],
 
+            ['attribute' => 'nombreUe',
+             'label' => 'Nombre Unidad Ejecutora'
+            ],
+
+            
             [
                 'class' => 'kartik\grid\ActionColumn',
                 'header' => 'Acciones',

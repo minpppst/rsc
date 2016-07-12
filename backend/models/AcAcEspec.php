@@ -39,7 +39,7 @@ class AcAcEspec extends \yii\db\ActiveRecord
             [['id_ac_centr'], 'integer'],
             [['cod_ac_espe'], 'unique'],
             [['nombre'], 'string'],
-            [['cod_ac_espe'], 'string', 'max' => 3]
+            [['cod_ac_espe'], 'string', 'max' => 6]
         ];
     }
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Servidor: localhost
--- Tiempo de generación: 09-07-2016 a las 00:30:00
--- Versión del servidor: 5.7.12-0ubuntu1.1
--- Versión de PHP: 7.0.4-7ubuntu2.1
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 12-07-2016 a las 15:45:57
+-- Versión del servidor: 5.6.17
+-- Versión de PHP: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de datos: `rsc`
@@ -26,23 +26,29 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `accion_centralizada`
 --
 
-CREATE TABLE `accion_centralizada` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `accion_centralizada` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_accion` varchar(45) NOT NULL,
   `codigo_accion_sne` varchar(45) NOT NULL,
   `nombre_accion` varchar(45) NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `estatus` tinyint(1) NOT NULL,
-  `aprobado` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `aprobado` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada`
 --
 
 INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `nombre_accion`, `fecha_inicio`, `fecha_fin`, `estatus`, `aprobado`) VALUES
-(3, '01', '01', 'probando', '2016-04-01', '2016-04-30', 1, 0);
+(1, '001', 'ACC001', 'Dirección y coordinación de los gastos de los', '2016-01-01', '2016-12-31', 1, 0),
+(2, '002', 'ACC002', 'Gestión Administrativa', '2016-01-01', '2016-12-31', 1, 0),
+(3, '003', 'ACC003', 'Previsión y protección social', '2016-01-01', '2016-12-31', 1, 0),
+(4, '004', 'ACC004', 'Asignaciones predeterminadas', '2016-01-01', '2016-12-31', 1, 0),
+(5, '005', 'ACC005', 'Dirección y coordinación del servicio de la d', '2016-01-01', '2016-12-31', 1, 0),
+(6, '006', 'ACC006', 'Otras', '2016-01-01', '2016-12-31', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -50,22 +56,31 @@ INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `
 -- Estructura de tabla para la tabla `accion_centralizada_accion_especifica`
 --
 
-CREATE TABLE `accion_centralizada_accion_especifica` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_ac_centr` int(11) NOT NULL,
-  `cod_ac_espe` varchar(3) NOT NULL,
+  `cod_ac_espe` varchar(6) NOT NULL,
   `nombre` text NOT NULL,
   `estatus` tinyint(1) NOT NULL,
   `fecha_inicio` date NOT NULL COMMENT 'fecha de inicio de la acciones especifica',
-  `fecha_fin` date NOT NULL COMMENT 'fecha fin de la accion especifica'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `fecha_fin` date NOT NULL COMMENT 'fecha fin de la accion especifica',
+  PRIMARY KEY (`id`),
+  KEY `id_ac_centr` (`id_ac_centr`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_accion_especifica`
 --
 
 INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`, `estatus`, `fecha_inicio`, `fecha_fin`) VALUES
-(7, 3, '01', 'probando', 1, '2016-04-01', '2016-04-30');
+(1, 1, '001-01', 'Asignación y control de los recursos para gastos de los trabajadores y trabajadoras', 1, '2016-01-01', '2016-12-31'),
+(2, 2, '002-01', 'Apoyo institucional a las acciones específicas de los proyectos del organismo', 1, '2016-01-01', '2016-12-31'),
+(3, 2, '002-02', 'Apoyo institucional al sector privado y al sector externo', 1, '2016-01-01', '2016-12-31'),
+(4, 2, '002-03', 'Apoyo institucional al sector público', 1, '2016-01-01', '2016-12-31'),
+(5, 3, '003-01', 'Asignación y control de los recursos para gastos de los pensionados, pensionadas, jubilados y jubiladas', 1, '2016-01-01', '2016-12-31'),
+(6, 4, '004-01', 'Asignación y control de los aportes constitucionales y legales', 1, '2016-01-01', '2016-12-31'),
+(7, 5, '005-01', 'Asignación y control de los recursos para el servicio de la deuda pública nacional', 1, '2016-01-01', '2016-12-31'),
+(8, 6, '006-01', 'Las determinadas según el propósito de la acción centralizada', 1, '2016-01-01', '2016-12-31');
 
 -- --------------------------------------------------------
 
@@ -73,19 +88,24 @@ INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_a
 -- Estructura de tabla para la tabla `accion_centralizada_ac_especifica_uej`
 --
 
-CREATE TABLE `accion_centralizada_ac_especifica_uej` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `accion_centralizada_ac_especifica_uej` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_ue` int(11) NOT NULL,
-  `id_ac_esp` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_ac_esp` int(11) NOT NULL,
+  `estatus` tinyint(1) NOT NULL DEFAULT '1',
+  `aprobado` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `id_ue` (`id_ue`),
+  KEY `id_v` (`id_ac_esp`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=242 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_ac_especifica_uej`
 --
 
-INSERT INTO `accion_centralizada_ac_especifica_uej` (`id`, `id_ue`, `id_ac_esp`) VALUES
-(233, 600, 7),
-(234, 601, 7);
+INSERT INTO `accion_centralizada_ac_especifica_uej` (`id`, `id_ue`, `id_ac_esp`, `estatus`, `aprobado`) VALUES
+(235, 600, 2, 1, 1),
+(236, 601, 2, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -93,20 +113,25 @@ INSERT INTO `accion_centralizada_ac_especifica_uej` (`id`, `id_ue`, `id_ac_esp`)
 -- Estructura de tabla para la tabla `accion_centralizada_asignar`
 --
 
-CREATE TABLE `accion_centralizada_asignar` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `accion_centralizada_asignar` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario` int(11) NOT NULL,
-  `unidad_ejecutora` int(11) NOT NULL,
-  `accion_especifica` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada';
+  `accion_especifica_ue` int(11) NOT NULL COMMENT 'foránea con ac_esp_uej',
+  `estatus` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `usuario` (`usuario`),
+  KEY `accion_especifica_ue` (`accion_especifica_ue`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada' AUTO_INCREMENT=12 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_asignar`
 --
 
-INSERT INTO `accion_centralizada_asignar` (`id`, `usuario`, `unidad_ejecutora`, `accion_especifica`, `estatus`) VALUES
-(3, 2, 600, 7, 1);
+INSERT INTO `accion_centralizada_asignar` (`id`, `usuario`, `accion_especifica_ue`, `estatus`) VALUES
+(4, 2, 235, 1),
+(6, 3, 236, 1),
+(8, 1, 236, 1),
+(9, 3, 235, 1);
 
 -- --------------------------------------------------------
 
@@ -114,11 +139,13 @@ INSERT INTO `accion_centralizada_asignar` (`id`, `usuario`, `unidad_ejecutora`, 
 -- Estructura de tabla para la tabla `accion_centralizada_desbloqueo_mes`
 --
 
-CREATE TABLE `accion_centralizada_desbloqueo_mes` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `accion_centralizada_desbloqueo_mes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_ejecucion` int(11) NOT NULL,
-  `mes` int(11) NOT NULL COMMENT 'mes que se desbloquea/bloquea'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `mes` int(11) NOT NULL COMMENT 'mes que se desbloquea/bloquea',
+  PRIMARY KEY (`id`),
+  KEY `id_ejecucion` (`id_ejecucion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_desbloqueo_mes`
@@ -133,8 +160,8 @@ INSERT INTO `accion_centralizada_desbloqueo_mes` (`id`, `id_ejecucion`, `mes`) V
 -- Estructura de tabla para la tabla `accion_centralizada_pedido`
 --
 
-CREATE TABLE `accion_centralizada_pedido` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_material` int(11) NOT NULL,
   `enero` int(11) NOT NULL DEFAULT '0',
   `febrero` int(11) NOT NULL DEFAULT '0',
@@ -151,8 +178,22 @@ CREATE TABLE `accion_centralizada_pedido` (
   `precio` decimal(12,2) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `asignado` int(11) NOT NULL COMMENT 'ID de la asignacion (Usuario-UE-AC)',
-  `estatus` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `estatus` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_material` (`id_material`),
+  KEY `asignado` (`asignado`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Volcado de datos para la tabla `accion_centralizada_pedido`
+--
+
+INSERT INTO `accion_centralizada_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `precio`, `fecha_creacion`, `asignado`, `estatus`) VALUES
+(1, 4, 2, 2, 2, 2, 2, 2, 2, 102, 2, 2, 40, 2, '168.00', '2016-07-12 15:47:20', 4, 1),
+(2, 72, 12, 12, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, '280.00', '2016-07-11 19:21:15', 4, 1),
+(3, 5, 100, 200, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, '63.00', '2016-07-11 20:00:44', 4, 1),
+(5, 26, 100, 20, 0, 0, 0, 0, 10, 0, 0, 10, 0, 0, '146.00', '2016-07-12 15:48:20', 4, 1),
+(6, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '63.00', '2016-07-12 15:48:54', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -160,8 +201,8 @@ CREATE TABLE `accion_centralizada_pedido` (
 -- Estructura de tabla para la tabla `accion_centralizada_variables`
 --
 
-CREATE TABLE `accion_centralizada_variables` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_variable` text NOT NULL,
   `unidad_medida` int(11) NOT NULL,
   `localizacion` int(11) NOT NULL,
@@ -170,8 +211,14 @@ CREATE TABLE `accion_centralizada_variables` (
   `fuente_informacion` text NOT NULL,
   `meta_programada_variable` int(11) NOT NULL,
   `unidad_ejecutora` int(11) NOT NULL,
-  `acc_accion_especifica` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `acc_accion_especifica` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `unidad_medida_2` (`unidad_medida`),
+  KEY `localizacion` (`localizacion`),
+  KEY `meta_programada_variable` (`meta_programada_variable`),
+  KEY `unidad_ejecutora` (`unidad_ejecutora`),
+  KEY `acc_accion_especifica` (`acc_accion_especifica`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_variables`
@@ -186,12 +233,15 @@ INSERT INTO `accion_centralizada_variables` (`id`, `nombre_variable`, `unidad_me
 -- Estructura de tabla para la tabla `accion_centralizada_variables_usuarios`
 --
 
-CREATE TABLE `accion_centralizada_variables_usuarios` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `accion_centralizada_variables_usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_variable` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `estatus` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `id_variable` (`id_variable`),
+  KEY `id_usuario` (`id_usuario`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_variables_usuarios`
@@ -206,8 +256,8 @@ INSERT INTO `accion_centralizada_variables_usuarios` (`id`, `id_variable`, `id_u
 -- Estructura de tabla para la tabla `accion_centralizada_variable_ejecucion`
 --
 
-CREATE TABLE `accion_centralizada_variable_ejecucion` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_ejecucion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_programacion` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
@@ -222,8 +272,11 @@ CREATE TABLE `accion_centralizada_variable_ejecucion` (
   `septiembre` int(11) DEFAULT NULL,
   `octubre` int(11) DEFAULT NULL,
   `noviembre` int(11) DEFAULT NULL,
-  `diciembre` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `diciembre` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_programacion` (`id_programacion`),
+  KEY `id_usuario` (`id_usuario`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_variable_ejecucion`
@@ -239,8 +292,8 @@ INSERT INTO `accion_centralizada_variable_ejecucion` (`id`, `id_programacion`, `
 -- Estructura de tabla para la tabla `accion_centralizada_variable_programacion`
 --
 
-CREATE TABLE `accion_centralizada_variable_programacion` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_localizacion` int(11) DEFAULT NULL,
   `enero` decimal(10,0) DEFAULT NULL,
   `febrero` decimal(10,0) DEFAULT NULL,
@@ -253,8 +306,10 @@ CREATE TABLE `accion_centralizada_variable_programacion` (
   `septiembre` decimal(10,0) DEFAULT NULL,
   `octubre` decimal(10,0) DEFAULT NULL,
   `noviembre` decimal(10,0) DEFAULT NULL,
-  `diciembre` decimal(10,0) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `diciembre` decimal(10,0) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_localizacion` (`id_localizacion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 
 --
 -- Volcado de datos para la tabla `accion_centralizada_variable_programacion`
@@ -270,10 +325,11 @@ INSERT INTO `accion_centralizada_variable_programacion` (`id`, `id_localizacion`
 -- Estructura de tabla para la tabla `ambito`
 --
 
-CREATE TABLE `ambito` (
-  `id` int(11) NOT NULL,
-  `ambito` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ambito` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ambito` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `ambito`
@@ -295,13 +351,15 @@ INSERT INTO `ambito` (`id`, `ambito`) VALUES
 -- Estructura de tabla para la tabla `audit_data`
 --
 
-CREATE TABLE `audit_data` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `audit_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `entry_id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `data` blob,
-  `created` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_audit_data_entry_id` (`entry_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
 
 --
 -- Volcado de datos para la tabla `audit_data`
@@ -358,8 +416,8 @@ INSERT INTO `audit_data` (`id`, `entry_id`, `type`, `data`, `created`) VALUES
 -- Estructura de tabla para la tabla `audit_entry`
 --
 
-CREATE TABLE `audit_entry` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `audit_entry` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `created` datetime NOT NULL,
   `user_id` int(11) DEFAULT '0',
   `duration` float DEFAULT NULL,
@@ -367,8 +425,11 @@ CREATE TABLE `audit_entry` (
   `request_method` varchar(16) DEFAULT NULL,
   `ajax` int(1) NOT NULL DEFAULT '0',
   `route` varchar(255) DEFAULT NULL,
-  `memory_max` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `memory_max` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_route` (`route`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5735 ;
 
 --
 -- Volcado de datos para la tabla `audit_entry`
@@ -384,7 +445,5743 @@ INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `reques
 (7, '2016-07-09 03:50:19', 2, 0.059942, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 2363504),
 (8, '2016-07-09 03:57:06', 2, 0.0512578, '127.0.0.1', 'POST', 1, 'proyecto-pedido/delete', 2034904),
 (9, '2016-07-09 03:57:12', 2, 0.0679479, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 2363504),
-(10, '2016-07-09 03:58:29', 2, 0.066395, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 2363504);
+(10, '2016-07-09 03:58:29', 2, 0.066395, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 2363504),
+(11, '2016-07-11 08:38:53', 1, 0.433024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(12, '2016-07-11 08:39:04', 1, 0.2526, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(13, '2016-07-11 08:39:15', 1, 0.660034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(14, '2016-07-11 08:39:26', 1, 0.371018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(15, '2016-07-11 08:39:37', 1, 0.306608, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(16, '2016-07-11 08:39:48', 1, 0.311216, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(17, '2016-07-11 08:39:50', 1, 2.17612, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/index', 9466552),
+(18, '2016-07-11 08:39:53', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(19, '2016-07-11 08:39:55', 1, 0.825047, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/asignar', 9439368),
+(20, '2016-07-11 08:39:56', 1, 0.299612, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817904),
+(21, '2016-07-11 08:39:59', 1, 0.620035, '127.0.0.1', 'GET', 1, 'proyecto-usuario-asignar/create', 7747952),
+(22, '2016-07-11 08:40:05', 1, 0.367612, '127.0.0.1', 'POST', 1, 'proyecto-usuario-asignar/pae', 6221512),
+(23, '2016-07-11 08:40:06', 1, 0.287408, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817904),
+(24, '2016-07-11 08:40:16', 1, 0.258015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817904),
+(25, '2016-07-11 08:40:16', 1, 0.632036, '127.0.0.1', 'POST', 1, 'proyecto-usuario-asignar/create', 7033960),
+(26, '2016-07-11 08:40:17', 1, 0.690225, '127.0.0.1', 'GET', 1, 'proyecto-usuario-asignar/asignar', 9532720),
+(27, '2016-07-11 08:40:21', 1, 0.370021, '127.0.0.1', 'GET', 1, 'proyecto-usuario-asignar/view', 7345152),
+(28, '2016-07-11 08:40:26', 1, 0.242609, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817904),
+(29, '2016-07-11 08:40:30', 1, 0.88105, '127.0.0.1', 'GET', 0, 'proyecto-pedido/index', 9630112),
+(30, '2016-07-11 08:40:31', 1, 0.312415, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(31, '2016-07-11 08:40:40', 1, NULL, '127.0.0.1', 'GET', 0, 'proyecto-pedido/pedido', NULL),
+(32, '2016-07-11 08:40:53', 1, 0.809645, '127.0.0.1', 'GET', 0, 'proyecto-pedido/index', 9630112),
+(33, '2016-07-11 08:40:54', 1, 0.322212, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(34, '2016-07-11 08:40:55', 1, NULL, '127.0.0.1', 'GET', 0, 'proyecto-pedido/pedido', NULL),
+(35, '2016-07-11 08:40:57', 1, 0.680039, '127.0.0.1', 'GET', 0, 'proyecto-pedido/index', 9630112),
+(36, '2016-07-11 08:40:58', 1, 0.321014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(37, '2016-07-11 08:41:01', 1, 0.849048, '127.0.0.1', 'GET', 0, 'proyecto/index', 9895400),
+(38, '2016-07-11 08:41:02', 1, 0.308013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817784),
+(39, '2016-07-11 08:41:04', 1, 0.553031, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/index', 9466688),
+(40, '2016-07-11 08:41:05', 1, 0.335416, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(41, '2016-07-11 08:41:08', 1, 0.757043, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/asignar', 9890944),
+(42, '2016-07-11 08:41:08', 1, 1.14007, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/asignar', 9890944),
+(43, '2016-07-11 08:41:09', 1, 1.37308, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/asignar', 9890944),
+(44, '2016-07-11 08:41:10', 1, 0.281012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817904),
+(45, '2016-07-11 08:41:12', 1, 0.407023, '127.0.0.1', 'GET', 1, 'proyecto-usuario-asignar/create', 7747952),
+(46, '2016-07-11 08:41:20', 1, 0.238402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817904),
+(47, '2016-07-11 08:41:22', 1, 0.633635, '127.0.0.1', 'GET', 0, 'proyecto-pedido/index', 9630112),
+(48, '2016-07-11 08:41:23', 1, 0.245807, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(49, '2016-07-11 08:41:34', 1, 0.250808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(50, '2016-07-11 08:41:44', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(51, '2016-07-11 08:41:54', 1, 0.423003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(52, '2016-07-11 08:42:04', 1, 0.941205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(53, '2016-07-11 08:42:14', 1, 0.336601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(54, '2016-07-11 08:42:24', 1, 0.470605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(55, '2016-07-11 08:42:34', 1, 0.443801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(56, '2016-07-11 08:42:44', 1, 0.540803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(57, '2016-07-11 08:42:54', 1, 0.2974, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(58, '2016-07-11 08:43:04', 1, 0.326403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(59, '2016-07-11 08:43:10', 0, 1.00661, '127.0.0.1', 'GET', 0, 'site/index', 5210416),
+(60, '2016-07-11 08:43:11', 0, 3.46442, '127.0.0.1', 'GET', 0, 'user/security/login', 7565712),
+(61, '2016-07-11 08:43:14', 1, 0.323002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(62, '2016-07-11 08:43:24', 1, 0.635016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(63, '2016-07-11 08:43:24', 0, 1.98403, '127.0.0.1', 'POST', 1, 'user/security/login', 6226496),
+(64, '2016-07-11 08:43:26', 0, 1.33602, '127.0.0.1', 'POST', 0, 'user/security/login', 6178136),
+(65, '2016-07-11 08:43:28', 2, 0.536004, '127.0.0.1', 'GET', 0, 'site/index', 7220520),
+(66, '2016-07-11 08:43:32', 2, 4.11483, '127.0.0.1', 'GET', 0, 'proyecto-pedido/index', 9542448),
+(67, '2016-07-11 08:43:34', 1, 0.447601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(68, '2016-07-11 08:43:39', 2, 1.91502, '127.0.0.1', 'GET', 0, 'proyecto-pedido/pedido', 9940104),
+(69, '2016-07-11 08:43:44', 1, 0.390005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(70, '2016-07-11 08:43:47', 2, 2.62404, '127.0.0.1', 'GET', 1, 'proyecto-pedido/create', 8204144),
+(71, '2016-07-11 08:43:54', 1, 0.3784, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(72, '2016-07-11 08:44:04', 1, 0.388802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(73, '2016-07-11 08:44:14', 1, 0.534203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(74, '2016-07-11 08:44:24', 1, 0.359004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(75, '2016-07-11 08:44:29', 2, 1.46582, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 7278152),
+(76, '2016-07-11 08:44:31', 2, 0.818603, '127.0.0.1', 'GET', 1, 'proyecto-pedido/pedido', 9615992),
+(77, '2016-07-11 08:44:34', 1, 0.508602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(78, '2016-07-11 08:44:40', 1, 1.61569, '127.0.0.1', 'GET', 0, 'proyecto-pedido/index', 9629968),
+(79, '2016-07-11 08:44:42', 1, 0.45222, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(80, '2016-07-11 08:44:53', 1, 0.69504, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(81, '2016-07-11 08:45:04', 1, 0.462027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(82, '2016-07-11 08:45:14', 1, 0.680202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(83, '2016-07-11 08:45:24', 1, 0.429602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(84, '2016-07-11 08:45:30', 1, NULL, '127.0.0.1', 'GET', 0, 'proyecto-pedido/pedido', NULL),
+(85, '2016-07-11 08:54:13', 1, 4.10324, '127.0.0.1', 'GET', 0, 'proyecto-pedido/index', 9629256),
+(86, '2016-07-11 08:54:17', 1, 0.613026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(87, '2016-07-11 08:54:23', 2, 1.48961, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9703664),
+(88, '2016-07-11 08:54:30', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134328),
+(89, '2016-07-11 08:54:37', 1, 0.436801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(90, '2016-07-11 08:54:38', 2, 0.88821, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 6332464),
+(91, '2016-07-11 08:54:39', 2, 0.750103, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 9238544),
+(92, '2016-07-11 08:54:47', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(93, '2016-07-11 08:54:58', 1, 0.369022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(94, '2016-07-11 08:55:09', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(95, '2016-07-11 08:55:20', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(96, '2016-07-11 08:55:31', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(97, '2016-07-11 08:55:42', 1, 0.363008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(98, '2016-07-11 08:55:53', 1, 0.490614, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(99, '2016-07-11 08:56:04', 1, 0.383005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(100, '2016-07-11 08:56:15', 1, 0.448409, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(101, '2016-07-11 08:56:26', 1, 0.441202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(102, '2016-07-11 08:56:37', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(103, '2016-07-11 08:56:48', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(104, '2016-07-11 08:56:59', 1, 0.338007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(105, '2016-07-11 08:57:10', 1, 0.325816, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(106, '2016-07-11 08:57:21', 1, 0.415601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(107, '2016-07-11 08:57:32', 1, 0.315203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(108, '2016-07-11 08:57:43', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(109, '2016-07-11 08:57:54', 1, 0.879839, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(110, '2016-07-11 08:58:05', 1, 0.316203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(111, '2016-07-11 08:58:16', 1, 0.335002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(112, '2016-07-11 08:58:27', 1, 0.336403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(113, '2016-07-11 08:58:38', 1, 0.359801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(114, '2016-07-11 08:58:49', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(115, '2016-07-11 08:59:00', 1, 0.361809, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(116, '2016-07-11 08:59:11', 1, 0.336605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(117, '2016-07-11 08:59:22', 1, 0.350611, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(118, '2016-07-11 08:59:33', 1, 0.371207, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(119, '2016-07-11 08:59:44', 1, 0.317803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(120, '2016-07-11 08:59:55', 1, 0.403807, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(121, '2016-07-11 09:00:06', 1, 0.327807, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(122, '2016-07-11 09:00:17', 1, 0.379021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(123, '2016-07-11 09:00:24', 1, 0.845048, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9491120),
+(124, '2016-07-11 09:00:27', 1, 0.484028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(125, '2016-07-11 09:00:28', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(126, '2016-07-11 09:00:30', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(127, '2016-07-11 09:00:39', 1, 0.387023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(128, '2016-07-11 09:00:50', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(129, '2016-07-11 09:01:01', 1, 0.425025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(130, '2016-07-11 09:01:12', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(131, '2016-07-11 09:01:23', 1, 0.426024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(132, '2016-07-11 09:01:34', 1, 0.436013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(133, '2016-07-11 09:01:44', 1, 0.290002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(134, '2016-07-11 09:01:55', 1, 0.378607, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(135, '2016-07-11 09:02:06', 1, 0.331605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(136, '2016-07-11 09:02:17', 1, 0.340006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(137, '2016-07-11 09:02:28', 1, 0.440602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(138, '2016-07-11 09:02:39', 1, 0.387023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(139, '2016-07-11 09:02:49', 1, 0.302018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(140, '2016-07-11 09:03:00', 1, 0.374607, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(141, '2016-07-11 09:03:01', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(142, '2016-07-11 09:03:11', 1, 0.754043, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(143, '2016-07-11 09:03:15', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(144, '2016-07-11 09:03:22', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(145, '2016-07-11 09:03:33', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(146, '2016-07-11 09:03:44', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(147, '2016-07-11 09:03:55', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(148, '2016-07-11 09:04:06', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(149, '2016-07-11 09:04:17', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(150, '2016-07-11 09:04:28', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(151, '2016-07-11 09:04:39', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(152, '2016-07-11 09:04:50', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(153, '2016-07-11 09:04:50', 1, 0.793045, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9537368),
+(154, '2016-07-11 09:04:52', 1, 0.396022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(155, '2016-07-11 09:05:01', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(156, '2016-07-11 09:05:02', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(157, '2016-07-11 09:05:12', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(158, '2016-07-11 09:05:13', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(159, '2016-07-11 09:05:23', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(160, '2016-07-11 09:05:23', 1, 0.376021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(161, '2016-07-11 09:05:31', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(162, '2016-07-11 09:05:33', 1, 0.33502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(163, '2016-07-11 09:05:34', 1, 0.452026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(164, '2016-07-11 09:05:43', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(165, '2016-07-11 09:05:45', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(166, '2016-07-11 09:05:53', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(167, '2016-07-11 09:05:56', 1, 0.393023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(168, '2016-07-11 09:06:03', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(169, '2016-07-11 09:06:07', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(170, '2016-07-11 09:06:13', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(171, '2016-07-11 09:06:18', 1, 0.392022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(172, '2016-07-11 09:06:23', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(173, '2016-07-11 09:06:29', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(174, '2016-07-11 09:06:33', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(175, '2016-07-11 09:06:37', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(176, '2016-07-11 09:06:40', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(177, '2016-07-11 09:06:43', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(178, '2016-07-11 09:06:51', 1, 0.394022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(179, '2016-07-11 09:06:53', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(180, '2016-07-11 09:07:02', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(181, '2016-07-11 09:07:03', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(182, '2016-07-11 09:07:13', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(183, '2016-07-11 09:07:13', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(184, '2016-07-11 09:07:23', 1, 1.50209, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(185, '2016-07-11 09:07:25', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(186, '2016-07-11 09:07:33', 1, 0.410023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(187, '2016-07-11 09:07:35', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(188, '2016-07-11 09:07:43', 1, 0.373022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(189, '2016-07-11 09:07:46', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(190, '2016-07-11 09:07:54', 1, 0.352021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(191, '2016-07-11 09:07:57', 1, 0.425024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(192, '2016-07-11 09:08:04', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(193, '2016-07-11 09:08:08', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(194, '2016-07-11 09:08:14', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(195, '2016-07-11 09:08:19', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(196, '2016-07-11 09:08:24', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(197, '2016-07-11 09:08:30', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(198, '2016-07-11 09:08:34', 1, 0.300017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(199, '2016-07-11 09:08:41', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(200, '2016-07-11 09:08:44', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(201, '2016-07-11 09:08:52', 1, 0.312017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(202, '2016-07-11 09:08:54', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(203, '2016-07-11 09:09:03', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(204, '2016-07-11 09:09:04', 1, 0.409023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(205, '2016-07-11 09:09:14', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(206, '2016-07-11 09:09:14', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(207, '2016-07-11 09:09:24', 1, 0.381021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(208, '2016-07-11 09:09:25', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(209, '2016-07-11 09:09:34', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(210, '2016-07-11 09:09:36', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(211, '2016-07-11 09:09:44', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(212, '2016-07-11 09:09:47', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(213, '2016-07-11 09:09:54', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(214, '2016-07-11 09:09:58', 1, 0.378022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(215, '2016-07-11 09:10:04', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(216, '2016-07-11 09:10:09', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(217, '2016-07-11 09:10:14', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(218, '2016-07-11 09:10:20', 1, 0.348019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(219, '2016-07-11 09:10:24', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(220, '2016-07-11 09:10:31', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(221, '2016-07-11 09:10:34', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(222, '2016-07-11 09:10:42', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(223, '2016-07-11 09:10:44', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(224, '2016-07-11 09:10:53', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(225, '2016-07-11 09:10:54', 1, 0.420024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(226, '2016-07-11 09:11:04', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(227, '2016-07-11 09:11:04', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(228, '2016-07-11 09:11:14', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(229, '2016-07-11 09:11:15', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(230, '2016-07-11 09:11:24', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(231, '2016-07-11 09:11:26', 1, 0.348019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(232, '2016-07-11 09:11:34', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(233, '2016-07-11 09:11:37', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(234, '2016-07-11 09:11:44', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(235, '2016-07-11 09:11:48', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(236, '2016-07-11 09:11:54', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(237, '2016-07-11 09:11:59', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(238, '2016-07-11 09:12:04', 1, 0.33402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(239, '2016-07-11 09:12:10', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(240, '2016-07-11 09:12:14', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(241, '2016-07-11 09:12:21', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(242, '2016-07-11 09:12:24', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(243, '2016-07-11 09:12:32', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(244, '2016-07-11 09:12:34', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(245, '2016-07-11 09:12:43', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(246, '2016-07-11 09:12:44', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(247, '2016-07-11 09:12:54', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(248, '2016-07-11 09:12:54', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(249, '2016-07-11 09:13:04', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(250, '2016-07-11 09:13:05', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(251, '2016-07-11 09:13:14', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(252, '2016-07-11 09:13:16', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(253, '2016-07-11 09:13:24', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(254, '2016-07-11 09:13:27', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(255, '2016-07-11 09:13:34', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(256, '2016-07-11 09:13:38', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(257, '2016-07-11 09:13:44', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(258, '2016-07-11 09:13:49', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(259, '2016-07-11 09:13:54', 1, 0.372022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(260, '2016-07-11 09:14:00', 1, 0.414023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(261, '2016-07-11 09:14:05', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(262, '2016-07-11 09:14:11', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(263, '2016-07-11 09:14:16', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(264, '2016-07-11 09:14:22', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(265, '2016-07-11 09:14:27', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(266, '2016-07-11 09:14:33', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(267, '2016-07-11 09:14:38', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(268, '2016-07-11 09:14:44', 1, 0.390023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(269, '2016-07-11 09:14:49', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(270, '2016-07-11 09:14:55', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(271, '2016-07-11 09:15:00', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(272, '2016-07-11 09:15:05', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(273, '2016-07-11 09:15:10', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(274, '2016-07-11 09:15:20', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(275, '2016-07-11 09:15:31', 1, 0.477027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(276, '2016-07-11 09:15:42', 1, 0.430024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(277, '2016-07-11 09:15:53', 1, 0.446025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(278, '2016-07-11 09:16:04', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(279, '2016-07-11 09:16:15', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(280, '2016-07-11 09:16:26', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(281, '2016-07-11 09:16:37', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(282, '2016-07-11 09:16:48', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(283, '2016-07-11 09:16:59', 1, 0.417024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(284, '2016-07-11 09:17:09', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(285, '2016-07-11 09:17:19', 1, 0.397022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(286, '2016-07-11 09:17:29', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(287, '2016-07-11 09:17:39', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(288, '2016-07-11 09:17:49', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(289, '2016-07-11 09:17:59', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(290, '2016-07-11 09:18:09', 1, 0.317019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(291, '2016-07-11 09:18:19', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(292, '2016-07-11 09:18:29', 1, 0.307017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(293, '2016-07-11 09:18:39', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(294, '2016-07-11 09:18:49', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(295, '2016-07-11 09:18:59', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(296, '2016-07-11 09:19:09', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(297, '2016-07-11 09:19:19', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(298, '2016-07-11 09:19:29', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(299, '2016-07-11 09:19:39', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(300, '2016-07-11 09:19:50', 1, 0.395023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(301, '2016-07-11 09:20:01', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(302, '2016-07-11 09:20:11', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(303, '2016-07-11 09:20:18', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(304, '2016-07-11 09:20:21', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(305, '2016-07-11 09:20:31', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(306, '2016-07-11 09:20:41', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(307, '2016-07-11 09:20:51', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(308, '2016-07-11 09:20:52', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(309, '2016-07-11 09:21:01', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(310, '2016-07-11 09:21:11', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(311, '2016-07-11 09:21:21', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(312, '2016-07-11 09:21:28', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(313, '2016-07-11 09:21:31', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(314, '2016-07-11 09:21:41', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(315, '2016-07-11 09:21:51', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(316, '2016-07-11 09:22:01', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(317, '2016-07-11 09:22:11', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(318, '2016-07-11 09:22:21', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(319, '2016-07-11 09:22:31', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(320, '2016-07-11 09:22:41', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(321, '2016-07-11 09:22:46', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(322, '2016-07-11 09:22:51', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(323, '2016-07-11 09:22:58', 2, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(324, '2016-07-11 09:23:01', 1, 0.568033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(325, '2016-07-11 09:23:07', 2, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(326, '2016-07-11 09:23:11', 1, 0.486028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(327, '2016-07-11 09:23:11', 2, 0.471027, '127.0.0.1', 'POST', 0, 'site/logout', 5853104),
+(328, '2016-07-11 09:23:12', 0, 0.269015, '127.0.0.1', 'GET', 0, 'site/index', 5388832),
+(329, '2016-07-11 09:23:12', 0, 0.615036, '127.0.0.1', 'GET', 0, 'user/security/login', 6629192),
+(330, '2016-07-11 09:23:21', 1, 0.442026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(331, '2016-07-11 09:23:31', 1, 0.456026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(332, '2016-07-11 09:23:31', 0, 0.395023, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 5475200),
+(333, '2016-07-11 09:23:32', 0, 0.375022, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 5475192),
+(334, '2016-07-11 09:23:32', 0, 0.440026, '127.0.0.1', 'GET', 0, 'user/security/login', 6628680),
+(335, '2016-07-11 09:23:32', 0, 1.56909, '127.0.0.1', 'POST', 1, 'user/security/login', 6227800),
+(336, '2016-07-11 09:23:36', 0, 1.22707, '127.0.0.1', 'POST', 1, 'user/security/login', 6227800),
+(337, '2016-07-11 09:23:37', 0, 1.60909, '127.0.0.1', 'POST', 0, 'user/security/login', 6179272),
+(338, '2016-07-11 09:23:39', 1, 0.431025, '127.0.0.1', 'GET', 0, 'site/index', 6886944),
+(339, '2016-07-11 09:23:41', 1, 0.510029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(340, '2016-07-11 09:23:41', 1, 0.52203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(341, '2016-07-11 09:23:45', 1, 0.669038, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9491976),
+(342, '2016-07-11 09:23:47', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(343, '2016-07-11 09:23:51', 1, 0.467027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(344, '2016-07-11 09:23:51', 1, 0.760043, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9538432),
+(345, '2016-07-11 09:23:54', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(346, '2016-07-11 09:24:01', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(347, '2016-07-11 09:24:04', 1, 0.51703, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(348, '2016-07-11 09:24:12', 1, 0.410023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(349, '2016-07-11 09:24:14', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(350, '2016-07-11 09:24:23', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(351, '2016-07-11 09:24:24', 1, 0.528031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(352, '2016-07-11 09:24:25', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(353, '2016-07-11 09:24:35', 1, 0.934053, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(354, '2016-07-11 09:24:46', 1, 0.943053, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(355, '2016-07-11 09:24:47', 1, 1.7841, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9537688),
+(356, '2016-07-11 09:24:52', 1, 0.534031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(357, '2016-07-11 09:24:55', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(358, '2016-07-11 09:24:56', 1, 0.735042, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(359, '2016-07-11 09:25:02', 1, 0.536031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(360, '2016-07-11 09:25:07', 1, 0.741042, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(361, '2016-07-11 09:25:12', 1, 0.52103, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(362, '2016-07-11 09:25:19', 1, 0.69604, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(363, '2016-07-11 09:25:21', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(364, '2016-07-11 09:25:23', 1, 0.502028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(365, '2016-07-11 09:25:29', 1, 0.732041, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(366, '2016-07-11 09:25:33', 1, 0.441025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(367, '2016-07-11 09:25:40', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(368, '2016-07-11 09:25:43', 1, 0.409023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(369, '2016-07-11 09:25:49', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(370, '2016-07-11 09:25:51', 1, 0.496028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(371, '2016-07-11 09:25:54', 1, 0.440025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(372, '2016-07-11 09:26:02', 1, 0.427025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(373, '2016-07-11 09:26:04', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(374, '2016-07-11 09:26:13', 1, 0.690039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(375, '2016-07-11 09:26:14', 1, 0.471027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(376, '2016-07-11 09:26:24', 1, 0.390022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(377, '2016-07-11 09:26:24', 1, 0.665038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(378, '2016-07-11 09:26:34', 1, 0.457026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(379, '2016-07-11 09:26:35', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(380, '2016-07-11 09:26:44', 1, 0.415024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(381, '2016-07-11 09:26:46', 1, 0.425024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(382, '2016-07-11 09:26:54', 1, 0.393023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(383, '2016-07-11 09:26:57', 1, 0.484028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(384, '2016-07-11 09:27:04', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(385, '2016-07-11 09:27:08', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(386, '2016-07-11 09:27:14', 1, 0.417024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(387, '2016-07-11 09:27:19', 1, 0.440025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(388, '2016-07-11 09:27:24', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(389, '2016-07-11 09:27:30', 1, 0.36502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(390, '2016-07-11 09:27:34', 1, 0.523029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(391, '2016-07-11 09:27:41', 1, 0.434025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(392, '2016-07-11 09:27:44', 1, 0.413023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(393, '2016-07-11 09:27:52', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(394, '2016-07-11 09:27:54', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(395, '2016-07-11 09:28:03', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(396, '2016-07-11 09:28:04', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(397, '2016-07-11 09:28:14', 1, 0.408024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(398, '2016-07-11 09:28:14', 1, 0.540031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(399, '2016-07-11 09:28:21', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(400, '2016-07-11 09:28:24', 1, 0.439025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(401, '2016-07-11 09:28:24', 1, 0.554031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(402, '2016-07-11 09:28:34', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(403, '2016-07-11 09:28:34', 1, 0.540031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(404, '2016-07-11 09:28:44', 1, 0.353021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(405, '2016-07-11 09:28:44', 1, 0.474027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(406, '2016-07-11 09:28:54', 1, 0.445026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(407, '2016-07-11 09:28:54', 1, 0.636037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(408, '2016-07-11 09:29:04', 1, 0.481027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(409, '2016-07-11 09:29:04', 1, 0.550032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(410, '2016-07-11 09:29:10', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(411, '2016-07-11 09:29:14', 1, 0.415023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(412, '2016-07-11 09:29:14', 1, 0.567032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(413, '2016-07-11 09:29:24', 1, 0.448026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(414, '2016-07-11 09:29:24', 1, 0.517029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(415, '2016-07-11 09:29:34', 1, 0.451026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(416, '2016-07-11 09:29:34', 1, 0.610035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(417, '2016-07-11 09:29:44', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(418, '2016-07-11 09:29:44', 1, 0.495029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(419, '2016-07-11 09:29:54', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(420, '2016-07-11 09:29:54', 1, 0.52303, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(421, '2016-07-11 09:30:03', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(422, '2016-07-11 09:30:04', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(423, '2016-07-11 09:30:04', 1, 0.479027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(424, '2016-07-11 09:30:14', 1, 0.351021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(425, '2016-07-11 09:30:15', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(426, '2016-07-11 09:30:24', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(427, '2016-07-11 09:30:26', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(428, '2016-07-11 09:30:34', 1, 0.446025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(429, '2016-07-11 09:30:37', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(430, '2016-07-11 09:30:44', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(431, '2016-07-11 09:30:48', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(432, '2016-07-11 09:30:54', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(433, '2016-07-11 09:30:59', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(434, '2016-07-11 09:31:04', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(435, '2016-07-11 09:31:10', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(436, '2016-07-11 09:31:14', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(437, '2016-07-11 09:31:21', 1, 0.427024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(438, '2016-07-11 09:31:24', 1, 0.505028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(439, '2016-07-11 09:31:25', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(440, '2016-07-11 09:31:31', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(441, '2016-07-11 09:31:34', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(442, '2016-07-11 09:31:41', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(443, '2016-07-11 09:31:44', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(444, '2016-07-11 09:31:51', 1, 0.434024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(445, '2016-07-11 09:31:54', 1, 0.473027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(446, '2016-07-11 09:32:01', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(447, '2016-07-11 09:32:04', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(448, '2016-07-11 09:32:11', 1, 0.432024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(449, '2016-07-11 09:32:14', 1, 0.390022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(450, '2016-07-11 09:32:22', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(451, '2016-07-11 09:32:24', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(452, '2016-07-11 09:32:33', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(453, '2016-07-11 09:32:34', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(454, '2016-07-11 09:32:44', 1, 0.477027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(455, '2016-07-11 09:32:44', 1, 0.51703, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(456, '2016-07-11 09:32:54', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(457, '2016-07-11 09:32:55', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(458, '2016-07-11 09:33:04', 1, 0.455026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(459, '2016-07-11 09:33:06', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(460, '2016-07-11 09:33:14', 1, 0.33402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(461, '2016-07-11 09:33:16', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(462, '2016-07-11 09:33:24', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(463, '2016-07-11 09:33:26', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(464, '2016-07-11 09:33:34', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(465, '2016-07-11 09:33:36', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(466, '2016-07-11 09:33:44', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(467, '2016-07-11 09:33:46', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(468, '2016-07-11 09:33:54', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(469, '2016-07-11 09:33:56', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(470, '2016-07-11 09:34:04', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(471, '2016-07-11 09:34:06', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(472, '2016-07-11 09:34:14', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(473, '2016-07-11 09:34:16', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(474, '2016-07-11 09:34:24', 1, 0.389023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(475, '2016-07-11 09:34:26', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(476, '2016-07-11 09:34:34', 1, 0.417024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(477, '2016-07-11 09:34:36', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(478, '2016-07-11 09:34:44', 1, 0.427025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(479, '2016-07-11 09:34:47', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(480, '2016-07-11 09:34:54', 1, 0.450026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(481, '2016-07-11 09:34:57', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(482, '2016-07-11 09:35:04', 1, 0.588034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(483, '2016-07-11 09:35:07', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(484, '2016-07-11 09:35:14', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(485, '2016-07-11 09:35:17', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(486, '2016-07-11 09:35:24', 1, 0.407023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(487, '2016-07-11 09:35:27', 1, 0.456026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(488, '2016-07-11 09:35:34', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(489, '2016-07-11 09:35:37', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(490, '2016-07-11 09:35:44', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(491, '2016-07-11 09:35:47', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(492, '2016-07-11 09:35:54', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(493, '2016-07-11 09:35:57', 1, 0.378022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(494, '2016-07-11 09:36:04', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(495, '2016-07-11 09:36:07', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(496, '2016-07-11 09:36:14', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(497, '2016-07-11 09:36:17', 1, 0.460027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(498, '2016-07-11 09:36:24', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(499, '2016-07-11 09:36:28', 1, 0.564032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(500, '2016-07-11 09:36:34', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(501, '2016-07-11 09:36:39', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(502, '2016-07-11 09:36:44', 1, 0.395023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(503, '2016-07-11 09:36:50', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(504, '2016-07-11 09:36:54', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(505, '2016-07-11 09:37:01', 1, 0.421024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(506, '2016-07-11 09:37:04', 1, 1.20007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(507, '2016-07-11 09:37:12', 1, 0.759044, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(508, '2016-07-11 09:37:15', 1, 0.632036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(509, '2016-07-11 09:37:23', 1, 0.451026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(510, '2016-07-11 09:37:24', 1, 0.473027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(511, '2016-07-11 09:37:34', 1, 0.752043, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(512, '2016-07-11 09:37:34', 1, 0.608034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(513, '2016-07-11 09:37:44', 1, 0.549032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(514, '2016-07-11 09:37:45', 1, 0.814047, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(515, '2016-07-11 09:37:54', 1, 0.532031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(516, '2016-07-11 09:37:56', 1, 0.473027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(517, '2016-07-11 09:38:04', 1, 0.488028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(518, '2016-07-11 09:38:07', 1, 0.431024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(519, '2016-07-11 09:38:14', 1, 0.505029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(520, '2016-07-11 09:38:18', 1, 0.505029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(521, '2016-07-11 09:38:22', 1, 1.7241, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/index', 9466832),
+(522, '2016-07-11 09:38:25', 1, 0.842048, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(523, '2016-07-11 09:38:25', 1, 0.51603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(524, '2016-07-11 09:38:26', 1, 1.06406, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/asignar', 9892256),
+(525, '2016-07-11 09:38:28', 1, 0.615035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(526, '2016-07-11 09:38:29', 1, 0.776044, '127.0.0.1', 'GET', 1, 'proyecto-usuario-asignar/create', 7747952),
+(527, '2016-07-11 09:38:34', 1, 0.447026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(528, '2016-07-11 09:38:37', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(529, '2016-07-11 09:38:44', 1, 0.497029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(530, '2016-07-11 09:38:48', 1, 0.486028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(531, '2016-07-11 09:38:54', 1, 0.443025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(532, '2016-07-11 09:38:59', 1, 0.559032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(533, '2016-07-11 09:39:05', 1, 0.620036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(534, '2016-07-11 09:39:09', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(535, '2016-07-11 09:39:14', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(536, '2016-07-11 09:39:20', 1, 0.412023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(537, '2016-07-11 09:39:24', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(538, '2016-07-11 09:39:31', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(539, '2016-07-11 09:39:34', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(540, '2016-07-11 09:39:42', 1, 0.474027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(541, '2016-07-11 09:39:44', 1, 0.51803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(542, '2016-07-11 09:39:53', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(543, '2016-07-11 09:39:54', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(544, '2016-07-11 09:40:04', 1, 0.502028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(545, '2016-07-11 09:40:05', 1, 0.554031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(546, '2016-07-11 09:40:14', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(547, '2016-07-11 09:40:15', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(548, '2016-07-11 09:40:24', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(549, '2016-07-11 09:40:26', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(550, '2016-07-11 09:40:34', 1, 0.445026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(551, '2016-07-11 09:40:37', 1, 0.444026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(552, '2016-07-11 09:40:44', 1, 0.417023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(553, '2016-07-11 09:40:47', 1, 0.36502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(554, '2016-07-11 09:40:54', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(555, '2016-07-11 09:40:57', 1, 0.36102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(556, '2016-07-11 09:41:04', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(557, '2016-07-11 09:41:07', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(558, '2016-07-11 09:41:14', 1, 0.408023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(559, '2016-07-11 09:41:18', 1, 0.425024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(560, '2016-07-11 09:41:24', 1, 0.418024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(561, '2016-07-11 09:41:29', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(562, '2016-07-11 09:41:34', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(563, '2016-07-11 09:41:40', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(564, '2016-07-11 09:41:44', 1, 0.451026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(565, '2016-07-11 09:41:50', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(566, '2016-07-11 09:41:54', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(567, '2016-07-11 09:42:00', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(568, '2016-07-11 09:42:04', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(569, '2016-07-11 09:42:10', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(570, '2016-07-11 09:42:14', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(571, '2016-07-11 09:42:20', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(572, '2016-07-11 09:42:24', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(573, '2016-07-11 09:42:30', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(574, '2016-07-11 09:42:34', 1, 0.419024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(575, '2016-07-11 09:42:40', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(576, '2016-07-11 09:42:44', 1, 0.415024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(577, '2016-07-11 09:42:51', 1, 0.463026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(578, '2016-07-11 09:42:54', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(579, '2016-07-11 09:43:02', 1, 0.409023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(580, '2016-07-11 09:43:04', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(581, '2016-07-11 09:43:12', 1, 0.33502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(582, '2016-07-11 09:43:14', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(583, '2016-07-11 09:43:22', 1, 0.451026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(584, '2016-07-11 09:43:24', 1, 0.422024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(585, '2016-07-11 09:43:32', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(586, '2016-07-11 09:43:34', 1, 0.416024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(587, '2016-07-11 09:43:41', 1, 0.446025, '127.0.0.1', 'GET', 1, 'proyecto-usuario-asignar/update', 7727080),
+(588, '2016-07-11 09:43:42', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(589, '2016-07-11 09:43:44', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(590, '2016-07-11 09:43:52', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(591, '2016-07-11 09:43:54', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(592, '2016-07-11 09:44:02', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(593, '2016-07-11 09:44:04', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(594, '2016-07-11 09:44:12', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(595, '2016-07-11 09:44:14', 1, 0.39, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(596, '2016-07-11 09:44:22', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(597, '2016-07-11 09:44:24', 1, 0.380203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(598, '2016-07-11 09:44:32', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(599, '2016-07-11 09:44:34', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(600, '2016-07-11 09:44:42', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(601, '2016-07-11 09:44:44', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(602, '2016-07-11 09:44:52', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(603, '2016-07-11 09:44:54', 1, 0.364206, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(604, '2016-07-11 09:45:02', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(605, '2016-07-11 09:45:04', 1, 0.421201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(606, '2016-07-11 09:45:12', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(607, '2016-07-11 09:45:14', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(608, '2016-07-11 09:45:22', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(609, '2016-07-11 09:45:24', 1, 0.3744, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(610, '2016-07-11 09:45:32', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(611, '2016-07-11 09:45:34', 1, 0.376801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(612, '2016-07-11 09:45:42', 1, 0.321803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(613, '2016-07-11 09:45:45', 1, 0.534225, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(614, '2016-07-11 09:45:45', 1, 0.923053, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9492712),
+(615, '2016-07-11 09:45:46', 1, 0.435417, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(616, '2016-07-11 09:45:48', 1, 0.780045, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9539176),
+(617, '2016-07-11 09:45:50', 1, 0.490119, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(618, '2016-07-11 09:45:51', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(619, '2016-07-11 09:45:54', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(620, '2016-07-11 09:46:00', 1, 0.442025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(621, '2016-07-11 09:46:04', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(622, '2016-07-11 09:46:10', 1, 0.344201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(623, '2016-07-11 09:46:14', 1, 0.353201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(624, '2016-07-11 09:46:20', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(625, '2016-07-11 09:46:24', 1, 0.39, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(626, '2016-07-11 09:46:30', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(627, '2016-07-11 09:46:34', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(628, '2016-07-11 09:46:40', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(629, '2016-07-11 09:46:44', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(630, '2016-07-11 09:46:50', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(631, '2016-07-11 09:46:54', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(632, '2016-07-11 09:47:00', 1, 0.337602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(633, '2016-07-11 09:47:04', 1, 0.39, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(634, '2016-07-11 09:47:10', 1, 0.344201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(635, '2016-07-11 09:47:14', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(636, '2016-07-11 09:47:20', 1, 0.360404, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(637, '2016-07-11 09:47:24', 1, 0.344201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(638, '2016-07-11 09:47:30', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(639, '2016-07-11 09:47:35', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(640, '2016-07-11 09:47:40', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(641, '2016-07-11 09:47:45', 1, 0.436801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(642, '2016-07-11 09:47:50', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(643, '2016-07-11 09:47:55', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(644, '2016-07-11 09:48:00', 1, 0.353201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(645, '2016-07-11 09:48:04', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(646, '2016-07-11 09:48:10', 1, 0.329601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(647, '2016-07-11 09:48:15', 1, 0.3442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(648, '2016-07-11 09:48:20', 1, 0.4212, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(649, '2016-07-11 09:48:25', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(650, '2016-07-11 09:48:30', 1, 0.359801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(651, '2016-07-11 09:48:35', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(652, '2016-07-11 09:48:40', 1, 0.328601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(653, '2016-07-11 09:48:45', 1, 0.483601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(654, '2016-07-11 09:48:50', 1, 0.354201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(655, '2016-07-11 09:48:55', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(656, '2016-07-11 09:49:00', 1, 0.3442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(657, '2016-07-11 09:49:05', 1, 0.375401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(658, '2016-07-11 09:49:08', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(659, '2016-07-11 09:49:10', 1, 0.458004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(660, '2016-07-11 09:49:15', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(661, '2016-07-11 09:49:20', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(662, '2016-07-11 09:49:25', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(663, '2016-07-11 09:49:30', 1, 0.328601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(664, '2016-07-11 09:49:35', 1, 0.39, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(665, '2016-07-11 09:49:38', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(666, '2016-07-11 09:49:40', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(667, '2016-07-11 09:49:45', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(668, '2016-07-11 09:49:50', 1, 0.340205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(669, '2016-07-11 09:49:51', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(670, '2016-07-11 09:49:55', 1, 0.398001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(671, '2016-07-11 09:50:00', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(672, '2016-07-11 09:50:05', 1, 0.39, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(673, '2016-07-11 09:50:10', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(674, '2016-07-11 09:50:15', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(675, '2016-07-11 09:50:21', 1, 0.342012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(676, '2016-07-11 09:50:25', 1, 0.451024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(677, '2016-07-11 09:50:32', 1, 0.397014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(678, '2016-07-11 09:50:35', 1, 0.353002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(679, '2016-07-11 09:50:43', 1, 0.321402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(680, '2016-07-11 09:50:45', 1, 0.334804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(681, '2016-07-11 09:50:54', 1, 0.299004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(682, '2016-07-11 09:50:55', 1, 0.330403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(683, '2016-07-11 09:51:04', 1, 0.530625, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(684, '2016-07-11 09:51:05', 1, 0.73343, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(685, '2016-07-11 09:51:14', 1, 0.358602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(686, '2016-07-11 09:51:15', 1, 0.431201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(687, '2016-07-11 09:51:24', 1, 0.414609, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(688, '2016-07-11 09:51:25', 1, 0.660813, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(689, '2016-07-11 09:51:30', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(690, '2016-07-11 09:51:34', 1, 0.370801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(691, '2016-07-11 09:51:35', 1, 0.353602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(692, '2016-07-11 09:51:44', 1, 0.328005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(693, '2016-07-11 09:51:45', 1, 0.391803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(694, '2016-07-11 09:51:54', 1, 0.355003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(695, '2016-07-11 09:51:55', 1, 0.390406, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(696, '2016-07-11 09:52:04', 1, 0.372004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(697, '2016-07-11 09:52:05', 1, 0.445202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(698, '2016-07-11 09:52:12', 1, 0.368021, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7433376),
+(699, '2016-07-11 09:52:14', 1, 0.483411, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(700, '2016-07-11 09:52:15', 1, 0.516012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(701, '2016-07-11 09:52:23', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(702, '2016-07-11 09:52:24', 1, 0.355003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(703, '2016-07-11 09:52:25', 1, 0.633037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(704, '2016-07-11 09:52:34', 1, 0.348602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(705, '2016-07-11 09:52:35', 1, 0.368603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(706, '2016-07-11 09:52:39', 1, 0.539031, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7742384),
+(707, '2016-07-11 09:52:44', 1, 0.359202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(708, '2016-07-11 09:52:45', 1, 0.3754, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(709, '2016-07-11 09:52:55', 1, 0.58043, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(710, '2016-07-11 09:52:55', 1, 0.603633, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(711, '2016-07-11 09:52:55', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(712, '2016-07-11 09:53:04', 1, 0.317402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(713, '2016-07-11 09:53:05', 1, 0.385401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(714, '2016-07-11 09:53:07', 1, 0.450026, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7742384),
+(715, '2016-07-11 09:53:14', 1, 0.369003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(716, '2016-07-11 09:53:15', 1, 0.354602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(717, '2016-07-11 09:53:24', 1, 0.375603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(718, '2016-07-11 09:53:25', 1, 0.452604, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(719, '2016-07-11 09:53:34', 1, 0.324002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(720, '2016-07-11 09:53:35', 1, 0.345601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(721, '2016-07-11 09:53:44', 1, 0.45841, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(722, '2016-07-11 09:53:45', 1, 0.623035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(723, '2016-07-11 09:53:45', 1, 0.629036, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7742440),
+(724, '2016-07-11 09:53:54', 1, 0.330001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(725, '2016-07-11 09:53:55', 1, 0.366603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(726, '2016-07-11 09:54:04', 1, 0.431003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(727, '2016-07-11 09:54:05', 1, 0.392001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(728, '2016-07-11 09:54:14', 1, 0.345602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(729, '2016-07-11 09:54:15', 1, 0.391001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(730, '2016-07-11 09:54:24', 1, 0.328803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(731, '2016-07-11 09:54:25', 1, 0.345201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(732, '2016-07-11 09:54:31', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(733, '2016-07-11 09:54:34', 1, 0.436607, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(734, '2016-07-11 09:54:35', 1, 0.501201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(735, '2016-07-11 09:54:41', 1, 0.402023, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7742440),
+(736, '2016-07-11 09:54:44', 1, 0.332403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(737, '2016-07-11 09:54:45', 1, 0.352606, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(738, '2016-07-11 09:54:55', 1, 0.475803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(739, '2016-07-11 09:54:55', 1, 0.394001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(740, '2016-07-11 09:55:04', 1, 0.363202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(741, '2016-07-11 09:55:05', 1, 0.359201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(742, '2016-07-11 09:55:14', 1, 0.344201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(743, '2016-07-11 09:55:15', 1, 0.348602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(744, '2016-07-11 09:55:24', 1, 0.367603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(745, '2016-07-11 09:55:25', 1, 0.351206, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(746, '2016-07-11 09:55:34', 1, 0.347602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(747, '2016-07-11 09:55:35', 1, 0.340601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(748, '2016-07-11 09:55:43', 1, 0.465026, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7744064),
+(749, '2016-07-11 09:55:45', 1, 0.415403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(750, '2016-07-11 09:55:45', 1, 0.529612, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(751, '2016-07-11 09:55:55', 1, 0.365603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(752, '2016-07-11 09:55:55', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(753, '2016-07-11 09:56:04', 1, 0.321204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(754, '2016-07-11 09:56:05', 1, 0.341403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(755, '2016-07-11 09:56:10', 1, 0.52663, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7744104),
+(756, '2016-07-11 09:56:15', 1, 0.369004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(757, '2016-07-11 09:56:15', 1, 0.357602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(758, '2016-07-11 09:56:23', 1, 0.428024, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7744104),
+(759, '2016-07-11 09:56:24', 1, 0.347809, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(760, '2016-07-11 09:56:25', 1, 0.566019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(761, '2016-07-11 09:56:34', 1, 0.352404, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(762, '2016-07-11 09:56:35', 1, 0.515801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(763, '2016-07-11 09:56:45', 1, 0.352205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(764, '2016-07-11 09:56:45', 1, 0.535203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(765, '2016-07-11 09:56:54', 1, 0.3296, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(766, '2016-07-11 09:56:55', 1, 0.325402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(767, '2016-07-11 09:57:05', 1, 0.339601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(768, '2016-07-11 09:57:05', 1, 0.359801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(769, '2016-07-11 09:57:15', 1, 0.624622, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(770, '2016-07-11 09:57:15', 1, 0.424016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(771, '2016-07-11 09:57:25', 1, 0.589021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(772, '2016-07-11 09:57:25', 1, 0.498015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(773, '2016-07-11 09:57:35', 1, 0.414816, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(774, '2016-07-11 09:57:36', 1, 0.355417, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(775, '2016-07-11 09:57:45', 1, 0.338209, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(776, '2016-07-11 09:57:47', 1, 0.338817, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(777, '2016-07-11 09:57:55', 1, 0.400415, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(778, '2016-07-11 09:57:58', 1, 0.330204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(779, '2016-07-11 09:58:05', 1, 0.346408, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(780, '2016-07-11 09:58:09', 1, 0.345408, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(781, '2016-07-11 09:58:15', 1, 0.369814, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(782, '2016-07-11 09:58:19', 1, 0.399217, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(783, '2016-07-11 09:58:25', 1, 0.553032, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7744088),
+(784, '2016-07-11 09:58:25', 1, 0.700036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(785, '2016-07-11 09:58:29', 1, 0.368211, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(786, '2016-07-11 09:58:35', 1, 0.563403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(787, '2016-07-11 09:58:39', 1, 0.299401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(788, '2016-07-11 09:58:45', 1, 0.341002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(789, '2016-07-11 09:58:49', 1, 0.3452, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(790, '2016-07-11 09:58:55', 1, 0.484601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134440),
+(791, '2016-07-11 09:58:57', 1, 0.328601, '127.0.0.1', 'POST', 0, 'site/logout', 5853200),
+(792, '2016-07-11 09:58:58', 0, 0.281801, '127.0.0.1', 'GET', 0, 'site/index', 5388832),
+(793, '2016-07-11 09:58:58', 0, 0.749202, '127.0.0.1', 'GET', 0, 'user/security/login', 6629192),
+(794, '2016-07-11 09:58:59', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(795, '2016-07-11 09:59:09', 0, 0.390203, '127.0.0.1', 'GET', 0, 'site/index', 5386424),
+(796, '2016-07-11 09:59:09', 0, 0.626203, '127.0.0.1', 'GET', 0, 'user/security/login', 7566952),
+(797, '2016-07-11 09:59:09', 1, 0.422403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(798, '2016-07-11 09:59:14', 0, 1.373, '127.0.0.1', 'POST', 1, 'user/security/login', 6502584),
+(799, '2016-07-11 09:59:19', 1, 0.359602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(800, '2016-07-11 09:59:21', 0, 1.3102, '127.0.0.1', 'POST', 1, 'user/security/login', 6502584),
+(801, '2016-07-11 09:59:25', 0, 1.28521, '127.0.0.1', 'POST', 1, 'user/security/login', 6226496),
+(802, '2016-07-11 09:59:27', 0, 1.32621, '127.0.0.1', 'POST', 0, 'user/security/login', 6178136),
+(803, '2016-07-11 09:59:28', 2, 0.516602, '127.0.0.1', 'GET', 0, 'site/index', 7220520),
+(804, '2016-07-11 09:59:29', 1, 0.358202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(805, '2016-07-11 09:59:32', 2, 1.16281, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9538088),
+(806, '2016-07-11 09:59:40', 1, 0.308806, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(807, '2016-07-11 09:59:51', 1, 0.566032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(808, '2016-07-11 10:00:02', 1, 0.352005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(809, '2016-07-11 10:00:13', 1, 0.298608, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(810, '2016-07-11 10:00:24', 1, 0.675038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(811, '2016-07-11 10:00:35', 1, 0.350804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(812, '2016-07-11 10:00:46', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(813, '2016-07-11 10:00:57', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(814, '2016-07-11 10:01:08', 1, 0.319019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(815, '2016-07-11 10:01:19', 1, 0.333014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(816, '2016-07-11 10:01:30', 1, 0.454026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(817, '2016-07-11 10:01:38', 2, 0.653223, '127.0.0.1', 'GET', 1, 'accion-centralizada/create', 8115976),
+(818, '2016-07-11 10:01:39', 2, 0.536802, '127.0.0.1', 'GET', 0, 'accion-centralizada/create', 8127976),
+(819, '2016-07-11 10:01:40', 1, 0.434602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(820, '2016-07-11 10:01:50', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(821, '2016-07-11 10:02:00', 1, 0.412601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(822, '2016-07-11 10:02:10', 1, 0.321001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(823, '2016-07-11 10:02:20', 1, 0.313803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(824, '2016-07-11 10:02:30', 1, 0.308203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(825, '2016-07-11 10:02:40', 1, 0.313001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(826, '2016-07-11 10:02:50', 1, 0.343002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(827, '2016-07-11 10:03:00', 1, 0.317001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(828, '2016-07-11 10:03:10', 1, 0.3764, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(829, '2016-07-11 10:03:20', 1, 0.318001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(830, '2016-07-11 10:03:30', 1, 0.435021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(831, '2016-07-11 10:03:41', 1, 0.572032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(832, '2016-07-11 10:03:51', 1, 0.453401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(833, '2016-07-11 10:04:01', 1, 0.3286, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(834, '2016-07-11 10:04:11', 1, 0.436801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(835, '2016-07-11 10:04:21', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(836, '2016-07-11 10:04:31', 1, 0.39, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(837, '2016-07-11 10:04:41', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(838, '2016-07-11 16:34:47', 0, 2.499, NULL, 'CLI', 0, 'help/index', 6883456),
+(839, '2016-07-11 10:04:51', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(840, '2016-07-11 10:05:01', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(841, '2016-07-11 10:05:11', 1, 0.313, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(842, '2016-07-11 16:35:21', 0, 0.702001, NULL, 'CLI', 0, 'acc/crear-acc-prueba', 3929192),
+(843, '2016-07-11 10:05:21', 1, 0.561601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(844, '2016-07-11 10:05:26', 2, 0.781002, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9731456),
+(845, '2016-07-11 10:05:31', 2, 1.093, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 10061848),
+(846, '2016-07-11 10:05:31', 1, 0.530401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(847, '2016-07-11 10:05:38', 2, NULL, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', NULL),
+(848, '2016-07-11 10:05:41', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(849, '2016-07-11 10:05:47', 1, 0.850648, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9538872),
+(850, '2016-07-11 10:05:48', 1, 0.312014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(851, '2016-07-11 10:05:50', 1, 0.432025, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7798328),
+(852, '2016-07-11 10:05:54', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
+(853, '2016-07-11 10:05:58', 1, 0.378203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(854, '2016-07-11 10:06:08', 1, 0.308017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(855, '2016-07-11 10:06:13', 1, 0.659038, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9492712),
+(856, '2016-07-11 10:06:14', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(857, '2016-07-11 10:06:15', 1, 0.602035, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9539168),
+(858, '2016-07-11 10:06:16', 1, 0.347813, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(859, '2016-07-11 10:06:18', 1, 0.434025, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7798328),
+(860, '2016-07-11 10:06:20', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
+(861, '2016-07-11 10:06:26', 1, 0.375401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(862, '2016-07-11 10:06:35', 1, 0.748043, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 9304664),
+(863, '2016-07-11 10:06:36', 1, 0.428813, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(864, '2016-07-11 10:06:45', 2, NULL, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', NULL),
+(865, '2016-07-11 10:06:46', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(866, '2016-07-11 10:06:50', 2, NULL, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', NULL),
+(867, '2016-07-11 10:06:56', 1, 0.316803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(868, '2016-07-11 10:07:01', 2, 0.391001, '127.0.0.1', 'POST', 0, 'user/security/logout', 5899176),
+(869, '2016-07-11 10:07:01', 0, 0.546001, '127.0.0.1', 'GET', 0, 'user/security/login', 7459744),
+(870, '2016-07-11 10:07:05', 0, 1.2208, '127.0.0.1', 'POST', 1, 'user/security/login', 6502528),
+(871, '2016-07-11 10:07:06', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(872, '2016-07-11 10:07:09', 0, 1.171, '127.0.0.1', 'POST', 1, 'user/security/login', 6226360),
+(873, '2016-07-11 10:07:10', 0, 1.2656, '127.0.0.1', 'POST', 0, 'user/security/login', 6178072),
+(874, '2016-07-11 10:07:12', 1, 0.406002, '127.0.0.1', 'GET', 0, 'site/index', 7213112),
+(875, '2016-07-11 10:07:14', 1, 0.639601, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9726240),
+(876, '2016-07-11 10:07:16', 1, 0.361801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(877, '2016-07-11 10:07:18', 1, 0.717601, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 10057136),
+(878, '2016-07-11 10:07:22', 1, 1.248, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', 7357128),
+(879, '2016-07-11 10:07:26', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(880, '2016-07-11 10:07:27', 1, 0.514801, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', 7357128),
+(881, '2016-07-11 10:07:36', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(882, '2016-07-11 10:07:46', 1, 0.328601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(883, '2016-07-11 10:07:53', 1, 0.873602, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9726360),
+(884, '2016-07-11 10:07:56', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(885, '2016-07-11 10:08:06', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(886, '2016-07-11 10:08:16', 1, 0.3442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(887, '2016-07-11 10:08:26', 1, 0.391001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(888, '2016-07-11 10:08:36', 1, 0.326803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(889, '2016-07-11 10:08:47', 1, 0.376608, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(890, '2016-07-11 10:08:58', 1, 0.327001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(891, '2016-07-11 10:09:09', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(892, '2016-07-11 10:09:13', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada/bulk-delete', NULL),
+(893, '2016-07-11 10:09:16', 1, 0.546001, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 6332360),
+(894, '2016-07-11 10:09:17', 1, 0.734201, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 9405568),
+(895, '2016-07-11 10:09:20', 1, 0.459401, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 6332352),
+(896, '2016-07-11 10:09:20', 1, 0.702001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(897, '2016-07-11 10:09:20', 1, 0.904801, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 9398024),
+(898, '2016-07-11 10:09:23', 1, 0.421201, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 6332352),
+(899, '2016-07-11 10:09:23', 1, 0.673802, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 9390520),
+(900, '2016-07-11 10:09:26', 1, 0.4378, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 6332352),
+(901, '2016-07-11 10:09:26', 1, 0.608401, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 9383144),
+(902, '2016-07-11 10:09:28', 1, 0.499201, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 6332360),
+(903, '2016-07-11 10:09:29', 1, 0.859001, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 9375536),
+(904, '2016-07-11 10:09:31', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(905, '2016-07-11 10:09:32', 1, 0.374401, '127.0.0.1', 'POST', 1, 'accion-centralizada/delete', 6332312),
+(906, '2016-07-11 10:09:33', 1, 0.717601, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 9238360),
+(907, '2016-07-11 10:09:37', 1, 0.670802, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9531632),
+(908, '2016-07-11 16:39:40', 0, 0.218401, NULL, 'CLI', 0, 'acc/crear-acc-prueba', 3929192),
+(909, '2016-07-11 10:09:42', 1, 0.313401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(910, '2016-07-11 10:09:45', 1, 0.577201, '127.0.0.1', 'GET', 1, 'accion-centralizada/index', 9314656),
+(911, '2016-07-11 10:09:48', 1, 0.717601, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 10063984),
+(912, '2016-07-11 10:09:53', 1, 0.499201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(913, '2016-07-11 10:09:53', 1, 0.920401, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9726360),
+(914, '2016-07-11 10:09:56', 1, 0.717601, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 10057112),
+(915, '2016-07-11 10:10:04', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(916, '2016-07-11 10:10:06', 1, 0.834604, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', 8403600),
+(917, '2016-07-11 10:10:15', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(918, '2016-07-11 10:10:16', 1, 0.764401, '127.0.0.1', 'POST', 1, 'ac-ac-espec/update', 7854000),
+(919, '2016-07-11 10:10:17', 1, 0.592801, '127.0.0.1', 'GET', 1, 'accion-centralizada/view', 9613288),
+(920, '2016-07-11 10:10:21', 1, 0.577201, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', 7385688),
+(921, '2016-07-11 10:10:26', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(922, '2016-07-11 10:10:37', 1, 0.481027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(923, '2016-07-11 10:10:47', 1, 0.290006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(924, '2016-07-11 10:10:53', 1, 0.572033, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9492672),
+(925, '2016-07-11 10:10:54', 1, 0.433417, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(926, '2016-07-11 10:10:56', 1, 0.573033, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9539176),
+(927, '2016-07-11 10:10:57', 1, 0.383013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(928, '2016-07-11 10:10:59', 1, 0.426024, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7798328);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(929, '2016-07-11 10:11:02', 1, 0.546031, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9492712),
+(930, '2016-07-11 10:11:03', 1, 0.383013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(931, '2016-07-11 10:11:04', 1, 0.580033, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9539168),
+(932, '2016-07-11 10:11:05', 1, 0.369612, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(933, '2016-07-11 10:11:06', 1, 0.401023, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7798328),
+(934, '2016-07-11 10:11:11', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
+(935, '2016-07-11 10:11:15', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
+(936, '2016-07-11 10:11:15', 1, 0.343205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(937, '2016-07-11 10:11:17', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
+(938, '2016-07-11 10:11:20', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
+(939, '2016-07-11 10:11:25', 1, 0.336001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(940, '2016-07-11 10:11:33', 1, 0.453801, '127.0.0.1', 'GET', 0, 'site/index', 7009984),
+(941, '2016-07-11 10:11:35', 1, 0.346201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134192),
+(942, '2016-07-11 10:11:35', 1, 0.336205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(943, '2016-07-11 10:11:41', 1, 0.646403, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9491752),
+(944, '2016-07-11 10:11:43', 1, 0.371603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(945, '2016-07-11 10:11:45', 1, 0.701402, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9538264),
+(946, '2016-07-11 10:11:45', 1, 0.359801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(947, '2016-07-11 10:11:47', 1, 0.349804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(948, '2016-07-11 10:11:52', 1, 0.619203, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7798136),
+(949, '2016-07-11 10:11:55', 1, 0.358602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(950, '2016-07-11 10:11:57', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', NULL),
+(951, '2016-07-11 10:11:59', 1, 0.447202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(952, '2016-07-11 10:12:05', 1, 0.309401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(953, '2016-07-11 10:12:08', 1, 0.341403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(954, '2016-07-11 10:12:15', 1, 0.322001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(955, '2016-07-11 10:12:19', 1, 0.63361, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(956, '2016-07-11 10:12:21', 1, 0.662206, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 9303704),
+(957, '2016-07-11 10:12:23', 1, 0.395204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134192),
+(958, '2016-07-11 10:12:25', 1, 0.836018, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 8766952),
+(959, '2016-07-11 10:12:26', 1, 0.630217, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(960, '2016-07-11 10:12:31', 1, 0.537604, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 7380648),
+(961, '2016-07-11 10:12:33', 1, 0.438405, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(962, '2016-07-11 10:12:35', 1, 0.348404, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(963, '2016-07-11 10:12:43', 1, 0.438602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(964, '2016-07-11 10:12:45', 1, 0.538604, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 6705160),
+(965, '2016-07-11 10:12:46', 1, 0.590405, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(966, '2016-07-11 10:12:46', 1, 0.645205, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 8769280),
+(967, '2016-07-11 10:12:54', 1, 0.407601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134528),
+(968, '2016-07-11 10:12:54', 1, 0.899805, '127.0.0.1', 'GET', 0, 'rbac/role/index', 9217488),
+(969, '2016-07-11 10:12:55', 1, 0.453401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(970, '2016-07-11 10:12:57', 1, 0.391803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134192),
+(971, '2016-07-11 10:13:06', 1, 0.619803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(972, '2016-07-11 10:13:06', 1, 0.912406, '127.0.0.1', 'GET', 1, 'rbac/role/update', 7953760),
+(973, '2016-07-11 10:13:09', 1, 0.439616, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134192),
+(974, '2016-07-11 10:13:15', 1, 0.345201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(975, '2016-07-11 10:13:17', 1, 0.627001, '127.0.0.1', 'POST', 1, 'rbac/role/update', 7186296),
+(976, '2016-07-11 10:13:18', 1, 0.699609, '127.0.0.1', 'GET', 1, 'rbac/role/index', 8795504),
+(977, '2016-07-11 10:13:20', 1, 0.403006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134192),
+(978, '2016-07-11 10:13:21', 1, 0.427024, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7798328),
+(979, '2016-07-11 10:13:24', 1, 0.331213, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264592),
+(980, '2016-07-11 10:13:24', 1, 0.278408, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6218032),
+(981, '2016-07-11 10:13:25', 1, 0.327006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(982, '2016-07-11 10:13:30', 1, 0.322803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134192),
+(983, '2016-07-11 10:13:34', 1, 0.310811, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6265432),
+(984, '2016-07-11 10:13:34', 1, 0.297409, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6218032),
+(985, '2016-07-11 10:13:35', 1, 0.328601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(986, '2016-07-11 10:13:40', 1, 0.457405, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134192),
+(987, '2016-07-11 10:13:45', 1, 0.345601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(988, '2016-07-11 10:13:48', 1, 0.596202, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9491776),
+(989, '2016-07-11 10:13:50', 1, 0.353602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(990, '2016-07-11 10:13:52', 1, 0.585206, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9538264),
+(991, '2016-07-11 10:13:54', 1, 0.413006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(992, '2016-07-11 10:13:56', 1, 0.796006, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7798136),
+(993, '2016-07-11 10:13:56', 1, 0.606806, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(994, '2016-07-11 10:13:58', 1, 0.360202, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264104),
+(995, '2016-07-11 10:13:59', 1, 0.383604, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(996, '2016-07-11 10:14:04', 1, 0.3598, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(997, '2016-07-11 10:14:05', 1, 0.510003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(998, '2016-07-11 10:14:06', 1, 0.618204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(999, '2016-07-11 10:14:16', 1, 0.610612, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1000, '2016-07-11 10:14:16', 1, 0.637618, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1001, '2016-07-11 10:14:18', 1, 0.487002, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264944),
+(1002, '2016-07-11 10:14:18', 1, 0.356602, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1003, '2016-07-11 10:14:22', 1, 0.375603, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6245832),
+(1004, '2016-07-11 10:14:25', 1, 0.547204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1005, '2016-07-11 10:14:26', 1, 0.548203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1006, '2016-07-11 10:14:36', 1, 0.735822, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1007, '2016-07-11 10:14:36', 1, 0.75763, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1008, '2016-07-11 10:14:45', 1, 0.399001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1009, '2016-07-11 10:14:46', 1, 0.466604, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1010, '2016-07-11 10:14:55', 1, 0.400002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1011, '2016-07-11 10:14:55', 1, 0.377801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1012, '2016-07-11 10:15:05', 1, 0.430805, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1013, '2016-07-11 10:15:06', 1, 0.444409, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1014, '2016-07-11 10:15:15', 1, 0.396204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1015, '2016-07-11 10:15:16', 1, 0.423003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1016, '2016-07-11 10:15:25', 1, 0.416205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1017, '2016-07-11 10:15:26', 1, 0.379801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1018, '2016-07-11 10:15:35', 1, 0.410006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1019, '2016-07-11 10:15:36', 1, 0.452207, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1020, '2016-07-11 10:15:46', 1, 0.486601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1021, '2016-07-11 10:15:46', 1, 0.505404, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1022, '2016-07-11 10:15:55', 1, 0.404402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1023, '2016-07-11 10:15:56', 1, 0.365202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1024, '2016-07-11 10:16:05', 1, 0.411403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1025, '2016-07-11 10:16:06', 1, 0.392802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1026, '2016-07-11 10:16:15', 1, 0.414602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1027, '2016-07-11 10:16:16', 1, 0.363202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1028, '2016-07-11 10:16:25', 1, 0.400402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1029, '2016-07-11 10:16:26', 1, 0.353603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1030, '2016-07-11 10:16:35', 1, 0.377207, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1031, '2016-07-11 10:16:36', 1, 0.460418, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1032, '2016-07-11 10:16:45', 1, 0.382203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1033, '2016-07-11 10:16:46', 1, 0.414402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1034, '2016-07-11 10:16:56', 1, 0.529207, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1035, '2016-07-11 10:16:56', 1, 0.739008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1036, '2016-07-11 10:17:06', 1, 0.438202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1037, '2016-07-11 10:17:06', 1, 0.472402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1038, '2016-07-11 10:17:16', 1, 0.511606, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1039, '2016-07-11 10:17:16', 1, 0.496007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1040, '2016-07-11 10:17:26', 1, 0.337403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1041, '2016-07-11 10:17:26', 1, 0.3442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1042, '2016-07-11 10:17:36', 1, 0.346601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1043, '2016-07-11 10:17:36', 1, 0.414403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1044, '2016-07-11 10:17:46', 1, 0.379401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1045, '2016-07-11 10:17:46', 1, 0.423201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1046, '2016-07-11 10:17:56', 1, 0.404609, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1047, '2016-07-11 10:17:56', 1, 0.399005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1048, '2016-07-11 10:18:06', 1, 0.352002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1049, '2016-07-11 10:18:06', 1, 0.390604, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1050, '2016-07-11 10:18:16', 1, 0.375401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1051, '2016-07-11 10:18:16', 1, 0.393001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1052, '2016-07-11 10:18:26', 1, 0.411605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1053, '2016-07-11 10:18:26', 1, 0.440405, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1054, '2016-07-11 10:18:36', 1, 0.569023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1055, '2016-07-11 10:18:36', 1, 0.470027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1056, '2016-07-11 10:18:46', 1, 0.360202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1057, '2016-07-11 10:18:46', 1, 0.428602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1058, '2016-07-11 10:18:56', 1, 0.355202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1059, '2016-07-11 10:18:56', 1, 0.371202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1060, '2016-07-11 10:19:06', 1, 0.427202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1061, '2016-07-11 10:19:06', 1, 0.447805, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1062, '2016-07-11 10:19:16', 1, 0.372802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1063, '2016-07-11 10:19:16', 1, 0.397402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1064, '2016-07-11 10:19:26', 1, 0.335403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1065, '2016-07-11 10:19:26', 1, 0.397803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1066, '2016-07-11 10:19:36', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1067, '2016-07-11 10:19:36', 1, 0.380802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1068, '2016-07-11 10:19:46', 1, 0.608402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1069, '2016-07-11 10:19:46', 1, 0.608402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1070, '2016-07-11 10:19:51', 1, 0.303815, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6246176),
+(1071, '2016-07-11 10:19:56', 1, 0.472808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1072, '2016-07-11 10:19:56', 1, 0.517211, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1073, '2016-07-11 10:20:06', 1, 0.407407, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1074, '2016-07-11 10:20:06', 1, 0.469807, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1075, '2016-07-11 10:20:16', 1, 0.468811, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1076, '2016-07-11 10:20:16', 1, 0.423201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1077, '2016-07-11 10:20:26', 1, 0.330804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1078, '2016-07-11 10:20:27', 1, 0.343602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1079, '2016-07-11 10:20:36', 1, 0.531029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1080, '2016-07-11 10:20:38', 1, 0.328007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1081, '2016-07-11 10:20:46', 1, 0.338005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1082, '2016-07-11 10:20:49', 1, 0.319006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1083, '2016-07-11 10:20:56', 1, 0.406808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1084, '2016-07-11 10:21:00', 1, 0.333804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1085, '2016-07-11 10:21:06', 1, 0.348804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1086, '2016-07-11 10:21:11', 1, 0.344804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1087, '2016-07-11 10:21:16', 1, 0.348403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1088, '2016-07-11 10:21:22', 1, 0.327407, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1089, '2016-07-11 10:21:26', 1, 0.344808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1090, '2016-07-11 10:21:33', 1, 0.294801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1091, '2016-07-11 10:21:36', 1, 0.336403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1092, '2016-07-11 10:21:44', 1, 0.331605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1093, '2016-07-11 10:21:46', 1, 0.358205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1094, '2016-07-11 10:21:55', 1, 0.324203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1095, '2016-07-11 10:21:56', 1, 0.347606, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1096, '2016-07-11 10:22:06', 1, 0.367008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1097, '2016-07-11 10:22:06', 1, 0.397005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1098, '2016-07-11 10:22:16', 1, 0.435805, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1099, '2016-07-11 10:22:17', 1, 0.627022, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7800960),
+(1100, '2016-07-11 10:22:17', 1, 0.528616, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1101, '2016-07-11 10:22:27', 1, 0.328204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1102, '2016-07-11 10:22:28', 1, 0.324203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1103, '2016-07-11 10:22:37', 1, 0.363202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1104, '2016-07-11 10:22:39', 1, 0.320803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1105, '2016-07-11 10:22:47', 1, 0.470014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1106, '2016-07-11 10:22:48', 1, 0.556613, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801168),
+(1107, '2016-07-11 10:22:50', 1, 0.324605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1108, '2016-07-11 10:22:58', 1, 0.343002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1109, '2016-07-11 10:23:01', 1, 0.303004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1110, '2016-07-11 10:23:08', 1, 0.352007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1111, '2016-07-11 10:23:12', 1, 0.348404, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1112, '2016-07-11 10:23:18', 1, 0.306401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1113, '2016-07-11 10:23:23', 1, 0.333006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1114, '2016-07-11 10:23:28', 1, 0.314, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1115, '2016-07-11 10:23:34', 1, 0.309806, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1116, '2016-07-11 10:23:38', 1, 0.345205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1117, '2016-07-11 10:23:45', 1, 0.313204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1118, '2016-07-11 10:23:48', 1, 0.311401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1119, '2016-07-11 10:23:56', 1, 0.372405, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1120, '2016-07-11 10:23:58', 1, 0.3442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1121, '2016-07-11 10:24:05', 1, 0.606811, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801792),
+(1122, '2016-07-11 10:24:07', 1, 0.335403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1123, '2016-07-11 10:24:09', 1, 0.577412, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1124, '2016-07-11 10:24:10', 1, 0.742814, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264104),
+(1125, '2016-07-11 10:24:10', 1, 0.378603, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1126, '2016-07-11 10:24:15', 1, 0.407002, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1127, '2016-07-11 10:24:18', 1, 0.342602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1128, '2016-07-11 10:24:19', 1, 0.433805, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1129, '2016-07-11 10:24:20', 1, 0.36381, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264944),
+(1130, '2016-07-11 10:24:20', 1, 0.404812, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1131, '2016-07-11 10:24:24', 1, 0.442008, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6245832),
+(1132, '2016-07-11 10:24:29', 1, 0.550212, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1133, '2016-07-11 10:24:29', 1, 0.419007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1134, '2016-07-11 10:24:40', 1, 0.570209, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1135, '2016-07-11 10:24:40', 1, 0.499809, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1136, '2016-07-11 10:24:50', 1, 0.446607, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1137, '2016-07-11 10:24:51', 1, 0.344403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1138, '2016-07-11 10:25:00', 1, 0.358611, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1139, '2016-07-11 10:25:02', 1, 0.333213, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1140, '2016-07-11 10:25:10', 1, 0.337011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1141, '2016-07-11 10:25:13', 1, 0.327208, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1142, '2016-07-11 10:25:20', 1, 0.376815, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1143, '2016-07-11 10:25:24', 1, 0.313212, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1144, '2016-07-11 10:25:30', 1, 0.362616, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1145, '2016-07-11 10:25:35', 1, 0.327816, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1146, '2016-07-11 10:25:40', 1, 0.316803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1147, '2016-07-11 10:25:45', 1, 0.346201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1148, '2016-07-11 10:25:50', 1, 0.488804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1149, '2016-07-11 10:25:55', 1, 0.321001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1150, '2016-07-11 10:26:00', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1151, '2016-07-11 10:26:06', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1152, '2016-07-11 10:26:10', 1, 0.612035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1153, '2016-07-11 10:26:17', 1, 0.750043, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1154, '2016-07-11 10:26:20', 1, 1.00306, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1155, '2016-07-11 10:26:28', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1156, '2016-07-11 10:26:30', 1, 0.361201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1157, '2016-07-11 10:26:39', 1, 0.348012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1158, '2016-07-11 10:26:40', 1, 0.423019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1159, '2016-07-11 10:26:50', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1160, '2016-07-11 10:26:50', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1161, '2016-07-11 10:27:00', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1162, '2016-07-11 10:27:01', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1163, '2016-07-11 10:27:10', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1164, '2016-07-11 10:27:12', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1165, '2016-07-11 10:27:20', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1166, '2016-07-11 10:27:23', 1, 0.294017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1167, '2016-07-11 10:27:30', 1, 0.451026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1168, '2016-07-11 10:27:34', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1169, '2016-07-11 10:27:40', 1, 0.514211, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1170, '2016-07-11 10:27:45', 1, 0.357201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1171, '2016-07-11 10:27:50', 1, 0.346007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1172, '2016-07-11 10:27:56', 1, 0.333001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1173, '2016-07-11 10:28:00', 1, 0.490021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1174, '2016-07-11 10:28:07', 1, 0.324008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1175, '2016-07-11 10:28:10', 1, 0.329602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1176, '2016-07-11 10:28:18', 1, 0.362801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1177, '2016-07-11 10:28:20', 1, 0.380207, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1178, '2016-07-11 10:28:29', 1, 0.328804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1179, '2016-07-11 10:28:30', 1, 0.338605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1180, '2016-07-11 10:28:40', 1, 0.376612, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1181, '2016-07-11 10:28:40', 1, 0.302405, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1182, '2016-07-11 10:28:50', 1, 0.339209, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1183, '2016-07-11 10:28:51', 1, 0.326416, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1184, '2016-07-11 10:29:00', 1, 0.392018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1185, '2016-07-11 10:29:02', 1, 0.338015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1186, '2016-07-11 10:29:10', 1, 0.453418, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1187, '2016-07-11 10:29:13', 1, 0.33261, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1188, '2016-07-11 10:29:20', 1, 0.345606, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1189, '2016-07-11 10:29:24', 1, 0.291612, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1190, '2016-07-11 10:29:30', 1, 0.357413, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1191, '2016-07-11 10:29:35', 1, 0.341813, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1192, '2016-07-11 10:29:40', 1, 0.350606, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1193, '2016-07-11 10:29:46', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1194, '2016-07-11 10:29:50', 1, 0.341205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1195, '2016-07-11 10:29:57', 1, 0.328614, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1196, '2016-07-11 10:30:00', 1, 0.618233, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1197, '2016-07-11 10:30:08', 1, 0.332808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1198, '2016-07-11 10:30:10', 1, 0.547031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1199, '2016-07-11 10:30:19', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1200, '2016-07-11 10:30:20', 1, 0.910052, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1201, '2016-07-11 10:30:30', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1202, '2016-07-11 10:30:30', 1, 0.295017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1203, '2016-07-11 10:30:40', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1204, '2016-07-11 10:30:41', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1205, '2016-07-11 10:30:50', 1, 2.19412, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1206, '2016-07-11 10:30:52', 1, 1.33208, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1207, '2016-07-11 10:31:00', 1, 0.378022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1208, '2016-07-11 10:31:03', 1, 0.291017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1209, '2016-07-11 10:31:10', 1, 0.53403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1210, '2016-07-11 10:31:14', 1, 0.317604, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1211, '2016-07-11 10:31:20', 1, 0.316001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1212, '2016-07-11 10:31:25', 1, 0.401003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1213, '2016-07-11 10:31:30', 1, 0.393021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1214, '2016-07-11 10:31:36', 1, 0.337011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1215, '2016-07-11 10:31:40', 1, 0.357003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1216, '2016-07-11 10:31:47', 1, 0.314005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1217, '2016-07-11 10:31:50', 1, 0.535017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1218, '2016-07-11 10:31:51', 1, 1.13903, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801792),
+(1219, '2016-07-11 10:31:54', 1, 0.363007, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264104),
+(1220, '2016-07-11 10:31:55', 1, 0.401013, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1221, '2016-07-11 10:31:58', 1, 0.306203, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1222, '2016-07-11 10:31:58', 1, 0.308802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1223, '2016-07-11 10:32:01', 1, 0.697203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1224, '2016-07-11 10:32:02', 1, 0.724403, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264944),
+(1225, '2016-07-11 10:32:02', 1, 0.392208, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1226, '2016-07-11 10:32:05', 1, 0.415601, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6245832),
+(1227, '2016-07-11 10:32:09', 1, 0.290801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1228, '2016-07-11 10:32:11', 1, 0.497209, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1229, '2016-07-11 10:32:20', 1, 0.322803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1230, '2016-07-11 10:32:21', 1, 0.319406, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1231, '2016-07-11 10:32:31', 1, 0.396802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1232, '2016-07-11 10:32:32', 1, 0.401402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1233, '2016-07-11 10:32:41', 1, 0.573421, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1234, '2016-07-11 10:32:42', 1, 0.400023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1235, '2016-07-11 10:32:52', 1, 0.70804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1236, '2016-07-11 10:32:53', 1, 0.34321, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1237, '2016-07-11 10:33:01', 1, 0.578033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1238, '2016-07-11 10:33:04', 1, 0.317414, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1239, '2016-07-11 10:33:11', 1, 0.410816, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1240, '2016-07-11 10:33:15', 1, 0.300811, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1241, '2016-07-11 10:33:21', 1, 0.484028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1242, '2016-07-11 10:33:26', 1, 0.293202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1243, '2016-07-11 10:33:31', 1, 0.317802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1244, '2016-07-11 10:33:37', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1245, '2016-07-11 10:33:41', 1, 0.469026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1246, '2016-07-11 10:33:48', 1, 0.36402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1247, '2016-07-11 10:33:51', 1, 0.506029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1248, '2016-07-11 10:33:59', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1249, '2016-07-11 10:34:01', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1250, '2016-07-11 10:34:10', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1251, '2016-07-11 10:34:11', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1252, '2016-07-11 10:34:21', 1, 0.86405, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1253, '2016-07-11 10:34:22', 1, 0.826047, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1254, '2016-07-11 10:34:31', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1255, '2016-07-11 10:34:32', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1256, '2016-07-11 10:34:41', 1, 0.500028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1257, '2016-07-11 10:34:43', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1258, '2016-07-11 10:34:51', 1, 0.411024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1259, '2016-07-11 10:34:54', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1260, '2016-07-11 10:35:01', 1, 0.502029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1261, '2016-07-11 10:35:05', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1262, '2016-07-11 10:35:11', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1263, '2016-07-11 10:35:16', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1264, '2016-07-11 10:35:21', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1265, '2016-07-11 10:35:27', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1266, '2016-07-11 10:35:31', 1, 0.391023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1267, '2016-07-11 10:35:38', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1268, '2016-07-11 10:35:41', 1, 0.427024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1269, '2016-07-11 10:35:49', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1270, '2016-07-11 10:35:51', 1, 0.440025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1271, '2016-07-11 10:36:00', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1272, '2016-07-11 10:36:01', 1, 0.445025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1273, '2016-07-11 10:36:11', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1274, '2016-07-11 10:36:21', 1, 0.410024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1275, '2016-07-11 10:36:31', 1, 0.501028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1276, '2016-07-11 10:36:41', 1, 0.445026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1277, '2016-07-11 10:36:51', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1278, '2016-07-11 10:37:01', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1279, '2016-07-11 10:37:11', 1, 0.412024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1280, '2016-07-11 10:37:21', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1281, '2016-07-11 10:37:31', 1, 0.432024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1282, '2016-07-11 10:37:41', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1283, '2016-07-11 10:37:51', 1, 0.410023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1284, '2016-07-11 10:38:01', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1285, '2016-07-11 10:38:12', 1, 0.771045, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1286, '2016-07-11 10:38:21', 1, 0.498028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1287, '2016-07-11 10:38:31', 1, 0.482027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1288, '2016-07-11 10:38:42', 1, 0.651037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1289, '2016-07-11 10:38:43', 1, 2.30713, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9539168),
+(1290, '2016-07-11 10:38:49', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1291, '2016-07-11 10:38:51', 1, 0.409023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1292, '2016-07-11 10:38:59', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1293, '2016-07-11 10:39:02', 1, 0.616035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1294, '2016-07-11 10:39:10', 1, 0.435025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1295, '2016-07-11 10:39:11', 1, 0.431025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1296, '2016-07-11 10:39:21', 1, 0.432025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1297, '2016-07-11 10:39:22', 1, 0.632036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1298, '2016-07-11 10:39:31', 1, 0.476027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1299, '2016-07-11 10:39:32', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1300, '2016-07-11 10:39:41', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1301, '2016-07-11 10:39:43', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1302, '2016-07-11 10:39:51', 1, 0.419024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1303, '2016-07-11 10:39:54', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1304, '2016-07-11 10:40:01', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1305, '2016-07-11 10:40:05', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1306, '2016-07-11 10:40:11', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1307, '2016-07-11 10:40:15', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1308, '2016-07-11 10:40:21', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1309, '2016-07-11 10:40:25', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1310, '2016-07-11 10:40:31', 1, 0.448026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1311, '2016-07-11 10:40:35', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1312, '2016-07-11 10:40:41', 1, 0.475028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1313, '2016-07-11 10:40:45', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1314, '2016-07-11 10:40:51', 1, 0.469026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1315, '2016-07-11 10:40:55', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1316, '2016-07-11 10:41:01', 1, 0.415024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1317, '2016-07-11 10:41:05', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1318, '2016-07-11 10:41:08', 1, 0.653037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802296),
+(1319, '2016-07-11 10:41:13', 1, 0.565032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1320, '2016-07-11 10:41:15', 1, 0.289016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1321, '2016-07-11 10:41:22', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1322, '2016-07-11 10:41:25', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1323, '2016-07-11 10:41:30', 1, 0.787045, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802296),
+(1324, '2016-07-11 10:41:33', 1, 0.471027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1325, '2016-07-11 10:41:35', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1326, '2016-07-11 10:41:43', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1327, '2016-07-11 10:41:45', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1328, '2016-07-11 10:41:53', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1329, '2016-07-11 10:41:55', 1, 0.425024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1330, '2016-07-11 10:42:03', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1331, '2016-07-11 10:42:05', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1332, '2016-07-11 10:42:14', 1, 0.635036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1333, '2016-07-11 10:42:16', 1, 0.597034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1334, '2016-07-11 10:42:23', 1, 0.391023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1335, '2016-07-11 10:42:25', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1336, '2016-07-11 10:42:29', 1, 0.718041, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802272),
+(1337, '2016-07-11 10:42:34', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1338, '2016-07-11 10:42:35', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1339, '2016-07-11 10:42:45', 1, 0.628036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1340, '2016-07-11 10:42:45', 1, 0.499029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1341, '2016-07-11 10:42:48', 1, 0.69904, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802272),
+(1342, '2016-07-11 10:42:55', 1, 0.429025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1343, '2016-07-11 10:42:55', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1344, '2016-07-11 10:43:05', 1, 0.454026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1345, '2016-07-11 10:43:05', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1346, '2016-07-11 10:43:15', 1, 0.441025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1347, '2016-07-11 10:43:15', 1, 0.503029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1348, '2016-07-11 10:43:25', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1349, '2016-07-11 10:43:25', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1350, '2016-07-11 10:43:35', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1351, '2016-07-11 10:43:35', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1352, '2016-07-11 10:43:45', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1353, '2016-07-11 10:43:46', 1, 0.546031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1354, '2016-07-11 10:43:48', 1, 0.674039, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802320),
+(1355, '2016-07-11 10:43:55', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1356, '2016-07-11 10:43:57', 1, 0.36402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1357, '2016-07-11 10:44:03', 1, 0.748043, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801168),
+(1358, '2016-07-11 10:44:05', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1359, '2016-07-11 10:44:08', 1, 0.464026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1360, '2016-07-11 10:44:15', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1361, '2016-07-11 10:44:18', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1362, '2016-07-11 10:44:23', 1, 0.642037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801168),
+(1363, '2016-07-11 10:44:25', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1364, '2016-07-11 10:44:29', 1, 0.757044, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1365, '2016-07-11 10:44:35', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1366, '2016-07-11 10:44:38', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1367, '2016-07-11 10:44:45', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1368, '2016-07-11 10:44:48', 1, 0.33402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1369, '2016-07-11 10:44:56', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1370, '2016-07-11 10:44:58', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1371, '2016-07-11 10:45:07', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1372, '2016-07-11 10:45:08', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1373, '2016-07-11 10:45:18', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1374, '2016-07-11 10:45:18', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1375, '2016-07-11 10:45:28', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1376, '2016-07-11 10:45:29', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1377, '2016-07-11 10:45:38', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1378, '2016-07-11 10:45:40', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1379, '2016-07-11 10:45:49', 1, 0.371022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1380, '2016-07-11 10:45:51', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1381, '2016-07-11 10:45:58', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1382, '2016-07-11 10:46:02', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1383, '2016-07-11 10:46:08', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(1384, '2016-07-11 10:46:13', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1385, '2016-07-11 10:46:19', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1386, '2016-07-11 10:46:23', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1387, '2016-07-11 10:46:28', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1388, '2016-07-11 10:46:33', 1, 0.430025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1389, '2016-07-11 10:46:38', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1390, '2016-07-11 10:46:43', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1391, '2016-07-11 10:46:46', 1, 0.655037, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9537496),
+(1392, '2016-07-11 10:46:53', 1, 0.463027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1393, '2016-07-11 10:46:54', 1, 0.636037, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1394, '2016-07-11 10:46:56', 1, 0.86105, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801168),
+(1395, '2016-07-11 10:47:03', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1396, '2016-07-11 10:47:05', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1397, '2016-07-11 10:47:13', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1398, '2016-07-11 10:47:15', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1399, '2016-07-11 10:47:22', 1, 0.904052, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802312),
+(1400, '2016-07-11 10:47:23', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1401, '2016-07-11 10:47:26', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1402, '2016-07-11 10:47:33', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1403, '2016-07-11 10:47:36', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1404, '2016-07-11 10:47:43', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1405, '2016-07-11 10:47:46', 1, 0.409024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1406, '2016-07-11 10:47:53', 1, 0.33402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1407, '2016-07-11 10:47:56', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1408, '2016-07-11 10:48:03', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1409, '2016-07-11 10:48:06', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1410, '2016-07-11 10:48:13', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1411, '2016-07-11 10:48:16', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1412, '2016-07-11 10:48:23', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1413, '2016-07-11 10:48:26', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1414, '2016-07-11 10:48:33', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1415, '2016-07-11 10:48:36', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1416, '2016-07-11 10:48:43', 1, 0.331018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1417, '2016-07-11 10:48:45', 1, 0.626036, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802344),
+(1418, '2016-07-11 10:48:47', 1, 0.504029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1419, '2016-07-11 10:48:53', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1420, '2016-07-11 10:48:57', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1421, '2016-07-11 10:49:03', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1422, '2016-07-11 10:49:07', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1423, '2016-07-11 10:49:13', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1424, '2016-07-11 10:49:17', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1425, '2016-07-11 10:49:23', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1426, '2016-07-11 10:49:27', 1, 0.547032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1427, '2016-07-11 10:49:29', 1, 0.678039, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802144),
+(1428, '2016-07-11 10:49:33', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1429, '2016-07-11 10:49:38', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1430, '2016-07-11 10:49:43', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1431, '2016-07-11 10:49:48', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1432, '2016-07-11 10:49:53', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1433, '2016-07-11 10:49:58', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1434, '2016-07-11 10:50:03', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1435, '2016-07-11 10:50:08', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1436, '2016-07-11 10:50:13', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1437, '2016-07-11 10:50:18', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1438, '2016-07-11 10:50:23', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1439, '2016-07-11 10:50:28', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1440, '2016-07-11 10:50:33', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1441, '2016-07-11 10:50:38', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1442, '2016-07-11 10:50:43', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1443, '2016-07-11 10:50:48', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1444, '2016-07-11 10:50:53', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1445, '2016-07-11 10:50:58', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1446, '2016-07-11 10:51:03', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1447, '2016-07-11 10:51:04', 1, 0.634036, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802384),
+(1448, '2016-07-11 10:51:09', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1449, '2016-07-11 10:51:13', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1450, '2016-07-11 10:51:15', 1, 0.614035, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802384),
+(1451, '2016-07-11 10:51:20', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1452, '2016-07-11 10:51:23', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1453, '2016-07-11 10:51:29', 1, 0.609034, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802384),
+(1454, '2016-07-11 10:51:31', 1, 0.52303, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1455, '2016-07-11 10:51:33', 1, 0.33402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1456, '2016-07-11 10:51:41', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1457, '2016-07-11 10:51:43', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1458, '2016-07-11 10:51:51', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1459, '2016-07-11 10:51:53', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1460, '2016-07-11 10:52:01', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1461, '2016-07-11 10:52:04', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1462, '2016-07-11 10:52:11', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1463, '2016-07-11 10:52:15', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1464, '2016-07-11 10:52:21', 1, 0.475027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1465, '2016-07-11 10:52:26', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1466, '2016-07-11 10:52:31', 1, 0.407024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1467, '2016-07-11 10:52:37', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1468, '2016-07-11 10:52:41', 1, 0.360021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1469, '2016-07-11 10:52:48', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1470, '2016-07-11 10:52:51', 1, 0.309017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1471, '2016-07-11 10:52:59', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1472, '2016-07-11 10:53:01', 1, 0.347019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1473, '2016-07-11 10:53:10', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1474, '2016-07-11 10:53:11', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1475, '2016-07-11 10:53:19', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(1476, '2016-07-11 10:53:20', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1477, '2016-07-11 10:53:22', 1, 0.569033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1478, '2016-07-11 10:53:30', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1479, '2016-07-11 10:53:32', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1480, '2016-07-11 10:53:36', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(1481, '2016-07-11 10:53:40', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1482, '2016-07-11 10:53:42', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1483, '2016-07-11 10:53:50', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1484, '2016-07-11 10:53:53', 1, 0.434025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1485, '2016-07-11 10:53:54', 1, 0.578033, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802416),
+(1486, '2016-07-11 10:54:00', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1487, '2016-07-11 10:54:03', 1, 0.410024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1488, '2016-07-11 10:54:10', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1489, '2016-07-11 10:54:13', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1490, '2016-07-11 10:54:20', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1491, '2016-07-11 10:54:23', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1492, '2016-07-11 10:54:30', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1493, '2016-07-11 10:54:33', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1494, '2016-07-11 10:54:40', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1495, '2016-07-11 10:54:43', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1496, '2016-07-11 10:54:50', 1, 0.360021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1497, '2016-07-11 10:54:53', 1, 0.372022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1498, '2016-07-11 10:55:00', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1499, '2016-07-11 10:55:03', 1, 0.470027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1500, '2016-07-11 10:55:11', 1, 0.390022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1501, '2016-07-11 10:55:13', 1, 0.811047, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1502, '2016-07-11 10:55:22', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1503, '2016-07-11 10:55:23', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1504, '2016-07-11 10:55:33', 1, 0.400023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1505, '2016-07-11 10:55:33', 1, 0.430024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1506, '2016-07-11 10:55:43', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1507, '2016-07-11 10:55:44', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1508, '2016-07-11 10:55:53', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1509, '2016-07-11 10:55:55', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1510, '2016-07-11 10:56:03', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1511, '2016-07-11 10:56:06', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1512, '2016-07-11 10:56:13', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1513, '2016-07-11 10:56:17', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1514, '2016-07-11 10:56:23', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1515, '2016-07-11 10:56:28', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1516, '2016-07-11 10:56:33', 1, 0.475027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1517, '2016-07-11 10:56:36', 1, 0.715041, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802400),
+(1518, '2016-07-11 10:56:39', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1519, '2016-07-11 10:56:44', 1, 0.474027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1520, '2016-07-11 10:56:48', 1, 0.756043, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802400),
+(1521, '2016-07-11 10:56:50', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1522, '2016-07-11 10:56:55', 1, 0.374022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1523, '2016-07-11 10:57:01', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1524, '2016-07-11 10:57:05', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1525, '2016-07-11 10:57:12', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1526, '2016-07-11 10:57:15', 1, 0.319019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1527, '2016-07-11 10:57:23', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1528, '2016-07-11 10:57:25', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1529, '2016-07-11 10:57:34', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1530, '2016-07-11 10:57:35', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1531, '2016-07-11 10:57:45', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1532, '2016-07-11 10:57:45', 1, 0.331018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1533, '2016-07-11 10:57:55', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1534, '2016-07-11 10:57:56', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1535, '2016-07-11 10:58:05', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1536, '2016-07-11 10:58:07', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1537, '2016-07-11 10:58:15', 1, 0.377021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1538, '2016-07-11 10:58:18', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1539, '2016-07-11 10:58:26', 1, 0.470027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1540, '2016-07-11 10:58:29', 1, 0.495028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1541, '2016-07-11 10:58:35', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1542, '2016-07-11 10:58:40', 1, 2.25013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1543, '2016-07-11 10:58:45', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1544, '2016-07-11 10:58:51', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1545, '2016-07-11 10:58:55', 1, 0.477027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1546, '2016-07-11 10:59:02', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1547, '2016-07-11 10:59:05', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1548, '2016-07-11 10:59:13', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1549, '2016-07-11 10:59:15', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1550, '2016-07-11 10:59:24', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1551, '2016-07-11 10:59:25', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1552, '2016-07-11 10:59:35', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1553, '2016-07-11 10:59:35', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1554, '2016-07-11 10:59:45', 1, 0.353021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1555, '2016-07-11 10:59:46', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1556, '2016-07-11 10:59:55', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1557, '2016-07-11 10:59:57', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1558, '2016-07-11 11:00:05', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1559, '2016-07-11 11:00:08', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1560, '2016-07-11 11:00:15', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1561, '2016-07-11 11:00:19', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1562, '2016-07-11 11:00:25', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1563, '2016-07-11 11:00:30', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1564, '2016-07-11 11:00:35', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1565, '2016-07-11 11:00:41', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1566, '2016-07-11 11:00:45', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1567, '2016-07-11 11:00:52', 1, 0.293017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1568, '2016-07-11 11:00:55', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1569, '2016-07-11 11:01:03', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1570, '2016-07-11 11:01:05', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1571, '2016-07-11 11:01:14', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1572, '2016-07-11 11:01:15', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1573, '2016-07-11 11:01:25', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1574, '2016-07-11 11:01:25', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1575, '2016-07-11 11:01:35', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1576, '2016-07-11 11:01:36', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1577, '2016-07-11 11:01:45', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1578, '2016-07-11 11:01:47', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1579, '2016-07-11 11:01:55', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1580, '2016-07-11 11:01:58', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1581, '2016-07-11 11:02:05', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1582, '2016-07-11 11:02:09', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1583, '2016-07-11 11:02:10', 1, 0.593034, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802464),
+(1584, '2016-07-11 11:02:16', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1585, '2016-07-11 11:02:20', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1586, '2016-07-11 11:02:27', 1, 0.517029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1587, '2016-07-11 11:02:27', 1, 0.831048, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802464),
+(1588, '2016-07-11 11:02:31', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1589, '2016-07-11 11:02:38', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1590, '2016-07-11 11:02:42', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1591, '2016-07-11 11:02:48', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1592, '2016-07-11 11:02:53', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1593, '2016-07-11 11:02:58', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1594, '2016-07-11 11:03:03', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1595, '2016-07-11 11:03:06', 1, 0.589033, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801232),
+(1596, '2016-07-11 11:03:09', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1597, '2016-07-11 11:03:13', 1, 0.390023, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801424),
+(1598, '2016-07-11 11:03:13', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1599, '2016-07-11 11:03:17', 1, 1.45108, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9537496),
+(1600, '2016-07-11 11:03:19', 1, 0.377021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1601, '2016-07-11 11:03:22', 1, 0.425025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1602, '2016-07-11 11:03:22', 1, 0.53703, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801232),
+(1603, '2016-07-11 11:03:23', 1, 0.444026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1604, '2016-07-11 11:03:32', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1605, '2016-07-11 11:03:33', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1606, '2016-07-11 11:03:42', 1, 0.374022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1607, '2016-07-11 11:03:43', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1608, '2016-07-11 11:03:52', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1609, '2016-07-11 11:03:53', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1610, '2016-07-11 11:04:02', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1611, '2016-07-11 11:04:03', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1612, '2016-07-11 11:04:12', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1613, '2016-07-11 11:04:13', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1614, '2016-07-11 11:04:22', 1, 0.440025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1615, '2016-07-11 11:04:23', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1616, '2016-07-11 11:04:32', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1617, '2016-07-11 11:04:33', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1618, '2016-07-11 11:04:42', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1619, '2016-07-11 11:04:43', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1620, '2016-07-11 11:04:52', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1621, '2016-07-11 11:04:53', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1622, '2016-07-11 11:05:02', 1, 0.360021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1623, '2016-07-11 11:05:03', 1, 0.416024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1624, '2016-07-11 11:05:09', 1, 0.765043, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801472),
+(1625, '2016-07-11 11:05:13', 1, 0.426025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1626, '2016-07-11 11:05:14', 1, 0.568033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1627, '2016-07-11 11:05:23', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1628, '2016-07-11 11:05:24', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1629, '2016-07-11 11:05:33', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1630, '2016-07-11 11:05:34', 1, 0.489028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1631, '2016-07-11 11:05:37', 1, 0.649037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801472),
+(1632, '2016-07-11 11:05:40', 1, 0.600035, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9537496),
+(1633, '2016-07-11 11:05:42', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1634, '2016-07-11 11:05:43', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1635, '2016-07-11 11:05:52', 1, 0.51903, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1636, '2016-07-11 11:05:53', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1637, '2016-07-11 11:06:02', 1, 0.543031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1638, '2016-07-11 11:06:04', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1639, '2016-07-11 11:06:12', 1, 0.53003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1640, '2016-07-11 11:06:15', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1641, '2016-07-11 11:06:22', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1642, '2016-07-11 11:06:26', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1643, '2016-07-11 11:06:32', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1644, '2016-07-11 11:06:37', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1645, '2016-07-11 11:06:42', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1646, '2016-07-11 11:06:48', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1647, '2016-07-11 11:06:52', 1, 0.487028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1648, '2016-07-11 11:06:56', 1, 0.619035, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801472),
+(1649, '2016-07-11 11:06:59', 1, 0.311017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1650, '2016-07-11 11:07:03', 1, 0.421024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1651, '2016-07-11 11:07:10', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1652, '2016-07-11 11:07:14', 1, 0.465027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1653, '2016-07-11 11:07:21', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1654, '2016-07-11 11:07:24', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1655, '2016-07-11 11:07:32', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1656, '2016-07-11 11:07:34', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1657, '2016-07-11 11:07:43', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1658, '2016-07-11 11:07:44', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1659, '2016-07-11 11:07:54', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1660, '2016-07-11 11:07:54', 1, 0.390023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1661, '2016-07-11 11:08:04', 1, 0.412023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1662, '2016-07-11 11:08:05', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1663, '2016-07-11 11:08:14', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1664, '2016-07-11 11:08:16', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1665, '2016-07-11 11:08:24', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1666, '2016-07-11 11:08:27', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1667, '2016-07-11 11:08:34', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1668, '2016-07-11 11:08:38', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1669, '2016-07-11 11:08:44', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1670, '2016-07-11 11:08:49', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1671, '2016-07-11 11:08:54', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1672, '2016-07-11 11:09:00', 1, 0.438025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1673, '2016-07-11 11:09:03', 1, 0.688039, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7801472),
+(1674, '2016-07-11 11:09:06', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1675, '2016-07-11 11:09:09', 1, 0.547032, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264944),
+(1676, '2016-07-11 11:09:09', 1, 0.375021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1677, '2016-07-11 11:09:10', 1, 0.424025, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6245832),
+(1678, '2016-07-11 11:09:11', 1, 0.312017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1679, '2016-07-11 11:09:16', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1680, '2016-07-11 11:09:22', 1, 0.289016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1681, '2016-07-11 11:09:26', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1682, '2016-07-11 11:09:33', 1, 0.408023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1683, '2016-07-11 11:09:36', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1684, '2016-07-11 11:09:44', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1685, '2016-07-11 11:09:46', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1686, '2016-07-11 11:09:55', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1687, '2016-07-11 11:09:56', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1688, '2016-07-11 11:09:57', 1, 0.622036, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7802488),
+(1689, '2016-07-11 11:10:01', 1, 0.34802, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264104),
+(1690, '2016-07-11 11:10:01', 1, 0.35502, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1691, '2016-07-11 11:10:02', 1, 0.412023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1692, '2016-07-11 11:10:06', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1693, '2016-07-11 11:10:07', 1, 0.451026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1694, '2016-07-11 11:10:08', 1, 0.52903, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264232),
+(1695, '2016-07-11 11:10:09', 1, 0.52903, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1696, '2016-07-11 11:10:10', 1, 0.52203, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1697, '2016-07-11 11:10:13', 1, 0.489028, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6264944),
+(1698, '2016-07-11 11:10:13', 1, 0.389022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6217800),
+(1699, '2016-07-11 11:10:15', 1, 0.408023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6245832),
+(1700, '2016-07-11 11:10:17', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1701, '2016-07-11 11:10:17', 1, 0.440025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1702, '2016-07-11 11:10:18', 1, NULL, '127.0.0.1', 'POST', 1, 'site/error', NULL),
+(1703, '2016-07-11 11:10:27', 1, 0.419024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1704, '2016-07-11 11:10:28', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1705, '2016-07-11 11:10:37', 1, 0.465026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1706, '2016-07-11 11:10:39', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1707, '2016-07-11 11:10:47', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1708, '2016-07-11 11:10:50', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1709, '2016-07-11 11:10:57', 1, 0.431025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1710, '2016-07-11 11:11:01', 1, 0.317019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1711, '2016-07-11 11:11:07', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1712, '2016-07-11 11:11:12', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1713, '2016-07-11 11:11:17', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1714, '2016-07-11 11:11:23', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1715, '2016-07-11 11:11:27', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1716, '2016-07-11 11:11:34', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1717, '2016-07-11 11:11:37', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1718, '2016-07-11 11:11:45', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134544),
+(1719, '2016-07-11 11:11:47', 1, 0.427024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1720, '2016-07-11 11:11:47', 1, 1.64209, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 9305168),
+(1721, '2016-07-11 11:11:50', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1722, '2016-07-11 11:11:57', 1, 0.851048, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1723, '2016-07-11 11:12:00', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1724, '2016-07-11 11:12:02', 1, 0.618035, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 8769208),
+(1725, '2016-07-11 11:12:06', 1, 0.507029, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 7380768),
+(1726, '2016-07-11 11:12:07', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1727, '2016-07-11 11:12:10', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134664),
+(1728, '2016-07-11 11:12:17', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1729, '2016-07-11 11:12:20', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134664),
+(1730, '2016-07-11 11:12:27', 1, 0.307017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1731, '2016-07-11 11:12:30', 1, 0.316019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134664),
+(1732, '2016-07-11 11:12:37', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1733, '2016-07-11 11:12:40', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134664),
+(1734, '2016-07-11 11:12:47', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1735, '2016-07-11 11:12:49', 1, 0.402023, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 6705720),
+(1736, '2016-07-11 11:12:49', 1, 0.673038, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 8771760),
+(1737, '2016-07-11 11:12:50', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134664),
+(1738, '2016-07-11 11:12:53', 1, 0.836048, '127.0.0.1', 'GET', 0, 'rbac/role/index', 9218208),
+(1739, '2016-07-11 11:12:55', 1, 0.374211, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1740, '2016-07-11 11:12:57', 1, 0.385216, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1741, '2016-07-11 11:13:05', 1, 0.309402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1742, '2016-07-11 11:13:07', 1, 0.335602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1743, '2016-07-11 11:13:11', 1, 0.672038, '127.0.0.1', 'GET', 1, 'rbac/role/update', 7956184),
+(1744, '2016-07-11 11:13:15', 1, 0.316609, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1745, '2016-07-11 11:13:17', 1, 0.314406, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1746, '2016-07-11 11:13:18', 1, 0.894051, '127.0.0.1', 'POST', 1, 'rbac/role/update', 7209864),
+(1747, '2016-07-11 11:13:19', 1, 0.70104, '127.0.0.1', 'GET', 1, 'rbac/role/index', 8795808),
+(1748, '2016-07-11 11:13:25', 1, 0.366202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1749, '2016-07-11 11:13:27', 1, 0.45341, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1750, '2016-07-11 11:13:33', 1, 0.606419, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7807144),
+(1751, '2016-07-11 11:13:35', 1, 0.307004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1752, '2016-07-11 11:13:36', 1, 0.417601, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6268656),
+(1753, '2016-07-11 11:13:37', 1, 0.412002, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6222248),
+(1754, '2016-07-11 11:13:38', 1, 0.520819, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1755, '2016-07-11 11:13:38', 1, 0.517603, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269496),
+(1756, '2016-07-11 11:13:39', 1, 0.390811, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6222248),
+(1757, '2016-07-11 11:13:43', 1, 0.384617, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6250392),
+(1758, '2016-07-11 11:13:45', 1, 0.369004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1759, '2016-07-11 11:13:48', 1, 0.470001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1760, '2016-07-11 11:13:48', 1, 0.580421, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6195400),
+(1761, '2016-07-11 11:13:55', 1, 0.350404, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1762, '2016-07-11 11:13:57', 1, 0.313001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1763, '2016-07-11 11:14:05', 1, 0.322613, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1764, '2016-07-11 11:14:07', 1, 0.309212, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1765, '2016-07-11 11:14:15', 1, 0.304401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1766, '2016-07-11 11:14:17', 1, 0.295404, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1767, '2016-07-11 11:14:25', 1, 0.315001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1768, '2016-07-11 11:14:28', 1, 0.411804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1769, '2016-07-11 11:14:35', 1, 0.363814, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1770, '2016-07-11 11:14:38', 1, 0.350201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1771, '2016-07-11 11:14:45', 1, 0.348201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1772, '2016-07-11 11:14:48', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1773, '2016-07-11 11:14:55', 1, 0.315001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1774, '2016-07-11 11:14:58', 1, 0.411024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1775, '2016-07-11 11:15:06', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1776, '2016-07-11 11:15:07', 1, 0.298008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1777, '2016-07-11 11:15:17', 1, 0.312815, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1778, '2016-07-11 11:15:18', 1, 0.293202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1779, '2016-07-11 11:15:28', 1, 0.416222, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1780, '2016-07-11 11:15:28', 1, 0.380203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1781, '2016-07-11 11:15:38', 1, 0.300603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1782, '2016-07-11 11:15:39', 1, 0.321001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1783, '2016-07-11 11:15:48', 1, 0.297801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1784, '2016-07-11 11:15:50', 1, 0.332803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1785, '2016-07-11 11:15:58', 1, 0.321407, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1786, '2016-07-11 11:16:01', 1, 0.44181, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1787, '2016-07-11 11:16:08', 1, 0.3442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1788, '2016-07-11 11:16:12', 1, 0.343602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1789, '2016-07-11 11:16:18', 1, 0.318609, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1790, '2016-07-11 11:16:22', 1, 0.390023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1791, '2016-07-11 11:16:28', 1, 0.421209, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1792, '2016-07-11 11:16:32', 1, 0.302608, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1793, '2016-07-11 11:16:38', 1, 0.322001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1794, '2016-07-11 11:16:42', 1, 0.336205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1795, '2016-07-11 11:16:48', 1, 0.459406, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1796, '2016-07-11 11:16:50', 1, 0.571813, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7806096),
+(1797, '2016-07-11 11:16:52', 1, 0.337804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1798, '2016-07-11 11:16:54', 1, 0.392402, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6267624),
+(1799, '2016-07-11 11:16:55', 1, 0.401407, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221184),
+(1800, '2016-07-11 11:16:56', 1, 0.340403, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221184),
+(1801, '2016-07-11 11:16:58', 1, 0.475402, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6268464),
+(1802, '2016-07-11 11:16:58', 1, 0.443017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221184),
+(1803, '2016-07-11 11:16:59', 1, 0.451603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1804, '2016-07-11 11:17:00', 1, 0.583818, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6249328),
+(1805, '2016-07-11 11:17:02', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', NULL),
+(1806, '2016-07-11 11:17:02', 1, 0.365003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1807, '2016-07-11 11:17:09', 1, 0.319001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1808, '2016-07-11 11:17:12', 1, 0.330001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1809, '2016-07-11 11:17:19', 1, 0.326208, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1810, '2016-07-11 11:17:22', 1, 0.345615, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1811, '2016-07-11 11:17:29', 1, 0.339601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1812, '2016-07-11 11:17:32', 1, 0.338002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1813, '2016-07-11 11:17:39', 1, 0.331204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1814, '2016-07-11 11:17:42', 1, 0.335002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1815, '2016-07-11 11:17:45', 1, 0.359016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221104),
+(1816, '2016-07-11 11:17:48', 1, 0.547605, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6249248),
+(1817, '2016-07-11 11:17:49', 1, 0.484407, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1818, '2016-07-11 11:17:53', 1, 0.623423, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1819, '2016-07-11 11:17:53', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', NULL),
+(1820, '2016-07-11 11:17:59', 1, 0.330601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1821, '2016-07-11 11:18:02', 1, 0.315, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1822, '2016-07-11 11:18:09', 1, 0.336812, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1823, '2016-07-11 11:18:12', 1, 0.326402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1824, '2016-07-11 11:18:19', 1, 0.344201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1825, '2016-07-11 11:18:22', 1, 0.431205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1826, '2016-07-11 11:18:24', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', NULL),
+(1827, '2016-07-11 11:18:29', 1, 0.4524, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1828, '2016-07-11 11:18:32', 1, 0.331601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1829, '2016-07-11 11:18:39', 1, 0.448616, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1830, '2016-07-11 11:18:42', 1, 0.297611, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1831, '2016-07-11 11:18:43', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', NULL),
+(1832, '2016-07-11 11:18:49', 1, 0.433602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1833, '2016-07-11 11:18:52', 1, 0.322002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1834, '2016-07-11 11:18:59', 1, 0.340204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1835, '2016-07-11 11:19:02', 1, 0.318, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1836, '2016-07-11 11:19:09', 1, 0.454811, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1837, '2016-07-11 11:19:11', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', NULL),
+(1838, '2016-07-11 11:19:12', 1, 0.345412, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(1839, '2016-07-11 11:19:19', 1, 0.367202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1840, '2016-07-11 11:19:22', 1, 0.329601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1841, '2016-07-11 11:19:29', 1, 0.303612, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1842, '2016-07-11 11:19:32', 1, 0.342602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1843, '2016-07-11 11:19:39', 1, 0.505007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1844, '2016-07-11 11:19:42', 1, 0.338808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1845, '2016-07-11 11:19:43', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', NULL),
+(1846, '2016-07-11 11:19:49', 1, 0.338601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1847, '2016-07-11 11:19:52', 1, 0.329204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1848, '2016-07-11 11:19:59', 1, 0.334618, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1849, '2016-07-11 11:20:02', 1, 0.325808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1850, '2016-07-11 11:20:09', 1, 0.390203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1851, '2016-07-11 11:20:12', 1, 0.373802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1852, '2016-07-11 11:20:19', 1, 0.347003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1853, '2016-07-11 11:20:22', 1, 0.329402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1854, '2016-07-11 11:20:29', 1, 0.33661, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1855, '2016-07-11 11:20:32', 1, 0.310816, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1856, '2016-07-11 11:20:39', 1, 0.338601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1857, '2016-07-11 11:20:42', 1, 0.330601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1858, '2016-07-11 11:20:47', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', NULL),
+(1859, '2016-07-11 11:20:49', 1, 0.460802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1860, '2016-07-11 11:20:52', 1, 0.346003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1861, '2016-07-11 11:20:59', 1, 0.357809, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1862, '2016-07-11 11:21:02', 1, 0.325811, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1863, '2016-07-11 11:21:09', 1, 0.337601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1864, '2016-07-11 11:21:12', 1, 0.330601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1865, '2016-07-11 11:21:19', 1, 0.357409, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1866, '2016-07-11 11:21:22', 1, 0.316, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1867, '2016-07-11 11:21:29', 1, 0.344201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1868, '2016-07-11 11:21:33', 1, 0.291202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1869, '2016-07-11 11:21:39', 1, 0.375203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1870, '2016-07-11 11:21:44', 1, 0.316001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1871, '2016-07-11 11:21:49', 1, 0.330816, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1872, '2016-07-11 11:21:55', 1, 0.354403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1873, '2016-07-11 11:21:59', 1, 0.339601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1874, '2016-07-11 11:22:06', 1, 0.390022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1875, '2016-07-11 11:22:09', 1, 0.405411, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1876, '2016-07-11 11:22:17', 1, 0.333402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1877, '2016-07-11 11:22:19', 1, 0.301612, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1878, '2016-07-11 11:22:28', 1, 0.349805, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1879, '2016-07-11 11:22:29', 1, 0.344201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1880, '2016-07-11 11:22:39', 1, 0.333416, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1881, '2016-07-11 11:22:39', 1, 0.339601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1882, '2016-07-11 11:22:49', 1, 0.330605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1883, '2016-07-11 11:22:50', 1, 0.3286, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1884, '2016-07-11 11:22:59', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1885, '2016-07-11 11:23:01', 1, 0.345201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1886, '2016-07-11 11:23:08', 1, 0.526616, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6260320),
+(1887, '2016-07-11 11:23:09', 1, 0.352007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1888, '2016-07-11 11:23:12', 1, 0.39701, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1889, '2016-07-11 11:23:19', 1, 0.335403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1890, '2016-07-11 11:23:23', 1, 0.336007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1891, '2016-07-11 11:23:29', 1, 0.3286, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1892, '2016-07-11 11:23:34', 1, 0.313, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1893, '2016-07-11 11:23:39', 1, 0.328415, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1894, '2016-07-11 11:23:45', 1, 0.376202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1895, '2016-07-11 11:23:49', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1896, '2016-07-11 11:23:56', 1, 0.309617, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1897, '2016-07-11 11:24:00', 1, 0.512003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1898, '2016-07-11 11:24:07', 1, 0.312802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1899, '2016-07-11 11:24:10', 1, 0.364017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1900, '2016-07-11 11:24:18', 1, 0.410601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1901, '2016-07-11 11:24:19', 1, 0.359801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1902, '2016-07-11 11:24:29', 1, 0.417615, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1903, '2016-07-11 11:24:29', 1, 0.344201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1904, '2016-07-11 11:24:40', 1, 0.540415, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1905, '2016-07-11 11:24:40', 1, 0.377207, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1906, '2016-07-11 11:24:49', 1, 0.371802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1907, '2016-07-11 11:24:51', 1, 0.356201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1908, '2016-07-11 11:25:00', 1, 0.448611, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1909, '2016-07-11 11:25:02', 1, 0.408204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1910, '2016-07-11 11:25:03', 1, 0.526612, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6260616),
+(1911, '2016-07-11 11:25:10', 1, 0.454802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1912, '2016-07-11 11:25:11', 1, 0.493015, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6260616),
+(1913, '2016-07-11 11:25:13', 1, 0.295215, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1914, '2016-07-11 11:25:17', 1, 0.484601, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6228688),
+(1915, '2016-07-11 11:25:20', 1, 0.467204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1916, '2016-07-11 11:25:24', 1, 0.3286, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1917, '2016-07-11 11:25:25', 1, 0.520021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6260616),
+(1918, '2016-07-11 11:25:30', 1, 0.441823, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1919, '2016-07-11 11:25:34', 1, 0.455405, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6260616),
+(1920, '2016-07-11 11:25:35', 1, 0.331803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1921, '2016-07-11 11:25:40', 1, 0.437202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1922, '2016-07-11 11:25:46', 1, 0.322406, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1923, '2016-07-11 11:25:50', 1, 0.641605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1924, '2016-07-11 11:25:57', 1, 0.338408, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1925, '2016-07-11 11:26:00', 1, 0.339407, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1926, '2016-07-11 11:26:08', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1927, '2016-07-11 11:26:10', 1, 0.306017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1928, '2016-07-11 11:26:19', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1929, '2016-07-11 11:26:20', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1930, '2016-07-11 11:26:30', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1931, '2016-07-11 11:26:30', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1932, '2016-07-11 11:26:39', 1, 0.662038, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9541888),
+(1933, '2016-07-11 11:26:41', 1, 0.730041, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1934, '2016-07-11 11:26:42', 1, 0.728042, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1935, '2016-07-11 11:26:51', 1, 0.468026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1936, '2016-07-11 11:26:51', 1, 0.534031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1937, '2016-07-11 11:27:01', 1, 0.567032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1938, '2016-07-11 11:27:02', 1, 0.553031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1939, '2016-07-11 11:27:11', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1940, '2016-07-11 11:27:13', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1941, '2016-07-11 11:27:21', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1942, '2016-07-11 11:27:24', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1943, '2016-07-11 11:27:31', 1, 0.444025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1944, '2016-07-11 11:27:35', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1945, '2016-07-11 11:27:41', 1, 0.469026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1946, '2016-07-11 11:27:46', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1947, '2016-07-11 11:27:51', 1, 0.558032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1948, '2016-07-11 11:27:57', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1949, '2016-07-11 11:28:01', 1, 0.496028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1950, '2016-07-11 11:28:08', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1951, '2016-07-11 11:28:11', 1, 0.331004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1952, '2016-07-11 11:28:18', 1, 0.43442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1953, '2016-07-11 11:28:21', 1, 0.468001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1954, '2016-07-11 11:28:23', 1, 0.639601, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7806944),
+(1955, '2016-07-11 11:28:27', 1, 0.436801, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6268440),
+(1956, '2016-07-11 11:28:27', 1, 0.436801, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221984),
+(1957, '2016-07-11 11:28:28', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1958, '2016-07-11 11:28:29', 1, 0.546001, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221984),
+(1959, '2016-07-11 11:28:32', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1960, '2016-07-11 11:28:33', 1, 0.39, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269280),
+(1961, '2016-07-11 11:28:34', 1, 0.4524, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221984),
+(1962, '2016-07-11 11:28:35', 1, 0.405601, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6250128),
+(1963, '2016-07-11 11:28:38', 1, 0.358801, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6260616),
+(1964, '2016-07-11 11:28:38', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1965, '2016-07-11 11:28:42', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1966, '2016-07-11 11:28:48', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1967, '2016-07-11 11:28:52', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1968, '2016-07-11 11:28:56', 1, 0.633036, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9541888),
+(1969, '2016-07-11 11:28:58', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1970, '2016-07-11 11:28:58', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1971, '2016-07-11 11:29:08', 1, 0.912052, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7806904),
+(1972, '2016-07-11 11:29:09', 1, 0.494028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1973, '2016-07-11 11:29:10', 1, 0.656038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1974, '2016-07-11 11:29:12', 1, 0.51503, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269280),
+(1975, '2016-07-11 11:29:12', 1, 0.587033, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221984),
+(1976, '2016-07-11 11:29:16', 1, 0.421024, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6250128),
+(1977, '2016-07-11 11:29:18', 1, 0.439025, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6260616),
+(1978, '2016-07-11 11:29:20', 1, 0.514029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1979, '2016-07-11 11:29:20', 1, 0.518029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1980, '2016-07-11 11:29:30', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1981, '2016-07-11 11:29:31', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1982, '2016-07-11 11:29:40', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1983, '2016-07-11 11:29:42', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1984, '2016-07-11 11:29:50', 1, 0.319019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1985, '2016-07-11 11:29:53', 1, 0.316019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1986, '2016-07-11 11:30:00', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1987, '2016-07-11 11:30:04', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1988, '2016-07-11 11:30:10', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1989, '2016-07-11 11:30:15', 1, 0.346019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1990, '2016-07-11 11:30:20', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1991, '2016-07-11 11:30:26', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1992, '2016-07-11 11:30:30', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1993, '2016-07-11 11:30:37', 1, 0.33402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1994, '2016-07-11 11:30:40', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1995, '2016-07-11 11:30:48', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1996, '2016-07-11 11:30:50', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1997, '2016-07-11 11:30:59', 1, 0.428025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(1998, '2016-07-11 11:31:00', 1, 0.417024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(1999, '2016-07-11 11:31:07', 1, 0.639036, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7806904),
+(2000, '2016-07-11 11:31:09', 1, 0.426025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2001, '2016-07-11 11:31:11', 1, 0.53203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2002, '2016-07-11 11:31:11', 1, 0.624036, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269280),
+(2003, '2016-07-11 11:31:12', 1, 0.403023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221984),
+(2004, '2016-07-11 11:31:13', 1, 0.380022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6250128),
+(2005, '2016-07-11 11:31:16', 1, 0.52103, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6260616),
+(2006, '2016-07-11 11:31:19', 1, 0.406023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2007, '2016-07-11 11:31:21', 1, 0.69904, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7168056),
+(2008, '2016-07-11 11:31:22', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', NULL),
+(2009, '2016-07-11 11:31:22', 1, 0.706041, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2010, '2016-07-11 11:31:23', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(2011, '2016-07-11 11:31:29', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2012, '2016-07-11 11:31:40', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2013, '2016-07-11 11:31:51', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2014, '2016-07-11 11:32:02', 1, 0.292017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2015, '2016-07-11 11:32:13', 1, 0.411023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2016, '2016-07-11 11:32:24', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2017, '2016-07-11 11:32:35', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2018, '2016-07-11 11:32:46', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2019, '2016-07-11 11:32:57', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2020, '2016-07-11 11:33:08', 1, 0.388023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2021, '2016-07-11 11:33:19', 1, 0.293017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2022, '2016-07-11 11:33:30', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2023, '2016-07-11 11:33:41', 1, 0.393023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2024, '2016-07-11 11:33:51', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2025, '2016-07-11 11:34:02', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2026, '2016-07-11 11:34:13', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2027, '2016-07-11 11:34:24', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2028, '2016-07-11 11:34:35', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2029, '2016-07-11 11:34:46', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2030, '2016-07-11 11:34:57', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2031, '2016-07-11 11:35:08', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2032, '2016-07-11 11:35:19', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2033, '2016-07-11 11:35:30', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2034, '2016-07-11 11:35:41', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2035, '2016-07-11 11:35:52', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2036, '2016-07-11 11:35:53', 1, 0.814047, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9496056),
+(2037, '2016-07-11 11:35:56', 1, 0.427024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2038, '2016-07-11 11:36:00', 1, 0.611035, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9542600),
+(2039, '2016-07-11 11:36:03', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2040, '2016-07-11 11:36:03', 1, 0.461026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2041, '2016-07-11 11:36:06', 1, 0.715041, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9496224),
+(2042, '2016-07-11 11:36:09', 1, 0.52903, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2043, '2016-07-11 11:36:09', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(2044, '2016-07-11 11:36:14', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2045, '2016-07-11 11:36:25', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2046, '2016-07-11 11:36:32', 1, 0.821047, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9496224),
+(2047, '2016-07-11 11:36:35', 1, 0.412023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2048, '2016-07-11 11:36:36', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2049, '2016-07-11 11:36:45', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2050, '2016-07-11 11:36:47', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2051, '2016-07-11 11:36:55', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2052, '2016-07-11 11:36:58', 1, 0.447026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2053, '2016-07-11 11:37:05', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2054, '2016-07-11 11:37:09', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2055, '2016-07-11 11:37:15', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2056, '2016-07-11 11:37:20', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2057, '2016-07-11 11:37:25', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2058, '2016-07-11 11:37:28', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(2059, '2016-07-11 11:37:31', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2060, '2016-07-11 11:37:42', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2061, '2016-07-11 11:37:53', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2062, '2016-07-11 11:38:04', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2063, '2016-07-11 11:38:15', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2064, '2016-07-11 11:38:26', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2065, '2016-07-11 11:38:37', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2066, '2016-07-11 11:38:48', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2067, '2016-07-11 11:38:59', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2068, '2016-07-11 11:39:10', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2069, '2016-07-11 11:39:21', 1, 0.355021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2070, '2016-07-11 11:39:32', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2071, '2016-07-11 11:39:43', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2072, '2016-07-11 11:39:54', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2073, '2016-07-11 11:40:05', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2074, '2016-07-11 11:40:16', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2075, '2016-07-11 11:40:27', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2076, '2016-07-11 11:40:38', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2077, '2016-07-11 11:40:49', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2078, '2016-07-11 11:41:00', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2079, '2016-07-11 11:41:11', 1, 0.484027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2080, '2016-07-11 11:41:22', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2081, '2016-07-11 11:41:33', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2082, '2016-07-11 11:41:44', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2083, '2016-07-11 11:41:55', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2084, '2016-07-11 11:42:06', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2085, '2016-07-11 11:42:17', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2086, '2016-07-11 11:42:28', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2087, '2016-07-11 11:42:39', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2088, '2016-07-11 11:42:50', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2089, '2016-07-11 11:43:01', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2090, '2016-07-11 11:43:12', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2091, '2016-07-11 11:43:23', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2092, '2016-07-11 11:43:34', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2093, '2016-07-11 11:43:45', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2094, '2016-07-11 11:43:56', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2095, '2016-07-11 11:44:07', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2096, '2016-07-11 11:44:18', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2097, '2016-07-11 11:44:29', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2098, '2016-07-11 11:44:40', 1, 0.352021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2099, '2016-07-11 11:44:51', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2100, '2016-07-11 11:45:02', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2101, '2016-07-11 11:45:13', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2102, '2016-07-11 11:45:24', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2103, '2016-07-11 11:45:35', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2104, '2016-07-11 11:45:46', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2105, '2016-07-11 11:45:57', 1, 0.353021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2106, '2016-07-11 11:46:08', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2107, '2016-07-11 11:46:19', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2108, '2016-07-11 11:46:30', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2109, '2016-07-11 11:46:41', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2110, '2016-07-11 11:46:52', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2111, '2016-07-11 11:47:00', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(2112, '2016-07-11 11:47:03', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2113, '2016-07-11 11:47:14', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2114, '2016-07-11 11:47:25', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2115, '2016-07-11 11:47:36', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2116, '2016-07-11 11:47:47', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2117, '2016-07-11 11:47:58', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2118, '2016-07-11 11:48:09', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2119, '2016-07-11 11:48:20', 1, 0.331018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2120, '2016-07-11 11:48:31', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2121, '2016-07-11 11:48:42', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2122, '2016-07-11 11:48:53', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2123, '2016-07-11 11:49:04', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2124, '2016-07-11 11:49:15', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2125, '2016-07-11 11:49:26', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2126, '2016-07-11 11:49:37', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2127, '2016-07-11 11:49:48', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2128, '2016-07-11 11:49:59', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2129, '2016-07-11 11:50:10', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2130, '2016-07-11 11:50:21', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2131, '2016-07-11 11:50:32', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2132, '2016-07-11 11:50:43', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2133, '2016-07-11 11:50:54', 1, 0.693039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2134, '2016-07-11 11:51:05', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2135, '2016-07-11 11:51:16', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2136, '2016-07-11 11:51:20', 1, 0.792045, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9894464),
+(2137, '2016-07-11 11:51:23', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2138, '2016-07-11 11:51:27', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2139, '2016-07-11 11:51:32', 1, 0.376021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2140, '2016-07-11 11:51:38', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2141, '2016-07-11 11:51:42', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2142, '2016-07-11 11:51:49', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2143, '2016-07-11 11:51:52', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2144, '2016-07-11 11:52:00', 1, 0.392022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2145, '2016-07-11 11:52:02', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2146, '2016-07-11 11:52:11', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2147, '2016-07-11 11:52:12', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2148, '2016-07-11 11:52:22', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2149, '2016-07-11 11:52:22', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2150, '2016-07-11 11:52:32', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2151, '2016-07-11 11:52:33', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2152, '2016-07-11 11:52:42', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2153, '2016-07-11 11:52:44', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2154, '2016-07-11 11:52:52', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2155, '2016-07-11 11:52:55', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2156, '2016-07-11 11:53:02', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2157, '2016-07-11 11:53:06', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2158, '2016-07-11 11:53:08', 1, 0.764043, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 10046904),
+(2159, '2016-07-11 11:53:11', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134664),
+(2160, '2016-07-11 11:53:17', 1, 0.409023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2161, '2016-07-11 11:53:21', 1, 0.941054, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/index', 9465984),
+(2162, '2016-07-11 11:53:22', 1, 0.744043, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2163, '2016-07-11 11:53:23', 1, 0.36102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134208),
+(2164, '2016-07-11 11:53:25', 1, 0.904052, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/asignar', 9891520),
+(2165, '2016-07-11 11:53:28', 1, 0.418024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2166, '2016-07-11 11:53:28', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2167, '2016-07-11 11:53:31', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2168, '2016-07-11 11:53:37', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2169, '2016-07-11 11:53:39', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2170, '2016-07-11 11:53:41', 1, 0.410024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2171, '2016-07-11 11:53:48', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2172, '2016-07-11 11:53:49', 1, 0.69304, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7562048),
+(2173, '2016-07-11 11:53:50', 1, 0.309017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2174, '2016-07-11 11:53:52', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2175, '2016-07-11 11:53:57', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2176, '2016-07-11 11:54:01', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2177, '2016-07-11 11:54:02', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2178, '2016-07-11 11:54:07', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2179, '2016-07-11 11:54:12', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2180, '2016-07-11 11:54:12', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2181, '2016-07-11 11:54:18', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2182, '2016-07-11 11:54:22', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2183, '2016-07-11 11:54:23', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2184, '2016-07-11 11:54:28', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2185, '2016-07-11 11:54:32', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2186, '2016-07-11 11:54:34', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2187, '2016-07-11 11:54:38', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2188, '2016-07-11 11:54:40', 1, 0.749043, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9956096),
+(2189, '2016-07-11 11:54:44', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134664),
+(2190, '2016-07-11 11:54:45', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2191, '2016-07-11 11:54:48', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2192, '2016-07-11 11:54:51', 1, 0.537031, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7562048),
+(2193, '2016-07-11 11:54:54', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2194, '2016-07-11 11:54:56', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2195, '2016-07-11 11:54:58', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2196, '2016-07-11 11:55:01', 1, 0.575033, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9496224),
+(2197, '2016-07-11 11:55:03', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2198, '2016-07-11 11:55:05', 1, 0.565033, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9449248),
+(2199, '2016-07-11 11:55:07', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2200, '2016-07-11 11:55:07', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2201, '2016-07-11 11:55:08', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2202, '2016-07-11 11:55:12', 1, 2.04612, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9496224),
+(2203, '2016-07-11 11:55:15', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2204, '2016-07-11 11:55:17', 1, 0.621035, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9449248),
+(2205, '2016-07-11 11:55:18', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2206, '2016-07-11 11:55:18', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2207, '2016-07-11 11:55:19', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2208, '2016-07-11 11:55:21', 1, 0.590033, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9496224),
+(2209, '2016-07-11 11:55:22', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2210, '2016-07-11 11:55:24', 1, 0.691039, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9956192),
+(2211, '2016-07-11 11:55:25', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2212, '2016-07-11 11:55:28', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2213, '2016-07-11 11:55:28', 1, 0.621035, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7806944),
+(2214, '2016-07-11 11:55:29', 1, 0.377021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2215, '2016-07-11 11:55:34', 1, 0.588033, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7562048),
+(2216, '2016-07-11 11:55:37', 1, 0.812046, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7806944),
+(2217, '2016-07-11 11:55:38', 1, 0.52303, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2218, '2016-07-11 11:55:38', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2219, '2016-07-11 11:55:40', 1, 0.311018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6268440),
+(2220, '2016-07-11 11:55:40', 1, 0.293017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221984),
+(2221, '2016-07-11 11:55:40', 1, 0.390023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2222, '2016-07-11 11:55:43', 1, 0.313018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269280),
+(2223, '2016-07-11 11:55:43', 1, 0.294017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6221984),
+(2224, '2016-07-11 11:55:44', 1, 0.312018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6250128),
+(2225, '2016-07-11 11:55:46', 1, 0.272016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6260616),
+(2226, '2016-07-11 11:55:48', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2227, '2016-07-11 11:55:48', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2228, '2016-07-11 11:55:49', 1, 0.654038, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7167888),
+(2229, '2016-07-11 11:55:50', 1, 0.615035, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9616648),
+(2230, '2016-07-11 11:55:51', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2231, '2016-07-11 11:55:58', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2232, '2016-07-11 11:55:59', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2233, '2016-07-11 11:56:02', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2234, '2016-07-11 11:56:08', 1, 0.347019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2235, '2016-07-11 11:56:09', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2236, '2016-07-11 11:56:13', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2237, '2016-07-11 11:56:18', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2238, '2016-07-11 11:56:19', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2239, '2016-07-11 11:56:19', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/toggle-activo', NULL),
+(2240, '2016-07-11 11:56:24', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2241, '2016-07-11 11:56:28', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2242, '2016-07-11 11:56:29', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2243, '2016-07-11 11:56:35', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2244, '2016-07-11 11:56:38', 1, 0.295017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2245, '2016-07-11 11:56:39', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2246, '2016-07-11 11:56:46', 1, 0.319019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2247, '2016-07-11 11:56:48', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2248, '2016-07-11 11:56:49', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2249, '2016-07-11 11:56:57', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2250, '2016-07-11 11:56:58', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2251, '2016-07-11 11:56:59', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2252, '2016-07-11 11:57:08', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2253, '2016-07-11 11:57:08', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2254, '2016-07-11 11:57:09', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2255, '2016-07-11 11:57:17', 1, 0.651037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7562048),
+(2256, '2016-07-11 11:57:18', 1, 0.559032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2257, '2016-07-11 11:57:19', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2258, '2016-07-11 11:57:20', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2259, '2016-07-11 11:57:22', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', NULL),
+(2260, '2016-07-11 11:57:28', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2261, '2016-07-11 11:57:30', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2262, '2016-07-11 11:57:31', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2263, '2016-07-11 11:57:38', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2264, '2016-07-11 11:57:41', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2265, '2016-07-11 11:57:41', 1, 0.414024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2266, '2016-07-11 11:57:48', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2267, '2016-07-11 11:57:51', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2268, '2016-07-11 11:57:52', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2269, '2016-07-11 11:57:58', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2270, '2016-07-11 11:58:01', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2271, '2016-07-11 11:58:03', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2272, '2016-07-11 11:58:08', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2273, '2016-07-11 11:58:11', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2274, '2016-07-11 11:58:14', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2275, '2016-07-11 11:58:18', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2276, '2016-07-11 11:58:21', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2277, '2016-07-11 11:58:25', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2278, '2016-07-11 11:58:28', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2279, '2016-07-11 11:58:31', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2280, '2016-07-11 11:58:36', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2281, '2016-07-11 11:58:38', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2282, '2016-07-11 11:58:41', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2283, '2016-07-11 11:58:47', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2284, '2016-07-11 11:58:48', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2285, '2016-07-11 11:58:51', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2286, '2016-07-11 11:58:58', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2287, '2016-07-11 11:58:58', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2288, '2016-07-11 11:59:01', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2289, '2016-07-11 11:59:08', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2290, '2016-07-11 11:59:09', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2291, '2016-07-11 11:59:11', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(2292, '2016-07-11 11:59:18', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2293, '2016-07-11 11:59:20', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2294, '2016-07-11 11:59:21', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2295, '2016-07-11 11:59:28', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2296, '2016-07-11 11:59:31', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2297, '2016-07-11 11:59:31', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2298, '2016-07-11 11:59:38', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2299, '2016-07-11 11:59:41', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2300, '2016-07-11 11:59:42', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2301, '2016-07-11 11:59:48', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2302, '2016-07-11 11:59:51', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2303, '2016-07-11 11:59:53', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2304, '2016-07-11 11:59:58', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2305, '2016-07-11 12:00:01', 1, 0.374022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2306, '2016-07-11 12:00:04', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2307, '2016-07-11 12:00:06', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', NULL),
+(2308, '2016-07-11 12:00:08', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2309, '2016-07-11 12:00:12', 1, 0.393023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2310, '2016-07-11 12:00:15', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2311, '2016-07-11 12:00:18', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2312, '2016-07-11 12:00:22', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2313, '2016-07-11 12:00:26', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2314, '2016-07-11 12:00:28', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2315, '2016-07-11 12:00:32', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2316, '2016-07-11 12:00:37', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2317, '2016-07-11 12:00:38', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2318, '2016-07-11 12:00:42', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2319, '2016-07-11 12:00:48', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2320, '2016-07-11 12:00:48', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2321, '2016-07-11 12:00:52', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2322, '2016-07-11 12:00:58', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2323, '2016-07-11 12:00:59', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2324, '2016-07-11 12:01:02', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2325, '2016-07-11 12:01:08', 1, 0.490028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2326, '2016-07-11 12:01:10', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2327, '2016-07-11 12:01:12', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2328, '2016-07-11 12:01:18', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2329, '2016-07-11 12:01:21', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2330, '2016-07-11 12:01:22', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2331, '2016-07-11 12:01:27', 1, 0.682039, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7835840),
+(2332, '2016-07-11 12:01:28', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2333, '2016-07-11 12:01:32', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2334, '2016-07-11 12:01:33', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2335, '2016-07-11 12:01:38', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2336, '2016-07-11 12:01:43', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2337, '2016-07-11 12:01:43', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2338, '2016-07-11 12:01:47', 1, 0.649037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7835840),
+(2339, '2016-07-11 12:01:48', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2340, '2016-07-11 12:01:54', 1, 0.732042, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7835840),
+(2341, '2016-07-11 12:01:54', 1, 0.488028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2342, '2016-07-11 12:01:54', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2343, '2016-07-11 12:01:56', 1, 0.335019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269920),
+(2344, '2016-07-11 12:01:56', 1, 0.287016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(2345, '2016-07-11 12:01:58', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2346, '2016-07-11 12:02:00', 1, 0.300017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270632),
+(2347, '2016-07-11 12:02:01', 1, 0.279016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(2348, '2016-07-11 12:02:04', 1, 0.627036, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7835840),
+(2349, '2016-07-11 12:02:05', 1, 0.52903, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2350, '2016-07-11 12:02:05', 1, 0.435024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2351, '2016-07-11 12:02:08', 1, 0.332018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2352, '2016-07-11 12:02:15', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2353, '2016-07-11 12:02:16', 1, 0.306017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2354, '2016-07-11 12:02:18', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2355, '2016-07-11 12:02:25', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2356, '2016-07-11 12:02:27', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2357, '2016-07-11 12:02:28', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2358, '2016-07-11 12:02:35', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2359, '2016-07-11 12:02:38', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2360, '2016-07-11 12:02:38', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2361, '2016-07-11 12:02:45', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2362, '2016-07-11 12:02:48', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2363, '2016-07-11 12:02:49', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2364, '2016-07-11 12:02:55', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2365, '2016-07-11 12:02:58', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2366, '2016-07-11 12:03:00', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2367, '2016-07-11 12:03:05', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2368, '2016-07-11 12:03:08', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2369, '2016-07-11 12:03:11', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2370, '2016-07-11 12:03:15', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2371, '2016-07-11 12:03:18', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2372, '2016-07-11 12:03:22', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2373, '2016-07-11 12:03:25', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2374, '2016-07-11 12:03:28', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2375, '2016-07-11 12:03:33', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2376, '2016-07-11 12:03:35', 1, 0.33502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2377, '2016-07-11 12:03:38', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2378, '2016-07-11 12:03:44', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2379, '2016-07-11 12:03:45', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2380, '2016-07-11 12:03:48', 1, 0.36102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2381, '2016-07-11 12:03:55', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2382, '2016-07-11 12:03:55', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2383, '2016-07-11 12:03:58', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2384, '2016-07-11 12:04:05', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2385, '2016-07-11 12:04:06', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2386, '2016-07-11 12:04:08', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2387, '2016-07-11 12:04:15', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2388, '2016-07-11 12:04:17', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2389, '2016-07-11 12:04:18', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2390, '2016-07-11 12:04:25', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2391, '2016-07-11 12:04:28', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2392, '2016-07-11 12:04:28', 1, 0.387023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2393, '2016-07-11 12:04:35', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2394, '2016-07-11 12:04:38', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2395, '2016-07-11 12:04:39', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2396, '2016-07-11 12:04:45', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2397, '2016-07-11 12:04:48', 1, 0.392022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2398, '2016-07-11 12:04:50', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2399, '2016-07-11 12:04:55', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2400, '2016-07-11 12:04:58', 1, 0.348019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2401, '2016-07-11 12:05:01', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2402, '2016-07-11 12:05:05', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2403, '2016-07-11 12:05:08', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2404, '2016-07-11 12:05:12', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2405, '2016-07-11 12:05:15', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2406, '2016-07-11 12:05:18', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2407, '2016-07-11 12:05:23', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2408, '2016-07-11 12:05:25', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2409, '2016-07-11 12:05:28', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2410, '2016-07-11 12:05:34', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2411, '2016-07-11 12:05:35', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2412, '2016-07-11 12:05:38', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2413, '2016-07-11 12:05:45', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2414, '2016-07-11 12:05:45', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2415, '2016-07-11 12:05:48', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2416, '2016-07-11 12:05:55', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2417, '2016-07-11 12:05:56', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2418, '2016-07-11 12:05:58', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2419, '2016-07-11 12:06:05', 1, 0.391023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2420, '2016-07-11 12:06:07', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2421, '2016-07-11 12:06:08', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2422, '2016-07-11 12:06:15', 1, 0.36102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2423, '2016-07-11 12:06:18', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2424, '2016-07-11 12:06:18', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2425, '2016-07-11 12:06:25', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2426, '2016-07-11 12:06:28', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2427, '2016-07-11 12:06:29', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2428, '2016-07-11 12:06:35', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2429, '2016-07-11 12:06:38', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2430, '2016-07-11 12:06:40', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2431, '2016-07-11 12:06:45', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2432, '2016-07-11 12:06:48', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2433, '2016-07-11 12:06:51', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2434, '2016-07-11 12:06:55', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2435, '2016-07-11 12:06:58', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2436, '2016-07-11 12:07:02', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2437, '2016-07-11 12:07:05', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2438, '2016-07-11 12:07:08', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2439, '2016-07-11 12:07:13', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2440, '2016-07-11 12:07:15', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2441, '2016-07-11 12:07:18', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2442, '2016-07-11 12:07:24', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2443, '2016-07-11 12:07:26', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2444, '2016-07-11 12:07:28', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2445, '2016-07-11 12:07:35', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2446, '2016-07-11 12:07:35', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2447, '2016-07-11 12:07:38', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2448, '2016-07-11 12:07:45', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2449, '2016-07-11 12:07:46', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2450, '2016-07-11 12:07:48', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2451, '2016-07-11 12:07:56', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2452, '2016-07-11 12:07:57', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2453, '2016-07-11 12:07:58', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2454, '2016-07-11 12:08:06', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2455, '2016-07-11 12:08:08', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2456, '2016-07-11 12:08:08', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2457, '2016-07-11 12:08:16', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2458, '2016-07-11 12:08:18', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2459, '2016-07-11 12:08:19', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2460, '2016-07-11 12:08:26', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2461, '2016-07-11 12:08:28', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2462, '2016-07-11 12:08:30', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2463, '2016-07-11 12:08:36', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2464, '2016-07-11 12:08:38', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2465, '2016-07-11 12:08:41', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2466, '2016-07-11 12:08:46', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2467, '2016-07-11 12:08:48', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2468, '2016-07-11 12:08:52', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2469, '2016-07-11 12:08:56', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2470, '2016-07-11 12:08:58', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2471, '2016-07-11 12:09:03', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2472, '2016-07-11 12:09:06', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2473, '2016-07-11 12:09:08', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2474, '2016-07-11 12:09:14', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2475, '2016-07-11 12:09:16', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2476, '2016-07-11 12:09:18', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2477, '2016-07-11 12:09:25', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2478, '2016-07-11 12:09:26', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2479, '2016-07-11 12:09:28', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2480, '2016-07-11 12:09:36', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2481, '2016-07-11 12:09:36', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2482, '2016-07-11 12:09:38', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2483, '2016-07-11 12:09:46', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2484, '2016-07-11 12:09:47', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2485, '2016-07-11 12:09:48', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2486, '2016-07-11 12:09:56', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2487, '2016-07-11 12:09:58', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2488, '2016-07-11 12:09:58', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2489, '2016-07-11 12:10:06', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2490, '2016-07-11 12:10:08', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2491, '2016-07-11 12:10:09', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2492, '2016-07-11 12:10:16', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2493, '2016-07-11 12:10:18', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2494, '2016-07-11 12:10:20', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2495, '2016-07-11 12:10:26', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2496, '2016-07-11 12:10:28', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2497, '2016-07-11 12:10:31', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2498, '2016-07-11 12:10:36', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2499, '2016-07-11 12:10:38', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2500, '2016-07-11 12:10:42', 1, 0.306017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2501, '2016-07-11 12:10:46', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2502, '2016-07-11 12:10:48', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2503, '2016-07-11 12:10:50', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', NULL),
+(2504, '2016-07-11 12:10:53', 1, 0.352021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2505, '2016-07-11 12:10:57', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2506, '2016-07-11 12:10:58', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2507, '2016-07-11 12:11:01', 1, 0.621036, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7892960),
+(2508, '2016-07-11 12:11:04', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2509, '2016-07-11 12:11:07', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2510, '2016-07-11 12:11:08', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2511, '2016-07-11 12:11:15', 1, 0.418024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2512, '2016-07-11 12:11:17', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2513, '2016-07-11 12:11:18', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2514, '2016-07-11 12:11:26', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2515, '2016-07-11 12:11:27', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2516, '2016-07-11 12:11:28', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2517, '2016-07-11 12:11:36', 1, 0.644037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7892992),
+(2518, '2016-07-11 12:11:37', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2519, '2016-07-11 12:11:38', 1, 0.425024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2520, '2016-07-11 12:11:39', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2521, '2016-07-11 12:11:43', 1, 0.70804, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9982656),
+(2522, '2016-07-11 12:11:45', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2523, '2016-07-11 12:11:48', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2524, '2016-07-11 12:11:48', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2525, '2016-07-11 12:11:55', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2526, '2016-07-11 12:11:58', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2527, '2016-07-11 12:11:59', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2528, '2016-07-11 12:12:05', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2529, '2016-07-11 12:12:08', 1, 0.625035, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7892992),
+(2530, '2016-07-11 12:12:09', 1, 0.480027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2531, '2016-07-11 12:12:10', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2532, '2016-07-11 12:12:16', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2533, '2016-07-11 12:12:19', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2534, '2016-07-11 12:12:21', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2535, '2016-07-11 12:12:26', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2536, '2016-07-11 12:12:29', 1, 0.390022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2537, '2016-07-11 12:12:32', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2538, '2016-07-11 12:12:36', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2539, '2016-07-11 12:12:39', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2540, '2016-07-11 12:12:43', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2541, '2016-07-11 12:12:46', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2542, '2016-07-11 12:12:49', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2543, '2016-07-11 12:12:54', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2544, '2016-07-11 12:12:56', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2545, '2016-07-11 12:12:59', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2546, '2016-07-11 12:13:05', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2547, '2016-07-11 12:13:06', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2548, '2016-07-11 12:13:09', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2549, '2016-07-11 12:13:16', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2550, '2016-07-11 12:13:16', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2551, '2016-07-11 12:13:19', 1, 0.409024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2552, '2016-07-11 12:13:22', 1, 0.739042, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7892992),
+(2553, '2016-07-11 12:13:27', 1, 0.613035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2554, '2016-07-11 12:13:27', 1, 0.468027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2555, '2016-07-11 12:13:28', 1, 0.897051, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7892992),
+(2556, '2016-07-11 12:13:29', 1, 0.898051, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2557, '2016-07-11 12:13:33', 1, 0.320018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(2558, '2016-07-11 12:13:38', 1, 0.411023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2559, '2016-07-11 12:13:38', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2560, '2016-07-11 12:13:39', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2561, '2016-07-11 12:13:39', 1, 0.315018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269944),
+(2562, '2016-07-11 12:13:39', 1, 0.298017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(2563, '2016-07-11 12:13:41', 1, 0.304017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(2564, '2016-07-11 12:13:46', 1, 0.296017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270656),
+(2565, '2016-07-11 12:13:46', 1, 0.298017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(2566, '2016-07-11 12:13:47', 1, 0.305017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(2567, '2016-07-11 12:13:48', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2568, '2016-07-11 12:13:49', 1, 0.390023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2569, '2016-07-11 12:13:49', 1, 0.331018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2570, '2016-07-11 12:13:51', 1, 0.306017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(2571, '2016-07-11 12:13:54', 1, 0.294017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(2572, '2016-07-11 12:13:57', 1, 0.316019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(2573, '2016-07-11 12:13:58', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2574, '2016-07-11 12:13:59', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2575, '2016-07-11 12:13:59', 1, 0.307017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(2576, '2016-07-11 12:14:00', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2577, '2016-07-11 12:14:08', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2578, '2016-07-11 12:14:09', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2579, '2016-07-11 12:14:11', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2580, '2016-07-11 12:14:18', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2581, '2016-07-11 12:14:19', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2582, '2016-07-11 12:14:22', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2583, '2016-07-11 12:14:28', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2584, '2016-07-11 12:14:29', 1, 0.432025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2585, '2016-07-11 12:14:33', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2586, '2016-07-11 12:14:38', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2587, '2016-07-11 12:14:39', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2588, '2016-07-11 12:14:44', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2589, '2016-07-11 12:14:48', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2590, '2016-07-11 12:14:49', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2591, '2016-07-11 12:14:55', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2592, '2016-07-11 12:14:58', 1, 0.640036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2593, '2016-07-11 12:14:59', 1, 1.61409, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2594, '2016-07-11 12:15:05', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2595, '2016-07-11 12:15:08', 1, 0.534031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2596, '2016-07-11 12:15:08', 1, 1.03906, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7563536),
+(2597, '2016-07-11 12:15:09', 1, 0.706041, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2598, '2016-07-11 12:15:13', 1, 0.621036, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7892992),
+(2599, '2016-07-11 12:15:15', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2600, '2016-07-11 12:15:19', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2601, '2016-07-11 12:15:20', 1, 0.33502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2602, '2016-07-11 12:15:25', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2603, '2016-07-11 12:15:29', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2604, '2016-07-11 12:15:30', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2605, '2016-07-11 12:15:35', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2606, '2016-07-11 12:15:39', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2607, '2016-07-11 12:15:40', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2608, '2016-07-11 12:15:45', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2609, '2016-07-11 12:15:49', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2610, '2016-07-11 12:15:50', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2611, '2016-07-11 12:15:55', 1, 0.36702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2612, '2016-07-11 12:15:59', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2613, '2016-07-11 12:16:00', 1, 0.501028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2614, '2016-07-11 12:16:06', 1, 1.50309, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2615, '2016-07-11 12:16:07', 1, 0.909052, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7893160),
+(2616, '2016-07-11 12:16:09', 1, 0.71204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2617, '2016-07-11 12:16:12', 1, 0.720041, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2618, '2016-07-11 12:16:12', 1, 0.949054, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6230088),
+(2619, '2016-07-11 12:16:15', 1, 0.670039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2620, '2016-07-11 12:16:19', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2621, '2016-07-11 12:16:22', 1, 0.493028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2622, '2016-07-11 12:16:23', 1, 0.419024, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6230088),
+(2623, '2016-07-11 12:16:25', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2624, '2016-07-11 12:16:29', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2625, '2016-07-11 12:16:31', 1, 0.420024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2626, '2016-07-11 12:16:35', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2627, '2016-07-11 12:16:39', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2628, '2016-07-11 12:16:41', 1, 0.330018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2629, '2016-07-11 12:16:45', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2630, '2016-07-11 12:16:49', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2631, '2016-07-11 12:16:51', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2632, '2016-07-11 12:16:55', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2633, '2016-07-11 12:16:59', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2634, '2016-07-11 12:17:01', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2635, '2016-07-11 12:17:05', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2636, '2016-07-11 12:17:09', 1, 0.394023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2637, '2016-07-11 12:17:11', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2638, '2016-07-11 12:17:15', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2639, '2016-07-11 12:17:19', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2640, '2016-07-11 12:17:21', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2641, '2016-07-11 12:17:25', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2642, '2016-07-11 12:17:29', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2643, '2016-07-11 12:17:31', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2644, '2016-07-11 12:17:35', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2645, '2016-07-11 12:17:39', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2646, '2016-07-11 12:17:42', 1, 0.379021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2647, '2016-07-11 12:17:45', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2648, '2016-07-11 12:17:49', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2649, '2016-07-11 12:17:51', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2650, '2016-07-11 12:17:55', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2651, '2016-07-11 12:17:59', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2652, '2016-07-11 12:18:01', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2653, '2016-07-11 12:18:05', 1, 0.312017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2654, '2016-07-11 12:18:09', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2655, '2016-07-11 12:18:12', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2656, '2016-07-11 12:18:15', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2657, '2016-07-11 12:18:19', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2658, '2016-07-11 12:18:21', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2659, '2016-07-11 12:18:25', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2660, '2016-07-11 12:18:29', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2661, '2016-07-11 12:18:32', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2662, '2016-07-11 12:18:35', 1, 0.306017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2663, '2016-07-11 12:18:39', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2664, '2016-07-11 12:18:42', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2665, '2016-07-11 12:18:45', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2666, '2016-07-11 12:18:49', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2667, '2016-07-11 12:18:52', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2668, '2016-07-11 12:18:55', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2669, '2016-07-11 12:18:59', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2670, '2016-07-11 12:19:02', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2671, '2016-07-11 12:19:05', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2672, '2016-07-11 12:19:09', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2673, '2016-07-11 12:19:12', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2674, '2016-07-11 12:19:15', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2675, '2016-07-11 12:19:19', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2676, '2016-07-11 12:19:22', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2677, '2016-07-11 12:19:25', 1, 0.300017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2678, '2016-07-11 12:19:29', 1, 0.317019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2679, '2016-07-11 12:19:32', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2680, '2016-07-11 12:19:35', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2681, '2016-07-11 12:19:39', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2682, '2016-07-11 12:19:42', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2683, '2016-07-11 12:19:45', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2684, '2016-07-11 12:19:49', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2685, '2016-07-11 12:19:52', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2686, '2016-07-11 12:19:55', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2687, '2016-07-11 12:19:59', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2688, '2016-07-11 12:20:02', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2689, '2016-07-11 12:20:05', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2690, '2016-07-11 12:20:09', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2691, '2016-07-11 12:20:12', 1, 0.330018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2692, '2016-07-11 12:20:15', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2693, '2016-07-11 12:20:19', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2694, '2016-07-11 12:20:22', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2695, '2016-07-11 12:20:25', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2696, '2016-07-11 12:20:29', 1, 0.316019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2697, '2016-07-11 12:20:32', 1, 0.360021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2698, '2016-07-11 12:20:35', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2699, '2016-07-11 12:20:39', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2700, '2016-07-11 12:20:42', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2701, '2016-07-11 12:20:45', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2702, '2016-07-11 12:20:49', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2703, '2016-07-11 12:20:52', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2704, '2016-07-11 12:20:55', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2705, '2016-07-11 12:20:59', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2706, '2016-07-11 12:21:02', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2707, '2016-07-11 12:21:05', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2708, '2016-07-11 12:21:09', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2709, '2016-07-11 12:21:12', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2710, '2016-07-11 12:21:16', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2711, '2016-07-11 12:21:19', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2712, '2016-07-11 12:21:22', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2713, '2016-07-11 12:21:27', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2714, '2016-07-11 12:21:29', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2715, '2016-07-11 12:21:32', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2716, '2016-07-11 12:21:38', 1, 0.311017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2717, '2016-07-11 12:21:39', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2718, '2016-07-11 12:21:42', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2719, '2016-07-11 12:21:49', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2720, '2016-07-11 12:21:49', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2721, '2016-07-11 12:21:52', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2722, '2016-07-11 12:21:59', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2723, '2016-07-11 12:22:00', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2724, '2016-07-11 12:22:02', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2725, '2016-07-11 12:22:09', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2726, '2016-07-11 12:22:11', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2727, '2016-07-11 12:22:12', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2728, '2016-07-11 12:22:19', 1, 0.308017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2729, '2016-07-11 12:22:22', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2730, '2016-07-11 12:22:22', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2731, '2016-07-11 12:22:29', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2732, '2016-07-11 12:22:32', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2733, '2016-07-11 12:22:33', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2734, '2016-07-11 12:22:39', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2735, '2016-07-11 12:22:42', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2736, '2016-07-11 12:22:44', 1, 0.360021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2737, '2016-07-11 12:22:48', 1, 0.795046, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7895832),
+(2738, '2016-07-11 12:22:49', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2739, '2016-07-11 12:22:53', 1, 0.469027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2740, '2016-07-11 12:22:54', 1, 0.727041, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7895832),
+(2741, '2016-07-11 12:22:55', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2742, '2016-07-11 12:22:59', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2743, '2016-07-11 12:23:00', 1, 0.662037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7895832),
+(2744, '2016-07-11 12:23:04', 1, 0.687039, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7895832);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(2745, '2016-07-11 12:23:06', 1, 0.558032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2746, '2016-07-11 12:23:06', 1, 0.413023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2747, '2016-07-11 12:23:08', 1, 0.712041, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7895832),
+(2748, '2016-07-11 12:23:09', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2749, '2016-07-11 12:23:10', 1, 0.341019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269944),
+(2750, '2016-07-11 12:23:10', 1, 0.379022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(2751, '2016-07-11 12:23:13', 1, 0.372022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(2752, '2016-07-11 12:23:15', 1, 0.378022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270656),
+(2753, '2016-07-11 12:23:16', 1, 0.428025, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(2754, '2016-07-11 12:23:17', 1, 0.487028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2755, '2016-07-11 12:23:17', 1, 0.610035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2756, '2016-07-11 12:23:18', 1, 0.504028, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(2757, '2016-07-11 12:23:19', 1, 0.471027, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(2758, '2016-07-11 12:23:20', 1, 0.675038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2759, '2016-07-11 12:23:26', 1, 0.465026, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(2760, '2016-07-11 12:23:27', 1, 0.489028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2761, '2016-07-11 12:23:28', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2762, '2016-07-11 12:23:29', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2763, '2016-07-11 12:23:37', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2764, '2016-07-11 12:23:39', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2765, '2016-07-11 12:23:39', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2766, '2016-07-11 12:23:47', 1, 0.393023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2767, '2016-07-11 12:23:49', 1, 0.498028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2768, '2016-07-11 12:23:50', 1, 0.418024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2769, '2016-07-11 12:23:57', 1, 0.417024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2770, '2016-07-11 12:23:59', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2771, '2016-07-11 12:24:01', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2772, '2016-07-11 12:24:07', 1, 0.544031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2773, '2016-07-11 12:24:09', 1, 0.441026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2774, '2016-07-11 12:24:12', 1, 0.400023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2775, '2016-07-11 12:24:17', 1, 0.460026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2776, '2016-07-11 12:24:19', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2777, '2016-07-11 12:24:23', 1, 0.391023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2778, '2016-07-11 12:24:27', 1, 0.505029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2779, '2016-07-11 12:24:29', 1, 0.456026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2780, '2016-07-11 12:24:34', 1, 0.68804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2781, '2016-07-11 12:24:37', 1, 0.450025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2782, '2016-07-11 12:24:39', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2783, '2016-07-11 12:24:45', 1, 0.378022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2784, '2016-07-11 12:24:47', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2785, '2016-07-11 12:24:49', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2786, '2016-07-11 12:24:55', 1, 0.446025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2787, '2016-07-11 12:24:57', 1, 0.461027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2788, '2016-07-11 12:24:59', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2789, '2016-07-11 12:25:06', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2790, '2016-07-11 12:25:07', 1, 0.546031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2791, '2016-07-11 12:25:08', 1, 0.70304, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7895832),
+(2792, '2016-07-11 12:25:09', 1, 0.417023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2793, '2016-07-11 12:25:11', 1, 0.492028, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(2794, '2016-07-11 12:25:16', 1, 0.847048, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7901048),
+(2795, '2016-07-11 12:25:17', 1, 1.17607, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9616776),
+(2796, '2016-07-11 12:25:17', 1, 0.843049, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2797, '2016-07-11 12:25:19', 1, 0.793045, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2798, '2016-07-11 12:25:20', 1, 0.811046, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2799, '2016-07-11 12:25:28', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2800, '2016-07-11 12:25:29', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2801, '2016-07-11 12:25:29', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2802, '2016-07-11 12:25:39', 1, 0.584033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2803, '2016-07-11 12:25:39', 1, 0.478027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2804, '2016-07-11 12:25:40', 1, 0.576033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2805, '2016-07-11 12:25:49', 1, 0.396022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2806, '2016-07-11 12:25:49', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2807, '2016-07-11 12:25:50', 1, 0.33302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2808, '2016-07-11 12:25:59', 1, 0.459027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2809, '2016-07-11 12:25:59', 1, 0.412024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2810, '2016-07-11 12:26:01', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2811, '2016-07-11 12:26:09', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2812, '2016-07-11 12:26:09', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2813, '2016-07-11 12:26:12', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2814, '2016-07-11 12:26:19', 1, 0.505029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2815, '2016-07-11 12:26:20', 1, 0.928053, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2816, '2016-07-11 12:26:23', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2817, '2016-07-11 12:26:29', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2818, '2016-07-11 12:26:29', 1, 0.308017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2819, '2016-07-11 12:26:34', 1, 0.378022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2820, '2016-07-11 12:26:39', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2821, '2016-07-11 12:26:39', 1, 0.309017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2822, '2016-07-11 12:26:45', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2823, '2016-07-11 12:26:49', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2824, '2016-07-11 12:26:49', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2825, '2016-07-11 12:26:56', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2826, '2016-07-11 12:26:59', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2827, '2016-07-11 12:26:59', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2828, '2016-07-11 12:27:07', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2829, '2016-07-11 12:27:09', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2830, '2016-07-11 12:27:09', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2831, '2016-07-11 12:27:18', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2832, '2016-07-11 12:27:19', 1, 0.496029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2833, '2016-07-11 12:27:20', 1, 0.509029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2834, '2016-07-11 12:27:29', 1, 0.415024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2835, '2016-07-11 12:27:29', 1, 0.466027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2836, '2016-07-11 12:27:30', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2837, '2016-07-11 12:27:39', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2838, '2016-07-11 12:27:39', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2839, '2016-07-11 12:27:40', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2840, '2016-07-11 12:27:49', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2841, '2016-07-11 12:27:49', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2842, '2016-07-11 12:27:51', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2843, '2016-07-11 12:27:59', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2844, '2016-07-11 12:27:59', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2845, '2016-07-11 12:28:02', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2846, '2016-07-11 12:28:09', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2847, '2016-07-11 12:28:09', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2848, '2016-07-11 12:28:13', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2849, '2016-07-11 12:28:19', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2850, '2016-07-11 12:28:19', 1, 0.301018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2851, '2016-07-11 12:28:24', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2852, '2016-07-11 12:28:29', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2853, '2016-07-11 12:28:29', 1, 0.286017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2854, '2016-07-11 12:28:35', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2855, '2016-07-11 12:28:39', 1, 0.310017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2856, '2016-07-11 12:28:40', 1, 0.354021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2857, '2016-07-11 12:28:46', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2858, '2016-07-11 12:28:49', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2859, '2016-07-11 12:28:49', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2860, '2016-07-11 12:28:57', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2861, '2016-07-11 12:28:59', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2862, '2016-07-11 12:29:00', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2863, '2016-07-11 12:29:08', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2864, '2016-07-11 12:29:09', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2865, '2016-07-11 12:29:09', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2866, '2016-07-11 12:29:19', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2867, '2016-07-11 12:29:19', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2868, '2016-07-11 12:29:20', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2869, '2016-07-11 12:29:29', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2870, '2016-07-11 12:29:29', 1, 0.289016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2871, '2016-07-11 12:29:30', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2872, '2016-07-11 12:29:39', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2873, '2016-07-11 12:29:40', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2874, '2016-07-11 12:29:41', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2875, '2016-07-11 12:29:49', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2876, '2016-07-11 12:29:50', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2877, '2016-07-11 12:29:52', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2878, '2016-07-11 12:29:59', 1, 0.346019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2879, '2016-07-11 12:30:00', 1, 0.301018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2880, '2016-07-11 12:30:03', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2881, '2016-07-11 12:30:09', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2882, '2016-07-11 12:30:10', 1, 0.33502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2883, '2016-07-11 12:30:14', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2884, '2016-07-11 12:30:19', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2885, '2016-07-11 12:30:20', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2886, '2016-07-11 12:30:25', 1, 0.304018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2887, '2016-07-11 12:30:29', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2888, '2016-07-11 12:30:30', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2889, '2016-07-11 12:30:36', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2890, '2016-07-11 12:30:39', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2891, '2016-07-11 12:30:40', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2892, '2016-07-11 12:30:47', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2893, '2016-07-11 12:30:49', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2894, '2016-07-11 12:30:50', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2895, '2016-07-11 12:30:58', 1, 0.410023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2896, '2016-07-11 12:31:00', 1, 0.576033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2897, '2016-07-11 12:31:01', 1, 1.28907, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2898, '2016-07-11 13:48:27', 1, 22.2253, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2899, '2016-07-11 13:48:27', 1, 27.7356, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2900, '2016-07-11 13:48:29', 1, 24.4354, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2901, '2016-07-11 13:48:30', 1, 25.9305, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2902, '2016-07-11 13:48:32', 1, 18.8671, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2903, '2016-07-11 13:48:33', 1, 19.5721, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2904, '2016-07-11 13:48:34', 1, 10.4156, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2905, '2016-07-11 13:48:34', 1, 0.676038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2906, '2016-07-11 13:48:34', 1, 8.37248, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2907, '2016-07-11 13:48:35', 1, 1.29507, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2908, '2016-07-11 13:48:35', 1, 1.88611, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2909, '2016-07-11 13:48:44', 1, 0.754043, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2910, '2016-07-11 13:48:45', 1, 1.18807, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2911, '2016-07-11 13:48:45', 1, 0.602035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2912, '2016-07-11 13:48:54', 1, 0.473027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2913, '2016-07-11 13:48:54', 1, 0.920052, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2914, '2016-07-11 13:48:57', 1, 1.45308, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2915, '2016-07-11 13:49:04', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2916, '2016-07-11 13:49:04', 1, 0.767044, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2917, '2016-07-11 13:49:07', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2918, '2016-07-11 13:49:14', 1, 0.451025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2919, '2016-07-11 13:49:14', 1, 0.954055, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2920, '2016-07-11 13:49:19', 1, 0.803046, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2921, '2016-07-11 13:49:24', 1, 0.53203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2922, '2016-07-11 13:49:25', 1, 1.01006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2923, '2016-07-11 13:49:29', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2924, '2016-07-11 13:49:34', 1, 0.527031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2925, '2016-07-11 13:49:34', 1, 0.772044, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2926, '2016-07-11 13:49:40', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2927, '2016-07-11 13:49:44', 1, 0.469027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2928, '2016-07-11 13:49:44', 1, 0.680039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2929, '2016-07-11 13:49:51', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2930, '2016-07-11 13:49:54', 1, 0.418024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2931, '2016-07-11 13:49:54', 1, 0.726042, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2932, '2016-07-11 13:50:02', 1, 0.514029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2933, '2016-07-11 13:50:04', 1, 0.52203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2934, '2016-07-11 13:50:05', 1, 1.36808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2935, '2016-07-11 13:50:13', 1, 0.412023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2936, '2016-07-11 13:50:14', 1, 0.503028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2937, '2016-07-11 13:50:14', 1, 0.663038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2938, '2016-07-11 13:50:24', 1, 0.51603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2939, '2016-07-11 13:50:24', 1, 0.888051, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2940, '2016-07-11 13:50:25', 1, 1.09806, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2941, '2016-07-11 13:50:34', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2942, '2016-07-11 13:50:34', 1, 0.458026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2943, '2016-07-11 13:50:35', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2944, '2016-07-11 13:50:44', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2945, '2016-07-11 13:50:44', 1, 0.429025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2946, '2016-07-11 13:50:46', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2947, '2016-07-11 13:50:54', 1, 0.494029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2948, '2016-07-11 13:50:54', 1, 0.668039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2949, '2016-07-11 13:50:57', 1, 0.410024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2950, '2016-07-11 13:51:04', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2951, '2016-07-11 13:51:04', 1, 0.604034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2952, '2016-07-11 13:51:08', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2953, '2016-07-11 13:51:14', 1, 0.484028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2954, '2016-07-11 13:51:14', 1, 0.737042, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2955, '2016-07-11 13:51:19', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2956, '2016-07-11 13:51:24', 1, 0.426024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2957, '2016-07-11 13:51:24', 1, 0.637036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2958, '2016-07-11 13:51:30', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2959, '2016-07-11 13:51:34', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2960, '2016-07-11 13:51:34', 1, 0.446025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2961, '2016-07-11 13:51:41', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2962, '2016-07-11 13:51:44', 1, 0.516029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2963, '2016-07-11 13:51:44', 1, 0.677038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2964, '2016-07-11 13:51:52', 1, 0.36102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2965, '2016-07-11 13:51:54', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2966, '2016-07-11 13:51:54', 1, 0.496029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2967, '2016-07-11 13:52:03', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2968, '2016-07-11 13:52:04', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2969, '2016-07-11 13:52:04', 1, 0.509029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2970, '2016-07-11 13:52:14', 1, 0.418024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2971, '2016-07-11 13:52:14', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2972, '2016-07-11 13:52:15', 1, 0.681039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2973, '2016-07-11 13:52:25', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2974, '2016-07-11 13:52:27', 1, 0.580034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2975, '2016-07-11 13:52:27', 1, 0.929054, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2976, '2016-07-11 13:52:36', 1, 0.587033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2977, '2016-07-11 13:52:36', 1, 0.505029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2978, '2016-07-11 13:52:37', 1, 1.00006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2979, '2016-07-11 13:52:46', 1, 0.416024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2980, '2016-07-11 13:52:47', 1, 0.684039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2981, '2016-07-11 13:52:47', 1, 0.70004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2982, '2016-07-11 13:52:57', 1, 0.669039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2983, '2016-07-11 13:52:58', 1, 1.96011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2984, '2016-07-11 13:53:00', 1, 2.89317, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2985, '2016-07-11 13:53:07', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2986, '2016-07-11 13:53:07', 1, 0.70504, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2987, '2016-07-11 13:53:09', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2988, '2016-07-11 13:53:17', 1, 0.286016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2989, '2016-07-11 13:53:17', 1, 0.570033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2990, '2016-07-11 13:53:20', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2991, '2016-07-11 13:53:27', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2992, '2016-07-11 13:53:27', 1, 0.621036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2993, '2016-07-11 13:53:31', 1, 0.418024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2994, '2016-07-11 13:53:37', 1, 0.371022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2995, '2016-07-11 13:53:37', 1, 0.558032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2996, '2016-07-11 13:53:42', 1, 0.438025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(2997, '2016-07-11 13:53:47', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2998, '2016-07-11 13:53:47', 1, 0.69604, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(2999, '2016-07-11 13:53:53', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3000, '2016-07-11 13:53:57', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3001, '2016-07-11 13:53:57', 1, 0.717041, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3002, '2016-07-11 13:54:03', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3003, '2016-07-11 13:54:07', 1, 0.439025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3004, '2016-07-11 13:54:08', 1, 0.670039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3005, '2016-07-11 13:54:09', 1, 1.03806, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7563552),
+(3006, '2016-07-11 13:54:13', 1, 1.12306, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7895832),
+(3007, '2016-07-11 13:54:13', 1, 0.586034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3008, '2016-07-11 13:54:17', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3009, '2016-07-11 13:54:20', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3010, '2016-07-11 13:54:23', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3011, '2016-07-11 13:54:27', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3012, '2016-07-11 13:54:30', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3013, '2016-07-11 13:54:33', 1, 0.370022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3014, '2016-07-11 13:54:37', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3015, '2016-07-11 13:54:40', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3016, '2016-07-11 13:54:44', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3017, '2016-07-11 13:54:47', 1, 0.308017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3018, '2016-07-11 13:54:50', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3019, '2016-07-11 13:54:55', 1, 0.292016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3020, '2016-07-11 13:54:57', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3021, '2016-07-11 13:55:00', 1, 0.379022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3022, '2016-07-11 13:55:06', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3023, '2016-07-11 13:55:07', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3024, '2016-07-11 13:55:10', 1, 0.348019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3025, '2016-07-11 13:55:17', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3026, '2016-07-11 13:55:18', 1, 0.292016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3027, '2016-07-11 13:55:20', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3028, '2016-07-11 13:55:28', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3029, '2016-07-11 13:55:28', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3030, '2016-07-11 13:55:30', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3031, '2016-07-11 13:55:37', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3032, '2016-07-11 13:55:39', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3033, '2016-07-11 13:55:40', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3034, '2016-07-11 13:55:47', 1, 0.293017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3035, '2016-07-11 13:55:50', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3036, '2016-07-11 13:55:50', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3037, '2016-07-11 13:55:57', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3038, '2016-07-11 13:56:00', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3039, '2016-07-11 13:56:01', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3040, '2016-07-11 13:56:07', 1, 0.311017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3041, '2016-07-11 13:56:10', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3042, '2016-07-11 13:56:12', 1, 0.312017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3043, '2016-07-11 13:56:18', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3044, '2016-07-11 13:56:20', 1, 0.285017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3045, '2016-07-11 13:56:23', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3046, '2016-07-11 13:56:27', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3047, '2016-07-11 13:56:30', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3048, '2016-07-11 13:56:34', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3049, '2016-07-11 13:56:38', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3050, '2016-07-11 13:56:40', 1, 0.609035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3051, '2016-07-11 13:56:45', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3052, '2016-07-11 13:56:48', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3053, '2016-07-11 13:56:50', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3054, '2016-07-11 13:56:56', 1, 0.407023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3055, '2016-07-11 13:56:58', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3056, '2016-07-11 13:57:00', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3057, '2016-07-11 13:57:06', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3058, '2016-07-11 13:57:08', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3059, '2016-07-11 13:57:10', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3060, '2016-07-11 13:57:16', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3061, '2016-07-11 13:57:18', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3062, '2016-07-11 13:57:20', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3063, '2016-07-11 13:57:26', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3064, '2016-07-11 13:57:30', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3065, '2016-07-11 13:57:30', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3066, '2016-07-11 13:57:36', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3067, '2016-07-11 13:57:38', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3068, '2016-07-11 13:57:40', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3069, '2016-07-11 13:57:47', 1, 0.636036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3070, '2016-07-11 13:57:48', 1, 0.448025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3071, '2016-07-11 13:57:50', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3072, '2016-07-11 13:57:58', 1, 0.427025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3073, '2016-07-11 13:57:58', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3074, '2016-07-11 13:58:00', 1, 0.409023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3075, '2016-07-11 13:58:08', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3076, '2016-07-11 13:58:09', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3077, '2016-07-11 13:58:10', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3078, '2016-07-11 13:58:18', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3079, '2016-07-11 13:58:20', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3080, '2016-07-11 13:58:20', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3081, '2016-07-11 13:58:28', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3082, '2016-07-11 13:58:30', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3083, '2016-07-11 13:58:31', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3084, '2016-07-11 13:58:38', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3085, '2016-07-11 13:58:40', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3086, '2016-07-11 13:58:42', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3087, '2016-07-11 13:58:48', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3088, '2016-07-11 13:58:50', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3089, '2016-07-11 13:58:53', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3090, '2016-07-11 13:58:58', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3091, '2016-07-11 13:59:00', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3092, '2016-07-11 13:59:04', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3093, '2016-07-11 13:59:08', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3094, '2016-07-11 13:59:10', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3095, '2016-07-11 13:59:15', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3096, '2016-07-11 13:59:18', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3097, '2016-07-11 13:59:20', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3098, '2016-07-11 13:59:26', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3099, '2016-07-11 13:59:28', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3100, '2016-07-11 13:59:30', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3101, '2016-07-11 13:59:37', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3102, '2016-07-11 13:59:38', 1, 0.477028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3103, '2016-07-11 13:59:40', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3104, '2016-07-11 13:59:47', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3105, '2016-07-11 13:59:48', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3106, '2016-07-11 13:59:50', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3107, '2016-07-11 13:59:57', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3108, '2016-07-11 13:59:58', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3109, '2016-07-11 14:00:00', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3110, '2016-07-11 14:00:07', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3111, '2016-07-11 14:00:08', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3112, '2016-07-11 14:00:10', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3113, '2016-07-11 14:00:17', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3114, '2016-07-11 14:00:18', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3115, '2016-07-11 14:00:20', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3116, '2016-07-11 14:00:27', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3117, '2016-07-11 14:00:28', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3118, '2016-07-11 14:00:30', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3119, '2016-07-11 14:00:37', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3120, '2016-07-11 14:00:38', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3121, '2016-07-11 14:00:40', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3122, '2016-07-11 14:00:47', 1, 0.294016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3123, '2016-07-11 14:00:48', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3124, '2016-07-11 14:00:50', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3125, '2016-07-11 14:00:57', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3126, '2016-07-11 14:00:58', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3127, '2016-07-11 14:01:00', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3128, '2016-07-11 14:01:07', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3129, '2016-07-11 14:01:08', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3130, '2016-07-11 14:01:10', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3131, '2016-07-11 14:01:17', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3132, '2016-07-11 14:01:18', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3133, '2016-07-11 14:01:20', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3134, '2016-07-11 14:01:27', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3135, '2016-07-11 14:01:28', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3136, '2016-07-11 14:01:30', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3137, '2016-07-11 14:01:37', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3138, '2016-07-11 14:01:38', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3139, '2016-07-11 14:01:40', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3140, '2016-07-11 14:01:47', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3141, '2016-07-11 14:01:48', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3142, '2016-07-11 14:01:50', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3143, '2016-07-11 14:01:57', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3144, '2016-07-11 14:01:58', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3145, '2016-07-11 14:02:00', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3146, '2016-07-11 14:02:08', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3147, '2016-07-11 14:02:08', 1, 0.537031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3148, '2016-07-11 14:02:10', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3149, '2016-07-11 14:02:18', 1, 0.358021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3150, '2016-07-11 14:02:19', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3151, '2016-07-11 14:02:20', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3152, '2016-07-11 14:02:28', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3153, '2016-07-11 14:02:30', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3154, '2016-07-11 14:02:30', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3155, '2016-07-11 14:02:38', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3156, '2016-07-11 14:02:40', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3157, '2016-07-11 14:02:41', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3158, '2016-07-11 14:02:48', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3159, '2016-07-11 14:02:50', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3160, '2016-07-11 14:02:52', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3161, '2016-07-11 14:02:58', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3162, '2016-07-11 14:03:00', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3163, '2016-07-11 14:03:03', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3164, '2016-07-11 14:03:08', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3165, '2016-07-11 14:03:10', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3166, '2016-07-11 14:03:14', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3167, '2016-07-11 14:03:18', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3168, '2016-07-11 14:03:20', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3169, '2016-07-11 14:03:24', 1, 0.433025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3170, '2016-07-11 14:03:28', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3171, '2016-07-11 14:03:30', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3172, '2016-07-11 14:03:34', 1, 0.346019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3173, '2016-07-11 14:03:38', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3174, '2016-07-11 14:03:41', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3175, '2016-07-11 14:03:45', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3176, '2016-07-11 14:03:48', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3177, '2016-07-11 14:03:51', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3178, '2016-07-11 14:03:56', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3179, '2016-07-11 14:03:58', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3180, '2016-07-11 14:04:01', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3181, '2016-07-11 14:04:07', 1, 0.675039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3182, '2016-07-11 14:04:08', 1, 0.823047, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3183, '2016-07-11 14:04:11', 1, 0.999057, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3184, '2016-07-11 14:04:18', 1, 0.751043, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3185, '2016-07-11 14:04:18', 1, 0.500028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3186, '2016-07-11 14:04:21', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3187, '2016-07-11 14:04:28', 1, 0.470027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3188, '2016-07-11 14:04:29', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3189, '2016-07-11 14:04:31', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3190, '2016-07-11 14:04:38', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3191, '2016-07-11 14:04:40', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3192, '2016-07-11 14:04:41', 1, 0.287017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3193, '2016-07-11 14:04:48', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3194, '2016-07-11 14:04:51', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3195, '2016-07-11 14:04:51', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3196, '2016-07-11 14:04:58', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3197, '2016-07-11 14:05:01', 1, 0.677039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(3198, '2016-07-11 14:05:02', 1, 0.710041, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3199, '2016-07-11 14:05:08', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3200, '2016-07-11 14:05:11', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3201, '2016-07-11 14:05:13', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3202, '2016-07-11 14:05:18', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3203, '2016-07-11 14:05:21', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3204, '2016-07-11 14:05:24', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3205, '2016-07-11 14:05:28', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3206, '2016-07-11 14:05:31', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3207, '2016-07-11 14:05:35', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3208, '2016-07-11 14:05:38', 1, 0.381021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3209, '2016-07-11 14:05:41', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3210, '2016-07-11 14:05:46', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3211, '2016-07-11 14:05:48', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3212, '2016-07-11 14:05:51', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3213, '2016-07-11 14:05:57', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3214, '2016-07-11 14:05:58', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3215, '2016-07-11 14:06:01', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3216, '2016-07-11 14:06:08', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3217, '2016-07-11 14:06:08', 1, 0.312017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3218, '2016-07-11 14:06:11', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3219, '2016-07-11 14:06:18', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3220, '2016-07-11 14:06:19', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3221, '2016-07-11 14:06:21', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3222, '2016-07-11 14:06:28', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3223, '2016-07-11 14:06:30', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3224, '2016-07-11 14:06:31', 1, 0.302018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3225, '2016-07-11 14:06:38', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3226, '2016-07-11 14:06:41', 1, 0.301018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3227, '2016-07-11 14:06:41', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3228, '2016-07-11 14:06:48', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3229, '2016-07-11 14:06:51', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3230, '2016-07-11 14:06:52', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3231, '2016-07-11 14:06:58', 1, 0.308017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3232, '2016-07-11 14:07:01', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3233, '2016-07-11 14:07:03', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3234, '2016-07-11 14:07:08', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3235, '2016-07-11 14:07:11', 1, 0.445026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3236, '2016-07-11 14:07:14', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3237, '2016-07-11 14:07:18', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3238, '2016-07-11 14:07:21', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3239, '2016-07-11 14:07:25', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3240, '2016-07-11 14:07:28', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3241, '2016-07-11 14:07:31', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3242, '2016-07-11 14:07:36', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3243, '2016-07-11 14:07:41', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3244, '2016-07-11 14:07:47', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3245, '2016-07-11 14:07:51', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3246, '2016-07-11 14:07:58', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3247, '2016-07-11 14:08:01', 1, 0.395023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3248, '2016-07-11 14:08:09', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3249, '2016-07-11 14:08:11', 1, 0.429025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3250, '2016-07-11 14:08:20', 1, 0.319019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3251, '2016-07-11 14:08:21', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3252, '2016-07-11 14:08:31', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3253, '2016-07-11 14:08:31', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3254, '2016-07-11 14:08:41', 1, 0.479027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3255, '2016-07-11 14:08:42', 1, 0.605035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3256, '2016-07-11 14:08:51', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3257, '2016-07-11 14:08:53', 1, 0.412023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3258, '2016-07-11 14:09:01', 1, 0.396022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3259, '2016-07-11 14:09:04', 1, 0.374022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3260, '2016-07-11 14:09:11', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3261, '2016-07-11 14:09:15', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3262, '2016-07-11 14:09:21', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3263, '2016-07-11 14:09:26', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3264, '2016-07-11 14:09:31', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3265, '2016-07-11 14:09:37', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3266, '2016-07-11 14:09:41', 1, 0.404023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3267, '2016-07-11 14:09:48', 1, 0.34002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3268, '2016-07-11 14:09:51', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3269, '2016-07-11 14:09:59', 1, 0.291017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3270, '2016-07-11 14:10:01', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3271, '2016-07-11 14:10:10', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3272, '2016-07-11 14:10:11', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3273, '2016-07-11 14:10:21', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3274, '2016-07-11 14:10:21', 1, 0.330018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3275, '2016-07-11 14:10:31', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3276, '2016-07-11 14:10:32', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3277, '2016-07-11 14:10:41', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3278, '2016-07-11 14:10:43', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3279, '2016-07-11 14:10:51', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3280, '2016-07-11 14:10:54', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3281, '2016-07-11 14:10:56', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', NULL),
+(3282, '2016-07-11 14:11:02', 1, 2.34513, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3283, '2016-07-11 14:11:05', 1, 0.546031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3284, '2016-07-11 14:11:06', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', NULL),
+(3285, '2016-07-11 14:11:13', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3286, '2016-07-11 14:11:16', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3287, '2016-07-11 14:11:23', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3288, '2016-07-11 14:11:27', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3289, '2016-07-11 14:11:30', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', NULL),
+(3290, '2016-07-11 14:11:33', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3291, '2016-07-11 14:11:38', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3292, '2016-07-11 14:11:43', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3293, '2016-07-11 14:11:49', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3294, '2016-07-11 14:11:54', 1, 1.02106, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7931736),
+(3295, '2016-07-11 14:11:55', 1, 0.374022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3296, '2016-07-11 14:11:58', 1, 0.641037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7849200),
+(3297, '2016-07-11 14:12:00', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3298, '2016-07-11 14:12:01', 1, 0.530031, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269816),
+(3299, '2016-07-11 14:12:01', 1, 0.360021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3300, '2016-07-11 14:12:03', 1, 0.371021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3301, '2016-07-11 14:12:05', 1, 0.290016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270656),
+(3302, '2016-07-11 14:12:05', 1, 0.395023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3303, '2016-07-11 14:12:07', 1, 0.318019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(3304, '2016-07-11 14:12:07', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3305, '2016-07-11 14:12:10', 1, 0.446025, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(3306, '2016-07-11 14:12:11', 1, 0.397023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3307, '2016-07-11 14:12:13', 1, 0.725041, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7869112),
+(3308, '2016-07-11 14:12:18', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3309, '2016-07-11 14:12:22', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3310, '2016-07-11 14:12:28', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3311, '2016-07-11 14:12:32', 1, 3.23218, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9497680),
+(3312, '2016-07-11 14:12:33', 1, 0.461027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3313, '2016-07-11 14:12:39', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3314, '2016-07-11 14:12:42', 1, 0.755043, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9452680),
+(3315, '2016-07-11 14:12:44', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3316, '2016-07-11 14:12:44', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3317, '2016-07-11 14:12:46', 1, 0.612035, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7849200),
+(3318, '2016-07-11 14:12:49', 1, 0.309017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270656),
+(3319, '2016-07-11 14:12:50', 1, 0.299018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3320, '2016-07-11 14:12:51', 1, 0.303018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(3321, '2016-07-11 14:12:53', 1, 0.276016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(3322, '2016-07-11 14:12:55', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3323, '2016-07-11 14:12:55', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3324, '2016-07-11 14:12:56', 1, 0.814046, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7221424),
+(3325, '2016-07-11 14:12:57', 1, 0.644037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9563608),
+(3326, '2016-07-11 14:13:01', 1, 0.621035, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7849200),
+(3327, '2016-07-11 14:13:03', 1, 0.296017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269816),
+(3328, '2016-07-11 14:13:03', 1, 0.285016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3329, '2016-07-11 14:13:05', 1, 0.306018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270656),
+(3330, '2016-07-11 14:13:05', 1, 0.310017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3331, '2016-07-11 14:13:06', 1, 0.290016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3332, '2016-07-11 14:13:06', 1, 0.283016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(3333, '2016-07-11 14:13:07', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3334, '2016-07-11 14:13:08', 1, 0.314017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(3335, '2016-07-11 14:13:12', 1, 0.600034, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7869112),
+(3336, '2016-07-11 14:13:17', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3337, '2016-07-11 14:13:18', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3338, '2016-07-11 14:13:28', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3339, '2016-07-11 14:13:28', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3340, '2016-07-11 14:13:38', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3341, '2016-07-11 14:13:39', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3342, '2016-07-11 14:13:48', 1, 0.419024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3343, '2016-07-11 14:13:50', 1, 0.410024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3344, '2016-07-11 14:13:58', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3345, '2016-07-11 14:14:01', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3346, '2016-07-11 14:14:08', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3347, '2016-07-11 14:14:12', 1, 0.53003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3348, '2016-07-11 14:14:13', 1, 0.819047, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7930632),
+(3349, '2016-07-11 14:14:19', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3350, '2016-07-11 14:14:23', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3351, '2016-07-11 14:14:24', 1, 0.854049, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7956568),
+(3352, '2016-07-11 14:14:24', 1, 0.71004, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9562296),
+(3353, '2016-07-11 14:14:30', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3354, '2016-07-11 14:14:34', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3355, '2016-07-11 14:14:40', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3356, '2016-07-11 14:14:45', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3357, '2016-07-11 14:14:50', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3358, '2016-07-11 14:14:56', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3359, '2016-07-11 14:15:00', 1, 0.386022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3360, '2016-07-11 14:15:07', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3361, '2016-07-11 14:15:10', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3362, '2016-07-11 14:15:18', 1, 0.33702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3363, '2016-07-11 14:15:20', 1, 0.307017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3364, '2016-07-11 14:15:29', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3365, '2016-07-11 14:15:30', 1, 0.411023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3366, '2016-07-11 14:15:40', 1, 0.52603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3367, '2016-07-11 14:15:40', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3368, '2016-07-11 14:15:50', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3369, '2016-07-11 14:15:51', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3370, '2016-07-11 14:16:00', 1, 0.306017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3371, '2016-07-11 14:16:02', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3372, '2016-07-11 14:16:10', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3373, '2016-07-11 14:16:13', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3374, '2016-07-11 14:16:20', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3375, '2016-07-11 14:16:24', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3376, '2016-07-11 14:16:30', 1, 0.377021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3377, '2016-07-11 14:16:35', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3378, '2016-07-11 14:16:40', 1, 0.307017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3379, '2016-07-11 14:16:46', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3380, '2016-07-11 14:16:50', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3381, '2016-07-11 14:16:57', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3382, '2016-07-11 14:17:00', 1, 0.301018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3383, '2016-07-11 14:17:08', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3384, '2016-07-11 14:17:10', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3385, '2016-07-11 14:17:19', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3386, '2016-07-11 14:17:20', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3387, '2016-07-11 14:17:30', 1, 0.410023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3388, '2016-07-11 14:17:30', 1, 0.393023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3389, '2016-07-11 14:17:40', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3390, '2016-07-11 14:17:41', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3391, '2016-07-11 14:17:50', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3392, '2016-07-11 14:17:52', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3393, '2016-07-11 14:18:00', 1, 0.293017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3394, '2016-07-11 14:18:02', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3395, '2016-07-11 14:18:10', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3396, '2016-07-11 14:18:13', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3397, '2016-07-11 14:18:20', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3398, '2016-07-11 14:18:24', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3399, '2016-07-11 14:18:26', 1, 0.86505, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7931168),
+(3400, '2016-07-11 14:18:28', 1, 0.69504, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7875880),
+(3401, '2016-07-11 14:18:29', 1, 0.688039, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9562480),
+(3402, '2016-07-11 14:18:32', 1, 0.765043, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7931168),
+(3403, '2016-07-11 14:18:33', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3404, '2016-07-11 14:18:35', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3405, '2016-07-11 14:18:36', 1, 0.787045, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7956808),
+(3406, '2016-07-11 14:18:37', 1, 0.661037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9562464),
+(3407, '2016-07-11 14:18:40', 1, 0.647037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7848424),
+(3408, '2016-07-11 14:18:42', 1, 0.313018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269816),
+(3409, '2016-07-11 14:18:43', 1, 0.304018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3410, '2016-07-11 14:18:44', 1, 0.298017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270656),
+(3411, '2016-07-11 14:18:45', 1, 0.35602, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3412, '2016-07-11 14:18:45', 1, 0.464027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3413, '2016-07-11 14:18:46', 1, 0.355021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3414, '2016-07-11 14:18:46', 1, 0.273016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3415, '2016-07-11 14:18:48', 1, 0.292017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(3416, '2016-07-11 14:18:51', 1, 0.315018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(3417, '2016-07-11 14:18:52', 1, 0.300017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(3418, '2016-07-11 14:18:54', 1, 0.541031, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7869048),
+(3419, '2016-07-11 14:18:56', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3420, '2016-07-11 14:18:57', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3421, '2016-07-11 14:19:06', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3422, '2016-07-11 14:19:08', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3423, '2016-07-11 14:19:16', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3424, '2016-07-11 14:19:19', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3425, '2016-07-11 14:19:26', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3426, '2016-07-11 14:19:30', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3427, '2016-07-11 14:19:36', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3428, '2016-07-11 14:19:41', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3429, '2016-07-11 14:19:46', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3430, '2016-07-11 14:19:52', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3431, '2016-07-11 14:19:56', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3432, '2016-07-11 14:20:03', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3433, '2016-07-11 14:20:06', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3434, '2016-07-11 14:20:11', 1, 0.773044, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7848232),
+(3435, '2016-07-11 14:20:14', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3436, '2016-07-11 14:20:15', 1, 0.288017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269816),
+(3437, '2016-07-11 14:20:15', 1, 0.275016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3438, '2016-07-11 14:20:16', 1, 0.35002, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270656),
+(3439, '2016-07-11 14:20:17', 1, 0.489028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3440, '2016-07-11 14:20:17', 1, 0.34902, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3441, '2016-07-11 14:20:19', 1, 0.295017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(3442, '2016-07-11 14:20:20', 1, 0.300017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(3443, '2016-07-11 14:20:22', 1, 0.573033, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7867952),
+(3444, '2016-07-11 14:20:25', 1, 0.286016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3445, '2016-07-11 14:20:27', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3446, '2016-07-11 14:20:36', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3447, '2016-07-11 14:20:37', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3448, '2016-07-11 14:20:47', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3449, '2016-07-11 14:20:47', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3450, '2016-07-11 14:20:57', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3451, '2016-07-11 14:20:58', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3452, '2016-07-11 14:21:07', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3453, '2016-07-11 14:21:08', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3454, '2016-07-11 14:21:17', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3455, '2016-07-11 14:21:18', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3456, '2016-07-11 14:21:27', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3457, '2016-07-11 14:21:28', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3458, '2016-07-11 14:21:37', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3459, '2016-07-11 14:21:38', 1, 0.299017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3460, '2016-07-11 14:21:47', 1, 0.573033, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7848352),
+(3461, '2016-07-11 14:21:48', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3462, '2016-07-11 14:21:48', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3463, '2016-07-11 14:21:50', 1, 0.284017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270656),
+(3464, '2016-07-11 14:21:51', 1, 0.272016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3465, '2016-07-11 14:21:52', 1, 0.323019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3466, '2016-07-11 14:21:54', 1, 0.289017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(3467, '2016-07-11 14:21:55', 1, 0.272015, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(3468, '2016-07-11 14:21:57', 1, 0.561032, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7868688),
+(3469, '2016-07-11 14:21:58', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3470, '2016-07-11 14:21:59', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3471, '2016-07-11 14:22:08', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3472, '2016-07-11 14:22:09', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3473, '2016-07-11 14:22:18', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3474, '2016-07-11 14:22:19', 1, 0.372021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3475, '2016-07-11 14:22:28', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3476, '2016-07-11 14:22:29', 1, 0.293017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3477, '2016-07-11 14:22:37', 1, 0.567033, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7848224),
+(3478, '2016-07-11 14:22:38', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3479, '2016-07-11 14:22:40', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3480, '2016-07-11 14:22:40', 1, 0.532031, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269816),
+(3481, '2016-07-11 14:22:41', 1, 0.280016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3482, '2016-07-11 14:22:41', 1, 0.294017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270656),
+(3483, '2016-07-11 14:22:42', 1, 0.280016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3484, '2016-07-11 14:22:43', 1, 0.277016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(3485, '2016-07-11 14:22:45', 1, 0.341019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(3486, '2016-07-11 14:22:47', 1, 0.52903, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7867840),
+(3487, '2016-07-11 14:22:48', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3488, '2016-07-11 14:22:51', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3489, '2016-07-11 14:22:58', 1, 0.299017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3490, '2016-07-11 14:23:01', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3491, '2016-07-11 14:23:02', 1, 0.563032, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7564032),
+(3492, '2016-07-11 14:23:07', 1, 0.69104, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7930736),
+(3493, '2016-07-11 14:23:08', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3494, '2016-07-11 14:23:12', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3495, '2016-07-11 14:23:19', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3496, '2016-07-11 14:23:22', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3497, '2016-07-11 14:23:29', 1, 0.311017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3498, '2016-07-11 14:23:32', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3499, '2016-07-11 14:23:39', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3500, '2016-07-11 14:23:42', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3501, '2016-07-11 14:23:50', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3502, '2016-07-11 14:23:52', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3503, '2016-07-11 14:24:01', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3504, '2016-07-11 14:24:02', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3505, '2016-07-11 14:24:12', 1, 0.317019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3506, '2016-07-11 14:24:12', 1, 0.33502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3507, '2016-07-11 14:24:22', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3508, '2016-07-11 14:24:23', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3509, '2016-07-11 14:24:32', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3510, '2016-07-11 14:24:34', 1, 0.310017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3511, '2016-07-11 14:24:43', 1, 0.618036, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3512, '2016-07-11 14:24:45', 1, 0.464027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3513, '2016-07-11 14:24:52', 1, 0.445026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3514, '2016-07-11 14:24:56', 1, 0.411023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3515, '2016-07-11 14:25:02', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3516, '2016-07-11 14:25:07', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3517, '2016-07-11 14:25:13', 1, 0.563033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3518, '2016-07-11 14:25:18', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3519, '2016-07-11 14:25:22', 1, 0.416024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3520, '2016-07-11 14:25:29', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3521, '2016-07-11 14:25:32', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3522, '2016-07-11 14:25:40', 1, 0.430024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3523, '2016-07-11 14:25:42', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3524, '2016-07-11 14:25:51', 1, 0.599034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3525, '2016-07-11 14:25:52', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3526, '2016-07-11 14:26:02', 1, 0.486028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3527, '2016-07-11 14:26:03', 1, 0.51203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3528, '2016-07-11 14:26:13', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3529, '2016-07-11 14:26:13', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3530, '2016-07-11 14:26:22', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3531, '2016-07-11 14:26:24', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3532, '2016-07-11 14:26:33', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3533, '2016-07-11 14:26:35', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3534, '2016-07-11 14:26:43', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3535, '2016-07-11 14:26:46', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3536, '2016-07-11 14:26:53', 1, 0.36202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3537, '2016-07-11 14:26:57', 1, 0.33402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3538, '2016-07-11 14:27:03', 1, 0.371022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3539, '2016-07-11 14:27:08', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3540, '2016-07-11 14:27:13', 1, 0.423024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3541, '2016-07-11 14:27:19', 1, 0.784045, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3542, '2016-07-11 14:27:23', 1, 0.788045, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3543, '2016-07-11 14:27:30', 1, 0.775044, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3544, '2016-07-11 14:27:36', 1, 1.7441, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3545, '2016-07-11 14:27:41', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3546, '2016-07-11 14:27:43', 1, 0.427025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3547, '2016-07-11 14:27:52', 1, 0.420024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3548, '2016-07-11 14:27:53', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3549, '2016-07-11 14:28:03', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3550, '2016-07-11 14:28:03', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3551, '2016-07-11 14:28:13', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3552, '2016-07-11 14:28:14', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3553, '2016-07-11 14:28:23', 1, 0.368022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3554, '2016-07-11 14:28:25', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3555, '2016-07-11 14:28:33', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3556, '2016-07-11 14:28:36', 1, 0.432025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3557, '2016-07-11 14:28:43', 1, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3558, '2016-07-11 14:28:47', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134432),
+(3559, '2016-07-11 14:28:53', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3560, '2016-07-11 14:28:57', 1, 0.387023, '127.0.0.1', 'POST', 0, 'site/logout', 5853768),
+(3561, '2016-07-11 14:28:57', 0, 0.280016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5776968),
+(3562, '2016-07-11 14:28:57', 0, 0.300017, '127.0.0.1', 'GET', 0, 'site/index', 5389264),
+(3563, '2016-07-11 14:28:58', 0, 0.806047, '127.0.0.1', 'GET', 0, 'user/security/login', 6629616),
+(3564, '2016-07-11 14:29:03', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3565, '2016-07-11 14:29:03', 0, 1.38408, '127.0.0.1', 'POST', 1, 'user/security/login', 6227936),
+(3566, '2016-07-11 14:29:05', 0, 1.22207, '127.0.0.1', 'POST', 0, 'user/security/login', 6180152),
+(3567, '2016-07-11 14:29:06', 2, 0.456026, '127.0.0.1', 'GET', 0, 'site/index', 6886928),
+(3568, '2016-07-11 14:29:08', 2, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3569, '2016-07-11 14:29:13', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3570, '2016-07-11 14:29:18', 2, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3571, '2016-07-11 14:29:18', 2, 1.05106, '127.0.0.1', 'GET', 0, 'site/index', 7322360),
+(3572, '2016-07-11 14:29:23', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3573, '2016-07-11 14:29:25', 2, 0.713041, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9667240),
+(3574, '2016-07-11 14:29:33', 1, 0.35702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3575, '2016-07-11 14:29:43', 1, 0.390023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3576, '2016-07-11 14:29:53', 1, 0.444025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3577, '2016-07-11 14:30:03', 1, 0.316019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3578, '2016-07-11 14:30:13', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3579, '2016-07-11 14:30:23', 1, 0.434025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3580, '2016-07-11 14:30:33', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3581, '2016-07-11 14:30:43', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3582, '2016-07-11 14:30:45', 2, 0.985056, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9711288),
+(3583, '2016-07-11 14:30:53', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3584, '2016-07-11 14:30:58', 1, 0.644037, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9497680),
+(3585, '2016-07-11 14:31:00', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3586, '2016-07-11 14:31:02', 1, 0.709041, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9983016),
+(3587, '2016-07-11 14:31:04', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3588, '2016-07-11 14:31:08', 1, 0.455026, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/delete', 6356440),
+(3589, '2016-07-11 14:31:15', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3590, '2016-07-11 14:31:21', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', NULL),
+(3591, '2016-07-11 14:31:22', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(3592, '2016-07-11 14:31:25', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3593, '2016-07-11 14:31:26', 1, 0.757043, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9958336),
+(3594, '2016-07-11 14:31:29', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3595, '2016-07-11 14:31:39', 1, 0.437025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3596, '2016-07-11 14:31:48', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3597, '2016-07-11 14:31:58', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3598, '2016-07-11 14:32:09', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3599, '2016-07-11 14:32:13', 2, 0.638036, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9625488),
+(3600, '2016-07-11 14:32:17', 2, 0.628036, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9711288),
+(3601, '2016-07-11 14:32:18', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3602, '2016-07-11 14:32:29', 1, 0.430025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3603, '2016-07-11 14:32:39', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3604, '2016-07-11 14:32:39', 2, 0.952055, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/create', 8166168),
+(3605, '2016-07-11 14:32:45', 2, 0.323018, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6209168),
+(3606, '2016-07-11 14:32:49', 1, 0.409024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134416),
+(3607, '2016-07-11 14:32:54', 2, 0.418024, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/create', 7163168),
+(3608, '2016-07-11 14:32:55', 2, 0.688039, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9565960),
+(3609, '2016-07-11 14:32:59', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3610, '2016-07-11 14:33:09', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3611, '2016-07-11 14:33:19', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3612, '2016-07-11 14:33:29', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3613, '2016-07-11 14:33:32', 1, 0.545031, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7564032),
+(3614, '2016-07-11 14:33:39', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3615, '2016-07-11 14:33:43', 2, 0.497029, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/view', 7306128),
+(3616, '2016-07-11 14:33:49', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3617, '2016-07-11 14:34:00', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3618, '2016-07-11 14:34:09', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3619, '2016-07-11 14:34:19', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3620, '2016-07-11 14:34:29', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3621, '2016-07-11 14:34:39', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3622, '2016-07-11 14:34:48', 1, 0.361021, '127.0.0.1', 'GET', 0, 'notifications/notifications/rnr', 6237992),
+(3623, '2016-07-11 14:34:49', 1, 0.86805, '127.0.0.1', 'GET', 0, 'proyecto-pedido/view', 7924904),
+(3624, '2016-07-11 14:34:50', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3625, '2016-07-11 14:34:51', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3626, '2016-07-11 14:35:01', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3627, '2016-07-11 14:35:11', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3628, '2016-07-11 14:35:21', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3629, '2016-07-11 14:35:31', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3630, '2016-07-11 14:35:41', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3631, '2016-07-11 14:35:51', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3632, '2016-07-11 14:36:01', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3633, '2016-07-11 14:36:11', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3634, '2016-07-11 14:36:21', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3635, '2016-07-11 14:36:31', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3636, '2016-07-11 14:36:41', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3637, '2016-07-11 14:36:51', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3638, '2016-07-11 14:37:01', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3639, '2016-07-11 14:37:11', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3640, '2016-07-11 14:37:21', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3641, '2016-07-11 14:37:31', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3642, '2016-07-11 14:37:41', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3643, '2016-07-11 14:37:51', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3644, '2016-07-11 14:38:01', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3645, '2016-07-11 14:38:11', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3646, '2016-07-11 14:38:21', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3647, '2016-07-11 14:38:31', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3648, '2016-07-11 14:38:41', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3649, '2016-07-11 14:38:51', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3650, '2016-07-11 14:39:01', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3651, '2016-07-11 14:39:11', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3652, '2016-07-11 14:39:21', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3653, '2016-07-11 14:39:31', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3654, '2016-07-11 14:39:41', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(3655, '2016-07-11 14:39:51', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3656, '2016-07-11 14:40:01', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3657, '2016-07-11 14:40:11', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3658, '2016-07-11 14:40:21', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3659, '2016-07-11 14:40:31', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3660, '2016-07-11 14:40:41', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3661, '2016-07-11 14:40:51', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3662, '2016-07-11 14:41:01', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3663, '2016-07-11 14:41:11', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3664, '2016-07-11 14:41:21', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3665, '2016-07-11 14:41:31', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3666, '2016-07-11 14:41:41', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3667, '2016-07-11 14:41:51', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3668, '2016-07-11 14:42:01', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3669, '2016-07-11 14:42:11', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3670, '2016-07-11 14:42:21', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3671, '2016-07-11 14:42:31', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3672, '2016-07-11 14:42:41', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3673, '2016-07-11 14:42:51', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3674, '2016-07-11 14:43:01', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3675, '2016-07-11 14:43:11', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3676, '2016-07-11 14:43:21', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3677, '2016-07-11 14:43:32', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3678, '2016-07-11 14:43:41', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3679, '2016-07-11 14:43:52', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3680, '2016-07-11 14:44:02', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3681, '2016-07-11 14:44:12', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3682, '2016-07-11 14:44:22', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3683, '2016-07-11 14:44:32', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3684, '2016-07-11 14:44:42', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3685, '2016-07-11 14:44:52', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3686, '2016-07-11 14:45:02', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3687, '2016-07-11 14:45:12', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3688, '2016-07-11 14:45:22', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3689, '2016-07-11 14:45:32', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3690, '2016-07-11 14:45:42', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3691, '2016-07-11 14:45:52', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3692, '2016-07-11 14:46:02', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3693, '2016-07-11 14:46:12', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3694, '2016-07-11 14:46:22', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3695, '2016-07-11 14:46:32', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3696, '2016-07-11 14:46:42', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3697, '2016-07-11 14:46:52', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3698, '2016-07-11 14:47:02', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3699, '2016-07-11 14:47:12', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3700, '2016-07-11 14:47:22', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3701, '2016-07-11 14:47:32', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3702, '2016-07-11 14:47:42', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3703, '2016-07-11 14:47:52', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3704, '2016-07-11 14:48:02', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3705, '2016-07-11 14:48:12', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3706, '2016-07-11 14:48:22', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3707, '2016-07-11 14:48:32', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3708, '2016-07-11 14:48:42', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3709, '2016-07-11 14:48:52', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3710, '2016-07-11 14:49:02', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3711, '2016-07-11 14:49:12', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3712, '2016-07-11 14:49:22', 1, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(3713, '2016-07-11 14:49:32', 1, 0.384022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3714, '2016-07-11 14:49:42', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3715, '2016-07-11 14:49:44', 1, NULL, '127.0.0.1', 'GET', 0, 'notifications/notifications/rnr', NULL),
+(3716, '2016-07-11 14:49:50', 1, 0.670038, '127.0.0.1', 'GET', 0, 'proyecto-pedido/view', 7924904),
+(3717, '2016-07-11 14:49:51', 1, 0.288016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817616),
+(3718, '2016-07-11 14:50:01', 1, 0.255014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817616),
+(3719, '2016-07-11 14:50:11', 1, 0.254014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817616),
+(3720, '2016-07-11 14:50:21', 1, 0.291017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817616),
+(3721, '2016-07-11 14:50:31', 1, 0.251014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817616),
+(3722, '2016-07-11 14:50:41', 1, 0.234013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817616),
+(3723, '2016-07-11 14:50:42', 1, 0.86905, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9635520),
+(3724, '2016-07-11 14:50:43', 1, 0.244014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817616),
+(3725, '2016-07-11 14:50:53', 1, 0.242014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817616),
+(3726, '2016-07-11 14:51:02', 2, 0.731042, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/create', 8166168),
+(3727, '2016-07-11 14:51:03', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817616),
+(3728, '2016-07-11 14:51:07', 2, 0.35002, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6209168),
+(3729, '2016-07-11 14:51:13', 1, 0.280016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817616),
+(3730, '2016-07-11 14:51:15', 2, 0.590034, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/create', 7163168),
+(3731, '2016-07-11 14:51:16', 2, 0.849049, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9575408),
+(3732, '2016-07-11 14:51:23', 1, 0.381021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3733, '2016-07-11 14:51:24', 1, 0.618036, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9635888),
+(3734, '2016-07-11 14:51:27', 1, 0.457026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138808),
+(3735, '2016-07-11 14:51:36', 1, 0.306017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3736, '2016-07-11 14:51:46', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3737, '2016-07-11 14:51:57', 1, 0.416024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3738, '2016-07-11 14:52:04', 1, 0.677039, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9635520),
+(3739, '2016-07-11 14:52:05', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3740, '2016-07-11 14:52:15', 1, 0.413023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3741, '2016-07-11 14:52:25', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3742, '2016-07-11 14:52:35', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3743, '2016-07-11 14:52:45', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3744, '2016-07-11 14:52:55', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3745, '2016-07-11 14:53:05', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3746, '2016-07-11 14:53:15', 1, 0.392022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3747, '2016-07-11 14:53:25', 1, 0.451026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3748, '2016-07-11 14:53:35', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3749, '2016-07-11 14:53:45', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3750, '2016-07-11 14:53:55', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3751, '2016-07-11 14:54:05', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3752, '2016-07-11 14:54:15', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3753, '2016-07-11 14:54:25', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3754, '2016-07-11 14:54:35', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3755, '2016-07-11 14:54:45', 1, 0.307017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3756, '2016-07-11 14:54:56', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3757, '2016-07-11 14:55:06', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3758, '2016-07-11 14:55:15', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3759, '2016-07-11 14:55:25', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3760, '2016-07-11 14:55:36', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3761, '2016-07-11 14:55:46', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3762, '2016-07-11 14:55:56', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3763, '2016-07-11 14:56:06', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3764, '2016-07-11 14:56:16', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3765, '2016-07-11 14:56:26', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3766, '2016-07-11 14:56:36', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3767, '2016-07-11 14:56:46', 1, 0.309018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3768, '2016-07-11 14:56:56', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3769, '2016-07-11 14:57:06', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3770, '2016-07-11 14:57:16', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3771, '2016-07-11 14:57:26', 1, 0.51803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3772, '2016-07-11 14:57:37', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3773, '2016-07-11 14:57:47', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3774, '2016-07-11 14:57:57', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3775, '2016-07-11 14:58:07', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3776, '2016-07-11 14:58:17', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3777, '2016-07-11 14:58:27', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3778, '2016-07-11 14:58:37', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3779, '2016-07-11 14:58:47', 1, 0.310017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3780, '2016-07-11 14:58:57', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3781, '2016-07-11 14:59:07', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3782, '2016-07-11 14:59:17', 1, 0.332011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3783, '2016-07-11 14:59:27', 1, 0.333614, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3784, '2016-07-11 14:59:37', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3785, '2016-07-11 14:59:47', 1, 0.441026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3786, '2016-07-11 14:59:57', 1, 0.319009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3787, '2016-07-11 15:00:07', 1, 0.317009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3788, '2016-07-11 15:00:17', 1, 0.316803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3789, '2016-07-11 15:00:27', 1, 0.325204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3790, '2016-07-11 15:00:37', 1, 0.303207, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3791, '2016-07-11 15:00:47', 1, 0.326803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3792, '2016-07-11 15:00:57', 1, 0.310212, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3793, '2016-07-11 15:01:07', 1, 0.320001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3794, '2016-07-11 15:01:17', 1, 0.320402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3795, '2016-07-11 15:01:27', 1, 0.286615, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138576),
+(3796, '2016-07-11 15:01:37', 1, 0.343002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138664),
+(3797, '2016-07-11 15:01:38', 1, 0.637412, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9635888),
+(3798, '2016-07-11 15:01:40', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138896),
+(3799, '2016-07-11 15:01:50', 1, 0.311802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138664),
+(3800, '2016-07-11 15:01:53', 1, 0.376405, '127.0.0.1', 'GET', 0, 'notifications/notifications/rnr', 6413504),
+(3801, '2016-07-11 15:01:53', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3802, '2016-07-11 15:22:52', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3803, '2016-07-11 15:24:29', 1, 1.23007, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9967968),
+(3804, '2016-07-11 15:24:32', 1, 0.471027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3805, '2016-07-11 15:24:41', 1, 0.616036, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/view', 7450000),
+(3806, '2016-07-11 15:24:42', 1, 0.256015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3807, '2016-07-11 15:24:51', 1, 0.572033, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/view', 7449960),
+(3808, '2016-07-11 15:24:53', 1, 0.252015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3809, '2016-07-11 15:25:03', 1, 0.286016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3810, '2016-07-11 15:25:13', 1, 0.269015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3811, '2016-07-11 15:25:23', 1, 0.285016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3812, '2016-07-11 15:25:33', 1, 0.275016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3813, '2016-07-11 15:25:43', 1, 0.270015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3814, '2016-07-11 15:25:53', 1, 0.271016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3815, '2016-07-11 15:26:03', 1, 0.319019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3816, '2016-07-11 15:26:13', 1, 0.261015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3817, '2016-07-11 15:26:23', 1, 0.253015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3818, '2016-07-11 15:26:33', 1, 0.249014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3819, '2016-07-11 15:26:43', 1, 0.284016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3820, '2016-07-11 15:26:53', 1, 0.275015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3821, '2016-07-11 15:27:03', 1, 0.293017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3822, '2016-07-11 15:27:13', 1, 0.267016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3823, '2016-07-11 15:27:23', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3824, '2016-07-11 15:27:33', 1, 0.419024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3825, '2016-07-11 15:27:43', 1, 0.241014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3826, '2016-07-11 15:27:53', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3827, '2016-07-11 15:28:03', 1, 0.286016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3828, '2016-07-11 15:28:13', 1, 0.254014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3829, '2016-07-11 15:28:23', 1, 0.275016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3830, '2016-07-11 15:28:33', 1, 0.269016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3831, '2016-07-11 15:28:43', 1, 0.277016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3832, '2016-07-11 15:28:53', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3833, '2016-07-11 15:29:03', 1, 0.767044, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9967968),
+(3834, '2016-07-11 15:29:04', 1, 0.956055, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3835, '2016-07-11 15:29:05', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3836, '2016-07-11 15:29:10', 1, 0.543031, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/view', 7450000),
+(3837, '2016-07-11 15:29:15', 1, 0.289017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3838, '2016-07-11 15:29:20', 1, 0.695039, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9967968),
+(3839, '2016-07-11 15:29:22', 1, 0.284016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3840, '2016-07-11 15:29:29', 2, 1.28707, '127.0.0.1', 'GET', 0, 'proyecto/index', 9842104),
+(3841, '2016-07-11 15:29:31', 1, 0.245014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3842, '2016-07-11 15:29:32', 2, 0.940054, '127.0.0.1', 'GET', 0, 'proyecto-pedido/index', 9543016),
+(3843, '2016-07-11 15:29:35', 2, 0.87905, '127.0.0.1', 'GET', 0, 'proyecto-pedido/pedido', 9984816),
+(3844, '2016-07-11 15:29:37', 2, 0.768044, '127.0.0.1', 'GET', 1, 'proyecto-pedido/create', 8204264),
+(3845, '2016-07-11 15:29:42', 1, 0.361021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817696),
+(3846, '2016-07-11 15:29:47', 2, 0.802046, '127.0.0.1', 'POST', 1, 'proyecto-pedido/create', 7278272),
+(3847, '2016-07-11 15:29:48', 2, 0.672038, '127.0.0.1', 'GET', 1, 'proyecto-pedido/pedido', 9627960),
+(3848, '2016-07-11 15:29:51', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6134328),
+(3849, '2016-07-11 15:29:56', 1, 0.307017, '127.0.0.1', 'GET', 0, 'notifications/notifications/rnr', 6238144),
+(3850, '2016-07-11 15:29:57', 1, 0.684039, '127.0.0.1', 'GET', 0, 'proyecto-pedido/view', 7924888),
+(3851, '2016-07-11 15:29:58', 1, 0.259015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817576),
+(3852, '2016-07-11 15:30:08', 1, 0.272016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817576),
+(3853, '2016-07-11 15:30:18', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817576),
+(3854, '2016-07-11 15:30:26', 2, 0.733042, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9625648),
+(3855, '2016-07-11 15:30:28', 1, 0.261015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(3856, '2016-07-11 15:30:30', 2, 0.720041, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9961864),
+(3857, '2016-07-11 15:30:33', 2, 0.641037, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/create', 8166168),
+(3858, '2016-07-11 15:30:36', 2, 0.35902, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6209168),
+(3859, '2016-07-11 15:30:38', 1, 0.255015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(3860, '2016-07-11 15:30:44', 2, 0.404023, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/create', 7162896),
+(3861, '2016-07-11 15:30:45', 2, 0.671029, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9606816),
+(3862, '2016-07-11 15:30:48', 1, 0.315011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138336),
+(3863, '2016-07-11 15:30:52', 1, 0.391001, '127.0.0.1', 'GET', 0, 'notifications/notifications/rnr', 6198880),
+(3864, '2016-07-11 15:30:53', 1, 0.550807, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/view', 7956456),
+(3865, '2016-07-11 15:30:54', 1, 0.275602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3866, '2016-07-11 15:31:04', 1, 0.331605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3867, '2016-07-11 15:31:07', 1, 0.573403, '127.0.0.1', 'GET', 0, 'proyecto-pedido/view', 7924888),
+(3868, '2016-07-11 15:31:08', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(3869, '2016-07-11 15:31:12', 1, 0.468005, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/view', 7956456),
+(3870, '2016-07-11 15:31:13', 1, 0.282202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3871, '2016-07-11 15:31:23', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3872, '2016-07-11 15:31:27', 1, 0.657805, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9497688),
+(3873, '2016-07-11 15:31:28', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3874, '2016-07-11 15:31:38', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3875, '2016-07-11 15:31:48', 1, 0.25001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3876, '2016-07-11 15:31:59', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3877, '2016-07-11 15:32:08', 1, 0.256006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3878, '2016-07-11 15:32:19', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3879, '2016-07-11 15:32:29', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3880, '2016-07-11 15:32:39', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3881, '2016-07-11 15:32:49', 1, 0.290008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3882, '2016-07-11 15:32:59', 1, 0.284201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3883, '2016-07-11 15:33:09', 1, 0.271602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3884, '2016-07-11 15:33:19', 1, 0.256204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3885, '2016-07-11 15:33:29', 1, 0.310013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3886, '2016-07-11 15:33:39', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3887, '2016-07-11 15:33:49', 1, 0.267002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3888, '2016-07-11 15:33:59', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3889, '2016-07-11 15:34:09', 1, 0.311815, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3890, '2016-07-11 15:34:19', 1, 0.273602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3891, '2016-07-11 15:34:29', 1, 0.2662, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3892, '2016-07-11 15:34:39', 1, 0.2662, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3893, '2016-07-11 15:34:49', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3894, '2016-07-11 15:34:59', 1, 0.310017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3895, '2016-07-11 15:35:09', 1, 0.284801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3896, '2016-07-11 15:35:13', 1, 0.965602, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9853552),
+(3897, '2016-07-11 15:35:16', 1, 0.314, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(3898, '2016-07-11 15:35:18', 1, 1.4266, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 11051976),
+(3899, '2016-07-11 15:35:21', 1, 0.338602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(3900, '2016-07-11 15:35:29', 1, 0.715403, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9635520),
+(3901, '2016-07-11 15:35:31', 1, 0.238, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(3902, '2016-07-11 15:35:40', 1, 0.848402, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9945584),
+(3903, '2016-07-11 15:35:41', 1, 0.422201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(3904, '2016-07-11 15:35:42', 1, 0.252601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3905, '2016-07-11 15:35:52', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3906, '2016-07-11 15:36:02', 1, 0.273016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3907, '2016-07-11 15:36:12', 1, 0.274016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3908, '2016-07-11 15:36:22', 1, 0.313001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3909, '2016-07-11 15:36:32', 1, 0.328618, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3910, '2016-07-11 15:36:42', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3911, '2016-07-11 15:36:52', 1, 0.298401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3912, '2016-07-11 15:37:02', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3913, '2016-07-11 15:37:12', 1, 0.314001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3914, '2016-07-11 15:37:22', 1, 0.2692, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3915, '2016-07-11 15:37:32', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3916, '2016-07-11 15:37:42', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3917, '2016-07-11 15:37:52', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3918, '2016-07-11 15:38:02', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3919, '2016-07-11 15:38:12', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3920, '2016-07-11 15:38:22', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3921, '2016-07-11 15:38:32', 1, 0.313001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3922, '2016-07-11 15:38:42', 1, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3923, '2016-07-11 15:38:52', 1, 0.246001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3924, '2016-07-11 15:39:02', 1, 0.236001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3925, '2016-07-11 15:39:12', 1, 0.282801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3926, '2016-07-11 15:39:22', 1, 0.266201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3927, '2016-07-11 15:39:32', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3928, '2016-07-11 15:39:41', 1, 0.696402, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9635464),
+(3929, '2016-07-11 15:39:42', 1, 0.314, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(3930, '2016-07-11 15:39:47', 1, 0.751603, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9945584),
+(3931, '2016-07-11 15:39:49', 1, 0.250209, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3932, '2016-07-11 15:39:59', 1, 0.266601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3933, '2016-07-11 15:40:09', 1, 0.267002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3934, '2016-07-11 15:40:10', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3935, '2016-07-11 15:40:44', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3936, '2016-07-11 15:41:15', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3937, '2016-07-11 15:44:32', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3938, '2016-07-11 15:44:40', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3939, '2016-07-11 15:45:27', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3940, '2016-07-11 15:45:58', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3941, '2016-07-11 15:46:16', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3942, '2016-07-11 15:48:01', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3943, '2016-07-11 15:48:35', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(3944, '2016-07-11 15:48:59', 1, 0.983212, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9944856),
+(3945, '2016-07-11 15:49:00', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3946, '2016-07-11 15:49:10', 1, 0.313803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3947, '2016-07-11 15:49:15', 1, 0.963016, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9635464),
+(3948, '2016-07-11 15:49:17', 1, 0.289607, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(3949, '2016-07-11 15:49:21', 1, 0.764806, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9945496),
+(3950, '2016-07-11 15:49:23', 1, 0.281801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3951, '2016-07-11 15:49:33', 1, 0.265003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3952, '2016-07-11 15:49:41', 1, 0.661201, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9497688),
+(3953, '2016-07-11 15:49:43', 1, 0.266201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3954, '2016-07-11 15:49:45', 1, 1.1, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9958336),
+(3955, '2016-07-11 15:49:46', 1, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3956, '2016-07-11 15:49:51', 2, 0.820047, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9732304),
+(3957, '2016-07-11 15:49:56', 2, 0.784045, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 10040784),
+(3958, '2016-07-11 15:49:57', 1, 0.455026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3959, '2016-07-11 15:50:02', 2, NULL, '127.0.0.1', 'GET', 1, 'ac-ac-espec/create', NULL),
+(3960, '2016-07-11 15:50:05', 2, NULL, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', NULL),
+(3961, '2016-07-11 15:50:06', 1, 0.352016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3962, '2016-07-11 15:50:07', 2, 0.444026, '127.0.0.1', 'POST', 0, 'user/security/logout', 5899904),
+(3963, '2016-07-11 15:50:08', 0, 0.623036, '127.0.0.1', 'GET', 0, 'user/security/login', 7460128),
+(3964, '2016-07-11 15:50:12', 0, 1.31761, '127.0.0.1', 'POST', 1, 'user/security/login', 6226632),
+(3965, '2016-07-11 15:50:13', 0, 1.31867, '127.0.0.1', 'POST', 0, 'user/security/login', 6178816),
+(3966, '2016-07-11 15:50:15', 1, 0.597034, '127.0.0.1', 'GET', 0, 'site/index', 7213664),
+(3967, '2016-07-11 15:50:16', 1, 0.274007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3968, '2016-07-11 15:50:17', 1, 0.612035, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9726944),
+(3969, '2016-07-11 15:50:20', 1, 0.642826, '127.0.0.1', 'GET', 1, 'accion-centralizada/create', 8108696),
+(3970, '2016-07-11 15:50:21', 1, 0.472027, '127.0.0.1', 'GET', 0, 'accion-centralizada/create', 8121112),
+(3971, '2016-07-11 15:50:23', 1, 0.645037, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9727048),
+(3972, '2016-07-11 15:50:25', 1, 0.484027, '127.0.0.1', 'GET', 0, 'accion-centralizada/update', 8127536),
+(3973, '2016-07-11 15:50:26', 1, 0.281606, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3974, '2016-07-11 15:50:30', 1, 0.623036, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9727048),
+(3975, '2016-07-11 15:50:32', 1, 0.762044, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 10064448),
+(3976, '2016-07-11 15:50:36', 1, 0.813047, '127.0.0.1', 'GET', 1, 'ac-ac-espec/create', 8327880),
+(3977, '2016-07-11 15:50:36', 1, 0.290017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3978, '2016-07-11 15:50:45', 1, 0.549032, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', 8403576),
+(3979, '2016-07-11 15:50:46', 1, 0.318212, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3980, '2016-07-11 15:50:56', 1, 1.31408, '127.0.0.1', 'POST', 1, 'ac-ac-espec/update', 7854152),
+(3981, '2016-07-11 15:50:56', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3982, '2016-07-11 15:50:57', 1, 0.551018, '127.0.0.1', 'GET', 1, 'accion-centralizada/view', 9599352),
+(3983, '2016-07-11 15:51:03', 1, 0.709803, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7848224),
+(3984, '2016-07-11 15:51:08', 1, 0.237001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3985, '2016-07-11 15:51:16', 1, 0.300401, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269816),
+(3986, '2016-07-11 15:51:17', 1, 0.292801, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223336),
+(3987, '2016-07-11 15:51:18', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3988, '2016-07-11 15:51:18', 1, 0.312001, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251480),
+(3989, '2016-07-11 15:51:21', 1, 0.3306, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6262016),
+(3990, '2016-07-11 15:51:23', 1, 0.515801, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7220192),
+(3991, '2016-07-11 15:51:24', 1, 0.625803, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9619128),
+(3992, '2016-07-11 15:51:29', 1, 0.236, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3993, '2016-07-11 15:51:33', 1, 0.243014, '127.0.0.1', 'POST', 0, 'user/security/logout', 5899856),
+(3994, '2016-07-11 15:51:33', 0, 0.384022, '127.0.0.1', 'GET', 0, 'user/security/login', 7460128),
+(3995, '2016-07-11 15:51:36', 0, 1.35181, '127.0.0.1', 'POST', 1, 'user/security/login', 6226648),
+(3996, '2016-07-11 15:51:38', 0, 1.34008, '127.0.0.1', 'POST', 0, 'user/security/login', 6178816),
+(3997, '2016-07-11 15:51:39', 1, 0.234013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(3998, '2016-07-11 15:51:39', 2, 0.35902, '127.0.0.1', 'GET', 0, 'site/index', 7220816),
+(3999, '2016-07-11 15:51:42', 2, 0.638037, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9668480),
+(4000, '2016-07-11 15:51:49', 1, 0.2818, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4001, '2016-07-11 15:51:50', 2, 0.640037, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9720192),
+(4002, '2016-07-11 15:51:59', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4003, '2016-07-11 15:52:09', 1, 0.242803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4004, '2016-07-11 15:52:19', 1, 0.264601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4005, '2016-07-11 15:52:25', 2, 0.500028, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/create', 8166024),
+(4006, '2016-07-11 15:52:29', 1, 0.291008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4007, '2016-07-11 15:52:29', 2, 0.340615, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6209024),
+(4008, '2016-07-11 15:52:38', 2, 0.499028, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/create', 7162776),
+(4009, '2016-07-11 15:52:39', 1, 0.480027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6138440),
+(4010, '2016-07-11 15:52:39', 2, 0.686027, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9588584),
+(4011, '2016-07-11 15:52:47', 1, 0.340601, '127.0.0.1', 'GET', 0, 'notifications/notifications/rnr', 6198880),
+(4012, '2016-07-11 15:52:47', 1, 0.516801, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/view', 7956432),
+(4013, '2016-07-11 15:52:48', 1, 0.298401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4014, '2016-07-11 15:52:58', 1, 0.313001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4015, '2016-07-11 15:53:01', 1, 0.840004, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9721264),
+(4016, '2016-07-11 15:53:02', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4017, '2016-07-11 15:53:12', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4018, '2016-07-11 15:53:19', 1, 0.636204, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9649624),
+(4019, '2016-07-11 15:53:20', 1, 0.258601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4020, '2016-07-11 15:53:30', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4021, '2016-07-11 15:53:33', 1, 0.708605, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9721264),
+(4022, '2016-07-11 15:53:34', 1, 0.282205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4023, '2016-07-11 15:53:38', 1, 0.754405, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9966864),
+(4024, '2016-07-11 15:53:39', 1, 0.264002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4025, '2016-07-11 15:53:49', 1, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4026, '2016-07-11 15:53:59', 1, 0.266201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4027, '2016-07-11 15:54:09', 1, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4028, '2016-07-11 15:54:19', 1, 0.282801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4029, '2016-07-11 15:54:29', 1, 0.2848, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4030, '2016-07-11 15:54:39', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4031, '2016-07-11 15:54:49', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4032, '2016-07-11 15:54:59', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4033, '2016-07-11 15:55:09', 1, 0.236, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4034, '2016-07-11 15:55:19', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4035, '2016-07-11 15:55:29', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4036, '2016-07-11 15:55:39', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4037, '2016-07-11 15:55:49', 1, 0.239001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4038, '2016-07-11 15:55:59', 1, 0.235001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4039, '2016-07-11 15:56:09', 1, 0.301401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4040, '2016-07-11 15:56:19', 1, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4041, '2016-07-11 15:56:29', 1, 0.2506, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4042, '2016-07-11 15:56:39', 1, 0.236, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4043, '2016-07-11 15:56:49', 1, 0.236, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4044, '2016-07-11 15:56:59', 1, 0.317009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4045, '2016-07-11 15:57:09', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4046, '2016-07-11 15:57:19', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4047, '2016-07-11 15:57:29', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4048, '2016-07-11 15:57:35', 1, 0.738201, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10019584),
+(4049, '2016-07-11 15:57:39', 1, 0.273015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817704),
+(4050, '2016-07-11 15:57:43', 1, 0.759004, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10018216),
+(4051, '2016-07-11 15:57:45', 1, 0.2974, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4052, '2016-07-11 15:57:55', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4053, '2016-07-11 15:57:58', 1, 0.803602, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9721384),
+(4054, '2016-07-11 15:58:00', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4055, '2016-07-11 15:58:10', 1, 0.235802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4056, '2016-07-11 15:58:20', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4057, '2016-07-11 15:58:30', 1, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4058, '2016-07-11 15:58:40', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4059, '2016-07-11 15:58:50', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4060, '2016-07-11 15:59:00', 1, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4061, '2016-07-11 15:59:10', 1, 0.236001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4062, '2016-07-11 15:59:20', 1, 0.250601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4063, '2016-07-11 15:59:30', 1, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4064, '2016-07-11 15:59:40', 1, 0.225004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4065, '2016-07-11 15:59:50', 1, 0.241014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4066, '2016-07-11 16:00:00', 1, 0.272015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4067, '2016-07-11 16:00:10', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4068, '2016-07-11 16:00:20', 1, 0.280016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4069, '2016-07-11 16:00:30', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4070, '2016-07-11 16:00:40', 1, 0.280016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4071, '2016-07-11 16:00:50', 1, 0.283017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4072, '2016-07-11 16:01:00', 1, 0.262015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4073, '2016-07-11 16:01:10', 1, 0.260015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4074, '2016-07-11 16:01:20', 1, 0.308017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4075, '2016-07-11 16:01:30', 1, 0.306017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4076, '2016-07-11 16:01:40', 1, 0.266016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4077, '2016-07-11 16:01:50', 1, 0.299017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4078, '2016-07-11 16:02:00', 1, 0.283016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4079, '2016-07-11 16:02:10', 1, 0.267016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4080, '2016-07-11 16:02:20', 1, 0.248014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4081, '2016-07-11 16:02:30', 1, 0.277016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4082, '2016-07-11 16:02:40', 1, 0.253015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4083, '2016-07-11 16:02:50', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4084, '2016-07-11 16:03:00', 1, 0.278016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4085, '2016-07-11 16:03:10', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4086, '2016-07-11 16:03:16', 2, 0.743043, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9938016),
+(4087, '2016-07-11 16:03:20', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', NULL),
+(4088, '2016-07-11 16:03:20', 1, 0.681212, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817704),
+(4089, '2016-07-11 16:03:38', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', NULL),
+(4090, '2016-07-11 16:04:00', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', NULL),
+(4091, '2016-07-11 16:04:15', 1, 0.774402, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9722136),
+(4092, '2016-07-11 16:04:18', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817704),
+(4093, '2016-07-11 16:04:28', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4094, '2016-07-11 16:04:38', 1, 0.237, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4095, '2016-07-11 16:04:48', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4096, '2016-07-11 16:04:58', 1, 0.238, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4097, '2016-07-11 16:05:07', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4098, '2016-07-11 16:05:30', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4099, '2016-07-11 16:05:45', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4100, '2016-07-11 16:06:08', 1, 0.895201, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9959200),
+(4101, '2016-07-11 16:06:10', 1, 0.295017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(4102, '2016-07-11 16:06:16', 1, 0.712804, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9721592),
+(4103, '2016-07-11 16:06:18', 1, 0.280202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4104, '2016-07-11 16:06:21', 1, 0.643601, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9663568),
+(4105, '2016-07-11 16:06:22', 1, 0.2984, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4106, '2016-07-11 16:06:26', 1, 0.744202, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9721592),
+(4107, '2016-07-11 16:06:27', 1, 0.258601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817432),
+(4108, '2016-07-11 16:06:30', 1, 0.805602, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9965216),
+(4109, '2016-07-11 16:06:32', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4110, '2016-07-11 16:06:42', 1, 0.286405, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4111, '2016-07-11 16:06:44', 1, 0.522801, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/view', 7450192),
+(4112, '2016-07-11 16:06:47', 1, 0.809602, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/update', 8185592),
+(4113, '2016-07-11 16:06:49', 1, 0.391402, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6204824),
+(4114, '2016-07-11 16:06:55', 1, 0.248204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4115, '2016-07-11 16:07:05', 1, 0.237401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4116, '2016-07-11 16:07:15', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(4117, '2016-07-11 16:07:25', 1, 0.2526, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4118, '2016-07-11 16:07:35', 1, 0.266201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4119, '2016-07-11 16:07:45', 1, 0.285801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4120, '2016-07-11 16:07:55', 1, 0.339006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4121, '2016-07-11 16:08:05', 1, 0.219801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4122, '2016-07-11 16:08:15', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4123, '2016-07-11 16:08:25', 1, 0.256601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4124, '2016-07-11 16:08:35', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4125, '2016-07-11 16:08:45', 1, 0.289801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4126, '2016-07-11 16:08:47', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4127, '2016-07-11 16:15:18', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4128, '2016-07-11 16:16:16', 1, 0.754801, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9969488),
+(4129, '2016-07-11 16:16:19', 1, 0.283016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(4130, '2016-07-11 16:16:29', 1, 0.266201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4131, '2016-07-11 16:16:39', 1, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4132, '2016-07-11 16:16:49', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4133, '2016-07-11 16:16:57', 1, 0.752801, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9969456),
+(4134, '2016-07-11 16:16:59', 1, 0.275016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(4135, '2016-07-11 16:17:02', 1, 0.71623, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9968064),
+(4136, '2016-07-11 16:17:04', 1, 0.270003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4137, '2016-07-11 16:17:10', 1, 0.754802, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9965176),
+(4138, '2016-07-11 16:17:11', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4139, '2016-07-11 16:17:21', 1, 0.236001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4140, '2016-07-11 16:17:31', 1, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4141, '2016-07-11 16:17:41', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4142, '2016-07-11 16:17:51', 1, 0.270201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4143, '2016-07-11 16:18:01', 1, 0.301401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4144, '2016-07-11 16:18:11', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4145, '2016-07-11 16:18:21', 1, 0.235, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4146, '2016-07-11 16:18:31', 1, 0.282801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4147, '2016-07-11 16:18:33', 1, 0.731602, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9969072),
+(4148, '2016-07-11 16:18:34', 1, 0.269015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(4149, '2016-07-11 16:18:44', 1, 0.2702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4150, '2016-07-11 16:18:54', 1, 0.240001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4151, '2016-07-11 16:19:04', 1, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4152, '2016-07-11 16:19:14', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4153, '2016-07-11 16:19:24', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4154, '2016-07-11 16:19:34', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4155, '2016-07-11 16:19:44', 1, 0.314001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4156, '2016-07-11 16:19:52', 1, 0.747202, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9969248),
+(4157, '2016-07-11 16:19:54', 1, 0.260015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817856),
+(4158, '2016-07-11 16:20:04', 1, 0.2662, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4159, '2016-07-11 16:20:14', 1, 0.2506, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4160, '2016-07-11 16:20:25', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4161, '2016-07-11 16:20:35', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4162, '2016-07-11 16:20:45', 1, 0.315001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4163, '2016-07-11 16:20:55', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4164, '2016-07-11 16:21:05', 1, 0.228013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4165, '2016-07-11 16:21:15', 1, 0.298401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4166, '2016-07-11 16:21:25', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4167, '2016-07-11 16:21:35', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4168, '2016-07-11 16:21:45', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4169, '2016-07-11 16:21:55', 1, 0.234001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4170, '2016-07-11 16:22:05', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4171, '2016-07-11 16:22:15', 1, 0.277201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4172, '2016-07-11 16:22:25', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4173, '2016-07-11 16:22:35', 1, 0.257601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4174, '2016-07-11 16:22:45', 1, 0.283801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4175, '2016-07-11 16:22:55', 1, 0.262601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4176, '2016-07-11 16:23:05', 1, 0.265601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4177, '2016-07-11 16:23:15', 1, 0.237, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4178, '2016-07-11 16:23:25', 1, 0.306401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4179, '2016-07-11 16:23:35', 1, 0.255601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4180, '2016-07-11 16:23:45', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4181, '2016-07-11 16:23:55', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4182, '2016-07-11 16:24:02', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4183, '2016-07-11 16:24:07', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4184, '2016-07-11 16:24:14', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4185, '2016-07-11 16:24:18', 1, 0.305401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4186, '2016-07-11 16:24:22', 2, 0.264015, '127.0.0.1', 'POST', 0, 'user/security/logout', 5899912),
+(4187, '2016-07-11 16:24:22', 0, 0.412023, '127.0.0.1', 'GET', 0, 'user/security/login', 7460128),
+(4188, '2016-07-11 16:24:28', 1, 0.445819, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4189, '2016-07-11 16:24:28', 0, 0.252015, '127.0.0.1', 'GET', 0, 'site/index', 5381352),
+(4190, '2016-07-11 16:24:29', 0, 0.441025, '127.0.0.1', 'GET', 0, 'user/security/login', 6744112),
+(4191, '2016-07-11 16:24:33', 0, 1.25881, '127.0.0.1', 'POST', 1, 'user/security/login', 6228056),
+(4192, '2016-07-11 16:24:34', 0, 1.23807, '127.0.0.1', 'POST', 0, 'user/security/login', 6180128),
+(4193, '2016-07-11 16:24:36', 1, 0.439025, '127.0.0.1', 'GET', 0, 'site/index', 6887016),
+(4194, '2016-07-11 16:24:37', 1, 0.290017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817440),
+(4195, '2016-07-11 16:24:38', 1, 0.30541, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4196, '2016-07-11 16:24:45', 1, 1.7701, '127.0.0.1', 'GET', 0, 'rbac/permission/index', 9305328),
+(4197, '2016-07-11 16:24:48', 1, 0.407019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4198, '2016-07-11 16:24:48', 1, 0.432814, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4199, '2016-07-11 16:24:55', 1, 0.609035, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 8774296),
+(4200, '2016-07-11 16:24:58', 1, 0.381401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817744),
+(4201, '2016-07-11 16:24:58', 1, 0.347809, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4202, '2016-07-11 16:25:01', 1, 0.446026, '127.0.0.1', 'GET', 1, 'rbac/permission/create', 7380768),
+(4203, '2016-07-11 16:25:08', 1, 0.253803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817744),
+(4204, '2016-07-11 16:25:08', 1, 0.28321, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4205, '2016-07-11 16:25:18', 1, 0.286202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817744),
+(4206, '2016-07-11 16:25:18', 1, 0.252605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4207, '2016-07-11 16:25:28', 1, 0.303203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817744),
+(4208, '2016-07-11 16:25:28', 1, 0.254402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4209, '2016-07-11 16:25:30', 1, 0.35302, '127.0.0.1', 'POST', 1, 'rbac/permission/create', 6705920),
+(4210, '2016-07-11 16:25:30', 1, 0.561425, '127.0.0.1', 'GET', 1, 'rbac/permission/index', 8776304),
+(4211, '2016-07-11 16:25:32', 1, 0.657038, '127.0.0.1', 'GET', 0, 'rbac/role/index', 9218192),
+(4212, '2016-07-11 16:25:33', 1, 0.297013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4213, '2016-07-11 16:25:38', 1, 0.248803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4214, '2016-07-11 16:25:41', 1, 0.554032, '127.0.0.1', 'GET', 1, 'rbac/role/update', 7960656),
+(4215, '2016-07-11 16:25:43', 1, 0.286215, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4216, '2016-07-11 16:25:47', 1, 0.68904, '127.0.0.1', 'POST', 1, 'rbac/role/update', 7254240),
+(4217, '2016-07-11 16:25:47', 1, 0.553825, '127.0.0.1', 'GET', 1, 'rbac/role/index', 8795848),
+(4218, '2016-07-11 16:25:48', 1, 0.265808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4219, '2016-07-11 16:25:53', 1, 0.302005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4220, '2016-07-11 16:25:54', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4221, '2016-07-11 16:25:59', 1, 0.3442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4222, '2016-07-11 16:26:03', 1, 0.2984, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4223, '2016-07-11 16:26:09', 1, 0.269201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4224, '2016-07-11 16:26:13', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4225, '2016-07-11 16:26:19', 1, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4226, '2016-07-11 16:26:23', 1, 0.236001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4227, '2016-07-11 16:26:29', 1, 0.252601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4228, '2016-07-11 16:26:33', 1, 0.243001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4229, '2016-07-11 16:26:39', 1, 0.2662, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4230, '2016-07-11 16:26:43', 1, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4231, '2016-07-11 16:26:49', 1, 0.281201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4232, '2016-07-11 16:26:53', 1, 0.2506, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4233, '2016-07-11 16:26:59', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4234, '2016-07-11 16:27:04', 1, 0.2682, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4235, '2016-07-11 16:27:09', 1, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4236, '2016-07-11 16:27:13', 1, 0.235001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4237, '2016-07-11 16:27:19', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4238, '2016-07-11 16:27:24', 1, 0.282801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4239, '2016-07-11 16:27:29', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4240, '2016-07-11 16:27:34', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4241, '2016-07-11 16:27:39', 1, 0.242001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4242, '2016-07-11 16:27:44', 1, 0.256601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4243, '2016-07-11 16:27:49', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4244, '2016-07-11 16:27:54', 1, 0.255601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4245, '2016-07-11 16:27:59', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4246, '2016-07-11 16:28:04', 1, 0.3442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4247, '2016-07-11 16:28:09', 1, 0.24, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4248, '2016-07-11 16:28:14', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4249, '2016-07-11 16:28:19', 1, 0.257601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4250, '2016-07-11 16:28:24', 1, 0.234402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4251, '2016-07-11 16:28:29', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4252, '2016-07-11 16:28:34', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4253, '2016-07-11 16:28:39', 1, 0.250601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4254, '2016-07-11 16:28:44', 1, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4255, '2016-07-11 16:28:49', 1, 0.259002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4256, '2016-07-11 16:28:54', 1, 0.2672, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4257, '2016-07-11 16:28:59', 1, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4258, '2016-07-11 16:29:04', 1, 0.238001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4259, '2016-07-11 16:29:09', 1, 0.277201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4260, '2016-07-11 16:29:14', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4261, '2016-07-11 16:29:19', 1, 0.251601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4262, '2016-07-11 16:29:24', 1, 0.238, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4263, '2016-07-11 16:29:29', 1, 0.275201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4264, '2016-07-11 16:29:34', 1, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4265, '2016-07-11 16:29:39', 1, 0.276002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4266, '2016-07-11 16:29:44', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4267, '2016-07-11 16:29:49', 1, 0.237001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4268, '2016-07-11 16:29:54', 1, 0.237001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4269, '2016-07-11 16:29:56', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4270, '2016-07-11 16:30:00', 1, 0.335804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4271, '2016-07-11 16:30:04', 1, 0.236001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4272, '2016-07-11 16:30:10', 1, 0.258601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4273, '2016-07-11 16:30:14', 1, 0.235, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4274, '2016-07-11 16:30:20', 1, 0.258601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4275, '2016-07-11 16:30:24', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4276, '2016-07-11 16:30:30', 1, 0.245001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4277, '2016-07-11 16:30:34', 1, 0.268201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4278, '2016-07-11 16:30:40', 1, 0.280201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4279, '2016-07-11 16:30:44', 1, 0.267201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4280, '2016-07-11 16:30:50', 1, 0.374801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4281, '2016-07-11 16:30:54', 1, 0.297401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4282, '2016-07-11 16:30:54', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4283, '2016-07-11 16:31:00', 1, 0.253601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4284, '2016-07-11 16:31:04', 1, 0.255601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4285, '2016-07-11 16:31:10', 1, 1.02101, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9934960),
+(4286, '2016-07-11 16:31:11', 1, 1.032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4287, '2016-07-11 16:31:13', 1, 0.2506, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4288, '2016-07-11 16:31:14', 1, 0.273201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4289, '2016-07-11 16:31:19', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4290, '2016-07-11 16:31:23', 1, 0.380401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4291, '2016-07-11 16:31:24', 1, 0.333605, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4292, '2016-07-11 16:31:33', 1, 0.324001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4293, '2016-07-11 16:31:34', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4294, '2016-07-11 16:31:43', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4295, '2016-07-11 16:31:44', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4296, '2016-07-11 16:31:44', 1, NULL, '127.0.0.1', 'GET', 0, 'site/error', NULL),
+(4297, '2016-07-11 16:31:46', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4298, '2016-07-11 16:31:49', 1, NULL, '127.0.0.1', 'GET', 0, 'site/error', NULL),
+(4299, '2016-07-11 16:31:51', 1, 0.278602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4300, '2016-07-11 16:31:53', 1, NULL, '127.0.0.1', 'GET', 0, 'site/error', NULL),
+(4301, '2016-07-11 16:31:54', 1, 0.350007, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4302, '2016-07-11 16:31:55', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4303, '2016-07-11 16:32:01', 1, NULL, '127.0.0.1', 'GET', 0, 'site/error', NULL),
+(4304, '2016-07-11 16:32:03', 1, 0.287801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4305, '2016-07-11 16:32:04', 1, 0.267002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4306, '2016-07-11 16:32:12', 1, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4307, '2016-07-11 16:32:14', 1, 0.251204, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4308, '2016-07-11 16:32:22', 1, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4309, '2016-07-11 16:32:24', 1, 1.0632, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4310, '2016-07-11 16:32:32', 1, 0.264601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4311, '2016-07-11 16:32:34', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4312, '2016-07-11 16:32:42', 1, 0.2506, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4313, '2016-07-11 16:32:44', 1, 0.2662, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4314, '2016-07-11 16:32:52', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4315, '2016-07-11 16:32:54', 1, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4316, '2016-07-11 16:33:02', 1, 0.243001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4317, '2016-07-11 16:33:04', 1, 0.2516, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4318, '2016-07-11 16:33:12', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4319, '2016-07-11 16:33:14', 1, 0.249001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4320, '2016-07-11 16:33:19', 1, NULL, '127.0.0.1', 'GET', 0, 'site/error', NULL),
+(4321, '2016-07-11 16:33:21', 1, 0.298202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4322, '2016-07-11 16:33:23', 1, NULL, '127.0.0.1', 'GET', 0, 'site/error', NULL),
+(4323, '2016-07-11 16:33:24', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4324, '2016-07-11 16:33:25', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4325, '2016-07-11 16:33:28', 1, 0.795804, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9934960),
+(4326, '2016-07-11 16:33:30', 1, 0.281602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4327, '2016-07-11 16:33:34', 1, 0.239203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4328, '2016-07-11 16:33:35', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4329, '2016-07-11 16:33:41', 1, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4330, '2016-07-11 16:33:44', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4331, '2016-07-11 16:33:51', 1, 0.250601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4332, '2016-07-11 16:33:54', 1, 0.314001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4333, '2016-07-11 16:34:01', 1, 0.273201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4334, '2016-07-11 16:34:04', 1, 0.2506, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4335, '2016-07-11 16:34:11', 1, 0.2586, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4336, '2016-07-11 16:34:14', 1, 0.228401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4337, '2016-07-11 16:34:21', 1, 0.252001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817496),
+(4338, '2016-07-11 16:34:24', 1, 0.236001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4339, '2016-07-11 16:34:34', 1, 0.436205, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4340, '2016-07-11 16:34:45', 1, 0.766216, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4341, '2016-07-11 16:34:56', 1, 0.525202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4342, '2016-07-12 08:37:51', 0, 26.1568, '127.0.0.1', 'GET', 0, 'site/index', 5205504),
+(4343, '2016-07-12 08:37:57', 0, 3.09618, '127.0.0.1', 'GET', 0, 'user/security/login', 6743264),
+(4344, '2016-07-12 08:49:29', 0, 3.01081, '127.0.0.1', 'POST', 1, 'user/security/login', 6227752),
+(4345, '2016-07-12 08:49:31', 0, 1.327, '127.0.0.1', 'POST', 0, 'user/security/login', 6179240),
+(4346, '2016-07-12 08:49:33', 1, 1.2368, '127.0.0.1', 'GET', 0, 'site/index', 6886680),
+(4347, '2016-07-12 08:49:41', 1, 0.490218, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4348, '2016-07-12 08:49:50', 1, 0.281801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4349, '2016-07-12 08:50:00', 1, 0.377802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4350, '2016-07-12 08:50:10', 1, 0.2506, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4351, '2016-07-12 08:50:20', 1, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4352, '2016-07-12 08:50:30', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4353, '2016-07-12 08:50:35', 1, 2.71441, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9727384),
+(4354, '2016-07-12 08:50:41', 1, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4355, '2016-07-12 08:50:47', 1, 1.3884, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9969168),
+(4356, '2016-07-12 08:50:50', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4357, '2016-07-12 08:50:52', 1, 0.764402, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9727384),
+(4358, '2016-07-12 08:50:54', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4359, '2016-07-12 08:50:58', 1, 0.748801, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9696960),
+(4360, '2016-07-12 08:51:00', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4361, '2016-07-12 08:51:04', 1, 0.717601, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9727384),
+(4362, '2016-07-12 08:51:05', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4363, '2016-07-12 08:51:08', 1, 0.826802, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9935848),
+(4364, '2016-07-12 08:51:10', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4365, '2016-07-12 08:51:19', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4366, '2016-07-12 08:51:30', 1, 0.577201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4367, '2016-07-12 08:51:40', 1, 0.421201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4368, '2016-07-12 08:51:50', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4369, '2016-07-12 08:52:00', 1, 0.577201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4370, '2016-07-12 08:52:10', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4371, '2016-07-12 08:52:20', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4372, '2016-07-12 08:52:30', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4373, '2016-07-12 08:52:40', 1, 0.514801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4374, '2016-07-12 08:52:50', 1, 0.717217, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4375, '2016-07-12 08:53:00', 1, 0.577201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4376, '2016-07-12 08:53:10', 1, 0.4836, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4377, '2016-07-12 08:53:20', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4378, '2016-07-12 08:53:30', 1, 0.4368, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4379, '2016-07-12 08:53:40', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4380, '2016-07-12 08:53:50', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4381, '2016-07-12 08:54:00', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4382, '2016-07-12 08:54:10', 1, 0.452401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4383, '2016-07-12 08:54:20', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4384, '2016-07-12 08:54:30', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4385, '2016-07-12 08:54:40', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4386, '2016-07-12 08:54:50', 1, 0.436801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4387, '2016-07-12 08:55:00', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4388, '2016-07-12 08:55:10', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4389, '2016-07-12 08:55:20', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4390, '2016-07-12 08:55:30', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4391, '2016-07-12 08:55:40', 1, 0.421201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4392, '2016-07-12 08:55:50', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4393, '2016-07-12 08:56:00', 1, 0.421201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4394, '2016-07-12 08:56:16', 1, 6.55301, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4395, '2016-07-12 08:56:18', 1, 8.62662, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9934928),
+(4396, '2016-07-12 08:56:26', 1, 6.99721, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4397, '2016-07-12 08:56:31', 1, 0.438202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4398, '2016-07-12 08:56:41', 1, 0.468001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4399, '2016-07-12 08:56:51', 1, 0.408601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4400, '2016-07-12 08:56:52', 1, 0.920402, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9939472),
+(4401, '2016-07-12 08:56:56', 1, 0.822047, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4402, '2016-07-12 08:57:05', 1, 0.468, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4403, '2016-07-12 08:57:15', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4404, '2016-07-12 08:57:25', 1, 0.3744, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4405, '2016-07-12 08:57:35', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4406, '2016-07-12 08:57:45', 1, 0.764401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4407, '2016-07-12 08:57:47', 1, 0.904801, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9935600),
+(4408, '2016-07-12 08:57:49', 1, 0.481028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4409, '2016-07-12 08:57:59', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4410, '2016-07-12 08:58:09', 1, 0.4992, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4411, '2016-07-12 08:58:19', 1, 0.333601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4412, '2016-07-12 08:58:29', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4413, '2016-07-12 08:58:39', 1, 0.2974, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4414, '2016-07-12 08:58:49', 1, 0.271015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4415, '2016-07-12 08:58:59', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4416, '2016-07-12 08:59:09', 1, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4417, '2016-07-12 08:59:19', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4418, '2016-07-12 08:59:29', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4419, '2016-07-12 08:59:39', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4420, '2016-07-12 08:59:49', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4421, '2016-07-12 08:59:59', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4422, '2016-07-12 09:00:09', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4423, '2016-07-12 09:00:19', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4424, '2016-07-12 09:00:29', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4425, '2016-07-12 09:00:39', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4426, '2016-07-12 09:00:49', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4427, '2016-07-12 09:00:59', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4428, '2016-07-12 09:01:09', 1, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4429, '2016-07-12 09:01:19', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4430, '2016-07-12 09:01:29', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4431, '2016-07-12 09:01:39', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4432, '2016-07-12 09:01:49', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4433, '2016-07-12 09:01:59', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4434, '2016-07-12 09:02:09', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4435, '2016-07-12 09:02:19', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4436, '2016-07-12 09:02:29', 1, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4437, '2016-07-12 09:02:39', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4438, '2016-07-12 09:02:49', 1, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4439, '2016-07-12 09:02:59', 1, 0.234001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4440, '2016-07-12 09:03:09', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4441, '2016-07-12 09:03:19', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4442, '2016-07-12 09:03:29', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4443, '2016-07-12 09:03:39', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4444, '2016-07-12 09:03:49', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4445, '2016-07-12 09:03:59', 1, 0.775044, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4446, '2016-07-12 09:04:09', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4447, '2016-07-12 09:04:19', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4448, '2016-07-12 09:04:29', 1, 0.844048, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4449, '2016-07-12 09:04:39', 1, 0.280016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4450, '2016-07-12 09:04:49', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4451, '2016-07-12 09:04:59', 1, 0.280017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4452, '2016-07-12 09:05:09', 1, 0.422024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4453, '2016-07-12 09:05:19', 1, 0.265015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4454, '2016-07-12 09:05:29', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4455, '2016-07-12 09:05:39', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4456, '2016-07-12 09:05:49', 1, 0.294017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4457, '2016-07-12 09:05:59', 1, 0.283016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4458, '2016-07-12 09:06:09', 1, 0.271016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4459, '2016-07-12 09:06:19', 1, 0.246014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4460, '2016-07-12 09:06:29', 1, 0.288016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4461, '2016-07-12 09:06:39', 1, 0.279016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4462, '2016-07-12 09:06:49', 1, 0.290016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4463, '2016-07-12 09:06:59', 1, 0.269016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4464, '2016-07-12 09:07:09', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4465, '2016-07-12 09:07:19', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4466, '2016-07-12 09:07:29', 1, 0.283016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4467, '2016-07-12 09:07:39', 1, 0.265015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4468, '2016-07-12 09:07:49', 1, 0.290016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4469, '2016-07-12 09:07:59', 1, 0.259015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4470, '2016-07-12 09:08:09', 1, 0.251014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4471, '2016-07-12 09:08:19', 1, 0.243014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4472, '2016-07-12 09:08:29', 1, 0.242014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4473, '2016-07-12 09:08:39', 1, 0.285017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4474, '2016-07-12 09:08:49', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4475, '2016-07-12 09:08:59', 1, 0.259015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4476, '2016-07-12 09:09:09', 1, 0.235013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4477, '2016-07-12 09:09:19', 1, 0.269016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4478, '2016-07-12 09:09:29', 1, 0.273015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4479, '2016-07-12 09:09:39', 1, 0.309017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4480, '2016-07-12 09:09:49', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4481, '2016-07-12 09:09:59', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4482, '2016-07-12 09:10:09', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4483, '2016-07-12 09:10:19', 1, 0.33902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4484, '2016-07-12 09:10:29', 1, 0.543031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4485, '2016-07-12 09:10:39', 1, 0.377022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4486, '2016-07-12 09:10:49', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4487, '2016-07-12 09:10:59', 1, 0.251014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4488, '2016-07-12 09:11:09', 1, 0.282016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4489, '2016-07-12 09:11:19', 1, 0.264015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4490, '2016-07-12 09:11:29', 1, 0.254014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4491, '2016-07-12 09:11:39', 1, 0.241013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4492, '2016-07-12 09:11:49', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4493, '2016-07-12 09:11:59', 1, 0.262015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4494, '2016-07-12 09:12:09', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4495, '2016-07-12 09:12:19', 1, 0.234013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4496, '2016-07-12 09:12:29', 1, 0.277016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4497, '2016-07-12 09:12:39', 1, 0.270015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4498, '2016-07-12 09:12:49', 1, 0.275016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4499, '2016-07-12 09:12:59', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4500, '2016-07-12 09:13:09', 1, 0.234014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4501, '2016-07-12 09:13:19', 1, 0.554032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4502, '2016-07-12 09:13:29', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4503, '2016-07-12 09:13:39', 1, 0.308017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4504, '2016-07-12 09:13:49', 1, 0.262015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4505, '2016-07-12 09:13:59', 1, 0.290016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4506, '2016-07-12 09:14:09', 1, 0.244013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4507, '2016-07-12 09:14:19', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4508, '2016-07-12 09:14:19', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4509, '2016-07-12 09:14:33', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4510, '2016-07-12 09:15:09', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4511, '2016-07-12 09:15:45', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4512, '2016-07-12 09:16:04', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4513, '2016-07-12 09:17:05', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4514, '2016-07-12 09:17:31', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4515, '2016-07-12 09:17:39', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4516, '2016-07-12 09:17:47', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4517, '2016-07-12 09:17:55', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4518, '2016-07-12 09:18:07', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4519, '2016-07-12 09:19:42', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4520, '2016-07-12 09:19:46', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4521, '2016-07-12 09:20:22', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4522, '2016-07-12 09:20:27', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4523, '2016-07-12 09:21:56', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4524, '2016-07-12 09:22:17', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4525, '2016-07-12 09:22:54', 1, 1.7361, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9953136),
+(4526, '2016-07-12 09:23:01', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4527, '2016-07-12 09:23:07', 1, 0.795046, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9730712),
+(4528, '2016-07-12 09:23:08', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4529, '2016-07-12 09:23:11', 1, 0.642037, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9707464),
+(4530, '2016-07-12 09:23:13', 1, 0.287016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4531, '2016-07-12 09:23:15', 1, 0.685039, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9730712),
+(4532, '2016-07-12 09:23:16', 1, 0.307017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4533, '2016-07-12 09:23:19', 1, 0.87205, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9953352),
+(4534, '2016-07-12 09:23:21', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4535, '2016-07-12 09:23:31', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4536, '2016-07-12 09:23:40', 1, 0.260015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4537, '2016-07-12 09:23:51', 1, 0.292016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4538, '2016-07-12 09:24:01', 1, 0.309017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4539, '2016-07-12 09:24:11', 1, 0.270016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4540, '2016-07-12 09:24:21', 1, 0.290017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4541, '2016-07-12 09:24:31', 1, 0.279016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4542, '2016-07-12 09:24:41', 1, 0.278016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4543, '2016-07-12 09:24:51', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4544, '2016-07-12 09:24:53', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4545, '2016-07-12 09:25:02', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4546, '2016-07-12 09:25:09', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4547, '2016-07-12 09:25:13', 1, 0.245014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4548, '2016-07-12 09:25:23', 1, 0.242014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4549, '2016-07-12 09:25:33', 1, 0.264015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4550, '2016-07-12 09:25:43', 1, 0.276015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4551, '2016-07-12 09:25:53', 1, 0.250015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4552, '2016-07-12 09:26:03', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4553, '2016-07-12 09:26:13', 1, 0.271016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4554, '2016-07-12 09:26:23', 1, 0.257015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4555, '2016-07-12 09:26:33', 1, 0.285016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4556, '2016-07-12 09:26:43', 1, 0.235014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4557, '2016-07-12 09:26:53', 1, 0.284016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4558, '2016-07-12 09:27:03', 1, 0.278016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4559, '2016-07-12 09:27:13', 1, 0.258015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4560, '2016-07-12 09:27:23', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4561, '2016-07-12 09:27:33', 1, 0.223013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4562, '2016-07-12 09:27:43', 1, 0.265015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4563, '2016-07-12 09:27:53', 1, 0.273016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4564, '2016-07-12 09:28:03', 1, 0.243014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4565, '2016-07-12 09:28:13', 1, 0.271016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4566, '2016-07-12 09:28:21', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4567, '2016-07-12 09:28:24', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4568, '2016-07-12 09:28:33', 1, 0.273016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4569, '2016-07-12 09:28:43', 1, 0.284016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4570, '2016-07-12 09:28:53', 1, 0.268016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4571, '2016-07-12 09:29:03', 1, 0.270016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4572, '2016-07-12 09:29:13', 1, 0.273016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4573, '2016-07-12 09:29:23', 1, 0.235014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4574, '2016-07-12 09:29:33', 1, 0.244014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4575, '2016-07-12 09:29:43', 1, 0.279016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4576, '2016-07-12 09:29:53', 1, 0.277016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4577, '2016-07-12 09:29:59', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(4578, '2016-07-12 09:30:04', 1, 0.246014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4579, '2016-07-12 09:30:14', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4580, '2016-07-12 09:30:24', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4581, '2016-07-12 09:30:30', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4582, '2016-07-12 09:30:35', 1, 0.238013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4583, '2016-07-12 09:30:45', 1, 0.238013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4584, '2016-07-12 09:30:55', 1, 0.258015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4585, '2016-07-12 09:31:05', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4586, '2016-07-12 09:31:06', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4587, '2016-07-12 09:31:15', 1, 0.248015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4588, '2016-07-12 09:31:25', 1, 0.254014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4589, '2016-07-12 09:31:35', 1, 0.237013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4590, '2016-07-12 09:31:45', 1, 0.258015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4591, '2016-07-12 09:31:53', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4592, '2016-07-12 09:31:56', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4593, '2016-07-12 09:32:06', 1, 0.237014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4594, '2016-07-12 09:32:16', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4595, '2016-07-12 09:32:19', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4596, '2016-07-12 09:32:27', 1, 0.397022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4597, '2016-07-12 09:32:31', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4598, '2016-07-12 09:32:38', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4599, '2016-07-12 09:32:42', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4600, '2016-07-12 09:32:48', 1, 0.359021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4601, '2016-07-12 09:32:58', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4602, '2016-07-12 09:33:08', 1, 0.411023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4603, '2016-07-12 09:33:10', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4604, '2016-07-12 09:33:19', 1, 0.275016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4605, '2016-07-12 09:33:29', 1, 0.271015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4606, '2016-07-12 09:33:39', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4607, '2016-07-12 09:33:49', 1, 0.36402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4608, '2016-07-12 09:33:59', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4609, '2016-07-12 09:34:09', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4610, '2016-07-12 09:34:19', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4611, '2016-07-12 09:34:29', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4612, '2016-07-12 09:34:39', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4613, '2016-07-12 09:34:49', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4614, '2016-07-12 09:34:59', 1, 0.273016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4615, '2016-07-12 09:35:09', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4616, '2016-07-12 09:35:19', 1, 0.471026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4617, '2016-07-12 09:35:22', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4618, '2016-07-12 09:35:29', 1, 0.252015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4619, '2016-07-12 09:35:39', 1, 0.236014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4620, '2016-07-12 09:35:49', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4621, '2016-07-12 09:35:54', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4622, '2016-07-12 09:36:01', 1, 0.270016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4623, '2016-07-12 09:36:11', 1, 0.264015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4624, '2016-07-12 09:36:21', 1, 0.262015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4625, '2016-07-12 09:36:31', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4626, '2016-07-12 09:36:41', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4627, '2016-07-12 09:36:51', 1, 0.263015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4628, '2016-07-12 09:37:01', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4629, '2016-07-12 09:37:05', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4630, '2016-07-12 09:37:11', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4631, '2016-07-12 09:37:21', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4632, '2016-07-12 09:37:31', 1, 0.254014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4633, '2016-07-12 09:37:41', 1, 0.239014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4634, '2016-07-12 09:37:51', 1, 0.259015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4635, '2016-07-12 09:38:01', 1, 0.256015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4636, '2016-07-12 09:38:08', 1, 0.552031, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', 6371672),
+(4637, '2016-07-12 09:38:09', 1, 1.02206, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9924840),
+(4638, '2016-07-12 09:38:10', 1, 0.769044, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9954736),
+(4639, '2016-07-12 09:38:13', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4640, '2016-07-12 09:38:23', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4641, '2016-07-12 09:38:32', 1, 0.965055, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9955464),
+(4642, '2016-07-12 09:38:33', 1, 0.596034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4643, '2016-07-12 09:38:35', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4644, '2016-07-12 09:38:44', 1, 0.608034, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', 6371744),
+(4645, '2016-07-12 09:38:45', 1, 1.16807, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9924840),
+(4646, '2016-07-12 09:38:46', 1, 1.28007, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9954736),
+(4647, '2016-07-12 09:38:47', 1, 1.45008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4648, '2016-07-12 09:38:48', 1, 0.289017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4649, '2016-07-12 09:38:58', 1, 0.248014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4650, '2016-07-12 09:39:08', 1, 0.241014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4651, '2016-07-12 09:39:18', 1, 0.327018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4652, '2016-07-12 09:39:28', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4653, '2016-07-12 09:39:38', 1, 0.254015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4654, '2016-07-12 09:39:48', 1, 0.275015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4655, '2016-07-12 09:39:58', 1, 0.264015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4656, '2016-07-12 09:40:08', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4657, '2016-07-12 09:40:18', 1, 0.254014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4658, '2016-07-12 09:40:28', 1, 0.674038, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4659, '2016-07-12 09:40:38', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4660, '2016-07-12 09:40:48', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4661, '2016-07-12 09:40:58', 1, 0.248014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4662, '2016-07-12 09:41:08', 1, 0.289017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4663, '2016-07-12 09:41:18', 1, 0.238013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4664, '2016-07-12 09:41:28', 1, 0.250014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4665, '2016-07-12 09:41:38', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4666, '2016-07-12 09:41:48', 1, 0.414024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4667, '2016-07-12 09:41:58', 1, 0.261015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4668, '2016-07-12 09:42:08', 1, 0.310017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4669, '2016-07-12 09:42:18', 1, 0.276016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4670, '2016-07-12 09:42:28', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4671, '2016-07-12 09:42:38', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4672, '2016-07-12 09:42:48', 1, 0.291016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4673, '2016-07-12 09:42:58', 1, 0.262015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4674, '2016-07-12 09:43:08', 1, 0.256014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4675, '2016-07-12 09:43:18', 1, 0.272015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4676, '2016-07-12 09:43:28', 1, 0.278016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4677, '2016-07-12 09:43:38', 1, 0.225013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4678, '2016-07-12 09:43:48', 1, 0.272016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4679, '2016-07-12 09:43:58', 1, 0.249014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4680, '2016-07-12 09:44:08', 1, 0.232014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4681, '2016-07-12 09:44:18', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4682, '2016-07-12 09:44:28', 1, 0.276015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4683, '2016-07-12 09:44:38', 1, 0.252015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4684, '2016-07-12 09:44:48', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4685, '2016-07-12 09:44:58', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4686, '2016-07-12 09:45:08', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4687, '2016-07-12 09:45:18', 1, 0.456026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4688, '2016-07-12 09:45:28', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4689, '2016-07-12 09:45:38', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4690, '2016-07-12 09:45:45', 1, 0.608035, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', 6372304),
+(4691, '2016-07-12 09:45:46', 1, 1.08106, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9925344),
+(4692, '2016-07-12 09:45:47', 1, 1.10706, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9955448),
+(4693, '2016-07-12 09:45:51', 1, 0.452026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4694, '2016-07-12 09:46:00', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4695, '2016-07-12 09:46:10', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4696, '2016-07-12 09:46:22', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4697, '2016-07-12 09:46:32', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4698, '2016-07-12 09:46:42', 1, 0.255015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4699, '2016-07-12 09:46:52', 1, 0.269015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4700, '2016-07-12 09:47:02', 1, 0.261015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4701, '2016-07-12 09:47:12', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4702, '2016-07-12 09:47:22', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4703, '2016-07-12 09:47:32', 1, 0.272016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4704, '2016-07-12 09:47:42', 1, 0.272015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4705, '2016-07-12 09:47:52', 1, 0.261015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4706, '2016-07-12 09:48:02', 1, 0.289016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4707, '2016-07-12 09:48:12', 1, 0.256015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4708, '2016-07-12 09:48:22', 1, 0.253015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4709, '2016-07-12 09:48:32', 1, 0.272015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4710, '2016-07-12 09:48:42', 1, 0.285017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4711, '2016-07-12 09:48:52', 1, 0.259015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4712, '2016-07-12 09:49:02', 1, 0.247014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4713, '2016-07-12 09:49:12', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4714, '2016-07-12 09:49:22', 1, 0.246014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4715, '2016-07-12 09:49:32', 1, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4716, '2016-07-12 09:49:42', 1, 0.247014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4717, '2016-07-12 09:49:52', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4718, '2016-07-12 09:50:02', 1, 0.263015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4719, '2016-07-12 09:50:12', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4720, '2016-07-12 09:50:22', 1, 0.253015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4721, '2016-07-12 09:50:32', 1, 0.269015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4722, '2016-07-12 09:50:42', 1, 0.248014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4723, '2016-07-12 09:50:52', 1, 0.252015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4724, '2016-07-12 09:51:02', 1, 0.255015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4725, '2016-07-12 09:51:12', 1, 0.270016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4726, '2016-07-12 09:51:22', 1, 0.292017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4727, '2016-07-12 09:51:32', 1, 0.250014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4728, '2016-07-12 09:51:42', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4729, '2016-07-12 09:51:52', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4730, '2016-07-12 09:52:02', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4731, '2016-07-12 09:52:12', 1, 0.275015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4732, '2016-07-12 09:52:22', 1, 0.291017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4733, '2016-07-12 09:52:32', 1, 0.270015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4734, '2016-07-12 09:52:42', 1, 0.274015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4735, '2016-07-12 09:52:52', 1, 0.261015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4736, '2016-07-12 09:53:02', 1, 0.278016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4737, '2016-07-12 09:53:12', 1, 0.294016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4738, '2016-07-12 09:53:22', 1, 0.279016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4739, '2016-07-12 09:53:32', 1, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4740, '2016-07-12 09:53:42', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4741, '2016-07-12 09:53:52', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4742, '2016-07-12 09:54:02', 1, 0.308018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4743, '2016-07-12 09:54:12', 1, 0.282016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4744, '2016-07-12 09:54:22', 1, 0.284016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4745, '2016-07-12 09:54:31', 1, 0.767044, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9956048),
+(4746, '2016-07-12 09:54:37', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4747, '2016-07-12 09:54:46', 1, 0.274016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4748, '2016-07-12 09:54:56', 1, 0.254014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4749, '2016-07-12 09:55:04', 1, 0.737043, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9956048),
+(4750, '2016-07-12 09:55:07', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4751, '2016-07-12 09:55:10', 1, 0.714041, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9954680),
+(4752, '2016-07-12 09:55:13', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4753, '2016-07-12 09:55:23', 1, 0.276016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4754, '2016-07-12 09:55:33', 1, 0.264015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4755, '2016-07-12 09:55:38', 1, 0.717041, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9954680),
+(4756, '2016-07-12 09:55:41', 1, 0.271016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4757, '2016-07-12 09:55:51', 1, 0.247014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4758, '2016-07-12 09:56:01', 1, 0.779045, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4759, '2016-07-12 09:56:11', 1, 0.248014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4760, '2016-07-12 09:56:13', 1, 0.70004, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9954560),
+(4761, '2016-07-12 09:56:16', 1, 0.318019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4762, '2016-07-12 09:56:26', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4763, '2016-07-12 09:56:35', 1, 0.291016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4764, '2016-07-12 09:56:46', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4765, '2016-07-12 09:56:56', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4766, '2016-07-12 09:56:59', 1, 0.757043, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9954920),
+(4767, '2016-07-12 09:57:02', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4768, '2016-07-12 09:57:12', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4769, '2016-07-12 09:57:22', 1, 0.494028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4770, '2016-07-12 09:57:23', 1, 0.469027, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', 6372320),
+(4771, '2016-07-12 09:57:24', 1, 1.00706, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9925408),
+(4772, '2016-07-12 09:57:24', 1, 0.799045, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9955520),
+(4773, '2016-07-12 09:57:27', 1, 0.302017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4774, '2016-07-12 09:57:28', 1, 0.69304, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9954680),
+(4775, '2016-07-12 09:57:31', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4776, '2016-07-12 09:57:41', 1, 0.243014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4777, '2016-07-12 09:57:51', 1, 0.243014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4778, '2016-07-12 09:58:01', 1, 0.279016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4779, '2016-07-12 09:58:11', 1, 0.246014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4780, '2016-07-12 09:58:21', 1, 0.263015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4781, '2016-07-12 09:58:30', 1, 1.27507, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9955376),
+(4782, '2016-07-12 09:58:31', 1, 0.893051, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4783, '2016-07-12 09:58:33', 1, 0.294017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4784, '2016-07-12 09:58:40', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4785, '2016-07-12 09:58:44', 1, 0.286017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4786, '2016-07-12 09:58:54', 1, 0.274015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4787, '2016-07-12 09:59:04', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4788, '2016-07-12 09:59:06', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4789, '2016-07-12 09:59:14', 1, 0.278016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4790, '2016-07-12 09:59:24', 1, 0.257015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4791, '2016-07-12 09:59:34', 1, 0.256015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4792, '2016-07-12 09:59:44', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4793, '2016-07-12 09:59:55', 1, 0.260015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4794, '2016-07-12 10:00:05', 1, 0.258015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4795, '2016-07-12 10:00:15', 1, 0.247014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4796, '2016-07-12 10:00:25', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', NULL),
+(4797, '2016-07-12 10:00:26', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4798, '2016-07-12 10:00:36', 1, 0.425024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4799, '2016-07-12 10:00:37', 1, 0.383022, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', 6372664),
+(4800, '2016-07-12 10:00:37', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', NULL),
+(4801, '2016-07-12 10:00:38', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4802, '2016-07-12 10:00:40', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4803, '2016-07-12 10:01:01', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4804, '2016-07-12 10:01:33', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4805, '2016-07-12 10:03:11', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4806, '2016-07-12 10:05:34', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4807, '2016-07-12 10:06:49', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4808, '2016-07-12 10:07:09', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4809, '2016-07-12 10:07:39', 1, 1.60009, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9955592),
+(4810, '2016-07-12 10:07:43', 1, 0.808046, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4811, '2016-07-12 10:07:51', 1, 0.547031, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', 6372736),
+(4812, '2016-07-12 10:07:51', 1, 0.777044, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9925840),
+(4813, '2016-07-12 10:07:52', 1, 0.785045, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9955752),
+(4814, '2016-07-12 10:07:54', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4815, '2016-07-12 10:07:57', 1, 0.379022, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', 6372664),
+(4816, '2016-07-12 10:07:58', 1, 1.23107, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9925824),
+(4817, '2016-07-12 10:07:59', 1, 1.17307, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9955744),
+(4818, '2016-07-12 10:08:01', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4819, '2016-07-12 10:08:11', 1, 0.262015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4820, '2016-07-12 10:08:21', 1, 0.239013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4821, '2016-07-12 10:08:31', 1, 0.273015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4822, '2016-07-12 10:08:41', 1, 0.260015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4823, '2016-07-12 10:08:52', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4824, '2016-07-12 10:09:02', 1, 0.243014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4825, '2016-07-12 10:09:12', 1, 0.252015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4826, '2016-07-12 10:09:22', 1, 0.223012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4827, '2016-07-12 10:09:32', 1, 0.270016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4828, '2016-07-12 10:09:42', 1, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4829, '2016-07-12 10:09:52', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4830, '2016-07-12 10:10:02', 1, 0.290017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4831, '2016-07-12 10:10:12', 1, 0.258015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4832, '2016-07-12 10:10:22', 1, 0.264015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4833, '2016-07-12 10:10:32', 1, 0.257015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4834, '2016-07-12 10:10:42', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4835, '2016-07-12 10:10:49', 1, 1.24807, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9853680),
+(4836, '2016-07-12 10:10:52', 1, 0.269015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4837, '2016-07-12 10:10:53', 1, 1.57309, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 11052072),
+(4838, '2016-07-12 10:10:56', 1, 0.288017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4839, '2016-07-12 10:11:00', 1, 1.40908, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', 7402376),
+(4840, '2016-07-12 10:11:05', 1, NULL, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', NULL),
+(4841, '2016-07-12 10:11:09', 1, 0.282016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4842, '2016-07-12 10:11:19', 1, 0.269015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4843, '2016-07-12 10:11:29', 1, 0.264016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4844, '2016-07-12 10:11:39', 1, 0.267015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4845, '2016-07-12 10:11:49', 1, 0.280016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4846, '2016-07-12 10:11:59', 1, 0.260015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4847, '2016-07-12 10:12:09', 1, 0.264016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4848, '2016-07-12 10:12:19', 1, 0.258015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4849, '2016-07-12 10:12:29', 1, 0.250014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4850, '2016-07-12 10:12:31', 1, 0.567032, '127.0.0.1', 'GET', 1, 'ac-ac-espec/view', 7402296),
+(4851, '2016-07-12 10:12:34', 1, 0.927053, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', 8435544),
+(4852, '2016-07-12 10:12:41', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4853, '2016-07-12 10:12:42', 1, 0.814046, '127.0.0.1', 'POST', 1, 'ac-ac-espec/update', 7880336),
+(4854, '2016-07-12 10:12:43', 1, 0.680038, '127.0.0.1', 'GET', 1, 'accion-centralizada/view', 10541488),
+(4855, '2016-07-12 10:12:53', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817528),
+(4856, '2016-07-12 10:12:58', 1, 0.830047, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9497840),
+(4857, '2016-07-12 10:12:59', 1, 0.265015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4858, '2016-07-12 10:13:01', 1, 0.762044, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9458848),
+(4859, '2016-07-12 10:13:03', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4860, '2016-07-12 10:13:04', 1, 0.69604, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7853344),
+(4861, '2016-07-12 10:13:07', 1, 0.483028, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269944),
+(4862, '2016-07-12 10:13:08', 1, 0.330019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223432),
+(4863, '2016-07-12 10:13:10', 1, 0.300017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251984),
+(4864, '2016-07-12 10:13:12', 1, 0.266015, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6267224),
+(4865, '2016-07-12 10:13:14', 1, 0.252015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4866, '2016-07-12 10:13:14', 1, 0.747042, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7225464),
+(4867, '2016-07-12 10:13:15', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', NULL),
+(4868, '2016-07-12 10:13:16', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(4869, '2016-07-12 10:14:27', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(4870, '2016-07-12 10:14:54', 1, 0.708041, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9968048),
+(4871, '2016-07-12 10:14:56', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817952),
+(4872, '2016-07-12 10:15:01', 1, 0.584033, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7573440),
+(4873, '2016-07-12 10:15:06', 1, 0.252014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4874, '2016-07-12 10:15:16', 1, 0.678038, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7893712),
+(4875, '2016-07-12 10:15:17', 1, 0.278016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4876, '2016-07-12 10:15:21', 1, 0.293016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270032),
+(4877, '2016-07-12 10:15:22', 1, 0.273015, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223432),
+(4878, '2016-07-12 10:15:24', 1, 0.316018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270784),
+(4879, '2016-07-12 10:15:24', 1, 0.289016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223432),
+(4880, '2016-07-12 10:15:25', 1, 0.336019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251576),
+(4881, '2016-07-12 10:15:27', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4882, '2016-07-12 10:15:27', 1, 0.332019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6268400),
+(4883, '2016-07-12 10:15:30', 1, 0.609035, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7872736),
+(4884, '2016-07-12 10:15:31', 1, 0.604035, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9571208),
+(4885, '2016-07-12 10:15:35', 1, 0.676038, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7893664),
+(4886, '2016-07-12 10:15:39', 1, 0.261015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4887, '2016-07-12 10:15:48', 1, 0.292017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6269944),
+(4888, '2016-07-12 10:15:48', 1, 0.283017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6223432),
+(4889, '2016-07-12 10:15:49', 1, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4890, '2016-07-12 10:15:49', 1, 0.301017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6270784),
+(4891, '2016-07-12 10:15:50', 1, 0.332019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6251576),
+(4892, '2016-07-12 10:15:59', 1, 0.267015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4893, '2016-07-12 10:16:09', 1, 0.277016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4894, '2016-07-12 10:16:19', 1, 0.235013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4895, '2016-07-12 10:16:29', 1, 0.237013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4896, '2016-07-12 10:16:39', 1, 0.282016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4897, '2016-07-12 10:16:49', 1, 0.221013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4898, '2016-07-12 10:16:59', 1, 0.252015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4899, '2016-07-12 10:17:09', 1, 0.239013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4900, '2016-07-12 10:17:19', 1, 0.244014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4901, '2016-07-12 10:17:29', 1, 0.248014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4902, '2016-07-12 10:17:39', 1, 0.291017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4903, '2016-07-12 10:17:49', 1, 0.299017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4904, '2016-07-12 10:17:59', 1, 0.259014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 5817600),
+(4905, '2016-07-12 10:18:04', 1, 0.400023, '127.0.0.1', 'POST', 0, 'site/logout', 5853096),
+(4906, '2016-07-12 10:18:05', 0, 0.252015, '127.0.0.1', 'GET', 0, 'site/index', 5388832),
+(4907, '2016-07-12 10:18:05', 0, 0.570032, '127.0.0.1', 'GET', 0, 'user/security/login', 6629192),
+(4908, '2016-07-12 10:18:10', 0, 1.39408, '127.0.0.1', 'POST', 1, 'user/security/login', 6227760),
+(4909, '2016-07-12 10:18:12', 0, 1.23007, '127.0.0.1', 'POST', 0, 'user/security/login', 6179256),
+(4910, '2016-07-12 10:18:13', 2, 0.413023, '127.0.0.1', 'GET', 0, 'site/index', 6886688),
+(4911, '2016-07-12 10:18:14', 2, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(4912, '2016-07-12 10:18:20', 2, 0.271016, '127.0.0.1', 'POST', 0, 'site/logout', 5853016),
+(4913, '2016-07-12 10:18:20', 0, 0.237014, '127.0.0.1', 'GET', 0, 'site/index', 5388832),
+(4914, '2016-07-12 10:18:20', 0, 0.35502, '127.0.0.1', 'GET', 0, 'user/security/login', 6629080),
+(4915, '2016-07-12 10:18:32', 0, 0.428025, '127.0.0.1', 'GET', 0, 'site/index', 5386136),
+(4916, '2016-07-12 10:18:32', 0, 0.756044, '127.0.0.1', 'GET', 0, 'user/security/login', 7566608),
+(4917, '2016-07-12 10:18:39', 0, 1.24907, '127.0.0.1', 'POST', 1, 'user/security/login', 6226496),
+(4918, '2016-07-12 10:18:41', 0, 1.20107, '127.0.0.1', 'POST', 0, 'user/security/login', 6178136),
+(4919, '2016-07-12 10:18:42', 2, 0.454026, '127.0.0.1', 'GET', 0, 'site/index', 7220520),
+(4920, '2016-07-12 10:18:46', 2, 0.842049, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9633368),
+(4921, '2016-07-12 10:18:49', 2, 1.05406, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9998312),
+(4922, '2016-07-12 10:18:59', 2, 0.890051, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/create', 8167600),
+(4923, '2016-07-12 10:19:11', 2, 0.340019, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6208912),
+(4924, '2016-07-12 10:19:19', 2, 0.623036, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/create', 7164288),
+(4925, '2016-07-12 10:19:20', 2, 0.642037, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9638392),
+(4926, '2016-07-12 10:19:24', 2, 0.789045, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/update', 8191448),
+(4927, '2016-07-12 10:19:24', 2, 0.253015, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6208912),
+(4928, '2016-07-12 10:19:34', 2, 0.35502, '127.0.0.1', 'POST', 0, 'user/security/logout', 5899224),
+(4929, '2016-07-12 10:19:34', 0, 2.74516, '127.0.0.1', 'GET', 0, 'user/security/login', 7459744),
+(4930, '2016-07-12 10:19:48', 0, 0.245014, '127.0.0.1', 'GET', 0, 'site/index', 5380816),
+(4931, '2016-07-12 10:19:48', 0, 0.457026, '127.0.0.1', 'GET', 0, 'user/security/login', 6743592),
+(4932, '2016-07-12 10:19:52', 0, 1.15207, '127.0.0.1', 'POST', 1, 'user/security/login', 6227752),
+(4933, '2016-07-12 10:19:53', 0, 1.25907, '127.0.0.1', 'POST', 0, 'user/security/login', 6179240),
+(4934, '2016-07-12 10:19:55', 1, 0.378021, '127.0.0.1', 'GET', 0, 'site/index', 6886680),
+(4935, '2016-07-12 10:19:56', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4936, '2016-07-12 10:20:00', 1, 0.583034, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9497680),
+(4937, '2016-07-12 10:20:02', 1, 0.405023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4938, '2016-07-12 10:20:04', 1, 0.719041, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698848),
+(4939, '2016-07-12 10:20:06', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4940, '2016-07-12 10:20:11', 1, 0.680038, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9711120),
+(4941, '2016-07-12 10:20:13', 1, 0.410024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4942, '2016-07-12 10:20:20', 1, 0.690039, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698848),
+(4943, '2016-07-12 10:20:22', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4944, '2016-07-12 10:20:32', 1, 0.299017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4945, '2016-07-12 10:20:42', 1, 0.371022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4946, '2016-07-12 10:20:52', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4947, '2016-07-12 10:21:02', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4948, '2016-07-12 10:21:12', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4949, '2016-07-12 10:21:22', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4950, '2016-07-12 10:21:32', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4951, '2016-07-12 10:21:42', 1, 0.301018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4952, '2016-07-12 10:21:52', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4953, '2016-07-12 10:22:02', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4954, '2016-07-12 10:22:12', 1, 0.323019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4955, '2016-07-12 10:22:22', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4956, '2016-07-12 10:22:32', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4957, '2016-07-12 10:22:42', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4958, '2016-07-12 10:22:52', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4959, '2016-07-12 10:23:02', 1, 0.308017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4960, '2016-07-12 10:23:12', 1, 0.33302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139872),
+(4961, '2016-07-12 10:23:13', 1, 0.786045, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10004528),
+(4962, '2016-07-12 10:23:15', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4963, '2016-07-12 10:23:20', 1, 0.952054, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/view', 7457392),
+(4964, '2016-07-12 10:23:23', 1, 0.856049, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/update', 8193112),
+(4965, '2016-07-12 10:23:25', 1, 0.365021, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6210824),
+(4966, '2016-07-12 10:23:28', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4967, '2016-07-12 10:23:32', 1, 0.633036, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/update', 7740904),
+(4968, '2016-07-12 10:23:33', 1, 0.640037, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9623664),
+(4969, '2016-07-12 10:23:39', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4970, '2016-07-12 10:23:40', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', NULL),
+(4971, '2016-07-12 10:23:41', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', NULL),
+(4972, '2016-07-12 10:23:42', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4973, '2016-07-12 10:23:46', 1, 0.88205, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10004552),
+(4974, '2016-07-12 10:23:47', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4975, '2016-07-12 10:23:57', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4976, '2016-07-12 10:24:07', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4977, '2016-07-12 10:24:18', 1, 0.51403, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4978, '2016-07-12 10:24:27', 1, 0.602034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4979, '2016-07-12 10:24:37', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4980, '2016-07-12 10:24:46', 1, 0.617035, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9497840),
+(4981, '2016-07-12 10:24:47', 1, 0.34202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4982, '2016-07-12 10:24:50', 1, 1.18307, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9967304),
+(4983, '2016-07-12 10:24:53', 1, 0.424024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4984, '2016-07-12 10:24:56', 1, 0.930053, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7893664),
+(4985, '2016-07-12 10:25:04', 1, 0.415024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4986, '2016-07-12 10:25:14', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4987, '2016-07-12 10:25:24', 1, 0.412024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4988, '2016-07-12 10:25:34', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4989, '2016-07-12 10:25:44', 1, 0.300017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4990, '2016-07-12 10:25:54', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4991, '2016-07-12 10:26:04', 1, 0.290016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4992, '2016-07-12 10:26:14', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4993, '2016-07-12 10:26:24', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4994, '2016-07-12 10:26:34', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4995, '2016-07-12 10:26:44', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4996, '2016-07-12 10:26:54', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4997, '2016-07-12 10:27:04', 1, 0.306017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4998, '2016-07-12 10:27:14', 1, 0.342019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(4999, '2016-07-12 10:27:24', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5000, '2016-07-12 10:27:34', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5001, '2016-07-12 10:27:44', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5002, '2016-07-12 10:27:54', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5003, '2016-07-12 10:28:04', 1, 0.311018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5004, '2016-07-12 10:28:14', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5005, '2016-07-12 10:28:24', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5006, '2016-07-12 10:28:34', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5007, '2016-07-12 10:28:44', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5008, '2016-07-12 10:28:54', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5009, '2016-07-12 10:29:04', 1, 0.299017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5010, '2016-07-12 10:29:13', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', NULL),
+(5011, '2016-07-12 10:29:15', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5012, '2016-07-12 10:29:25', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5013, '2016-07-12 10:29:35', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5014, '2016-07-12 10:29:45', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5015, '2016-07-12 10:29:55', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5016, '2016-07-12 10:30:05', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5017, '2016-07-12 10:30:15', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5018, '2016-07-12 10:30:25', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5019, '2016-07-12 10:30:35', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5020, '2016-07-12 10:30:45', 1, 0.369021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5021, '2016-07-12 10:30:55', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5022, '2016-07-12 10:31:05', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5023, '2016-07-12 10:31:15', 1, 0.300017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5024, '2016-07-12 10:31:25', 1, 0.553031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5025, '2016-07-12 10:31:35', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5026, '2016-07-12 10:31:45', 1, 0.585033, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5027, '2016-07-12 10:31:55', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5028, '2016-07-12 10:32:05', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5029, '2016-07-12 10:32:15', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5030, '2016-07-12 10:32:25', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5031, '2016-07-12 10:32:35', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5032, '2016-07-12 10:32:45', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5033, '2016-07-12 10:32:55', 1, 0.324018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5034, '2016-07-12 10:33:05', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5035, '2016-07-12 10:33:15', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(5036, '2016-07-12 10:33:25', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5037, '2016-07-12 10:33:35', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5038, '2016-07-12 10:33:46', 1, 0.383022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5039, '2016-07-12 10:33:51', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', NULL),
+(5040, '2016-07-12 10:33:57', 1, 0.36002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5041, '2016-07-12 10:34:02', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', NULL),
+(5042, '2016-07-12 10:34:08', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5043, '2016-07-12 10:34:18', 1, 0.496028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5044, '2016-07-12 10:34:28', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5045, '2016-07-12 10:34:38', 1, 0.405024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5046, '2016-07-12 10:34:48', 1, 0.370022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5047, '2016-07-12 10:34:58', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5048, '2016-07-12 10:35:08', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5049, '2016-07-12 10:35:18', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5050, '2016-07-12 10:35:28', 1, 0.36102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5051, '2016-07-12 10:35:38', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5052, '2016-07-12 10:35:48', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5053, '2016-07-12 10:35:58', 1, 0.349019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5054, '2016-07-12 10:36:08', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5055, '2016-07-12 10:36:18', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5056, '2016-07-12 10:36:28', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5057, '2016-07-12 10:36:36', 1, 0.68904, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7893984),
+(5058, '2016-07-12 10:36:39', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5059, '2016-07-12 10:36:45', 1, 0.399023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6271160),
+(5060, '2016-07-12 10:36:45', 1, 0.327019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6224576),
+(5061, '2016-07-12 10:36:47', 1, 0.34902, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6224576),
+(5062, '2016-07-12 10:36:49', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5063, '2016-07-12 10:36:49', 1, 0.409024, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6271872),
+(5064, '2016-07-12 10:36:50', 1, 0.389022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6252720),
+(5065, '2016-07-12 10:36:53', 1, 0.318018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6224576),
+(5066, '2016-07-12 10:36:57', 1, 0.393022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6252720),
+(5067, '2016-07-12 10:36:59', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5068, '2016-07-12 10:37:01', 1, 0.377022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6224576),
+(5069, '2016-07-12 10:37:04', 1, 0.375022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6271032),
+(5070, '2016-07-12 10:37:04', 1, 0.363021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6224576),
+(5071, '2016-07-12 10:37:05', 1, 0.394023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253128),
+(5072, '2016-07-12 10:37:09', 1, 0.411024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5073, '2016-07-12 10:37:11', 1, 0.591033, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7893984),
+(5074, '2016-07-12 10:37:20', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5075, '2016-07-12 10:37:30', 1, 0.292016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5076, '2016-07-12 10:37:40', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5077, '2016-07-12 10:37:50', 1, 0.597035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5078, '2016-07-12 10:38:00', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5079, '2016-07-12 10:38:10', 1, 0.326018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5080, '2016-07-12 10:38:20', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5081, '2016-07-12 10:38:30', 1, 0.367021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5082, '2016-07-12 10:38:40', 1, 0.304018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5083, '2016-07-12 10:38:50', 1, 0.306017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5084, '2016-07-12 10:39:00', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5085, '2016-07-12 10:39:10', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5086, '2016-07-12 10:39:20', 1, 0.305018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5087, '2016-07-12 10:39:30', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5088, '2016-07-12 10:39:40', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5089, '2016-07-12 10:39:50', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5090, '2016-07-12 10:40:00', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5091, '2016-07-12 10:40:10', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5092, '2016-07-12 10:40:20', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5093, '2016-07-12 10:40:30', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5094, '2016-07-12 10:40:40', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5095, '2016-07-12 10:40:50', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5096, '2016-07-12 10:41:00', 1, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5097, '2016-07-12 10:41:10', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5098, '2016-07-12 10:41:20', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5099, '2016-07-12 10:41:30', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5100, '2016-07-12 10:41:40', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5101, '2016-07-12 10:41:50', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5102, '2016-07-12 10:42:00', 1, 0.321019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5103, '2016-07-12 10:42:10', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5104, '2016-07-12 10:42:20', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5105, '2016-07-12 10:42:30', 1, 0.328018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5106, '2016-07-12 10:42:40', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5107, '2016-07-12 10:42:50', 1, 0.35902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5108, '2016-07-12 10:43:00', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5109, '2016-07-12 10:43:10', 1, 0.325018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5110, '2016-07-12 10:43:20', 1, 0.323018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5111, '2016-07-12 10:43:30', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5112, '2016-07-12 10:43:38', 1, 0.979056, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9970040),
+(5113, '2016-07-12 10:43:47', 1, 0.400023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6140296),
+(5114, '2016-07-12 10:43:49', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', NULL),
+(5115, '2016-07-12 10:43:58', 1, 0.443025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5116, '2016-07-12 10:44:04', 1, 0.719041, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7939232),
+(5117, '2016-07-12 10:44:09', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5118, '2016-07-12 10:44:14', 1, 0.415024, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6272208),
+(5119, '2016-07-12 10:44:15', 1, 0.335019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5120, '2016-07-12 10:44:17', 1, 0.470027, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6254288),
+(5121, '2016-07-12 10:44:19', 1, 0.394022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5122, '2016-07-12 10:44:22', 1, 0.418024, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5123, '2016-07-12 10:44:23', 1, 0.367021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5124, '2016-07-12 10:44:29', 1, 0.411024, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5125, '2016-07-12 10:44:29', 1, 0.496029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5126, '2016-07-12 10:44:32', 1, 0.397022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5127, '2016-07-12 10:44:35', 1, 0.335019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6272336),
+(5128, '2016-07-12 10:44:35', 1, 0.34702, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5129, '2016-07-12 10:44:37', 1, 0.383022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5130, '2016-07-12 10:44:39', 1, 0.469027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5131, '2016-07-12 10:44:42', 1, 0.391023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6272296),
+(5132, '2016-07-12 10:44:43', 1, 0.377022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5133, '2016-07-12 10:44:44', 1, 0.317018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5134, '2016-07-12 10:44:49', 1, 0.412023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5135, '2016-07-12 10:44:52', 1, 0.643037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7939232),
+(5136, '2016-07-12 10:44:58', 1, 0.380022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5137, '2016-07-12 10:45:00', 1, 0.468027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5138, '2016-07-12 10:45:01', 1, 0.336019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5139, '2016-07-12 10:45:02', 1, 0.402023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5140, '2016-07-12 10:45:04', 1, 0.70904, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7966456),
+(5141, '2016-07-12 10:45:11', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5142, '2016-07-12 10:45:12', 1, 0.68904, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7939232),
+(5143, '2016-07-12 10:45:15', 1, 0.35302, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5144, '2016-07-12 10:45:17', 1, 0.590034, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7966456),
+(5145, '2016-07-12 10:45:22', 1, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5146, '2016-07-12 10:45:24', 1, NULL, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', NULL),
+(5147, '2016-07-12 10:45:24', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', NULL),
+(5148, '2016-07-12 10:45:26', 1, 0.53303, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5149, '2016-07-12 10:45:28', 1, 0.772044, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9930760),
+(5150, '2016-07-12 10:45:30', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5151, '2016-07-12 10:45:35', 1, 0.719041, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7939232),
+(5152, '2016-07-12 10:45:41', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5153, '2016-07-12 10:45:51', 1, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5154, '2016-07-12 10:46:01', 1, 0.391022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5155, '2016-07-12 10:46:11', 1, 0.34502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5156, '2016-07-12 10:46:17', 1, 0.593034, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7575496),
+(5157, '2016-07-12 10:46:21', 1, 0.648037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7939232),
+(5158, '2016-07-12 10:46:23', 1, 0.504029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5159, '2016-07-12 10:46:26', 1, 0.383022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6272208),
+(5160, '2016-07-12 10:46:26', 1, 0.382022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5161, '2016-07-12 10:46:27', 1, 0.34902, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6254288),
+(5162, '2016-07-12 10:46:29', 1, 0.372021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5163, '2016-07-12 10:46:31', 1, 0.728042, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7918224),
+(5164, '2016-07-12 10:46:31', 1, 0.782045, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9573768),
+(5165, '2016-07-12 10:46:34', 1, 0.378021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5166, '2016-07-12 10:46:37', 1, 0.626036, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7927544),
+(5167, '2016-07-12 10:46:40', 1, 0.369021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5168, '2016-07-12 10:46:42', 1, 0.626036, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7906568),
+(5169, '2016-07-12 10:46:43', 1, 0.756044, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9573816),
+(5170, '2016-07-12 10:46:45', 1, 0.396022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5171, '2016-07-12 10:46:49', 1, 0.683039, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7927576),
+(5172, '2016-07-12 10:46:57', 1, 0.497028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5173, '2016-07-12 10:46:57', 1, 0.508029, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5174, '2016-07-12 10:46:59', 1, 0.68604, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7906568),
+(5175, '2016-07-12 10:47:00', 1, 0.802046, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9573768),
+(5176, '2016-07-12 10:47:04', 1, 0.653038, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7927544),
+(5177, '2016-07-12 10:47:08', 1, 0.378022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5178, '2016-07-12 10:47:15', 1, 0.430025, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5179, '2016-07-12 10:47:16', 1, 0.442025, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5180, '2016-07-12 10:47:17', 1, 0.416024, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5181, '2016-07-12 10:47:18', 1, 0.429025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5182, '2016-07-12 10:47:19', 1, 0.359021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5183, '2016-07-12 10:47:21', 1, 0.624036, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7954872),
+(5184, '2016-07-12 10:47:29', 1, 0.421024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5185, '2016-07-12 10:47:32', 1, 0.653038, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7836472),
+(5186, '2016-07-12 10:47:33', 1, 0.803046, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9573768),
+(5187, '2016-07-12 10:47:40', 1, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5188, '2016-07-12 10:47:50', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5189, '2016-07-12 10:48:00', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5190, '2016-07-12 10:48:04', 1, 0.69004, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7927544),
+(5191, '2016-07-12 10:48:10', 1, 0.304017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5192, '2016-07-12 10:48:10', 1, 0.281016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5193, '2016-07-12 10:48:11', 1, 0.406023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5194, '2016-07-12 10:48:11', 1, 0.390022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5195, '2016-07-12 10:48:13', 1, 0.277015, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5196, '2016-07-12 10:48:16', 1, 0.777044, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7954872),
+(5197, '2016-07-12 10:48:21', 1, 0.533031, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5198, '2016-07-12 10:48:22', 1, 0.407023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5199, '2016-07-12 10:48:22', 1, 0.53903, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5200, '2016-07-12 10:48:23', 1, 0.463026, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5201, '2016-07-12 10:48:24', 1, 0.714041, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5202, '2016-07-12 10:48:27', 1, 0.746043, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7954872),
+(5203, '2016-07-12 10:48:33', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5204, '2016-07-12 10:48:43', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5205, '2016-07-12 10:48:53', 1, 0.35802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5206, '2016-07-12 10:49:03', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5207, '2016-07-12 10:49:12', 1, 0.389022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273672),
+(5208, '2016-07-12 10:49:13', 1, 0.480027, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6226336),
+(5209, '2016-07-12 10:49:13', 1, 0.594034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5210, '2016-07-12 10:49:14', 1, 0.403023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6254480),
+(5211, '2016-07-12 10:49:16', 1, 0.371021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6271184),
+(5212, '2016-07-12 10:49:18', 1, 0.670039, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7955464),
+(5213, '2016-07-12 10:49:24', 1, 0.453026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5214, '2016-07-12 10:49:29', 1, 0.656038, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7928288),
+(5215, '2016-07-12 10:49:31', 1, 0.371021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273672),
+(5216, '2016-07-12 10:49:32', 1, 0.34702, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6226336),
+(5217, '2016-07-12 10:49:33', 1, 0.370021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6254480),
+(5218, '2016-07-12 10:49:35', 1, 0.517029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5219, '2016-07-12 10:49:35', 1, 0.590034, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6271184),
+(5220, '2016-07-12 10:49:37', 1, 0.643036, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7955464),
+(5221, '2016-07-12 10:49:46', 1, 0.382022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5222, '2016-07-12 10:49:56', 1, 0.308017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5223, '2016-07-12 10:50:06', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5224, '2016-07-12 10:50:16', 1, 0.52603, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273672),
+(5225, '2016-07-12 10:50:16', 1, 0.846049, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5226, '2016-07-12 10:50:17', 1, 0.639037, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6226336),
+(5227, '2016-07-12 10:50:18', 1, 0.398023, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6254480),
+(5228, '2016-07-12 10:50:19', 1, 0.390022, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6271184),
+(5229, '2016-07-12 10:50:21', 1, 0.34602, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6271184),
+(5230, '2016-07-12 10:50:23', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', NULL),
+(5231, '2016-07-12 10:50:27', 1, 0.486028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5232, '2016-07-12 10:50:37', 1, 0.426024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5233, '2016-07-12 10:50:46', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5234, '2016-07-12 10:50:56', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5235, '2016-07-12 10:50:57', 1, 0.829047, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9500536),
+(5236, '2016-07-12 10:50:58', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5237, '2016-07-12 10:51:00', 1, 0.708041, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9931656),
+(5238, '2016-07-12 10:51:02', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5239, '2016-07-12 10:51:12', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5240, '2016-07-12 10:51:22', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5241, '2016-07-12 10:51:32', 1, 0.449026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5242, '2016-07-12 10:51:42', 1, 0.415023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5243, '2016-07-12 10:51:52', 1, 0.314018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5244, '2016-07-12 10:52:02', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5245, '2016-07-12 10:52:12', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5246, '2016-07-12 10:52:22', 1, 0.461026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5247, '2016-07-12 10:52:32', 1, 0.377021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5248, '2016-07-12 10:52:42', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5249, '2016-07-12 10:52:52', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5250, '2016-07-12 10:53:02', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5251, '2016-07-12 10:53:12', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5252, '2016-07-12 10:53:22', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5253, '2016-07-12 10:53:24', 1, 0.677039, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7928200),
+(5254, '2016-07-12 10:53:26', 1, 0.280016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273672),
+(5255, '2016-07-12 10:53:27', 1, 0.267015, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6226336),
+(5256, '2016-07-12 10:53:28', 1, 0.280016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6254480),
+(5257, '2016-07-12 10:53:30', 1, 0.312018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6271184),
+(5258, '2016-07-12 10:53:31', 1, NULL, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', NULL),
+(5259, '2016-07-12 10:53:33', 1, 0.378022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5260, '2016-07-12 10:53:43', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5261, '2016-07-12 10:53:44', 1, 0.660038, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7927592),
+(5262, '2016-07-12 10:53:46', 1, 0.300017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5263, '2016-07-12 10:53:46', 1, 0.316018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5264, '2016-07-12 10:53:48', 1, 0.290016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5265, '2016-07-12 10:53:49', 1, 0.285016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5266, '2016-07-12 10:53:50', 1, 0.592034, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7965000),
+(5267, '2016-07-12 10:53:55', 1, 0.374021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5268, '2016-07-12 10:54:05', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5269, '2016-07-12 10:54:15', 1, 0.340019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5270, '2016-07-12 10:54:25', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5271, '2016-07-12 10:54:35', 1, 0.356021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5272, '2016-07-12 10:54:45', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5273, '2016-07-12 10:54:55', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5274, '2016-07-12 10:55:05', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5275, '2016-07-12 10:55:15', 1, 0.545031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5276, '2016-07-12 10:55:25', 1, 0.401023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5277, '2016-07-12 10:55:35', 1, 0.430024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5278, '2016-07-12 10:55:45', 1, 0.539031, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5279, '2016-07-12 10:55:55', 1, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5280, '2016-07-12 10:56:05', 1, 0.35102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5281, '2016-07-12 10:56:15', 1, 0.357021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5282, '2016-07-12 10:56:25', 1, 0.303017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5283, '2016-07-12 10:56:35', 1, 0.413024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5284, '2016-07-12 10:56:45', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5285, '2016-07-12 10:56:55', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5286, '2016-07-12 10:57:05', 1, 0.34702, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5287, '2016-07-12 10:57:15', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5288, '2016-07-12 10:57:25', 1, 0.296017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5289, '2016-07-12 10:57:35', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139936),
+(5290, '2016-07-12 10:57:45', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5291, '2016-07-12 10:57:51', 1, 0.68504, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7927480),
+(5292, '2016-07-12 10:57:55', 1, 0.281016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5293, '2016-07-12 10:57:55', 1, 0.266015, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5294, '2016-07-12 10:57:56', 1, 0.430025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5295, '2016-07-12 10:57:56', 1, 0.320018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5296, '2016-07-12 10:57:58', 1, 0.326019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5297, '2016-07-12 10:57:59', 1, 0.69904, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7901960),
+(5298, '2016-07-12 10:58:00', 1, 1.27007, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9573424),
+(5299, '2016-07-12 10:58:05', 1, 0.563032, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7856560),
+(5300, '2016-07-12 10:58:08', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5301, '2016-07-12 10:58:08', 1, 0.317018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5302, '2016-07-12 10:58:09', 1, 0.320019, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5303, '2016-07-12 10:58:10', 1, 0.302017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5304, '2016-07-12 10:58:12', 1, 0.373021, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5305, '2016-07-12 10:58:13', 1, 0.291017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5306, '2016-07-12 10:58:16', 1, 0.630036, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7871200),
+(5307, '2016-07-12 10:58:19', 1, 0.415024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5308, '2016-07-12 10:58:29', 1, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5309, '2016-07-12 10:58:39', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5310, '2016-07-12 10:58:45', 1, 0.576033, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7856560),
+(5311, '2016-07-12 10:58:47', 1, 0.298018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6272208),
+(5312, '2016-07-12 10:58:47', 1, 0.36102, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5313, '2016-07-12 10:58:49', 1, 0.297017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6254288),
+(5314, '2016-07-12 10:58:50', 1, 0.35202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5315, '2016-07-12 10:58:52', 1, 0.291017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5316, '2016-07-12 10:58:52', 1, 0.281016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5317, '2016-07-12 10:58:55', 1, 0.286016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5318, '2016-07-12 10:58:57', 1, 0.261015, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5319, '2016-07-12 10:58:59', 1, 0.52803, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7871200),
+(5320, '2016-07-12 10:59:00', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5321, '2016-07-12 10:59:10', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5322, '2016-07-12 10:59:20', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5323, '2016-07-12 10:59:30', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5324, '2016-07-12 10:59:40', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5325, '2016-07-12 10:59:50', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5326, '2016-07-12 11:00:01', 1, 0.518628, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5327, '2016-07-12 11:00:10', 1, 0.370809, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5328, '2016-07-12 11:00:20', 1, 0.388022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5329, '2016-07-12 11:00:30', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5330, '2016-07-12 11:00:40', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5331, '2016-07-12 11:00:50', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5332, '2016-07-12 11:00:51', 1, 0.624001, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7856560),
+(5333, '2016-07-12 11:01:01', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5334, '2016-07-12 11:01:11', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5335, '2016-07-12 11:01:21', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5336, '2016-07-12 11:01:31', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5337, '2016-07-12 11:01:41', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5338, '2016-07-12 11:01:51', 1, 0.390023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5339, '2016-07-12 11:02:01', 1, 0.396023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5340, '2016-07-12 11:02:11', 1, 0.319019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5341, '2016-07-12 11:02:21', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5342, '2016-07-12 11:02:31', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5343, '2016-07-12 11:02:41', 1, 0.313, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5344, '2016-07-12 11:02:51', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5345, '2016-07-12 11:03:01', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5346, '2016-07-12 11:03:11', 1, 0.314001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5347, '2016-07-12 11:03:21', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5348, '2016-07-12 11:03:31', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5349, '2016-07-12 11:03:41', 1, 0.319001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5350, '2016-07-12 11:03:51', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5351, '2016-07-12 11:04:01', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5352, '2016-07-12 11:04:11', 1, 0.391001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5353, '2016-07-12 11:04:14', 1, 0.296401, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5354, '2016-07-12 11:04:15', 1, 0.2652, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5355, '2016-07-12 11:04:17', 1, 0.280801, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5356, '2016-07-12 11:04:19', 1, 0.312001, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5357, '2016-07-12 11:04:22', 1, 0.592801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5358, '2016-07-12 11:04:22', 1, 1.0296, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7874672),
+(5359, '2016-07-12 11:04:33', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5360, '2016-07-12 11:04:35', 1, 0.296401, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5361, '2016-07-12 11:04:35', 1, 0.2964, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5362, '2016-07-12 11:04:37', 1, 0.312, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5363, '2016-07-12 11:04:39', 1, 0.297401, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5364, '2016-07-12 11:04:40', 1, 0.583602, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7224560),
+(5365, '2016-07-12 11:04:41', 1, 0.608401, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9629744),
+(5366, '2016-07-12 11:04:44', 1, 0.314, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5367, '2016-07-12 11:04:45', 1, 0.608401, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7954128),
+(5368, '2016-07-12 11:04:50', 1, 0.268201, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6272208),
+(5369, '2016-07-12 11:04:50', 1, 0.312001, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5370, '2016-07-12 11:04:54', 1, 0.2808, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6273048),
+(5371, '2016-07-12 11:04:54', 1, 0.265201, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253880),
+(5372, '2016-07-12 11:04:54', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5373, '2016-07-12 11:04:57', 1, 0.2964, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225736),
+(5374, '2016-07-12 11:05:03', 1, 0.635002, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7954128),
+(5375, '2016-07-12 11:05:05', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5376, '2016-07-12 11:05:07', 1, 0.272201, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5377, '2016-07-12 11:05:07', 1, 0.620402, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7971792),
+(5378, '2016-07-12 11:05:16', 1, 0.378004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5379, '2016-07-12 11:05:26', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5380, '2016-07-12 11:05:36', 1, 0.408601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5381, '2016-07-12 11:05:46', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5382, '2016-07-12 11:05:56', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5383, '2016-07-12 11:05:57', 1, 0.3276, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5384, '2016-07-12 11:05:58', 1, 0.592801, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7971792),
+(5385, '2016-07-12 11:06:07', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5386, '2016-07-12 11:06:17', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5387, '2016-07-12 11:06:27', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5388, '2016-07-12 11:06:37', 1, 0.313001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5389, '2016-07-12 11:06:47', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5390, '2016-07-12 11:06:57', 1, 0.2974, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5391, '2016-07-12 11:07:07', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5392, '2016-07-12 11:07:17', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5393, '2016-07-12 11:07:24', 1, 0.639602, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7954128),
+(5394, '2016-07-12 11:07:26', 1, 0.312001, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5395, '2016-07-12 11:07:27', 1, 0.639601, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 8005032),
+(5396, '2016-07-12 11:07:29', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5397, '2016-07-12 11:07:32', 1, 0.755202, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7954352),
+(5398, '2016-07-12 11:07:34', 1, 0.2964, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5399, '2016-07-12 11:07:35', 1, 0.639601, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 8005024),
+(5400, '2016-07-12 11:07:40', 1, 1.8272, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5401, '2016-07-12 11:07:50', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5402, '2016-07-12 11:07:58', 1, 0.645602, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7987312),
+(5403, '2016-07-12 11:08:01', 1, 0.2964, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6270560),
+(5404, '2016-07-12 11:08:01', 1, 0.4524, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5405, '2016-07-12 11:08:02', 1, 0.764401, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 8005032),
+(5406, '2016-07-12 11:08:12', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5407, '2016-07-12 11:08:22', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5408, '2016-07-12 11:08:32', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5409, '2016-07-12 11:08:42', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5410, '2016-07-12 11:08:44', 1, 0.655201, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7974776),
+(5411, '2016-07-12 11:08:47', 1, 0.327601, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6269984),
+(5412, '2016-07-12 11:08:48', 1, 0.580201, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7987496),
+(5413, '2016-07-12 11:08:53', 1, 0.578201, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7975000),
+(5414, '2016-07-12 11:08:55', 1, 0.4066, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5415, '2016-07-12 11:08:56', 1, 0.375401, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6269984),
+(5416, '2016-07-12 11:08:57', 1, 0.632001, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7987272),
+(5417, '2016-07-12 11:09:01', 1, 0.686401, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/update', 7987272),
+(5418, '2016-07-12 11:09:06', 1, 0.724002, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/update', 7975000),
+(5419, '2016-07-12 11:09:07', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5420, '2016-07-12 11:09:17', 1, 0.322011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5421, '2016-07-12 11:09:27', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5422, '2016-07-12 11:09:37', 1, 0.342003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5423, '2016-07-12 11:09:38', 1, 0.3598, '127.0.0.1', 'POST', 0, 'site/logout', 5853096),
+(5424, '2016-07-12 11:09:38', 0, 0.234001, '127.0.0.1', 'GET', 0, 'site/index', 5388832),
+(5425, '2016-07-12 11:09:39', 0, 0.659201, '127.0.0.1', 'GET', 0, 'user/security/login', 6629192),
+(5426, '2016-07-12 11:09:45', 0, 1.2812, '127.0.0.1', 'POST', 1, 'user/security/login', 6227752),
+(5427, '2016-07-12 11:09:47', 0, 1.3104, '127.0.0.1', 'POST', 0, 'user/security/login', 6179240),
+(5428, '2016-07-12 11:09:48', 1, 0.567403, '127.0.0.1', 'GET', 0, 'site/index', 6886680),
+(5429, '2016-07-12 11:09:50', 1, 0.329601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139840),
+(5430, '2016-07-12 11:09:56', 1, 0.766402, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9499224),
+(5431, '2016-07-12 11:09:58', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5432, '2016-07-12 11:10:00', 1, 0.727602, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 10034896),
+(5433, '2016-07-12 11:10:02', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5434, '2016-07-12 11:10:04', 1, 0.577201, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7859960),
+(5435, '2016-07-12 11:10:06', 1, 0.286801, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6271528),
+(5436, '2016-07-12 11:10:07', 1, 0.265201, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225128),
+(5437, '2016-07-12 11:10:08', 1, 0.280801, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253680),
+(5438, '2016-07-12 11:10:09', 1, 0.296401, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6269984),
+(5439, '2016-07-12 11:10:12', 1, 0.625001, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7224256),
+(5440, '2016-07-12 11:10:13', 1, 0.734201, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9689592),
+(5441, '2016-07-12 11:10:14', 1, 0.717602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5442, '2016-07-12 11:10:19', 1, 0.619609, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9499368),
+(5443, '2016-07-12 11:10:21', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5444, '2016-07-12 11:10:24', 1, 0.771402, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698848),
+(5445, '2016-07-12 11:10:26', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139840),
+(5446, '2016-07-12 11:10:29', 1, 0.686401, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9711048),
+(5447, '2016-07-12 11:10:31', 1, 0.436801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5448, '2016-07-12 11:10:36', 1, 0.703001, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698848),
+(5449, '2016-07-12 11:10:38', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139840),
+(5450, '2016-07-12 11:10:43', 1, 0.780001, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10004512),
+(5451, '2016-07-12 11:10:46', 1, 0.39, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5452, '2016-07-12 11:10:50', 1, 0.858001, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/update', 8193088),
+(5453, '2016-07-12 11:10:52', 1, 0.39, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6210824),
+(5454, '2016-07-12 11:10:58', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5455, '2016-07-12 11:11:00', 1, 0.688401, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/update', 7740824),
+(5456, '2016-07-12 11:11:01', 1, 0.702002, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9623608),
+(5457, '2016-07-12 11:11:09', 1, 0.3744, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5458, '2016-07-12 11:11:10', 1, 0.398403, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', 6373848),
+(5459, '2016-07-12 11:11:11', 1, 0.866002, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9970880),
+(5460, '2016-07-12 11:11:11', 1, 0.781002, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10004624),
+(5461, '2016-07-12 11:11:13', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5462, '2016-07-12 11:11:23', 1, 0.346002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6139912),
+(5463, '2016-07-12 11:11:28', 1, 0.624001, '127.0.0.1', 'GET', 0, 'site/index', 7316080),
+(5464, '2016-07-12 11:11:32', 1, 0.780001, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9799208),
+(5465, '2016-07-12 11:11:39', 1, 0.702002, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9733968),
+(5466, '2016-07-12 11:13:02', 1, 0.745202, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9799704),
+(5467, '2016-07-12 11:15:41', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', NULL),
+(5468, '2016-07-12 11:15:50', 1, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', NULL),
+(5469, '2016-07-12 11:15:56', 1, 0.749802, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9795864),
+(5470, '2016-07-12 11:16:54', 1, 0.772044, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9709576),
+(5471, '2016-07-12 11:16:57', 1, 0.750043, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9709576),
+(5472, '2016-07-12 11:17:01', 1, 0.778045, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10003272),
+(5473, '2016-07-12 11:17:05', 1, 0.793046, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9709008),
+(5474, '2016-07-12 11:17:09', 1, 0.767044, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10003272),
+(5475, '2016-07-12 11:17:12', 1, 0.915053, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/update', 8191368),
+(5476, '2016-07-12 11:17:13', 1, 0.314018, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6208800),
+(5477, '2016-07-12 11:17:20', 1, 0.528031, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/update', 7590496),
+(5478, '2016-07-12 11:17:21', 1, 0.659038, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9638784),
+(5479, '2016-07-12 11:17:28', 1, 0.676038, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/view', 7307664),
+(5480, '2016-07-12 11:17:44', 1, 0.2808, '127.0.0.1', 'POST', 0, 'user/security/logout', 5899176),
+(5481, '2016-07-12 11:17:44', 0, 0.421201, '127.0.0.1', 'GET', 0, 'user/security/login', 7459744),
+(5482, '2016-07-12 11:17:48', 0, 1.25161, '127.0.0.1', 'POST', 1, 'user/security/login', 6226392),
+(5483, '2016-07-12 11:17:49', 0, 1.2636, '127.0.0.1', 'POST', 0, 'user/security/login', 6178192),
+(5484, '2016-07-12 11:17:51', 2, 0.3744, '127.0.0.1', 'GET', 0, 'site/index', 7220368),
+(5485, '2016-07-12 11:17:53', 2, 0.874602, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9731264),
+(5486, '2016-07-12 11:17:57', 2, 0.702001, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9542760),
+(5487, '2016-07-12 11:18:00', 2, 0.734201, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10012648),
+(5488, '2016-07-12 11:18:09', 2, 0.778803, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/update', 8191320),
+(5489, '2016-07-12 11:18:10', 2, 0.358801, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6208808);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(5490, '2016-07-12 11:18:15', 2, 0.687401, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/update', 8191320),
+(5491, '2016-07-12 11:18:16', 2, 0.296401, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6208808),
+(5492, '2016-07-12 11:18:20', 2, 0.546001, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/update', 7590456),
+(5493, '2016-07-12 11:18:21', 2, 0.686401, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9638296),
+(5494, '2016-07-12 11:18:36', 2, 0.660602, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/create', 8167464),
+(5495, '2016-07-12 11:18:42', 2, 0.324001, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6208808),
+(5496, '2016-07-12 11:18:54', 2, 0.639601, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/create', 7164152),
+(5497, '2016-07-12 11:18:55', 2, 0.655201, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9645224),
+(5498, '2016-07-12 11:21:20', 2, 0.690401, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9542944),
+(5499, '2016-07-12 11:24:34', 2, 0.737202, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9544248),
+(5500, '2016-07-12 11:25:18', 2, 0.717601, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9544248),
+(5501, '2016-07-12 11:25:25', 2, 0.608401, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9201992),
+(5502, '2016-07-12 11:25:37', 2, 0.619402, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9201992),
+(5503, '2016-07-12 14:47:27', 2, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', NULL),
+(5504, '2016-07-12 14:48:07', 2, 0.771044, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9206112),
+(5505, '2016-07-12 14:59:26', 2, 0.744043, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9216160),
+(5506, '2016-07-12 14:59:56', 2, 0.71004, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9216864),
+(5507, '2016-07-12 15:00:10', 2, 0.803046, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9216936),
+(5508, '2016-07-12 15:01:11', 2, NULL, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', NULL),
+(5509, '2016-07-12 15:01:18', 2, 0.630036, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9216976),
+(5510, '2016-07-12 15:01:52', 2, NULL, '127.0.0.1', 'GET', 0, 'site/error', NULL),
+(5511, '2016-07-12 15:01:59', 2, 0.464026, '127.0.0.1', 'POST', 0, 'user/security/logout', 5899184),
+(5512, '2016-07-12 15:01:59', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5513, '2016-07-12 15:02:27', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5514, '2016-07-12 15:02:43', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5515, '2016-07-12 15:02:53', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5516, '2016-07-12 15:03:01', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5517, '2016-07-12 15:03:36', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5518, '2016-07-12 15:04:08', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5519, '2016-07-12 15:04:37', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5520, '2016-07-12 15:06:05', 0, 0.317018, '127.0.0.1', 'GET', 0, 'site/index', 5393656),
+(5521, '2016-07-12 15:06:05', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5522, '2016-07-12 15:06:28', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5523, '2016-07-12 15:07:38', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5524, '2016-07-12 15:08:24', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5525, '2016-07-12 15:09:20', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5526, '2016-07-12 15:09:27', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5527, '2016-07-12 15:09:41', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5528, '2016-07-12 15:09:54', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5529, '2016-07-12 15:10:35', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5530, '2016-07-12 15:11:29', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5531, '2016-07-12 15:12:52', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5532, '2016-07-12 15:12:56', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5533, '2016-07-12 15:13:22', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5534, '2016-07-12 15:15:01', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5535, '2016-07-12 15:15:08', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5536, '2016-07-12 15:15:35', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5537, '2016-07-12 15:15:45', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5538, '2016-07-12 15:16:03', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5539, '2016-07-12 15:16:14', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5540, '2016-07-12 15:16:20', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5541, '2016-07-12 15:16:34', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5542, '2016-07-12 15:16:49', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5543, '2016-07-12 15:16:56', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5544, '2016-07-12 15:17:02', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5545, '2016-07-12 15:18:16', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5546, '2016-07-12 15:18:24', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5547, '2016-07-12 15:18:36', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5548, '2016-07-12 15:22:30', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5549, '2016-07-12 15:22:49', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5550, '2016-07-12 15:23:22', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5551, '2016-07-12 15:23:41', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5552, '2016-07-12 15:23:59', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5553, '2016-07-12 15:24:08', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5554, '2016-07-12 15:24:36', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5555, '2016-07-12 15:24:44', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5556, '2016-07-12 15:24:50', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5557, '2016-07-12 15:24:58', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5558, '2016-07-12 15:25:03', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5559, '2016-07-12 15:25:19', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5560, '2016-07-12 15:25:55', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5561, '2016-07-12 15:26:15', 0, 0.273015, '127.0.0.1', 'GET', 0, 'site/index', 5393656),
+(5562, '2016-07-12 15:26:16', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5563, '2016-07-12 15:26:29', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5564, '2016-07-12 15:27:08', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5565, '2016-07-12 15:27:42', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5566, '2016-07-12 15:27:53', 0, 0.630036, '127.0.0.1', 'GET', 0, 'user/security/login', 7563936),
+(5567, '2016-07-12 15:27:59', 0, 1.32708, '127.0.0.1', 'POST', 1, 'user/security/login', 6226432),
+(5568, '2016-07-12 15:28:01', 0, 1.26907, '127.0.0.1', 'POST', 0, 'user/security/login', 6177960),
+(5569, '2016-07-12 15:28:02', 1, 0.576033, '127.0.0.1', 'GET', 0, 'site/index', 7317336),
+(5570, '2016-07-12 15:28:10', 1, NULL, '127.0.0.1', 'GET', 0, 'site/index', NULL),
+(5571, '2016-07-12 15:28:29', 1, NULL, '127.0.0.1', 'GET', 0, 'site/index', NULL),
+(5572, '2016-07-12 15:29:15', 1, NULL, '127.0.0.1', 'GET', 0, 'site/index', NULL),
+(5573, '2016-07-12 15:30:15', 1, NULL, '127.0.0.1', 'GET', 0, 'site/index', NULL),
+(5574, '2016-07-12 15:30:27', 1, 0.499029, '127.0.0.1', 'GET', 0, 'site/index', 7437656),
+(5575, '2016-07-12 15:32:56', 1, 0.493029, '127.0.0.1', 'GET', 0, 'site/index', 7437656),
+(5576, '2016-07-12 15:33:01', 1, 2.07012, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9656072),
+(5577, '2016-07-12 15:33:27', 1, 1.33608, '127.0.0.1', 'GET', 0, 'site/index', 7010456),
+(5578, '2016-07-12 15:33:33', 1, 1.03906, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5579, '2016-07-12 15:33:42', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5580, '2016-07-12 15:33:43', 1, 1.09506, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698632),
+(5581, '2016-07-12 15:33:46', 1, 0.337019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233616),
+(5582, '2016-07-12 15:33:50', 1, 1.29107, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10024384),
+(5583, '2016-07-12 15:33:53', 1, 0.408023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5584, '2016-07-12 15:34:03', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5585, '2016-07-12 15:34:13', 1, 0.483028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5586, '2016-07-12 15:34:15', 1, 0.746043, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698848),
+(5587, '2016-07-12 15:34:16', 1, 0.385022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233616),
+(5588, '2016-07-12 15:34:20', 1, 0.720041, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9714280),
+(5589, '2016-07-12 15:34:23', 1, 1.28507, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5590, '2016-07-12 15:34:29', 1, 0.807046, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9499312),
+(5591, '2016-07-12 15:34:30', 1, 0.436025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5592, '2016-07-12 15:34:32', 1, 0.916052, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9466032),
+(5593, '2016-07-12 15:34:34', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5594, '2016-07-12 15:34:37', 1, 0.631036, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9499312),
+(5595, '2016-07-12 15:34:39', 1, 0.483028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5596, '2016-07-12 15:34:41', 1, 0.767044, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 10039760),
+(5597, '2016-07-12 15:34:42', 1, 0.380022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5598, '2016-07-12 15:34:52', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5599, '2016-07-12 15:34:53', 1, 0.665038, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7578240),
+(5600, '2016-07-12 15:35:02', 1, 0.686039, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698848),
+(5601, '2016-07-12 15:35:03', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233616),
+(5602, '2016-07-12 15:35:07', 1, 0.629036, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9714280),
+(5603, '2016-07-12 15:35:09', 1, 0.34902, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5604, '2016-07-12 15:35:14', 1, 0.567033, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9499312),
+(5605, '2016-07-12 15:35:16', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5606, '2016-07-12 15:35:18', 1, 0.70904, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 10039760),
+(5607, '2016-07-12 15:35:19', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5608, '2016-07-12 15:35:29', 1, 0.556032, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7578240),
+(5609, '2016-07-12 15:35:30', 1, 0.364021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5610, '2016-07-12 15:35:38', 1, 0.681039, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698848),
+(5611, '2016-07-12 15:35:39', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233616),
+(5612, '2016-07-12 15:35:43', 1, 0.653037, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9714424),
+(5613, '2016-07-12 15:35:44', 1, 0.389023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5614, '2016-07-12 15:35:47', 1, 0.70504, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9499312),
+(5615, '2016-07-12 15:35:49', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5616, '2016-07-12 15:35:52', 1, 0.558032, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9466032),
+(5617, '2016-07-12 15:35:53', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5618, '2016-07-12 15:35:54', 1, 0.593034, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9499312),
+(5619, '2016-07-12 15:35:56', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5620, '2016-07-12 15:35:57', 1, 0.655038, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9973280),
+(5621, '2016-07-12 15:35:59', 1, 0.389022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5622, '2016-07-12 15:36:04', 1, 0.630036, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/view', 7578240),
+(5623, '2016-07-12 15:36:10', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5624, '2016-07-12 15:36:17', 1, 0.706041, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698848),
+(5625, '2016-07-12 15:36:19', 1, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233616),
+(5626, '2016-07-12 15:36:26', 1, 0.678039, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9714280),
+(5627, '2016-07-12 15:36:27', 1, 0.444026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5628, '2016-07-12 15:36:37', 1, 0.343019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5629, '2016-07-12 15:36:42', 1, 0.538031, '127.0.0.1', 'GET', 0, 'site/index', 7540840),
+(5630, '2016-07-12 15:36:46', 1, 0.69204, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9656072),
+(5631, '2016-07-12 15:36:53', 1, 0.793045, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9764440),
+(5632, '2016-07-12 15:36:58', 1, 0.322018, '127.0.0.1', 'POST', 0, 'user/security/logout', 5899200),
+(5633, '2016-07-12 15:36:58', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5634, '2016-07-12 15:37:35', 0, NULL, '127.0.0.1', 'GET', 0, 'user/security/login', NULL),
+(5635, '2016-07-12 15:37:56', 0, 0.466027, '127.0.0.1', 'GET', 0, 'user/security/login', 7565312),
+(5636, '2016-07-12 15:38:05', 0, 1.19507, '127.0.0.1', 'POST', 1, 'user/security/login', 6226392),
+(5637, '2016-07-12 15:38:06', 0, 1.30507, '127.0.0.1', 'POST', 0, 'user/security/login', 6178192),
+(5638, '2016-07-12 15:38:08', 2, 0.444025, '127.0.0.1', 'GET', 0, 'site/index', 7444664),
+(5639, '2016-07-12 15:38:45', 2, 0.431025, '127.0.0.1', 'GET', 0, 'site/index', 7010000),
+(5640, '2016-07-12 15:38:46', 2, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(5641, '2016-07-12 15:38:51', 2, 0.70504, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698440),
+(5642, '2016-07-12 15:38:52', 2, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(5643, '2016-07-12 15:38:58', 2, 0.728041, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9707992),
+(5644, '2016-07-12 15:39:00', 2, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(5645, '2016-07-12 15:39:03', 2, NULL, '127.0.0.1', 'GET', 0, 'proyecto-usuario-asignar/index', NULL),
+(5646, '2016-07-12 15:39:04', 2, NULL, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', NULL),
+(5647, '2016-07-12 15:39:05', 2, 0.272016, '127.0.0.1', 'POST', 0, 'site/logout', 5853064),
+(5648, '2016-07-12 15:39:06', 0, 0.222013, '127.0.0.1', 'GET', 0, 'site/index', 5388832),
+(5649, '2016-07-12 15:39:06', 0, 0.334019, '127.0.0.1', 'GET', 0, 'user/security/login', 6629192),
+(5650, '2016-07-12 15:39:10', 0, 1.22107, '127.0.0.1', 'POST', 1, 'user/security/login', 6503904),
+(5651, '2016-07-12 15:39:14', 0, 1.23307, '127.0.0.1', 'POST', 1, 'user/security/login', 6227752),
+(5652, '2016-07-12 15:39:16', 0, 1.22807, '127.0.0.1', 'POST', 0, 'user/security/login', 6179240),
+(5653, '2016-07-12 15:39:17', 1, 0.345019, '127.0.0.1', 'GET', 0, 'site/index', 6886680),
+(5654, '2016-07-12 15:39:18', 1, 0.35402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233568),
+(5655, '2016-07-12 15:39:23', 1, 0.578033, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/index', 9499224),
+(5656, '2016-07-12 15:39:24', 1, 0.380021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5657, '2016-07-12 15:39:27', 1, 0.575033, '127.0.0.1', 'GET', 0, 'accion-centralizada-asignar/asignar', 9466032),
+(5658, '2016-07-12 15:39:29', 1, 0.375021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5659, '2016-07-12 15:39:31', 1, 0.651037, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/create', 7863240),
+(5660, '2016-07-12 15:39:33', 1, 0.467027, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace1', 6271528),
+(5661, '2016-07-12 15:39:34', 1, 0.290016, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6225128),
+(5662, '2016-07-12 15:39:35', 1, 0.306018, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace', 6253680),
+(5663, '2016-07-12 15:39:36', 1, 0.294017, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/ace2', 6269984),
+(5664, '2016-07-12 15:39:39', 1, 0.977056, '127.0.0.1', 'POST', 1, 'accion-centralizada-asignar/create', 7227480),
+(5665, '2016-07-12 15:39:40', 1, 0.558032, '127.0.0.1', 'GET', 1, 'accion-centralizada-asignar/asignar', 9577728),
+(5666, '2016-07-12 15:39:41', 1, 0.416024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5667, '2016-07-12 15:39:51', 1, 0.376022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6233536),
+(5668, '2016-07-12 15:39:55', 1, 0.289016, '127.0.0.1', 'POST', 0, 'site/logout', 5853080),
+(5669, '2016-07-12 15:39:55', 0, 0.267015, '127.0.0.1', 'GET', 0, 'site/index', 5388832),
+(5670, '2016-07-12 15:39:55', 0, 0.328018, '127.0.0.1', 'GET', 0, 'user/security/login', 6629192),
+(5671, '2016-07-12 15:40:00', 0, 0.258015, '127.0.0.1', 'GET', 0, 'site/index', 5386136),
+(5672, '2016-07-12 15:40:01', 0, 0.486028, '127.0.0.1', 'GET', 0, 'user/security/login', 7672520),
+(5673, '2016-07-12 15:40:04', 0, 1.23507, '127.0.0.1', 'POST', 1, 'user/security/login', 6226496),
+(5674, '2016-07-12 15:40:06', 0, 1.29307, '127.0.0.1', 'POST', 0, 'user/security/login', 6178136),
+(5675, '2016-07-12 15:40:07', 2, 0.457026, '127.0.0.1', 'GET', 0, 'site/index', 7459488),
+(5676, '2016-07-12 15:40:10', 2, 0.640036, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9589528),
+(5677, '2016-07-12 15:40:14', 2, 0.710041, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9787816),
+(5678, '2016-07-12 15:40:17', 2, 1.08506, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/create', 8167600),
+(5679, '2016-07-12 15:40:21', 2, 0.35702, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/llenarprecio', 6208912),
+(5680, '2016-07-12 15:40:30', 2, 0.734042, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/create', 7164288),
+(5681, '2016-07-12 15:40:31', 2, 0.631036, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9614264),
+(5682, '2016-07-12 15:40:35', 2, 0.264015, '127.0.0.1', 'POST', 0, 'user/security/logout', 5899224),
+(5683, '2016-07-12 15:40:35', 0, 0.444025, '127.0.0.1', 'GET', 0, 'user/security/login', 7565136),
+(5684, '2016-07-12 15:40:40', 0, 0.273016, '127.0.0.1', 'GET', 0, 'site/index', 5380816),
+(5685, '2016-07-12 15:40:41', 0, 0.324019, '127.0.0.1', 'GET', 0, 'user/security/login', 6743592),
+(5686, '2016-07-12 15:40:46', 0, 1.31607, '127.0.0.1', 'POST', 1, 'user/security/login', 6227752),
+(5687, '2016-07-12 15:40:47', 0, 1.29307, '127.0.0.1', 'POST', 0, 'user/security/login', 6179240),
+(5688, '2016-07-12 15:40:48', 1, 0.402023, '127.0.0.1', 'GET', 0, 'site/index', 6886680),
+(5689, '2016-07-12 15:40:50', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280504),
+(5690, '2016-07-12 15:40:57', 1, 0.751043, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698656),
+(5691, '2016-07-12 15:40:59', 1, 0.402023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280504),
+(5692, '2016-07-12 15:41:09', 1, 0.363021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280504),
+(5693, '2016-07-12 15:41:14', 1, 0.754043, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 10024384),
+(5694, '2016-07-12 15:41:16', 1, 0.378022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280560),
+(5695, '2016-07-12 15:41:26', 1, 0.376021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280560),
+(5696, '2016-07-12 15:41:31', 1, 0.775044, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698656),
+(5697, '2016-07-12 15:41:33', 1, 0.372022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280504),
+(5698, '2016-07-12 15:41:37', 1, 0.621036, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9714336),
+(5699, '2016-07-12 15:41:39', 1, 0.360021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280560),
+(5700, '2016-07-12 15:41:41', 1, 0.781045, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/index', 9698656),
+(5701, '2016-07-12 15:41:42', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280504),
+(5702, '2016-07-12 15:41:48', 1, 0.758043, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9960096),
+(5703, '2016-07-12 15:41:49', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280560),
+(5704, '2016-07-12 15:41:59', 1, 0.375022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280560),
+(5705, '2016-07-12 15:42:00', 1, 0.428025, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/aprobar', 6373848),
+(5706, '2016-07-12 15:42:00', 1, 0.854048, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 9930232),
+(5707, '2016-07-12 15:42:01', 1, 0.846048, '127.0.0.1', 'GET', 0, 'accion-centralizada-pedido/pedido', 9960096),
+(5708, '2016-07-12 15:42:03', 1, 0.36502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6280560),
+(5709, '2016-07-12 15:42:06', 1, 0.268016, '127.0.0.1', 'POST', 0, 'site/logout', 5853096),
+(5710, '2016-07-12 15:42:06', 0, 0.216013, '127.0.0.1', 'GET', 0, 'site/index', 5388832),
+(5711, '2016-07-12 15:42:07', 0, 0.381022, '127.0.0.1', 'GET', 0, 'user/security/login', 6629192),
+(5712, '2016-07-12 15:42:16', 0, 0.240014, '127.0.0.1', 'GET', 0, 'site/index', 5386136),
+(5713, '2016-07-12 15:42:16', 0, 0.450025, '127.0.0.1', 'GET', 0, 'user/security/login', 7672520),
+(5714, '2016-07-12 15:42:22', 0, 1.22407, '127.0.0.1', 'POST', 1, 'user/security/login', 6226496),
+(5715, '2016-07-12 15:42:23', 0, 1.24807, '127.0.0.1', 'POST', 0, 'user/security/login', 6178136),
+(5716, '2016-07-12 15:42:25', 2, 0.447026, '127.0.0.1', 'GET', 0, 'site/index', 7459392),
+(5717, '2016-07-12 15:42:48', 2, 0.959055, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9925648),
+(5718, '2016-07-12 15:42:53', 2, 1.8211, '127.0.0.1', 'GET', 0, 'accion-centralizada/update', 8328392),
+(5719, '2016-07-12 15:43:03', 2, 0.750043, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9925840),
+(5720, '2016-07-12 15:43:06', 2, 1.02806, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 10262208),
+(5721, '2016-07-12 15:43:11', 2, NULL, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', NULL),
+(5722, '2016-07-12 15:43:14', 2, 0.269015, '127.0.0.1', 'POST', 0, 'user/security/logout', 5899176),
+(5723, '2016-07-12 15:43:15', 0, 0.434025, '127.0.0.1', 'GET', 0, 'user/security/login', 7565136),
+(5724, '2016-07-12 15:43:19', 0, 1.22607, '127.0.0.1', 'POST', 1, 'user/security/login', 6502528),
+(5725, '2016-07-12 15:43:21', 0, 1.21207, '127.0.0.1', 'POST', 1, 'user/security/login', 6226360),
+(5726, '2016-07-12 15:43:22', 0, 1.34968, '127.0.0.1', 'POST', 0, 'user/security/login', 6178072),
+(5727, '2016-07-12 15:43:23', 1, 0.443025, '127.0.0.1', 'GET', 0, 'site/index', 7437416),
+(5728, '2016-07-12 15:43:54', 1, 0.746043, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9906088),
+(5729, '2016-07-12 15:43:57', 1, 0.553032, '127.0.0.1', 'GET', 0, 'accion-centralizada/update', 8306048),
+(5730, '2016-07-12 15:44:01', 1, 0.69604, '127.0.0.1', 'GET', 0, 'accion-centralizada/index', 9906344),
+(5731, '2016-07-12 15:44:04', 1, 0.733042, '127.0.0.1', 'GET', 0, 'accion-centralizada/view', 10243088),
+(5732, '2016-07-12 15:44:08', 1, 0.902051, '127.0.0.1', 'GET', 1, 'ac-ac-espec/update', 8424856),
+(5733, '2016-07-12 15:44:27', 1, 1.02506, '127.0.0.1', 'POST', 1, 'ac-ac-espec/update', 7826752),
+(5734, '2016-07-12 15:44:28', 1, 0.559032, '127.0.0.1', 'GET', 1, 'accion-centralizada/view', 9598968);
 
 -- --------------------------------------------------------
 
@@ -392,8 +6189,8 @@ INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `reques
 -- Estructura de tabla para la tabla `audit_error`
 --
 
-CREATE TABLE `audit_error` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `audit_error` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `message` text NOT NULL,
@@ -402,8 +6199,12 @@ CREATE TABLE `audit_error` (
   `line` int(11) DEFAULT NULL,
   `trace` blob,
   `hash` varchar(32) DEFAULT NULL,
-  `emailed` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `emailed` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `fk_audit_error_entry_id` (`entry_id`),
+  KEY `idx_file` (`file`(180)),
+  KEY `idx_emailed` (`emailed`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -411,15 +6212,17 @@ CREATE TABLE `audit_error` (
 -- Estructura de tabla para la tabla `audit_javascript`
 --
 
-CREATE TABLE `audit_javascript` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `audit_javascript` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `type` varchar(20) NOT NULL,
   `message` text NOT NULL,
   `origin` varchar(512) DEFAULT NULL,
-  `data` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `data` blob,
+  PRIMARY KEY (`id`),
+  KEY `fk_audit_javascript_entry_id` (`entry_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -427,8 +6230,8 @@ CREATE TABLE `audit_javascript` (
 -- Estructura de tabla para la tabla `audit_mail`
 --
 
-CREATE TABLE `audit_mail` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `audit_mail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `successful` int(11) NOT NULL,
@@ -440,8 +6243,10 @@ CREATE TABLE `audit_mail` (
   `subject` varchar(255) DEFAULT NULL,
   `text` blob,
   `html` blob,
-  `data` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `data` blob,
+  PRIMARY KEY (`id`),
+  KEY `fk_audit_mail_entry_id` (`entry_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -449,8 +6254,8 @@ CREATE TABLE `audit_mail` (
 -- Estructura de tabla para la tabla `audit_trail`
 --
 
-CREATE TABLE `audit_trail` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `audit_trail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `entry_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `action` varchar(255) NOT NULL,
@@ -459,8 +6264,13 @@ CREATE TABLE `audit_trail` (
   `field` varchar(255) DEFAULT NULL,
   `old_value` text,
   `new_value` text,
-  `created` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_audit_trail_entry_id` (`entry_id`),
+  KEY `idx_audit_user_id` (`user_id`),
+  KEY `idx_audit_trail_field` (`model`,`model_id`,`field`),
+  KEY `idx_audit_trail_action` (`action`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=460 ;
 
 --
 -- Volcado de datos para la tabla `audit_trail`
@@ -837,7 +6647,96 @@ INSERT INTO `audit_trail` (`id`, `entry_id`, `user_id`, `action`, `model`, `mode
 (368, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'precio', '', '63.00', '2016-07-09 03:58:29'),
 (369, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'fecha_creacion', '', '2016-07-09 03:58:29', '2016-07-09 03:58:29'),
 (370, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'asignado', '', '11', '2016-07-09 03:58:29'),
-(371, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'estatus', '', '1', '2016-07-09 03:58:29');
+(371, 10, 2, 'CREATE', 'common\\models\\ProyectoPedido', '8', 'estatus', '', '1', '2016-07-09 03:58:29'),
+(372, 25, 1, 'CREATE', 'common\\models\\ProyectoUsuarioAsignar', '12', 'id', '', '12', '2016-07-11 08:40:16'),
+(373, 25, 1, 'CREATE', 'common\\models\\ProyectoUsuarioAsignar', '12', 'usuario_id', '', '1', '2016-07-11 08:40:16'),
+(374, 25, 1, 'CREATE', 'common\\models\\ProyectoUsuarioAsignar', '12', 'proyecto_especifica', '', '27', '2016-07-11 08:40:16'),
+(375, 25, 1, 'CREATE', 'common\\models\\ProyectoUsuarioAsignar', '12', 'estatus', '', '1', '2016-07-11 08:40:16'),
+(376, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'id', '', '9', '2016-07-11 08:44:30'),
+(377, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'id_material', '', '41', '2016-07-11 08:44:30'),
+(378, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'enero', '', '20', '2016-07-11 08:44:30'),
+(379, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'febrero', '', '2', '2016-07-11 08:44:30'),
+(380, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'marzo', '', '0', '2016-07-11 08:44:30'),
+(381, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'abril', '', '0', '2016-07-11 08:44:30'),
+(382, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'mayo', '', '0', '2016-07-11 08:44:30'),
+(383, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'junio', '', '0', '2016-07-11 08:44:30'),
+(384, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'julio', '', '0', '2016-07-11 08:44:30'),
+(385, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'agosto', '', '20', '2016-07-11 08:44:30'),
+(386, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'septiembre', '', '0', '2016-07-11 08:44:30'),
+(387, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'octubre', '', '0', '2016-07-11 08:44:30'),
+(388, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'noviembre', '', '0', '2016-07-11 08:44:30'),
+(389, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'diciembre', '', '0', '2016-07-11 08:44:30'),
+(390, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'precio', '', '6.00', '2016-07-11 08:44:30'),
+(391, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'fecha_creacion', '', '2016-07-11 08:44:30', '2016-07-11 08:44:30'),
+(392, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'asignado', '', '11', '2016-07-11 08:44:30'),
+(393, 75, 2, 'CREATE', 'common\\models\\ProyectoPedido', '9', 'estatus', '', '1', '2016-07-11 08:44:30'),
+(394, 90, 2, 'DELETE', 'common\\models\\AccionCentralizada', '3', NULL, NULL, NULL, '2016-07-11 08:54:38'),
+(395, 893, 1, 'DELETE', 'common\\models\\AccionCentralizada', '1', NULL, NULL, NULL, '2016-07-11 10:09:16'),
+(396, 895, 1, 'DELETE', 'common\\models\\AccionCentralizada', '2', NULL, NULL, NULL, '2016-07-11 10:09:20'),
+(397, 898, 1, 'DELETE', 'common\\models\\AccionCentralizada', '3', NULL, NULL, NULL, '2016-07-11 10:09:23'),
+(398, 900, 1, 'DELETE', 'common\\models\\AccionCentralizada', '4', NULL, NULL, NULL, '2016-07-11 10:09:26'),
+(399, 902, 1, 'DELETE', 'common\\models\\AccionCentralizada', '5', NULL, NULL, NULL, '2016-07-11 10:09:29'),
+(400, 905, 1, 'DELETE', 'common\\models\\AccionCentralizada', '6', NULL, NULL, NULL, '2016-07-11 10:09:32'),
+(401, 2007, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '4', 'id', '', '4', '2016-07-11 11:31:21'),
+(402, 2007, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '4', 'usuario', '', '2', '2016-07-11 11:31:21'),
+(403, 2007, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '4', 'accion_especifica_ue', '', '236', '2016-07-11 11:31:21'),
+(404, 2007, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '4', 'estatus', '', '1', '2016-07-11 11:31:21'),
+(405, 2228, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '5', 'id', '', '5', '2016-07-11 11:55:49'),
+(406, 2228, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '5', 'usuario', '', '2', '2016-07-11 11:55:49'),
+(407, 2228, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '5', 'accion_especifica_ue', '', '235', '2016-07-11 11:55:49'),
+(408, 2228, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '5', 'estatus', '', '1', '2016-07-11 11:55:49'),
+(409, 2794, 1, 'UPDATE', 'common\\models\\AccionCentralizadaAsignar', '4', 'accion_especifica_ue', '236', '235', '2016-07-11 12:25:16'),
+(410, 3324, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'id', '', '6', '2016-07-11 14:12:56'),
+(411, 3324, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'usuario', '', '3', '2016-07-11 14:12:56'),
+(412, 3324, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'accion_especifica_ue', '', '235', '2016-07-11 14:12:56'),
+(413, 3324, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'estatus', '', '1', '2016-07-11 14:12:56'),
+(414, 3351, 1, 'UPDATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'estatus', '1', '0', '2016-07-11 14:14:24'),
+(415, 3405, 1, 'UPDATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'estatus', '0', '1', '2016-07-11 14:18:36'),
+(416, 3588, 1, 'DELETE', 'common\\models\\AccionCentralizadaAsignar', '5', NULL, NULL, NULL, '2016-07-11 14:31:08'),
+(417, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'id', '', '10', '2016-07-11 15:29:47'),
+(418, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'id_material', '', '4', '2016-07-11 15:29:47'),
+(419, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'enero', '', '010', '2016-07-11 15:29:47'),
+(420, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'febrero', '', '10', '2016-07-11 15:29:47'),
+(421, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'marzo', '', '10', '2016-07-11 15:29:47'),
+(422, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'abril', '', '0', '2016-07-11 15:29:47'),
+(423, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'mayo', '', '0', '2016-07-11 15:29:47'),
+(424, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'junio', '', '0', '2016-07-11 15:29:47'),
+(425, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'julio', '', '0', '2016-07-11 15:29:47'),
+(426, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'agosto', '', '0', '2016-07-11 15:29:47'),
+(427, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'septiembre', '', '0', '2016-07-11 15:29:47'),
+(428, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'octubre', '', '0', '2016-07-11 15:29:47'),
+(429, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'noviembre', '', '0', '2016-07-11 15:29:47'),
+(430, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'diciembre', '', '0', '2016-07-11 15:29:47'),
+(431, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'precio', '', '168.00', '2016-07-11 15:29:47'),
+(432, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'fecha_creacion', '', '2016-07-11 15:29:47', '2016-07-11 15:29:47'),
+(433, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'asignado', '', '11', '2016-07-11 15:29:47'),
+(434, 3846, 2, 'CREATE', 'common\\models\\ProyectoPedido', '10', 'estatus', '', '1', '2016-07-11 15:29:47'),
+(435, 3990, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '7', 'id', '', '7', '2016-07-11 15:51:23'),
+(436, 3990, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '7', 'usuario', '', '2', '2016-07-11 15:51:23'),
+(437, 3990, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '7', 'accion_especifica_ue', '', '237', '2016-07-11 15:51:23'),
+(438, 3990, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '7', 'estatus', '', '1', '2016-07-11 15:51:23'),
+(439, 4866, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '8', 'id', '', '8', '2016-07-12 10:13:14'),
+(440, 4866, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '8', 'usuario', '', '1', '2016-07-12 10:13:14'),
+(441, 4866, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '8', 'accion_especifica_ue', '', '240', '2016-07-12 10:13:14'),
+(442, 4866, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '8', 'estatus', '', '1', '2016-07-12 10:13:14'),
+(443, 4883, 1, 'UPDATE', 'common\\models\\AccionCentralizadaAsignar', '8', 'accion_especifica_ue', '240', '236', '2016-07-12 10:15:31'),
+(444, 5163, 1, 'UPDATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'accion_especifica_ue', '235', '240', '2016-07-12 10:46:31');
+INSERT INTO `audit_trail` (`id`, `entry_id`, `user_id`, `action`, `model`, `model_id`, `field`, `old_value`, `new_value`, `created`) VALUES
+(445, 5168, 1, 'UPDATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'accion_especifica_ue', '240', '241', '2016-07-12 10:46:42'),
+(446, 5174, 1, 'UPDATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'accion_especifica_ue', '241', '240', '2016-07-12 10:47:00'),
+(447, 5297, 1, 'UPDATE', 'common\\models\\AccionCentralizadaAsignar', '6', 'accion_especifica_ue', '240', '236', '2016-07-12 10:57:59'),
+(448, 5364, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '9', 'id', '', '9', '2016-07-12 11:04:40'),
+(449, 5364, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '9', 'usuario', '', '3', '2016-07-12 11:04:40'),
+(450, 5364, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '9', 'accion_especifica_ue', '', '235', '2016-07-12 11:04:40'),
+(451, 5364, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '9', 'estatus', '', '1', '2016-07-12 11:04:40'),
+(452, 5439, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '10', 'id', '', '10', '2016-07-12 11:10:13'),
+(453, 5439, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '10', 'usuario', '', '3', '2016-07-12 11:10:13'),
+(454, 5439, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '10', 'accion_especifica_ue', '', '239', '2016-07-12 11:10:13'),
+(455, 5439, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '10', 'estatus', '', '1', '2016-07-12 11:10:13'),
+(456, 5664, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '11', 'id', '', '11', '2016-07-12 15:39:39'),
+(457, 5664, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '11', 'usuario', '', '2', '2016-07-12 15:39:39'),
+(458, 5664, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '11', 'accion_especifica_ue', '', '239', '2016-07-12 15:39:39'),
+(459, 5664, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '11', 'estatus', '', '1', '2016-07-12 15:39:39');
 
 -- --------------------------------------------------------
 
@@ -845,10 +6744,11 @@ INSERT INTO `audit_trail` (`id`, `entry_id`, `user_id`, `action`, `model`, `mode
 -- Estructura de tabla para la tabla `auth_assignment`
 --
 
-CREATE TABLE `auth_assignment` (
+CREATE TABLE IF NOT EXISTS `auth_assignment` (
   `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` int(11) DEFAULT NULL
+  `created_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`item_name`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -888,14 +6788,17 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 -- Estructura de tabla para la tabla `auth_item`
 --
 
-CREATE TABLE `auth_item` (
+CREATE TABLE IF NOT EXISTS `auth_item` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` int(11) NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `data` text COLLATE utf8_unicode_ci,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`name`),
+  KEY `rule_name` (`rule_name`),
+  KEY `idx-auth_item-type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -915,15 +6818,18 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('acc_accion_especifica', 1, 'Crear, editar y eliminar acciones específicas de ACC', NULL, NULL, 1456113925, 1456114942),
 ('acc_variables', 1, 'Ver, crear, editar y eliminar variables de ACC', NULL, NULL, 1467389461, 1467389461),
 ('accion_centralizada', 1, 'ver las acciones centralizadas', NULL, NULL, 1455129653, 1467945778),
-('accion_centralizada_asignar', 1, 'Asignar usuarios a Acciones Centralizadas', NULL, NULL, 1459442993, 1459443946),
-('accion_centralizada_requerimiento', 1, 'permisos para poder realizar requerimientos de acciones centralizadas', NULL, NULL, 1459774903, 1459788763),
+('accion_centralizada_asignar', 1, 'Asignar usuarios a Acciones Centralizadas', NULL, NULL, 1459442993, 1468251798),
+('accion_centralizada_requerimiento', 1, 'permisos para poder realizar requerimientos de acciones centralizadas', NULL, NULL, 1459774903, 1468270547),
 ('accion-centralizada-asignar/ace', 2, 'JSON con las Acciones Específicas a asignar', NULL, NULL, 1459443928, 1459443928),
+('accion-centralizada-asignar/ace1', 2, 'buscar las acciones centralizadas para asignar', NULL, NULL, 1468248165, 1468248165),
+('accion-centralizada-asignar/ace2', 2, ' tomar el id frk de accion_especifica y unidad_ejecutora en asignacion', NULL, NULL, 1468251769, 1468251769),
 ('accion-centralizada-asignar/asignar', 2, 'Asignar usuario a acción específica de ACC', NULL, NULL, 1459443071, 1459443071),
 ('accion-centralizada-asignar/create', 2, 'Crear asignacion', NULL, NULL, 1459443103, 1459443103),
 ('accion-centralizada-asignar/delete', 2, 'Eliminar asignacion', NULL, NULL, 1459443147, 1459443147),
 ('accion-centralizada-asignar/index', 2, 'Lista de asignaciones de usuarios a ACC', NULL, NULL, 1459442945, 1459442945),
 ('accion-centralizada-asignar/update', 2, 'Modificar asignacion', NULL, NULL, 1459443134, 1459443134),
 ('accion-centralizada-asignar/view', 2, 'Ver asignacion', NULL, NULL, 1459443115, 1459443115),
+('accion-centralizada-pedido/aprobar', 2, 'Permitir aprobar los requerimientos-pedidos de las uej ', NULL, NULL, 1468270530, 1468270530),
 ('accion-centralizada-pedido/bulk-activar', 2, 'activar por lotes los requermientos de accion centralizada', NULL, NULL, 1459788691, 1459788691),
 ('accion-centralizada-pedido/bulk-delete', 2, 'borrar por lote los requerimientos de accion centralizada', NULL, NULL, 1459788636, 1459788636),
 ('accion-centralizada-pedido/bulk-desactivar', 2, 'desactivar por lotes los requerimientos de accion centralizada', NULL, NULL, 1459788669, 1459788669),
@@ -1046,9 +6952,11 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 -- Estructura de tabla para la tabla `auth_item_child`
 --
 
-CREATE TABLE `auth_item_child` (
+CREATE TABLE IF NOT EXISTS `auth_item_child` (
   `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL
+  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`parent`,`child`),
+  KEY `child` (`child`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -1075,6 +6983,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('acc_accion_especifica', 'ac-esp-uej/update'),
 ('accion_centralizada_asignar', 'accion-centralizada-asignar/ace'),
 ('sysadmin', 'accion-centralizada-asignar/ace'),
+('accion_centralizada_asignar', 'accion-centralizada-asignar/ace1'),
+('accion_centralizada_asignar', 'accion-centralizada-asignar/ace2'),
 ('accion_centralizada_asignar', 'accion-centralizada-asignar/asignar'),
 ('sysadmin', 'accion-centralizada-asignar/asignar'),
 ('accion_centralizada_asignar', 'accion-centralizada-asignar/create'),
@@ -1087,6 +6997,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sysadmin', 'accion-centralizada-asignar/update'),
 ('accion_centralizada_asignar', 'accion-centralizada-asignar/view'),
 ('sysadmin', 'accion-centralizada-asignar/view'),
+('accion_centralizada_requerimiento', 'accion-centralizada-pedido/aprobar'),
 ('accion_centralizada_requerimiento', 'accion-centralizada-pedido/bulk-activar'),
 ('accion_centralizada_requerimiento', 'accion-centralizada-pedido/bulk-delete'),
 ('accion_centralizada_requerimiento', 'accion-centralizada-pedido/bulk-desactivar'),
@@ -1213,11 +7124,12 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 -- Estructura de tabla para la tabla `auth_rule`
 --
 
-CREATE TABLE `auth_rule` (
+CREATE TABLE IF NOT EXISTS `auth_rule` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `data` text COLLATE utf8_unicode_ci,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1226,9 +7138,10 @@ CREATE TABLE `auth_rule` (
 -- Estructura de tabla para la tabla `cuenta_presupuestaria`
 --
 
-CREATE TABLE `cuenta_presupuestaria` (
+CREATE TABLE IF NOT EXISTS `cuenta_presupuestaria` (
   `cuenta` char(1) NOT NULL,
-  `nombre` varchar(15) NOT NULL
+  `nombre` varchar(15) NOT NULL,
+  PRIMARY KEY (`cuenta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1245,11 +7158,13 @@ INSERT INTO `cuenta_presupuestaria` (`cuenta`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `estados`
 --
 
-CREATE TABLE `estados` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `estados` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `id_pais` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_pais` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_pais` (`id_pais`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Volcado de datos para la tabla `estados`
@@ -1288,10 +7203,11 @@ INSERT INTO `estados` (`id`, `nombre`, `id_pais`) VALUES
 -- Estructura de tabla para la tabla `estatus_proyecto`
 --
 
-CREATE TABLE `estatus_proyecto` (
-  `id` int(11) NOT NULL,
-  `estatus` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Lista de estatus de proyecto';
+CREATE TABLE IF NOT EXISTS `estatus_proyecto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `estatus` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Lista de estatus de proyecto' AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `estatus_proyecto`
@@ -1308,10 +7224,11 @@ INSERT INTO `estatus_proyecto` (`id`, `estatus`) VALUES
 -- Estructura de tabla para la tabla `fuente_financiamiento`
 --
 
-CREATE TABLE `fuente_financiamiento` (
-  `id` int(11) NOT NULL,
-  `fuente` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `fuente_financiamiento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fuente` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Volcado de datos para la tabla `fuente_financiamiento`
@@ -1336,10 +7253,11 @@ INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
 -- Estructura de tabla para la tabla `instancia_institucion`
 --
 
-CREATE TABLE `instancia_institucion` (
-  `id` int(11) NOT NULL,
-  `tipo` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tipo de instancia o institución';
+CREATE TABLE IF NOT EXISTS `instancia_institucion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Tipo de instancia o institución' AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `instancia_institucion`
@@ -1356,14 +7274,20 @@ INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
 -- Estructura de tabla para la tabla `localizacion_acc_variable`
 --
 
-CREATE TABLE `localizacion_acc_variable` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `localizacion_acc_variable` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_variable` int(11) NOT NULL,
-  `id_pais` smallint(3) UNSIGNED ZEROFILL NOT NULL,
+  `id_pais` smallint(3) unsigned zerofill NOT NULL,
   `id_estado` int(11) DEFAULT NULL,
   `id_municipio` int(11) DEFAULT NULL,
-  `id_parroquia` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_parroquia` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_variable` (`id_variable`),
+  KEY `id_pais` (`id_pais`),
+  KEY `id_estado` (`id_estado`),
+  KEY `id_municipio` (`id_municipio`),
+  KEY `id_parroquia` (`id_parroquia`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
 
 --
 -- Volcado de datos para la tabla `localizacion_acc_variable`
@@ -1379,8 +7303,8 @@ INSERT INTO `localizacion_acc_variable` (`id`, `id_variable`, `id_pais`, `id_est
 -- Estructura de tabla para la tabla `materiales_servicios`
 --
 
-CREATE TABLE `materiales_servicios` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `materiales_servicios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
@@ -1391,8 +7315,12 @@ CREATE TABLE `materiales_servicios` (
   `presentacion` int(11) DEFAULT NULL,
   `precio` decimal(12,2) NOT NULL,
   `iva` int(11) NOT NULL,
-  `estatus` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `estatus` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cuenta` (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`),
+  KEY `unidad_medida` (`unidad_medida`),
+  KEY `presentacion` (`presentacion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=76 ;
 
 --
 -- Volcado de datos para la tabla `materiales_servicios`
@@ -1481,9 +7409,10 @@ INSERT INTO `materiales_servicios` (`id`, `cuenta`, `partida`, `generica`, `espe
 -- Estructura de tabla para la tabla `migration`
 --
 
-CREATE TABLE `migration` (
+CREATE TABLE IF NOT EXISTS `migration` (
   `version` varchar(180) NOT NULL,
-  `apply_time` int(11) DEFAULT NULL
+  `apply_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1511,8 +7440,8 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 -- Estructura de tabla para la tabla `modelhistory`
 --
 
-CREATE TABLE `modelhistory` (
-  `id` bigint(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `modelhistory` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
   `table` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `field_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1520,8 +7449,13 @@ CREATE TABLE `modelhistory` (
   `old_value` text COLLATE utf8_unicode_ci,
   `new_value` text COLLATE utf8_unicode_ci,
   `type` smallint(6) NOT NULL,
-  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx-table` (`table`),
+  KEY `idx-field_name` (`field_name`),
+  KEY `idx-type` (`type`),
+  KEY `idx-user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1529,11 +7463,13 @@ CREATE TABLE `modelhistory` (
 -- Estructura de tabla para la tabla `municipio`
 --
 
-CREATE TABLE `municipio` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `municipio` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `id_estado` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_estado` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_estado` (`id_estado`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1541,15 +7477,16 @@ CREATE TABLE `municipio` (
 -- Estructura de tabla para la tabla `notification`
 --
 
-CREATE TABLE `notification` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `notification` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `key` varchar(255) NOT NULL,
   `key_id` int(11) DEFAULT NULL,
   `type` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `seen` tinyint(1) NOT NULL,
-  `created_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
 
 --
 -- Volcado de datos para la tabla `notification`
@@ -1561,7 +7498,25 @@ INSERT INTO `notification` (`id`, `key`, `key_id`, `type`, `user_id`, `seen`, `c
 (19, 'nuevo_pedido', 7, 'default', 1, 1, '2016-07-08 23:57:12'),
 (20, 'nuevo_pedido', 7, 'default', 2, 0, '2016-07-08 23:57:12'),
 (21, 'nuevo_pedido', 8, 'default', 1, 1, '2016-07-08 23:58:29'),
-(22, 'nuevo_pedido', 8, 'default', 2, 0, '2016-07-08 23:58:29');
+(22, 'nuevo_pedido', 8, 'default', 2, 0, '2016-07-08 23:58:29'),
+(23, 'nuevo_pedido', 9, 'default', 1, 1, '2016-07-11 08:44:30'),
+(24, 'nuevo_pedido', 9, 'default', 2, 0, '2016-07-11 08:44:30'),
+(25, 'pedido_accion_centralizada', 1, 'default', 1, 1, '2016-07-11 14:32:55'),
+(26, 'pedido_accion_centralizada', 1, 'default', 2, 0, '2016-07-11 14:32:55'),
+(27, 'pedido_accion_centralizada', 2, 'default', 1, 1, '2016-07-11 14:51:16'),
+(28, 'pedido_accion_centralizada', 2, 'default', 2, 0, '2016-07-11 14:51:16'),
+(29, 'nuevo_pedido', 10, 'default', 1, 1, '2016-07-11 15:29:48'),
+(30, 'nuevo_pedido', 10, 'default', 2, 0, '2016-07-11 15:29:48'),
+(31, 'pedido_accion_centralizada', 3, 'default', 1, 1, '2016-07-11 15:30:44'),
+(32, 'pedido_accion_centralizada', 3, 'default', 2, 0, '2016-07-11 15:30:44'),
+(33, 'pedido_accion_centralizada', 4, 'default', 1, 1, '2016-07-11 15:52:39'),
+(34, 'pedido_accion_centralizada', 4, 'default', 2, 0, '2016-07-11 15:52:39'),
+(35, 'pedido_accion_centralizada', 5, 'default', 1, 0, '2016-07-12 10:19:20'),
+(36, 'pedido_accion_centralizada', 5, 'default', 2, 0, '2016-07-12 10:19:20'),
+(37, 'pedido_accion_centralizada', 6, 'default', 1, 0, '2016-07-12 11:18:54'),
+(38, 'pedido_accion_centralizada', 6, 'default', 2, 0, '2016-07-12 11:18:54'),
+(39, 'pedido_accion_centralizada', 7, 'default', 1, 0, '2016-07-12 15:40:30'),
+(40, 'pedido_accion_centralizada', 7, 'default', 2, 0, '2016-07-12 15:40:30');
 
 -- --------------------------------------------------------
 
@@ -1569,11 +7524,13 @@ INSERT INTO `notification` (`id`, `key`, `key_id`, `type`, `user_id`, `seen`, `c
 -- Estructura de tabla para la tabla `objetivos_estrategicos`
 --
 
-CREATE TABLE `objetivos_estrategicos` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `objetivos_estrategicos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `objetivo_estrategico` text NOT NULL,
-  `objetivo_nacional` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos estrategicos - Area estrategica';
+  `objetivo_nacional` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `directriz` (`objetivo_nacional`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos estrategicos - Area estrategica' AUTO_INCREMENT=150 ;
 
 --
 -- Volcado de datos para la tabla `objetivos_estrategicos`
@@ -1616,7 +7573,7 @@ INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_na
 (34, 'Consolidar el aparato agroindustrial bajo control de empresas socialistas, garantizando al menos un % de la capacidad de almacenamiento y procesamiento en rubros básicos (cereales, oleaginosas, leguminosas, azúcar, carne y leche) y un % en el resto de los rubros alimenticios.', 4),
 (35, 'Desarrollar un sistema de apoyo e incentivos para la promoción del comercio internacional de exportación de rubros agrícolas.', 4),
 (36, 'Establecer mecanismos para ejercer la nueva institucionalidad revolucionaria que garantice la participación de los pequeños y medianos productores en las decisiones en materia agropecuaria, a través de los consejos campesinos y las redes de productores y productoras libres y asociados.', 4),
-(37, 'Promover los modelos de producción diversificados, a partir de la agricultura familiar, \' campesina, urbana, periurbana e indígena, recuperando, validando y divulgando modelos tradicionales y sostenibles de producción.', 4),
+(37, 'Promover los modelos de producción diversificados, a partir de la agricultura familiar, '' campesina, urbana, periurbana e indígena, recuperando, validando y divulgando modelos tradicionales y sostenibles de producción.', 4),
 (38, 'Consolidar un estilo científico, tecnológico e innovador de carácter transformador, diverso, creativo y dinámico, garante de la independencia y la soberanía económica, contribuyendo así a la construcción del Modelo Productivo Socialista, el fortalecimiento de la Ética Socialista y la satisfacción efectiva de las necesidades del pueblo venezolano.', 5),
 (39, 'Fortalecer los espacios y programas de formación para el trabajo liberador, fomentando los valores patrióticos y el sentido crítico.', 5),
 (40, 'Impulsar el desarrollo y uso de equipos electrónicos y aplicaciones informáticas en tecnologías libres y estándares abiertos.', 5),
@@ -1736,11 +7693,13 @@ INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_na
 -- Estructura de tabla para la tabla `objetivos_generales`
 --
 
-CREATE TABLE `objetivos_generales` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `objetivos_generales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `objetivo_general` text NOT NULL,
-  `objetivo_estrategico` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos generales - Area estrategica';
+  `objetivo_estrategico` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `estrategia` (`objetivo_estrategico`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos generales - Area estrategica' AUTO_INCREMENT=23 ;
 
 --
 -- Volcado de datos para la tabla `objetivos_generales`
@@ -1776,10 +7735,11 @@ INSERT INTO `objetivos_generales` (`id`, `objetivo_general`, `objetivo_estrategi
 -- Estructura de tabla para la tabla `objetivos_historicos`
 --
 
-CREATE TABLE `objetivos_historicos` (
-  `id` int(11) NOT NULL,
-  `objetivo_historico` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos historicos - Area estrategica';
+CREATE TABLE IF NOT EXISTS `objetivos_historicos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `objetivo_historico` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos historicos - Area estrategica' AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `objetivos_historicos`
@@ -1798,11 +7758,13 @@ INSERT INTO `objetivos_historicos` (`id`, `objetivo_historico`) VALUES
 -- Estructura de tabla para la tabla `objetivos_nacionales`
 --
 
-CREATE TABLE `objetivos_nacionales` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `objetivos_nacionales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `objetivo_nacional` text NOT NULL,
-  `objetivo_historico` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos nacionales - Area estrategica';
+  `objetivo_historico` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `directriz` (`objetivo_historico`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos nacionales - Area estrategica' AUTO_INCREMENT=25 ;
 
 --
 -- Volcado de datos para la tabla `objetivos_nacionales`
@@ -1840,9 +7802,10 @@ INSERT INTO `objetivos_nacionales` (`id`, `objetivo_nacional`, `objetivo_histori
 -- Estructura de tabla para la tabla `pais`
 --
 
-CREATE TABLE `pais` (
-  `id` smallint(3) UNSIGNED ZEROFILL NOT NULL,
-  `nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+CREATE TABLE IF NOT EXISTS `pais` (
+  `id` smallint(3) unsigned zerofill NOT NULL,
+  `nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2098,11 +8061,13 @@ INSERT INTO `pais` (`id`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `parroquia`
 --
 
-CREATE TABLE `parroquia` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `parroquia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) CHARACTER SET latin1 NOT NULL,
-  `id_municipio` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_municipio` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_municipio` (`id_municipio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2110,13 +8075,14 @@ CREATE TABLE `parroquia` (
 -- Estructura de tabla para la tabla `partida_especifica`
 --
 
-CREATE TABLE `partida_especifica` (
+CREATE TABLE IF NOT EXISTS `partida_especifica` (
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
   `especifica` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL
+  `estatus` tinyint(1) NOT NULL,
+  PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2708,14 +8674,14 @@ INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`,
 ('4', '02', '04', '03', 'Cauchos y tripas para vehículos', 1),
 ('4', '02', '04', '99', 'Otros productos de cuero y caucho', 1),
 ('4', '02', '05', '01', 'Pulpa de madera, papel y cartón', 1),
-('4', '02', '05', '02', 'Envases y cajas de papel y cartón', 1),
+('4', '02', '05', '02', 'Envases y cajas de papel y cartón', 1);
+INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`) VALUES
 ('4', '02', '05', '03', 'Productos de papel y cartón para oficina', 1),
 ('4', '02', '05', '04', 'Libros, revistas y periódicos', 1),
 ('4', '02', '05', '05', 'Material de enseñanza', 1),
 ('4', '02', '05', '06', 'Productos de papel y cartón para computación', 1),
 ('4', '02', '05', '07', 'Productos de papel y cartón para la imprenta y reproducción', 1),
-('4', '02', '05', '99', 'Otros productos de pulpa, papel y cartón', 1);
-INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`) VALUES
+('4', '02', '05', '99', 'Otros productos de pulpa, papel y cartón', 1),
 ('4', '02', '06', '01', 'Sustancias químicas y de uso industrial', 1),
 ('4', '02', '06', '02', 'Abonos, plaguicidas y otros', 1),
 ('4', '02', '06', '03', 'Tintas, pinturas y colorantes', 1),
@@ -3128,12 +9094,13 @@ INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`,
 -- Estructura de tabla para la tabla `partida_generica`
 --
 
-CREATE TABLE `partida_generica` (
+CREATE TABLE IF NOT EXISTS `partida_generica` (
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL
+  `estatus` tinyint(1) NOT NULL,
+  PRIMARY KEY (`cuenta`,`partida`,`generica`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3379,11 +9346,13 @@ INSERT INTO `partida_generica` (`cuenta`, `partida`, `generica`, `nombre`, `esta
 -- Estructura de tabla para la tabla `partida_partida`
 --
 
-CREATE TABLE `partida_partida` (
+CREATE TABLE IF NOT EXISTS `partida_partida` (
   `cuenta` char(1) NOT NULL COMMENT 'ID Cuenta',
   `partida` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+  `estatus` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`cuenta`,`partida`) USING BTREE,
+  KEY `ramo` (`cuenta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3424,14 +9393,15 @@ INSERT INTO `partida_partida` (`cuenta`, `partida`, `nombre`, `estatus`) VALUES
 -- Estructura de tabla para la tabla `partida_sub_especifica`
 --
 
-CREATE TABLE `partida_sub_especifica` (
+CREATE TABLE IF NOT EXISTS `partida_sub_especifica` (
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
   `especifica` char(2) NOT NULL,
   `subespecifica` char(2) NOT NULL,
   `nombre` text NOT NULL,
-  `estatus` tinyint(1) NOT NULL DEFAULT '1'
+  `estatus` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3979,12 +9949,12 @@ INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifi
 ('4', '01', '07', '79', '00', 'Ayudas para medicinas, gastos médicos, odontológicos y de hospitalización al personal contratado', 1),
 ('4', '01', '07', '80', '00', 'Aporte patronal a cajas de ahorro por personal contratado', 1),
 ('4', '01', '07', '81', '00', 'Aporte patronal a los servicios de salud, accidentes personales y gastos funerarios por personal contratado', 1),
-('4', '01', '07', '82', '00', 'Ayudas al personal contratado para adquisición de uniformes y útiles escolares de sus hijos', 1),
+('4', '01', '07', '82', '00', 'Ayudas al personal contratado para adquisición de uniformes y útiles escolares de sus hijos', 1);
+INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`) VALUES
 ('4', '01', '07', '83', '00', 'Dotación de uniformes al personal contratado', 1),
 ('4', '01', '07', '84', '00', 'Aporte patronal para gastos de guarderías y preescolar para hijos del personal contratado', 1),
 ('4', '01', '07', '85', '00', 'Aportes para la adquisición de juguetes para los hijos del personal contratado', 1),
-('4', '01', '07', '94', '00', 'Otras subvenciones a altos funcionarios y altas funcionarias del poder público y de elección popular', 1);
-INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`) VALUES
+('4', '01', '07', '94', '00', 'Otras subvenciones a altos funcionarios y altas funcionarias del poder público y de elección popular', 1),
 ('4', '01', '07', '95', '00', 'Otras subvenciones al personal de alto nivel y de dirección', 1),
 ('4', '01', '07', '96', '00', 'Otras subvenciones a empleados', 1),
 ('4', '01', '07', '97', '00', 'Otras subvenciones a obreros', 1),
@@ -4443,13 +10413,15 @@ INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifi
 -- Estructura de tabla para la tabla `perfil`
 --
 
-CREATE TABLE `perfil` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `perfil` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
   `cedula` int(8) NOT NULL,
-  `user_accounts` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Perfil de usuario';
+  `user_accounts` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_accounts` (`user_accounts`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Perfil de usuario' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -4457,10 +10429,11 @@ CREATE TABLE `perfil` (
 -- Estructura de tabla para la tabla `plan_operativo`
 --
 
-CREATE TABLE `plan_operativo` (
-  `id` int(11) NOT NULL,
-  `plan_operativo` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `plan_operativo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `plan_operativo` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `plan_operativo`
@@ -4476,10 +10449,11 @@ INSERT INTO `plan_operativo` (`id`, `plan_operativo`) VALUES
 -- Estructura de tabla para la tabla `presentacion`
 --
 
-CREATE TABLE `presentacion` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `presentacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(60) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `presentacion`
@@ -4495,7 +10469,7 @@ INSERT INTO `presentacion` (`id`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `programacion_fisica_presupuestaria`
 --
 
-CREATE TABLE `programacion_fisica_presupuestaria` (
+CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
   `id` int(11) NOT NULL,
   `id_proyecto_accion_especifica` int(11) NOT NULL,
   `tipo_distribucion` int(11) DEFAULT NULL,
@@ -4510,7 +10484,10 @@ CREATE TABLE `programacion_fisica_presupuestaria` (
   `septiembre` decimal(10,0) DEFAULT NULL,
   `octubre` decimal(10,0) DEFAULT NULL,
   `noviembre` decimal(10,0) DEFAULT NULL,
-  `diciembre` decimal(10,0) DEFAULT NULL
+  `diciembre` decimal(10,0) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_programacion_fisica_presupuestaria_1_idx` (`tipo_distribucion`),
+  KEY `fk_programacion_fisica_presupuestaria_2_idx` (`id_proyecto_accion_especifica`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4519,8 +10496,8 @@ CREATE TABLE `programacion_fisica_presupuestaria` (
 -- Estructura de tabla para la tabla `proyecto`
 --
 
-CREATE TABLE `proyecto` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `proyecto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_proyecto` varchar(45) DEFAULT NULL,
   `codigo_sne` varchar(45) DEFAULT NULL,
   `nombre` text NOT NULL,
@@ -4538,8 +10515,18 @@ CREATE TABLE `proyecto` (
   `objetivo_estrategico_institucional` text NOT NULL,
   `ambito` int(11) NOT NULL,
   `aprobado` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Estatus de aprobación',
-  `estatus` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `estatus` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `codigo_proyecto_UNIQUE` (`codigo_proyecto`),
+  UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
+  KEY `estatus_proyecto_fk` (`estatus_proyecto`),
+  KEY `situacion_presupuestaria_fk` (`situacion_presupuestaria`),
+  KEY `clasificacion_sector_fk` (`sector`) USING BTREE,
+  KEY `sub_sector_fk` (`sub_sector`) USING BTREE,
+  KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
+  KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
+  KEY `ambito_fk` (`ambito`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1000000 ;
 
 --
 -- Volcado de datos para la tabla `proyecto`
@@ -4555,8 +10542,8 @@ INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `fecha_
 -- Estructura de tabla para la tabla `proyecto_accion_especifica`
 --
 
-CREATE TABLE `proyecto_accion_especifica` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_proyecto` int(11) NOT NULL,
   `codigo_accion_especifica` varchar(3) NOT NULL,
   `nombre` text,
@@ -4568,8 +10555,12 @@ CREATE TABLE `proyecto_accion_especifica` (
   `fecha_inicio` date NOT NULL COMMENT 'Fecha de inicio de la acción específica',
   `fecha_fin` date NOT NULL COMMENT 'Fecha de fin de la acción específica',
   `estatus` tinyint(4) NOT NULL,
-  `aprobado` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `aprobado` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
+  KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`),
+  KEY `unidad_medida` (`unidad_medida`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_accion_especifica`
@@ -4592,8 +10583,8 @@ INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_es
 -- Estructura de tabla para la tabla `proyecto_alcance`
 --
 
-CREATE TABLE `proyecto_alcance` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_proyecto` int(11) NOT NULL,
   `enunciado_problema` text NOT NULL COMMENT 'Enunciado del problema o necesidad',
   `poblacion_afectada` text NOT NULL COMMENT 'Población afectada',
@@ -4632,8 +10623,10 @@ CREATE TABLE `proyecto_alcance` (
   `vinculado_nombre_instancia` varchar(80) DEFAULT NULL COMMENT 'Nombre de la instancia responsable del proyecto con el que este se encuentra vinculado',
   `vinculado_nombre_proyecto` text COMMENT 'Nombre del proyecto con el que se encuentra vinculado',
   `vinculado_medida` text COMMENT '¿En que medida se encuentran vinculados los proyectos?',
-  `obstaculos` text NOT NULL COMMENT ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto';
+  `obstaculos` text NOT NULL COMMENT ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:',
+  PRIMARY KEY (`id`),
+  KEY `id_proyecto` (`id_proyecto`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto' AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_alcance`
@@ -4649,9 +10642,10 @@ INSERT INTO `proyecto_alcance` (`id`, `id_proyecto`, `enunciado_problema`, `pobl
 -- Estructura de tabla para la tabla `proyecto_fuente_financiamiento`
 --
 
-CREATE TABLE `proyecto_fuente_financiamiento` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `proyecto_fuente_financiamiento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -4659,14 +10653,20 @@ CREATE TABLE `proyecto_fuente_financiamiento` (
 -- Estructura de tabla para la tabla `proyecto_localizacion`
 --
 
-CREATE TABLE `proyecto_localizacion` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `proyecto_localizacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_proyecto` int(11) NOT NULL,
   `id_pais` int(11) NOT NULL,
   `id_estado` int(11) DEFAULT NULL,
   `id_municipio` int(11) DEFAULT NULL,
-  `id_parroquia` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_parroquia` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `estados_fk_idx` (`id_estado`),
+  KEY `municipio_fk_idx` (`id_municipio`),
+  KEY `parroquia_fk_idx` (`id_parroquia`),
+  KEY `proyecto_fk_idx` (`id_proyecto`),
+  KEY `id_pais` (`id_pais`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_localizacion`
@@ -4684,8 +10684,8 @@ INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`
 -- Estructura de tabla para la tabla `proyecto_pedido`
 --
 
-CREATE TABLE `proyecto_pedido` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_material` int(11) NOT NULL,
   `enero` int(11) NOT NULL DEFAULT '0',
   `febrero` int(11) NOT NULL DEFAULT '0',
@@ -4702,8 +10702,11 @@ CREATE TABLE `proyecto_pedido` (
   `precio` decimal(12,2) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `asignado` int(11) NOT NULL COMMENT 'ID de la asignacion (Usuario-UE-AC)',
-  `estatus` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `estatus` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_material` (`id_material`),
+  KEY `asignado` (`asignado`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_pedido`
@@ -4711,7 +10714,9 @@ CREATE TABLE `proyecto_pedido` (
 
 INSERT INTO `proyecto_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `precio`, `fecha_creacion`, `asignado`, `estatus`) VALUES
 (7, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '4620.00', '2016-07-09 07:57:12', 11, 1),
-(8, 5, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, '63.00', '2016-07-09 08:27:01', 11, 1);
+(8, 5, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, '63.00', '2016-07-09 08:27:01', 11, 1),
+(9, 41, 20, 2, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0, '6.00', '2016-07-11 13:14:30', 11, 1),
+(10, 4, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, '168.00', '2016-07-11 19:59:47', 11, 1);
 
 -- --------------------------------------------------------
 
@@ -4719,14 +10724,16 @@ INSERT INTO `proyecto_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`,
 -- Estructura de tabla para la tabla `proyecto_registrador`
 --
 
-CREATE TABLE `proyecto_registrador` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(30) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(80) DEFAULT NULL,
   `telefono` varchar(14) NOT NULL,
-  `id_proyecto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_proyecto` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_proyecto` (`id_proyecto`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_registrador`
@@ -4741,14 +10748,16 @@ INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono
 -- Estructura de tabla para la tabla `proyecto_responsable`
 --
 
-CREATE TABLE `proyecto_responsable` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `proyecto_responsable` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(14) NOT NULL,
-  `id_proyecto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_proyecto` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `proyecto_fk` (`id_proyecto`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable`
@@ -4763,15 +10772,17 @@ INSERT INTO `proyecto_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono
 -- Estructura de tabla para la tabla `proyecto_responsable_administrativo`
 --
 
-CREATE TABLE `proyecto_responsable_administrativo` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_administradora` varchar(45) NOT NULL,
-  `id_proyecto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_proyecto` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_id_proyecto_idx` (`id_proyecto`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -4779,15 +10790,17 @@ CREATE TABLE `proyecto_responsable_administrativo` (
 -- Estructura de tabla para la tabla `proyecto_responsable_tecnico`
 --
 
-CREATE TABLE `proyecto_responsable_tecnico` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_tecnica` varchar(45) NOT NULL,
-  `id_proyecto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_proyecto` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_proyecto_fk` (`id_proyecto`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_responsable_tecnico`
@@ -4802,19 +10815,23 @@ INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `
 -- Estructura de tabla para la tabla `proyecto_usuario_asignar`
 --
 
-CREATE TABLE `proyecto_usuario_asignar` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `proyecto_usuario_asignar` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL COMMENT 'Llave foránea de usuario',
   `proyecto_especifica` int(11) NOT NULL COMMENT 'llave foránea de acción especifica',
-  `estatus` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de un proyecto';
+  `estatus` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `usuario` (`usuario_id`),
+  KEY `proyecto_especifica_ue` (`proyecto_especifica`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de un proyecto' AUTO_INCREMENT=13 ;
 
 --
 -- Volcado de datos para la tabla `proyecto_usuario_asignar`
 --
 
 INSERT INTO `proyecto_usuario_asignar` (`id`, `usuario_id`, `proyecto_especifica`, `estatus`) VALUES
-(11, 2, 20, 1);
+(11, 2, 20, 1),
+(12, 1, 27, 1);
 
 -- --------------------------------------------------------
 
@@ -4822,15 +10839,17 @@ INSERT INTO `proyecto_usuario_asignar` (`id`, `usuario_id`, `proyecto_especifica
 -- Estructura de tabla para la tabla `responsable_acc_variable`
 --
 
-CREATE TABLE `responsable_acc_variable` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `responsable_acc_variable` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `oficina` varchar(60) NOT NULL,
-  `id_variable` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_variable` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_variable` (`id_variable`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 --
 -- Volcado de datos para la tabla `responsable_acc_variable`
@@ -4845,10 +10864,11 @@ INSERT INTO `responsable_acc_variable` (`id`, `nombre`, `cedula`, `email`, `tele
 -- Estructura de tabla para la tabla `sector`
 --
 
-CREATE TABLE `sector` (
-  `id` int(11) NOT NULL,
-  `sector` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `sector` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sector` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Volcado de datos para la tabla `sector`
@@ -4878,10 +10898,11 @@ INSERT INTO `sector` (`id`, `sector`) VALUES
 -- Estructura de tabla para la tabla `situacion_presupuestaria`
 --
 
-CREATE TABLE `situacion_presupuestaria` (
-  `id` int(11) NOT NULL,
-  `situacion` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `situacion_presupuestaria` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `situacion` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `situacion_presupuestaria`
@@ -4896,10 +10917,11 @@ INSERT INTO `situacion_presupuestaria` (`id`, `situacion`) VALUES
 -- Estructura de tabla para la tabla `sub_sector`
 --
 
-CREATE TABLE `sub_sector` (
-  `id` int(11) NOT NULL,
-  `sub_sector` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `sub_sector` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sub_sector` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `sub_sector`
@@ -4914,10 +10936,11 @@ INSERT INTO `sub_sector` (`id`, `sub_sector`) VALUES
 -- Estructura de tabla para la tabla `tipo_distribucion`
 --
 
-CREATE TABLE `tipo_distribucion` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(45) CHARACTER SET latin1 DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `tipo_distribucion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -4925,10 +10948,11 @@ CREATE TABLE `tipo_distribucion` (
 -- Estructura de tabla para la tabla `tipo_financiamiento`
 --
 
-CREATE TABLE `tipo_financiamiento` (
-  `id` int(11) NOT NULL,
-  `tipo` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `tipo_financiamiento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `tipo_financiamiento`
@@ -4944,11 +10968,13 @@ INSERT INTO `tipo_financiamiento` (`id`, `tipo`) VALUES
 -- Estructura de tabla para la tabla `unidad_ejecutora`
 --
 
-CREATE TABLE `unidad_ejecutora` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `unidad_ejecutora` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_ue` varchar(5) CHARACTER SET latin1 NOT NULL,
-  `nombre` text CHARACTER SET latin1 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `nombre` text CHARACTER SET latin1 NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `codigo_ue_UNIQUE` (`codigo_ue`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=688 ;
 
 --
 -- Volcado de datos para la tabla `unidad_ejecutora`
@@ -5051,10 +11077,11 @@ INSERT INTO `unidad_ejecutora` (`id`, `codigo_ue`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `unidad_medida`
 --
 
-CREATE TABLE `unidad_medida` (
-  `id` int(11) NOT NULL,
-  `unidad_medida` varchar(45) NOT NULL COMMENT 'Unidad de medida'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Unidad de medida para el alcance e impacto del proyecto';
+CREATE TABLE IF NOT EXISTS `unidad_medida` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `unidad_medida` varchar(45) NOT NULL COMMENT 'Unidad de medida',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Unidad de medida para el alcance e impacto del proyecto' AUTO_INCREMENT=623 ;
 
 --
 -- Volcado de datos para la tabla `unidad_medida`
@@ -5690,8 +11717,8 @@ INSERT INTO `unidad_medida` (`id`, `unidad_medida`) VALUES
 -- Estructura de tabla para la tabla `user_accounts`
 --
 
-CREATE TABLE `user_accounts` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
@@ -5704,8 +11731,11 @@ CREATE TABLE `user_accounts` (
   `blocked_at` int(11) DEFAULT NULL,
   `confirmed_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `updated_at` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_unique_login` (`login`),
+  UNIQUE KEY `user_unique_username` (`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `user_accounts`
@@ -5716,766 +11746,6 @@ INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_k
 (2, 'antonioluismonasterio@gmail.com', 'antonio', '$2y$13$uRtF0rjXFE4jX1RIQ3kIqOBhEKjPzGBJp1zf20M04v8mYmNihVSBe', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1449848097, 1449848097, 1466698373),
 (3, 'walter86_79@hotmail.com', 'soulip', '$2y$13$UjYRjClQAEpe2OzeogsZoederx9EgVItIQCy5bNrV0xz8vQWDI3DS', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1454610570, 1454610571, 1458107096);
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `accion_centralizada`
---
-ALTER TABLE `accion_centralizada`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `accion_centralizada_accion_especifica`
---
-ALTER TABLE `accion_centralizada_accion_especifica`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_ac_centr` (`id_ac_centr`);
-
---
--- Indices de la tabla `accion_centralizada_ac_especifica_uej`
---
-ALTER TABLE `accion_centralizada_ac_especifica_uej`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_ue` (`id_ue`),
-  ADD KEY `id_v` (`id_ac_esp`);
-
---
--- Indices de la tabla `accion_centralizada_asignar`
---
-ALTER TABLE `accion_centralizada_asignar`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `usuario` (`usuario`),
-  ADD KEY `unidad_ejecutora` (`unidad_ejecutora`),
-  ADD KEY `accion_especifica` (`accion_especifica`);
-
---
--- Indices de la tabla `accion_centralizada_desbloqueo_mes`
---
-ALTER TABLE `accion_centralizada_desbloqueo_mes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_ejecucion` (`id_ejecucion`);
-
---
--- Indices de la tabla `accion_centralizada_pedido`
---
-ALTER TABLE `accion_centralizada_pedido`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_material` (`id_material`),
-  ADD KEY `asignado` (`asignado`);
-
---
--- Indices de la tabla `accion_centralizada_variables`
---
-ALTER TABLE `accion_centralizada_variables`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `unidad_medida_2` (`unidad_medida`),
-  ADD KEY `localizacion` (`localizacion`),
-  ADD KEY `meta_programada_variable` (`meta_programada_variable`),
-  ADD KEY `unidad_ejecutora` (`unidad_ejecutora`),
-  ADD KEY `acc_accion_especifica` (`acc_accion_especifica`);
-
---
--- Indices de la tabla `accion_centralizada_variables_usuarios`
---
-ALTER TABLE `accion_centralizada_variables_usuarios`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_variable` (`id_variable`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `accion_centralizada_variable_ejecucion`
---
-ALTER TABLE `accion_centralizada_variable_ejecucion`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_programacion` (`id_programacion`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `accion_centralizada_variable_programacion`
---
-ALTER TABLE `accion_centralizada_variable_programacion`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_localizacion` (`id_localizacion`);
-
---
--- Indices de la tabla `ambito`
---
-ALTER TABLE `ambito`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `audit_data`
---
-ALTER TABLE `audit_data`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_audit_data_entry_id` (`entry_id`);
-
---
--- Indices de la tabla `audit_entry`
---
-ALTER TABLE `audit_entry`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `idx_route` (`route`);
-
---
--- Indices de la tabla `audit_error`
---
-ALTER TABLE `audit_error`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_audit_error_entry_id` (`entry_id`),
-  ADD KEY `idx_file` (`file`(180)),
-  ADD KEY `idx_emailed` (`emailed`);
-
---
--- Indices de la tabla `audit_javascript`
---
-ALTER TABLE `audit_javascript`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_audit_javascript_entry_id` (`entry_id`);
-
---
--- Indices de la tabla `audit_mail`
---
-ALTER TABLE `audit_mail`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_audit_mail_entry_id` (`entry_id`);
-
---
--- Indices de la tabla `audit_trail`
---
-ALTER TABLE `audit_trail`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_audit_trail_entry_id` (`entry_id`),
-  ADD KEY `idx_audit_user_id` (`user_id`),
-  ADD KEY `idx_audit_trail_field` (`model`,`model_id`,`field`),
-  ADD KEY `idx_audit_trail_action` (`action`);
-
---
--- Indices de la tabla `auth_assignment`
---
-ALTER TABLE `auth_assignment`
-  ADD PRIMARY KEY (`item_name`,`user_id`);
-
---
--- Indices de la tabla `auth_item`
---
-ALTER TABLE `auth_item`
-  ADD PRIMARY KEY (`name`),
-  ADD KEY `rule_name` (`rule_name`),
-  ADD KEY `idx-auth_item-type` (`type`);
-
---
--- Indices de la tabla `auth_item_child`
---
-ALTER TABLE `auth_item_child`
-  ADD PRIMARY KEY (`parent`,`child`),
-  ADD KEY `child` (`child`);
-
---
--- Indices de la tabla `auth_rule`
---
-ALTER TABLE `auth_rule`
-  ADD PRIMARY KEY (`name`);
-
---
--- Indices de la tabla `cuenta_presupuestaria`
---
-ALTER TABLE `cuenta_presupuestaria`
-  ADD PRIMARY KEY (`cuenta`);
-
---
--- Indices de la tabla `estados`
---
-ALTER TABLE `estados`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_pais` (`id_pais`);
-
---
--- Indices de la tabla `estatus_proyecto`
---
-ALTER TABLE `estatus_proyecto`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `fuente_financiamiento`
---
-ALTER TABLE `fuente_financiamiento`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `instancia_institucion`
---
-ALTER TABLE `instancia_institucion`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `localizacion_acc_variable`
---
-ALTER TABLE `localizacion_acc_variable`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_variable` (`id_variable`),
-  ADD KEY `id_pais` (`id_pais`),
-  ADD KEY `id_estado` (`id_estado`),
-  ADD KEY `id_municipio` (`id_municipio`),
-  ADD KEY `id_parroquia` (`id_parroquia`);
-
---
--- Indices de la tabla `materiales_servicios`
---
-ALTER TABLE `materiales_servicios`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `cuenta` (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`),
-  ADD KEY `unidad_medida` (`unidad_medida`),
-  ADD KEY `presentacion` (`presentacion`);
-
---
--- Indices de la tabla `migration`
---
-ALTER TABLE `migration`
-  ADD PRIMARY KEY (`version`);
-
---
--- Indices de la tabla `modelhistory`
---
-ALTER TABLE `modelhistory`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx-table` (`table`),
-  ADD KEY `idx-field_name` (`field_name`),
-  ADD KEY `idx-type` (`type`),
-  ADD KEY `idx-user_id` (`user_id`);
-
---
--- Indices de la tabla `municipio`
---
-ALTER TABLE `municipio`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_estado` (`id_estado`);
-
---
--- Indices de la tabla `notification`
---
-ALTER TABLE `notification`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `objetivos_estrategicos`
---
-ALTER TABLE `objetivos_estrategicos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `directriz` (`objetivo_nacional`);
-
---
--- Indices de la tabla `objetivos_generales`
---
-ALTER TABLE `objetivos_generales`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `estrategia` (`objetivo_estrategico`);
-
---
--- Indices de la tabla `objetivos_historicos`
---
-ALTER TABLE `objetivos_historicos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `objetivos_nacionales`
---
-ALTER TABLE `objetivos_nacionales`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `directriz` (`objetivo_historico`);
-
---
--- Indices de la tabla `pais`
---
-ALTER TABLE `pais`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `parroquia`
---
-ALTER TABLE `parroquia`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_municipio` (`id_municipio`);
-
---
--- Indices de la tabla `partida_especifica`
---
-ALTER TABLE `partida_especifica`
-  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`) USING BTREE;
-
---
--- Indices de la tabla `partida_generica`
---
-ALTER TABLE `partida_generica`
-  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`) USING BTREE;
-
---
--- Indices de la tabla `partida_partida`
---
-ALTER TABLE `partida_partida`
-  ADD PRIMARY KEY (`cuenta`,`partida`) USING BTREE,
-  ADD KEY `ramo` (`cuenta`);
-
---
--- Indices de la tabla `partida_sub_especifica`
---
-ALTER TABLE `partida_sub_especifica`
-  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`) USING BTREE;
-
---
--- Indices de la tabla `perfil`
---
-ALTER TABLE `perfil`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_accounts` (`user_accounts`);
-
---
--- Indices de la tabla `plan_operativo`
---
-ALTER TABLE `plan_operativo`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `presentacion`
---
-ALTER TABLE `presentacion`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `programacion_fisica_presupuestaria`
---
-ALTER TABLE `programacion_fisica_presupuestaria`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_programacion_fisica_presupuestaria_1_idx` (`tipo_distribucion`),
-  ADD KEY `fk_programacion_fisica_presupuestaria_2_idx` (`id_proyecto_accion_especifica`);
-
---
--- Indices de la tabla `proyecto`
---
-ALTER TABLE `proyecto`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `codigo_proyecto_UNIQUE` (`codigo_proyecto`),
-  ADD UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
-  ADD KEY `estatus_proyecto_fk` (`estatus_proyecto`),
-  ADD KEY `situacion_presupuestaria_fk` (`situacion_presupuestaria`),
-  ADD KEY `clasificacion_sector_fk` (`sector`) USING BTREE,
-  ADD KEY `sub_sector_fk` (`sub_sector`) USING BTREE,
-  ADD KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
-  ADD KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
-  ADD KEY `ambito_fk` (`ambito`) USING BTREE;
-
---
--- Indices de la tabla `proyecto_accion_especifica`
---
-ALTER TABLE `proyecto_accion_especifica`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
-  ADD KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`),
-  ADD KEY `unidad_medida` (`unidad_medida`);
-
---
--- Indices de la tabla `proyecto_alcance`
---
-ALTER TABLE `proyecto_alcance`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_proyecto` (`id_proyecto`);
-
---
--- Indices de la tabla `proyecto_fuente_financiamiento`
---
-ALTER TABLE `proyecto_fuente_financiamiento`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `proyecto_localizacion`
---
-ALTER TABLE `proyecto_localizacion`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `estados_fk_idx` (`id_estado`),
-  ADD KEY `municipio_fk_idx` (`id_municipio`),
-  ADD KEY `parroquia_fk_idx` (`id_parroquia`),
-  ADD KEY `proyecto_fk_idx` (`id_proyecto`),
-  ADD KEY `id_pais` (`id_pais`);
-
---
--- Indices de la tabla `proyecto_pedido`
---
-ALTER TABLE `proyecto_pedido`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_material` (`id_material`),
-  ADD KEY `asignado` (`asignado`);
-
---
--- Indices de la tabla `proyecto_registrador`
---
-ALTER TABLE `proyecto_registrador`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_proyecto` (`id_proyecto`);
-
---
--- Indices de la tabla `proyecto_responsable`
---
-ALTER TABLE `proyecto_responsable`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `proyecto_fk` (`id_proyecto`);
-
---
--- Indices de la tabla `proyecto_responsable_administrativo`
---
-ALTER TABLE `proyecto_responsable_administrativo`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_id_proyecto_idx` (`id_proyecto`);
-
---
--- Indices de la tabla `proyecto_responsable_tecnico`
---
-ALTER TABLE `proyecto_responsable_tecnico`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_proyecto_fk` (`id_proyecto`);
-
---
--- Indices de la tabla `proyecto_usuario_asignar`
---
-ALTER TABLE `proyecto_usuario_asignar`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `usuario` (`usuario_id`),
-  ADD KEY `proyecto_especifica_ue` (`proyecto_especifica`);
-
---
--- Indices de la tabla `responsable_acc_variable`
---
-ALTER TABLE `responsable_acc_variable`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_variable` (`id_variable`);
-
---
--- Indices de la tabla `sector`
---
-ALTER TABLE `sector`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `situacion_presupuestaria`
---
-ALTER TABLE `situacion_presupuestaria`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `sub_sector`
---
-ALTER TABLE `sub_sector`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tipo_distribucion`
---
-ALTER TABLE `tipo_distribucion`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tipo_financiamiento`
---
-ALTER TABLE `tipo_financiamiento`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `unidad_ejecutora`
---
-ALTER TABLE `unidad_ejecutora`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `codigo_ue_UNIQUE` (`codigo_ue`);
-
---
--- Indices de la tabla `unidad_medida`
---
-ALTER TABLE `unidad_medida`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `user_accounts`
---
-ALTER TABLE `user_accounts`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_unique_login` (`login`),
-  ADD UNIQUE KEY `user_unique_username` (`username`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `accion_centralizada`
---
-ALTER TABLE `accion_centralizada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `accion_centralizada_accion_especifica`
---
-ALTER TABLE `accion_centralizada_accion_especifica`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT de la tabla `accion_centralizada_ac_especifica_uej`
---
-ALTER TABLE `accion_centralizada_ac_especifica_uej`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
---
--- AUTO_INCREMENT de la tabla `accion_centralizada_asignar`
---
-ALTER TABLE `accion_centralizada_asignar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `accion_centralizada_desbloqueo_mes`
---
-ALTER TABLE `accion_centralizada_desbloqueo_mes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
---
--- AUTO_INCREMENT de la tabla `accion_centralizada_pedido`
---
-ALTER TABLE `accion_centralizada_pedido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `accion_centralizada_variables`
---
-ALTER TABLE `accion_centralizada_variables`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
---
--- AUTO_INCREMENT de la tabla `accion_centralizada_variables_usuarios`
---
-ALTER TABLE `accion_centralizada_variables_usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
---
--- AUTO_INCREMENT de la tabla `accion_centralizada_variable_ejecucion`
---
-ALTER TABLE `accion_centralizada_variable_ejecucion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
---
--- AUTO_INCREMENT de la tabla `accion_centralizada_variable_programacion`
---
-ALTER TABLE `accion_centralizada_variable_programacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
---
--- AUTO_INCREMENT de la tabla `ambito`
---
-ALTER TABLE `ambito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT de la tabla `audit_data`
---
-ALTER TABLE `audit_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
---
--- AUTO_INCREMENT de la tabla `audit_entry`
---
-ALTER TABLE `audit_entry`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT de la tabla `audit_error`
---
-ALTER TABLE `audit_error`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `audit_javascript`
---
-ALTER TABLE `audit_javascript`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `audit_mail`
---
-ALTER TABLE `audit_mail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `audit_trail`
---
-ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=372;
---
--- AUTO_INCREMENT de la tabla `estados`
---
-ALTER TABLE `estados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
---
--- AUTO_INCREMENT de la tabla `estatus_proyecto`
---
-ALTER TABLE `estatus_proyecto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `fuente_financiamiento`
---
-ALTER TABLE `fuente_financiamiento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
---
--- AUTO_INCREMENT de la tabla `instancia_institucion`
---
-ALTER TABLE `instancia_institucion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `localizacion_acc_variable`
---
-ALTER TABLE `localizacion_acc_variable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
---
--- AUTO_INCREMENT de la tabla `materiales_servicios`
---
-ALTER TABLE `materiales_servicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
---
--- AUTO_INCREMENT de la tabla `modelhistory`
---
-ALTER TABLE `modelhistory`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `municipio`
---
-ALTER TABLE `municipio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `notification`
---
-ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
---
--- AUTO_INCREMENT de la tabla `objetivos_estrategicos`
---
-ALTER TABLE `objetivos_estrategicos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
---
--- AUTO_INCREMENT de la tabla `objetivos_generales`
---
-ALTER TABLE `objetivos_generales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
---
--- AUTO_INCREMENT de la tabla `objetivos_historicos`
---
-ALTER TABLE `objetivos_historicos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `objetivos_nacionales`
---
-ALTER TABLE `objetivos_nacionales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
---
--- AUTO_INCREMENT de la tabla `parroquia`
---
-ALTER TABLE `parroquia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `perfil`
---
-ALTER TABLE `perfil`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `plan_operativo`
---
-ALTER TABLE `plan_operativo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `presentacion`
---
-ALTER TABLE `presentacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `proyecto`
---
-ALTER TABLE `proyecto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000000;
---
--- AUTO_INCREMENT de la tabla `proyecto_accion_especifica`
---
-ALTER TABLE `proyecto_accion_especifica`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
---
--- AUTO_INCREMENT de la tabla `proyecto_alcance`
---
-ALTER TABLE `proyecto_alcance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `proyecto_fuente_financiamiento`
---
-ALTER TABLE `proyecto_fuente_financiamiento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `proyecto_localizacion`
---
-ALTER TABLE `proyecto_localizacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
---
--- AUTO_INCREMENT de la tabla `proyecto_pedido`
---
-ALTER TABLE `proyecto_pedido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT de la tabla `proyecto_registrador`
---
-ALTER TABLE `proyecto_registrador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `proyecto_responsable`
---
-ALTER TABLE `proyecto_responsable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `proyecto_responsable_administrativo`
---
-ALTER TABLE `proyecto_responsable_administrativo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `proyecto_responsable_tecnico`
---
-ALTER TABLE `proyecto_responsable_tecnico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `proyecto_usuario_asignar`
---
-ALTER TABLE `proyecto_usuario_asignar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
---
--- AUTO_INCREMENT de la tabla `responsable_acc_variable`
---
-ALTER TABLE `responsable_acc_variable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
---
--- AUTO_INCREMENT de la tabla `sector`
---
-ALTER TABLE `sector`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
---
--- AUTO_INCREMENT de la tabla `situacion_presupuestaria`
---
-ALTER TABLE `situacion_presupuestaria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `sub_sector`
---
-ALTER TABLE `sub_sector`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `tipo_distribucion`
---
-ALTER TABLE `tipo_distribucion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `tipo_financiamiento`
---
-ALTER TABLE `tipo_financiamiento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `unidad_ejecutora`
---
-ALTER TABLE `unidad_ejecutora`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=688;
---
--- AUTO_INCREMENT de la tabla `unidad_medida`
---
-ALTER TABLE `unidad_medida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=623;
---
--- AUTO_INCREMENT de la tabla `user_accounts`
---
-ALTER TABLE `user_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Restricciones para tablas volcadas
 --
@@ -6498,8 +11768,7 @@ ALTER TABLE `accion_centralizada_ac_especifica_uej`
 --
 ALTER TABLE `accion_centralizada_asignar`
   ADD CONSTRAINT `accion_centralizada_asignar_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `accion_centralizada_asignar_ibfk_2` FOREIGN KEY (`unidad_ejecutora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `accion_centralizada_asignar_ibfk_3` FOREIGN KEY (`accion_especifica`) REFERENCES `accion_centralizada_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `frk_asignacion_uej_acc_especifica` FOREIGN KEY (`accion_especifica_ue`) REFERENCES `accion_centralizada_ac_especifica_uej` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `accion_centralizada_desbloqueo_mes`
@@ -6564,157 +11833,6 @@ ALTER TABLE `audit_javascript`
 --
 ALTER TABLE `audit_mail`
   ADD CONSTRAINT `fk_audit_mail_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
-
---
--- Filtros para la tabla `audit_trail`
---
-ALTER TABLE `audit_trail`
-  ADD CONSTRAINT `fk_audit_trail_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
-
---
--- Filtros para la tabla `auth_assignment`
---
-ALTER TABLE `auth_assignment`
-  ADD CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `auth_item`
---
-ALTER TABLE `auth_item`
-  ADD CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `auth_item_child`
---
-ALTER TABLE `auth_item_child`
-  ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `localizacion_acc_variable`
---
-ALTER TABLE `localizacion_acc_variable`
-  ADD CONSTRAINT `frk_acc_variable_localizacion` FOREIGN KEY (`id_variable`) REFERENCES `accion_centralizada_variables` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `frk_estados_variables` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `frk_municipio_variable` FOREIGN KEY (`id_municipio`) REFERENCES `municipio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `frk_pais_variable` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `frk_parroquia_variable` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `materiales_servicios`
---
-ALTER TABLE `materiales_servicios`
-  ADD CONSTRAINT `frk_pre_materiales` FOREIGN KEY (`presentacion`) REFERENCES `presentacion` (`id`),
-  ADD CONSTRAINT `frk_um_materiales` FOREIGN KEY (`unidad_medida`) REFERENCES `unidad_medida` (`id`),
-  ADD CONSTRAINT `materiales_servicios_ibfk_1` FOREIGN KEY (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`) REFERENCES `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`);
-
---
--- Filtros para la tabla `objetivos_generales`
---
-ALTER TABLE `objetivos_generales`
-  ADD CONSTRAINT `objetivos_generales_ibfk_1` FOREIGN KEY (`objetivo_estrategico`) REFERENCES `objetivos_estrategicos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `partida_especifica`
---
-ALTER TABLE `partida_especifica`
-  ADD CONSTRAINT `partida_especifica_ibfk_1` FOREIGN KEY (`cuenta`,`partida`,`generica`) REFERENCES `partida_generica` (`cuenta`, `partida`, `generica`);
-
---
--- Filtros para la tabla `partida_generica`
---
-ALTER TABLE `partida_generica`
-  ADD CONSTRAINT `partida_generica_ibfk_1` FOREIGN KEY (`cuenta`,`partida`) REFERENCES `partida_partida` (`cuenta`, `partida`);
-
---
--- Filtros para la tabla `partida_partida`
---
-ALTER TABLE `partida_partida`
-  ADD CONSTRAINT `partida_partida_ibfk_1` FOREIGN KEY (`cuenta`) REFERENCES `cuenta_presupuestaria` (`cuenta`);
-
---
--- Filtros para la tabla `partida_sub_especifica`
---
-ALTER TABLE `partida_sub_especifica`
-  ADD CONSTRAINT `partida_sub_especifica_ibfk_1` FOREIGN KEY (`cuenta`,`partida`,`generica`,`especifica`) REFERENCES `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`);
-
---
--- Filtros para la tabla `perfil`
---
-ALTER TABLE `perfil`
-  ADD CONSTRAINT `user_accounts_idfk` FOREIGN KEY (`user_accounts`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `programacion_fisica_presupuestaria`
---
-ALTER TABLE `programacion_fisica_presupuestaria`
-  ADD CONSTRAINT `fk_programacion_fisica_presupuestaria_1` FOREIGN KEY (`tipo_distribucion`) REFERENCES `tipo_distribucion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `proyecto_accion_especifica`
---
-ALTER TABLE `proyecto_accion_especifica`
-  ADD CONSTRAINT `fk_accion_especifica_proyecto_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_accion_especifica_proyecto_2` FOREIGN KEY (`id_unidad_ejecutora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `proyecto_alcance`
---
-ALTER TABLE `proyecto_alcance`
-  ADD CONSTRAINT `proyecto_alcance_ibfk_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `proyecto_localizacion`
---
-ALTER TABLE `proyecto_localizacion`
-  ADD CONSTRAINT `estado_fk` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `municipio_fk` FOREIGN KEY (`id_municipio`) REFERENCES `municipio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `parroquia_fk` FOREIGN KEY (`id_parroquia`) REFERENCES `parroquia` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `proyecto_fk` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `proyecto_pedido`
---
-ALTER TABLE `proyecto_pedido`
-  ADD CONSTRAINT `frk_asignado_pedido` FOREIGN KEY (`asignado`) REFERENCES `proyecto_usuario_asignar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `frk_materiales_pedido` FOREIGN KEY (`id_material`) REFERENCES `materiales_servicios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `proyecto_registrador`
---
-ALTER TABLE `proyecto_registrador`
-  ADD CONSTRAINT `proyecto_registrador_ibfk_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `proyecto_responsable`
---
-ALTER TABLE `proyecto_responsable`
-  ADD CONSTRAINT `fk_responsable_proyecto_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `proyecto_responsable_administrativo`
---
-ALTER TABLE `proyecto_responsable_administrativo`
-  ADD CONSTRAINT `idx_id_proyecto_fk` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `proyecto_responsable_tecnico`
---
-ALTER TABLE `proyecto_responsable_tecnico`
-  ADD CONSTRAINT `fk_id_proyecto` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `proyecto_usuario_asignar`
---
-ALTER TABLE `proyecto_usuario_asignar`
-  ADD CONSTRAINT `proyecto_usuario_asignar_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `proyecto_usuario_asignar_ibfk_2` FOREIGN KEY (`proyecto_especifica`) REFERENCES `proyecto_accion_especifica` (`id`);
-
---
--- Filtros para la tabla `responsable_acc_variable`
---
-ALTER TABLE `responsable_acc_variable`
-  ADD CONSTRAINT `frk_acc_variable_responsable` FOREIGN KEY (`id_variable`) REFERENCES `accion_centralizada_variables` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

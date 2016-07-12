@@ -36,7 +36,6 @@
                     break;
                     case self::KEY_NUEVO_PEDIDO_ACC:
                     $pedido = AccioncentralizadaPedido::findOne($this->key_id);
-                
                     return Yii::t('app', 'Nuevo Requerimiento Central');
                     break;
             }
@@ -61,7 +60,7 @@
                     
                     return Yii::t('app', 'Pedido #{pedido} por {usuario}', [
                         'pedido' => $pedido->id,
-                        'usuario' => $pedido->asignado0->usuario->username
+                        'usuario' => $pedido->asignado0->nombreUsuario
                     ]);
                     break;
             }
@@ -82,8 +81,8 @@
                 case self::KEY_NUEVO_PEDIDO_ACC:
                     $pedido = AccionCentralizadaPedido::findOne($this->key_id);
                     
-                    return ['/accion-centralizada-pedido/pedido', 
-                        'ue' => $pedido->asignado0->unidad_ejecutora,
+                    return ['/accion-centralizada-pedido/view', 
+                        
                         'id' => $this->key_id];
                         break;
 

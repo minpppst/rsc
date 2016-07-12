@@ -14,6 +14,7 @@ class AccionCentralizadaPedidoSearch extends AccionCentralizadaPedido
 {
     public $nombreMaterial;
     public $idUnidadEjecutora;
+    public $idAcc;
     /**
      * @inheritdoc
      */
@@ -47,7 +48,8 @@ class AccionCentralizadaPedidoSearch extends AccionCentralizadaPedido
         $query = AccionCentralizadaPedido::find();
         // Join para la relacion
         $query->joinWith(['idMaterial']);
-        $query->joinWith(['asignado0']);
+        $query->joinWith(['asignado0.accion_centralizada_ac_especifica_uej']);
+        $query->joinWith(['asignado0.accion_centralizada_ac_especifica_uej']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -59,8 +61,13 @@ class AccionCentralizadaPedidoSearch extends AccionCentralizadaPedido
             'desc' => ['materiales_servicios.nombre' => SORT_DESC],
         ];
         $dataProvider->sort->attributes['idUnidadEjecutora'] = [
-            'asc' => ['accion_centralizada_asignar.unidad_ejecutora' => SORT_ASC],
-            'desc' => ['accion_centralizada_asignar.unidad_ejecutora' => SORT_DESC],
+            'asc' => ['accion_centralizada_ac_especifica_uej.id_ue' => SORT_ASC],
+            'desc' => ['accion_centralizada_ac_especifica_uej.id_ue' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['idAcc'] = [
+            'asc' => ['accion_centralizada_ac_especifica_uej.id_ac_esp' => SORT_ASC],
+            'desc' => ['accion_centralizada_ac_especifica_uej.id_ac_esp' => SORT_DESC],
         ];
 
         $this->load($params);
@@ -93,7 +100,8 @@ class AccionCentralizadaPedidoSearch extends AccionCentralizadaPedido
         ]);
 
         $query->andFilterWhere(['like','materiales_servicios.nombre',$this->nombreMaterial]);
-        $query->andFilterWhere(['accion_centralizada_asignar.unidad_ejecutora' => $this->idUnidadEjecutora]);
+        $query->andFilterWhere(['accion_centralizada_ac_especifica_uej.id_ue' => $this->idUnidadEjecutora]);
+        $query->andFilterWhere(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $this->idAcc]);
 
         return $dataProvider;
     }

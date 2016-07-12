@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'asignar' => function($url, $model) {
                         return Html::a('<i class="fa fa-shopping-basket"></i> Pedidos', 
-                            ['pedido', 'ue' => $model->id_ue],
+                            ['pedido', 'ue' => $model->id_ue, 'acc' => $model->id_ac_esp],
                             [
                                 'class' => 'btn btn-primary',
                                 'data-request-method' => 'post',

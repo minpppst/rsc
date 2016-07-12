@@ -315,4 +315,30 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+
+     public function toggleAprobado()
+     {
+        if($this->aprobado == 1)
+        {
+            $this->aprobado = 0;
+        }
+        else
+        {
+            $this->aprobado = 1;
+        }
+        
+        $this->save();
+
+        
+        
+
+        return true;
+    }
+
+
+    
+
+
+
 }

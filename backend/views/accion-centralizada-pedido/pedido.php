@@ -23,11 +23,41 @@ $icons=[
     'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
     'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
     'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
+    'aprobado'=>'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>',
+    'no-aprobado'=>'<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>',
 ];
 
 ?>
+ <div class="container-fluid">
+ <div class="pull-right" id="aprobar">
+            <?php 
+                if ($model->aprobado == 1 && $model->pedidoEjecutado==true) {
+                    echo Html::a($icons['aprobado'].' Aprobado', ['aprobar', 'id' => $model->id], [
+                                'class' => 'btn btn-success navbar-btn',
+                                'role' => 'modal-remote',
+                                'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                                'data-request-method' => 'post',
+                                'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"No Aprobado"</b>?'),
+                    ]);
+                } else {
+                    if($model->pedidoEjecutado==true){
+                    echo Html::a($icons['no-aprobado'].' No Aprobado', ['aprobar', 'id' => $model->id], [
+                                'class' => 'btn btn-warning navbar-btn',
+                                'role' => 'modal-remote',
+                                'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                                'data-request-method' => 'post',
+                                'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"Aprobado"</b>?'),
+                    ]);
+                }
+                }
+            ?>
+        </div>
+         </div>
 
 <div class="Accion Centralizada - pedido-index">
+   
     
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
@@ -83,7 +113,9 @@ $icons=[
                                 'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
                             ]),
                         ]).                       
-                        '<div class="clearfix"></div>',
+                        '<div class="clearfix">
+
+                        </div>',
             ]
         ])?>
     </div>

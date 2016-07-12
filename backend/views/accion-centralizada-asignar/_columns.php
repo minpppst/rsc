@@ -11,27 +11,20 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
-    // ],
-    /*
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'usuario',
-    ],
-    */
+       
     [
         'class'=>'\kartik\grid\DataColumn',
         'header' => 'Accion Centralizada',
-        'attribute'=>'accionEspecifica.idAcCentr.nombre_accion',
+        'attribute'=>'AccionCentralizada',
     ],    
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label' => 'Acción Especifica',
         'attribute'=>'nombreAe',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label' => 'Nombre Unidad Ejecutora',
         'attribute'=>'nombreUe',
     ],
     [
