@@ -11,20 +11,20 @@ use yii\widgets\DetailView;
         'model' => $model,
 
         'attributes' => [
-            'id',
-            'id_ac_centr',
-            'cod_ac_espe',
-           
-            'nombre:ntext',
-
             
-           
-
-             [
+            [
+            'attributes' => 'id_ac_centr',
+            'label' => 'Nombre de Acción Central',
+            'value' => $model->idAcCentr->nombre_accion,
+            ],
+            'cod_ac_espe',
+            'nombre:ntext',
+            [
                 'label' => 'Estatus',
                 'value' => $model->nombreEstatus,
             ],
-             [
+            
+            [
                 'label' => $model->getAttributeLabel('fecha_inicio'),
                 'value' => \Yii::$app->formatter->asDate($model->fecha_inicio)
 

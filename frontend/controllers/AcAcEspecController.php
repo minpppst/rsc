@@ -90,21 +90,15 @@ class AcAcEspecController extends Controller
     {   
         $request = Yii::$app->request;
         $model=$this->findModel($id);
-        $ue="";
-        foreach ($model->idAccuej as $key) {
-        $ue.=$key->idUe->nombre.", ";
-        }
-        $ue = substr($ue, 0, -2);
+        $unidad_ejecutora=new AcEspUej;
+        $ue=$unidad_ejecutora->obtener_uej_relacionadas($model->id);
         
-        
-        
-        $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre'); 
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                     'title'=> "Accion Especifica #".$id,
                     'content'=>$this->renderPartial('view', [
-                    'model' => $this->findModel($id),
+                    'model' => $model,
                     'rows' =>$ue,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -112,7 +106,7 @@ class AcAcEspecController extends Controller
                 ];    
         }else{
             return $this->render('view', [
-                'model' => $this->findModel($id),
+                'model' => $model,
                  'rows' =>$ue,
             ]);
         }
@@ -131,8 +125,6 @@ class AcAcEspecController extends Controller
         $model->id_ac_centr=$ac_centralizada; 
         $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre'); 
         
-
-
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -161,7 +153,7 @@ class AcAcEspecController extends Controller
                         // si salva el modelo padre, contamos las uej a guardar
                         while(count($request->post('id_ue'))!=$i){
                             //guardamos las uej, si ocurre algun error devuelve false
-                        $salvar=$model->uejecutoras($uni_eje[$i]);
+                        $salvar=$model->uejecutoras_crear($uni_eje[$i]);
                         $i++;
                         if($salvar){
                         }else{
@@ -240,7 +232,7 @@ class AcAcEspecController extends Controller
         $model_nuevo=$model;
        
         $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre'); 
-        $verificar =ArrayHelper::map(AcEspUej::find()->where('id_ac_esp= :id', ['id'=>$model->id])->all(),'id','id_ue');
+        $verificar =ArrayHelper::map(AcEspUej::find()->where('id_ac_esp= :id', ['id'=>$model->id])->andwhere(['estatus' => 1])->all(),'id','id_ue');
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -252,7 +244,7 @@ class AcAcEspecController extends Controller
                     'content'=>$this->renderAjax('_form', [
                         'model' => $this->findModel($id),
                         'unidades_ejecutoras'=>$unidades_ejecutoras,
-                                     'precarga'=>$verificar,
+                    'precarga'=>$verificar,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -266,27 +258,15 @@ class AcAcEspecController extends Controller
                        $transaction = $connection->beginTransaction();
                        try {
                         if($model->save()){
-                        AcEspUej::deleteAll("id_ac_esp='".$model->id."'");
                         
-                        while(count($request->post('id_ue'))!=$i){
-                        $salvar=$model->uejecutoras($uni_eje[$i]);
-                        $i++;
-                       
-                        if($salvar){
-                        }else{
-                            $transaction->rollback();
-                            $i=count($request->post('id_ue'));
-                            }
-                        }
+                        $salvar=$model->uejecutoras($uni_eje);
                         $transaction->commit();
 
                 
-                // buscando las unidades ejecutoras relacionadas
-                $ue="";
-                foreach ($model_nuevo->idAccuej as $key) {
-                $ue.=$key->idUe->nombre.", ";
-                }
-                $ue = substr($ue, 0, -2);
+                // buscando las unidades ejecutoras relacionadas para mostrarla en la vista
+                $unidad_ejecutora=new AcEspUej;
+                $ue=$unidad_ejecutora->obtener_uej_relacionadas($model->id);
+                
 
                 return [
                     'forceReload'=>'true',
@@ -312,18 +292,13 @@ class AcAcEspecController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];
 
+                }
 
 
-
-
-
-            }
-
-
-                 } catch(Exception $e) {
-                    $transaction->rollback();
-                    }    
-            }else{
+                } catch(Exception $e) {
+                $transaction->rollback();
+                }    
+                }else{
                  return [
                     'title'=> "Update AcAcEspec #".$id,
                     'content'=>$this->renderPartial('update', [
@@ -387,20 +362,11 @@ class AcAcEspecController extends Controller
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         $accion_centralizada="";
-        
-        foreach ($pks as $key) {
-            
-        
-        //$model=AcAcEspec::findAll(json_decode($key));
-            $model=$this->findModel($key);
-            if(isset($model->id)){
+        foreach (AcAcEspec::findAll(json_decode($pks)) as $model) {
             $accion_centralizada=$model->id_ac_centr;
             $model->delete();
         }
         
-        }
-        
-
         if($request->isAjax){
             /*
             *   Process for ajax request

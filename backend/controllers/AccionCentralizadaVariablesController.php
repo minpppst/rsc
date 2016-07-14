@@ -107,11 +107,14 @@ class AccionCentralizadaVariablesController extends Controller
         ]);
 
 
+        $usuarios_variables=new AccionCentralizadaVariablesUsuarios;
+        $usuarios=$usuarios_variables->obtener_usuario_variables($model->id);
 
         return $this->render('view', [
             'model' => $model,
             'localizacion' => $localizacion,
-            'ambito' => $ambito
+            'ambito' => $ambito,
+            'usuarios' => $usuarios,
         ]);
     }
     }
@@ -127,7 +130,7 @@ class AccionCentralizadaVariablesController extends Controller
         
         $accion_centralizada = AccionCentralizada::find(['estatus' => 1])->all();
         
-        $accion_especifica = AcAcEspec::find()->where(['id' => $model->acc_accion_especifica])->all();
+        $accion_especifica = AcAcEspec::find()->where(['id' => $model->acc_accion_especifica, 'estatus' => 1])->all();
         
         $ue = UnidadEjecutora::find(['estatus' => 1])
         ->select(["unidad_ejecutora.id as id", "unidad_ejecutora.nombre as name"])
@@ -135,13 +138,14 @@ class AccionCentralizadaVariablesController extends Controller
         ->asArray()
         ->all();
 
-        $model_usuarios= new AccionCentralizadaVariablesUsuarios();
+        
         
         $connection = \Yii::$app->db;
         $transaction = $connection->beginTransaction();
         try {
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model_usuarios= new AccionCentralizadaVariablesUsuarios();
             $model_usuarios->id_variable=$model->id;
             $usuarios=Yii::$app->request->post('id_usuario');
             $i=0;
@@ -168,10 +172,7 @@ class AccionCentralizadaVariablesController extends Controller
             ]);
         }
 
-
-            
-        
-        } catch (\Exception $e) {
+       } catch (\Exception $e) {
             $transaction->rollBack();
             throw $e;
         }
@@ -191,52 +192,36 @@ class AccionCentralizadaVariablesController extends Controller
         $model = $this->findModel($id);
         $accion_centralizada = AccionCentralizada::find(['estatus' => 1])->all();
         
-        $accion_especifica = AcAcEspec::find()->where(['id' => $model->acc_accion_especifica])->all();
+        $accion_especifica = AcAcEspec::find()->where(['id' => $model->acc_accion_especifica, 'estatus' => 1])->all();
         
         $ue = UnidadEjecutora::find(['estatus' => 1])
         ->select(["unidad_ejecutora.id as id", "unidad_ejecutora.nombre as name"])
         ->where(['id' => $model->unidad_ejecutora])
         ->asArray()
         ->all();
+
         $verificar = UserAccounts::find()
-                    ->select(["user_accounts.id as id", "user_accounts.username as username"])
-                    ->innerjoin('accion_centralizada_variables_usuarios', 'user_accounts.id=accion_centralizada_variables_usuarios.id_usuario')
-                    ->where(['accion_centralizada_variables_usuarios.id_variable' =>$model->id,])//$request->post('q')])
-                    ->asArray()
-                    ->all(); 
-                    $i=0;
+        ->select(["user_accounts.id as id", "user_accounts.username as username"])
+        ->innerjoin('accion_centralizada_variables_usuarios', 'user_accounts.id=accion_centralizada_variables_usuarios.id_usuario')
+        ->where(['accion_centralizada_variables_usuarios.id_variable' =>$model->id,])//$request->post('q')])
+        ->andWhere(['accion_centralizada_variables_usuarios.estatus' =>1,])//$request->post('q')])
+        ->asArray()
+        ->all(); 
+        $i=0;
                    
-                foreach ($verificar as $key ) {
+        foreach ($verificar as $key ) {
                         
-                      $precarga[$i]=$key['id']; 
-                      $precarga1[$i]=$key['username'];
-                     
-                         $i++;
-                    }
-                   
+        $precarga[$i]=$key['id']; 
+        $precarga1[$i]=$key['username'];
+        $i++;
+        }
+               
         $acciones_especificas= [$model->accAccionEspecifica->id =>$model->accAccionEspecifica->cod_ac_espe." - ".$model->accAccionEspecifica->nombre,];
         $connection = \Yii::$app->db;
         $transaction = $connection->beginTransaction();
        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model_usuarios= new AccionCentralizadaVariablesUsuarios();
-            $model_usuarios->id_variable=$model->id;
             $usuarios=Yii::$app->request->post('id_usuario');
-            $i=0;
-            //eliminamos los usuarios
-            AccionCentralizadaVariablesUsuarios::deleteAll('id_variable ="'.$model->id.'"');
-
-            while(count(Yii::$app->request->post('id_usuario'))!=$i){
-                        
-                        //funcion en el modelo para guardar
-                        if($model_usuarios->usuarios_agregar($model->id,$usuarios[$i])){
-                        $i++;
-                        }else{
-                            $transaction->rollback();
-                            $i=count($request->post('id_usuario'));
-                            
-                        }
-                        }// termina el while
-
+            $salvar=$model->uejecutoras($usuarios);
             $transaction->commit();
             return $this->redirect(['accion-centralizada-variables/view',  'id' => $model->id]);
 
@@ -314,9 +299,11 @@ class AccionCentralizadaVariablesController extends Controller
         $ace = AccionCentralizadaAsignar::find()
                     ->select(["user_accounts.id as id", "user_accounts.username AS name"])
                     ->innerjoin('user_accounts', 'user_accounts.id=accion_centralizada_asignar.usuario')
-                    ->where(['accion_centralizada_asignar.unidad_ejecutora' =>$id])
-                    ->andwhere(['accion_centralizada_asignar.accion_especifica'=>$acc])
+                    ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id=accion_centralizada_asignar.accion_especifica_ue')
+                    ->where(['accion_centralizada_ac_especifica_uej.id_ue' =>$id])
+                    ->andwhere(['accion_centralizada_ac_especifica_uej.id_ac_esp'=>$acc])
                     ->andWhere(['LIKE', 'user_accounts.username',  $q])
+                    ->andWhere(['accion_centralizada_ac_especifica_uej.estatus' =>1,])
                     ->asArray()
                     ->all();
         
@@ -327,9 +314,11 @@ class AccionCentralizadaVariablesController extends Controller
            $ace = AccionCentralizadaAsignar::find()
                     ->select(["user_accounts.id as id", "user_accounts.username AS name"])
                     ->innerjoin('user_accounts', 'user_accounts.id=accion_centralizada_asignar.usuario')
-                    ->where(['accion_centralizada_asignar.unidad_ejecutora' =>$id])
-                    ->andwhere(['accion_centralizada_asignar.accion_especifica'=>$acc])
+                    ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id=accion_centralizada_asignar.accion_especifica_ue')
+                    ->where(['accion_centralizada_ac_especifica_uej.id_ue' =>$id])
+                    ->andwhere(['accion_centralizada_ac_especifica_uej.id_ac_esp'=>$acc])
                     ->andWhere(['in', 'user_accounts.username',  $q])
+                    ->andWhere(['accion_centralizada_ac_especifica_uej.estatus' =>1,])
                     ->asArray()
                     ->all();                
                     
@@ -342,8 +331,10 @@ class AccionCentralizadaVariablesController extends Controller
          $ace = AccionCentralizadaAsignar::find()
                     ->select(["user_accounts.id as id", "user_accounts.username AS name"])
                     ->innerjoin('user_accounts', 'user_accounts.id=accion_centralizada_asignar.usuario')
-                    ->where(['accion_centralizada_asignar.unidad_ejecutora' =>$id])//$request->post('q')])
-                    ->andwhere(['accion_centralizada_asignar.accion_especifica'=>$acc])
+                    ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id=accion_centralizada_asignar.accion_especifica_ue')
+                    ->where(['accion_centralizada_ac_especifica_uej.id_ue' =>$id])
+                    ->andwhere(['accion_centralizada_ac_especifica_uej.id_ac_esp'=>$acc])
+                    ->andWhere(['accion_centralizada_ac_especifica_uej.estatus' =>1,])
                     ->asArray()
                     ->all();  
         $out['results'] = $ace;
@@ -363,19 +354,19 @@ class AccionCentralizadaVariablesController extends Controller
 
         if($request->isAjax)
         {
-            Yii::$app->response->format = Response::FORMAT_JSON;
+         Yii::$app->response->format = Response::FORMAT_JSON;
 
-            if($request->isPost)
-            {
-                //Acciones Especificas
-                $ace = AcAcEspec::find()
-                    ->select(["accion_centralizada_accion_especifica.id", "CONCAT(accion_centralizada_accion_especifica.cod_ac_espe,' - ',accion_centralizada_accion_especifica.nombre) AS name"])
-                    ->innerjoin('accion_centralizada', 'accion_centralizada.id=accion_centralizada_accion_especifica.id_ac_centr')
-                    ->where(['accion_centralizada.id' => $request->post('depdrop_parents'), 'accion_centralizada_accion_especifica.estatus' => 1])
-                    ->asArray()
-                    ->all();                
+         if($request->isPost)
+         {
+            //Acciones Especificas
+            $ace = AcAcEspec::find()
+            ->select(["accion_centralizada_accion_especifica.id", "CONCAT(accion_centralizada_accion_especifica.cod_ac_espe,' - ',accion_centralizada_accion_especifica.nombre) AS name"])
+            ->innerjoin('accion_centralizada', 'accion_centralizada.id=accion_centralizada_accion_especifica.id_ac_centr')
+            ->where(['accion_centralizada.id' => $request->post('depdrop_parents'), 'accion_centralizada_accion_especifica.estatus' => 1])
+            ->asArray()
+            ->all();                
 
-                return [
+            return [
                     'output' => $ace
                 ];
             }

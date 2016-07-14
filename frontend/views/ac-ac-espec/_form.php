@@ -72,10 +72,11 @@ use kartik\date\DatePicker;
     ?>
 
 
-
-
-
-  <?= $form->field($model, 'estatus')->dropDownList(['1' => 'Activo', '0' => 'Inactivo'],['prompt'=>'Select Option']); ?>
+  <?= $form->field($model, 'estatus')->dropDownList(['1' => 'Activo', '0' => 'Inactivo'],['options' =>
+                    [                        
+                      '1' => ['selected' => true]
+                    ]
+          ]); ?>
 
     <?php ActiveForm::end(); ?>
     

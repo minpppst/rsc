@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-//use yii\widgets\DetailView;
 use kartik\grid\GridView;
 use kartik\detail\DetailView;
 use johnitvn\ajaxcrud\CrudAsset;
@@ -45,45 +44,43 @@ $this->params['breadcrumbs'][] = $this->title;
         'responsive' => true,
         'enableEditMode' => false,
         'attributes' => [
-            //'id',
-            'nombre_variable:ntext',
-            //'unidad_medida',
-            [
-                //'label' => 'unidad_ejecutora',
-                'attribute' => 'unidad_medida',
-                'value' =>$model->unidadMedida->unidad_medida,
-                
-            ],
-
-            //'localizacion',
-            'definicion:ntext',
-            'base_calculo:ntext',
-            'fuente_informacion:ntext',
-            
-            
-            [
-            
-                'attribute' => 'unidad_ejecutora',
-                'value' =>$model->unidadEjecutora->nombre,
-                
-            ],
-            
-            ['attribute' => 'localizacion',
-            'value' => $model->nombreLocalizacion,
-            ],
-            [
-            
-                'attribute' => 'acc_accion_especifica',
-                'value' => $model->accAccionEspecifica->nombre,
-            
-                
-            ],
+          
+        'nombre_variable:ntext',
+        [
+          
+        'attribute' => 'unidad_medida',
+        'value' =>$model->unidadMedida->unidad_medida,
+              
         ],
-         'panel' => [
-                'type' => 'primary',
-                'heading' => '<i class="fa fa-list"></i> Datos Básicos Variables',
-            ],
-    ]) ?>
+
+          
+        'definicion:ntext',
+        'base_calculo:ntext',
+        'fuente_informacion:ntext',
+            
+        [
+        'attribute' => 'unidad_ejecutora',
+        'value' =>$model->unidadEjecutora->nombre,
+        ],
+            
+        [
+        'attribute' => 'localizacion',
+        'value' => $model->nombreLocalizacion,
+        ],
+        [
+        'attribute' => 'acc_accion_especifica',
+        'value' => $model->accAccionEspecifica->nombre,
+        ],
+        [
+        'label' => 'Usuarios Responsables',
+        'value' => $usuarios,
+        ],
+        ],
+        'panel' => [
+        'type' => 'primary',
+        'heading' => '<i class="fa fa-list"></i> Datos Básicos Variables',
+        ],
+        ]) ?>
 
 </div>
 
@@ -117,7 +114,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'responsive' => true,          
             'panel' => [
                 'type' => 'default', 
-                //'heading' => '<i class="glyphicon glyphicon-map-marker"></i>',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',

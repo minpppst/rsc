@@ -84,5 +84,33 @@ class AccionCentralizadaVariablesUsuarios extends \yii\db\ActiveRecord
 
      }
 
+     function usuario_eliminar($id){
+        $model = AccionCentralizadaVariablesUsuarios::findOne($id);
+        $model->estatus=2;
+        return $model->save();
+     }
+
+
+     public function obtener_usuario_variables($id)
+     {
+        $ue="";
+        $uej=AccionCentralizadaVariablesUsuarios::find()
+        ->select(['user_accounts.username as name'])
+        ->innerjoin('user_accounts', 'user_accounts.id=accion_centralizada_variables_usuarios.id_usuario')
+        ->where(['accion_centralizada_variables_usuarios.id_variable' => $id])
+        ->andwhere(['accion_centralizada_variables_usuarios.estatus' => 1])
+        ->asArray()
+        ->all();
+        foreach ($uej as $key => $value) {
+        $ue.=$value['name'].", ";
+        }
+        $ue = substr($ue, 0, -2);
+        return $ue;
+
+
+     }
+
+
+
 
 }

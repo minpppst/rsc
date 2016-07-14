@@ -159,6 +159,55 @@ class ResponsableAccVariableController extends Controller
     {
         $model = $this->findModel($id);
 
+        $request = Yii::$app->request;
+        //ajax
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Responsable",
+                    'content'=>$this->renderPartial('update', [
+                        'model' => $model,
+                        
+                        
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+        
+                ];         
+            }else if($model->load($request->post()) && $model->save()){
+                
+                return [
+                    'forceReload'=>'true',                   
+                    'title'=> "Responsable",
+                    'content'=>$this->renderAjax('view', [
+                        'model' => $model,
+                        
+                    ]),
+                    
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                               Html::a('Editar',['update', 'id' => $model->id,],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        
+                ];
+            }else{           
+                  return [
+                    'title'=> "Responsable",
+                    'content'=>$this->renderAjax('update', [
+                        'model' => $model,
+                        
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+        
+                ];         
+            }
+        }
+
+        //fin ajax
+        else {
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -166,6 +215,9 @@ class ResponsableAccVariableController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+
     }
 
     /**

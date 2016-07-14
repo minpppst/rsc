@@ -11,8 +11,13 @@ use yii\widgets\DetailView;
         'model' => $model,
 
         'attributes' => [
-            'id',
-            'id_ac_centr',
+           
+            [
+            'attributes' => 'id_ac_centr',
+            'label' => 'Nombre de Acción Central',
+            'value' => $model->idAcCentr->nombre_accion,
+            ],
+
             'cod_ac_espe',
            
             'nombre:ntext',
@@ -39,7 +44,7 @@ use yii\widgets\DetailView;
 
              [
             'label' => 'Unidades Ejecutoras',
-            //'value' => (!empty($rows)) ?  $rows : 'NULL' 
+           
             'value' => $rows
             ],
         ],

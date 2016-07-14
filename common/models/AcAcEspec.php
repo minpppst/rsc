@@ -147,18 +147,74 @@ class AcAcEspec extends \yii\db\ActiveRecord
 
      function uejecutoras($id_uej){
 
-        $model_uej=new AcEspUej;
-        $model_uej->id_ue=$id_uej;
-        $model_uej->id_ac_esp=$this->id;
-        if($model_uej->save()){
-            return true;
-        }else{
-            return false;
+
+
+      //buscar si quitaron una unidad si es asi borrar la quitaron
+      
+      if($id_uej==null){
+        $id_uej='';
+
+      }
+      $ace = AcEspUej::find()
+              ->select('accion_centralizada_ac_especifica_uej.id')
+              ->where(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $this->id])
+              ->andwhere(['accion_centralizada_ac_especifica_uej.estatus' => 1])
+              ->andwhere(['not in', 'accion_centralizada_ac_especifica_uej.id_ue', $id_uej])
+              ->asArray()
+              ->all();
+        
+        if($ace!=null){
+        $model_cambiar=new AcEspUej;
+        foreach ($ace as $key => $value) {
+          //AcEspUej::deleteAll(['id' => $value]);
+          $model_cambiar->uej_eliminar($value);
+          
+        }
+        }
+        //buscar si agregaron una unidad si es asi almacenar las nuevas y guardar
+        $ace = AcEspUej::find()
+              ->select('accion_centralizada_ac_especifica_uej.id_ue')
+              ->where(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $this->id])
+              ->andwhere(['accion_centralizada_ac_especifica_uej.estatus' => 1])
+              ->andwhere(['in', 'accion_centralizada_ac_especifica_uej.id_ue', $id_uej])
+              ->asArray()
+              ->all();
+        
+        
+        $i=0;
+        $tabla[]=null;
+        foreach ($ace as $key => $value) {
+          
+        $tabla[]=$value['id_ue'];
+        
         }
 
-     }
+        //si viene vacio
+        if($id_uej==null){
+          $id_uej=[];
+        }
+        $nuevo=array_diff($id_uej, $tabla);
+        
+        foreach ($nuevo as $key => $value) {
+        $model_uej=new AcEspUej;
+        $model_uej->id_ue=$value;
+        $model_uej->id_ac_esp=$this->id;  
+        $model_uej->save();
+        }
+
+        
+      }
 
 
-
-
+      public function uejecutoras_crear($id_ue){
+        
+        $model_uej=new AcEspUej;
+        $model_uej->id_ue=$id_ue;
+        $model_uej->id_ac_esp=$this->id;
+        if($model_uej->save()){
+          return true;
+        }else{
+          return false;
+        }
+      }
 }

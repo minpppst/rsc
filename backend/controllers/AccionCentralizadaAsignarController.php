@@ -7,7 +7,7 @@ use yii\filters\AccessControl;
 use johnitvn\userplus\base\WebController;
 use common\models\AccionCentralizadaAsignar;
 use common\models\AcEspUej;
-use common\models\AccionCentralizadaAsignarSearch;
+use backend\models\AccionCentralizadaAsignarSearch;
 use common\models\UnidadEjecutora;
 use common\models\AccionCentralizada;
 use common\models\AcAcEspec;

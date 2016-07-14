@@ -146,12 +146,66 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
 
 
 
-
-
-    
+    function uejecutoras($usuarios){
 
 
 
+      //buscar si quitaron una unidad si es asi borrar la quitaron estatus 2
+      
+      if($usuarios==null){
+        $usuarios='';
+
+      }
+      $ace = AccionCentralizadaVariablesUsuarios::find()
+              ->select('accion_centralizada_variables_usuarios.id')
+              ->where(['accion_centralizada_variables_usuarios.id_variable' => $this->id])
+              ->andwhere(['accion_centralizada_variables_usuarios.estatus' => 1])
+              ->andwhere(['not in', 'accion_centralizada_variables_usuarios.id_usuario', $usuarios])
+              ->asArray()
+              ->all();
+        
+        if($ace!=null){
+            $model_cambiar= new AccionCentralizadaVariablesUsuarios;
+        foreach ($ace as $key => $value) {
+          //AccionCentralizadaVariablesUsuarios::deleteAll(['id' => $value]);
+            $model_cambiar->usuario_eliminar($value);
+          
+        }
+        }
+        //buscar si agregaron una unidad si es asi almacenar las nuevas y guardar
+        $ace = AccionCentralizadaVariablesUsuarios::find()
+              ->select('accion_centralizada_variables_usuarios.id_usuario')
+              ->where(['accion_centralizada_variables_usuarios.id_variable' => $this->id])
+              ->andwhere(['accion_centralizada_variables_usuarios.estatus' => 1])
+              ->andwhere(['in', 'accion_centralizada_variables_usuarios.id_usuario', $usuarios])
+              ->asArray()
+              ->all();
+        
+        
+        $i=0;
+        $tabla[]=null;
+        foreach ($ace as $key => $value) {
+          
+        $tabla[]=$value['id_usuario'];
+        
+        }
+        //si viene vacio
+        if($usuarios==null){
+          $usuarios=[];
+        }
+
+        
+        $nuevo=array_diff($usuarios, $tabla);
+        
+        foreach ($nuevo as $key => $value) {
+        $model_variable_usuario=new AccionCentralizadaVariablesUsuarios;
+        $model_variable_usuario->id_usuario=$value;
+        $model_variable_usuario->id_variable=$this->id;  
+        $model_variable_usuario->save();
+        }
+
+        
+      }
 
 
 }

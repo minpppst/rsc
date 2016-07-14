@@ -165,6 +165,35 @@ public function getnombreaccion(){
        return false; //print_r($model->getErrors());
         }
 
+      public  function uej_eliminar($id){
+        $model = AcEspUej::findOne($id);
+        $model->estatus=2;
+        return $model->save();
+     }
+
+
+
+     public function obtener_uej_relacionadas($id)
+     {
+        $ue="";
+        $uej=AcEspUej::find()
+        ->select(['unidad_ejecutora.nombre as name'])
+        ->innerjoin('unidad_ejecutora', 'accion_centralizada_ac_especifica_uej.id_ue=unidad_ejecutora.id')
+        ->where(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $id])
+        ->andwhere(['accion_centralizada_ac_especifica_uej.estatus' => 1])
+        ->asArray()
+        ->all();
+        foreach ($uej as $key => $value) {
+        $ue.=$value['name'].", ";
+        }
+        $ue = substr($ue, 0, -2);
+        return $ue;
+
+
+     }
+
+
+
 
 
 }

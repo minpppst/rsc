@@ -59,8 +59,8 @@
                     $pedido = AccionCentralizadaPedido::findOne($this->key_id);
                     
                     return Yii::t('app', 'Pedido #{pedido} por {usuario}', [
-                        'pedido' => $pedido->id,
-                        'usuario' => $pedido->asignado0->nombreUsuario
+                        'pedido' => isset($pedido->id) ? $pedido->id : '',
+                        'usuario' => isset($pedido->asignado0->nombreUsuario) ? isset($pedido->asignado0->nombreUsuario) : ''
                     ]);
                     break;
             }
