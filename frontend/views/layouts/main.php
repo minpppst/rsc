@@ -60,6 +60,7 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
+        <!-- Miga de pan o Hilo de Ariadna -->
         <?= Breadcrumbs::widget([
             'homeLink' => ['label' => 'Inicio', 'url' => ['/site/index']],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

@@ -83,20 +83,22 @@ class ProyectoPedidoController extends Controller
      * @param integer $ue unidad ejecutora
      * @return mixed
      */
-    public function actionPedido($proyectoEspecifica, $id = null)
+    public function actionPedido($proyectoEspecifica)
     {
         //Datos para el gridview
         $searchModel = new ProyectoPedidoSearch(['proyectoEspecifica' => $proyectoEspecifica]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         //Otros datos
-        $pua = ProyectoUsuarioAsignar::find(['proyecto_especifica' => $proyectoEspecifica])->one();       
-        $ue = UnidadEjecutora::find($pua->proyectoEspecifica->id_unidad_ejecutora)->one();
+        $pe = ProyectoAccionEspecifica::find()->where(['id' => $proyectoEspecifica])->one();
+        $ue = UnidadEjecutora::find()->where(['id' => $pe->id_unidad_ejecutora])->one();
 
         return $this->render('pedido', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'ue' => $ue
+            'ue' => $ue,
+            'pe' => $pe,
+            'proyectoEspecifica' => $proyectoEspecifica
         ]);
     }
 
@@ -254,7 +256,6 @@ class ProyectoPedidoController extends Controller
                 'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
                 'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
             ];
-            return;
         }
     }
 
@@ -322,6 +323,29 @@ class ProyectoPedidoController extends Controller
              */
             return $this->redirect(['index']);
         }
+    }
+
+    /**
+     *  Aprobar o desaprobar los requerimientos
+     * @param int $proyectoEspecifica id de la accion especifica
+     * @return boolean
+     */
+    public function actionAprobar($proyectoEspecifica)
+    {
+        $model = ProyectoAccionEspecifica::find()->where(['id' => $proyectoEspecifica])->one();
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model != null && $model->toggleAprobado()) {
+            return ['forceClose' => true, 'forceReload' => '#aprobado'];
+        } else {
+            return [
+                'title' => 'Ocurrió un error.',
+                'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
+                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+            ];
+        }
+
     }
 
     /**

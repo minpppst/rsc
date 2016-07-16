@@ -7,6 +7,7 @@ use yii\base\Model;
 
 use common\models\Proyecto;
 use common\models\UnidadEjecutora;
+use common\models\PartidaPartida;
 
 /**
  * This is the model class for table "proyecto_accion_especifica".
@@ -203,6 +204,27 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
         {
             $this->activar();
         }
+
+        return true;
+     }
+
+     /**
+      * Aprobar o desaprobar todos los pedidos
+      * de una UE
+      * @return boolean
+      */
+     public function toggleAprobado()
+     {
+        if($this->aprobado == 1)
+        {
+            $this->aprobado = 0;
+        }
+        else
+        {
+            $this->aprobado = 1;
+        }
+
+        $this->save();
 
         return true;
      }

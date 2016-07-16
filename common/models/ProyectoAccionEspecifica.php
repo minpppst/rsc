@@ -191,6 +191,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
 
      /**
       * Activar o desactivar
+      * @return boolean
       */
      public function toggleActivo()
      {

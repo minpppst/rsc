@@ -23,12 +23,49 @@ $icons=[
     'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
     'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
     'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
+    'aprobado'=>'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>',
+    'no-aprobado'=>'<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>',
 ];
-
+echo $pe->aprobado;
+echo $pe->id;
 ?>
 
 <div class="proyecto-pedido-index">
+
+    <!-- APROBAR/DESAPROBAR PEDIDOS -->
+    <?php if($dataProvider->count > 0): ?>
+        <div class="container-fluid" id="aprobado">
+
+            <div class="pull-right">
+            <?php if($pe->aprobado == 0): ?>
+            
+                <?= Html::a($icons['no-aprobado'].' No Aprobado', ['aprobar', 'proyectoEspecifica' => $pe->id], [
+                            'class' => 'btn btn-warning navbar-btn',
+                            'role' => 'modal-remote',
+                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                            'data-request-method' => 'post',
+                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"Aprobado"</b>?'),
+                ]); ?>
+
+            <?php else: ?>
+
+                <?= Html::a($icons['aprobado'].' Aprobado', ['aprobar', 'proyectoEspecifica' => $pe->id], [
+                            'class' => 'btn btn-success navbar-btn',
+                            'role' => 'modal-remote',
+                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                            'data-request-method' => 'post',
+                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"No Aprobado"</b>?'),
+                ]); ?>
+
+            <?php endif; ?>
+                
+            </div>
+        </div>
+    <?php endif; ?>
     
+    <!-- LISTA DE PEDIDOS -->
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
