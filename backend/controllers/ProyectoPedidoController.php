@@ -90,8 +90,8 @@ class ProyectoPedidoController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         //Otros datos
-        $pua = ProyectoUsuarioAsignar::findOne(['proyecto_especifica' => $proyectoEspecifica]);
-        $ue = UnidadEjecutora::findOne($pua->proyectoEspecifica->id_unidad_ejecutora);
+        $pua = ProyectoUsuarioAsignar::find(['proyecto_especifica' => $proyectoEspecifica])->one();       
+        $ue = UnidadEjecutora::find($pua->proyectoEspecifica->id_unidad_ejecutora)->one();
 
         return $this->render('pedido', [
             'searchModel' => $searchModel,

@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'asignar' => function($url, $model) {
                         return Html::a('<i class="glyphicon glyphicon-shopping-cart"></i> Pedidos', 
-                            ['pedido', 'proyectoEspecifica' => $model->id_unidad_ejecutora],
+                            ['pedido', 'proyectoEspecifica' => $model->id],
                             [
                                 'class' => 'btn btn-primary',
                                 'data-request-method' => 'post',

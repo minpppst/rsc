@@ -23,7 +23,7 @@ class ProyectoPedidoSearch extends ProyectoPedido
         return [
             [['id', 'id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'asignado', 'estatus'], 'integer'],
             [['precio'], 'number'],
-            [['fecha_creacion', 'nombreMaterial'], 'safe'],
+            [['fecha_creacion', 'nombreMaterial', 'proyectoEspecifica'], 'safe'],
         ];
     }
 
