@@ -227,7 +227,7 @@ class User extends UserAccounts implements IdentityInterface
         return false;
     }
 
-    public function getPendienteRequerimiento(){
+    public function gethasRequirements(){
         $model=AccionCentralizadaAsignar::find()->where(['usuario' => $this->Id])->All();
         
         if($model!=null){
@@ -245,7 +245,7 @@ class User extends UserAccounts implements IdentityInterface
         }
 
 
-    public function getPendienteVariables(){
+    public function gethasVariables(){
         $model=AccionCentralizadaVariablesUsuarios::find()->where(['id_usuario' => $this->Id])->andwhere(['estatus' => 1])->One();
         
         if($model!=null){
@@ -258,5 +258,17 @@ class User extends UserAccounts implements IdentityInterface
         }//fin del else
         
         }
+
+
+
+    public function getcanVariables(){
+
+        return Yii::$app->user->can('proyecto-variables/index') || Yii::$app->user->can('accion-centralizada-variables/index') ? true : false;
+        //if($variables){
+        //$variablesp = Yii::$app->user->can('proyecto-variables/index') ? true : false;
+        //}
+
+
+    }
 
 }
