@@ -211,4 +211,21 @@ class User extends UserAccounts implements IdentityInterface
     }
 
     /** AQUÍ PONDRIAMOS CODIGO PARA VALIDACIONES DEL MENU **/
+
+    public function getPendienteRequerimiento(){
+        $model=AccionCentralizadaAsignar::find()->where(['usuario' => $this->Id])->All();
+        
+        if($model!=null){
+        $bandera=0;
+        foreach ($model as $key => $value) {
+        if($value->accion_centralizada_ac_especifica_uej->aprobado==0){
+            return true;
+        }
+        }//fin del for
+        return false;
+    }//fin del if
+    }
+
+    
+
 }
