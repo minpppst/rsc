@@ -44,26 +44,27 @@
                     ['label' => 'Proyectos y Acciones Centralizadas', 'options' => ['class' => 'header']],
                     //Items
                     ['label' => 'Proyecto', 'icon' => 'fa fa-folder', 'url' => ['/proyecto/index']],
-                    ['label' => 'Acción Centralizada', 'icon' => 'fa fa-folder-open', 'url' => ['/accion-centralizada/index']],                   
+                    ['label' => 'Acción Centralizada', 'icon' => 'fa fa-folder-open', 'url' => ['/accion-centralizada/index']],  
 
-                    //PEDIDOS
-                    ['label' => 'Requerimientos/Solicitudes', 'options' => ['class' => 'header']],
+                    //ASIGNACIONES
+                    //Header
+                    ['label' => 'Asginar Usuarios', 'options' => ['class' => 'header']],
                     //Items
                     ['label' => 'Asignar a proyecto', 'icon' => 'fa fa-folder-o', 'url' => ['/proyecto-usuario-asignar/index']],
-                    ['label' => 'Asignar acción centralizada', 'icon' => 'fa fa-folder-open-o', 'url' => ['/accion-centralizada-asignar/index']],
+                    ['label' => 'Asignar a acción centralizada', 'icon' => 'fa fa-folder-open-o', 'url' => ['/accion-centralizada-asignar/index']],                 
+
+                    //PEDIDOS
+                    //Header
+                    ['label' => 'Requerimientos/Solicitudes', 'options' => ['class' => 'header']],
+                    //Items                    
                     ['label' => 'Proyecto requerimiento', 'icon' => 'fa fa-shopping-cart ', 'url' => ['/proyecto-pedido/index']],
                     ['label' => 'ACC requerimiento', 'icon' => 'fa fa-shopping-basket ', 'url' => ['/accion-centralizada-pedido/index']],
                     //Variables
                     ['label' => 'Variables', 'options' => ['class' => 'header']],
                     //Items
-                    ['label' => 'Accion Centralizada', 'icon' => 'fa fa-folder-open-o', 'url' => ['/accion-centralizada-variables/index']],
-                    /*
-                    //DISTRIBUCION
-                    ['label' => 'Distribución Presupuestaria', 'options' => ['class' => 'header']],
-                    //Items
-                    ['label' => 'Distribución Proyecto', 'icon' => 'fa fa-balance-scale', 'url' =>['proyecto/distribucion']],
-                    ['label' => 'Distribución ACC', 'icon' => 'fa fa-bank', 'url' =>['accion-centralizada/distribucion']],
-                    */
+                    ['label' => 'Proyecto', 'icon' => 'fa fa-calendar-check-o', 'url' => ['/proyecto-variables/index']],
+                    ['label' => 'Accion Centralizada', 'icon' => 'fa fa-calendar-o', 'url' => ['/accion-centralizada-variables/index']],
+                   
                     //PROPIEDADES
                     //Header
                     ['label' => 'Propiedades', 'options' => ['class' => 'header']],

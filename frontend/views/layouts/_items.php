@@ -10,13 +10,13 @@
     $requerimiento_aprobado=new AccionCentralizadaAsignar();
     //$requerimiento_aprobado['usuario']=Yii::$app->user->identity->id;
     if(isset(Yii::$app->user->identity->id))
-    {$req_pendiente=$requerimiento_aprobado->requerimiento_pendiente(Yii::$app->user->identity->id);
-    }else{
+    {
+        $req_pendiente = $requerimiento_aprobado->requerimiento_pendiente(Yii::$app->user->identity->id);
+    }
+    else
+    {
         $req_pendiente=0;
     }
-
-
-
 
     //Puede ver el item "requerimientos"
     $req = Yii::$app->user->can('proyecto-pedido/index') || Yii::$app->user->can('accion-centralizada-pedido/index') ? true : false;
