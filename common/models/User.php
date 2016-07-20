@@ -211,4 +211,20 @@ class User extends UserAccounts implements IdentityInterface
     }
 
     /** AQUÍ PONDRIAMOS CODIGO PARA VALIDACIONES DEL MENU **/
+
+
+    /**
+     * Determinar si el usuario puede ver el item "requermientos"
+     * en el menu principal del frontend
+     * @return boolean
+     */
+    public function canRequerimientos()
+    {
+        if($this->can('proyecto-pedido/index') || $this->can('accion-centralizada-pedido/index'))
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
