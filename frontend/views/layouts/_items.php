@@ -1,29 +1,15 @@
 <?php
 	use yii\web\Html;
 	use yii\web\Url;
-    use common\models\AccionCentralizadaAsignar;
-    $variablesp="";
-    $variablesa="";
-    $acc_pedido="";
-    //podra ver requerimiento si tiene algun requerimiento "no aprobado"
     
-    $requerimiento_aprobado=new AccionCentralizadaAsignar();
-    //$requerimiento_aprobado['usuario']=Yii::$app->user->identity->id;
-    if(isset(Yii::$app->user->identity->id))
-    {
-        $req_pendiente = $requerimiento_aprobado->requerimiento_pendiente(Yii::$app->user->identity->id);
-    }
-    else
-    {
-        $req_pendiente=0;
-    }
-
-    //Puede ver el item "requerimientos"
+    $variablesp="";
+    
+    
     $req = Yii::$app->user->can('proyecto-pedido/index') || Yii::$app->user->can('accion-centralizada-pedido/index') ? true : false;
     $variables = Yii::$app->user->can('proyecto-variables/index') || Yii::$app->user->can('accion-centralizada-variables/index') ? true : false;
         if($variables){
         $variablesp = Yii::$app->user->can('proyecto-variables/index') ? true : false;
-        $variablesa = Yii::$app->user->can('accion-centralizada-variables/index') ? true : false;
+        
         }
 	
     /*
@@ -34,11 +20,11 @@
             ['label' => $icons['inicio'].' Inicio', 'url' => ['/site/index']],
             ['label' => $icons['pedido'].' Requerimientos','visible' => $req, 'items' =>[
                 ['label' => $icons['proyecto'].' Proyecto', 'url' => ['/proyecto-pedido/index']],
-                ['label' => $icons['acc'].' Acción Centralizada', 'visible'=>$req_pendiente, 'url' => ['/accion-centralizada-pedido/index']],
+                ['label' => $icons['acc'].' Acción Centralizada', 'visible'=>Yii::$app->user->identity->PendienteRequerimiento, 'url' => ['/accion-centralizada-pedido/index']],
             ]],
             ['label' => $icons['pedido'].' Variables','visible' => $variables, 'items' =>[
                 ['label' => $icons['proyecto'].' Proyecto', 'visible' => $variablesp, 'url' => ['/proyecto-variables/index']],
-                ['label' => $icons['acc'].' Acción Centralizada',  'visible' => $variablesa, 'url' => ['/accion-centralizada-variable-ejecucion/variables']],
+                ['label' => $icons['acc'].' Acción Centralizada',  'visible' => Yii::$app->user->identity->PendienteVariables, 'url' => ['/accion-centralizada-variable-ejecucion/variables']],
             ]],            
             ['label' => $icons['proyecto'].' Proyecto', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')],
             ['label' => $icons['acc'].' Acción Centralizada', 'url' => ['/accion-centralizada'], 'visible' => Yii::$app->user->can('accion-centralizada/index')],                        
