@@ -5,6 +5,9 @@ namespace frontend\models;
 use Yii;
 use johnitvn\userplus\base\models\UserAccounts;
 use common\models\AccionCentralizadaVariableProgramacion;
+use backend\models\AccionCentralizadaVariables;
+use backend\models\LocalizacionAccVariable;
+use yii\data\ArrayDataProvider;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 /**
@@ -137,4 +140,67 @@ class AccionCentralizadaVariableEjecucion extends \yii\db\ActiveRecord
     {
         return $this->hasOne(AccionCentralizadaVariableProgramacion::className(), ['id' => 'id_programacion']);
     }
+
+
+
+
+
+    public function VariablesAsignadas(){
+
+        $ace = AccionCentralizadaVariables::find()
+                    ->select(["accion_centralizada_variables.nombre_variable as nombre", "accion_centralizada_variables.id", "accion_centralizada_variables.localizacion as localizacion", "localizacion_acc_variable.id id_localizacion"])
+                    ->innerjoin('accion_centralizada_variables_usuarios', 'accion_centralizada_variables_usuarios.id_variable=accion_centralizada_variables.id')
+                    ->innerjoin('localizacion_acc_variable', 'localizacion_acc_variable.id_variable=accion_centralizada_variables.id')
+                    ->where(['accion_centralizada_variables_usuarios.id_usuario' =>Yii::$app->user->getId()])
+                    ->asArray()
+                    ->all();  
+
+                    
+                $provider=new ArrayDataProvider([
+                'allModels' => $ace,
+                'sort' => [
+                    'attributes' => ['nombre'],
+                ],
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]);
+
+                return $provider;
+    }
+
+
+    public function LocalizacionVariables($id){
+
+        $ace = LocalizacionAccVariable::find()  
+        ->select("estados.nombre as nombre_estados, id_variable, localizacion_acc_variable.id, accion_centralizada_variables.nombre_variable as nombre")
+        ->innerjoin("accion_centralizada_variables", "localizacion_acc_variable.id_variable=accion_centralizada_variables.id")
+        ->innerjoin("estados", 'localizacion_acc_variable.id_estado=estados.id')
+        ->where(['localizacion_acc_variable.id_variable' => $id])
+        ->asArray()
+        ->All();
+        
+                    
+                $provider=new ArrayDataProvider([
+                'allModels' => $ace,
+                'sort' => [
+                    'attributes' => ['nombre'],
+                ],
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]);
+
+                return $provider;
+
+
+    }
+
+
+
+
+
+
+
+
 }

@@ -270,6 +270,10 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         return $data;
     }
     
+
+    /**
+    * Mostrar las acciones especificas y sus pedidos dividos por partidas sin iva
+    **/
     public function distribucionPresupuestaria()
     {
 
@@ -301,12 +305,14 @@ class AccionCentralizada extends \yii\db\ActiveRecord
                 ) * pedido.precio) AS 'total'
             FROM
                accion_centralizada_accion_especifica a, accion_centralizada_asignar b,
-               materiales_servicios ms, accion_centralizada_pedido pedido
+               materiales_servicios ms, accion_centralizada_pedido pedido, accion_centralizada_ac_especifica_uej as f
             WHERE
                a.id = :accion AND
-               a.id = b.accion_especifica AND
+               a.id = f.id_ac_esp AND
+               f.id = b.accion_especifica_ue AND
                b.id = pedido.asignado AND
                pedido.id_material = ms.id AND
+               a.estatus = 1 AND
                pedido.estatus = 1
             GROUP BY
                a.id,
