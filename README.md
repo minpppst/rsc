@@ -59,7 +59,7 @@ El requerimiento mínimo para este proyecto es un servidor Web que soporte PHP 5
 INSTALACIÓN
 ------------
 
-Próximamente...
+Seguir las instrucciones de [instalación](https://github.com/minpppst/rsc/wiki/Instalaci%C3%B3n)
 
 ## Preparando la aplicación
 
