@@ -46,7 +46,7 @@ AppAsset::register($this);
         'salir'=>'<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>',
         'pedido'=>'<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>',
         'asignar'=>'<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>',
-        'variable' =>'<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>',
+        'variable' =>'<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>',
     ];
     /*
      * Widget del menu

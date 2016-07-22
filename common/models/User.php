@@ -210,16 +210,14 @@ class User extends UserAccounts implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    /** AQUÍ PONDRIAMOS CODIGO PARA VALIDACIONES DEL MENU **/
-
     /**
-     * Determinar si el usuario puede ver el item "requermientos"
+     * Determinar si el usuario puede ver el item "requerimientos"
      * en el menu principal del frontend
      * @return boolean
      */
     public function canRequerimientos()
     {
-        if($this->can('proyecto-pedido/index') || $this->can('accion-centralizada-pedido/index'))
+        if(\Yii::$app->user->can('proyecto-pedido/index') || \Yii::$app->user->can('accion-centralizada-pedido/index'))
         {
             return true;
         }
@@ -227,47 +225,59 @@ class User extends UserAccounts implements IdentityInterface
         return false;
     }
 
-    public function gethasRequirements(){
-        $model=AccionCentralizadaAsignar::find()->where(['usuario' => $this->Id])->All();
-        
-        if($model!=null){
-        $bandera=0;
-        foreach ($model as $key => $value) {
-        if($value->accion_centralizada_ac_especifica_uej->aprobado==0){
-            return true;
+   /**
+    * Determinar si posee o no requerimientos/pedidos
+    * de accion central aprobados
+    * @return bolean
+    */
+   public function hasRequirements()
+   {
+      $model = AccionCentralizadaAsignar::find()->where(['usuario' => $this->Id])->All();
+
+      if($model!=null)
+      {        
+         foreach ($model as $key => $value) 
+         {
+            if($value->accion_centralizada_ac_especifica_uej->aprobado==0)
+            {
+               return true;
             }
+
+         }//fin del for
+
+      return false;
+
+      }//fin del if
         
-        }//fin del for
-        
-        return false;
-        }//fin del if
-        
-        }
+   }
+
+   /**
+    * Determinar si posee variables activas
+    * @return boolean
+    */
+   public function hasVariables()
+   {
+      $model = AccionCentralizadaVariablesUsuarios::find()->where(['id_usuario' => $this->Id])->andwhere(['estatus' => 1])->One();
+
+      if($model!=null)
+      {
+         return true;
+      }
+      else
+      {
+         return false;
+      }//fin del else
+
+   }
 
 
-    public function gethasVariables(){
-        $model=AccionCentralizadaVariablesUsuarios::find()->where(['id_usuario' => $this->Id])->andwhere(['estatus' => 1])->One();
-        
-        if($model!=null){
-        
-            return true;
-        }
-        else{
-        
-            return false;
-        }//fin del else
-        
-        }
+    public function canVariables()
+    {
 
-
-
-    public function getcanVariables(){
-
-        return Yii::$app->user->can('proyecto-variables/index') || Yii::$app->user->can('accion-centralizada-variables/index') ? true : false;
+      return Yii::$app->user->can('proyecto-variables/index') || Yii::$app->user->can('accion-centralizada-variables/index') ? true : false;
         //if($variables){
         //$variablesp = Yii::$app->user->can('proyecto-variables/index') ? true : false;
         //}
-
 
     }
 
