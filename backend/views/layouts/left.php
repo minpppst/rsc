@@ -35,7 +35,7 @@
                     ['label' => 'Control de Acceso', 'options' => ['class' => 'header']],
                     //Items
                     ['label' => 'Usuarios', 'icon' => 'fa fa-user', 'url' => ['/user/manager']],
-                    ['label' => 'Roles', 'icon' => 'fa fa-asterisk', 'url' => ['/rbac/role']],
+                    ['label' => 'Roles', 'icon' => 'fa fa-asterisk', 'url' => ['/role/index']],
                     ['label' => 'Permisos', 'icon' => 'fa fa-key', 'url' => ['/rbac/permission']],
                     ['label' => 'Reglas', 'icon' => 'fa fa-eye', 'url' => ['/rbac/rule']],
 
