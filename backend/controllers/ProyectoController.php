@@ -391,7 +391,6 @@ class ProyectoController extends Controller
                 'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
                 'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
             ];
-            return;
         }
     }
 

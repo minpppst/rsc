@@ -59,15 +59,17 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
             <?php 
                 if ($model->aprobado == 1) {
                     echo Html::a($icons['aprobado'].' Aprobado', ['aprobar', 'id' => $model->id], [
-                                'class' => 'btn btn-success navbar-btn',
-                                'role' => 'modal-remote',
-                                'data-confirm' => false, 'data-method' => false, // for overide yii data api
-                                'data-request-method' => 'post',
-                                'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
-                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"No Aprobado"</b>?'),
+                            'id' => 'aprobar',
+                            'class' => 'btn btn-success navbar-btn',
+                            'role' => 'modal-remote',
+                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
+                            'data-request-method' => 'post',
+                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
+                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"No Aprobado"</b>?'),
                     ]);
                 } else {
                     echo Html::a($icons['no-aprobado'].' No Aprobado', ['aprobar', 'id' => $model->id], [
+                                'id' => 'aprobar',
                                 'class' => 'btn btn-warning navbar-btn',
                                 'role' => 'modal-remote',
                                 'data-confirm' => false, 'data-method' => false, // for overide yii data api
