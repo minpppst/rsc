@@ -58,7 +58,7 @@ class AccionCentralizadaPedidoController extends Controller
     }
 
     /**
-     * Lists all ProyectoPedido models.
+     * Lists all ACCPedido models.
      * @return mixed
      */
     public function actionIndex()

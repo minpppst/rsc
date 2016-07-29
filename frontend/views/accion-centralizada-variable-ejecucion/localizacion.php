@@ -8,7 +8,7 @@ use yii\web\Url;
 /* @var $searchModel frontend\models\AccionCentralizadaVariableEjecucionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Accion Centralizada Variables Localizacion Regional';
+$this->title = 'Variables Por Región';
 $this->params['breadcrumbs'][] = ['label' => 'Accion Centralizadas Variables Asignadas', 'url' => ['variables']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -49,3 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
+<div class="btn-group">
+    <?= Html::a($icons['volver'].' Volver', ['variables'], ['class' => 'btn btn-primary']) ?>        
+</div>

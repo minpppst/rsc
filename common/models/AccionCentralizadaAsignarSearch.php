@@ -49,6 +49,8 @@ class AccionCentralizadaAsignarSearch extends AccionCentralizadaAsignar
         // Join para la relacion
         //$query->joinWith(['unidadEjecutora']);
         $query->joinWith(['accion_centralizada_ac_especifica_uej']);
+        //$query->joinWith(['accion_centralizada_ac_especifica_uej.idAcEsp']);
+        $query->joinWith(['accion_centralizada_ac_especifica_uej.idAcEsp.idAcCentr']);
         //$query->joinWith(['accion_centralizada_accion_especifica', 'accion_centralizada_ac_especifica_uej.id_ac_esp=accion_centralizada_accion_especifica.id']);
 
         $dataProvider = new ActiveDataProvider([
@@ -83,6 +85,7 @@ class AccionCentralizadaAsignarSearch extends AccionCentralizadaAsignar
 
         $query->andFilterWhere(['accion_centralizada_asignar.estatus' => $this->estatus]);
         $query->andFilterWhere(['accion_centralizada_ac_especifica_uej.aprobado' => 0]);
+        $query->andFilterWhere(['accion_centralizada.aprobado' => 1]);
 
         //$query->andFilterWhere(['like', 'unidad_ejecutora.nombre', $this->nombreUe]);
         //$query->andFilterWhere(['like', 'accion_centralizada_accion_especifica.nombre', $this->nombreAe]);
