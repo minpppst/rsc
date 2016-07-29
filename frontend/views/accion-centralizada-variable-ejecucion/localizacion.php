@@ -11,6 +11,9 @@ use yii\web\Url;
 $this->title = 'Variables Por Región';
 $this->params['breadcrumbs'][] = ['label' => 'Accion Centralizadas Variables Asignadas', 'url' => ['variables']];
 $this->params['breadcrumbs'][] = $this->title;
+$icons=[
+  'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
+];
 ?>
 <div class="accion-centralizada-variable-ejecucion-variable">
 
