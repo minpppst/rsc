@@ -255,7 +255,7 @@ class AccionCentralizadaVariablesController extends Controller
 
 
 
-    //funcion para encontrar las acciones especificas que posee asignada las unidades ejecutoras
+    //funcion para encontrar  las unidades ejecutoras asociadas a la accion especifica
      public function actionAce()
     {
         $request = Yii::$app->request;
@@ -267,23 +267,19 @@ class AccionCentralizadaVariablesController extends Controller
             if($request->isPost)
             {
                 //Acciones Especificas
-                
-                $ace= UnidadEjecutora::find()
-                ->select(["unidad_ejecutora.id as id", "CONCAT(unidad_ejecutora.codigo_ue, ' - ',unidad_ejecutora.nombre) as name"])
-                ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id_ue=unidad_ejecutora.id')
-                ->where(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $request->post('depdrop_parents')])
-                ->asArray()
-                ->all();
-
+                $ace= new AccionCentralizadaVariables();                
+                $unidad = new UnidadEjecutora();
+                $unidad=$ace->obtenerUnidadesEJ($request->post('depdrop_parents'));
+                              
                 return [
-                    'output' => $ace
+                    'output' => $unidad
                 ];
             }
         }
         
     }
 
-
+//funcion para encontrar los usuarios  que esten asociados a las acciones especificas
     public function actionAce1($q = NULL, $id = NULL, $acc=NULL)
     {
     $request = Yii::$app->request;
@@ -347,7 +343,7 @@ class AccionCentralizadaVariablesController extends Controller
        
     }
 
-
+//funcion para encontrar las acciones especificas
      public function actionAce2()
     {
         $request = Yii::$app->request;
@@ -358,14 +354,10 @@ class AccionCentralizadaVariablesController extends Controller
 
          if($request->isPost)
          {
-            //Acciones Especificas
-            $ace = AcAcEspec::find()
-            ->select(["accion_centralizada_accion_especifica.id", "CONCAT(accion_centralizada_accion_especifica.cod_ac_espe,' - ',accion_centralizada_accion_especifica.nombre) AS name"])
-            ->innerjoin('accion_centralizada', 'accion_centralizada.id=accion_centralizada_accion_especifica.id_ac_centr')
-            ->where(['accion_centralizada.id' => $request->post('depdrop_parents'), 'accion_centralizada_accion_especifica.estatus' => 1])
-            ->asArray()
-            ->all();                
-
+            $ace= new AcAcEspec ();
+            $variable= new AccionCentralizadaVariables();
+            $ace=$variable->BuscarACC($request->post('depdrop_parents'));
+            
             return [
                     'output' => $ace
                 ];

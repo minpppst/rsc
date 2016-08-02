@@ -39,8 +39,6 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
      * Constante que guarda el nombre del evento
      */
     const EVENT_NUEVO_PEDIDO = 'evento_nuevo_pedido';
-
-    
      /**
      * @inheritdoc
      */
@@ -126,7 +124,6 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
      */
      public function notificacion($evento)
      {
-
         Notification::notify(Notification::KEY_NUEVO_PEDIDO_ACC, 1, $this->id);
      }
 
@@ -329,10 +326,7 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
         }
         
         $this->save();
-
         
-        
-
         return true;
     }
 

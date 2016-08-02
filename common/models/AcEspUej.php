@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use common\models\AcAcEspec;
+use common\components\Notification;
 /**
  * This is the model class for table "accion_centralizada_ac_especifica_uej".
  *
@@ -19,6 +20,17 @@ use common\models\AcAcEspec;
  */
 class AcEspUej extends \yii\db\ActiveRecord
 {
+
+    const EVENT_PEDIDO_APROBADO = 'pedido_aprobado';
+
+    
+    public function init(){
+
+        $this->on(self::EVENT_PEDIDO_APROBADO, [$this, 'notificacion_cargar']);
+        $this->on(self::EVENT_PEDIDO_APROBADO, [$this, 'notificacion']);
+    }
+
+
     /**
      * @inheritdoc
      */
@@ -159,10 +171,14 @@ public function getnombreaccion(){
             $this->aprobado = 1;
         }
         
-        if($this->save())        
+        if($this->save()){
+        $this->trigger(AcEspUej::EVENT_PEDIDO_APROBADO);
         return true;
+
+        
+        }
         else
-       return false; //print_r($model->getErrors());
+       return false; 
         }
 
       public  function uej_eliminar($id){
@@ -190,6 +206,41 @@ public function getnombreaccion(){
         return $ue;
 
 
+     }
+
+
+
+     public function notificacion($evento)
+     {
+        
+        if($evento->name=='pedido_aprobado')
+        Notification::notify(Notification::KEY_PEDIDO_ACC_APROBADO, 1, $this->id);
+
+     }
+
+      public function notificacion_cargar($evento)
+     {
+        
+        
+        if($evento->name=='pedido_aprobado'){
+        
+        //buscando los usuarios que tenga asignado esa unidad ejecutora y accion_especifica
+        $usuarios =AcEspUej::find()
+        ->select(["accion_centralizada_asignar.usuario"])
+        ->innerjoin('accion_centralizada_asignar', 'accion_centralizada_ac_especifica_uej.id=accion_centralizada_asignar.accion_especifica_ue')
+        ->where(['accion_centralizada_asignar.accion_especifica_ue' => $this->id])
+        ->andWhere(['accion_centralizada_ac_especifica_uej.estatus' => 1])
+        ->asArray()
+        ->all();
+
+        
+        
+        foreach ($usuarios as $key => $usuario) {
+            
+            Notification::notify(Notification::KEY_PEDIDO_ACC_APROBADO, $usuario['usuario'], $this->id);
+        } 
+        }
+        
      }
 
 

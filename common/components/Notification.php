@@ -4,6 +4,7 @@
     use Yii;
     use common\models\ProyectoPedido;
     use common\models\AccionCentralizadaPedido;
+    use common\models\AcEspUej;
     use machour\yii2\notifications\models\Notification as BaseNotification;
 
     class Notification extends BaseNotification
@@ -14,6 +15,7 @@
          */
         const KEY_NUEVO_PEDIDO = 'nuevo_pedido';
         const KEY_NUEVO_PEDIDO_ACC = 'pedido_accion_centralizada';
+        const KEY_PEDIDO_ACC_APROBADO= 'pedido_acc_aprobado';
 
         /**
          * @var array Holds all usable notifications
@@ -21,6 +23,7 @@
         public static $keys = [
             self::KEY_NUEVO_PEDIDO,
             self::KEY_NUEVO_PEDIDO_ACC,
+            self::KEY_PEDIDO_ACC_APROBADO,
         ];
 
         /**
@@ -37,6 +40,11 @@
                     case self::KEY_NUEVO_PEDIDO_ACC:
                     $pedido = AccioncentralizadaPedido::findOne($this->key_id);
                     return Yii::t('app', 'Nuevo Requerimiento Central');
+                    break;
+                    case self::KEY_PEDIDO_ACC_APROBADO:
+                    $acc_uej=AcEspUej::findOne($this->key_id);
+                    $pedido = $acc_uej->nombreunidadejecutora;
+                    return yii::t('app', 'Aprobación De Requerimientos');
                     break;
             }
         }
@@ -63,6 +71,14 @@
                         'usuario' => isset($pedido->asignado0->nombreUsuario) ? isset($pedido->asignado0->nombreUsuario) : ''
                     ]);
                     break;
+
+                    case self::KEY_PEDIDO_ACC_APROBADO:
+                    $acc_uej=AcEspUej::findOne($this->key_id);
+                    $pedido = $acc_uej->Nombreunidadejecutora;
+                    $aprobado = $acc_uej->aprobado==1 ? 'aprobados' : 'no aprobados';
+                    return Yii::t('app', 'Pedidos De Unidad Ejecutora '.$pedido.' fuerón '.$aprobado.''
+                        );
+                    break;
             }
         }
 
@@ -85,6 +101,11 @@
                         
                         'id' => $this->key_id];
                         break;
+                case self::KEY_PEDIDO_ACC_APROBADO:
+                return['/'];
+                break;
+
+                
 
             };
         }

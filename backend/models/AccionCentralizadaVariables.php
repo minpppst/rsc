@@ -1,7 +1,7 @@
 <?php
 
 namespace backend\models;
-use common\models\AcAcEspec;
+
 use common\models\UnidadEjecutora;
 use common\models\UnidadMedida;
 use backend\models\LocalizacionAccVariable;
@@ -142,7 +142,35 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
         }
     }
 
+    //obteenr las unidades ejecutoras asociadas a una acc
+    public function ObtenerUnidadesEJ($acc_uej){
+      $unidad= UnidadEjecutora::find()
+                ->select(["unidad_ejecutora.id as id", "CONCAT(unidad_ejecutora.codigo_ue, ' - ',unidad_ejecutora.nombre) as name"])
+                ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id_ue=unidad_ejecutora.id')
+                ->where(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $acc_uej])
+                ->asArray()
+                ->all();
 
+                return $unidad;
+
+    }
+
+
+    //funcion para encontrar las acciones especificas
+    public function BuscarACC($accion){
+
+          $ace = AcAcEspec::find()
+            ->select(["accion_centralizada_accion_especifica.id", "CONCAT(accion_centralizada_accion_especifica.cod_ac_espe,' - ',accion_centralizada_accion_especifica.nombre) AS name"])
+            ->innerjoin('accion_centralizada', 'accion_centralizada.id=accion_centralizada_accion_especifica.id_ac_centr')
+            ->where(['accion_centralizada.id' => $accion, 'accion_centralizada_accion_especifica.estatus' => 1])
+            ->asArray()
+            ->all();
+            return $ace;
+
+
+
+
+    }
 
 
 
