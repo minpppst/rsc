@@ -438,15 +438,12 @@ class MaterialesServiciosController extends Controller
      */
     public function actionBulkDesactivar() {
         $request = Yii::$app->request;
-        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
-        //Obtener el nombre de la clase del modelo
-        $className = MaterialesServicios::className();
-        
-        //call_user_func - Invocar el callback 
-        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+        $pks = explode(',',$request->post('pks')); // arreglo o llave primaria
+        foreach ($pks as $pk) 
+        {             
+            $model = $this->findModel($pk); //se busca el modelo
             $model->desactivar();
-        }
-        
+        }        
 
         if ($request->isAjax) {
             /*

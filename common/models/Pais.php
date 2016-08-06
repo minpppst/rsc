@@ -28,7 +28,7 @@ class Pais extends \yii\db\ActiveRecord
         return [
             [['id', 'nombre'], 'required'],
             [['id'], 'integer'],
-            [['nombre'], 'string', 'max' => 100]
+            [['nombre'], 'string', 'max' => 100],
         ];
     }
 

@@ -287,22 +287,23 @@ class PartidaPartidaController extends Controller
      * @return mixed
      */
     public function actionBulkDesactivar() {
-        $request = Yii::$app->request;
-        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
-        //Obtener el nombre de la clase del modelo
-        $className = PartidaPartida::className();
-        
-        //call_user_func - Invocar el callback 
-        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+        $request = Yii::$app->request;        
+        $arr = explode('},{',ltrim(rtrim($request->post('pks'),'}'), '{')); // arreglo o llave primaria
+        foreach ($arr as $key => $value) //por cada string
+        {
+            $tmp = json_decode('{'.$value.'}'); //json a objeto
+            
+            $model = $this->findModel($tmp->cuenta, $tmp->partida); //se busca el modelo
             $model->desactivar();
+            
         }
-        
 
         if ($request->isAjax) {
             /*
              *   Process for ajax request
-             */
+             */            
             Yii::$app->response->format = Response::FORMAT_JSON;
+            //return ['pks'=>$tmp->cuenta];
             return ['forceClose' => true, 'forceReload' => 'true'];
         } else {
             /*

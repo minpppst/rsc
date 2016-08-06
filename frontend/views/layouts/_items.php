@@ -46,6 +46,13 @@
     }
     else
     {
+        //Notificaciones
+        $items[] = ['label' => '<span class="glyphicon glyphicon-bell" aria-hidden="true"></span><span class="label label-danger notifications-icon-count">0</span>', 'items' =>
+            [
+                ['label' => 'Tienes <span class="notifications-header-count">0</span> notificaciones']
+            ]
+        ];
+
         $items[] = ['label' => $icons['salir'].' Salir (' . Yii::$app->user->identity->username . ')', 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']
             ]
         ;
