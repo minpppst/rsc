@@ -235,18 +235,22 @@ class PartidaPartidaController extends Controller
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (PartidaPartida::findAll(json_decode($pks)) as $model) {
+        $arr = explode('},{',ltrim(rtrim($request->post('pks'),'}'), '{')); // arreglo o llave primaria
+        foreach ($arr as $key => $value) //por cada string
+        {
+            $tmp = json_decode('{'.$value.'}'); //json a objeto
+            
+            $model = $this->findModel($tmp->cuenta, $tmp->partida); //se busca el modelo
             $model->delete();
+            
         }
-        
 
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'true'];
         }else{
             /*
             *   Process for non-ajax request
@@ -322,15 +326,15 @@ class PartidaPartidaController extends Controller
      */
     public function actionBulkActivar() {
         $request = Yii::$app->request;
-        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
-        //Obtener el nombre de la clase del modelo
-        $className = PartidaPartida::className();
-        
-        //call_user_func - Invocar el callback 
-        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+        $arr = explode('},{',ltrim(rtrim($request->post('pks'),'}'), '{')); // arreglo o llave primaria
+        foreach ($arr as $key => $value) //por cada string
+        {
+            $tmp = json_decode('{'.$value.'}'); //json a objeto
+            
+            $model = $this->findModel($tmp->cuenta, $tmp->partida); //se busca el modelo
             $model->activar();
-        }
-        
+            
+        }        
 
         if ($request->isAjax) {
             /*

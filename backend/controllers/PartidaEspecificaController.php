@@ -244,9 +244,14 @@ class PartidaEspecificaController extends Controller
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (Es::findAll(json_decode($pks)) as $model) {
+        $arr = explode('},{',ltrim(rtrim($request->post('pks'),'}'), '{')); // arreglo o llave primaria
+        foreach ($arr as $key => $value) //por cada string
+        {
+            $tmp = json_decode('{'.$value.'}'); //json a objeto
+            
+            $model = $this->findModel($tmp->cuenta, $tmp->partida, $tmp->generica, $tmp->especifica); //se busca el modelo
             $model->delete();
+            
         }
         
 
@@ -255,7 +260,7 @@ class PartidaEspecificaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceCerrar'=>true,'forceReload'=>true]; 
+            return ['forceCerrar'=>true,'forceReload'=>'true']; 
         }else{
             /*
             *   Process for non-ajax request
@@ -300,8 +305,8 @@ class PartidaEspecificaController extends Controller
      * @param integer id
      * @return mixed
      */
-    public function actionToggleActivo($id) {
-        $model = $this->findModel($id);
+    public function actionToggleActivo($cuenta, $partida, $generica, $especifica) {
+        $model = $this->findModel($cuenta, $partida, $generica, $especifica);
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -326,15 +331,15 @@ class PartidaEspecificaController extends Controller
      */
     public function actionBulkDesactivar() {
         $request = Yii::$app->request;
-        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
-        //Obtener el nombre de la clase del modelo
-        $className = PartidaGenerica::className();
-        
-        //call_user_func - Invocar el callback 
-        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+        $arr = explode('},{',ltrim(rtrim($request->post('pks'),'}'), '{')); // arreglo o llave primaria
+        foreach ($arr as $key => $value) //por cada string
+        {
+            $tmp = json_decode('{'.$value.'}'); //json a objeto
+            
+            $model = $this->findModel($tmp->cuenta, $tmp->partida, $tmp->generica, $tmp->especifica); //se busca el modelo
             $model->desactivar();
-        }
-        
+            
+        }        
 
         if ($request->isAjax) {
             /*
@@ -359,15 +364,15 @@ class PartidaEspecificaController extends Controller
      */
     public function actionBulkActivar() {
         $request = Yii::$app->request;
-        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
-        //Obtener el nombre de la clase del modelo
-        $className = PartidaGenerica::className();
-        
-        //call_user_func - Invocar el callback 
-        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+        $arr = explode('},{',ltrim(rtrim($request->post('pks'),'}'), '{')); // arreglo o llave primaria
+        foreach ($arr as $key => $value) //por cada string
+        {
+            $tmp = json_decode('{'.$value.'}'); //json a objeto
+            
+            $model = $this->findModel($tmp->cuenta, $tmp->partida, $tmp->generica, $tmp->especifica); //se busca el modelo
             $model->activar();
-        }
-        
+            
+        }       
 
         if ($request->isAjax) {
             /*
