@@ -35,7 +35,7 @@ $icons=[
                 ['content'=>
                     Html::a('<span class="glyphicon glyphicon-file"></span> Nuevo', ['create'],
                     ['role'=>'modal-remote','title'=> 'Crear Unidad de Medida','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'

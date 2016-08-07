@@ -150,11 +150,11 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'estatus')->dropDownList([1=>'Activo',0=>'Inactivo'],['prompt'=>'Seleccione']) ?>
 
   
-    <?php if (!Yii::$app->request->isAjax){ ?>
+    <?php if (!Yii::$app->request->isAjax): ?>
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
-    <?php } ?>
+    <?php endif; ?>
 
     <?php ActiveForm::end(); ?>
     

@@ -79,22 +79,23 @@ class AccionCentralizadaController extends Controller
      * @return mixed
      */
     public function actionView($id)
-    { $model = $this->findModel($id);
+    {
+        $model = $this->findModel($id);
 
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
             return $this->redirect(['view', 'id' => $model->id]);
-        }else{
-
+        }
+        else
+        {
             return $this->render('view', [
-                'model' => $model,
-                
+                'model' => $model                
             ]);
         }
 
 
         return $this->render('view', [
-            'model' => $model,
+            'model' => $model
         ]);
     }
 
