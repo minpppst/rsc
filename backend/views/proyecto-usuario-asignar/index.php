@@ -94,7 +94,7 @@ $icons=[
         ],
         'toolbar'=> [
             ['content'=>                
-                Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
+                Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
                 ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Recargar']).
                 '{toggleData}'
             ],

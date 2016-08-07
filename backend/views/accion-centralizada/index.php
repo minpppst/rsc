@@ -130,6 +130,8 @@ CrudAsset::register($this);
             [ 
                 'content'=>                  
                     //Html::a($icons['crear'].' Nuevo', ['create'], ['class' => 'btn btn-default']).
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'
                     //Html::a($icons['importar'].' Importar', ['importar'],

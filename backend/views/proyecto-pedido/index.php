@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'pjax' => true,
         'toolbar'=> [
             ['content'=>                
-                Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
+                Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
                 ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                 '{toggleData}'
             ],
