@@ -230,7 +230,7 @@ class AccionCentralizada extends \yii\db\ActiveRecord
             return false;
         }
     }
-
+// cabeceras de partida primer primer nivel
     public function cabeceras(){
 
         //cabeceras

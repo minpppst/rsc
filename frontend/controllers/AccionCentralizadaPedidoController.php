@@ -9,6 +9,7 @@ use common\models\AccionCentralizadaPedidoSearch;
 use common\models\AccionCentralizadaAsignar;
 use common\models\AccionCentralizadaAsignarSearch;
 use common\models\MaterialesServicios;
+use backend\models\UePartidaEntidad;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -151,10 +152,21 @@ class AccionCentralizadaPedidoController extends Controller
         $model->asignado = $asignar;
 
         //autocomplete
-        $materiales = MaterialesServicios::find()
-                ->select(['nombre', 'id', 'precio'])
-                ->all();
+        $materiales= UePartidaEntidad::find()
+        ->andWhere(['id_tipo_entidad' => 2])
+        ->andWhere(['id_ue' => $model->asignado0->accion_especifica_ue0->id_ue])
+        ->All();
+        
+        
+        foreach ($materiales as $key => $value) {
 
+            foreach ($value->materialesPartidaEntidad as $key => $value) {
+            if(isset($value))
+            $materiales1[]=$value;
+        }
+        }
+        
+        
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -165,7 +177,7 @@ class AccionCentralizadaPedidoController extends Controller
                     'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'materiales' => $materiales
+                        'materiales' => $materiales1,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -186,7 +198,7 @@ class AccionCentralizadaPedidoController extends Controller
                     'title'=> "Pedido",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'materiales' => $materiales
+                        'materiales' => $materiales1
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -202,7 +214,7 @@ class AccionCentralizadaPedidoController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
-                    'materiales' => $materiales
+                    'materiales' => $materiales1
                 ]);
             }
         }
@@ -222,9 +234,22 @@ class AccionCentralizadaPedidoController extends Controller
         $model = $this->findModel($id);
 
         //autocomplete
-        $materiales = MaterialesServicios::find()
-                ->select(['nombre', 'id', 'precio'])
-                ->all();      
+        //$materiales = MaterialesServicios::find()
+          //      ->select(['nombre', 'id', 'precio'])
+            //    ->all();      
+        $materiales= UePartidaEntidad::find()
+        ->andWhere(['id_tipo_entidad' => 2])
+        ->andWhere(['id_ue' => $model->asignado0->accion_especifica_ue0->id_ue])
+        ->All();
+        
+        
+        foreach ($materiales as $key => $value) {
+
+            foreach ($value->materialesPartidaEntidad as $key => $value) {
+            if(isset($value))
+            $materiales1[]=$value;
+        }
+        }
 
         if($request->isAjax){
             /*
@@ -236,7 +261,7 @@ class AccionCentralizadaPedidoController extends Controller
                     'title'=> "Pedido",
                     'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id),
-                        'materiales' => $materiales
+                        'materiales' => $materiales1
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -247,7 +272,7 @@ class AccionCentralizadaPedidoController extends Controller
                     'title'=> "Pedido",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
-                        'materiales' => $materiales
+                        'materiales' => $materiales1
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -257,7 +282,7 @@ class AccionCentralizadaPedidoController extends Controller
                     'title'=> "Pedido",
                     'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id),
-                        'materiales' => $materiales
+                        'materiales' => $materiales1
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -438,5 +463,37 @@ class AccionCentralizadaPedidoController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+
+
+    public function actionBulkDelete()
+    {        
+        $request = Yii::$app->request;
+        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        
+        
+        foreach ($pks as $key) 
+        {
+            //$model=AcAcEspec::findAll(json_decode($key));
+            $model=$this->findModel($key);
+            $model->delete();
+        }        
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>'true']; 
+        }
+        else
+        {
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['/accion_centralizada-pedido/index']);
+        }
+       
     }
 }

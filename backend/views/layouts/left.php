@@ -81,6 +81,7 @@
                         ]
 
                     ],
+                    ['label' => 'Partidas - Unidades Ejecutoras', 'icon' => 'glyphicon glyphicon-list-alt', 'url' => ['/ue-partida-entidad/index']],
                     [
                         'label' => 'Objetivos',
                         'icon' => 'glyphicon glyphicon-screenshot',

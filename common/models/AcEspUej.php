@@ -38,7 +38,6 @@ class AcEspUej extends \yii\db\ActiveRecord
     {
         return 'accion_centralizada_ac_especifica_uej';
     }
-
     /**
      * @inheritdoc
      */
