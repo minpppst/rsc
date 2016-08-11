@@ -20,27 +20,27 @@ use yii\widgets\ActiveForm;
           <span>Modificar Partida Unidades-Ejecutora</span>
         </div>
         <div class="panel-body">
- <table class="table table-bordered table-condensed table-striped" >
+        <table class="table table-bordered table-condensed table-striped" >
         <tbody>
-        <tr >
-        <td colspan="2" align="center"><label>Cuenta</label></td>
-        <td align="center"><label>Unidad Ejecutora Proyecto</label></td>
-        <td align="center" ><label>Unidad Ejecutora ACC</label></td>
-        </tr>
-    <tr >
-        <td valign="top" align="center">
+            <tr >
+            <td colspan="2" align="center"><label>Cuenta</label></td>
+            <td align="center"><label>Unidad Ejecutora Proyecto</label></td>
+            <td align="center" ><label>Unidad Ejecutora ACC</label></td>
+            </tr>
+            <tr>
+            <td valign="top" align="center">
            
-            <?= $form->field($model, 'cuenta')->textInput(['maxlength' => '1', 'style'=>'margin-right: -40px; width:50px; text-align:center', "readonly" => true ])->label(false) ?>
+            <?= $form->field($model, 'cuenta')->textInput(['maxlength' => '1', 'style'=>'margin-right: -27px; width:50px; text-align:center', "readonly" => true ])->label(false) ?>
             
            
-        </td>
-        <td valign="top" align="center">
+            </td>
+            <td valign="top" align="center">
            
-            <?= $form->field($model, 'partida')->textInput(['maxlength' => '1', 'style'=>'width:50px; margin-left:-5px;', "readonly" => true ])->label(false) ?>
+            <?= $form->field($model, 'partida')->textInput(['maxlength' => '1', 'style'=>'width:50px; margin-left:-21px;', "readonly" => true ])->label(false) ?>
            
-        </td>
+            </td>
     
-        <td align="center">
+            <td align="center">
             <div>
             <?php  
             // Multiple select without model 
@@ -61,9 +61,9 @@ use yii\widgets\ActiveForm;
   
             ?>
             </div>
-        </td>
+            </td>
 
-        <td align="center">
+            <td align="center">
             <div>
             <?php  
             // Multiple select without model 
@@ -80,12 +80,12 @@ use yii\widgets\ActiveForm;
             ]);
             ?>
             </div>
-        </td>
+            </td>
     
-</tr>
-</tbody>
-</table>
-</div>
+            </tr>
+        </tbody>
+        </table>
+        </div>
 </div>
 <?php if (!Yii::$app->request->isAjax){ ?>
             <div class="form-group">

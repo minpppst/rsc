@@ -63,7 +63,7 @@ class UePartidaEntidadSearch extends UePartidaEntidad
 
         $query->andFilterWhere(['like', 'cuenta', $this->cuenta])
               ->andFilterWhere(['like', 'partida', $this->partida])
-              ->groupBy('partida','cuenta');
+              ->groupBy('partida, cuenta');
 
         return $dataProvider;
     }

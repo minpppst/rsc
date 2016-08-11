@@ -150,6 +150,7 @@ class AccionCentralizadaPedidoController extends Controller
         $request = Yii::$app->request;
         $model = new AccionCentralizadaPedido();
         $model->asignado = $asignar;
+        $model->estatus=1;
 
         //autocomplete
         $materiales= UePartidaEntidad::find()
@@ -190,7 +191,7 @@ class AccionCentralizadaPedidoController extends Controller
                     'title'=> "Requerimientos",
                     'content'=>'<span class="text-success">Create ProyectoAsignar success</span>',
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::a('Asignar otro',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                                Html::a('Asignar otro',['create', 'asignar' => $asignar],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
@@ -470,8 +471,8 @@ class AccionCentralizadaPedidoController extends Controller
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
-        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
-        
+        //$pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        $pks = explode(',',$request->post('pks')); // arreglo o llave primaria
         
         foreach ($pks as $key) 
         {

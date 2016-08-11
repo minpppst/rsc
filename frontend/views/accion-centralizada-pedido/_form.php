@@ -143,7 +143,7 @@ use yii\helpers\Url;
 
     <?= Html::activeHiddenInput($model, 'asignado') ?>
 
-    <?= $form->field($model, 'estatus')->dropDownList([1=>'Activo',0=>'Inactivo'],['prompt'=>'Seleccione']) ?>
+    <!--<?= $form->field($model, 'estatus')->dropDownList([1=>'Activo',0=>'Inactivo'],['prompt'=>'Seleccione']) ?>-->
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
