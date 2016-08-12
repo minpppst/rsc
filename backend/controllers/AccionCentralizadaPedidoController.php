@@ -72,11 +72,7 @@ class AccionCentralizadaPedidoController extends Controller
     public function actionIndex()
     {        
     
-        //$searchModel = new AcEspUej::model()->with('accion_centralizada_accion_especifica', 'unidad_ejecutora')->findAll();
-
         $searchModel = new AcEspUejSearch();
-        //Modelo de busqueda y dataprovider
-        //$searchModel = new AcAcEspecSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
         
         return $this->render('index', [
@@ -146,7 +142,6 @@ class AccionCentralizadaPedidoController extends Controller
         $model = new AccionCentralizadaPedido();
         $model->asignado = $asignar;
 
-        //autocomplete
         //autocomplete
         $materiales= UePartidaEntidad::find()
         ->andWhere(['id_tipo_entidad' => 2])

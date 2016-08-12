@@ -37,7 +37,7 @@ CrudAsset::register($this);
       </div>
     </div>
 
-    <div class="btn-group">
+    <!--<div class="btn-group">
         <?= Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar',
             ['accion-centralizada-pedido/update', 'id' => $model->id],
             [
@@ -46,7 +46,7 @@ CrudAsset::register($this);
                 'title' => 'Editar',
                 'data-toggle'=>'tooltip'
             ]) ?>        
-    </div>
+    </div>-->
 
 </div>
 <?php Modal::begin([

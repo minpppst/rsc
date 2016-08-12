@@ -79,63 +79,68 @@ class UePartidaEntidad extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UnidadEjecutora::className(), ['id' => 'id_ue']);
     }
-    //eliminar por id
-    public  function uej_eliminar($id){
-        $model = UePartidaEntidad::findOne($id);
-        return $model->delete();
-        
-     }
+    
 
-    //agregar/quitar las unidades ejecutoras por combo
+    /*
+     Agregar-quitar las unidades ejecutoras que vienen por el combo de select2
+    */
     public function UejEntidad($id_uej,$entidad){
 
-
-
-      //buscar si quitaron una unidad si es asi borrar la quitaron
       
-      if($id_uej==null){
-        $id_uej='';
-
+      /*
+      Vaciar Si viene null
+      */
+      if($id_uej==null)
+      {
+         $id_uej='';
       }
+
+      /*
+      Query para buscar si quitaron una unidad si trae algo hay q borrarlas
+      */
       $ace = UePartidaEntidad::find()
               ->select('ue_partida_entidad.id')
-              ->where(['cuenta' => $this->cuenta])
-              ->andwhere(['partida' => $this->partida])
-              ->andwhere(['id_tipo_entidad' => $entidad])
-              ->andwhere(['not in', 'id_ue', $id_uej])
+              ->where(['cuenta' => $this->cuenta, 'partida' => $this->partida, 'id_tipo_entidad' => $entidad])
+              ->andWhere(['not in', 'id_ue', $id_uej])
               ->asArray()
               ->all();
-        
+        /*
+        Si encontró algo, son las unidades que deben ser eliminadas
+        */
         if($ace!=null){
-        $model_cambiar=new UePartidaEntidad;
+        
         foreach ($ace as $key => $value) {
-         $model_cambiar->uej_eliminar($value);
-          
+         $model_cambiar= UePartidaEntidad::findOne($value);
+         $model_cambiar->delete();
         }
         }
-        //buscar si agregaron una unidad si es asi almacenar las nuevas y guardar
+        /*
+        Ya se borraron ahora query para buscar si agregaron una unidad nueva,
+        si es asi almacenar y guardar
+        */
         $ace = UePartidaEntidad::find()
               ->select('id_ue')
-              ->where(['cuenta' => $this->cuenta])
-              ->andwhere(['partida' => $this->partida])
-              ->andwhere(['id_tipo_entidad' => $entidad])
-              ->andwhere(['in', 'id_ue', $id_uej])
+              ->where(['cuenta' => $this->cuenta,'partida' => $this->partida,'id_tipo_entidad' => $entidad])
+              ->andWhere(['in', 'id_ue', $id_uej])
               ->asArray()
               ->all();
         
         
-        $i=0;
+        /*
+        Declaro arreglo donde se guardará los nuevos elementos agregados
+        */
         $tabla[]=null;
         foreach ($ace as $key => $value) {
-          
         $tabla[]=$value['id_ue'];
-        
         }
 
-        //si viene vacio
+        //si viene null, lo coloco vacio
         if($id_uej==null){
           $id_uej=[];
         }
+        /*
+        Guardo en $nuevo los elementos nuevos que se han agregado.
+        */
         $nuevo=array_diff($id_uej, $tabla);
         
         foreach ($nuevo as $key => $value) {
@@ -145,13 +150,16 @@ class UePartidaEntidad extends \yii\db\ActiveRecord
         $model_uej->partida=$this->partida;
         $model_uej->id_tipo_entidad=$entidad;  
         $model_uej->save();
+        
         }
 
         
       }
 
 
-
+      /*
+      Obtener los nombres de las unidades ejecutoras.
+      */
       public function obtener_uej_relacionadas($entidad,$cuenta,$partida)
      {
         $ue="";
@@ -170,6 +178,10 @@ class UePartidaEntidad extends \yii\db\ActiveRecord
         $ue = substr($ue, 0, -2);
         return $ue;
      }
+     
+     /*
+    Relacion con materiales y servicios
+     */
 
      public function getMaterialesPartidaEntidad()
     {

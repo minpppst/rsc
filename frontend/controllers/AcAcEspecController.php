@@ -123,7 +123,8 @@ class AcAcEspecController extends Controller
         $request = Yii::$app->request;
         $model = new AcAcEspec();
         $model->id_ac_centr=$ac_centralizada; 
-        $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre'); 
+        $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre');
+        $model->estatus=1; 
         
         if($request->isAjax){
             /*
@@ -141,28 +142,26 @@ class AcAcEspecController extends Controller
         
                 ];         
             }else if($model->load($request->post())){
-
-
-                       $uni_eje=$request->post('id_ue');
-                       $i=0;
+                    
+                    $uni_eje=$request->post('id_ue');
+                    $i=0;
                        
-                       $connection = \Yii::$app->db;
-                       $transaction = $connection->beginTransaction();
-                       try { 
-                        if($model->save()){
-                        // si salva el modelo padre, contamos las uej a guardar
-                        while(count($request->post('id_ue'))!=$i){
-                            //guardamos las uej, si ocurre algun error devuelve false
-                        $salvar=$model->uejecutoras_crear($uni_eje[$i]);
-                        $i++;
-                        if($salvar){
-                        }else{
-                            $transaction->rollback();
-                            $i=count($request->post('id_ue'));
-                            
+                    $connection = \Yii::$app->db;
+                    $transaction = $connection->beginTransaction();
+                    try { 
+                    if($model->save()){
+                    // si salva el modelo padre, contamos las uej a guardar
+                    while(count($request->post('id_ue'))!=$i){
+                    // guardamos las uej, si ocurre algun error devuelve false
+                    $salvar=$model->uejecutoras_crear($uni_eje[$i]);
+                    $i++;
+                    if($salvar){
+                    }else{
+                      $transaction->rollback();
+                      $i=count($request->post('id_ue'));
                         }
                         }// termina el while
-                        $transaction->commit();
+                    $transaction->commit();
 
 
                 return [

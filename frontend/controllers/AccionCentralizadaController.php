@@ -89,6 +89,7 @@ class AccionCentralizadaController extends Controller
     public function actionCreate()
     {
         $model = new AccionCentralizada();
+        $model->estatus=1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -280,12 +281,12 @@ class AccionCentralizadaController extends Controller
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
-        $pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        $pks = explode(',',$request->post('pks')); // arreglo o llave primaria
         
         
         foreach ($pks as $key) 
         {
-            //$model=AcAcEspec::findAll(json_decode($key));
+            
             $model=$this->findModel($key);
             $model->delete();
         }        

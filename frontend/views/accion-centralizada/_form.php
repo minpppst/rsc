@@ -61,9 +61,6 @@ $icons = [
     ]
 ]);?>
 
-      
-
-    <?= $form->field($model, 'estatus')->dropDownList(['1' => 'Activo', '0' => 'Inactivo'],['prompt'=>'Select Option']); ?>
 
     
     <div class="form-group">

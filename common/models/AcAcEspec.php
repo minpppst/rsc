@@ -50,9 +50,9 @@ class AcAcEspec extends \yii\db\ActiveRecord
             [['id_ac_centr'], 'integer'],
             [['cod_ac_espe'], 'unique'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
+            ['fecha_inicio', 'compare', 'compareAttribute' => 'fecha_fin', 'operator' => '<'],
             [['id_ac_centr'], 'exist', 'skipOnError' => true, 'targetClass' => AccionCentralizada::className(), 'targetAttribute' => ['id_ac_centr' => 'id']],
             
-            //[['nombre'], 'string'], no valida campos largos
             [['cod_ac_espe'], 'string', 'max' => 6]
         ];
     }
@@ -96,7 +96,7 @@ class AcAcEspec extends \yii\db\ActiveRecord
     }
 
     public function existe_uej(){
-        //$resultado=AcEspUej::find()->select('id')->where('=','id_ac_esp',$this->id);
+       
         $resultado =ArrayHelper::map(AcEspUej::find()->limit(1)->where('id_ac_esp= :id', ['id'=>$this->id])->all(),'id','id_ue');
         if(count($resultado)>0){
         return(1);}
@@ -144,17 +144,23 @@ class AcAcEspec extends \yii\db\ActiveRecord
      }
 
 
-
+     /*
+      Permite Agregar/Borrar las UE del combo select2
+     */
      function uejecutoras($id_uej){
 
 
 
-      //buscar si quitaron una unidad si es asi borrar la quitaron
-      
+      /*
+      Vaciar Si viene null
+      */
       if($id_uej==null){
         $id_uej='';
 
       }
+      /*
+      Query para buscar si quitaron una unidad si trae algo hay q borrarlas
+      */
       $ace = AcEspUej::find()
               ->select('accion_centralizada_ac_especifica_uej.id')
               ->where(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $this->id])
@@ -163,15 +169,20 @@ class AcAcEspec extends \yii\db\ActiveRecord
               ->asArray()
               ->all();
         
+        /*
+        Si encontró algo, son las unidades que deben ser eliminadas
+        */
         if($ace!=null){
-        $model_cambiar=new AcEspUej;
+        
         foreach ($ace as $key => $value) {
-          //AcEspUej::deleteAll(['id' => $value]);
-          $model_cambiar->uej_eliminar($value);
-          
+          $model_cambiar= AcEspUej::findOne($value);
+          $model_cambiar->delete();
+          }
         }
-        }
-        //buscar si agregaron una unidad si es asi almacenar las nuevas y guardar
+        /*
+        Ya se borraron ahora query para buscar si agregaron una unidad nueva,
+        si es asi almacenar y guardar
+        */
         $ace = AcEspUej::find()
               ->select('accion_centralizada_ac_especifica_uej.id_ue')
               ->where(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $this->id])
@@ -181,7 +192,9 @@ class AcAcEspec extends \yii\db\ActiveRecord
               ->all();
         
         
-        $i=0;
+        /*
+        Declaro arreglo donde se guardará los nuevos elementos agregados
+        */
         $tabla[]=null;
         foreach ($ace as $key => $value) {
           
@@ -189,10 +202,13 @@ class AcAcEspec extends \yii\db\ActiveRecord
         
         }
 
-        //si viene vacio
+        //si viene null lo declaro arreglo vacio
         if($id_uej==null){
           $id_uej=[];
         }
+        /*
+        Guardo en $nuevo los elementos nuevos que se han agregado.
+        */
         $nuevo=array_diff($id_uej, $tabla);
         
         foreach ($nuevo as $key => $value) {
@@ -205,7 +221,9 @@ class AcAcEspec extends \yii\db\ActiveRecord
         
       }
 
-
+      /*
+      Funcion para guardar las unidades ejecutoras relacionadas con las acc (solamente para la accion create)
+      */
       public function uejecutoras_crear($id_ue){
         
         $model_uej=new AcEspUej;
