@@ -157,7 +157,7 @@ class AccionCentralizadaAsignarController extends WebController
                     'title'=> "Asignado",
                     'content'=>'<span class="text-success">Create AccionCentralizadaAsignar success</span>',
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Asignar otro',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Asignar otro',['create',  'usuario' => $usuar],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
@@ -376,13 +376,6 @@ class AccionCentralizadaAsignarController extends WebController
     }
 
 
-
-
-
-
-
-
-
      /**
      * Delete an existing ProyectoAsignar model.
      * For ajax request will return json object
@@ -400,7 +393,7 @@ class AccionCentralizadaAsignarController extends WebController
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
+            return ['forceClose'=>true,'forceReload'=>'true'];    
         }else{
             /*
             *   Process for non-ajax request
@@ -428,17 +421,12 @@ class AccionCentralizadaAsignarController extends WebController
         }
 
 
-        /*foreach (AccionCentralizadaAsignar::findAll(json_decode($pks)) as $model) {
-            $model->delete();
-        }*/
-        
-
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true]; 
+            return ['forceClose'=>true,'forceReload'=>'true']; 
         }else{
             /*
             *   Process for non-ajax request
@@ -499,7 +487,7 @@ class AccionCentralizadaAsignarController extends WebController
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => true];
+            return ['forceClose' => true, 'forceReload' => 'true'];
         } else {
             /*
              *   Process for non-ajax request
@@ -534,7 +522,7 @@ class AccionCentralizadaAsignarController extends WebController
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => true];
+            return ['forceClose' => true, 'forceReload' => 'true'];
         } else {
             /*
              *   Process for non-ajax request

@@ -162,8 +162,9 @@ class AccionCentralizadaPedidoController extends Controller
         foreach ($materiales as $key => $value) {
 
             foreach ($value->materialesPartidaEntidad as $key => $value) {
-            if(isset($value))
+            if(isset($value)){
             $materiales1[]=$value;
+        }
         }
         }
         

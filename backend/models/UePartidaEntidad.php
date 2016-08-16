@@ -37,13 +37,16 @@ class UePartidaEntidad extends \yii\db\ActiveRecord
         return [
             [['cuenta', 'partida', 'id_ue', 'id_tipo_entidad'], 'required'],
             [['id_ue', 'id_tipo_entidad'], 'integer'],
-            [['cuenta'], 'string', 'max' => 1],
+            [['id_ue'], 'string', 'max' => 1],
             [['partida'], 'string', 'max' => 2],
             [['cuenta', 'partida', 'id_ue', 'id_tipo_entidad'], 'unique', 'targetAttribute' => ['cuenta', 'partida', 'id_ue', 'id_tipo_entidad'], 'message' => 'The combination of Cuenta, Partida, Id Ue and Id Tipo Entidad has already been taken.'],
             [['id_tipo_entidad'], 'exist', 'skipOnError' => true, 'targetClass' => TipoEntidad::className(), 'targetAttribute' => ['id_tipo_entidad' => 'id']],
             [['id_ue'], 'exist', 'skipOnError' => true, 'targetClass' => UnidadEjecutora::className(), 'targetAttribute' => ['id_ue' => 'id']],
         ];
     }
+
+
+    
 
     /**
      * @inheritdoc
