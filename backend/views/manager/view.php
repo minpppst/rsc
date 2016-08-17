@@ -2,8 +2,13 @@
 use yii\widgets\DetailView;
 use johnitvn\userplus\base\models\UserAccounts;
 use yii\helpers\Html;
+use yii\bootstrap\Alert;
 
-
+?>
+<?php 
+if($flash = Yii::$app->session->getFlash('success')){
+    echo Alert::widget(['options' => ['class' => 'alert-success'], 'body' => $flash]);
+    } 
 ?>
 <div class="user-view">
  
