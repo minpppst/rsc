@@ -17,11 +17,14 @@ $columns = [
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'username',
+        'label' => 'Usuario'
     ],
+    /*
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'login',
-    ],    
+    ],
+    */    
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'created_at',
@@ -37,6 +40,7 @@ $columns = [
             ],
         ]),
     ],
+    /*
     [
         'class' => '\kartik\grid\DataColumn',
         'width' => '50px',
@@ -58,6 +62,7 @@ $columns = [
         },
         'format' => 'raw'
     ],
+    */
     [
         'class' => '\kartik\grid\DataColumn',
         'width' => '50px',
@@ -65,7 +70,7 @@ $columns = [
         'label'=>'Status',
         'value' => function ($model) {
             if ($model->blocked_at !== null) {
-                return Html::a(Yii::t('user', 'Unblock'), ['toggle-block', 'id' => $model->id], [
+                return Html::a(Yii::t('user', 'Inactivo'), ['toggle-block', 'id' => $model->id], [
                             'class' => 'btn btn-xs btn-warning btn-block',
                             'role' => 'modal-remote',
                             'data-confirm' => false, 'data-method' => false, // for overide yii data api
@@ -74,8 +79,8 @@ $columns = [
                             'data-confirm-message' => Yii::t('user', 'Are you sure you want to unblock this user?'),
                 ]);
             } else {
-                return Html::a(Yii::t('user', 'Block'), ['toggle-block', 'id' => $model->id], [
-                            'class' => 'btn btn-xs btn-danger btn-block',
+                return Html::a(Yii::t('user', 'Activo'), ['toggle-block', 'id' => $model->id], [
+                            'class' => 'btn btn-xs btn-success btn-block',
                             'role' => 'modal-remote',
                             'data-confirm' => false, 'data-method' => false, // for overide yii data api
                             'data-request-method' => 'post',
