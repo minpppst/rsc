@@ -59,7 +59,7 @@ if($flash = Yii::$app->session->getFlash('succes')){
             'data' => $ue,
             'options' => ['multiple' => true, 'placeholder' => 'Seleccione la Unidad Ejecutora ...', 'id' => 'unique-select2-id_proyecto'],
             'pluginOptions' => [
-            'width' => '300px', 'height' => '250px', 'scrollbar' => true
+            'width' => '250px',
 
             ],
             ]); 
