@@ -60,9 +60,13 @@ class UePartidaEntidadController extends Controller
     {   
         $request = Yii::$app->request;
         if($id==null)
+        {
         $model=UePartidaEntidad::find()->where(['cuenta' => $cuenta, 'partida' => $partida])->One();
+        }        
         else
+        {
         $model=$this->findModel($id);
+        }
 
         $unidad_ejecutora=new UePartidaEntidad();
         $ue=$unidad_ejecutora->obtener_uej_relacionadas(1,$model->cuenta,$model->partida);
@@ -191,16 +195,10 @@ class UePartidaEntidadController extends Controller
             //verificando los cambios en los tipos de entidad proyecto y acc
             $proyecto=$request->post('ue_proyecto');
             $acc=$request->post('ue_acc');
+            
+            if(empty($proyecto) || empty($acc)){
+            Yii::$app->getSession()->setFlash('danger', 'Error, no puede dejar las partida sin unidad ejecutora');
 
-            
-            $salvar=$model->UejEntidad($proyecto,1);
-            $salvar=$model->UejEntidad($acc,2);
-            
-            $transaction->commit();
-            return $this->redirect(['view', 'cuenta' => $cuenta, 'partida' => $partida]);
-            }
-            catch(Exception $e) {
-            $transaction->rollback();
             return $this->render('update', [
                     'model' => $model,
                     'ue' => $ue,
@@ -209,6 +207,29 @@ class UePartidaEntidadController extends Controller
                     'precarga_acc' => $verificar_acc,
                 ]);
             }
+
+            $model->UejEntidad($proyecto,1);
+            $model->UejEntidad($acc,2);
+            $transaction->commit();
+            
+            }
+            catch(Exception $e) {
+            $transaction->rollback();
+            Yii::$app->getSession()->setFlash('danger', 'Error al actualizar unidades.');
+            return $this->render('update', [
+                    'model' => $model,
+                    'ue' => $ue,
+                    'tipo_entidad' => $tipo_entidad,
+                    'precarga_proyecto' => $verificar,
+                    'precarga_acc' => $verificar_acc,
+                ]);
+            }
+
+            return $this->redirect(['view',
+                    'partida' => $partida,
+                    'cuenta' => $cuenta,
+                    ]);
+
 
             }else{
              return $this->render('update', [

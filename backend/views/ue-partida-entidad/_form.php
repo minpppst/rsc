@@ -1,11 +1,17 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\bootstrap\Alert;
 
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\UePartidaEntidad */
 /* @var $form yii\widgets\ActiveForm */
+?>
+<?php 
+if($flash = Yii::$app->session->getFlash('succes')){
+    echo Alert::widget(['options' => ['class' => 'alert-danger'], 'body' => $flash]);
+    } 
 ?>
 <div class="container-fluid">
 <div class="ue-partida-entidad-form">
@@ -41,7 +47,7 @@ use yii\widgets\ActiveForm;
             </td>
     
             <td align="center">
-            <div>
+            <div style="overflow: auto; height: 300px;">
             <?php  
             // Multiple select without model 
 
@@ -53,7 +59,7 @@ use yii\widgets\ActiveForm;
             'data' => $ue,
             'options' => ['multiple' => true, 'placeholder' => 'Seleccione la Unidad Ejecutora ...', 'id' => 'unique-select2-id_proyecto'],
             'pluginOptions' => [
-            'width' => '250px',
+            'width' => '300px', 'height' => '250px', 'scrollbar' => true
 
             ],
             ]); 
@@ -64,7 +70,7 @@ use yii\widgets\ActiveForm;
             </td>
 
             <td align="center">
-            <div>
+            <div style="overflow: auto; height: 300px;">
             <?php  
             // Multiple select without model 
             if(empty($precarga_acc))
