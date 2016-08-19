@@ -38,7 +38,12 @@ $icons=[
             'indicador_situacion:ntext',
             'formula_indicador:ntext',
             'fuente_indicador',
-            'fecha_indicador_inicial',
+            [
+            'label' => $model->getAttributeLabel('fecha_indicador_inicial'),
+            'value' => \Yii::$app->formatter->asDate($model->fecha_indicador_inicial)
+
+            ],
+            
             'enunciado_situacion_deseada:ntext',
             'poblacion_objetivo:ntext',
             'indicador_situacion_deseada:ntext',

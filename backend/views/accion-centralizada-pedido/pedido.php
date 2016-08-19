@@ -31,7 +31,7 @@ $icons=[
  <div class="container-fluid">
  <div class="pull-right" id="aprobar">
             <?php 
-                if ($model->aprobado == 1 && $model->pedidoEjecutado==true) {
+                if ($model->aprobado == 1 ) {
                     echo Html::a($icons['aprobado'].' Aprobado', ['aprobar', 'id' => $model->id], [
                                 'class' => 'btn btn-success navbar-btn',
                                 'role' => 'modal-remote',
@@ -41,7 +41,7 @@ $icons=[
                                 'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"No Aprobado"</b>?'),
                     ]);
                 } else {
-                    if($model->pedidoEjecutado==true){
+                    //if($model->pedidoEjecutado==true){
                     echo Html::a($icons['no-aprobado'].' No Aprobado', ['aprobar', 'id' => $model->id], [
                                 'class' => 'btn btn-warning navbar-btn',
                                 'role' => 'modal-remote',
@@ -50,7 +50,7 @@ $icons=[
                                 'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
                                 'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"Aprobado"</b>?'),
                     ]);
-                }
+                //}
                 }
             ?>
         </div>

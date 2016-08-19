@@ -172,4 +172,24 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
     {
         return $this->hasOne(InstanciaInstitucion::className(), ['id' => 'vinculado_especifique']);
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            //Cambiar el formato de las fechas
+            $formato = 'd/m/Y';
+            $inicio = date_create_from_format($formato,$this->fecha_indicador_inicial);
+            
+            if($inicio != false)
+            {
+                $this->fecha_indicador_inicial = date_format($inicio,'Y-m-d');
+            }
+            
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }

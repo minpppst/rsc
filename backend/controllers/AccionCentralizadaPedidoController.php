@@ -461,4 +461,37 @@ class AccionCentralizadaPedidoController extends Controller
 
 
 
+    public function actionBulkDelete()
+    {        
+        $request = Yii::$app->request;
+        //$pks = json_decode($request->post('pks')); // Array or selected records primary keys
+        $pks = explode(',',$request->post('pks')); // arreglo o llave primaria
+        
+        foreach ($pks as $key) 
+        {
+            //$model=AcAcEspec::findAll(json_decode($key));
+            $model=$this->findModel($key);
+            $model->delete();
+        }        
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>'true']; 
+        }
+        else
+        {
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['/accion_centralizada-pedido/index']);
+        }
+       
+    }
+
+
+
+
 }

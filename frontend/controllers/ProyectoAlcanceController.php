@@ -117,6 +117,8 @@ class ProyectoAlcanceController extends Controller
         //Listas desplegables
         $unidadMedida = UnidadMedida::find()->all();
         $instanciaInstitucion = InstanciaInstitucion::find()->all();
+        //Formato de las fechas
+        $model->fecha_indicador_inicial = \Yii::$app->formatter->asDate($model->fecha_indicador_inicial);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['proyecto/view', 'id' => $model->id_proyecto]);

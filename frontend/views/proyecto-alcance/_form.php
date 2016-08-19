@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectoAlcance */
@@ -27,7 +28,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'fuente_indicador')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'fecha_indicador_inicial')->textInput() ?>
+    <?= $form->field($model, 'fecha_indicador_inicial')->widget(DatePicker::classname(), [
+                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                'pluginOptions' => [
+                'autoclose'=>true,
+                'format' => 'dd/mm/yyyy',
+                'todayBtn' => true
+                ],
+                'options' => ['readonly' => true]
+            ]) ?>
 
     <?= $form->field($model, 'enunciado_situacion_deseada')->textarea(['rows' => 6]) ?>
 
