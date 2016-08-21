@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use yii\helpers\StringHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProyectoPedidoSearch */
@@ -32,9 +33,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'proyectoEspecifica.nombreProyecto',
+            //Proyecto
+            [
+                'class'=>'\kartik\grid\DataColumn',
+                'attribute'=>'proyectoEspecifica.nombreProyecto',
+                'value' => function($model){
+                    return StringHelper::truncateWords($model->proyectoEspecifica->nombreProyecto,10);
+                }
+            ],
+            //Acción específica
             'nombreEspecifica',            
 
+            //Acciones
             [
                 'class' => 'kartik\grid\ActionColumn',
                 'header' => 'Acciones',
