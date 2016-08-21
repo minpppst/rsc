@@ -25,39 +25,9 @@ use app\models\Parroquia;
  */
 class ProyectoLocalizacionController extends \common\controllers\BaseController
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'matchCallback' => function($rule,$action)
-                        {
-                            $controller = Yii::$app->controller->id;
-                            $action = Yii:: $app->controller->action->id;                    
-                            $route = "$controller/$action";
-                            if(\Yii::$app->user->can($route))
-                            {
-                                return true;
-                            }
-                        }
-                    ],
-                ],
-            ],
-        ];
+        return parent::behaviors();
     }
 
     /**
