@@ -5,6 +5,8 @@ namespace common\controllers;
 use yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 class BaseController extends Controller
 {

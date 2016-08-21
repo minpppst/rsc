@@ -36,6 +36,7 @@ use backend\models\ProyectoPedidoSearch;
  */
 class ProyectoController extends \common\controllers\BaseController
 {
+    /*
     public function behaviors()
     {
         return [
@@ -66,6 +67,7 @@ class ProyectoController extends \common\controllers\BaseController
             ],
         ];
     }
+    */
 
     /**
      * Lists all Proyecto models.
