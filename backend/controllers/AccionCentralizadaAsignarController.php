@@ -24,6 +24,9 @@ use johnitvn\userplus\base\models\UserAccounts;
  */
 class AccionCentralizadaAsignarController extends WebController
 {
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [

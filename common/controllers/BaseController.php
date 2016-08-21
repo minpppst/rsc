@@ -8,9 +8,13 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
+/**
+ * Controlador Base del cual deben extender todos los controladores.
+ */
+
 class BaseController extends Controller
 {
-  public function behaviors()
+    public function behaviors()
     {
         return [
             'verbs' => [
