@@ -19,7 +19,7 @@ use app\models\Partida;
 /**
  * ProyectoDistribucionPresupuestariaController implements the CRUD actions for ProyectoDistribucionPresupuestaria model.
  */
-class ProyectoDistribucionPresupuestariaController extends Controller
+class ProyectoDistribucionPresupuestariaController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

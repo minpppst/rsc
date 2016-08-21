@@ -18,7 +18,7 @@ use yii\helpers\Html;
 /**
  * AccionCentralizadaDesbloqueoMesController implements the CRUD actions for AccionCentralizadaDesbloqueoMes model.
  */
-class AccionCentralizadaDesbloqueoMesController extends Controller
+class AccionCentralizadaDesbloqueoMesController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

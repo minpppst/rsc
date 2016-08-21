@@ -19,7 +19,7 @@ use app\models\Presentacion;
 /**
  * MaterialesServiciosController implements the CRUD actions for MaterialesServicios model.
  */
-class MaterialesServiciosController extends Controller
+class MaterialesServiciosController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

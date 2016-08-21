@@ -15,7 +15,7 @@ use yii\helpers\Html;
 /**
  * ProyectoRegistradorController implements the CRUD actions for ProyectoRegistrador model.
  */
-class ProyectoRegistradorController extends Controller
+class ProyectoRegistradorController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

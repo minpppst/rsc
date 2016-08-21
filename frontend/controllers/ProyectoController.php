@@ -28,7 +28,7 @@ use common\models\ProyectoLocalizacion;
 /**
  * ProyectoController implements the CRUD actions for Proyecto model.
  */
-class ProyectoController extends Controller
+class ProyectoController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

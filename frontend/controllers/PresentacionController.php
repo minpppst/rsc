@@ -14,7 +14,7 @@ use yii\helpers\Html;
 /**
  * PresentacionController implements the CRUD actions for Presentacion model.
  */
-class PresentacionController extends Controller
+class PresentacionController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

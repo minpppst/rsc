@@ -17,7 +17,7 @@ use yii\helpers\Html;
 /**
  * SeController implements the CRUD actions for Se model.
  */
-class PartidaSubEspecificaController extends Controller
+class PartidaSubEspecificaController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

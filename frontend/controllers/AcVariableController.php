@@ -14,7 +14,7 @@ use yii\helpers\Html;
 /**
  * AcVariableController implements the CRUD actions for AcVariable model.
  */
-class AcVariableController extends Controller
+class AcVariableController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

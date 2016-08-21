@@ -13,7 +13,7 @@ use bedezign\yii2\audit\models\AuditEntry;
 use bedezign\yii2\audit\models\AuditEntrySearch;
 use bedezign\yii2\audit\models\AuditTrail;
 use bedezign\yii2\audit\models\AuditTrailSearch;
-class SiteController extends Controller
+class SiteController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

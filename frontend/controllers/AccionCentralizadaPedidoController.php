@@ -25,7 +25,7 @@ use johnitvn\userplus\base\models\UserAccounts;
 /**
  * ProyectoPedidoController implements the CRUD actions for ProyectoPedido model.
  */
-class AccionCentralizadaPedidoController extends Controller
+class AccionCentralizadaPedidoController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

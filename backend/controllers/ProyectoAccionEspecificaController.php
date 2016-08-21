@@ -20,7 +20,7 @@ use common\models\UnidadEjecutora;
 /**
  * ProyectoAccionEspecificaController implements the CRUD actions for ProyectoAccionEspecifica model.
  */
-class ProyectoAccionEspecificaController extends Controller
+class ProyectoAccionEspecificaController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

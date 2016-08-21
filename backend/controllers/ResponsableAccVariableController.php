@@ -14,7 +14,7 @@ use yii\filters\AccessControl;
 /**
  * ResponsableAccVariableController implements the CRUD actions for ResponsableAccVariable model.
  */
-class ResponsableAccVariableController extends Controller
+class ResponsableAccVariableController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

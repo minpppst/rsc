@@ -14,7 +14,7 @@ use yii\helpers\Html;
 /**
  * ObjetivosHistoricosController implements the CRUD actions for ObjetivosHistoricos model.
  */
-class ObjetivosHistoricosController extends Controller
+class ObjetivosHistoricosController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

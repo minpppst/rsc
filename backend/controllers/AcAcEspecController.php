@@ -26,7 +26,7 @@ use bedezign\yii2\audit\models\AuditTrailSearch;
 /**
  * AcAcEspecController implements the CRUD actions for AcAcEspec model.
  */
-class AcAcEspecController extends Controller
+class AcAcEspecController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

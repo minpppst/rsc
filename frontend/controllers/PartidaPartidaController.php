@@ -14,7 +14,7 @@ use yii\helpers\Html;
 /**
  * PartidaPartidaController implements the CRUD actions for PartidaPartidamodel.
  */
-class PartidaPartidaController extends Controller
+class PartidaPartidaController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

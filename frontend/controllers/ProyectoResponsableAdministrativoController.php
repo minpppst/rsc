@@ -15,7 +15,7 @@ use yii\helpers\Html;
 /**
  * ProyectoResponsableAdministrativoController implements the CRUD actions for ProyectoResponsableAdministrativo model.
  */
-class ProyectoResponsableAdministrativoController extends Controller
+class ProyectoResponsableAdministrativoController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

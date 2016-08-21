@@ -32,7 +32,7 @@ use johnitvn\userplus\base\models\UserAccounts;
 /**
  * AccionCentralizadaPedidoController implements the CRUD actions for AccionCentralizadaPedido model.
  */
-class AccionCentralizadaPedidoController extends Controller
+class AccionCentralizadaPedidoController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

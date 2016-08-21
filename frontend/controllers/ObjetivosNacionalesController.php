@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * ObjetivosNacionalesController implements the CRUD actions for ObjetivosNacionales model.
  */
-class ObjetivosNacionalesController extends Controller
+class ObjetivosNacionalesController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * ObjetivosHistoricosController implements the CRUD actions for ObjetivosHistoricos model.
  */
-class ObjetivosHistoricosController extends Controller
+class ObjetivosHistoricosController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

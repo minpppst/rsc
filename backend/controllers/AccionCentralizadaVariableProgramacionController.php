@@ -12,7 +12,7 @@ use yii\filters\AccessControl;
 /**
  * AccionCentralizadaVariableProgramacionController implements the CRUD actions for AccionCentralizadaVariableProgramacion model.
  */
-class AccionCentralizadaVariableProgramacionController extends Controller
+class AccionCentralizadaVariableProgramacionController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

@@ -17,7 +17,7 @@ use yii\helpers\ArrayHelper;
 /**
  * UePartidaEntidadController implements the CRUD actions for UePartidaEntidad model.
  */
-class UePartidaEntidadController extends Controller
+class UePartidaEntidadController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

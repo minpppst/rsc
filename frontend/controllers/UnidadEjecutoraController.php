@@ -17,7 +17,7 @@ use app\models\UploadForm;
 /**
  * UnidadEjecutoraController implements the CRUD actions for UnidadEjecutora model.
  */
-class UnidadEjecutoraController extends Controller
+class UnidadEjecutoraController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

@@ -18,7 +18,7 @@ use yii\data\ArrayDataProvider;
 /**
  * AccionCentralizadaVariableEjecucionController implements the CRUD actions for AccionCentralizadaVariableEjecucion model.
  */
-class AccionCentralizadaVariableEjecucionController extends Controller
+class AccionCentralizadaVariableEjecucionController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

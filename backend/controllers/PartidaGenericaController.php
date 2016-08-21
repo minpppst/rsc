@@ -15,7 +15,7 @@ use yii\helpers\Html;
 /**
  * GeController implements the CRUD actions for Ge model.
  */
-class PartidaGenericaController extends Controller
+class PartidaGenericaController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

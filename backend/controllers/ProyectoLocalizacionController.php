@@ -23,7 +23,7 @@ use common\models\Parroquia;
 /**
  * ProyectoLocalizacionController implements the CRUD actions for ProyectoLocalizacion model.
  */
-class ProyectoLocalizacionController extends Controller
+class ProyectoLocalizacionController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

@@ -15,7 +15,7 @@ use yii\filters\AccessControl;
 /**
  * UnidadMedidaController implements the CRUD actions for UnidadMedida model.
  */
-class UnidadMedidaController extends Controller
+class UnidadMedidaController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

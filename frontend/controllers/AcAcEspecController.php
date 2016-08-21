@@ -23,7 +23,7 @@ use common\models\UploadForm;
 /**
  * AcAcEspecController implements the CRUD actions for AcAcEspec model.
  */
-class AcAcEspecController extends Controller
+class AcAcEspecController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

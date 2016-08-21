@@ -14,7 +14,7 @@ use yii\filters\AccessControl;
 /**
  * AccionCentralizadaVariablesUsuariosController implements the CRUD actions for AccionCentralizadaVariablesUsuarios model.
  */
-class AccionCentralizadaVariablesUsuariosController extends Controller
+class AccionCentralizadaVariablesUsuariosController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

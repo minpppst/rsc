@@ -21,7 +21,7 @@ use yii\data\SqlDataProvider;
 /**
  * AccionCentralizadaController implements the CRUD actions for AccionCentralizada model.
  */
-class AccionCentralizadaController extends Controller
+class AccionCentralizadaController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

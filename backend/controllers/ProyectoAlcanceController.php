@@ -18,7 +18,7 @@ use common\models\InstanciaInstitucion;
 /**
  * ProyectoAlcanceController implements the CRUD actions for ProyectoAlcance model.
  */
-class ProyectoAlcanceController extends Controller
+class ProyectoAlcanceController extends \common\controllers\BaseController
 {
     public function behaviors()
     {

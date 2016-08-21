@@ -21,7 +21,7 @@ use yii\filters\AccessControl;
 /**
  * AcEspUejController implements the CRUD actions for AcEspUej model.
  */
-class AcEspUejController extends Controller
+class AcEspUejController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

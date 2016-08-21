@@ -17,7 +17,7 @@ use yii\helpers\ArrayHelper;
 /**
  * EsController implements the CRUD actions for Es model.
  */
-class PartidaEspecificaController extends Controller
+class PartidaEspecificaController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

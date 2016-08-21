@@ -18,7 +18,7 @@ use yii\filters\AccessControl;
 /**
  * LocalizacionAccVariableController implements the CRUD actions for LocalizacionAccVariable model.
  */
-class LocalizacionAccVariableController extends Controller
+class LocalizacionAccVariableController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc

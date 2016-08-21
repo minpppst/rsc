@@ -24,7 +24,7 @@ use common\models\UploadForm;
 /**
  * MaterialesServiciosController implements the CRUD actions for MaterialesServicios model.
  */
-class MaterialesServiciosController extends Controller
+class MaterialesServiciosController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc
