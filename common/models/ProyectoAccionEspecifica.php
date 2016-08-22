@@ -57,6 +57,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             [['codigo_accion_especifica'], 'string', 'max' => 3],
             [['id_proyecto'], 'exist', 'skipOnError' => true, 'targetClass' => Proyecto::className(), 'targetAttribute' => ['id_proyecto' => 'id']],
             [['id_unidad_ejecutora'], 'exist', 'skipOnError' => true, 'targetClass' => UnidadEjecutora::className(), 'targetAttribute' => ['id_unidad_ejecutora' => 'id']],
+            [['ponderacion'], 'match', 'pattern' => '/^(?:1(?:\.0)?|0(?:\.[1-9])?|0?\.[1-9])$/', 'message' => 'Debe colocar un número entre 0.1 y 0.9'],
         ];
     }
 
