@@ -65,13 +65,20 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
     public function actionPedido($asignado)
     {
         //Datos para el gridview
-        $searchModel = new AccionCentralizadaPedidoSearch(['asignado' => $asignado]);         
+        $searchModel = new AccionCentralizadaPedidoSearch(['asignado' => $asignado]);
+        $bandera=0;
         //Si no es sysadmin
         if(\Yii::$app->authManager->getAssignment('sysadmin',\Yii::$app->user->id) == null)
         {
             $searchModel->estatus = 1;
+            $bandera=1;
         }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //si no es sysadmin
+        if($bandera==1)
+        {
+        $dataProvider->query->andWhere(['accion_centralizada_ac_especifica_uej.aprobado' => 0]);
+        }
 
         //Datos de la asignacion
         $asignado = AccionCentralizadaAsignar::findOne($asignado);
@@ -121,6 +128,7 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
      */
     public function actionCreate($asignar)
     {
+        
         $request = Yii::$app->request;
         $model = new AccionCentralizadaPedido();
         $model->asignado = $asignar;
@@ -148,6 +156,20 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
+            //verificando que la unidad ejecutora no este aprobada
+            
+            $usuario = UserAccounts::findOne(\Yii::$app->user->id);
+            $accion=AccionCentralizadaAsignar::find()->where(['usuario'=> $usuario->id])->One();
+            if($accion->accion_centralizada_ac_especifica_uej->aprobado==1){
+            return [
+                    
+                    'title'=> "Requerimientos",
+                    'content'=>'<span class="text-danger">Esta Unidad Ejecutora Ya no Puede Realizar Pedidos </span>',
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]),
+                    ];
+        }
+
+        
             if($request->isGet){
                 return [
                     'title'=> "Requerimiento",
@@ -182,6 +204,15 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
                 ];         
             }
         }else{
+
+            //verificando que la unidad ejecutora no este aprobada
+            $usuario = UserAccounts::findOne(\Yii::$app->user->id);
+            $accion=AccionCentralizadaAsignar::find()->where(['usuario'=> $usuario->id])->One();
+            if($accion->accion_centralizada_ac_especifica_uej->aprobado==1){
+            return $this->redirect(['index']);
+            }
+
+
             /*
             *   Process for non-ajax request
             */
@@ -232,6 +263,18 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
+
+            //verificando que la unidad ejecutora no este aprobada
+            $usuario = UserAccounts::findOne(\Yii::$app->user->id);
+            $accion=AccionCentralizadaAsignar::find()->where(['usuario'=> $usuario->id])->One();
+            if($accion->accion_centralizada_ac_especifica_uej->aprobado==1){
+            return [
+                    
+                    'title'=> "Requerimientos",
+                    'content'=>'<span class="text-danger">Esta Unidad Ejecutora Ya no Puede Realizar Pedidos </span>',
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]),
+                    ];
+        }
             if($request->isGet){
                 return [
                     'title'=> "Pedido",

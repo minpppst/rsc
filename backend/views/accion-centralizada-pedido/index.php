@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="Accion Centralizada-pedido-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    
     
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -33,24 +33,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
             
             [
-            'label' => 'Nombre Accion Central',
-            'attribute' => 'nombrecentral',
-
+            'label' => 'Accion Central',
+            'attribute' => 'nombre_central',
+            'value' => 'nombrecentral',
             ],
 
             [
-            'label' => 'Codigo Accion Central',
-            'attribute' => 'codigocentral',
-            ],
-
-            [
-                'class' => '\kartik\grid\DataColumn',
-                'attribute' => 'nombreaccion',
-                'label' => 'Acción Específica'
+                
+            'attribute' => 'nombre_acc',
+            'value' => 'nombreaccion',
+            'label' => 'Acción Específica'
             ],
             [
-            'label' => 'Nombre Unidad Ejecutora',
-            'attribute' => 'nombreunidadejecutora',            
+            'attribute' => 'nombre_ue',
+            'label' => 'Unidad Ejecutora',
+            'value' => 'nombreunidadejecutora',            
             ],
             [
                 'class' => 'kartik\grid\ActionColumn',

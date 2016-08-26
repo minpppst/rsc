@@ -44,8 +44,10 @@ $icons=[
             ],
 
             //'id',
-            'username',
-
+            [   
+                'label' => 'Usuario',
+                'attribute' =>'username',
+            ],
             /*[
                 'class' => '\kartik\grid\DataColumn',
                 'width' => '50px',

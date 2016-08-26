@@ -37,7 +37,7 @@ class UePartidaEntidad extends \yii\db\ActiveRecord
         return [
             [['cuenta', 'partida', 'id_ue', 'id_tipo_entidad'], 'required'],
             [['id_ue', 'id_tipo_entidad'], 'integer'],
-            [['id_ue'], 'string', 'max' => 1],
+            [['cuenta'], 'string', 'max' => 1],
             [['partida'], 'string', 'max' => 2],
             [['cuenta', 'partida', 'id_ue', 'id_tipo_entidad'], 'unique', 'targetAttribute' => ['cuenta', 'partida', 'id_ue', 'id_tipo_entidad'], 'message' => 'The combination of Cuenta, Partida, Id Ue and Id Tipo Entidad has already been taken.'],
             [['id_tipo_entidad'], 'exist', 'skipOnError' => true, 'targetClass' => TipoEntidad::className(), 'targetAttribute' => ['id_tipo_entidad' => 'id']],
@@ -132,14 +132,21 @@ class UePartidaEntidad extends \yii\db\ActiveRecord
         /*
         Declaro arreglo donde se guardará los nuevos elementos agregados
         */
-        $tabla[]=null;
+        
         foreach ($ace as $key => $value) {
+        if(isset($value['id_ue']))
+        {
         $tabla[]=$value['id_ue'];
         }
-
+        }
+        
         //si viene null, lo coloco vacio
         if($id_uej==null){
           $id_uej=[];
+        }
+        if(!isset($tabla))
+        {
+        $tabla=[];
         }
         /*
         Guardo en $nuevo los elementos nuevos que se han agregado.
@@ -147,13 +154,12 @@ class UePartidaEntidad extends \yii\db\ActiveRecord
         $nuevo=array_diff($id_uej, $tabla);
         
         foreach ($nuevo as $key => $value) {
-        $model_uej=new UePartidaEntidad;
+        $model_uej=new UePartidaEntidad();
         $model_uej->id_ue=$value;
         $model_uej->cuenta=$this->cuenta;
         $model_uej->partida=$this->partida;
         $model_uej->id_tipo_entidad=$entidad;  
         $model_uej->save();
-        
         }
 
         

@@ -102,6 +102,7 @@ class AccionCentralizadaPedidoSearch extends AccionCentralizadaPedido
         $query->andFilterWhere(['like','materiales_servicios.nombre',$this->nombreMaterial]);
         $query->andFilterWhere(['accion_centralizada_ac_especifica_uej.id_ue' => $this->idUnidadEjecutora]);
         $query->andFilterWhere(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $this->idAcc]);
+        
 
         return $dataProvider;
     }

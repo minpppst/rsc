@@ -13,20 +13,25 @@ return [
     ],
        
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'header' => 'Accion Centralizada',
-        'attribute'=>'AccionCentralizada',
-    ],    
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'label' => 'Acción Especifica',
-        'attribute'=>'nombreAe',
+         'attribute' => 'nombreacc',
+         'value' => 'AccionCentralizada',
+         'label' => 'Accion Especifica',
     ],
+    
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'label' => 'Nombre Unidad Ejecutora',
-        'attribute'=>'nombreUe',
+         'attribute' => 'nombreacc_acc',
+         'value' => 'nombreAe',
+         'label' => 'Accion Especifica',
     ],
+    
+    [
+         'attribute' => 'nombreue',
+         'value' => 'accion_centralizada_ac_especifica_uej.idUe.nombre',
+         'label' => 'Unidad Ejecutora'
+    ],
+
+   
+   
     [
         'class' => '\kartik\grid\DataColumn',
         'width' => '50px',

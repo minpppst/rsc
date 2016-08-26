@@ -99,7 +99,7 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Localización",
+                    'title'=> "Localización Y Programación Mensual",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                         'pais' => $paises,
@@ -116,7 +116,7 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
                 if( $model1->load($request->post()) && $model1->save()){
                 return [
                     'forceReload'=>'true',                   
-                    'title'=> "Localización",
+                    'title'=> "Localización y Programación",
 
                     'content'=>'<span class="text-success">Create VariableLocalizacion success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -126,7 +126,7 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
                 ];}else{
                     
                     return [
-                    'title'=> "Localización",
+                    'title'=> "Localización y Programación",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'pais' => $paises,
@@ -204,7 +204,7 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Localización",
+                    'title'=> "Localización y Programación",
                     'content'=>$this->renderPartial('update', [
                         'model' => $model,
                         'pais' => $paises,
@@ -221,7 +221,7 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
                 if( $model1->load($request->post()) && $model1->save()){
                 return [
                     'forceReload'=>'true',                   
-                    'title'=> "Localización",
+                    'title'=> "Localización y Programación",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                         'model1' => $model1,
@@ -236,7 +236,7 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
                 ];}else{
                     
                     return [
-                    'title'=> "Localización",
+                    'title'=> "Localización y Programación",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'pais' => $paises,

@@ -16,6 +16,7 @@ use johnitvn\userplus\base\models\UserAccounts;
  *
  * @property UserAccounts $usuario0
  * @property AcEspUej $accion_especifica_ue0
+ * @property accion_centralizada_ac_especifica_uej
  */
 class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
 {

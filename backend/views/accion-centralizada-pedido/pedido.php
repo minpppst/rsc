@@ -68,7 +68,7 @@ $icons=[
             'columns' => require(__DIR__.'/_columns.php'),            
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['pedido', 'ue' => $ue->id],
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['pedido', 'ue' => $ue->id, 'acc' => $model->id_ac_esp],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'

@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- LOCALIZACION -->
 <div class="panel panel-info" id="localizacion" >
     <div class="panel-heading">
-        <h3 class="panel-title"><i class="glyphicon glyphicon-map-marker"></i> Localización</h3>
+        <h3 class="panel-title"><i class="glyphicon glyphicon-map-marker"></i> Localización y Programación Mensual</h3>
     </div>
     <div class="panel-body">
         <?= GridView::widget([

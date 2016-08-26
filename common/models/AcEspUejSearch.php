@@ -12,6 +12,10 @@ use common\models\AcEspUej;
  */
 class AcEspUejSearch extends AcEspUej
 {
+
+    public $nombre_central;
+    public $nombre_acc;
+    public $nombre_ue;
     /**
      * @inheritdoc
      */
@@ -19,6 +23,7 @@ class AcEspUejSearch extends AcEspUej
     {
         return [
             [['id', 'id_ue', 'id_ac_esp'], 'integer'],
+            [['nombre_central', 'nombre_acc', 'nombre_ue'], 'safe'],
         ];
     }
 
@@ -41,6 +46,8 @@ class AcEspUejSearch extends AcEspUej
     public function search($params)
     {
         $query = AcEspUej::find();
+        $query->joinWith(['idAccionEspecifica.idAcCentr','idAccionEspecifica','idUe']);
+        
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -59,6 +66,24 @@ class AcEspUejSearch extends AcEspUej
             'id_ue' => $this->id_ue,
             'id_ac_esp' => $this->id_ac_esp,
         ]);
+
+        //Ordenamiento
+        $dataProvider->sort->attributes['nombre_central'] = [
+            'asc' => ['accion_centralizada.nombre_accion' => SORT_ASC],
+            'desc' => ['accion_centralizada.nombre_accion' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['nombre_acc'] = [
+            'asc' => ['accion_centralizada_accion_especifica.nombre' => SORT_ASC],
+            'desc' => ['accion_centralizada_accion_especifica.nombre' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['nombre_ue'] = [
+            'asc' => ['unidad_ejecutora.nombre' => SORT_ASC],
+            'desc' => ['unidad_ejecutora.nombre' => SORT_DESC],
+        ];
+
+        $query->andFilterWhere(['like', 'accion_centralizada.nombre_accion', $this->nombre_central]);
+        $query->andFilterWhere(['like', 'accion_centralizada_accion_especifica.nombre', $this->nombre_acc]);
+        $query->andFilterWhere(['like', 'unidad_ejecutora.nombre', $this->nombre_ue]);
 
         return $dataProvider;
     }

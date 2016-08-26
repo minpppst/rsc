@@ -6,6 +6,8 @@ use Yii;
 use yii\filters\AccessControl;
 use johnitvn\userplus\base\WebController;
 use common\models\AccionCentralizadaAsignar;
+use common\models\user;
+use common\models\UserSearch;
 use common\models\AcEspUej;
 use backend\models\AccionCentralizadaAsignarSearch;
 use common\models\UnidadEjecutora;
@@ -65,7 +67,7 @@ class AccionCentralizadaAsignarController extends WebController
     public function actionIndex()
     {
         
-        $searchModel = $this->userPlusModule->createModelInstance('UserSearch');
+        $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -106,7 +108,6 @@ class AccionCentralizadaAsignarController extends WebController
         $searchModel = new AccionCentralizadaAsignarSearch(['usuario' => $usuario->id]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
-
         return $this->render('asignar', [
             'usuario' => $usuario,
             'searchModel' => $searchModel,
@@ -160,7 +161,7 @@ class AccionCentralizadaAsignarController extends WebController
                     'title'=> "Asignado",
                     'content'=>'<span class="text-success">Create AccionCentralizadaAsignar success</span>',
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Asignar otro',['create',  'usuario' => $usuar],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Asignar otro',['create',  'usuario' => $usuario],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           

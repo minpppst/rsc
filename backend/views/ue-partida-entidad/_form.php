@@ -36,13 +36,13 @@ if($flash = Yii::$app->session->getFlash('succes')){
             <tr>
             <td valign="top" align="center">
            
-            <?= $form->field($model, 'cuenta')->textInput(['maxlength' => '1', 'style'=>'margin-right: -27px; width:50px; text-align:center', "readonly" => true ])->label(false) ?>
+            <?= $form->field($model, 'cuenta')->textInput(['maxlength' => '1', 'style'=>'margin-right: 0px; width:50px; text-align:center', "readonly" => true ])->label(false) ?>
             
            
             </td>
             <td valign="top" align="center">
            
-            <?= $form->field($model, 'partida')->textInput(['maxlength' => '1', 'style'=>'width:50px; margin-left:-21px;', "readonly" => true ])->label(false) ?>
+            <?= $form->field($model, 'partida')->textInput(['maxlength' => '1', 'style'=>'width:50px; margin-left:0px;', "readonly" => true ])->label(false) ?>
            
             </td>
     
@@ -59,7 +59,7 @@ if($flash = Yii::$app->session->getFlash('succes')){
             'data' => $ue,
             'options' => ['multiple' => true, 'placeholder' => 'Seleccione la Unidad Ejecutora ...', 'id' => 'unique-select2-id_proyecto'],
             'pluginOptions' => [
-            'width' => '250px',
+            'width' => '400px',
 
             ],
             ]); 
@@ -81,7 +81,7 @@ if($flash = Yii::$app->session->getFlash('succes')){
             'data' => $ue,
             'options' => ['multiple' => true, 'placeholder' => 'Seleccione la Unidad Ejecutora ...', 'id' => 'unique-select2-id_acc'],
             'pluginOptions' => [
-            'width' => '250px',
+            'width' => '400px',
             ],
             ]);
             ?>

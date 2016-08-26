@@ -42,7 +42,7 @@ $icons=[
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-transfer"></i> Asignar', ['create', 'usuario' => $usuario->id],
                     ['role'=>'modal-remote','title'=> 'Accion Centralizada - Asignar','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['usuario'=>$usuario->id],
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['','usuario'=>$usuario->id],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'

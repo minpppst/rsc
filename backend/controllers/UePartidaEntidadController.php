@@ -185,7 +185,8 @@ class UePartidaEntidadController extends \common\controllers\BaseController
             $proyecto=$request->post('ue_proyecto');
             $acc=$request->post('ue_acc');
             
-            if(empty($proyecto) || empty($acc)){
+            
+            if(empty($proyecto) && empty($acc)){
             Yii::$app->getSession()->setFlash('danger', 'Error, no puede dejar las partida sin unidad ejecutora');
 
             return $this->render('update', [
