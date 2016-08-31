@@ -29,19 +29,28 @@ CrudAsset::register($this);
 <div id="ajaxCrudDatatable">
     <?= GridView::widget([
         'id'=>'crud-datatable',
-         'pjax'=>true,
+        'pjax'=>true,
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             [
-                'class' => 'kartik\grid\CheckboxColumn',
-                'width' => '20px',
+            'class' => 'kartik\grid\CheckboxColumn',
+            'width' => '20px',
             ],
-            ['class' => 'kartik\grid\SerialColumn'],
-
+            [
+            'class' => 'kartik\grid\SerialColumn'
+            ],
             'codigo_accion',
             'codigo_accion_sne',
-            'nombre_accion',
+            [
+            'class' => '\kartik\grid\DataColumn',
+            'attribute' => 'nombre_accion',
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
+            ],
 
             [
                 'class' => '\kartik\grid\DataColumn',

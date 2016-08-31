@@ -36,18 +36,33 @@ $this->params['breadcrumbs'][] = $this->title;
             'label' => 'Accion Central',
             'attribute' => 'nombre_central',
             'value' => 'nombrecentral',
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
             ],
 
             [
                 
             'attribute' => 'nombre_acc',
             'value' => 'nombreaccion',
-            'label' => 'Acción Específica'
+            'label' => 'Acción Específica',
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
             ],
             [
             'attribute' => 'nombre_ue',
             'label' => 'Unidad Ejecutora',
             'value' => 'nombreunidadejecutora',            
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
             ],
             [
                 'class' => 'kartik\grid\ActionColumn',

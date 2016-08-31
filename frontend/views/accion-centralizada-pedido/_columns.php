@@ -4,16 +4,24 @@ use yii\helpers\Html;
 
 $columnas = [
     [
-        'class' => 'kartik\grid\CheckboxColumn',
-        'width' => '20px',
+    'class' => 'kartik\grid\CheckboxColumn',
+    'width' => '20px',
     ],
 
     [
-        'class' => 'kartik\grid\SerialColumn',
-        'width' => '30px',
+    'class' => 'kartik\grid\SerialColumn',
+    'width' => '30px',
     ],
 
-    'nombreMaterial',
+    [
+
+    'attribute' => 'nombreMaterial',
+    'contentOptions' => 
+    [
+    'style'=>'max-width: 350px;  word-wrap: break-word;
+    white-space: normal;'
+    ]
+    ],
     'trimestre1',
     'trimestre2',
     'trimestre3',

@@ -32,12 +32,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            ['attribute' => 'nombreAe',
-             'label' => 'Nombre Acción Específica'
+            [
+            'attribute' => 'nombreAe',
+            'label' => 'Nombre Acción Específica',
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
             ],
 
-            ['attribute' => 'nombreUe',
-             'label' => 'Nombre Unidad Ejecutora'
+            [
+            'attribute' => 'nombreUe',
+            'label' => 'Nombre Unidad Ejecutora',
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
             ],
 
             

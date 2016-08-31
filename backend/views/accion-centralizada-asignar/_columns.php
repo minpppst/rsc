@@ -16,18 +16,33 @@ return [
          'attribute' => 'nombreacc',
          'value' => 'AccionCentralizada',
          'label' => 'Accion Especifica',
+         'contentOptions' => 
+          [
+          'style'=>'max-width: 350px;  word-wrap: break-word;
+          white-space: normal;'
+          ]
     ],
     
     [
          'attribute' => 'nombreacc_acc',
          'value' => 'nombreAe',
          'label' => 'Accion Especifica',
+         'contentOptions' => 
+          [
+          'style'=>'max-width: 350px;  word-wrap: break-word;
+          white-space: normal;'
+          ]
     ],
     
     [
          'attribute' => 'nombreue',
          'value' => 'accion_centralizada_ac_especifica_uej.idUe.nombre',
-         'label' => 'Unidad Ejecutora'
+         'label' => 'Unidad Ejecutora',
+         'contentOptions' => 
+          [
+          'style'=>'max-width: 350px;  word-wrap: break-word;
+          white-space: normal;'
+          ]
     ],
 
    

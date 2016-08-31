@@ -31,6 +31,11 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
+        'contentOptions' => 
+        [
+        'style'=>'max-width: 350px;  word-wrap: break-word;
+        white-space: normal;'
+        ]
     ],
 
 

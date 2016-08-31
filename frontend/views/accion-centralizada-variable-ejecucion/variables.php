@@ -26,16 +26,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             
             [
-             'label'=>'Nombre',
-              'contentOptions'=>['style'=>'word-wrap:break-word; width:220px;'],
-
+             'label'=>'Nombre De Variable',
              'format' => 'raw',
              'value'=>function ($data) {
              return $data['localizacion']==0 ?  Html::a($data['nombre'], ['accion-centralizada-variable-ejecucion/create', 'id' =>$data['id'], 'id_localizacion' => $data['id_localizacion']]) : Html::a($data['nombre'], ['accion-centralizada-variable-ejecucion/localizacion', 'id' =>$data['id']]);
-            
-                        
-                      },
-             ],
+            },
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
+            ],
             
         ],
     ]); ?>

@@ -43,14 +43,7 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
             'class' => 'kartik\grid\SerialColumn',
             'width' => '30px',
         ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
-        // ],
-        /*[
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_ac_centr',
-        ],*/
+       
         [
             'class'=>'\kartik\grid\DataColumn',
             'attribute'=>'cod_ac_espe',
@@ -58,6 +51,11 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
         [
             'class'=>'\kartik\grid\DataColumn',
             'attribute'=>'nombre',
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
         ],
 
         

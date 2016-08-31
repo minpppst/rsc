@@ -41,7 +41,14 @@ CrudAsset::register($this);
 
             'codigo_accion',
             'codigo_accion_sne',
-            'nombre_accion',
+            [
+            'attribute' => 'nombre_accion',
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
+            ],
 
             [
                 'class' => '\kartik\grid\DataColumn',

@@ -30,7 +30,11 @@ $icons=[
             [
              'attribute'=>'nombre',
              
-              'contentOptions'=>['style'=>'word-wrap:break-word; width:220px;'],
+             'contentOptions' => 
+                [
+                'style'=>'max-width: 250px;  word-wrap: break-word;
+                white-space: normal;'
+                ],
 
              'format' => 'raw',
              
