@@ -77,12 +77,26 @@ class ProyectoAeMetaController extends Controller
      * Creates a new ProyectoAeMeta model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
+     * @param int $accionEspecifica ID de la accion especifica
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($accionEspecifica)
     {
         $request = Yii::$app->request;
         $model = new ProyectoAeMeta();  
+        //Inicializar los meses en 0
+        $model->enero = 0;
+        $model->febrero = 0;
+        $model->marzo = 0;
+        $model->abril = 0;
+        $model->mayo = 0;
+        $model->junio = 0;
+        $model->julio = 0;
+        $model->agosto = 0;
+        $model->septiembre = 0;
+        $model->octubre = 0;
+        $model->noviembre = 0;
+        $model->diciembre = 0;
 
         if($request->isAjax){
             /*
@@ -91,7 +105,7 @@ class ProyectoAeMetaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new ProyectoAeMeta",
+                    'title'=> "Crear Meta",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -110,7 +124,7 @@ class ProyectoAeMetaController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new ProyectoAeMeta",
+                    'title'=> "Crear Meta",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -211,7 +225,7 @@ class ProyectoAeMetaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
+            return ['forceClose'=>'true','forceReload'=>'#crud-datatable-pjax'];
         }else{
             /*
             *   Process for non-ajax request
@@ -243,7 +257,7 @@ class ProyectoAeMetaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
+            return ['forceClose'=>'true','forceReload'=>'#crud-datatable-pjax'];
         }else{
             /*
             *   Process for non-ajax request

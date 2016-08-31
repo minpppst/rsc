@@ -11,43 +11,143 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_proyecto_accion_especifica')->textInput() ?>
+     <?= Html::hiddenInput('id_proyecto_accion_especifica', '', ['id' => 'id_proyecto_accion_especifica']) ?>
 
-    <?= $form->field($model, 'enero')->textInput() ?>
+    <table class="table table-bordered table-condensed table-striped">
+        <tbody>
+            <tr class="warning">
+                <td><label>TRIM I</label></td>
 
-    <?= $form->field($model, 'febrero')->textInput() ?>
+                <td><?= $form->field($model, 'enero')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1 form-control']) ?></td>
 
-    <?= $form->field($model, 'marzo')->textInput() ?>
+                <td><?= $form->field($model, 'febrero')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1 form-control']) ?></td>
 
-    <?= $form->field($model, 'abril')->textInput() ?>
+                <td><?= $form->field($model, 'marzo')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1 form-control']) ?></td>
 
-    <?= $form->field($model, 'mayo')->textInput() ?>
+                <td><label>Total</label><input type="text" id="total1" class="form-control" size="5" placeholder="0" readonly></td>
 
-    <?= $form->field($model, 'junio')->textInput() ?>
+            </tr>
+            <tr class="info">
+                <td><label>TRIM II</label></td>
 
-    <?= $form->field($model, 'julio')->textInput() ?>
+                <td><?= $form->field($model, 'abril')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2 form-control']) ?></td>                           
 
-    <?= $form->field($model, 'agosto')->textInput() ?>
+                <td><?= $form->field($model, 'mayo')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2 form-control']) ?></td>
 
-    <?= $form->field($model, 'septiembre')->textInput() ?>
+                <td><?= $form->field($model, 'junio')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim2 form-control']) ?></td>
 
-    <?= $form->field($model, 'octubre')->textInput() ?>
+                <td><label>Total</label><input type="text" id="total2" class="form-control" size="5" placeholder="0" readonly></td>
+            </tr>
+            <tr class="danger">
+                <td><label>TRIM III</label></td> 
 
-    <?= $form->field($model, 'noviembre')->textInput() ?>
+                <td><?= $form->field($model, 'julio')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3 form-control']) ?></td>
 
-    <?= $form->field($model, 'diciembre')->textInput() ?>
+                <td><?= $form->field($model, 'agosto')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3 form-control']) ?></td>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+                <td><?= $form->field($model, 'septiembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim3 form-control']) ?></td>
 
-    <?= $form->field($model, 'fecha_creacion')->textInput() ?>
+                <td><label>Total</label><input type="text" id="total3" class="form-control" size="5" placeholder="0" readonly></td>
+            </tr>
+            <tr class="success">
+                <td><label>TRIM IV</label></td>
 
+                <td><?= $form->field($model, 'octubre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4 form-control']) ?></td>
+
+                <td><?= $form->field($model, 'noviembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4 form-control']) ?></td>
+
+                <td><?= $form->field($model, 'diciembre')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim4 form-control']) ?></td>
+
+                <td><label>Total</label><input type="text" id="total4" class="form-control" size="5" placeholder="0" readonly></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><label>Total</label><input type="text" id="total" class="form-control" size="5" placeholder="0" readonly></td>
+        </tbody>
+    </table>
   
-	<?php if (!Yii::$app->request->isAjax){ ?>
+	<?php if (!Yii::$app->request->isAjax): ?>
 	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
-	<?php } ?>
+	<?php endif; ?>
 
     <?php ActiveForm::end(); ?>
     
 </div>
+<script type="text/javascript">
+    //TRIM I
+    $('.trim1').on('change', function(){
+        initTotal();
+    });
+    //TRIM II
+    $('.trim2').on('change', function(){
+        initTotal();
+    });
+    //TRIM III
+    $('.trim3').on('change', function(){
+        initTotal();
+    });
+    //TRIM IV
+    $('.trim4').on('change', function(){
+        initTotal();
+    });
+
+    /** FUNCIONES **/
+
+    function trim1()
+    {
+        $('#total1').val(
+            parseInt($('#proyectoaemeta-enero').val())+
+            parseInt($('#proyectoaemeta-febrero').val())+
+            parseInt($('#proyectoaemeta-marzo').val())
+        );
+    }
+
+    function trim2()
+    {
+        $('#total2').val(
+            parseInt($('#proyectoaemeta-abril').val())+
+            parseInt($('#proyectoaemeta-mayo').val())+
+            parseInt($('#proyectoaemeta-junio').val())
+        );
+    }
+
+    function trim3()
+    {
+        $('#total3').val(
+            parseInt($('#proyectoaemeta-julio').val())+
+            parseInt($('#proyectoaemeta-agosto').val())+
+            parseInt($('#proyectoaemeta-septiembre').val())
+        );
+    }
+
+    function trim4()
+    {
+        $('#total4').val(
+            parseInt($('#proyectoaemeta-octubre').val())+
+            parseInt($('#proyectoaemeta-noviembre').val())+
+            parseInt($('#proyectoaemeta-diciembre').val())
+        );
+    }
+
+    function initTotal()
+    {
+        trim1();
+        trim2();
+        trim3();
+        trim4();
+
+        $('#total').val(
+            parseInt($('#total1').val())+
+            parseInt($('#total2').val())+
+            parseInt($('#total3').val())+
+            parseInt($('#total4').val())
+        );
+
+    }
+
+</script>

@@ -115,14 +115,15 @@ return [
                           'class' => 'text-danger'], 
         'template' => '{view} {update} {prg} {delete}',
         'buttons' => [
-            'prg' => function(){
-                return Html::a('<span class="glyphicon glyphicon-calendar"></span>', '#', [
-                    'role'=>'modal-remote',
-                    'title'=>'Programación',
-                    'data-toggle'=>'tooltip',
-                    'data-confirm-title'=>'¿Está Seguro?',
-                    'data-confirm-message'=>'¿Desea continuar?'
-                ]);
+            'prg' => function($model, $key, $index){
+                return Html::a('<span class="glyphicon glyphicon-calendar"></span>', 
+                    Url::to(['proyecto-ae-meta/create', 'accionEspecifica' => $index]), 
+                    [
+                        'role'=>'modal-remote',
+                        'title'=>'Programación',
+                        'data-toggle'=>'tooltip'
+                    ]
+                );
             }
         ]
     ],
