@@ -197,6 +197,8 @@ class AcAcEspecController extends \common\controllers\BaseController
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
         $model_nuevo=$model;
+        $model->fecha_inicio=date_format(date_create($model->fecha_inicio),'d/m/Y');
+        $model->fecha_fin=date_format(date_create($model->fecha_fin),'d/m/Y');
        
         $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre'); 
         $verificar =ArrayHelper::map(AcEspUej::find()->where('id_ac_esp= :id', ['id'=>$model->id])->andwhere(['estatus' => 1])->all(),'id','id_ue');
@@ -209,7 +211,7 @@ class AcAcEspecController extends \common\controllers\BaseController
                 return [
                     'title'=> "Modificando Accion Especifica #".$id,
                     'content'=>$this->renderAjax('_form', [
-                        'model' => $this->findModel($id),
+                        'model' => $model,
                         'unidades_ejecutoras'=>$unidades_ejecutoras,
                     'precarga'=>$verificar,
                     ]),
@@ -240,7 +242,7 @@ class AcAcEspecController extends \common\controllers\BaseController
                      'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id_ac_centr]),
                     'title'=> "Accion Especifica #".$id,
                     'content'=>$this->renderPartial('view', [
-                        'model' => $this->findModel($id),
+                        'model' => $model,
                         'rows' => $ue,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).

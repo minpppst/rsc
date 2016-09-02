@@ -79,6 +79,8 @@ class AccionCentralizadaController extends \common\controllers\BaseController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->fecha_inicio=date_format(date_create($model->fecha_inicio),'d/m/Y');
+        $model->fecha_fin=date_format(date_create($model->fecha_fin),'d/m/Y');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

@@ -38,8 +38,15 @@ CrudAsset::register($this);
             ],
             ['class' => 'kartik\grid\SerialColumn'],
 
-            //'id',
-            'nombre_variable:ntext',
+            [
+            'attribute' =>'nombre_variable',
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
+
+            ],
             [
 
             'attribute' => 'unidad_medida',
@@ -53,15 +60,15 @@ CrudAsset::register($this);
                 return $model->nombreLocalizacion;
             }
             ],
-            'definicion:ntext',
-            // 'base_calculo:ntext',
-            // 'fuente_informacion:ntext',
-            // 'responsable',
-            // 'meta_programada_variable',
-            // 'unidad_ejecutora',
-            // 'acc_accion_especifica',
-
-           // ['class' => 'yii\grid\ActionColumn'],
+            [
+            'attribute' => 'definicion',
+            'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
+            ],
+            
             ['class' => 'kartik\grid\ActionColumn',
                 'dropdown' => false,
                 'vAlign'=>'middle',

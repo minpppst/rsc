@@ -82,27 +82,27 @@ class AccionCentralizadaVariableEjecucionController extends \common\controllers\
 
                 }else{
                 //verificar mes pendiente con la fecha o ultima carga realizada y fecha
-                if($model_inicial['diciembre']==NULL && ($hoy['mon']>=12 && $hoy['mday']>=5))
+                if($model_inicial['diciembre']==NULL && (($hoy['mon']==12 && $hoy['mday']>=5) || ($hoy['mon']>12)))
                 $desbloqueo[0]=12;
-                if($model_inicial['noviembre']==NULL && ($hoy['mon']>=11 && $hoy['mday']>=5))
+                if($model_inicial['noviembre']==NULL && (($hoy['mon']==11 && $hoy['mday']>=5) || ($hoy['mon']>11)))
                 $desbloqueo[0]=11;
-                if($model_inicial['octubre']==NULL && ($hoy['mon']>=10 && $hoy['mday']>=5))
+                if($model_inicial['octubre']==NULL && (($hoy['mon']==10 && $hoy['mday']>=5) || ($hoy['mon']>10)))
                 $desbloqueo[0]=10;
-                if($model_inicial['septiembre']==NULL && ($hoy['mon']>=9 && $hoy['mday']>=5))
+                if($model_inicial['septiembre']==NULL && (($hoy['mon']==9 && $hoy['mday']>=5) || ($hoy['mon']>9)))
                 $desbloqueo[0]=9;
-                if($model_inicial['agosto']==NULL && ($hoy['mon']>=8 && $hoy['mday']>=5))
+                if($model_inicial['agosto']==NULL && (($hoy['mon']==8 && $hoy['mday']>=5) || ($hoy['mon']>8)))
                 $desbloqueo[0]=8;
-                if($model_inicial['julio']==NULL && ($hoy['mon']>=7 && $hoy['mday']>=5))
+                if($model_inicial['julio']==NULL && (($hoy['mon']==7 && $hoy['mday']>=5) || ($hoy['mon']>7)))
                 $desbloqueo[0]=7;
-                if($model_inicial['junio']==NULL && ($hoy['mon']>=6 && $hoy['mday']>=5))
+                if($model_inicial['junio']==NULL && (($hoy['mon']==6 && $hoy['mday']>=5) || ($hoy['mon']>6)))
                 $desbloqueo[0]=6;
-                if($model_inicial['mayo']==NULL && ($hoy['mon']>=5 && $hoy['mday']>=5))
+                if($model_inicial['mayo']==NULL && (($hoy['mon']==5 && $hoy['mday']>=5) || ($hoy['mon']>5)))
                 $desbloqueo[0]=5;
-                if($model_inicial['abril']==NULL && ($hoy['mon']>=4 && $hoy['mday']>=5))
+                if($model_inicial['abril']==NULL && (($hoy['mon']==4 && $hoy['mday']>=5) || ($hoy['mon']>4)))
                 $desbloqueo[0]=4;
-                if($model_inicial['marzo']==NULL && ($hoy['mon']>=3 && $hoy['mday']>=5))
+                if($model_inicial['marzo']==NULL && (($hoy['mon']==3 && $hoy['mday']>=5) || ($hoy['mon']>3)))
                 $desbloqueo[0]=3;
-                if($model_inicial['febrero']==NULL && ($hoy['mon']>=2 && $hoy['mday']>=5))
+                if($model_inicial['febrero']==NULL && (($hoy['mon']==2 && $hoy['mday']>=5) || ($hoy['mon']>2)))
                 $desbloqueo[0]=2;
 
                 //verificamos si desde el backend se le dio permiso para habilitar campos

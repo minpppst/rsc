@@ -72,6 +72,37 @@ class AcAcEspec extends \yii\db\ActiveRecord
         ];
     }
 
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            //Cambiar el formato de las fechas
+            $formato = 'd/m/Y';
+            $inicio = date_create_from_format($formato,$this->fecha_inicio);
+            $fin = date_create_from_format($formato,$this->fecha_fin);
+
+            if($inicio != false)
+            {
+                $this->fecha_inicio = date_format($inicio,'Y-m-d');
+            }
+            
+            if($fin != false) 
+            {
+                $this->fecha_fin = date_format($fin,'Y-m-d');
+            }
+            
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+
+
+    
+
     /**
      * @return \yii\db\ActiveQuery
      */

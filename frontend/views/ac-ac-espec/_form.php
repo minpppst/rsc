@@ -48,7 +48,7 @@ if(empty($precarga))
         'value' => $model->fecha_inicio,
         'pluginOptions' => [
             'autoclose'=>true,
-            'format' => 'yyyy/mm/dd',
+            'format' => 'dd/mm/yyyy',
             'todayBtn' => true
           ]
           ]); 
@@ -59,7 +59,7 @@ if(empty($precarga))
         'value' => $model->fecha_fin,
         'pluginOptions' => [
             'autoclose'=>true,
-            'format' => 'yyyy/mm/dd',
+            'format' => 'dd/mm/yyyy',
             'todayBtn' => true
           ]
           ]); 
