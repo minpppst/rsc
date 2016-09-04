@@ -2,6 +2,14 @@
  estilo.css
 */
 
+body > .wrap > .container {
+	min-width: 80% !important;
+}
+
+.navbar > .container {
+	min-width: 80% !important;
+}
+
 .estilo-panel {
 	margin:auto 10px;
 	float:left;

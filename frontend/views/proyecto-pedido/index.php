@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class'=>'\kartik\grid\DataColumn',
                 'attribute'=>'proyectoEspecifica.nombreProyecto',
                 'value' => function($model){
-                    return StringHelper::truncateWords($model->proyectoEspecifica->nombreProyecto,10);
+                    return StringHelper::truncateWords($model->proyectoEspecifica->nombreProyecto,15);
                 }
             ],
             //Acción específica

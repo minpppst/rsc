@@ -37,6 +37,10 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombreUnidadEjecutora',
+        'value' => function($model){
+            //Cortar el nombre de la UE
+            return StringHelper::truncateWords($model->nombreUnidadEjecutora,6);
+        }
     ],
     /*
     [
