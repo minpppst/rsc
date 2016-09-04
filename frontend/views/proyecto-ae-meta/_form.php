@@ -80,19 +80,19 @@ use yii\widgets\ActiveForm;
 </div>
 <script type="text/javascript">
     //TRIM I
-    $('.trim1').on('change', function(){
+    $('.trim1').on('input', function(){
         initTotal();
     });
     //TRIM II
-    $('.trim2').on('change', function(){
+    $('.trim2').on('input', function(){
         initTotal();
     });
     //TRIM III
-    $('.trim3').on('change', function(){
+    $('.trim3').on('input', function(){
         initTotal();
     });
     //TRIM IV
-    $('.trim4').on('change', function(){
+    $('.trim4').on('input', function(){
         initTotal();
     });
 

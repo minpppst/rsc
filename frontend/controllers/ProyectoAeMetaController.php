@@ -84,19 +84,8 @@ class ProyectoAeMetaController extends Controller
     {
         $request = Yii::$app->request;
         $model = new ProyectoAeMeta();  
-        //Inicializar los meses en 0
-        $model->enero = 0;
-        $model->febrero = 0;
-        $model->marzo = 0;
-        $model->abril = 0;
-        $model->mayo = 0;
-        $model->junio = 0;
-        $model->julio = 0;
-        $model->agosto = 0;
-        $model->septiembre = 0;
-        $model->octubre = 0;
-        $model->noviembre = 0;
-        $model->diciembre = 0;
+        //Inicializar los meses en 0                
+
 
         if($request->isAjax){
             /*
@@ -115,7 +104,7 @@ class ProyectoAeMetaController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'#crud-datatable-pjax',
+                    'forceReload'=>'#especifica-pjax',
                     'title'=> "Create new ProyectoAeMeta",
                     'content'=>'<span class="text-success">Create ProyectoAeMeta success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -176,7 +165,7 @@ class ProyectoAeMetaController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'#crud-datatable-pjax',
+                    'forceReload'=>'#especifica-pjax',
                     'title'=> "ProyectoAeMeta #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
@@ -225,7 +214,7 @@ class ProyectoAeMetaController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>'true','forceReload'=>'#crud-datatable-pjax'];
+            return ['forceClose'=>'true','forceReload'=>'#especifica-pjax'];
         }else{
             /*
             *   Process for non-ajax request
