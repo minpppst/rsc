@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use kartik\date\DatePicker;
 
 return [
@@ -28,6 +29,10 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
+        'value' => function($model){
+            //Cortar el nombre
+            return StringHelper::truncateWords($model->nombre,10);
+        }
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

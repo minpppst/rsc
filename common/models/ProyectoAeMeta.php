@@ -21,28 +21,13 @@ use Yii;
  * @property integer $octubre
  * @property integer $noviembre
  * @property integer $diciembre
- * @property integer $status
+ * @property integer $estatus
  * @property string $fecha_creacion
  *
  * @property ProyectoAccionEspecifica $idProyectoAccionEspecifica
  */
 class ProyectoAeMeta extends \yii\db\ActiveRecord
-{
-    public function __construct()
-    {
-        $this->enero = 0;
-        $this->febrero = 0;
-        $this->marzo = 0;
-        $this->abril = 0;
-        $this->mayo = 0;
-        $this->junio = 0;
-        $this->julio = 0;
-        $this->agosto = 0;
-        $this->septiembre = 0;
-        $this->octubre = 0;
-        $this->noviembre = 0;
-        $this->diciembre = 0;
-    }
+{    
     /**
      * @inheritdoc
      */
@@ -57,8 +42,8 @@ class ProyectoAeMeta extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_proyecto_accion_especifica', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'status'], 'required'],
-            [['id_proyecto_accion_especifica', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'status'], 'integer'],
+            [['id_proyecto_accion_especifica', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'estatus'], 'required'],
+            [['id_proyecto_accion_especifica', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'estatus'], 'integer'],
             [['fecha_creacion'], 'safe'],
             [['id_proyecto_accion_especifica'], 'exist', 'skipOnError' => true, 'targetClass' => ProyectoAccionEspecifica::className(), 'targetAttribute' => ['id_proyecto_accion_especifica' => 'id']],
         ];
@@ -84,7 +69,7 @@ class ProyectoAeMeta extends \yii\db\ActiveRecord
             'octubre' => 'Octubre',
             'noviembre' => 'Noviembre',
             'diciembre' => 'Diciembre',
-            'status' => 'Status',
+            'estatus' => 'estatus',
             'fecha_creacion' => 'Fecha Creacion',
         ];
     }

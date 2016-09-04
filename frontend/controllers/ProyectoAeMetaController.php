@@ -83,9 +83,7 @@ class ProyectoAeMetaController extends Controller
     public function actionCreate($accionEspecifica)
     {
         $request = Yii::$app->request;
-        $model = new ProyectoAeMeta();  
-        //Inicializar los meses en 0                
-
+        $model = new ProyectoAeMeta();
 
         if($request->isAjax){
             /*

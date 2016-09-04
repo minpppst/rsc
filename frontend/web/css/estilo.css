@@ -11,3 +11,8 @@
 .off {
 	display:none;
 }
+
+.nav-tabs.nav-justified > li > a {
+	border: 0 !important;
+	border-radius: 4px 4px 4px 4px !important;
+}

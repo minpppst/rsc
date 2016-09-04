@@ -49,7 +49,7 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
     <!-- TABS -->
     <?= TabsX::widget([
         'options' => [
-            'class' => 'nav-justified',
+            'class' => 'nav-pills nav-justified',
             'containerOptions' => ['id' => 'contenedorTabs'],
         ],
         'items' => [
