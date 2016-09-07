@@ -150,4 +150,6 @@ use yii\widgets\ActiveForm;
 
     }
 
+    initTotal();
+
 </script>
