@@ -49,8 +49,8 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_proyecto', 'codigo_accion_especifica', 'unidad_medida', 'meta', 'ponderacion', 'bien_servicio', 'id_unidad_ejecutora', 'fecha_inicio', 'fecha_fin', 'estatus'], 'required'],
-            [['id_proyecto', 'unidad_medida', 'meta', 'id_unidad_ejecutora', 'estatus', 'aprobado'], 'integer'],
+            [['id_proyecto', 'codigo_accion_especifica', 'unidad_medida', 'ponderacion', 'bien_servicio', 'id_unidad_ejecutora', 'fecha_inicio', 'fecha_fin', 'estatus'], 'required'],
+            [['id_proyecto', 'unidad_medida', 'id_unidad_ejecutora', 'estatus', 'aprobado'], 'integer'],
             [['nombre', 'bien_servicio'], 'string'],
             [['ponderacion'], 'number'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
@@ -143,6 +143,48 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     public function getIdUnidadEjecutora()
     {
         return $this->hasOne(UnidadEjecutora::className(), ['id' => 'id_unidad_ejecutora']);
+    }
+
+    /**
+     * Devuelve la relacion entre proyecto_accion_especifica y
+     * proyecto_ae_meta.
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAeMeta()
+    {
+        return $this->hasOne(ProyectoAeMeta::className(), ['id_proyecto_accion_especifica' => 'id']);
+    }
+
+    /**
+     * Obtener la meta física.
+     * @return int Meta de la acción específica
+     */
+    public function getMeta()
+    {
+        //Calcular la meta
+        $meta = Yii::$app->db->createCommand("
+            SELECT SUM(
+                enero +
+                febrero +
+                marzo +
+                abril +
+                mayo +
+                junio +
+                julio +
+                agosto +
+                septiembre +
+                octubre +
+                noviembre +
+                diciembre
+            ) AS 'total'
+            FROM
+                proyecto_ae_meta
+            WHERE
+                id_proyecto_accion_especifica = :accion_especifica", 
+            [':accion_especifica' => $this->id])
+        ->queryScalar();
+
+        return $meta;
     }
 
     /**

@@ -84,6 +84,7 @@ class ProyectoAeMetaController extends Controller
     {
         $request = Yii::$app->request;
         $model = new ProyectoAeMeta();
+        $model->id_proyecto_accion_especifica = $accionEspecifica;
 
         if($request->isAjax){
             /*
@@ -139,13 +140,15 @@ class ProyectoAeMetaController extends Controller
      * Updates an existing ProyectoAeMeta model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param integer $accionEspecifica ID de la accion
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($accionEspecifica)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = ProyectoAeMeta::find()->where([
+            'id_proyecto_accion_especifica' => $accionEspecifica
+        ])->one();       
 
         if($request->isAjax){
             /*
@@ -154,31 +157,31 @@ class ProyectoAeMetaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ProyectoAeMeta #".$id,
+                    'title'=> "Update ProyectoAeMeta #".$model->id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#especifica-pjax',
-                    'title'=> "ProyectoAeMeta #".$id,
+                    'title'=> "ProyectoAeMeta #".$model->id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','accionEspecifica'=>$model->id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update ProyectoAeMeta #".$id,
+                    'title'=> "Update ProyectoAeMeta #".$model->id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{

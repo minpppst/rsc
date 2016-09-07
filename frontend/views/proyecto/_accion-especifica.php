@@ -144,7 +144,20 @@
 		                          'data-toggle'=>'tooltip',
 		                          'data-confirm-title'=>'Are you sure?',
 		                          'data-confirm-message'=>'Are you sure want to delete this item',
-		                          'class' => 'text-danger'], 
+		                          'class' => 'text-danger'],
+		        'template' => '{view} {update} {prg} {delete}',
+		        'buttons' => [
+		            'prg' => function($model, $key, $index){
+		                return Html::a('<span class="glyphicon glyphicon-calendar"></span>', 
+		                    Url::to(['proyecto-ae-meta/update', 'accionEspecifica' => $index]), 
+		                    [
+		                        'role'=>'modal-remote',
+		                        'title'=>'Programación',
+		                        'data-toggle'=>'tooltip'
+		                    ]
+		                );
+		            }
+		        ]
 		    ],
 		],
 		'toolbar'=> [

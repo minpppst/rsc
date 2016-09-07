@@ -11,7 +11,6 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             'id',
-            'id_proyecto_accion_especifica',
             'enero',
             'febrero',
             'marzo',
@@ -24,7 +23,6 @@ use yii\widgets\DetailView;
             'octubre',
             'noviembre',
             'diciembre',
-            'status',
             'fecha_creacion',
         ],
     ]) ?>

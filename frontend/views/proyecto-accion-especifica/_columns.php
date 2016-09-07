@@ -126,7 +126,7 @@ return [
         'buttons' => [
             'prg' => function($model, $key, $index){
                 return Html::a('<span class="glyphicon glyphicon-calendar"></span>', 
-                    Url::to(['proyecto-ae-meta/create', 'accionEspecifica' => $index]), 
+                    Url::to(['proyecto-ae-meta/update', 'accionEspecifica' => $index]), 
                     [
                         'role'=>'modal-remote',
                         'title'=>'Programación',

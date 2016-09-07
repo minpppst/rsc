@@ -144,6 +144,14 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getProyecto()
+    {
+        return $this->hasOne(Proyecto::className(), ['id' => 'id_proyecto']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUnidadMedida()
     {
         return $this->hasOne(UnidadMedida::className(), ['id' => 'unidad_medida']);
@@ -173,6 +181,21 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
         return $this->hasOne(InstanciaInstitucion::className(), ['id' => 'vinculado_especifique']);
     }
 
+    /**
+     * Obtener la meta del proyecto
+     * @return null | int Cantidad total de la meta del proyecto
+     */
+    /*
+    public function getMeta()
+    {
+        if(empty($this->proyecto->accionesEspecificas))
+        {
+            return null;
+        }
+
+        return $this->proyecto->accionesEspecificas;
+    }
+    */
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -190,6 +213,5 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
             return false;
         }
     }
-
 
 }

@@ -24,7 +24,7 @@ $this->registerJsFile('js/ponderacion.js');
 
     <?= $form->field($model, 'unidad_medida')->dropDownList(ArrayHelper::map($unidadMedida, 'id', 'unidad_medida'), ['prompt' => 'Seleccione']) ?>
 
-    <?= $form->field($model, 'meta')->input('number', ['min' => 0]) ?>
+    <?= $form->field($model, 'meta')->textInput(['readonly' => true]) ?>    
 
     <?= Html::hiddenInput('ponderacionTotal', $model->ponderacion(), ['id' => 'ponderacionTotal']) ?>
 
