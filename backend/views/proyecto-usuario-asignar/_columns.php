@@ -26,7 +26,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'header' => 'Proyecto',
         'value' => function($model){
-            return StringHelper::truncateWords($model->proyectoEspecifica->idProyecto->nombre,10);
+            return StringHelper::truncateWords($model->proyecto->nombre,10);
         }
     ],    
     [

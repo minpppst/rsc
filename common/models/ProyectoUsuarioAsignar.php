@@ -40,8 +40,8 @@ class ProyectoUsuarioAsignar extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['usuario_id', 'proyecto_especifica', 'estatus'], 'required'],
-            [['usuario_id', 'proyecto_especifica', 'estatus'], 'integer'],
+            [['usuario_id', 'proyecto_id', 'accion_especifica_id', 'estatus'], 'required'],
+            [['usuario_id', 'proyecto_id', 'accion_especifica_id', 'estatus'], 'integer'],
             [['usuario_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserAccounts::className(), 'targetAttribute' => ['usuario_id' => 'id']],
         ];
     }
@@ -54,10 +54,13 @@ class ProyectoUsuarioAsignar extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'usuario_id' => 'Usuario ID',
-            'proyecto_especifica_ue' => 'Proyecto Especifica Ue',
+            'proyecto_id' => 'Proyecto',
+            'accion_especifica_id' => 'Acción Específica',
             'estatus' => 'Estatus',
-            'nombreEspecifica' => 'Acción específica',
-            'nombreUsuario' => 'Usuario'
+            'nombreProyecto' => 'Proyecto',
+            'nombreEspecifica' => 'Acción Específica',
+            'nombreUsuario' => 'Usuario',
+            'nombreEstatus' => 'Estatus'
         ];
     }
 
@@ -80,9 +83,31 @@ class ProyectoUsuarioAsignar extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getProyecto()
+    {
+        return $this->hasOne(Proyecto::className(), ['id' => 'proyecto_id']);
+    }
+
+    /**
+     * El nombre del proyecto.
+     * @return null | string Nombre del proyecto
+     */
+    public function getNombreProyecto()
+    {
+        if($this->proyecto == null)
+        {
+            return null;
+        }
+
+        return $this->proyecto->nombre;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getProyectoEspecifica()
     {
-        return $this->hasOne(ProyectoAccionEspecifica::className(), ['id' => 'proyecto_especifica']);
+        return $this->hasOne(ProyectoAccionEspecifica::className(), ['id' => 'accion_especifica_id']);
     }
 
     /**
@@ -124,6 +149,15 @@ class ProyectoUsuarioAsignar extends \yii\db\ActiveRecord
 
         return 'Inactivo';
 
+    }
+
+    /**
+     * Verificar el estatus de aprobacion del proyecto.
+     * @return int Aprobacion
+     */
+    public function getAprobado()
+    {
+        return $this->proyectoEspecifica->idProyecto->aprobado;
     }
 
     /**

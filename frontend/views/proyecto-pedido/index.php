@@ -14,7 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="proyecto-pedido-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -42,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             //Acción específica
-            'nombreEspecifica',            
+            'nombreEspecifica',
 
             //Acciones
             [

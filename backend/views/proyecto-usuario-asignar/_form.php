@@ -18,14 +18,12 @@ DepDropAsset::register($this);
 
     <?= Html::activeHiddenInput($model, 'usuario') ?>
 
-    <div class="form-group">
+    <?= $form->field($model, 'proyecto_id')->dropDownList(
+        ArrayHelper::map($proyectos,'id','nombre'), 
+        ['prompt' => 'Seleccione', 'class' => 'form-control', 'id' => 'proyecto']
+    )?>
 
-        <label class="control-label">Proyecto</label>
-
-        <?= Html::dropDownList('proyectos',null,ArrayHelper::map($proyectos,'id','nombre'), ['prompt' => 'Seleccione', 'class' => 'form-control', 'id' => 'proyecto']) ?>
-    </div>
-
-    <?= $form->field($model, 'proyecto_especifica')->dropDownList([], ['prompt' => 'Seleccione']) ?>    
+    <?= $form->field($model, 'accion_especifica_id')->dropDownList([], ['prompt' => 'Seleccione']) ?>    
 
     <?= $form->field($model, 'estatus')->dropDownList([1 => 'Activo', 0 => 'Inactivo'],['prompt' => 'Seleccione']) ?>
 
@@ -44,7 +42,7 @@ DepDropAsset::register($this);
     $(document).ready(function(){
 
         //Accion Especifica
-        $("#proyectousuarioasignar-proyecto_especifica").depdrop({
+        $("#proyectousuarioasignar-accion_especifica_id").depdrop({
             depends: ['proyecto'],
             url: "<?= Url::to(['pae']) ?>"
         });       

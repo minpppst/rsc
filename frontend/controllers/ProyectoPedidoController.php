@@ -42,11 +42,13 @@ class ProyectoPedidoController extends \common\controllers\BaseController
         //El usuario
         $usuario = UserAccounts::findOne(\Yii::$app->user->id);
         //Modelo de busqueda y dataprovider
-        $searchModel = new ProyectoUsuarioAsignarSearch();
-        $searchModel->usuario_id = $usuario->id;
+        $searchModel = new ProyectoUsuarioAsignarSearch([
+            'usuario_id' => $usuario->id,
+            'aprobado' => 1
+        ]);
 
         //DataProvider
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams); 
         
         return $this->render('index', [
             'searchModel' => $searchModel,

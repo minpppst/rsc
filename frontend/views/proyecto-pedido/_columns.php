@@ -20,38 +20,6 @@ $columnas = [
     'trimestre4',
     'fecha_creacion',
 ];
-//Si es admin
-if(\Yii::$app->authManager->getAssignment('sysadmin',\Yii::$app->user->id) != null)
-{
-    $columnas [] = [
-        'class' => '\kartik\grid\DataColumn',
-        'width' => '50px',
-        'attribute' => 'nombreEstatus',
-        'label'=>'Estatus',
-        'value' => function ($model) {
-            if ($model->estatus == 0) {
-                return Html::a(Yii::t('user', 'Inactivo'), ['toggle-activo', 'id' => $model->id], [
-                            'class' => 'btn btn-xs btn-warning btn-block',
-                            'role' => 'modal-remote',
-                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
-                            'data-request-method' => 'post',
-                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
-                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea desactivar este usuario?'),
-                ]);
-            } else {
-                return Html::a(Yii::t('user', 'Activo'), ['toggle-activo', 'id' => $model->id], [
-                            'class' => 'btn btn-xs btn-success btn-block',
-                            'role' => 'modal-remote',
-                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
-                            'data-request-method' => 'post',
-                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
-                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea activar este usuario?'),
-                ]);
-            }
-        },
-        'format' => 'raw',
-    ];
-}
 
 $columnas[] =
     [

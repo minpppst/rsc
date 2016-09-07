@@ -145,7 +145,7 @@ class ProyectoUsuarioAsignarController extends WebController
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post()) && $model->save()){                
                 return [
                     'forceReload'=>'true',
                     'title'=> "Asignado",
@@ -153,8 +153,9 @@ class ProyectoUsuarioAsignarController extends WebController
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Asignar otro',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
-                ];         
-            }else{           
+                ];        
+            }else{
+
                 return [
                     'title'=> "Asignar",
                     'content'=>$this->renderAjax('create', [

@@ -13,14 +13,13 @@ use frontend\models\ProyectoUsuarioAsignar;
 class ProyectoUsuarioAsignarSearch extends ProyectoUsuarioAsignar
 {
     public $aprobado;
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'usuario_id', 'proyecto_especifica', 'estatus'], 'integer'],
+            [['id', 'usuario_id', 'proyecto_id', 'accion_especifica_id', 'estatus'], 'integer'],
             [['aprobado'], 'safe']
         ];
     }
@@ -44,9 +43,8 @@ class ProyectoUsuarioAsignarSearch extends ProyectoUsuarioAsignar
     public function search($params)
     {
         $query = ProyectoUsuarioAsignar::find();
-
         //Join para la relacion
-        $query->joinWith(['aprobado']);
+        $query->joinWith(['proyecto']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -63,12 +61,12 @@ class ProyectoUsuarioAsignarSearch extends ProyectoUsuarioAsignar
         $query->andFilterWhere([
             'id' => $this->id,
             'usuario_id' => $this->usuario_id,
-            'proyecto_especifica' => $this->proyecto_especifica,
-            'estatus' => 1
+            'proyecto_id' => $this->proyecto_id,
+            'accion_especifica_id' => $this->accion_especifica_id ,
+            'proyecto_usuario_asignar.estatus' => 1          
         ]);
 
-        //Filtros adicionales
-        $query->andFilterWhere(['like','proyecto.aprobado',$this->aprobado]);
+        $query->andFilterWhere(['proyecto.aprobado' => $this->aprobado]);
 
         return $dataProvider;
     }
