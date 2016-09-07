@@ -4,12 +4,6 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use common\models\ProyectoPedido;
-use common\models\ProyectoPedidoSearch;
-use common\models\ProyectoUsuarioAsignar;
-use common\models\ProyectoUsuarioAsignarSearch;
-use common\models\MaterialesServicios;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
@@ -19,7 +13,14 @@ use yii\db\Query;
 use yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-
+//common
+use common\models\ProyectoPedido;
+use common\models\ProyectoPedidoSearch;
+use common\models\MaterialesServicios;
+//frontend
+use frontend\models\ProyectoUsuarioAsignar;
+use frontend\models\ProyectoUsuarioAsignarSearch;
+//Otros
 use johnitvn\userplus\base\models\UserAccounts;
 
 /**
@@ -42,12 +43,9 @@ class ProyectoPedidoController extends \common\controllers\BaseController
         $usuario = UserAccounts::findOne(\Yii::$app->user->id);
         //Modelo de busqueda y dataprovider
         $searchModel = new ProyectoUsuarioAsignarSearch();
-        //Si no es sysadmin
-        if(\Yii::$app->authManager->getAssignment('sysadmin',\Yii::$app->user->id) == null)
-        {
-            $searchModel->usuario_id = $usuario->id;
-            $searchModel->estatus = 1;
-        }
+        $searchModel->usuario_id = $usuario->id;
+
+        //DataProvider
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
         
         return $this->render('index', [

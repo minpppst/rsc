@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
@@ -127,15 +127,6 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
 
         return $this->idUnidadEjecutora->nombre;
     }
-
-    /**
-    * @inheritdoc
-    * @return ProyectoAccionEspecificaQuery the active query used by this AR class.
-    */
-   public static function find()
-   {
-       return new ProyectoAccionEspecificaQuery(get_called_class());
-   }
 
    /**
     * @return string

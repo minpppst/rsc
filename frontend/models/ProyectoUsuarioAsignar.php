@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models;
+namespace frontend\models;
 
 use Yii;
 use johnitvn\userplus\base\models\UserAccounts;
@@ -124,6 +124,15 @@ class ProyectoUsuarioAsignar extends \yii\db\ActiveRecord
 
         return 'Inactivo';
 
+    }
+
+    /**
+     * Verificar el estatus de aprobacion del proyecto.
+     * @return int Aprobacion
+     */
+    public function getAprobado()
+    {
+        return $this->proyectoEspecifica->idProyecto->aprobado;
     }
 
     /**
