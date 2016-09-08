@@ -106,6 +106,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                
                 return [
                     'forceReload'=>'#especifica-pjax',
                     'title'=> "Nueva Acción Específica",
@@ -113,7 +114,8 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Crear otra',['create', 'proyecto' => $proyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
-                ];         
+                ];
+                        
             }else{           
                 return [
                     'title'=> "Nueva Acción Específica",

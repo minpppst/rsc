@@ -263,70 +263,44 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
      }
 
      /**
-      * Override insert.
-      * @param boolean $runValidation Validar atributos.
-      * @param array $attributeNames Attributos que se van a guardar.
-      * @return boolean Si el proceso de guardado tuvo exito.
-      * @throws exception $e Si falla la transaccion.
+      * Override afterSave.
+      * @param boolean $insert Verificar si se inserta o actualiza.
+      * @param array $changedAttributes Atributos que se van a guardar.
+      * @return afterSave().
       */
-     public function insert($runValidation = true, $attributes = null)
-     {
-        //Transaccion
-        $transaccion = Yii::$app->db->beginTransaction();
+     public function afterSave($insert, $changedAttributes)
+     {       
+         if(!$insert)
+         {
+            //nada
+         }
+         else
+         {
+            //crear modelo relacionado
+            $meta = new ProyectoAeMeta();
 
-        try
-        {
-            //Insertar 
-            parent::insert($runValidation, $attributes);
+            //Llave foranea
+            $meta->id_proyecto_accion_especifica = $this->id;
 
-            //Transaccion interna para el modelo relacionado
-            $transaccionInterna = Yii::$app->db->beginTransaction();
-
-            try
-            {
-                //crear modelo relacionado
-                $meta = new ProyectoAeMeta();
-
-                //Llave foranea
-                $meta->id_proyecto_accion_especifica = $this->id;
-
-                //Colocar meses en cero
-                $meta->enero = 0;
-                $meta->febrero = 0;
-                $meta->marzo = 0;
-                $meta->abril = 0;
-                $meta->mayo = 0;
-                $meta->junio = 0;
-                $meta->julio = 0;
-                $meta->agosto = 0;
-                $meta->septiembre = 0;
-                $meta->octubre = 0;
-                $meta->noviembre = 0;
-                $meta->diciembre = 0;
-                $meta->estatus = 1; //activo
-                $meta->fecha_creacion = date('Y-m-d H:i:s');
-                $meta->save();
-
-                $transaccionInterna->commit();
-                
-            }
-            catch(\Exception $exception)
-            {
-                //Fallo la transaccion interna
-                $transaccionInterna->rollback();
-                throw $exception;
-            }
-
-            $transaccion->commit();
-            return true;            
-            
-        }
-        catch(\Exception $e)
-        {
-            //Fallo
-            $transaccion->rollback();
-            throw $e;
-        }
+            //Colocar meses en cero
+            $meta->enero = 0;
+            $meta->febrero = 0;
+            $meta->marzo = 0;
+            $meta->abril = 0;
+            $meta->mayo = 0;
+            $meta->junio = 0;
+            $meta->julio = 0;
+            $meta->agosto = 0;
+            $meta->septiembre = 0;
+            $meta->octubre = 0;
+            $meta->noviembre = 0;
+            $meta->diciembre = 0;
+            $meta->estatus = 1; //activo
+            $meta->fecha_creacion = date('Y-m-d H:i:s');
+            $meta->save(false);
+         }
+        
+        return parent::afterSave($insert, $changedAttributes);
      }
      
 }
