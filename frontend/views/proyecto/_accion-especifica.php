@@ -7,6 +7,7 @@
 
 	use common\models\ProyectoAccionEspecificaSearch;
 	use yii\helpers\Html;
+	use yii\helpers\StringHelper;
 	use yii\widgets\Pjax;
 	use yii\helpers\Url;
 	use yii\bootstrap\Modal;
@@ -61,10 +62,18 @@
 		    [
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'nombre',
+		        'value' => function($model){
+		            //Cortar el nombre
+		            return StringHelper::truncateWords($model->nombre,10);
+		        }
 		    ],
 		    [
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'nombreUnidadEjecutora',
+		        'value' => function($model){
+		            //Cortar el nombre de la UE
+		            return StringHelper::truncateWords($model->nombreUnidadEjecutora,6);
+		        }
 		    ],
 		    /*
 		    [
