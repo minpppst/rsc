@@ -252,7 +252,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
 
      /**
       * Ponderacion.
-      * @return int $sum suma total de las ponderaciones
+      * @return int $sum Suma total de las ponderaciones
       */
      public function ponderacion()
      {
@@ -260,6 +260,29 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
         $sum = $comando->queryScalar();
 
         return $sum;
+     }
+
+     /**
+      * Devuelve el máximo de ponderación.
+      * @return int
+      */
+     public function getMaxPonderacion()
+     {
+        return (1 - $this->ponderacion());
+     }
+
+     /**
+      * Devuelve el minimo de ponderacion.
+      * @return int 
+      */
+     public function getMinPonderacion()
+     {
+        if($this->ponderacion() == 1.0)
+        {
+            return 0;
+        }
+
+        return 0.1;
      }
 
      /**

@@ -8,8 +8,6 @@ use kartik\date\DatePicker;
 /* @var $model app\models\ProyectoAccionEspecifica */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->registerJsFile('js/ponderacion.js');
-
 ?>
 
 <div class="proyecto-accion-especifica-form">
@@ -26,9 +24,7 @@ $this->registerJsFile('js/ponderacion.js');
 
     <?= $form->field($model, 'meta')->textInput(['readonly' => true]) ?>    
 
-    <?= Html::hiddenInput('ponderacionTotal', $model->ponderacion(), ['id' => 'ponderacionTotal']) ?>
-
-    <?= $form->field($model, 'ponderacion')->input('number', ['min' => 0.1, 'max' => 1, 'step' => 0.1]) ?>
+    <?= $form->field($model, 'ponderacion')->input('number', ['min' => $model->minPonderacion, 'max' => $model->maxPonderacion, 'step' => 0.1]) ?>
 
     <?= $form->field($model, 'bien_servicio')->textarea(['rows' => 6]) ?>
 
