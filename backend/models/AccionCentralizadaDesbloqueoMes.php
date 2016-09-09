@@ -37,18 +37,17 @@ class AccionCentralizadaDesbloqueoMes extends \yii\db\ActiveRecord
     }
 
 
-
-    function com_mes($mes){
-
-    
+    /**
+     * rules para validar si el mes fue agrgado
+     * @param int $mes
+     */
+    function com_mes($mes)
+    {
     $existe=AccionCentralizadaDesbloqueoMes::find()->where(['id_ejecucion' => $this->id_ejecucion])->andWhere(['mes' => $this->mes])->One();
- 
-    
-    if($existe!=null){
+    if($existe!=null)
+    {
     $this->addError($mes, "Error, Ya Se Agregó Este Mes");
     }
-    
-
     }
 
 
@@ -73,12 +72,22 @@ class AccionCentralizadaDesbloqueoMes extends \yii\db\ActiveRecord
         return $this->hasOne(AccionCentralizadaVariableEjecucion::className(), ['id' => 'id_ejecucion']);
     }
 
-    public function getObtenerEstado(){
+    /**
+     * Mostrar el nombre del estado
+     * @return string
+     */
+    public function getObtenerEstado()
+    {
         return $nombre=$this->idEjecucion->idProgramacion->idLocalizacion->NombreEstado;
 
     }
 
-    public function getObtenerMes(){
+    /**
+     * Mostrar el nombre de los meses
+     * @return string
+     */
+    public function getObtenerMes()
+    {
         
             if($this->mes==1)
             return 'Enero';

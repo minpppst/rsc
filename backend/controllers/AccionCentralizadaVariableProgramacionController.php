@@ -49,6 +49,7 @@ class AccionCentralizadaVariableProgramacionController extends \common\controlle
     /**
      * Creates a new AccionCentralizadaVariableProgramacion model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id_localizacion
      * @return mixed
      */
     public function actionCreate($id_localizacion)

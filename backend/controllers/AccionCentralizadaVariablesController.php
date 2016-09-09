@@ -112,21 +112,26 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
         $transaction = $connection->beginTransaction();
         try {
         
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
             $model_usuarios= new AccionCentralizadaVariablesUsuarios();
             $model_usuarios->id_variable=$model->id;
             $usuarios=Yii::$app->request->post('id_usuario');
             $i=0;
-            while(count(Yii::$app->request->post('id_usuario'))!=$i){
+            while(count(Yii::$app->request->post('id_usuario'))!=$i)
+            {
                         //funcion en el modelo para guardar
-                        if($model_usuarios->usuarios_agregar($model->id,$usuarios[$i])){
+                        if($model_usuarios->usuarios_agregar($model->id,$usuarios[$i]))
+                        {
                         $i++;
-                        }else{
+                        }
+                        else
+                        {
                             $transaction->rollback();
                             $i=count($request->post('id_usuario'));
                             
                         }
-                        }// termina el while
+            }// termina el while
 
             $transaction->commit();
             return $this->redirect(['responsable-acc-variable/create',  'id_variable' => $model->id]);
@@ -223,8 +228,12 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
 
 
 
-    //funcion para encontrar  las unidades ejecutoras asociadas a la accion especifica
-     public function actionAce()
+    
+    /**
+     * Encontrar  las unidades ejecutoras asociadas a la accion especifica
+     * @return array
+     */
+    public function actionAce()
     {
         $request = Yii::$app->request;
 
@@ -247,17 +256,24 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
         
     }
 
-//funcion para encontrar los usuarios  que esten asociados a las acciones especificas
+    
+    /**
+     * Encontrar  los usuarios  que esten asociados a las acciones especificas
+     * @return array
+     * @param integer $id, $acc
+     * @param string or array $q
+     */
     public function actionAce1($q = NULL, $id = NULL, $acc=NULL)
     {
     $request = Yii::$app->request;
     Yii::$app->response->format = Response::FORMAT_JSON;
     $out = ['results' => ['id' => '', 'text' => '']];
 
-        
-    if (!is_null($q)) {
-
-        if(stristr($q, ',')==false){
+    if (!is_null($q))
+    {
+        //si $q es string buscar ese en especifico 
+        if(stristr($q, ',')==false)
+        {
 
 
         $ace = AccionCentralizadaAsignar::find()
@@ -273,9 +289,12 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
         
         $out['results'] = array_values($ace);
         return $out;
-    }else{
-    $q=explode(',', $q);
-           $ace = AccionCentralizadaAsignar::find()
+        }
+        else
+        {
+        //si $q es array buscar el conjunto;
+        $q=explode(',', $q);
+        $ace = AccionCentralizadaAsignar::find()
                     ->select(["user_accounts.id as id", "user_accounts.username AS name"])
                     ->innerjoin('user_accounts', 'user_accounts.id=accion_centralizada_asignar.usuario')
                     ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id=accion_centralizada_asignar.accion_especifica_ue')
@@ -286,12 +305,13 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
                     ->asArray()
                     ->all();                
                     
-       $out['results'] = array_values($ace);
-       return $out;
-   }
+        $out['results'] = array_values($ace);
+        return $out;
+        }
 
    }
-    elseif ($id > 1) {
+    elseif ($id > 1)
+    { //si $q es vacio ignorarlo en la busqueda.
          $ace = AccionCentralizadaAsignar::find()
                     ->select(["user_accounts.id as id", "user_accounts.username AS name"])
                     ->innerjoin('user_accounts', 'user_accounts.id=accion_centralizada_asignar.usuario')
@@ -311,7 +331,11 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
        
     }
 
-//funcion para encontrar las acciones especificas
+
+    /**
+     * Encontrar las acciones especificas
+     * @return array
+     */
      public function actionAce2()
     {
         $request = Yii::$app->request;

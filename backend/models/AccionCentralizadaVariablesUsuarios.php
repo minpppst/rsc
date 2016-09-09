@@ -69,28 +69,45 @@ class AccionCentralizadaVariablesUsuarios extends \yii\db\ActiveRecord
         return $this->hasOne(AccionCentralizadaVariables::className(), ['id' => 'id_variable']);
     }
 
-
+    /**
+     * Guardar los usuarios del combo de variables solamente al momento de create
+     * @param int $id_variable, $id_usuario
+     * @return bool
+     */
      function usuarios_agregar($id_variable, $id_usuario){
 
         $model_usuarios=new AccionCentralizadaVariablesUsuarios;
         $model_usuarios->id_usuario=$id_usuario;
         $model_usuarios->id_variable=$id_variable;
         $model_usuarios->id=$this->id;
-        if($model_usuarios->save()){
+        if($model_usuarios->save())
+        {
             return true;
-        }else{
+        }
+        else
+        {
             return false;
         }
 
      }
 
-     function usuario_eliminar($id){
+     /**
+     * Eliminar los usuarios asociados a una variable
+     * @param int $id
+     * @return bool
+     */
+     public function usuario_eliminar($id)
+     {
         $model = AccionCentralizadaVariablesUsuarios::findOne($id);
         $model->estatus=2;
         return $model->save();
      }
 
-
+     /**
+     * mostrar nombre de los usuarios asociados a las variables
+     * @param int $id
+     * @return string
+     */
      public function obtener_usuario_variables($id)
      {
         $ue="";
@@ -101,10 +118,13 @@ class AccionCentralizadaVariablesUsuarios extends \yii\db\ActiveRecord
         ->andwhere(['accion_centralizada_variables_usuarios.estatus' => 1])
         ->asArray()
         ->all();
-        foreach ($uej as $key => $value) {
+        foreach ($uej as $key => $value)
+        {
         $ue.=$value['name'].", ";
         }
+
         $ue = substr($ue, 0, -2);
+        
         return $ue;
 
 

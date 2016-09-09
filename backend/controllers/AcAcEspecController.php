@@ -35,6 +35,7 @@ class AcAcEspecController extends \common\controllers\BaseController
 
     /**
      * Lists all AcAcEspec models.
+     * @param integer $ac_centralizada
      * @return mixed
      */
     public function actionIndex($ac_centralizada)
@@ -87,6 +88,7 @@ class AcAcEspecController extends \common\controllers\BaseController
      * Creates a new AcAcEspec model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
+     * @param integer $ac_centralizada
      * @return mixed
      */
     public function actionCreate($ac_centralizada)
@@ -97,12 +99,14 @@ class AcAcEspecController extends \common\controllers\BaseController
         $unidades_ejecutoras=ArrayHelper::map(UnidadEjecutora::find()->all(), 'id', 'nombre'); 
 
 
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){ 
+            if($request->isGet)
+            { 
                 return [
                     'title'=> "Crear nueva Acion Especifica",
                     'content'=>$this->renderAjax('_form', [
@@ -112,7 +116,9 @@ class AcAcEspecController extends \common\controllers\BaseController
                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post())){
+            }
+            else if($model->load($request->post()))
+            {
 
 
                        $uni_eje=$request->post('id_ue');
@@ -123,12 +129,16 @@ class AcAcEspecController extends \common\controllers\BaseController
                        try { 
                         if($model->save()){
                         // si salva el modelo padre, contamos las uej a guardar
-                        while(count($request->post('id_ue'))!=$i){
-                            //guardamos las uej, si ocurre algun error devuelve false
+                        while(count($request->post('id_ue'))!=$i)
+                        {
+                        //guardamos las uej, si ocurre algun error devuelve false
                         $salvar=$model->uejecutoras_crear($uni_eje[$i]);
                         $i++;
-                        if($salvar){
-                        }else{
+                        if($salvar)
+                        {
+                        }
+                        else
+                        {
                             $transaction->rollback();
                             $i=count($request->post('id_ue'));
                             
@@ -145,21 +155,22 @@ class AcAcEspecController extends \common\controllers\BaseController
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create','ac_centralizada'=>$model->id_ac_centr],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
-                ];
-            }else{ // si falla el save de accion centralizada
+                        ];
+            }
+            else
+            { // si falla el save de accion centralizada
                 return [ 
                     'title'=> "Create new AcAcEspec",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'unidades_ejecutoras'=>$unidades_ejecutoras
-
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
-                ];         
+                        ];         
             }
-                } catch(Exception $e) {
+            } catch(Exception $e) {
                     $transaction->rollback();
                     }        
             }else{        
@@ -173,7 +184,9 @@ class AcAcEspecController extends \common\controllers\BaseController
         
                 ];         
             }
-        }else{ 
+        }
+        else
+        { 
             /*
             *   Process for non-ajax request
             */
@@ -364,14 +377,18 @@ class AcAcEspecController extends \common\controllers\BaseController
      * @param integer id
      * @return mixed
      */
-    public function actionToggleActivo($id) {
+    public function actionToggleActivo($id) 
+    {
         $model = $this->findModel($id);
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        if ($model != null && $model->toggleActivo()) {
+        if ($model != null && $model->toggleActivo()) 
+        {
             return ['forceClose' => true, 'forceReload' => 'true'];
-        } else {
+        } 
+        else 
+        {
             return [
                 'title' => 'Ocurrió un error.',
                 'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
@@ -407,7 +424,8 @@ class AcAcEspecController extends \common\controllers\BaseController
 
                      $exploded = explode(';', str_replace('"', '',$valor));
                      
-                    if($bandera==0){
+                    if($bandera==0)
+                    {
                    
 
                     $ac = AcAcEspec::find()
@@ -436,12 +454,16 @@ class AcAcEspecController extends \common\controllers\BaseController
                         $contador=$exploded[2];
                         $id_accion_especifica=$ac->id;
                     }
-                    }else{
+                    }
+                    else
+                    {
                         $mensaje="Codigo De Accion Ya Existe";
                          
                     }
                     
-                }else{
+                }
+                else
+                {
                     //print_r($exploded); exit();
                     $exploded[0]=str_replace("'","",$exploded[0]);
                     $exploded[0]=str_replace("\r\n","",$exploded[0]);
@@ -455,29 +477,27 @@ class AcAcEspecController extends \common\controllers\BaseController
 
                         $ac_ej = new AcEspUej;
 
-                    }else{
+                    }
+                    else
+                    {
                         $mensaje="No Existe El Codigo De Unidad Ejecutora ". $exploded[0];
 
                     }
-
                     $ac_ej->id_ue = $ej['id'];
                     $ac_ej->id_ac_esp = $id_accion_especifica;
                     $ac_ej->save(false);
                     $contador=$contador-1;
                    
-                    if($contador==0){
+                    if($contador==0)
+                    {
                         $bandera=0;
                     }
-                    }
-
-
-
-
                 }
+            } //fin foreach
                 
-                $transaction->commit();
+            $transaction->commit();
                 
-                Yii::$app->session->setFlash('importado', '<div class="alert alert-success">Registros importados exitosamente.</div>');
+            Yii::$app->session->setFlash('importado', '<div class="alert alert-success">Registros importados exitosamente.</div>');
                 return $this->refresh();
 
             }catch(\Exception $e){
@@ -509,30 +529,33 @@ class AcAcEspecController extends \common\controllers\BaseController
         }
     }
 
+    /**
+     * operacion para activar las acciones especificas
+     * @return mixed
+     */
     public function actionBulkEstatusactivo()
     {        
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         
         
-        foreach ($pks as $key) {
-            
-        
-       
-            $model=$this->findModel($key);
-            $model->activar();
-        
-        
+        foreach ($pks as $key) 
+        {
+        $model=$this->findModel($key);
+        $model->activar();
         }
         
 
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>'true']; 
-        }else{
+        }
+        else
+        {
             /*
             *   Process for non-ajax request
             */
@@ -542,29 +565,34 @@ class AcAcEspecController extends \common\controllers\BaseController
     }
 
 
-
+    /**
+     * operacion para desactivar las acciones especificas
+     * @return 
+     */
     public function actionBulkEstatusdesactivo()
     {        
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         
         
-        foreach ($pks as $key) {
+        foreach ($pks as $key) 
+        {
         
             $model=$this->findModel($key);
             $model->desactivar();
         
-        
         }
         
-
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>'true']; 
-        }else{
+        }
+        else
+        {
             /*
             *   Process for non-ajax request
             */
@@ -574,20 +602,24 @@ class AcAcEspecController extends \common\controllers\BaseController
     }
 
 
+    /**
+     * operacion para revertir algun cambio hecho al modelo
+     * @param integer $id
+     * @return Mixed
+     */
     public function actionRevertir($id)
     {
         // buscamos los modelos
         $post1 = AuditTrail::findOne($id);
         $post=AcAcEspec::findOne($post1->model_id);
 
-
         //si esta vacio el modelo es por que fue borrado
-        if($post!=null){
+        if($post!=null)
+        {
         //buscamos la ultima version
         $attributes = Version::lastVersion($post->className(), $post->id);
         //cargamos los datos de la ultima version
         $post = Version::find($post->className(), $post->id, $attributes);
-        
         
         //solo para el caso de modelos que tenga fecha, formatear la fecha
         $post->fecha_inicio = date_create($post->fecha_inicio);
@@ -595,7 +627,8 @@ class AcAcEspecController extends \common\controllers\BaseController
 
         $post->fecha_inicio=date_format($post->fecha_inicio, 'Y-m-d');
         $post->fecha_fin=date_format($post->fecha_fin, 'Y-m-d');
-        }else
+        }
+        else
         {
         //en que caso que fue borrado se busca la ultima version por medio del  id almacenado en el modelo trail
         $attributes = Version::lastVersion(AcAcEspec::className(), $post1->model_id);
@@ -611,27 +644,20 @@ class AcAcEspecController extends \common\controllers\BaseController
         $post->fecha_inicio=date_format($post->fecha_inicio, 'Y-m-d');
         $post->fecha_fin=date_format($post->fecha_fin, 'Y-m-d');
 
-
-
-
         }
-        if(!$post->save()){
+        if(!$post->save())
+        {
         
         return $this->redirect('index.php?r=audit/trail');
             
-        }else{
-            //print_r($post->getErrors());
+        }
+        else
+        {
             return $this->redirect('index.php?r=audit/trail');
              
         }
            
 
         }
-
-
-
-
-
-
 
 }

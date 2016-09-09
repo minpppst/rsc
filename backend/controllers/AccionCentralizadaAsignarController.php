@@ -318,7 +318,11 @@ class AccionCentralizadaAsignarController extends WebController
     }
 
 
-
+    /**
+     * Funcion de respuesta para el AJAX de
+     * unidades ejecutoras
+     * @return array JSON 
+     */
     public function actionAce()
     {
         $request = Yii::$app->request;
@@ -348,6 +352,11 @@ class AccionCentralizadaAsignarController extends WebController
         
     }
 
+    /**
+     * Funcion de respuesta para el AJAX de
+     * acciones especificas unidad ejecutora
+     * @return array JSON 
+     */
     public function actionAce2()
     {
         $request = Yii::$app->request;

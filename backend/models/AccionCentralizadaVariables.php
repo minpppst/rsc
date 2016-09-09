@@ -110,40 +110,71 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
     }
 
 
-    public function getLocal_variable(){
+    /**
+     * mostrar si tiene localizacion la variable
+     * @return bool
+     */
+    public function getLocal_variable()
+    {
 
         $resultado=LocalizacionAccVariable::find()->andWhere('id_variable='.$this->id)->one();
-        if($resultado!=null){
+        if($resultado!=null)
+        {
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
 
     }
-    public function getLocal_variable_estados(){
+
+    /**
+     * Cuenta cuantas localizaciones han sido cargadas
+     * @return bool
+     */
+    public function getLocal_variable_estados()
+    {
             
             $count = LocalizacionAccVariable::find()->where("id_variable=".$this->id)->count();
             
             if($count<=24)
+            {
              return false;
+            }
             else
+            {
               return true;
+            }
 
-                        }
+    }
 
-    public function getNombreLocalizacion(){
+    /**
+     * mostrar el nombre del tipo de localizacion
+     * @return string
+     */
+    public function getNombreLocalizacion()
+    {
 
-        if($this->localizacion==0){
+        if($this->localizacion==0)
+        {
             return 'Nacional';
 
-        }else{
+        }
+        else
+        {
             return 'Estadal';
         }
     }
 
-    //obteenr las unidades ejecutoras asociadas a una acc
-    public function ObtenerUnidadesEJ($acc_uej){
+    
+    /**
+     * obtener las unidades ejecutoras asociadas a una acc
+     * @param int $acc_uej
+     * @return array
+     */
+    public function ObtenerUnidadesEJ($acc_uej)
+    {
       $unidad= UnidadEjecutora::find()
                 ->select(["unidad_ejecutora.id as id", "CONCAT(unidad_ejecutora.codigo_ue, ' - ',unidad_ejecutora.nombre) as name"])
                 ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_ac_especifica_uej.id_ue=unidad_ejecutora.id')
@@ -156,8 +187,14 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
     }
 
 
-    //funcion para encontrar las acciones especificas
-    public function BuscarACC($accion){
+    
+    /**
+     * obtener las acciones especificas
+     * @param int $accion
+     * @return array
+     */
+    public function BuscarACC($accion)
+    {
 
           $ace = AcAcEspec::find()
             ->select(["accion_centralizada_accion_especifica.id", "CONCAT(accion_centralizada_accion_especifica.cod_ac_espe,' - ',accion_centralizada_accion_especifica.nombre) AS name"])
@@ -166,21 +203,20 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
             ->asArray()
             ->all();
             return $ace;
-
-
-
-
     }
 
 
-
-    function uejecutoras($usuarios){
-
-
-
-      //buscar si quitaron una unidad si es asi borrar la quitaron estatus 2
+    /**
+     * operacion para agregar o eliminar los usuarios que vienen del combo select de variables
+     * @param array $usuarios
+     * @return Mixed
+     */
+    public function uejecutoras($usuarios)
+    {
+      //buscar si quitaron un usuario si es asi borrar la que quitaron
       
-      if($usuarios==null){
+      if($usuarios==null)
+      {
         $usuarios='';
 
       }
@@ -192,16 +228,16 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
               ->asArray()
               ->all();
         
-        if($ace!=null){
-            $model_cambiar= new AccionCentralizadaVariablesUsuarios;
+      if($ace!=null)
+      {
+        $model_cambiar= new AccionCentralizadaVariablesUsuarios;
         foreach ($ace as $key => $value) {
-          //AccionCentralizadaVariablesUsuarios::deleteAll(['id' => $value]);
-            $model_cambiar->usuario_eliminar($value);
+        $model_cambiar->usuario_eliminar($value);
           
-        }
-        }
-        //buscar si agregaron una unidad si es asi almacenar las nuevas y guardar
-        $ace = AccionCentralizadaVariablesUsuarios::find()
+      }
+      }
+      //buscar si agregaron un usuario si es asi almacenar las nuevos y guardar
+      $ace = AccionCentralizadaVariablesUsuarios::find()
               ->select('accion_centralizada_variables_usuarios.id_usuario')
               ->where(['accion_centralizada_variables_usuarios.id_variable' => $this->id])
               ->andwhere(['accion_centralizada_variables_usuarios.estatus' => 1])
@@ -209,30 +245,27 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
               ->asArray()
               ->all();
         
-        
-        $i=0;
-        $tabla[]=null;
-        foreach ($ace as $key => $value) {
-          
-        $tabla[]=$value['id_usuario'];
-        
-        }
-        //si viene vacio
-        if($usuarios==null){
-          $usuarios=[];
-        }
+      $i=0;
+      $tabla[]=null;
+      foreach ($ace as $key => $value) 
+      {
+      $tabla[]=$value['id_usuario'];
+      }
+      //si viene vacio
+      if($usuarios==null)
+      {
+        $usuarios=[];
+      }
 
         
-        $nuevo=array_diff($usuarios, $tabla);
-        
-        foreach ($nuevo as $key => $value) {
+      $nuevo=array_diff($usuarios, $tabla);
+      foreach ($nuevo as $key => $value) 
+      {
         $model_variable_usuario=new AccionCentralizadaVariablesUsuarios;
         $model_variable_usuario->id_usuario=$value;
         $model_variable_usuario->id_variable=$this->id;  
         $model_variable_usuario->save();
-        }
-
-        
+      }
       }
 
 

@@ -75,6 +75,7 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
     /**
      * Creates a new LocalizacionAccVariable model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     * @param integer $variable, $localizacion
      * @return mixed
      */
     public function actionCreate($variable,$localizacion)
@@ -158,22 +159,17 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
                 ];         
             }
         } else{
-
-
-
-
-
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //return $this->redirect(['create', 'id' => $model->id]);
             return $this->redirect(['accion-centralizada-variable-programacion/create',  'id_localizacion' => $model->id]);
-        } else {
+            } else {
             return $this->render('create', [
                 'model' => $model,
                 'pais' => $paises,
                 'estados' => $estados,
             ]);
-        }
+            }
 
     }
     }
@@ -181,10 +177,10 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
     /**
      * Updates an existing LocalizacionAccVariable model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param integer $id, $variable, $localizacion
      * @return mixed
      */
-    public function actionUpdate($id, $variable, $localizacion)
+    public function actionUpdate($id)
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
@@ -192,7 +188,6 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
         
         $model->scenario = ($localizacion=='0' ? 'Nacional' : 'Estadal');
 
-        //$model->id_pais = Pais::findOne(['nombre'=>'Venezuela'])->id;
         //lista desplegable
         $paises = Pais::find()->all();
         $estados = Estados::find()->all();
@@ -226,9 +221,7 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
                         'model' => $model,
                         'model1' => $model1,
                         'id' => $model->id,
-                        //'variable' => $model->id_variable,
-                        //'localizacion' => $model->idVariable->localizacion,
-                    ]),
+                        ]),
                     
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Editar',['update', 'id' => $model->id, 'variable' => $model->id_variable, 'localizacion' => $model->idVariable->localizacion,],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -269,15 +262,7 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
             }
         }else {
 
-
-
-
-
-
-
-
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

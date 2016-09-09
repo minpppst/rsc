@@ -79,40 +79,41 @@ class LocalizacionAccVariable extends \yii\db\ActiveRecord
     }
 
 
-
-function com_nacional($idpais){
-
-
-    if($this->isNewRecord){
+    /**
+     * rules para escenario nacional
+     * @param int $idpais
+     * @return bool
+     */
+    function com_nacional($idpais)
+    {
+    if($this->isNewRecord)
+    {
     $existe=LocalizacionAccVariable::find()->where(['id_variable' => $this->id_variable])->One();
-    
-    if($existe!=null && $this->idVariable->nombre_variable!=null){
-    
+    if($existe!=null && $this->idVariable->nombre_variable!=null)
+    {
     $this->addError($idpais, "Error, Ya Se Agregó a Venezuela");
     }
     }
 
     }
 
+    /**
+     * rules para escenario estado
+     * @param int $estado
+     * @return bool
+     */
+    function com_estado($estado){
 
-function com_estado($estado){
-
-    if($this->isNewRecord){
+    if($this->isNewRecord)
+    {
     $existe=LocalizacionAccVariable::find()->where(['id_variable' => $this->id_variable])->andWhere(['id_estado' => $this->id_estado])->One();
- 
     
-    if($existe!=null){
-    
+    if($existe!=null)
+    {
     $this->addError($estado, "Error, Ya Se Agregó Este Estado");
     }
     }
-
     }
-
-
-
-
-
 
     /**
      * @inheritdoc
@@ -173,19 +174,27 @@ function com_estado($estado){
     }
 
 
+    /**
+     * mostrasr nombre de la variable
+     * @return string
+     */
     public function getNombreVariable()
     {
         return $this->idVariable->nombre_variable;
     }
 
-
+    /**
+     * mostrasr nombre del pais
+     * @return string
+     */
      public function getNombrePais()
     {
         return $this->idPais->nombre;
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * mostrasr nombre del estado
+     * @return string
      */
     public function getNombreEstado()
     {
@@ -198,7 +207,10 @@ function com_estado($estado){
     }
 
 
-
+    /**
+     * mostrar si ya existe una ejecucion
+     * @return bool
+     */
     public function getObtener_Ejecucion(){
     
     $programacion_ejecucion=AccionCentralizadaVariableProgramacion::find()

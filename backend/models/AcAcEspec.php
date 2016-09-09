@@ -34,7 +34,7 @@ class AcAcEspec extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-             //[['cod_ac_espe'],'unique'],
+             
             [['id_ac_centr', 'cod_ac_espe', 'nombre', 'estatus'], 'required'],
             [['id_ac_centr'], 'integer'],
             [['cod_ac_espe'], 'unique'],
@@ -74,16 +74,27 @@ class AcAcEspec extends \yii\db\ActiveRecord
         return $this->hasMany(AcVariable::className(), ['id_ac_esp' => 'id']);
     }
 
-    public function existe_uej(){
-        //$resultado=AcEspUej::find()->select('id')->where('=','id_ac_esp',$this->id);
+    /**
+     * Verificar si tiene unidad ejecutora asociada
+     * @return bool
+     */
+    public function existe_uej()
+    {
         $resultado =ArrayHelper::map(AcEspUej::find()->limit(1)->where('id_ac_esp= :id', ['id'=>$this->id])->all(),'id','id_ue');
-        if(count($resultado)>0){
-        return(1);}
-    else{
+        if(count($resultado)>0)
+        {
+        return(1);
+        }
+        else
+        {
         return(0);
-    }
+        }
     }
 
+    /**
+     * Mostrar el codigo de la accion centraliada
+     * @return string
+     */
      public function getCodigoAccionCentralizada()
     {
         if($this->idAcCentr == null)
@@ -94,6 +105,10 @@ class AcAcEspec extends \yii\db\ActiveRecord
         return $this->idAcCentr->codigo_accion;
     }
 
+    /**
+     * mostrar nombre de la accion centralizada
+     * @return string
+    */
     public function getNombreaccioncentralizada()
      {
         if($this->idAcCentr == null)
@@ -104,12 +119,19 @@ class AcAcEspec extends \yii\db\ActiveRecord
         return $this->idAcCentr->nombre_accion;
     }
 
+    /**
+     * mostrar nombre del estatus
+     * @return string
+     */
+    public   function getnombreEstatus()
+    {
+        return ($this->estatus == 1)? 'Activo':'Inactivo';
+    }
 
-    public   function getnombreEstatus(){
-                              return ($this->estatus == 1)? 'Activo':'Inactivo';
-                      }
-
-
+    /**
+     * Colocar estatus en 0 "Desactivo"
+     * @return mixed
+     */
     public function desactivar()
     {
         $this->estatus = 0;
@@ -118,6 +140,7 @@ class AcAcEspec extends \yii\db\ActiveRecord
 
      /**
      * Colocar estatus en 1 "Activo"
+     * @return mixed
      */
      public function activar()
      {
@@ -127,6 +150,7 @@ class AcAcEspec extends \yii\db\ActiveRecord
 
      /**
       * Activar o desactivar
+      * @return bool
       */
      public function toggleActivo()
      {

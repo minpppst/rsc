@@ -29,16 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'enero',
             'febrero',
             'marzo',
-            // 'abril',
-            // 'mayo',
-            // 'junio',
-            // 'julio',
-            // 'agosto',
-            // 'septiembre',
-            // 'octubre',
-            // 'noviembre',
-            // 'diciembre',
-
+            
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

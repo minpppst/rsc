@@ -13,17 +13,14 @@ use common\models\AccionCentralizadaAsignar;
 class AccionCentralizadaAsignarSearch extends AccionCentralizadaAsignar
 {
     //variables
-    
     public $nombreue;
     public $nombreacc;
     public $nombreacc_acc;
 
-    
     /**
      * @inheritdoc
      */
-
-     
+ 
     public function rules()
     {
         return [
@@ -74,29 +71,21 @@ class AccionCentralizadaAsignarSearch extends AccionCentralizadaAsignar
         $dataProvider->sort->attributes['nombreacc'] = [
         'asc' => ['accion_centralizada.nombre_accion' => SORT_ASC],
         'desc' => ['accion_centralizada.nombre_accion' => SORT_DESC],
-    ];
+        ];
         
         $dataProvider->sort->attributes['nombreacc_acc'] = [
         'asc' => ['accion_centralizada_accion_especifica.nombre' => SORT_ASC],
         'desc' => ['accion_centralizada_accion_especifica.nombre' => SORT_DESC],
-    ];
+        ];
         
         $dataProvider->sort->attributes['nombreue'] = [
         'asc' => ['unidad_ejecutora.nombre.nombre' => SORT_ASC],
         'desc' => ['unidad_ejecutora.nombre.nombre' => SORT_DESC],
-    ];
+        ];
 
-        
-
-
-        
         $query->andFilterWhere(['like', 'accion_centralizada.nombre_accion', $this->nombreacc]);
         $query->andFilterWhere(['like', 'accion_centralizada_accion_especifica.nombre', $this->nombreacc_acc]);
         $query->andFilterWhere(['like', 'unidad_ejecutora.nombre', $this->nombreue]);
-
-        
-      //print_r($this); exit();
-
         return $dataProvider;
     }
 }
