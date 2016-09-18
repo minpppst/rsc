@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "36c852b8d4b43551439d3802ad835ef6",
-    "content-hash": "023c31ddc4a3288072add69b639b762f",
+    "hash": "3ded53fb895286784647ea4e1ad44b80",
+    "content-hash": "2a1853be173814008a5deb19a7d143f9",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -672,6 +672,49 @@
             "time": "2013-12-10 17:49:58"
         },
         {
+            "name": "dilden/yii2-feedback-widget",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dilden/Yii2-Feedback-Widget.git",
+                "reference": "cc5c50f8fbe0d5ac48b1c8a595c138b954a57cee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dilden/Yii2-Feedback-Widget/zipball/cc5c50f8fbe0d5ac48b1c8a595c138b954a57cee",
+                "reference": "cc5c50f8fbe0d5ac48b1c8a595c138b954a57cee",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "dilden\\feedbackwidget\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Dylan Hildenbrand",
+                    "email": "dylan.hildenbrand@gmail.com"
+                }
+            ],
+            "description": "This Yii2 extension is intended to enable live feedback from users on a Yii2 web app by acting as a wrapper for the ivoviz/feedback plugin.",
+            "keywords": [
+                "extension",
+                "feedback",
+                "widget",
+                "wrapper",
+                "yii2"
+            ],
+            "time": "2016-01-17 23:43:55"
+        },
+        {
             "name": "dmstr/yii2-adminlte-asset",
             "version": "2.3.1",
             "source": {
@@ -774,12 +817,12 @@
             "version": "v1.1.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/francoispluchino/composer-asset-plugin.git",
+                "url": "https://github.com/fxpio/composer-asset-plugin.git",
                 "reference": "c3d803cc890fad5a7fb61a4036c5d973faae34af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/francoispluchino/composer-asset-plugin/zipball/c3d803cc890fad5a7fb61a4036c5d973faae34af",
+                "url": "https://api.github.com/repos/fxpio/composer-asset-plugin/zipball/c3d803cc890fad5a7fb61a4036c5d973faae34af",
                 "reference": "c3d803cc890fad5a7fb61a4036c5d973faae34af",
                 "shasum": ""
             },
@@ -1693,12 +1736,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
-                "reference": "3b8f6819f2cd01becff5251b8b952ac3e57b903a"
+                "reference": "6fc8922716bf0b3638c67ff0895a9ff688b6c027"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/3b8f6819f2cd01becff5251b8b952ac3e57b903a",
-                "reference": "3b8f6819f2cd01becff5251b8b952ac3e57b903a",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/6fc8922716bf0b3638c67ff0895a9ff688b6c027",
+                "reference": "6fc8922716bf0b3638c67ff0895a9ff688b6c027",
                 "shasum": ""
             },
             "require": {
@@ -1740,7 +1783,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-06-16 06:53:01"
+            "time": "2016-07-23 15:30:48"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -2660,7 +2703,8 @@
         "kartik-v/dependent-dropdown": 20,
         "kartik-v/yii2-widget-depdrop": 20,
         "kartik-v/yii2-widget-datepicker": 20,
-        "machour/yii2-notifications": 20
+        "machour/yii2-notifications": 20,
+        "dilden/yii2-feedback-widget": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

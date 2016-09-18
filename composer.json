@@ -38,7 +38,8 @@
         "dmstr/yii2-adminlte-asset": "2.*",
         "kartik-v/yii2-detail-view": "*",
         "kartik-v/yii2-money": "*",
-        "machour/yii2-notifications": "@dev"
+        "machour/yii2-notifications": "@dev",
+        "dilden/yii2-feedback-widget": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
