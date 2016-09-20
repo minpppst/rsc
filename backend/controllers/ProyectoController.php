@@ -26,6 +26,7 @@ use common\models\ObjetivosEstrategicos;
 use common\models\ObjetivosGenerales;
 use common\models\Ambito;
 use common\models\ProyectoLocalizacion;
+use backend\models\Feedback;
 
 //Backend models
 use backend\models\ProyectoPedido;
@@ -385,4 +386,38 @@ class ProyectoController extends \common\controllers\BaseController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /**
+     * save Feedback model and trigger event notifications.
+     * @param integer $id proyecto
+     * @return Json Feedbaack
+     */
+    public function actionFeedback($id)
+    {
+        // ajax validation
+        if (Yii::$app->request->isAjax)
+        {
+            $data = json_decode($_POST['feedback']);
+            //search proyecto  creaction user
+            $model_proyecto=Proyecto::findOne($id);
+            $model= new Feedback();
+            $model->id_usuario=Yii::$app->user->identity->id;
+            $model->id_usuario_destino=$model_proyecto->usuario_creacion;
+            $model->mensaje=$data->note;
+            $model->img=$data->img;
+            
+            if($model->save())
+            {
+                $model->trigger(Feedback::EVENT_NUEVO_PEDIDO); //Notificacion
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return true;    
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+    }
+
 }

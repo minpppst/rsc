@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-
+use backend\models\AccionCentralizadaVariables;
 use Yii;
 
 /**
@@ -24,6 +24,7 @@ use Yii;
  * @property string $objetivo_estrategico_institucional
  * @property integer $ambito
  * @property integer $estatus
+ * @property integer $usuario_creacion
  *
  * @property ProyectoAccionEspecifica[] $proyectoAccionEspecificas
  * @property ProyectoLocalizacion[] $proyectoLocalizacions
@@ -47,7 +48,7 @@ class Proyecto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito', 'estatus'], 'required'],
+            [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito', 'estatus', 'usuario_creacion'], 'required'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'estatus'], 'integer'],
             [['monto_proyecto'], 'number'],
@@ -79,7 +80,8 @@ class Proyecto extends \yii\db\ActiveRecord
             'objetivo_estrategico_institucional' => 'Objetivo Estrategico Institucional',
             'ambito' => 'Ambito',
             'estatus' => 'Estatus',
-            'nombreEstatus' => 'Estatus'
+            'nombreEstatus' => 'Estatus',
+            'usuario_creacion' => 'Usuario Creación'
         ];
     }
 
@@ -206,6 +208,14 @@ class Proyecto extends \yii\db\ActiveRecord
     public function getAccionesEspecificas()
     {
         return $this->hasMany(ProyectoAccionEspecifica::className(), ['id_proyecto' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+     public function getUsuarioCreacion()
+    {
+        return $this->hasOne(UserAccounts::className(), ['id' => 'usuario_creacion']);
     }
 
     /**

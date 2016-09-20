@@ -28,6 +28,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $ambito
  * @property integer $aprobado
  * @property integer $estatus
+ * @property integer $usuario_creacion
  *
  * @property ProyectoAccionEspecifica[] $proyectoAccionEspecificas
  * @property ProyectoAlcance[] $proyectoAlcances
@@ -60,7 +61,7 @@ class Proyecto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito'], 'required'],
+            [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito', 'usuario_creacion'], 'required'],
             [['nombre', 'descripcion', 'objetivo_estrategico_institucional', 'objetivo_general_proyecto'], 'string'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'aprobado', 'estatus'], 'integer'],
@@ -94,7 +95,8 @@ class Proyecto extends \yii\db\ActiveRecord
             'ambito' => 'Ambito',
             'aprobado' => 'Aprobado',
             'estatus' => 'Estatus',
-            'nombreEstatus' => 'Estatus'
+            'nombreEstatus' => 'Estatus',
+            'usuario_creacion' => 'Usuario Creación'
         ];
     }
 
@@ -268,6 +270,14 @@ class Proyecto extends \yii\db\ActiveRecord
     public function getAccionesEspecificas()
     {
         return $this->hasMany(ProyectoAccionEspecifica::className(), ['id_proyecto' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+     public function getUsuarioCreacion()
+    {
+        return $this->hasOne(UserAccounts::className(), ['id' => 'usuario_creacion']);
     }
 
     /**
