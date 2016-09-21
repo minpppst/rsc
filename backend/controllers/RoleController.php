@@ -16,7 +16,7 @@ use johnitvn\rbacplus\models\RoleSearch;
  * @author John Martin <john.itvn@gmail.com>
  * @since 1.0.0
  */
-class RoleController extends \common\controllers\BaseController {
+class RoleController extends Controller {
 
     public function behaviors()
     {
