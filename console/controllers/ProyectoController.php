@@ -31,7 +31,8 @@ class ProyectoController extends Controller
         	'plan_operativo' => 1, 
         	'objetivo_general' => 1, 
         	'objetivo_estrategico_institucional' => 'Praesent a rhoncus sapien, quis rutrum felis. Maecenas placerat, enim in euismod tincidunt, magna quam laoreet augue, at facilisis purus risus nec leo. Pellentesque pulvinar, augue at fringilla vulputate, lorem nulla finibus justo, suscipit pretium risus dolor vel diam.', 
-        	'ambito' => 1
+        	'ambito' => 1,
+            'usuario_creacion' => 1
         ])->execute();
     }
 }

@@ -22,10 +22,25 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <script type="text/javascript">
+    
+    function feedback(id){
+
+      $.getJSON('/rsc/backend/web/index.php?r=feedback/find&id='+id, function(data)
+      {
+        $("#modalContent").html('<img src="'+ data.img +'" />');
+        $("#mensaje").html('<p align="center">'+ data.mensaje +'</p>');
+        $('#grading-sys-modal').modal('show');
+
+
+      });
+        
+    }
+    </script>
 </head>
 <?php
     NotificationsWidget::widget([
-        'theme' => NotificationsWidget::THEME_NOTIFIT,
+        'theme' => NotificationsWidget::THEME_GROWL,
         'pollInterval' => 10000,
         'clientOptions' => [
             'location' => 'es',
@@ -115,3 +130,22 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+
+<?php
+  yii\bootstrap\Modal::begin([
+    'id'=>'grading-sys-modal', 
+    'header' => '<h2>Detalle de la Observaci&oacute;n</h2>',
+    'size' => 'modal-lg',
+    'closeButton' => ['id' => 'close-button'],
+    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]),
+  ]);
+   echo 
+    "
+        <div id='modalContent' style='overflow: scroll';>
+            <img id='imgFromScript' style='max-width: auto;' src='#'  alt=''/>
+        </div>
+        <h3><p align='center'>Observaci&oacute;n</p></h3>
+        <div id='mensaje'></div>
+    ";
+   yii\bootstrap\Modal::end();
+?>

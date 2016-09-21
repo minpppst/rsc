@@ -6,6 +6,7 @@
     use common\models\AccionCentralizadaPedido;
     use common\models\AcEspUej;
     use machour\yii2\notifications\models\Notification as BaseNotification;
+    use backend\models\feedback;
 
     class Notification extends BaseNotification
     {
@@ -16,6 +17,7 @@
         const KEY_NUEVO_PEDIDO = 'nuevo_pedido';
         const KEY_NUEVO_PEDIDO_ACC = 'pedido_accion_centralizada';
         const KEY_PEDIDO_ACC_APROBADO= 'pedido_acc_aprobado';
+        const KEY_FEEDBACK ='observacion';
 
         /**
          * @var array Holds all usable notifications
@@ -24,6 +26,7 @@
             self::KEY_NUEVO_PEDIDO,
             self::KEY_NUEVO_PEDIDO_ACC,
             self::KEY_PEDIDO_ACC_APROBADO,
+            self::KEY_FEEDBACK,
         ];
 
         /**
@@ -45,6 +48,10 @@
                     $acc_uej=AcEspUej::findOne($this->key_id);
                     $pedido = $acc_uej->nombreunidadejecutora;
                     return yii::t('app', 'Aprobación De Requerimientos');
+                    break;
+                    
+                    case self::KEY_FEEDBACK : 
+                    return yii::t('app', 'Observacion Proyecto');
                     break;
             }
         }
@@ -77,6 +84,19 @@
                     $pedido = $acc_uej->Nombreunidadejecutora;
                     $aprobado = $acc_uej->aprobado==1 ? 'aprobados' : 'no aprobados';
                     return Yii::t('app', 'Pedidos De Unidad Ejecutora '.$pedido.' fuerón '.$aprobado.''
+                        );
+                    break;
+
+                    case self::KEY_FEEDBACK:
+                    $feedback= Feedback::findOne($this->key_id);
+                    return Yii::t('app','Observación del proyecto #{id} 
+                        <div class="actions pull-right">
+                        <span class="notification-seen fa fa-eye"  onclick="feedback({id})"></span>
+                        </div>
+                        ',
+                        [
+                        'id' => $feedback->id,
+                        ]
                         );
                     break;
             }

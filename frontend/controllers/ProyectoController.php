@@ -91,6 +91,8 @@ class ProyectoController extends \common\controllers\BaseController
     {
         $model = new Proyecto();
         //$model->estatus = 1; //Por defecto
+        //usuario Creacion
+        $model->usuario_creacion=Yii::$app->user->identity->id;
 
         //Datos para listas desplegables
         $estatus_proyecto = EstatusProyecto::find()->all();
