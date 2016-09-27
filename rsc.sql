@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.5.4.1deb2ubuntu2
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 27, 2016 at 02:17 PM
--- Server version: 5.7.14
--- PHP Version: 5.5.12
+-- Servidor: localhost
+-- Tiempo de generación: 27-09-2016 a las 15:27:24
+-- Versión del servidor: 5.7.15-0ubuntu0.16.04.1
+-- Versión de PHP: 7.0.8-0ubuntu0.16.04.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,20 +14,20 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `rsc`
+-- Base de datos: `rsc`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada`
+-- Estructura de tabla para la tabla `accion_centralizada`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada` (
+  `id` int(11) NOT NULL,
   `codigo_accion` varchar(45) NOT NULL,
   `codigo_accion_sne` varchar(45) NOT NULL,
   `nombre_accion` varchar(45) NOT NULL,
@@ -37,28 +37,27 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada` (
   `aprobado` tinyint(1) NOT NULL DEFAULT '0',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `accion_centralizada`
+-- Volcado de datos para la tabla `accion_centralizada`
 --
 
 INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `nombre_accion`, `fecha_inicio`, `fecha_fin`, `estatus`, `aprobado`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
 (1, '001', 'ACC001', 'Dirección y coordinación de los gastos de los', '2016-01-01', '2016-12-31', 1, 1, '2016-09-08 19:18:48', '2016-09-08 20:36:03', NULL),
-(2, '002', 'ACC002', 'Gestión Administrativa', '2016-01-01', '2016-12-31', 1, 1, '2016-09-08 19:18:48', NULL, NULL),
+(2, '002', 'ACC002', 'Gestión Administrativa', '2016-01-01', '2016-12-31', 1, 1, '2016-09-08 19:18:48', '2016-09-27 19:12:48', NULL),
 (3, '003', 'ACC003', 'Previsión y protección social', '2016-01-01', '2016-12-31', 1, 0, '2016-09-08 19:18:48', NULL, NULL),
 (4, '004', 'ACC004', 'Asignaciones predeterminadas', '2016-01-01', '2016-12-31', 1, 0, '2016-09-08 19:18:48', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_accion_especifica`
+-- Estructura de tabla para la tabla `accion_centralizada_accion_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_accion_especifica` (
+  `id` int(11) NOT NULL,
   `id_ac_centr` int(11) NOT NULL,
   `cod_ac_espe` varchar(6) NOT NULL,
   `nombre` text NOT NULL,
@@ -67,13 +66,11 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
   `fecha_fin` date NOT NULL COMMENT 'fecha fin de la accion especifica',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_ac_centr` (`id_ac_centr`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `accion_centralizada_accion_especifica`
+-- Volcado de datos para la tabla `accion_centralizada_accion_especifica`
 --
 
 INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`, `estatus`, `fecha_inicio`, `fecha_fin`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -88,25 +85,22 @@ INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_a
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_ac_especifica_uej`
+-- Estructura de tabla para la tabla `accion_centralizada_ac_especifica_uej`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_ac_especifica_uej` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_ac_especifica_uej` (
+  `id` int(11) NOT NULL,
   `id_ue` int(11) NOT NULL,
   `id_ac_esp` int(11) NOT NULL,
   `estatus` tinyint(1) NOT NULL DEFAULT '1',
   `aprobado` tinyint(1) NOT NULL DEFAULT '0',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_ue` (`id_ue`),
-  KEY `id_v` (`id_ac_esp`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=396 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `accion_centralizada_ac_especifica_uej`
+-- Volcado de datos para la tabla `accion_centralizada_ac_especifica_uej`
 --
 
 INSERT INTO `accion_centralizada_ac_especifica_uej` (`id`, `id_ue`, `id_ac_esp`, `estatus`, `aprobado`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -264,24 +258,21 @@ INSERT INTO `accion_centralizada_ac_especifica_uej` (`id`, `id_ue`, `id_ac_esp`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_asignar`
+-- Estructura de tabla para la tabla `accion_centralizada_asignar`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_asignar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_asignar` (
+  `id` int(11) NOT NULL,
   `usuario` int(11) NOT NULL,
   `accion_especifica_ue` int(11) NOT NULL COMMENT 'foránea con ac_esp_uej',
   `estatus` tinyint(1) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `usuario` (`usuario`),
-  KEY `accion_especifica_ue` (`accion_especifica_ue`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada' AUTO_INCREMENT=21 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada';
 
 --
--- Dumping data for table `accion_centralizada_asignar`
+-- Volcado de datos para la tabla `accion_centralizada_asignar`
 --
 
 INSERT INTO `accion_centralizada_asignar` (`id`, `usuario`, `accion_especifica_ue`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -295,21 +286,19 @@ INSERT INTO `accion_centralizada_asignar` (`id`, `usuario`, `accion_especifica_u
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_desbloqueo_mes`
+-- Estructura de tabla para la tabla `accion_centralizada_desbloqueo_mes`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_desbloqueo_mes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_desbloqueo_mes` (
+  `id` int(11) NOT NULL,
   `id_ejecucion` int(11) NOT NULL,
   `mes` int(11) NOT NULL COMMENT 'mes que se desbloquea/bloquea',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `id_ejecucion` (`id_ejecucion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+  `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `accion_centralizada_desbloqueo_mes`
+-- Volcado de datos para la tabla `accion_centralizada_desbloqueo_mes`
 --
 
 INSERT INTO `accion_centralizada_desbloqueo_mes` (`id`, `id_ejecucion`, `mes`, `fecha_creacion`, `fecha_modificacion`) VALUES
@@ -318,11 +307,11 @@ INSERT INTO `accion_centralizada_desbloqueo_mes` (`id`, `id_ejecucion`, `mes`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_pedido`
+-- Estructura de tabla para la tabla `accion_centralizada_pedido`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_pedido` (
+  `id` int(11) NOT NULL,
   `id_material` int(11) NOT NULL,
   `enero` int(11) NOT NULL DEFAULT '0',
   `febrero` int(11) NOT NULL DEFAULT '0',
@@ -341,14 +330,11 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
   `asignado` int(11) NOT NULL COMMENT 'ID de la asignacion (Usuario-UE-AC)',
   `estatus` tinyint(1) NOT NULL,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_material` (`id_material`),
-  KEY `asignado` (`asignado`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `accion_centralizada_pedido`
+-- Volcado de datos para la tabla `accion_centralizada_pedido`
 --
 
 INSERT INTO `accion_centralizada_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `precio`, `fecha_creacion`, `asignado`, `estatus`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -361,11 +347,11 @@ INSERT INTO `accion_centralizada_pedido` (`id`, `id_material`, `enero`, `febrero
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_variables`
+-- Estructura de tabla para la tabla `accion_centralizada_variables`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variables` (
+  `id` int(11) NOT NULL,
   `nombre_variable` text NOT NULL,
   `unidad_medida` int(11) NOT NULL,
   `localizacion` int(11) NOT NULL,
@@ -377,17 +363,11 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
   `acc_accion_especifica` int(11) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `unidad_medida_2` (`unidad_medida`),
-  KEY `localizacion` (`localizacion`),
-  KEY `meta_programada_variable` (`meta_programada_variable`),
-  KEY `unidad_ejecutora` (`unidad_ejecutora`),
-  KEY `acc_accion_especifica` (`acc_accion_especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `accion_centralizada_variables`
+-- Volcado de datos para la tabla `accion_centralizada_variables`
 --
 
 INSERT INTO `accion_centralizada_variables` (`id`, `nombre_variable`, `unidad_medida`, `localizacion`, `definicion`, `base_calculo`, `fuente_informacion`, `meta_programada_variable`, `unidad_ejecutora`, `acc_accion_especifica`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -396,23 +376,20 @@ INSERT INTO `accion_centralizada_variables` (`id`, `nombre_variable`, `unidad_me
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_variables_usuarios`
+-- Estructura de tabla para la tabla `accion_centralizada_variables_usuarios`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variables_usuarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variables_usuarios` (
+  `id` int(11) NOT NULL,
   `id_variable` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `estatus` tinyint(1) NOT NULL DEFAULT '1',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_variable` (`id_variable`),
-  KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `accion_centralizada_variables_usuarios`
+-- Volcado de datos para la tabla `accion_centralizada_variables_usuarios`
 --
 
 INSERT INTO `accion_centralizada_variables_usuarios` (`id`, `id_variable`, `id_usuario`, `estatus`, `fecha_creacion`, `fecha_eliminacion`) VALUES
@@ -421,11 +398,11 @@ INSERT INTO `accion_centralizada_variables_usuarios` (`id`, `id_variable`, `id_u
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_variable_ejecucion`
+-- Estructura de tabla para la tabla `accion_centralizada_variable_ejecucion`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_ejecucion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variable_ejecucion` (
+  `id` int(11) NOT NULL,
   `id_programacion` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `fecha` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -441,14 +418,11 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_ejecucion` (
   `octubre` int(11) DEFAULT NULL,
   `noviembre` int(11) DEFAULT NULL,
   `diciembre` int(11) DEFAULT NULL,
-  `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `id_programacion` (`id_programacion`),
-  KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
+  `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `accion_centralizada_variable_ejecucion`
+-- Volcado de datos para la tabla `accion_centralizada_variable_ejecucion`
 --
 
 INSERT INTO `accion_centralizada_variable_ejecucion` (`id`, `id_programacion`, `id_usuario`, `fecha`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `fecha_creacion`) VALUES
@@ -459,11 +433,11 @@ INSERT INTO `accion_centralizada_variable_ejecucion` (`id`, `id_programacion`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_variable_programacion`
+-- Estructura de tabla para la tabla `accion_centralizada_variable_programacion`
 --
 
-CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion_centralizada_variable_programacion` (
+  `id` int(11) NOT NULL,
   `id_localizacion` int(11) DEFAULT NULL,
   `enero` decimal(10,0) DEFAULT NULL,
   `febrero` decimal(10,0) DEFAULT NULL,
@@ -479,13 +453,11 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
   `diciembre` decimal(10,0) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_localizacion` (`id_localizacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `accion_centralizada_variable_programacion`
+-- Volcado de datos para la tabla `accion_centralizada_variable_programacion`
 --
 
 INSERT INTO `accion_centralizada_variable_programacion` (`id`, `id_localizacion`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -497,17 +469,16 @@ INSERT INTO `accion_centralizada_variable_programacion` (`id`, `id_localizacion`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ambito`
+-- Estructura de tabla para la tabla `ambito`
 --
 
-CREATE TABLE IF NOT EXISTS `ambito` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ambito` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+CREATE TABLE `ambito` (
+  `id` int(11) NOT NULL,
+  `ambito` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ambito`
+-- Volcado de datos para la tabla `ambito`
 --
 
 INSERT INTO `ambito` (`id`, `ambito`) VALUES
@@ -523,27 +494,39 @@ INSERT INTO `ambito` (`id`, `ambito`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_data`
+-- Estructura de tabla para la tabla `audit_data`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_data` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_data` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `data` blob,
-  `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_data_entry_id` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `created` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `audit_data`
+--
+
+INSERT INTO `audit_data` (`id`, `entry_id`, `type`, `data`, `created`) VALUES
+(1, 257, 'audit/request', 0x789cdd57fb6fda4810fefdfe0a0ba9a7a60af815db60ca9d1c63c04db0896df2b8ebc95aec051cc0267e2469aafeef376baf81464d1bdd553ae92245d833b3b3f3f8e663402a7fa27ece54456dccd7285be2acd1452aa77efe92a93ca736b21ce545a627216e742355e0b86e464e34527c57e02c1f6114e2b43cc38bc40fa8964996378899046659d09aa16085e3b015e2fb520c5e83248e719047495c4b56186f9b681ddde306bd016c721ce7cd358e17f9924805b57172421e64b58182006fcb6b44b5f18e7d47c5491a2da2d2a900d6cb3cdfaa2cfbad2040fbd80cb274decc1350109904e7f1d572849ecc87d9862b3edc8e47eee06279d16feba30b678a2f2e6fec65c25f8fac4bede9c2fcf078b175062be55aebf54a9f32f1490b83c3e64354854d92b91e9f8f2018a752d64917194e9b680159561228d838798ad66bc44a2d8e797bcdf35de63c8a8b47e6b12dfbf2c911a36db76b7c85676751ce4aa2d21265e6edd9c81b9f1f33eb688599210e56c911a32fd36483c1a2c5b504a52db5785e665c344769448fd555a8cb9c7fda96a597db6a6353acf3688bd29c9d27e9a619a21c75995952c4214a3ff59af057453000ed29155f7ab757c185655941ee9eddcc0ae24b213899e314a7a567f9a58eb0511ce2c7d676b9fd3ded41670117cd00824a01104f28446f84c17d841f7e8dc29e5023ab024013c7411246f1a2140314164fd1f69809318039c7cf6cd7285e1450ee121e608bb3631c37a76ef7aec7b5daf05c3ec8144a4192aca2ca96f4ca2760e9e1201479a92348129a29a13c0b250e757805cd31d79143242b1d9e9b87dc4c1205ae23086180e6c1ac2d0b481124b123422aa226c0ff1be534820fee8d789ac1a744448250de019f20255a9e6a45a1525f59f9fa29b49b83db3f92b9b992f4345534bcb9b9b3ddd3fb68ca5727df28fd2e33194d5cc375cd7e2f3c294e16225e6dc23b6986ee446119cbf9aa33bfe31bdd2f744871b64de20c1f0c73cd09c6e3364a092740153a6ac35b16c70cdf61ace41e3eda3cc3b5554950398e198ebdba053a0a96b8a903aed2645d4e28dc1127cd2c4f527cccc053402c8e994d91e5302ff7d0e590760bea3e49d16283c84bbb3c561ad768d5295a3d8a569187eec2484401226cc2de6649dc6582254a339cf7a6dea0d92ed3245926457587a09488780e32166dd36486d21dc1d4f424c3610ad68f4195d51acaf4512b7de8072ef49d5655abf35ae5f3ed519d40259ea0146d2ad6543f476a49aa6a43a83ac2efd8f534093fede91882720de7d2708848944987a02523cf9bf823dbf5be47b912b5d36dcb3274cfb4ad9779176c3cc3f2fc73c31a7aa3af78978456fad174dd98785fb3ef4e693be6d0b45ec1c10a3d70edebae33f03dfbccb07e06110bfcceb1635c4c0dd733fafe955925f3021bd7159a42897d6d0805f8ef28b9ee807733317e362513ff65a28e31301c82a59f49cc02f715407cc3d2edbe690d5f64e7e707ce356b3885f2bf82a27778d36dfbcc34fed7445dee5513ad42b00c49b24596b2eb24406b369b45b17af0be7bdd2bca87ea75566d47fc8e4c7cd71c5a9a3775ca0a2a207f8fc210383ffb4ddb12ea6585d6498b6f336fa7b322ce8b23c6c5e93d4e199433cfd0c24c923467dadc7bb6f6f04b3d5bf55df6c0bbd2aaab08397cfb86babbf490a58d8def91dbde52ebf74b40032df2820273c6b5f8672613dbf128a7b5b95ae71863db335e3e0e40ecdbfa744c86d2b1ed8af84817ee51ca3e3c3cb0cb7cb326b3c3d2d8d8073c636bb6a11ce4bbfac8a83239a9e6ed2bc6bdf6fc09cca4794da4e0bb26b25af94f03100eaa33ae6899073ef9334e18da256601ec1fffb56b95ee9830890313be0068e5c5ce8faedaf1c4b392d6e506bfa2c4895ccdfb43cd33aeb41bdf84e49c81a61b745dd48726cbd3aaef6133716ccfd6ed73ba1490a9df591d14786c7823bb5f4f4bfd95080500b573e3bb9e43a908be3c1b2ff119dd02f6bb26bfbf60ea98a57708f415ccf82d4fb4b83b4873879e687a4009be6b9c0fbe6d409a57c7e39963c31f9cdb1a641a42291489e34449e65b22c7731cc7d3f40fcdc9afb8bd21d93700dc43c3233b8540560ab27dbc724b02d751d838dc5d76753fd8596a7aa6fe25cad0d560417aff9aa989df6a87dafb8624499f21c21f7131c44d677e47c5656e10f90f5667b88d0c89bbcf562188050f64bd82158deed0be5ffeb23ef85dcd13618af3228da7e99a5690a5c0f57d525492c0972f7f03a57ab79a, '2016-09-27 19:12:41'),
+(2, 257, 'audit/db', 0x789ced5c6d53e33610fe7ebfc2932f709d8348b2fccad09994a6533a1ce990d0fb929944d882b8e7d8d476e06887ff5e4979355192c34e380382c138b12c691f3fbb5aed4a262e74ff4b5ddbad0d699a921b9ad68e888b81fb5fe022c84e0d7e068e52576765dabfb7be68bf5d9e9d6927adb3cbcfe76dedb78bd667ad3f4a69d2239e178fa22cedd78e0217b23f1bb00362b722e8d61e82a0eb5f754fe2e19044beebfe33a2c9032fa91ff92ec49601806e98f0500736746c875dc0ac75386e5d742375b15bbb0e425a6355daaccafa1d49eaf7f7f7f541360ceb49ead5ef68e4c749fdef781005d95d54678da203deb983db7094d6d3c4ab5f9194d687b14fc3b47ec9ae3426bd3ebc1ddcf28a591b611051d133d33c12d05c8f222f0be2885fb7781f22bf15896e186ecd0b499af273a4cfa4fc8535d260b7dcd10beac5893fa9387bb8157721b7e6bab5a3c7c747860f2a07b2631602d901a609df0fc878116413b24adacdb3e649e783c67ebe7aa3432f8ed22c214194f52232a49f162e84a361f4e4cb845ed384461ef57b19b90ae9eacb0bb77f108f3188aee36448b8a4bdd41bd0219916cf0212f6e6fd48b5465b4bbc0f7fb44ecf65777da50fd3da475c717971d6b8d63a17fdd8174789781ec94818df68c7ac72d9f7ad8bd99dfb2b6e3d6d6be79c9f8df35f57543229f15154f5911794213d9664a92793af57dcc4a15cba45e0fbe5f7e645535ed7b1e6b39e715aee8bde884ac78f4e52e2c344b0f9b36597f772fab7f7a41679a19296d031a1fd7e74d4503aaa74f4c7e968b181140204f47734905a8b4a8ad15447b59fa44e8a367edcfdc0ef1fc372c61002035aef0868bb3cd04519ed00f47e80d6c122d0065c029a8cb2418f3511dc44433600cca0160f80e3bd074b8ef3105a8cdc9b10370c19e21eab3d8ed8bf284be230a4495ae7c29fcc3ecb70b5966165d879247a0a29446331eee955973fac651c0f7e9ee208b7886341e622606f361155c751cfb941b61cc720a3c319827c5c63f03163c03a71e03170131206ff129fd4c96d125f91a42c41916ee2570f2cde25b045196b59fa6bc735e712d8f391aa7f4b12a1e84fe0ed798320f467208f3fed94be3a34f06b47d97e39940b72593737bb0d154719e79c01133cd746f416712dcd5acb7ef578c25de059909f185a78635cb9ea80e6822418af8e164b002c199887d8980d5668157e1690e17745bcaf6c6a9003b0213a78b2d0bfb570420c763b19e0d0bca03c18e165799cb13c9ff9f4e8a94498959db4db5d68b7bbaedd754c32b7c1a482aa68f0a99d62d21b6152ce353191a102b72a70fbdcc0ad6cbc5f11bedd81ab655818406590de8a417294415206a91a06a9a08364326fdb5106e98d1824231f1b974c83252ef6624a670f951de14c6c996a847b338442db2354510b6543a4f8f456f894cb8d5892e4dd1a3e79b11fdcc4bd7111462d00d09e7676faf9b4a3a19256cbb2b1b1d16a19784dc86e92695ec645ca2a67f929b0eb29b92b472981f38b53ca5e1606f27ec53737216d8898bf1f3f954b67dd1d43d71d4327a1d43a22193b2652416b6563d3d8e84f2922558848b9aca225c9d67e2f917a69c4130a8d93932d1a26db0686a2d32ba293fd32742a689e1cb8311caed8541d3699f93563acf9cb3f7f6d749a2b68d46e76d8954957fac760d1119718227d9939f41bf546199573c70450f948af893d70fbec99db9de7b1072153578ed1ab624f6e7da06eaec9db8efc20ebf15a1f4a66fe918e75346589be9225f69a25c157d4a7ff06379325c1a26b623970839f49c045b62107f786661d1e7d6d8b40ee5370e19c34f302df4f95758b9ad74ad0494810fe4207e42e88655c418e64826f0b699afc012d919f7d9836d8e50d7645835dd1d84a99d08bcac4bc16c923328450a20221d9a9bfa400f61ad9728dae53035c460d8ab9690823305b5facd440a94105d420b78ac7048e4a75aa54e7b3539d730bb932c5b950a4a42f810dd3563654d9d0ead8504bd95065437f8c0d2de8881ac0016a3ea68c68858c686ecd1de411f6d3f376f3a2a39d9e775af95998b6df4fe25146fb9fe6bb3fd96970cb8fe46ff28dff4f28a37f9af586341bc4e2ba97509251bfff51fbab7176d96c6bfb6b77337dd2e0276d0f22eb10b05f38f9fc67abdd61a77b0840f3003807c8d2a0c3776060b8f7b16c2c1619ba09364e10e501a90d0c9846d966cf514600d97ee91f125ddb8230864441d92c3f99753147614b4ee169806dd6d0b35475cb0654122d64028d59bd4581663bdb2df08654b27080dbc6b6ad5452a9643554123d2f6ac9fdd4b06cf0de3136c7ee77e86949b324902f5fcbbcc169c48c4db6e435e2a7f255c46d848e6453279ce8f3bc86ad7b582fee4a2299b7cf4412f534b22c09ae98c14d77e24a5acfcc70e595a4d88c4a07d834360f134a4b949654454b0c15b55251abad44ad84015d1fb51a1729e788e860f6fa0065619585adbe8555b95565617f90852de8c5c28557a72b1bab6c6cf56d6c6e5d3ec2401aa31ccff0b4fdbe08564e62930b61ca38f47b77241c89f06544efe71f8890889f8930cdec6472e37540c315814c64589370258f4d027e182fd3e56793f59bd3d88f6405a70868f2c374e5eece920ee2f57615d379cbadcd7aacd45da9fb4cdd1da5ee25131a3a06a86ad328a5ee4add65ea6ee776ba386061a7cb62ee51ec70f1478998a9f48fc121d099694040b70d0b23e8702da6c398998221f9d63f46083b9699df076358a587518cb153f00d19db4814da92e4da8e1385db4da6e992d527b6788501b791db4ca7cdf9855e9e5f85edb669a0cd3bad14bfaac3afc7c7ff0184bc8dc4, '2016-09-27 19:12:41'),
+(3, 257, 'audit/log', 0x789ced5c5b53db48167ecfaf50f102d90a58dd6a5d29b6ca214c0d5b5c5218362faeb265a9b13591258f2e10668affbea75bb2ad96da36c4868589930284d5ea3ee73b97fece5127ae839cbf53c77276c6344ddd214d770e5d87c08781a3c2955e5ca48eae3b3b9fe3384bb3c49d28f7413652fe88475190dd45dd3ca5c924ccd3ee6c80e30ca6977b1f770e0307c197055f18a6d290b3f31004dd819bd26e7b320903cfcd8238aa3cc41ed10e7d07115357554d37d081a6624bd36db841402ed5f9fbf1914d5b1111abcece59ecfa413454c6b19f87d4519281ebd5d7c74665fdf362a033a45971295fdad6b0b8325eb5320365032b6bc4b4c495b5a79a85e9fe0a66d16cdb40a288e4a922ba7fb83fbc24f75f5844a21a449450af4a88eca6f98641b001eb11d5346a2e6b08d8980d6c06d4a77f05c3a80b4be1ae9bfb41f6d2e86064d50c685685d4b486906c99301e76bf04e9c4cdbc51d3d57f5a185d4535612c21d450d3563e1de4c34d584bc7a4662dbbba36215220f8f2b3255ec040baaa59f5c427246782a582810fbfa85898d44d85d02a5b7187de80ad746ca8754c849c4cd42785565b26cfcf2262a8f5648dc46c0d7a7e4d68963d283757674a14670a8ddc4148fd03e5266530f9f4d6cdc38cdf9eb809ff0c022df00e1a32e242c67b3ae8de24e1b91bc1ee9d380e7b8a5ed13f739a66722191a9d5cd26246c02525ec5794695a49886fa8eb2eb7a1e20b0efd108d40f83bf5cdf6db993241eb8c96e433632974d806fe4467eb8423abb219d90ac819b94d265b192e411b8d462c91a82a915c31ec7f0401c860c3598a8ed3119e542114dad0b25e471047b5c0708144ca0a4999b0064d3a5c9d4c7d11c9372a8e3c413ba60454b37eb2b8a4919285be7f7cb6fca6f376767caf1e5d9cdf94547f9edeaf25ce933ead10354e23ccad2fe2241fc0120301e83451c07ec913c48053135d8df4b41aaac100ce1ecdc062c3a813ec294ad3b3769dddfdfb746d9386c25a9d7baa3911f27ade966df6251b7cf64db67aca495265e8bd9a105a9818669eb06eeb44ba10f26a3099b18d60883a8c8008671c889ea6d1e95964a1d93c910f9971117038ce0856e9ab26baccdb4fc0c8b30e3de81e37971e29713670f13fe14c491e3ec1c3e728c85bd46875197602116845f3e2b5e1c45942fed28e387f4cfd019c5697614c69e1bb2ab437f10b9637a04ba3730d72a98cf66596c7e53b3d55f07752c244903c1249d93b393e3eb0f0afcf9eee507003dcbba4194f518c49f2a37c27c1cd53e4ce82d4d68e451bf97b1ecbaf876e5f10f3c7682e8364ec63c5bf552e03563773a3c0bdcb037972355da1d25f13efce7f2f442f6d477fa309d3d6775151b0e8b2b97175c8e3dfe5da21e644a1712be720493cb3ebfbc9a3db9b7e0d1d38e72c19242fbe2cb8249ca111ff9541fd94019d285260d49ca8f173cc4a06c3cc2f1fdf6fbc9d5897cae23c507c9985bee7169f8a485e924233e948acd6d0bb77785a4b75b9b453e68bdcc68eb86f9eb84a851e79b45842aff92ee394a61ec7ee0f78fd05a30239598daaf03b3506fe8a801b39b67a31e2c012c760c39690634879fa1bd8bd6736b840c62acc29b95f44dbc3d983c8ee0c79456a52da6fa9c66c950359ba002729e1bd5014555becb7b2b7514f7ff5da2a809858061c9510c323a9ee1c7120480f71492fb73b0620dbf7b58451e0ed31f8fa8f79db1a3094dc641c1699f43c74949c759a7aafb6530ab613c362fc422d06408991ccaa03b691588b0adce88f9bb855548add63cb5f6a194e3315e73da9e370a427fe6bac56f2fe9bb2c29bc7b9485cc6aa8cfcd09bd2aaeebe26912b492ddbf713c89906359c13f4b0620089da60101b68d873fc196f9ee81148a1fc664aef288979c6e596b023adf81ca742bb276db1cdde30ab8d56e46f164bb087e49c3afda6e3b8d987aedb2224df2e85b908dbeba893b4ee59813b5de992062fb882cee4c489c62bdfe0422fabc3f8117b980a9ca5ca0c455f08165b84a3c0211f56549e1ec15d7ebe8433069ea6317fa9c339a5cd788b180e7fae7b260107a5c06d6b79d806d27e0b99d00d986bda01fb0f9bd5d3755bccd47ff947ca48b672024ac51b2a1559b1fbb784d7f3208d1b6eef44f712781eb9992f6ce1277f2623f18c6bd62087896aae25de5ecf4fcf45ac1ebf99869a904ad7232f63264218d2e5b684d58a44e65378d00f753f76e3d8fe230bfba47594d6510932b1e0e435a50703faeebc55ede16d0750be8241eb5cc8f8496812969703dd58f7a69c46adcf6f1f1e6dcc9320db2720bdcbad31b7227b1eb0ccbdf7cfdd2be3e59e0479d936bb8538ad23f52abfb5dd375b4a6ebd01f50d567f292ded60d7d9b8bde91f3186223c85852fcb3a3363d36ebc37a453fd6347bd640d3163a89b5e4a5d0f42850f152884bc65f08f1e340126cb1a5cbb11dd2ec9a95141d5e9d34fa40739f990f78baa72c7badb554836b28aac2cf74e4de05b1cc55b02d214216d7e684d9a7e1fbf0cb92d3530b74c2afaa13b291c4443a578a4fc0353bf51bfe6f2dd14d5874591408ef460cd5de362eb68d8b67372ee6097261c3a23264bd1c4a746c6f73e83687bea11c2a1cbe43acac39bde89c5c5d2ba717d797227f50f6fa093b04daff343ffb0097c1847d67ffaa80fd2c8faff6c6341bc5fcbe975037a37effa3f2dff6d9cd4947d95bfadaf493823e29bb089b072afc45e5ef5f2f3bd770b98b5564ecabf63e361564b3573e04ed7e5c93ff621d2213ad0a4b39855ce100535e3c33a3ccfeb2432eff173ebc016574497c023d4d66220a1e6cca3d784a89670b3d2b52379c3f25fc1e142a9c7a830acd8e2399e879dc9e6d89e19adcde26b6b6d2ff5f2ea94b6b28c4ba8099373a8d20d5648d0d8ad4f57b233b14b2252fac5119cef319369ecc5f7dd7c23262012af179da59960403c8b7e98bec5a26d932ff2df3df08f3e7e97339f32f86ac956135d5b0c94ae6bf4db1db14fb6652ac702a04b3636392c2a0201f5018f00aa12c082ab5411cfabd3b37cc79cd10d1fbf92fc5712976c5c9d1eca27cf036a0e182ea01eb665923b0824065df8ad639bb2a9baa53c62569abf22a827d9b76d35faaac6027659f5056bc6ecc03419d89bc0df76db84fc3dd120e5dd86ae57554b503c05f43f979c2994bff082a74289d55ac6a966e128c6c16c5741c432a18bb3ffa471813db34c49755bab96e5c11a24eff6781671ecfd844b56e492adc17aed6375bd16a927693c5cf63b00cb9c99ab6f4aec7c7ff01e8dd6065, '2016-09-27 19:12:41'),
+(4, 257, 'audit/profiling', 0x789ced5d6d53e33610fe7ebfc2932f709d8348b2fccad0991c974ee970a44342fb253389628bc43dc7a6b603473bfcf74acaab8992143be102e8980b4e2c4bbb8f9f5dad76e5405cddfd37754db732a4c33879a89c042e42d8b14c7092bad8ad64c190564e7c171c03ddb490e918d0701c882070306b61f30bd394f4695a39212e46eebf810b1d7668f023de89c17a69dcd22888fada97cf9a174711f5b2208e5c6df890fe1dba8338cd4ec3d823213f3af17b1119d2d324f5b83090fdb701978a758574b7f210046dbfd73e9b77e3c6ac77de566772426c1900e886098f7560619dc912b898c903c7f208c184663741c834632a40b752bd2349f5fefebe3ac88661950d5dbda3911f27d5bfe24114647751950d8b8e46294d8e6ec3515a4d13afda2329ad0e639f8669f59a9da9795e3c8ab2f4f876705b19a3170611159299e618ac9b512484e6e72d2e43e437222186e156bc90a46925afe76736488d5d7247afa81727fea4e3ece1565c85dc8aeb564e1e1f1f194260bbb03b6641d86d888df7833a5c445d67a3357f6dfca9fd727d71a19d352eaebf5e36b55fae1a5fb52ed7a34326e27697c90d17501e0e49e4bbeedf233ab64909c68efd8ea88dca813ca7f2b340768069c2f703325e04d984ac9366fda27ed6faa0b17fdfbcd131732269969020ca3adc597c5a38118e86d1930f137a43131a79d4ef64a417d2d5a7172eff206e6310ddc4c990704d3ba937a043326d9e0524eccce548b55a534bbc0fbf35ce2f65577da30fd3de477c96e2cdd9e05ae352c871285e25ea79242361dcd74e59e7b2cf1b57b32b0f575c7aded42e393f6b975f56743269f15174f5913794213dd6644992c9c72b2ee2502e5d22f0fdf3d7fa555dded7a9e633c9382d0f8534a2d3f1ad93b4f830516c7e6fd9e9839cfd1d3ce945dea8a427744c68bf1f1b35948d2a1bfd71365a6c22850001fd1d4da4d6a291b235d1c446b59fa4418a36beddddc0ef9ec272ce1002035aef0868bb3cd04519ed00f47e80d6f34b4bb804341965830e1b22e847433601cca0163780e37d004bcef3105a8cdc9b10370c19e21eeb3d8ed8af284be230a4495ae5ca9fcddecb70b5966165d879247a0a29446335ee69afcd6fd6328e473f4f71845bc4b1207311b037bb887dc751cf8541b61cc720a3c319827c5e63f03167c08438f218b80909837f884faae436897b24294b50a49bf8d5038b77096c51c65a96feda71cd8504f67ca6eade924418fa13783bde2008fd19c8e3773ba5af0e0dfcda51b65f0ee5825cd6cdcd61c39ea38c73c180099eeb233a8bb89666ad65bf7a3ce12ef02cc84f0c2dbc31afbcef80e6922418afce164b002c999887d8984d5668157e1690e1d723de37b634c8015813029e2dc8b7164e88c16e17031c9a17d40723bcac8f33d6e72b5f1e3dd508b3b69371db0be3b6d78dbb8e49e6369854d0140dbeb4534c7a234cca8526263254e256256e9f9bb895cdf72bd2b73b08b50c0b03a81cd25b71488e7248ca21ed87432a1820992cda7694437a230ec9c8e7c625cb604988bd58d23940656738135ba69ae1de0ca1d0f60855d443d910293ebd153ee56a2396a478b7864f5eec07fdb8336ec2a805003ad02ecebf9eb73454d26b593636367a2dbe1d7865ca6e52695ec645ca2a67f92eb0f329b92b472981f38b53ca5e560672b9e27e3fa43591f3f7e3a77ae94cdc3174ed3174124aad2392b1632215f45636368d8df19422d21e11295755b424d5daff4ba44e1af18242edec6c8b8ec9b681a1e8f48ae864bf0c9d0aba27076e4c872b36ed0f9bccfc9e3136fcf5ef5f6aadfa0a1a35eb2d7666224af7142c06e21247a42f33877ea7de28a372ee9800aa18e935b1076e9f3df207da36b30721535781d1ab624f6e7fa06eaea9db8efc20ebf05e1f4a56fe918e75346589be9225f69a2dc13dead37f82fe644bb0104d6c07aef12309b8c836e4e0f669d6e2d9d7a648e43e0517ce49336ff0ffa9b26e53f35a0d5a0909c2cf7440ee8258c615e44816f8b6d0a6ce6fd012f9d99be9806d3e605b0cd81683add409bda84e2c6a91dc224328253a109a9dfb4b0660afd12d37e83a33c065cca05898863002b3fdc5ca0c9419ec8119e476f198c051a54e55ea7c76a973ee21579638179a948c25b061daca872a1fba3f3ed4523e54f9d01fe3430b06a20670805a8f2927ba474e34b7e70ef20cfbf965b37ed5d2ce2f5b8dfc2a4c3bec26f128a3dd4ff3a73fd96170cb5fc95fe43bff9d5046ff34eb0c693688c5792fa124a37ef7a3f647ede2baded40ed73ecdf449839fb40388ac63c07ee0e4fdef8d668b1d1e2000cd23e01c214b830e7f0203c3838f6573b1c8d04db07181284f486d60c034cb36bb8f3202c89e97fe21d9b52d2863480c94adf2939988390a5b720a4f136cb3819e65aa5b76a0926c215368ccea2d2a347bb2dd026fc8240b27b86d6cdbca249549ee8749a2e7652d799c1a964dde3bc6e6dcfd0e232d699504f2ed6b9937388f98b3c996a246fc54bf3d091ba12379a8134eec79dec3d623ac170f25912cda672a897e6a5996043de670d39d8492d6332b5c792329b6a2d201368dcdd384b2126525fb622586ca5aa9acd556b256c281aecf5a8d9b940b447430fbfa00e5619587dd7f0fab6aabcac3fe200f5b308a850b5f9dae7cacf2b1fbef6373fbf21106d21ce57885a71d7645b272929b5c4853c6a1dfb923e148a42f237a3f7f438446fc48a4696607930b6f021aae486422c39aa42b796e12f097f1365d7e34d9bf39cdfd4876708a84267f99eedcdd59d1417cbddd9ed9bce55666122b7357e63e337747997bc982868e01dab76594327765ee3273b7734fba3860e14997c5daa378c2c51f2562a5d23de57f8f8bb9060474dbb030820eb762f127bc3a43f2bd7b3af9235eb9e7600cabf4348a31760a7e43c6360a85b6a4b8b6e342e1768b69ba64f7892dbec280fbc86d96d3e6fc422fcfafc27edb34d0e627ad14bff6875f8f8fff013bd790de, '2016-09-27 19:12:41'),
+(5, 258, 'audit/request', 0x789cdd576d6fa25814febebf829874339d547913501c7743115fa62a1670daceee865ce1aa54050ba86d27fdef7b2e5cd436ed4cb33bc926dba411ce39f7dcf3f29cc72352f9aafa2d5115b5345da2648e935203a99cfaed2951794e2d25294a37891ef9b8d4085481e31a0939518af1dd06276917231fc7d9195e247e40358f92b444cc24304bbcca04790b1cfa151f6f333178f5a230c45e1a4461215960bc2ea365b0c5257a03d8a4384ccb4b1cced239910a6aa95a250fb25a429e87d7d935a25afac87ea4e2280e6641e65400eb799aae55967d2d08d0de97bd249e96d308144426c1f9afe2b03d712cfbf2cb6c37728c73e7f6c6f46de36b77f7d9ee3cacd3cf9a215e8563b1af1957a3f39bede56d324697cd66e653263e6961b05fde0579d82499eb41bf0bc158b9b2487a93e0b88c6690652e81820da2c760b944ac54e1980fd73cdf60fa41b8b967ee6bb22b574f196dbd5ee22b3cb908525612958a28331f2ebacea07fc62c8305663ad85b44a78c3e8fa315068b0a5711949a54e17999b1d114c5013d5654a12873fab0ce4a2fd7d4d26ab34c83358a53761ac5abb28f52d46026d126f451fcd02cc35f1e411bb4e7547ca96cf0bd3e1f4c268add326f75e24b213899e218c79967f9ad8eb041e8e3fbca7abefe3d6e42670117650f828a01108fc84727427b1be0ddaf81df140a64e50028e3d08bfc209c656280c2ec31589f313e0630a7f885ed1285b30d943b8307d8e2e40c87e5b1ddb86b72951a3c670f32859217458b20b725bd7209589ad8f3455eaa0b9284268a2f4f7c8943755e4153ccd5651fc94a9de7a63e37914481ab0b82efa1a937a9c902520449ac8b908aa809f07fa29c07f0c19d88e7097c4a442408d91df00952a2e5a9561472f5d5305d3efa66b97dfb359af616921ec78a86573777a67dbe0dc67c7ef2446935985177641bb6dd6b35fdeaa63a13f162e5df491374270af3504e17f5e91d5f6a3cd121c5c93a0a137c34cc052718f7eb20269c0055a8ab2567be3963f83a338cb6f051e319aea64a82ca714c67e0142dd09137c7651d701547cb6c42e18e302a276914e333069e3c6271c6ac36490af3b2852efbb45b50f7518c662b445e6ad9b1ccb840ab4ed1ea50b48a3c74174622f0106113f63689c206e3cd519ce0b43976dae55a9626c932dae477084a8688972063d13a8e2628de134c414f321ca660fdd3cbb35a4299fed4321ffa910b7daf55d5fcbc96fbfc705a24908b472846ab9c35d56f819a91aa5a12f28ef07b763d8ffc87031d4350b6617d312c221265d2216849d771466ed7b49def51ae44ed7473383474a7670edfe65db0718ca1e3f68d61c7e93ee35d125ae647d37563e43c67dfbdd2b47a9ddef01d1cacd003d7ae6e5b6dd7312f8ce1cf206281df3bb68ccbb1613b46cbbdeae5c9bcc1c64585c6506257eb4001fe3b4a2e3ae0dc8c8c9f4dc9c47f96a865b40d8b60e96712b3c03d03886b0c75b3d51b76de64e79707fadab03386f2bf83a2f778d34df3a267fcaf893adbab465a8e601992643749cc2e230f2dd9641284ead1fbfef5a0c81ef2d749be1df17b3271ed5e67a839632baba002f24fc8f781f393dfb435a15e56a8542b7c8df9309e6cc27473cad838dee2984129f3022dcc288a53a6c67d620b0fbf14b355dc65b69d2b2dbf8a90c3eb3714dda58786dac0f81eb91d2cb5562b0334d0222f2830675c857f6132322d87725a8d2b749631301de3ede300c496a98f0764282dd3cc898f74618b6276b7dbb1f374b524b3c3d2d8d81d9eb005db500e726dbd6be49954f3797bc6b8d78e3b8299ec5d1329f82e88ac50fed30084a3ea0c725ae6814ffe08238676899901fb877fed5ba55b3d98c4760fbe0068e5c5fa8faedaf3c48b9216e506bfa2c4556b05ef7734c7b8d26edc1e2467b535dda0eba2dee9b13cadfa013623cb744cddecd3a5804cfddeeaa8c003c3e99aad625a8aaf442800a8ad1bd7762c4a45f0e5597a8bcfe81670d835f9c30563ab97798740dfc18caf79a2c5dd439a3bf644d3034a706da3df7edd8034af88c7e90d0cb7dd3735c8d487522812c789925cab28025f873f9afeb139f915773024fb0680bb633864a710c84a41b68f776e49e03af04bc7bbcbbeee473b4b41cfd4bf44193a1f2c48ef5f3335f19bef5007df9024e93344f8232e86b8e9ccefa938cb0d22ffc1ea0cb79121b10fd92a04b1e081ac57b0a2d11dda75b35fd647bfab79228c71ba89c371bca4156429705d97149524f0f4f4374218b70a, '2016-09-27 19:12:48'),
+(6, 258, 'audit/db', 0x789ced5c5b53e3b8127e9f5fe1ca4b9853039164c9378a539565b3356c31648b84b32fa94a8c2d88771c9bb51d18768bff7e24e56aa224839d4002822238b12edd9fbf6eb7bae5b80e74fe4d1dcba90c689abab734ad1cbb0e06cebf8183203b24fc081ca78ecedab4be36ffd47ebb3a3fd74e9be757df2e5ada6f97cd6f5a6f98d2a4eb7a5e3c8cb2b457390e1cc8fe2cc05e10eb8aa053790c828e7fdd398d070337f21de7ef214d1e794bfdd877203609003a31ac235307c020bc3b66b3c3d1ec428cd4c14ee5260869850d69b1216bf76e527b7878a8f5b341584b52af764f233f4e6a7fc5fd28c8eea31a9b141d72e10eefc2615a4b13af76eda6b436887d1aa6b52b76a63e96fae8ae7fc7076673844144856486712ca0b919465e16c4113f6f721922bf1909318853f142374df931d2a75afec226a9b32ef7f4927a71e28f07ce1eef442fe4541ca772fcf4f4c4f041e540b68d6220dbf023818ce74136201ba4d5386f9cb63f69ece7bb373cf2e228cd123788b26ee40ee897b913e170103dfb30a13734a19147fd6ee65e8774f9e9b9ee9fc4650ca29b3819b85cd36eeaf5e9c09d34cf0237eccee448b57a4b4bbc4fbf37cf2e64bdbed3c7c9e8436eb8bc399b5c6b5e08390ec4ab443dcfcddc30bed54ed8e0b2cf9b97d39e074bba9eb5b40bcecffac5af4b0619b7f82c86facc1bca901e69b220c9f8e3259d38940b5d04be7f7e6d5c36e4639d683e938cd3f2404823061d5d3a498b4f63c566d7969daee6ecaffa6c1479a3929e10626c7c1c1b25ca46958dbe9d8d16bc9142dbb63e8e8d9af3368ad1c444b5ff4863146d74b57b81df3b81257d21d2f107c2d92a8f73413e23c3fc38f71c1dcce34ce002ceee30eb77d914c16d3460de7f8ab4c09fc35d85656ff2ec87ac039c1019e01e1b3c8ed8bf284be230a4495ae3ba9f4edfcb6035175165d0796ef41c5188465a3cd0eb0ebf568b301efe770223dc208c0579ab1b26de7718f55c0464c9610c323a9802c86f690c3de6099810871ec33671c3e01fd7776bee5d125fbb49697ada60ed3a71d771c5dbc4b5205f310286bdefc0e6c2016b769beaddb989b0f367f876bd7e10fa539447efb64a5fb682d2f71e66ebf5602eca660ba03d4719e7620103bcd44b74e7712d4d5b9bac4fcfed3aa0701b8016242841babef780e63224182f4f154b002c9b9527c49e84a968197e2690e177ed7adfd9d22007605d08783a27df4a382106db5d0c70685e511f8cf0a23ef6489f6f7c79f45c23ccda8ee7edcccddb5935ef2a26199b6052415334f4e90a533169ef99948b4d0c4454d656656d5f9ab595ddef97e46eb7106b1926865039a4f7e2906ce5909443da0d87543040321146ca1fbd137f44f2b971c92a581261cf1774aaa8ec0dced46d757f7b377c429be35351ff6442b5807b377cca15474c49ed6e059fbcd80f6ee3eea809a31600a8aa9d9f7d3b6b6ba8a4d3b20cd3b6d7b18ce01509bb719d79111729abecc5abc0cea7ee7d394a099c5f9d52d6a23290cb15dfde86b42e52fe7efc5c2f9d893b82ae33824e42a95544225b2652416f65231b2a22ed13917255455352aefd592275d3889713eaa7a71b744c36b1b1e2d33ef1c97a1d3e15f54fb689d686e78a4fbbc32723bf698c4d7ff5c7aff5766309915a8d363b3316a57702e76371892fd217b9437f506f9851197b30d08db56539459e1d220fdc3c79668ee785e4c11656ae67afd893db21a81b2beab6433fc8ba7cd4c792957f4c1098ecbcd69792c45ab123f89afaf49fe076bc235848267603d7f991045b641139b6b7346bf3e46b4be4719f630b679c9935f879a6acdad3bc528376e206e12fb4efde07b18c2ac896acf02da14d835f9f05eeb33793093b7cc28e98b023265baa137a559da00d25978808a5c40042b3337f81ffd60add7293aeb2025cc60a8a85699845fdc45666a0cc6077cc20b789c700b6aa74aa4ae78b2b9d330fb9b4c239d7a464286120c384ca892a27ba3b4ed4544e5439d1b771a2052351c3246a3da67ce80ef9d0dc963bc833ec6717adc6655b3bbb6837f3ab30eda097c4c38cf6becc9efe6487c11d7f75ff727ff0ff0965ec4fb3ee8066fd589cf712ea66d4ef7dd6fe573fbf6ab4b483954f337dd1e017ad0a917904d82f1cbfffa3d96ab3c32a02d03804f621323568f30730b055fd5c3a136b0203af8d6de4f9a8350c9824d9a6d7514600d9e3d26f925cdb80324462a06c959f4c45cc51d8945378925f9b4ef42253ddb00395240b994223566f50a1e983ed267847265938bf6d13682b935426b91b26895e96b5e4616a5836776f5bbab5de02b6176a49ab24906f60cbbcfe59c4bc4db61036e2e70aee48dc086dc9439d706cd0b311361e62bd7a2c8964e13e53498c53cfb224b8661e37dd4a2c69beb0c295b792622b2a02085c9fdb5756a2ac6467ac84a8ac95ca5a6d246b251ce8eaacd5a849b94884004bc7cac72a1fbb3f3e569557958f7d231f5b308e853ad0958b552e766f5c6c6e673ec2409aa51c2df1b4839e48578eb3937389ca38f4bbf76e381409cc883eccdeb842237e241235d38371c79b80864b52998858a30425e0d9499eadac8ef6e9f2a3f106ce49f647b28553a434f9cb64ebeed6ca0e0462fc136587d7357ad3a94c4556f6aeec7d6aefb6b2f792350da29bc454e6aecc7d0fccddca3deb6283b9675de6cb8fe219177f9888954aef041c011d9810d8fc2b07914120b7623a88992b18b83f7a2708620bea46ee49186295be8f62400a7ebfe1264a8596a4bcb6e552e166cb69ba64ff8925bec580bbc84d16d466f442af4fafc26edb8056c1efcc50f47a0b7a3d3dfd1f0a798f99, '2016-09-27 19:12:48'),
+(7, 258, 'audit/log', 0x789ced5b5b53db48167ecfaf50f162d80a58adbb44b1550e616a98029cc2b0797195dd961a5b1359f2e80261a6f8ef7bba25cb6aa96d436cd8b0715201d96a759ff39d4b7fe7a8831de4fc933896b337254982c724d93bc68e065ffa8e0c577a7e9138baeeec7d8aa23449633c931efc7422fd194d423fbd0ffb5942e2599025fd7280e38ce697fb077bc7be83e09f05ff14984a45cedea3eff7473821fdce6c16f82e4efd28ac3c441f518f3d0769a62ecbaa6e5847a6a219960ddf6b2096ecfcf3f44467ad48a8c8cede45843d3f1c4bd3c8cb02e248f108bbf5e515a3b2fc653ed0199334bf14af6cda6a6d6965ddd214942d2cadab0642fcd2ea73ed42b57f03bbe8b6acd7d0d19e2b22fe137f77e3cc7b75114dbb86a25e1511d94d038e7d7f1bf6b36da5068ec1816336c019118ffced8fc33e2ca5f471e6f9e92bc36320d5e06534ab32aa6a4346ba4a108dfb9ffd64865377d2f4f51f9645b58d9aa92c2ed650d3541e1965e32d18cbd014955fdaae2ead69421cd8eae50aaf611e5b376b90202e396b8a5030f0e0d714cb44865a170bad331573e72d98ca445663712e276bf2b302ab2392e78711b18dfa3e81f86c0d8a7e89499a3e4ab7d7175218a51209f12820de91749b509c3c7287b32065b7673866df41a0f9ee5143482517f2818cfab771708943d8be63c7a14f916bf25746925428a5251b5a1d3a2e616b20e57594a5448af36988e7482decba00c1a14b42d03ff0ffc61e6ee3591c8d70dc6ac8a62d64e3f09be0d00bd6486719750cb95c0de4a4902e8da4380bc1a7964bd6104cae58f6348207a220a0a8c1441d97ca28164ad5b5ba505c1a47b0c7f58041c1045292e218209b2fadcd9d1c2d3029863a4e34234b563435ab6e243e290367ebfddefd2afd767b71219d762f6e2faf7ad26fd7dd4b6948b9c7005089b2304d86cb04f14680c0740a16711cb047fc2814c446b659c8516585600767efcea7d109f411666cdfe3b8fdf0f0d09ea4d3a01d276efb9e845e14b7e77b7d9b46dd2115ed9092927612bb6d6a8636a4061224ed5bb8d329643e9a4d6674625823f0c33c0318c63123aa775958182a714c2a43e875432606d8c00d7092d06b452d95fc048b50dbde83dfb951ec1513a78f33f6148491e3ec1d3f3188b9ad4687515d30108dc1cf9f24370a43c29676a4e963f257e04ca2243d09221707f4ead81b85784a4e40f706e46a05f27296e5d6b715fd97c15ce132245011f0ebb38bb3d39b0f12fcf9e66647003ccdb97e980e28c01f2b37826c1ad6be8cc91d8949e8126f90d2d4bafc76e5f10f2c70fcf02e8aa72c550d122035533c1f9efa38182ce448a44e4f8add0f7f74cfaf444f7d238ff3d9335a55d1e1b0b8d4bd6272ecb39f02f5204d62c8f6d2094c2efabe7b5d3eb9bfe4d1f39e74453342e7eaf392498a11076caa033a508474ae494392e2eb250f51281b8f307cbffe7e767d269eeb44f24032ea96fb4c1a36696e3ac1880f85620bdbc2ed1697f15ab559c483364a8b2a52ed5f28448d3adbcc2354fa9770c39172630f7d6f788236835951a072fb7570e6ca0d1d3570c6593a19c0124062a790944aa419fe14ee16dad0af55c5b2d6e14d0bfa26de2e4c1e85f06b4eaa9236557d41b244a89a4d500139178775405195edb2d64a1dc5c37f1728aa5c1d60586214fd944c4bfc688600f09e43717f10564b2f1b10ef16579e86c3f4a713e27ea3ec6846e2a99f53da97b071ad60e3b451d5ff3c2a4b1897ce0bc1082c196226832ae85e5805aa9a2a6b6bd3c3cf0e2b975cad45721d4225c782bce6b50377e2075ee9bbf9a7d7745e4d53b477efbc5c6a35e49726854115d74df1b491fadef1d4b8244bebfd32198020649e0638d8b61efeba8a94f71efe1a57fe502a739d85ace4c445ad09e87c032ed3afc8daef30744f2be0569b19f9939d3cf8050dbf6abbed3ca4ea758a8a34cec2af7e3af982633c4dc4986b6abdf1a6f1dd236d796342e0149bb527545d2fdf3d28cb3cc094451e50c0cab9c02a58050e8134f9754961f98aeb6df4813cdfd4c7cef5b9a434b9ae1125012f75cf55b1c075b80c45dfb50276ad8097b60244fbf59286c0f6b776c3944baab4cb47ef3d1fe9fc1108016914ec67d5ee474bd9d09f6083db6d6fff37eec4513d53d0de59e14e6ee4f9e368900f01cf9265a5255d9c5f9edf48ca663e6619eb53167d15b29444171db4262a429fb29b3680fb09bedfcca118ca6fee5056531944e58ac6e380e404dc8bea7ad137b73974fd1c3a8143ad7223ae61600afa5bcf75a34112d20ab7737aba3d6fb275ddd8b9d37b7227bee90ccbdf7ef9dcb9395be247bdb31bb85388323c41d5edaee93a6ad375c877a8e9536141afc9505baeddef76cef3f3388fc1b7818c15a53f3d6833a0b33e6e56f26b3a5a1c0455973a89b5e29dd0fc2050fe4e8849c6de07b1c340026c154b17633b26e90dad287aac38697481163eb318f07c4f59f5566ba506375053059fc804dffb91c855145bc0832ca6cd19b54fc3f7e1c38ab3534b7452de54276423818974a6149b806976ee35fcdf5aa11bb7e8aa28e0de8c18b2bdeb5becfa162fee5b2c12e4d27e4565c86639d450141ded72e82e87fe3c39943b7a876859737ed53bbbbe91ceaf6eba3c7f90f687313d013afcb838fa0097fe8cfea4ffa580fe2eceae0ea6249d44ecbe1b139c126f7820fda773717bd693f657be34fd28a18f520b29e6910c7f51f1f94bb77703972d4546c6a16c1f2aa6846cfac247b35a079bf25f5356d4b56129a6906b1c60ce8b4b338aec2f3ae3f23fe1c35b504617c427d0d3b81491f36053ecc1734a5c2ef4a248dd72fe14f07b502877ea2d2a549e4632d1cbb83ddd12830db9bd6dda6ba9fd2b2675610d856813307527e721a49ab4b1416975fd7e921d8a9edb166eb8349c17336c3d99bff9aea5888805a8c4e6e9a469ec8f20df26afb26b99da8ef9ef98ff56983f4b9fab997f3e64a30cabcba6adee32ec2ec3be9b0ccb9d0951e89931415d90730fa80b588150d40395d2200abcc13d0e32563284e461f1213f2b45af18372a2f8a07ef7c122c291e14ddca4b0299d603b43e68e59d737a55f454e7844bd055654504fd316fa6bf5655a1230d59ebab8ab78d79e0a7a5c8bb70df85fb3cdc2deec8852d57de46551b00ec2d9497c58cb80c4fa040576513c9b6aaebb662e88846319946900aa6f8fbf044419a8554837b57a55b9bc695262b3f7636631bb5ba25a86f5fb956df6e3dab0a9a4d163b8c4113e4362bdac2b99e9efe0b956661fc, '2016-09-27 19:12:48'),
+(8, 258, 'audit/profiling', 0x789ced5d6d53db3810fede5fe1c917e84d21922cf98de16652cacd7143c90d81bb2f99491c5b24be3a36b51d2877c37f3f497935519262279080e83438b12ced3e7e76bdda9582ebe8ce7fa96338953eedc7c943e5287010c416d48da3d4c14e250bfab472e43be010e804993a300904ba496cd3e02d2c7e619aba5d9a568e5c0723e7bfc081363b24fc08b02684f552bfa5511075b52f9f352f8e22ea65411c395aff21fd1e3abd38cd8ec3d873437e74e47722b74f8f93d4e3c240f6df025c2ad615d29dca431034fd4ef364da8d13b3de795b9dc909b1490013d5b00e4d6423cbb0d909cce4814379846042b39b20649a3115a053a9deb949f5fefebedacbfa61950d5dbda3911f27d57fe25e14647751950d8b0e06294d0e6ec3415a4d13afda71535aedc73e0dd3ea353b53f3bc781065e9e16defb632442f0c222a241b8375338884d0fcbcc96588fc7a24c4204ec50bdd34ade4f5fccc06a9b14beee825f5e2c41f759c3ddc8aab9053719ccad1e3e3234308ac1776db2806bb0e00c0f0fdc00e6761d7d9688ddfeb7f6bbf5d9f9f6b27f5f3ebaf170dedb7cbfa57adcdf568b92371dbf3ec863330f7fb6ee43bcef7011d1aa5046483bc2390513990a75c7e1ec8367c4f20e359900dc83a699c9e9f9e5c7dd0d8cf376f70c8bc489a256e10652dee2d3ecd9c0807fde8c98709bda1098d3ceab732b713d2c5a7672eff206e6310ddc449dfe59ab652af47fbeeb87916b8616b2a47aad51a5ae27df8a37e7621bbea1b7d18f73ee08f29de9c0daed52f841cfbe255a29ee7666e1877b563d6b9ecf3fae5e4cafd05979e35b40bcecfdac597059d8c5a7c145d7de40d65480f35999364f4f1828b38947397087cfffefdf4f254ded7b1e633c9382df78534a2d3e1ad93b4f830526c7a6fd9e9bd9cfded3de945dea8a42784181befc74689b25165a3af67a3051fa4d0b6adf763a3e6ac8db239d1c844b55fa4318a36bcdbedc06f1fc392be10e9f81de16c95c7b9209f9161be9f678e9e9f58c2399cdd41d66bb121826ed467de7f82b4c09fc3bd07cb3ee4d90f5905382132c03dd6791cb15f5196c4614893b4ca753f99bc97c16acea3caa0f3dce829a2100db5b8a79d26bf57f3301efc3a8611ae11c682bcd50d13ef3a8c7a2e02b2e4300619ed4f00e48f34861ef3044c88038f619bb861f0afebbb55f736893b6e529a9e3658394fdc765cf126712dc8578cc0ea0cdeb6039b0b07ace963aa7deb26c2ce9fe0dbf27a41e84f501ebedb287dd90c4adf7998ad9783b9289b2d80761c659c8b050cf05c2fd19ac5b5346d6db23a3db7ed80c24d005a90a004e9face039acb9060bc38552c01b06c569e107b1ca6a245f89940865fc7f5beb1a9410ec09a10f06446bea570420c363b19e0d0bca03e18e1797deca13e5ff9f4e8a94698b51d8ddb9c19b7b96cdc654c32d6c1a482a668e89319a662d2ce3329179b1888a8acadcada3e376b2b7bde2fc8dd6e20d6324c0ca172486fc521d9ca212987b41d0ea9608064228c943f7a23fe88e473e39259b024c29e2de8eca1b20f3853b7d5f3edcdf009ad8f4f45fd9309d504eecdf029571c3125b5bb257cf2623fe8c6ad6113462d00d09e767ef6f5ec4a43259d966598b6bd8a657c29f0c284dda8ce3c8f8b9455f6fc5d60e753f7ae1ca504ce2f4e296b5e19c8e58abbdd90d644cadf8f9feaa5337187d03587d04928b58c4864c3442ae8ad6c644345a45d2252aeaa684acab53f4ba4561af17242ede4648d8ec92636567cda253e592fc3a7a2fec936d1caf05cf1697bf864e4178db1e1affffc52bb3a5d40a4c6e9153b3312a57d0c676371892fd2e7b9437f506f9051197b30d08d956539459e2d220f5c3f79e4dbd97e823cd8c2caf5ec147b722b04756349dd76e007598bf7fa50b2f28f0902e395d7fa4292584b560477a84fff0dbaa315c14232b11ab8c68f24d8228bc8b1edd2ec8a275f1b228ffb145b38e5ccb4c1cf3365d99ae6a51a5c256e107ea63df72e88655441b664866f096d4ef9fd99e33e7b331eb0c9076c8a019b62b0853aa117d509da50728b88504a7420343bf3e7f86f2dd12d37e8322bc065aca058988659d44f6c6506ca0cb6c70c728b780c60ab4aa7aa743ebbd239f5900b2b9c334d4a861206324ca89ca872a2dbe3444de54495137d1d275a3012354ca2e663ca876e910fcd2db9833cc37e76d138bdbcd2ce2eaeeaf95998b6df4ee24146db9fa6bb3fd96170cb5fdd7fdc1ffc774219fbd3acd5a7592f16e7bd84ba19f5db1fb5bf6ae7d7a70d6d7fe96ea64f1afca4ed41641e02f60f8edeff596f5cb1c33d04a07100ec03646ad0e61b30b0b5f7b17426d604065e19dbc8f3512b18304eb24deea38c00b2edd2af925c5b83324462a06c969f4c44cc51d89453789c5f9b0cf42c535db30395240b99424356af51a1c9c67613bc21932c9cdfb609b495492a93dc0e9344cfcb5af230352c9bbbb72ddd5a6d019b0bb5a45512c817b0655eef2c62de269b0b1bf15305b7246e84b66453271c19f4b487b587582f1e4b2259b8cf5412fdd4b22c093acce3a61b8925cd6756b8f256526c46450081ab73fbca4a94956c8d951095b55259abb564ad84035d9eb51a362917891060e958f958e56377c7c7aaf2aaf2b1afe4630bc6b15007ba72b1cac5ee8c8bcdadcc471848b394c3299eb6df16e9ca517672265119877eebce0d07228119d1fbe91b5768c48f44a2667230baf026a0e182542622d6304109787692672bf786eb74f9d16801e738fb2359c229529afc65bc74776365070231fe89b2c3cb1abde95426222b7b57f63eb1775bd97bc99a06d14d622a7357e6be03e66ee5f6bad86066afcb6cf951ec71f1078998a9b48ff9dfe302260436ffca416410c8ad58fc09af56dffdd13e1efd11afdc4e1862957e8e62400a7ebfe13a4a8596a4bcb6e152e17acb69ba64fd8925bec580bbc87516d4a6f4422f4fafc26edb8056c1efcc50f47a0d7a3d3efe0f028392f3, '2016-09-27 19:12:48');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_entry`
+-- Estructura de tabla para la tabla `audit_entry`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_entry` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_entry` (
+  `id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `user_id` int(11) DEFAULT '0',
   `duration` float DEFAULT NULL,
@@ -551,14 +534,11 @@ CREATE TABLE IF NOT EXISTS `audit_entry` (
   `request_method` varchar(16) DEFAULT NULL,
   `ajax` int(1) NOT NULL DEFAULT '0',
   `route` varchar(255) DEFAULT NULL,
-  `memory_max` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_user_id` (`user_id`),
-  KEY `idx_route` (`route`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=257 ;
+  `memory_max` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `audit_entry`
+-- Volcado de datos para la tabla `audit_entry`
 --
 
 INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
@@ -817,16 +797,18 @@ INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `reques
 (253, '2016-09-27 18:46:10', 2, 0.156, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584576),
 (254, '2016-09-27 18:46:20', 2, 0.1716, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584576),
 (255, '2016-09-27 18:46:30', 2, 0.1716, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584576),
-(256, '2016-09-27 18:46:40', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584576);
+(256, '2016-09-27 18:46:40', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584576),
+(257, '2016-09-27 19:12:41', 1, 0.032402, '127.0.0.1', 'POST', 1, 'accion-centralizada/aprobar', 2249760),
+(258, '2016-09-27 19:12:48', 1, 0.0307109, '127.0.0.1', 'POST', 1, 'accion-centralizada/aprobar', 2148136);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_error`
+-- Estructura de tabla para la tabla `audit_error`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_error` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_error` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `message` text NOT NULL,
@@ -835,39 +817,33 @@ CREATE TABLE IF NOT EXISTS `audit_error` (
   `line` int(11) DEFAULT NULL,
   `trace` blob,
   `hash` varchar(32) DEFAULT NULL,
-  `emailed` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_error_entry_id` (`entry_id`),
-  KEY `idx_file` (`file`(180)),
-  KEY `idx_emailed` (`emailed`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `emailed` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_javascript`
+-- Estructura de tabla para la tabla `audit_javascript`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_javascript` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_javascript` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `type` varchar(20) NOT NULL,
   `message` text NOT NULL,
   `origin` varchar(512) DEFAULT NULL,
-  `data` blob,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_javascript_entry_id` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `data` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_mail`
+-- Estructura de tabla para la tabla `audit_mail`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_mail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_mail` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `successful` int(11) NOT NULL,
@@ -879,19 +855,17 @@ CREATE TABLE IF NOT EXISTS `audit_mail` (
   `subject` varchar(255) DEFAULT NULL,
   `text` blob,
   `html` blob,
-  `data` blob,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_mail_entry_id` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `data` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_trail`
+-- Estructura de tabla para la tabla `audit_trail`
 --
 
-CREATE TABLE IF NOT EXISTS `audit_trail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `audit_trail` (
+  `id` int(11) NOT NULL,
   `entry_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `action` varchar(255) NOT NULL,
@@ -900,29 +874,31 @@ CREATE TABLE IF NOT EXISTS `audit_trail` (
   `field` varchar(255) DEFAULT NULL,
   `old_value` text,
   `new_value` text,
-  `created` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_audit_trail_entry_id` (`entry_id`),
-  KEY `idx_audit_user_id` (`user_id`),
-  KEY `idx_audit_trail_field` (`model`,`model_id`,`field`),
-  KEY `idx_audit_trail_action` (`action`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `audit_trail`
+--
+
+INSERT INTO `audit_trail` (`id`, `entry_id`, `user_id`, `action`, `model`, `model_id`, `field`, `old_value`, `new_value`, `created`) VALUES
+(1, 257, 1, 'UPDATE', 'common\\models\\AccionCentralizada', '2', 'aprobado', '1', '0', '2016-09-27 19:12:41'),
+(2, 258, 1, 'UPDATE', 'common\\models\\AccionCentralizada', '2', 'aprobado', '0', '1', '2016-09-27 19:12:48');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_assignment`
+-- Estructura de tabla para la tabla `auth_assignment`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_assignment` (
+CREATE TABLE `auth_assignment` (
   `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`item_name`,`user_id`)
+  `created_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_assignment`
+-- Volcado de datos para la tabla `auth_assignment`
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
@@ -956,24 +932,21 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_item`
+-- Estructura de tabla para la tabla `auth_item`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_item` (
+CREATE TABLE `auth_item` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` int(11) NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `data` text COLLATE utf8_unicode_ci,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`),
-  KEY `rule_name` (`rule_name`),
-  KEY `idx-auth_item-type` (`type`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_item`
+-- Volcado de datos para la tabla `auth_item`
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
@@ -1169,18 +1142,16 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_item_child`
+-- Estructura de tabla para la tabla `auth_item_child`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_item_child` (
+CREATE TABLE `auth_item_child` (
   `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`parent`,`child`),
-  KEY `child` (`child`)
+  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_item_child`
+-- Volcado de datos para la tabla `auth_item_child`
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
@@ -1396,19 +1367,18 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_rule`
+-- Estructura de tabla para la tabla `auth_rule`
 --
 
-CREATE TABLE IF NOT EXISTS `auth_rule` (
+CREATE TABLE `auth_rule` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `data` text COLLATE utf8_unicode_ci,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_rule`
+-- Volcado de datos para la tabla `auth_rule`
 --
 
 INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
@@ -1417,17 +1387,16 @@ INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cuenta_presupuestaria`
+-- Estructura de tabla para la tabla `cuenta_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `cuenta_presupuestaria` (
+CREATE TABLE `cuenta_presupuestaria` (
   `cuenta` char(1) NOT NULL,
-  `nombre` varchar(15) NOT NULL,
-  PRIMARY KEY (`cuenta`)
+  `nombre` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cuenta_presupuestaria`
+-- Volcado de datos para la tabla `cuenta_presupuestaria`
 --
 
 INSERT INTO `cuenta_presupuestaria` (`cuenta`, `nombre`) VALUES
@@ -1437,19 +1406,17 @@ INSERT INTO `cuenta_presupuestaria` (`cuenta`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `estados`
+-- Estructura de tabla para la tabla `estados`
 --
 
-CREATE TABLE IF NOT EXISTS `estados` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `estados` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `id_pais` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_pais` (`id_pais`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+  `id_pais` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `estados`
+-- Volcado de datos para la tabla `estados`
 --
 
 INSERT INTO `estados` (`id`, `nombre`, `id_pais`) VALUES
@@ -1482,17 +1449,16 @@ INSERT INTO `estados` (`id`, `nombre`, `id_pais`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `estatus_proyecto`
+-- Estructura de tabla para la tabla `estatus_proyecto`
 --
 
-CREATE TABLE IF NOT EXISTS `estatus_proyecto` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `estatus` varchar(25) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Lista de estatus de proyecto' AUTO_INCREMENT=4 ;
+CREATE TABLE `estatus_proyecto` (
+  `id` int(11) NOT NULL,
+  `estatus` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Lista de estatus de proyecto';
 
 --
--- Dumping data for table `estatus_proyecto`
+-- Volcado de datos para la tabla `estatus_proyecto`
 --
 
 INSERT INTO `estatus_proyecto` (`id`, `estatus`) VALUES
@@ -1503,21 +1469,20 @@ INSERT INTO `estatus_proyecto` (`id`, `estatus`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `feedback`
+-- Estructura de tabla para la tabla `feedback`
 --
 
-CREATE TABLE IF NOT EXISTS `feedback` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `id_usuario_destino` int(11) NOT NULL,
   `mensaje` text NOT NULL,
   `img` text NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `feedback`
+-- Volcado de datos para la tabla `feedback`
 --
 
 INSERT INTO `feedback` (`id`, `id_usuario`, `id_usuario_destino`, `mensaje`, `img`, `date`) VALUES
@@ -1543,17 +1508,16 @@ INSERT INTO `feedback` (`id`, `id_usuario`, `id_usuario_destino`, `mensaje`, `im
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fuente_financiamiento`
+-- Estructura de tabla para la tabla `fuente_financiamiento`
 --
 
-CREATE TABLE IF NOT EXISTS `fuente_financiamiento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fuente` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+CREATE TABLE `fuente_financiamiento` (
+  `id` int(11) NOT NULL,
+  `fuente` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `fuente_financiamiento`
+-- Volcado de datos para la tabla `fuente_financiamiento`
 --
 
 INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
@@ -1572,17 +1536,16 @@ INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `instancia_institucion`
+-- Estructura de tabla para la tabla `instancia_institucion`
 --
 
-CREATE TABLE IF NOT EXISTS `instancia_institucion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Tipo de instancia o institución' AUTO_INCREMENT=4 ;
+CREATE TABLE `instancia_institucion` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tipo de instancia o institución';
 
 --
--- Dumping data for table `instancia_institucion`
+-- Volcado de datos para la tabla `instancia_institucion`
 --
 
 INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
@@ -1593,28 +1556,22 @@ INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `localizacion_acc_variable`
+-- Estructura de tabla para la tabla `localizacion_acc_variable`
 --
 
-CREATE TABLE IF NOT EXISTS `localizacion_acc_variable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `localizacion_acc_variable` (
+  `id` int(11) NOT NULL,
   `id_variable` int(11) NOT NULL,
-  `id_pais` smallint(3) unsigned zerofill NOT NULL,
+  `id_pais` smallint(3) UNSIGNED ZEROFILL NOT NULL,
   `id_estado` int(11) DEFAULT NULL,
   `id_municipio` int(11) DEFAULT NULL,
   `id_parroquia` int(11) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `id_variable` (`id_variable`),
-  KEY `id_pais` (`id_pais`),
-  KEY `id_estado` (`id_estado`),
-  KEY `id_municipio` (`id_municipio`),
-  KEY `id_parroquia` (`id_parroquia`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=57 ;
+  `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `localizacion_acc_variable`
+-- Volcado de datos para la tabla `localizacion_acc_variable`
 --
 
 INSERT INTO `localizacion_acc_variable` (`id`, `id_variable`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`, `fecha_creacion`, `fecha_modificacion`) VALUES
@@ -1626,11 +1583,11 @@ INSERT INTO `localizacion_acc_variable` (`id`, `id_variable`, `id_pais`, `id_est
 -- --------------------------------------------------------
 
 --
--- Table structure for table `materiales_servicios`
+-- Estructura de tabla para la tabla `materiales_servicios`
 --
 
-CREATE TABLE IF NOT EXISTS `materiales_servicios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `materiales_servicios` (
+  `id` int(11) NOT NULL,
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
@@ -1644,15 +1601,11 @@ CREATE TABLE IF NOT EXISTS `materiales_servicios` (
   `estatus` tinyint(1) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `unidad_medida` (`unidad_medida`),
-  KEY `presentacion` (`presentacion`),
-  KEY `cuenta` (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1768 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `materiales_servicios`
+-- Volcado de datos para la tabla `materiales_servicios`
 --
 
 INSERT INTO `materiales_servicios` (`id`, `cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `unidad_medida`, `presentacion`, `precio`, `iva`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -2043,9 +1996,9 @@ INSERT INTO `materiales_servicios` (`id`, `cuenta`, `partida`, `generica`, `espe
 (1486, '4', '02', '10', '03', '00', 'Bandejas de servicio', NULL, NULL, '330.00', 12, 1, '2016-09-08 20:01:08', NULL, NULL),
 (1487, '4', '02', '10', '03', '00', 'Ollas o cazuelas de uso comercial', NULL, NULL, '6500.00', 12, 1, '2016-09-08 20:01:08', NULL, NULL),
 (1488, '4', '02', '10', '03', '00', 'Platos domésticos', NULL, NULL, '2200.00', 12, 1, '2016-09-08 20:01:08', NULL, NULL),
-(1489, '4', '02', '10', '03', '00', 'Platos y cubiertos de servicio', NULL, NULL, '4500.00', 12, 1, '2016-09-08 20:01:08', NULL, NULL);
+(1489, '4', '02', '10', '03', '00', 'Platos y cubiertos de servicio', NULL, NULL, '4500.00', 12, 1, '2016-09-08 20:01:08', NULL, NULL),
+(1490, '4', '02', '10', '03', '00', 'Protector contra salpicaduras de uso doméstico', NULL, NULL, '1390.00', 12, 1, '2016-09-08 20:01:08', NULL, NULL);
 INSERT INTO `materiales_servicios` (`id`, `cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `unidad_medida`, `presentacion`, `precio`, `iva`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
-(1490, '4', '02', '10', '03', '00', 'Protector contra salpicaduras de uso doméstico', NULL, NULL, '1390.00', 12, 1, '2016-09-08 20:01:08', NULL, NULL),
 (1491, '4', '02', '10', '03', '00', 'Sartenes domésticas', NULL, NULL, '3779.00', 12, 1, '2016-09-08 20:01:08', NULL, NULL),
 (1492, '4', '02', '10', '03', '00', 'Tazas de café o té domésticas', NULL, NULL, '4995.00', 12, 1, '2016-09-08 20:01:08', NULL, NULL),
 (1493, '4', '02', '10', '03', '00', 'Termos domésticos', NULL, NULL, '6500.00', 12, 1, '2016-09-08 20:01:08', NULL, NULL),
@@ -2327,17 +2280,16 @@ INSERT INTO `materiales_servicios` (`id`, `cuenta`, `partida`, `generica`, `espe
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migration`
+-- Estructura de tabla para la tabla `migration`
 --
 
-CREATE TABLE IF NOT EXISTS `migration` (
+CREATE TABLE `migration` (
   `version` varchar(180) NOT NULL,
-  `apply_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
+  `apply_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `migration`
+-- Volcado de datos para la tabla `migration`
 --
 
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
@@ -2358,11 +2310,11 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `modelhistory`
+-- Estructura de tabla para la tabla `modelhistory`
 --
 
-CREATE TABLE IF NOT EXISTS `modelhistory` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `modelhistory` (
+  `id` bigint(20) NOT NULL,
   `date` datetime NOT NULL,
   `table` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `field_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -2370,47 +2322,39 @@ CREATE TABLE IF NOT EXISTS `modelhistory` (
   `old_value` text COLLATE utf8_unicode_ci,
   `new_value` text COLLATE utf8_unicode_ci,
   `type` smallint(6) NOT NULL,
-  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx-table` (`table`),
-  KEY `idx-field_name` (`field_name`),
-  KEY `idx-type` (`type`),
-  KEY `idx-user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `municipio`
+-- Estructura de tabla para la tabla `municipio`
 --
 
-CREATE TABLE IF NOT EXISTS `municipio` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `municipio` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
-  `id_estado` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_estado` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id_estado` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notification`
+-- Estructura de tabla para la tabla `notification`
 --
 
-CREATE TABLE IF NOT EXISTS `notification` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL,
   `key` varchar(255) NOT NULL,
   `key_id` int(11) DEFAULT NULL,
   `type` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `seen` tinyint(1) NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=121 ;
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `notification`
+-- Volcado de datos para la tabla `notification`
 --
 
 INSERT INTO `notification` (`id`, `key`, `key_id`, `type`, `user_id`, `seen`, `created_at`) VALUES
@@ -2470,19 +2414,17 @@ INSERT INTO `notification` (`id`, `key`, `key_id`, `type`, `user_id`, `seen`, `c
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objetivos_estrategicos`
+-- Estructura de tabla para la tabla `objetivos_estrategicos`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_estrategicos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `objetivos_estrategicos` (
+  `id` int(11) NOT NULL,
   `objetivo_estrategico` text NOT NULL,
-  `objetivo_nacional` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `directriz` (`objetivo_nacional`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos estrategicos - Area estrategica' AUTO_INCREMENT=150 ;
+  `objetivo_nacional` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos estrategicos - Area estrategica';
 
 --
--- Dumping data for table `objetivos_estrategicos`
+-- Volcado de datos para la tabla `objetivos_estrategicos`
 --
 
 INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_nacional`) VALUES
@@ -2522,7 +2464,7 @@ INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_na
 (34, 'Consolidar el aparato agroindustrial bajo control de empresas socialistas, garantizando al menos un % de la capacidad de almacenamiento y procesamiento en rubros básicos (cereales, oleaginosas, leguminosas, azúcar, carne y leche) y un % en el resto de los rubros alimenticios.', 4),
 (35, 'Desarrollar un sistema de apoyo e incentivos para la promoción del comercio internacional de exportación de rubros agrícolas.', 4),
 (36, 'Establecer mecanismos para ejercer la nueva institucionalidad revolucionaria que garantice la participación de los pequeños y medianos productores en las decisiones en materia agropecuaria, a través de los consejos campesinos y las redes de productores y productoras libres y asociados.', 4),
-(37, 'Promover los modelos de producción diversificados, a partir de la agricultura familiar, '' campesina, urbana, periurbana e indígena, recuperando, validando y divulgando modelos tradicionales y sostenibles de producción.', 4),
+(37, 'Promover los modelos de producción diversificados, a partir de la agricultura familiar, \' campesina, urbana, periurbana e indígena, recuperando, validando y divulgando modelos tradicionales y sostenibles de producción.', 4),
 (38, 'Consolidar un estilo científico, tecnológico e innovador de carácter transformador, diverso, creativo y dinámico, garante de la independencia y la soberanía económica, contribuyendo así a la construcción del Modelo Productivo Socialista, el fortalecimiento de la Ética Socialista y la satisfacción efectiva de las necesidades del pueblo venezolano.', 5),
 (39, 'Fortalecer los espacios y programas de formación para el trabajo liberador, fomentando los valores patrióticos y el sentido crítico.', 5),
 (40, 'Impulsar el desarrollo y uso de equipos electrónicos y aplicaciones informáticas en tecnologías libres y estándares abiertos.', 5),
@@ -2639,19 +2581,17 @@ INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_na
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objetivos_generales`
+-- Estructura de tabla para la tabla `objetivos_generales`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_generales` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `objetivos_generales` (
+  `id` int(11) NOT NULL,
   `objetivo_general` text NOT NULL,
-  `objetivo_estrategico` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `estrategia` (`objetivo_estrategico`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos generales - Area estrategica' AUTO_INCREMENT=23 ;
+  `objetivo_estrategico` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos generales - Area estrategica';
 
 --
--- Dumping data for table `objetivos_generales`
+-- Volcado de datos para la tabla `objetivos_generales`
 --
 
 INSERT INTO `objetivos_generales` (`id`, `objetivo_general`, `objetivo_estrategico`) VALUES
@@ -2681,17 +2621,16 @@ INSERT INTO `objetivos_generales` (`id`, `objetivo_general`, `objetivo_estrategi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objetivos_historicos`
+-- Estructura de tabla para la tabla `objetivos_historicos`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_historicos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `objetivo_historico` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos historicos - Area estrategica' AUTO_INCREMENT=6 ;
+CREATE TABLE `objetivos_historicos` (
+  `id` int(11) NOT NULL,
+  `objetivo_historico` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos historicos - Area estrategica';
 
 --
--- Dumping data for table `objetivos_historicos`
+-- Volcado de datos para la tabla `objetivos_historicos`
 --
 
 INSERT INTO `objetivos_historicos` (`id`, `objetivo_historico`) VALUES
@@ -2704,19 +2643,17 @@ INSERT INTO `objetivos_historicos` (`id`, `objetivo_historico`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objetivos_nacionales`
+-- Estructura de tabla para la tabla `objetivos_nacionales`
 --
 
-CREATE TABLE IF NOT EXISTS `objetivos_nacionales` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `objetivos_nacionales` (
+  `id` int(11) NOT NULL,
   `objetivo_nacional` text NOT NULL,
-  `objetivo_historico` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `directriz` (`objetivo_historico`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos nacionales - Area estrategica' AUTO_INCREMENT=25 ;
+  `objetivo_historico` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Objetivos nacionales - Area estrategica';
 
 --
--- Dumping data for table `objetivos_nacionales`
+-- Volcado de datos para la tabla `objetivos_nacionales`
 --
 
 INSERT INTO `objetivos_nacionales` (`id`, `objetivo_nacional`, `objetivo_historico`) VALUES
@@ -2748,17 +2685,16 @@ INSERT INTO `objetivos_nacionales` (`id`, `objetivo_nacional`, `objetivo_histori
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pais`
+-- Estructura de tabla para la tabla `pais`
 --
 
-CREATE TABLE IF NOT EXISTS `pais` (
-  `id` smallint(3) unsigned zerofill NOT NULL,
-  `nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `pais` (
+  `id` smallint(3) UNSIGNED ZEROFILL NOT NULL,
+  `nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `pais`
+-- Volcado de datos para la tabla `pais`
 --
 
 INSERT INTO `pais` (`id`, `nombre`) VALUES
@@ -3007,24 +2943,22 @@ INSERT INTO `pais` (`id`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `parroquia`
+-- Estructura de tabla para la tabla `parroquia`
 --
 
-CREATE TABLE IF NOT EXISTS `parroquia` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `parroquia` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) CHARACTER SET latin1 NOT NULL,
-  `id_municipio` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_municipio` (`id_municipio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id_municipio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partida_especifica`
+-- Estructura de tabla para la tabla `partida_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_especifica` (
+CREATE TABLE `partida_especifica` (
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
@@ -3033,12 +2967,11 @@ CREATE TABLE IF NOT EXISTS `partida_especifica` (
   `estatus` tinyint(1) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`) USING BTREE
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `partida_especifica`
+-- Volcado de datos para la tabla `partida_especifica`
 --
 
 INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -3468,11 +3401,11 @@ INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`,
 ('4', '01', '04', '45', 'Bonificación a altos funcionarios y altas funcionarias del poder público y de elección popular', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '01', '04', '46', 'Bono compensatorio de alimentación a altos funcionarios y altas funcionarias del poder público y de elección popular', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '01', '04', '47', 'Bono compensatorio de transporte a altos funcionarios y altas funcionarias del poder público y de elección popular', 1, '2016-09-08 20:02:55', NULL, NULL),
-('4', '01', '04', '48', 'Complemento al personal de alto nivel y de dirección por gastos de representación', 1, '2016-09-08 20:02:55', NULL, NULL);
-INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
+('4', '01', '04', '48', 'Complemento al personal de alto nivel y de dirección por gastos de representación', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '01', '04', '49', 'Complemento al personal de alto nivel y de dirección por comisión de servicios', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '01', '04', '50', 'Bonificación al personal de alto nivel y de dirección', 1, '2016-09-08 20:02:55', NULL, NULL),
-('4', '01', '04', '51', 'Bono compensatorio de alimentación al personal de alto nivel y de dirección', 1, '2016-09-08 20:02:55', NULL, NULL),
+('4', '01', '04', '51', 'Bono compensatorio de alimentación al personal de alto nivel y de dirección', 1, '2016-09-08 20:02:55', NULL, NULL);
+INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
 ('4', '01', '04', '52', 'Bono compensatorio de transporte al personal de alto nivel y de dirección', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '01', '04', '94', 'Otros complementos a altos funcionarios y altas funcionarias del sector público y de elección popular', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '01', '04', '95', 'Otros complementos al personal de alto nivel y de dirección', 1, '2016-09-08 20:02:55', NULL, NULL),
@@ -3890,15 +3823,15 @@ INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`,
 ('4', '07', '03', '03', 'Transferencias de capital internas al sector público', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '07', '03', '04', 'Donaciones de capital internas al sector público', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '07', '04', '01', 'Transferencias de capital al exterior', 1, '2016-09-08 20:02:55', NULL, NULL),
-('4', '07', '04', '02', 'Donaciones de capital al exterior', 1, '2016-09-08 20:02:55', NULL, NULL);
-INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
+('4', '07', '04', '02', 'Donaciones de capital al exterior', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '07', '05', '01', 'Situado Constitucional', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '07', '05', '02', 'Situado Estadal a Municipal', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '07', '06', '01', 'Subsidio de Régimen Especial', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '07', '07', '01', 'Subsidio de capitalidad', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '07', '08', '01', 'Asignaciones Económicas Especiales (LAEE) Estadal', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '07', '08', '02', 'Asignaciones Económicas Especiales (LAEE) Estadal a Municipal', 1, '2016-09-08 20:02:55', NULL, NULL),
-('4', '07', '08', '03', 'Asignaciones Económicas Especiales (LAEE) Municipal', 1, '2016-09-08 20:02:55', NULL, NULL),
+('4', '07', '08', '03', 'Asignaciones Económicas Especiales (LAEE) Municipal', 1, '2016-09-08 20:02:55', NULL, NULL);
+INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
 ('4', '07', '08', '04', 'Asignaciones Económicas Especiales (LAEE) Fondo Nacional de los Consejos Comunales', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '07', '08', '05', 'Asignaciones Económicas Especiales (LAEE) Apoyo al Fortalecimiento Institucional', 1, '2016-09-08 20:02:55', NULL, NULL),
 ('4', '07', '09', '01', 'Aportes al Poder Estadal por transferencia de servicios', 1, '2016-09-08 20:02:55', NULL, NULL),
@@ -4044,10 +3977,10 @@ INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partida_generica`
+-- Estructura de tabla para la tabla `partida_generica`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_generica` (
+CREATE TABLE `partida_generica` (
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
@@ -4055,12 +3988,11 @@ CREATE TABLE IF NOT EXISTS `partida_generica` (
   `estatus` tinyint(1) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`cuenta`,`partida`,`generica`) USING BTREE
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `partida_generica`
+-- Volcado de datos para la tabla `partida_generica`
 --
 
 INSERT INTO `partida_generica` (`cuenta`, `partida`, `generica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -4299,23 +4231,21 @@ INSERT INTO `partida_generica` (`cuenta`, `partida`, `generica`, `nombre`, `esta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partida_partida`
+-- Estructura de tabla para la tabla `partida_partida`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_partida` (
+CREATE TABLE `partida_partida` (
   `cuenta` char(1) NOT NULL COMMENT 'ID Cuenta',
   `partida` char(2) NOT NULL,
   `nombre` text NOT NULL,
   `estatus` tinyint(1) NOT NULL DEFAULT '1',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`cuenta`,`partida`) USING BTREE,
-  KEY `ramo` (`cuenta`)
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `partida_partida`
+-- Volcado de datos para la tabla `partida_partida`
 --
 
 INSERT INTO `partida_partida` (`cuenta`, `partida`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -4349,10 +4279,10 @@ INSERT INTO `partida_partida` (`cuenta`, `partida`, `nombre`, `estatus`, `fecha_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partida_sub_especifica`
+-- Estructura de tabla para la tabla `partida_sub_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `partida_sub_especifica` (
+CREATE TABLE `partida_sub_especifica` (
   `cuenta` char(1) NOT NULL,
   `partida` char(2) NOT NULL,
   `generica` char(2) NOT NULL,
@@ -4362,12 +4292,11 @@ CREATE TABLE IF NOT EXISTS `partida_sub_especifica` (
   `estatus` tinyint(1) NOT NULL DEFAULT '1',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`) USING BTREE
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `partida_sub_especifica`
+-- Volcado de datos para la tabla `partida_sub_especifica`
 --
 
 INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -4779,11 +4708,11 @@ INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifi
 ('4', '01', '04', '14', '00', 'Complemento a obreros por horas extraordinarias o por sobre tiempo', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '01', '04', '15', '00', 'Complemento a obreros por trabajo o jornada nocturna', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '01', '04', '16', '00', 'Complemento a obreros por gastos de alimentación', 1, '2016-09-08 20:02:56', NULL, NULL),
-('4', '01', '04', '17', '00', 'Complemento a obreros por gastos de transporte', 1, '2016-09-08 20:02:56', NULL, NULL);
-INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
+('4', '01', '04', '17', '00', 'Complemento a obreros por gastos de transporte', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '01', '04', '18', '00', 'Bono compensatorio de alimentación a obreros', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '01', '04', '19', '00', 'Bono compensatorio de transporte a obreros', 1, '2016-09-08 20:02:56', NULL, NULL),
-('4', '01', '04', '20', '00', 'Complemento a obreros por días feriados', 1, '2016-09-08 20:02:56', NULL, NULL),
+('4', '01', '04', '20', '00', 'Complemento a obreros por días feriados', 1, '2016-09-08 20:02:56', NULL, NULL);
+INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
 ('4', '01', '04', '24', '00', 'Complemento al personal contratado por horas extraordinarias o por sobre tiempo', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '01', '04', '25', '00', 'Complemento al personal contratado por gastos de alimentación', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '01', '04', '26', '00', 'Bono compensatorio de alimentación al personal contratado', 1, '2016-09-08 20:02:56', NULL, NULL),
@@ -5179,14 +5108,14 @@ INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifi
 ('4', '05', '07', '01', '00', 'Incremento de efectos comerciales por cobrar a corto plazo', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '05', '07', '99', '00', 'Incremento de otros efectos por cobrar a corto plazo', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '05', '08', '01', '00', 'Incremento de cuentas comerciales por cobrar a mediano y largo plazo', 1, '2016-09-08 20:02:56', NULL, NULL),
-('4', '05', '08', '02', '00', 'Incremento de rentas por recaudar a mediano y largo plazo', 1, '2016-09-08 20:02:56', NULL, NULL);
-INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
+('4', '05', '08', '02', '00', 'Incremento de rentas por recaudar a mediano y largo plazo', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '05', '08', '99', '00', 'Incremento de otras cuentas por cobrar a mediano y largo plazo', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '05', '09', '01', '00', 'Incremento de efectos comerciales por cobrar a mediano y largo plazo', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '05', '09', '99', '00', 'Incremento de otros efectos por cobrar a mediano y largo plazo', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '05', '10', '01', '00', 'Incremento de fondos en avance', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '05', '10', '02', '00', 'Incremento de fondos en anticipos', 1, '2016-09-08 20:02:56', NULL, NULL),
-('4', '05', '10', '03', '00', 'Incremento de fondos en fideicomiso', 1, '2016-09-08 20:02:56', NULL, NULL),
+('4', '05', '10', '03', '00', 'Incremento de fondos en fideicomiso', 1, '2016-09-08 20:02:56', NULL, NULL);
+INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
 ('4', '05', '10', '04', '00', 'Incremento de anticipos a proveedores', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '05', '10', '05', '00', 'Incremento de anticipos a contratistas por contratos de corto plazo', 1, '2016-09-08 20:02:56', NULL, NULL),
 ('4', '05', '10', '06', '00', 'Incremento de anticipos a contratistas por contratos de mediano y largo plazo', 1, '2016-09-08 20:02:56', NULL, NULL),
@@ -5373,34 +5302,31 @@ INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `perfil`
+-- Estructura de tabla para la tabla `perfil`
 --
 
-CREATE TABLE IF NOT EXISTS `perfil` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `perfil` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
   `cedula` int(8) NOT NULL,
   `sexo` char(1) DEFAULT NULL,
-  `user_accounts` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_accounts` (`user_accounts`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Perfil de usuario' AUTO_INCREMENT=1 ;
+  `user_accounts` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Perfil de usuario';
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `plan_operativo`
+-- Estructura de tabla para la tabla `plan_operativo`
 --
 
-CREATE TABLE IF NOT EXISTS `plan_operativo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `plan_operativo` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `plan_operativo` (
+  `id` int(11) NOT NULL,
+  `plan_operativo` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `plan_operativo`
+-- Volcado de datos para la tabla `plan_operativo`
 --
 
 INSERT INTO `plan_operativo` (`id`, `plan_operativo`) VALUES
@@ -5410,17 +5336,16 @@ INSERT INTO `plan_operativo` (`id`, `plan_operativo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `presentacion`
+-- Estructura de tabla para la tabla `presentacion`
 --
 
-CREATE TABLE IF NOT EXISTS `presentacion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(60) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `presentacion` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `presentacion`
+-- Volcado de datos para la tabla `presentacion`
 --
 
 INSERT INTO `presentacion` (`id`, `nombre`) VALUES
@@ -5430,10 +5355,10 @@ INSERT INTO `presentacion` (`id`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `programacion_fisica_presupuestaria`
+-- Estructura de tabla para la tabla `programacion_fisica_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
+CREATE TABLE `programacion_fisica_presupuestaria` (
   `id` int(11) NOT NULL,
   `id_proyecto_accion_especifica` int(11) NOT NULL,
   `tipo_distribucion` int(11) DEFAULT NULL,
@@ -5451,20 +5376,17 @@ CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
   `diciembre` decimal(10,0) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_programacion_fisica_presupuestaria_1_idx` (`tipo_distribucion`),
-  KEY `fk_programacion_fisica_presupuestaria_2_idx` (`id_proyecto_accion_especifica`)
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto`
+-- Estructura de tabla para la tabla `proyecto`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto` (
+  `id` int(11) NOT NULL,
   `codigo_proyecto` varchar(45) DEFAULT NULL,
   `codigo_sne` varchar(45) DEFAULT NULL,
   `nombre` text NOT NULL,
@@ -5486,36 +5408,25 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  `usuario_creacion` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `codigo_proyecto_UNIQUE` (`codigo_proyecto`),
-  UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
-  KEY `estatus_proyecto_fk` (`estatus_proyecto`),
-  KEY `situacion_presupuestaria_fk` (`situacion_presupuestaria`),
-  KEY `clasificacion_sector_fk` (`sector`) USING BTREE,
-  KEY `sub_sector_fk` (`sub_sector`) USING BTREE,
-  KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
-  KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
-  KEY `ambito_fk` (`ambito`) USING BTREE,
-  KEY `usuario_creacion` (`usuario_creacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `usuario_creacion` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `proyecto`
+-- Volcado de datos para la tabla `proyecto`
 --
 
 INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `codigo_sne`, `nombre`, `fecha_inicio`, `fecha_fin`, `estatus_proyecto`, `situacion_presupuestaria`, `monto_proyecto`, `descripcion`, `objetivo_general_proyecto`, `sector`, `sub_sector`, `plan_operativo`, `objetivo_general`, `objetivo_estrategico_institucional`, `ambito`, `aprobado`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`, `usuario_creacion`) VALUES
-(1, '001', '001', 'probando', '2016-09-01', '2016-09-30', 1, 1, '100.00', 'probando las notificaciones y observaciones', 'no lo se por ahora', 2, 1, 1, 1, 'probando', 2, 0, 1, '2016-09-19 15:26:44', NULL, NULL, 2),
+(1, '001', '001', 'probando', '2016-09-01', '2016-09-30', 1, 1, '100.00', 'probando las notificaciones y observaciones', 'no lo se por ahora', 2, 1, 1, 1, 'probando', 2, 1, 1, '2016-09-19 15:26:44', '2016-09-27 19:18:34', NULL, 2),
 (2, '004', '004', 'probando', '2016-09-01', '2016-09-30', 2, 1, '100.00', 'probando proyecto', 'probnado', 14, 1, 1, 2, 'probnado', 2, 0, 1, '2016-09-19 15:49:00', NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_accion_especifica`
+-- Estructura de tabla para la tabla `proyecto_accion_especifica`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_accion_especifica` (
+  `id` int(11) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   `codigo_accion_especifica` varchar(3) NOT NULL,
   `nombre` text,
@@ -5529,15 +5440,11 @@ CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
   `aprobado` tinyint(1) NOT NULL DEFAULT '0',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
-  KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`),
-  KEY `unidad_medida` (`unidad_medida`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=69 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `proyecto_accion_especifica`
+-- Volcado de datos para la tabla `proyecto_accion_especifica`
 --
 
 INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_especifica`, `nombre`, `unidad_medida`, `ponderacion`, `bien_servicio`, `id_unidad_ejecutora`, `fecha_inicio`, `fecha_fin`, `estatus`, `aprobado`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -5547,11 +5454,11 @@ INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_es
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_ae_meta`
+-- Estructura de tabla para la tabla `proyecto_ae_meta`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_ae_meta` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_ae_meta` (
+  `id` int(11) NOT NULL,
   `id_proyecto_accion_especifica` int(11) NOT NULL,
   `enero` int(11) NOT NULL,
   `febrero` int(11) NOT NULL,
@@ -5567,13 +5474,11 @@ CREATE TABLE IF NOT EXISTS `proyecto_ae_meta` (
   `diciembre` int(11) NOT NULL,
   `estatus` tinyint(1) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `id_proyecto_accion_especifica` (`id_proyecto_accion_especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Meta física de accion especifica de proyecto' AUTO_INCREMENT=5 ;
+  `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Meta física de accion especifica de proyecto';
 
 --
--- Dumping data for table `proyecto_ae_meta`
+-- Volcado de datos para la tabla `proyecto_ae_meta`
 --
 
 INSERT INTO `proyecto_ae_meta` (`id`, `id_proyecto_accion_especifica`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `estatus`, `fecha_creacion`, `fecha_modificacion`) VALUES
@@ -5583,11 +5488,11 @@ INSERT INTO `proyecto_ae_meta` (`id`, `id_proyecto_accion_especifica`, `enero`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_alcance`
+-- Estructura de tabla para la tabla `proyecto_alcance`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_alcance` (
+  `id` int(11) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   `enunciado_problema` text NOT NULL COMMENT 'Enunciado del problema o necesidad',
   `poblacion_afectada` text NOT NULL COMMENT 'Población afectada',
@@ -5628,13 +5533,11 @@ CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
   `vinculado_medida` text COMMENT '¿En que medida se encuentran vinculados los proyectos?',
   `obstaculos` text NOT NULL COMMENT ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `id_proyecto` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto' AUTO_INCREMENT=4 ;
+  `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto';
 
 --
--- Dumping data for table `proyecto_alcance`
+-- Volcado de datos para la tabla `proyecto_alcance`
 --
 
 INSERT INTO `proyecto_alcance` (`id`, `id_proyecto`, `enunciado_problema`, `poblacion_afectada`, `indicador_situacion`, `formula_indicador`, `fuente_indicador`, `fecha_indicador_inicial`, `enunciado_situacion_deseada`, `poblacion_objetivo`, `indicador_situacion_deseada`, `resultado_esperado`, `unidad_medida`, `meta_proyecto`, `benficiarios_femeninos`, `beneficiarios_masculinos`, `denominacion_beneficiario`, `total_empleos_directos_femeninos`, `total_empleos_directos_masculino`, `empleos_directos_nuevos_femeninos`, `empleos_directos_nuevos_masculino`, `empleos_directos_sostenidos_femeninos`, `empleos_directos_sostenidos_masculino`, `requiere_accion_no_financiera`, `especifique_con_cual`, `requiere_nombre_institucion`, `requiere_nombre_instancia`, `requiere_mencione_acciones`, `contribuye_complementa`, `especifique_complementa_cual`, `contribuye_nombre_institucion`, `contribuye_nombre_instancia`, `contribuye_mencione_acciones`, `vinculado_otro`, `vinculado_especifique`, `vinculado_nombre_institucion`, `vinculado_nombre_instancia`, `vinculado_nombre_proyecto`, `vinculado_medida`, `obstaculos`, `fecha_creacion`, `fecha_modificacion`) VALUES
@@ -5644,37 +5547,30 @@ INSERT INTO `proyecto_alcance` (`id`, `id_proyecto`, `enunciado_problema`, `pobl
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_fuente_financiamiento`
+-- Estructura de tabla para la tabla `proyecto_fuente_financiamiento`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_fuente_financiamiento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+CREATE TABLE `proyecto_fuente_financiamiento` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_localizacion`
+-- Estructura de tabla para la tabla `proyecto_localizacion`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_localizacion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_localizacion` (
+  `id` int(11) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   `id_pais` int(11) NOT NULL,
   `id_estado` int(11) DEFAULT NULL,
   `id_municipio` int(11) DEFAULT NULL,
-  `id_parroquia` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `estados_fk_idx` (`id_estado`),
-  KEY `municipio_fk_idx` (`id_municipio`),
-  KEY `parroquia_fk_idx` (`id_parroquia`),
-  KEY `proyecto_fk_idx` (`id_proyecto`),
-  KEY `id_pais` (`id_pais`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+  `id_parroquia` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `proyecto_localizacion`
+-- Volcado de datos para la tabla `proyecto_localizacion`
 --
 
 INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
@@ -5688,11 +5584,11 @@ INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_pedido`
+-- Estructura de tabla para la tabla `proyecto_pedido`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_pedido` (
+  `id` int(11) NOT NULL,
   `id_material` int(11) NOT NULL,
   `enero` int(11) NOT NULL DEFAULT '0',
   `febrero` int(11) NOT NULL DEFAULT '0',
@@ -5711,14 +5607,11 @@ CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
   `asignado` int(11) NOT NULL COMMENT 'ID de la asignacion (Usuario-UE-AC)',
   `estatus` tinyint(1) NOT NULL,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_material` (`id_material`),
-  KEY `asignado` (`asignado`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `proyecto_pedido`
+-- Volcado de datos para la tabla `proyecto_pedido`
 --
 
 INSERT INTO `proyecto_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `precio`, `fecha_creacion`, `asignado`, `estatus`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -5729,22 +5622,20 @@ INSERT INTO `proyecto_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_registrador`
+-- Estructura de tabla para la tabla `proyecto_registrador`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_registrador` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(30) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(80) DEFAULT NULL,
   `telefono` varchar(14) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_proyecto` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `proyecto_registrador`
+-- Volcado de datos para la tabla `proyecto_registrador`
 --
 
 INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono`, `id_proyecto`) VALUES
@@ -5753,22 +5644,20 @@ INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_responsable`
+-- Estructura de tabla para la tabla `proyecto_responsable`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_responsable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_responsable` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(14) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `proyecto_fk` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `proyecto_responsable`
+-- Volcado de datos para la tabla `proyecto_responsable`
 --
 
 INSERT INTO `proyecto_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono`, `id_proyecto`) VALUES
@@ -5779,23 +5668,21 @@ INSERT INTO `proyecto_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_responsable_administrativo`
+-- Estructura de tabla para la tabla `proyecto_responsable_administrativo`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_responsable_administrativo` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_administradora` varchar(45) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_id_proyecto_idx` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `proyecto_responsable_administrativo`
+-- Volcado de datos para la tabla `proyecto_responsable_administrativo`
 --
 
 INSERT INTO `proyecto_responsable_administrativo` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_administradora`, `id_proyecto`) VALUES
@@ -5805,23 +5692,21 @@ INSERT INTO `proyecto_responsable_administrativo` (`id`, `nombre`, `cedula`, `em
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_responsable_tecnico`
+-- Estructura de tabla para la tabla `proyecto_responsable_tecnico`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_responsable_tecnico` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `unidad_tecnica` varchar(45) NOT NULL,
-  `id_proyecto` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_proyecto_fk` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `id_proyecto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `proyecto_responsable_tecnico`
+-- Volcado de datos para la tabla `proyecto_responsable_tecnico`
 --
 
 INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_tecnica`, `id_proyecto`) VALUES
@@ -5832,49 +5717,45 @@ INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_usuario_asignar`
+-- Estructura de tabla para la tabla `proyecto_usuario_asignar`
 --
 
-CREATE TABLE IF NOT EXISTS `proyecto_usuario_asignar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proyecto_usuario_asignar` (
+  `id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL COMMENT 'Llave foránea de usuario',
-  `proyecto_especifica` int(11) NOT NULL COMMENT 'llave foránea de acción especifica',
+  `proyecto_id` int(11) NOT NULL COMMENT 'llave foránea de proyecto',
+  `accion_especifica_id` int(11) NOT NULL COMMENT 'Llave foránea de acción específica',
   `estatus` tinyint(1) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `usuario` (`usuario_id`),
-  KEY `proyecto_especifica_ue` (`proyecto_especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de un proyecto' AUTO_INCREMENT=14 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de un proyecto';
 
 --
--- Dumping data for table `proyecto_usuario_asignar`
+-- Volcado de datos para la tabla `proyecto_usuario_asignar`
 --
 
-INSERT INTO `proyecto_usuario_asignar` (`id`, `usuario_id`, `proyecto_especifica`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
-(13, 2, 37, 1, '2016-09-08 20:11:35', NULL, NULL);
+INSERT INTO `proyecto_usuario_asignar` (`id`, `usuario_id`, `proyecto_id`, `accion_especifica_id`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
+(13, 2, 1, 68, 1, '2016-09-08 20:11:35', '2016-09-27 19:26:13', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `responsable_acc_variable`
+-- Estructura de tabla para la tabla `responsable_acc_variable`
 --
 
-CREATE TABLE IF NOT EXISTS `responsable_acc_variable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `responsable_acc_variable` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
   `oficina` varchar(60) NOT NULL,
-  `id_variable` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_variable` (`id_variable`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+  `id_variable` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `responsable_acc_variable`
+-- Volcado de datos para la tabla `responsable_acc_variable`
 --
 
 INSERT INTO `responsable_acc_variable` (`id`, `nombre`, `cedula`, `email`, `telefono`, `oficina`, `id_variable`) VALUES
@@ -5886,17 +5767,16 @@ INSERT INTO `responsable_acc_variable` (`id`, `nombre`, `cedula`, `email`, `tele
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sector`
+-- Estructura de tabla para la tabla `sector`
 --
 
-CREATE TABLE IF NOT EXISTS `sector` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sector` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+CREATE TABLE `sector` (
+  `id` int(11) NOT NULL,
+  `sector` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `sector`
+-- Volcado de datos para la tabla `sector`
 --
 
 INSERT INTO `sector` (`id`, `sector`) VALUES
@@ -5920,17 +5800,16 @@ INSERT INTO `sector` (`id`, `sector`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `situacion_presupuestaria`
+-- Estructura de tabla para la tabla `situacion_presupuestaria`
 --
 
-CREATE TABLE IF NOT EXISTS `situacion_presupuestaria` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `situacion` varchar(25) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+CREATE TABLE `situacion_presupuestaria` (
+  `id` int(11) NOT NULL,
+  `situacion` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `situacion_presupuestaria`
+-- Volcado de datos para la tabla `situacion_presupuestaria`
 --
 
 INSERT INTO `situacion_presupuestaria` (`id`, `situacion`) VALUES
@@ -5939,17 +5818,16 @@ INSERT INTO `situacion_presupuestaria` (`id`, `situacion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sub_sector`
+-- Estructura de tabla para la tabla `sub_sector`
 --
 
-CREATE TABLE IF NOT EXISTS `sub_sector` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sub_sector` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+CREATE TABLE `sub_sector` (
+  `id` int(11) NOT NULL,
+  `sub_sector` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `sub_sector`
+-- Volcado de datos para la tabla `sub_sector`
 --
 
 INSERT INTO `sub_sector` (`id`, `sub_sector`) VALUES
@@ -5958,29 +5836,27 @@ INSERT INTO `sub_sector` (`id`, `sub_sector`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo_distribucion`
+-- Estructura de tabla para la tabla `tipo_distribucion`
 --
 
-CREATE TABLE IF NOT EXISTS `tipo_distribucion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+CREATE TABLE `tipo_distribucion` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(45) CHARACTER SET latin1 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo_entidad`
+-- Estructura de tabla para la tabla `tipo_entidad`
 --
 
-CREATE TABLE IF NOT EXISTS `tipo_entidad` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `tipo_entidad` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tipo_entidad`
+-- Volcado de datos para la tabla `tipo_entidad`
 --
 
 INSERT INTO `tipo_entidad` (`id`, `nombre`) VALUES
@@ -5990,17 +5866,16 @@ INSERT INTO `tipo_entidad` (`id`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo_financiamiento`
+-- Estructura de tabla para la tabla `tipo_financiamiento`
 --
 
-CREATE TABLE IF NOT EXISTS `tipo_financiamiento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `tipo_financiamiento` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tipo_financiamiento`
+-- Volcado de datos para la tabla `tipo_financiamiento`
 --
 
 INSERT INTO `tipo_financiamiento` (`id`, `tipo`) VALUES
@@ -6010,24 +5885,19 @@ INSERT INTO `tipo_financiamiento` (`id`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ue_partida_entidad`
+-- Estructura de tabla para la tabla `ue_partida_entidad`
 --
 
-CREATE TABLE IF NOT EXISTS `ue_partida_entidad` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ue_partida_entidad` (
+  `id` int(11) NOT NULL,
   `cuenta` char(1) NOT NULL COMMENT 'foránea de partida-partida-cuenta',
   `partida` char(2) NOT NULL COMMENT 'foránea partida-partida_partida',
   `id_ue` int(11) NOT NULL COMMENT 'foránea de unidad ejecutora',
-  `id_tipo_entidad` int(11) NOT NULL COMMENT 'foránea de tipo entidad',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `cuenta_2` (`cuenta`,`partida`,`id_ue`,`id_tipo_entidad`),
-  KEY `id_ue` (`id_ue`),
-  KEY `id_tipo_entidad` (`id_tipo_entidad`),
-  KEY `partida` (`partida`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4687 ;
+  `id_tipo_entidad` int(11) NOT NULL COMMENT 'foránea de tipo entidad'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `ue_partida_entidad`
+-- Volcado de datos para la tabla `ue_partida_entidad`
 --
 
 INSERT INTO `ue_partida_entidad` (`id`, `cuenta`, `partida`, `id_ue`, `id_tipo_entidad`) VALUES
@@ -9251,21 +9121,19 @@ INSERT INTO `ue_partida_entidad` (`id`, `cuenta`, `partida`, `id_ue`, `id_tipo_e
 -- --------------------------------------------------------
 
 --
--- Table structure for table `unidad_ejecutora`
+-- Estructura de tabla para la tabla `unidad_ejecutora`
 --
 
-CREATE TABLE IF NOT EXISTS `unidad_ejecutora` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `unidad_ejecutora` (
+  `id` int(11) NOT NULL,
   `codigo_ue` varchar(5) CHARACTER SET latin1 NOT NULL,
   `nombre` text CHARACTER SET latin1 NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fecha_eliminacion` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `codigo_ue_UNIQUE` (`codigo_ue`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=148 ;
+  `fecha_eliminacion` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `unidad_ejecutora`
+-- Volcado de datos para la tabla `unidad_ejecutora`
 --
 
 INSERT INTO `unidad_ejecutora` (`id`, `codigo_ue`, `nombre`, `fecha_creacion`, `fecha_eliminacion`) VALUES
@@ -9419,17 +9287,16 @@ INSERT INTO `unidad_ejecutora` (`id`, `codigo_ue`, `nombre`, `fecha_creacion`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `unidad_medida`
+-- Estructura de tabla para la tabla `unidad_medida`
 --
 
-CREATE TABLE IF NOT EXISTS `unidad_medida` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `unidad_medida` varchar(45) NOT NULL COMMENT 'Unidad de medida',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Unidad de medida para el alcance e impacto del proyecto' AUTO_INCREMENT=623 ;
+CREATE TABLE `unidad_medida` (
+  `id` int(11) NOT NULL,
+  `unidad_medida` varchar(45) NOT NULL COMMENT 'Unidad de medida'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Unidad de medida para el alcance e impacto del proyecto';
 
 --
--- Dumping data for table `unidad_medida`
+-- Volcado de datos para la tabla `unidad_medida`
 --
 
 INSERT INTO `unidad_medida` (`id`, `unidad_medida`) VALUES
@@ -10059,11 +9926,11 @@ INSERT INTO `unidad_medida` (`id`, `unidad_medida`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_accounts`
+-- Estructura de tabla para la tabla `user_accounts`
 --
 
-CREATE TABLE IF NOT EXISTS `user_accounts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user_accounts` (
+  `id` int(11) NOT NULL,
   `login` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
@@ -10076,14 +9943,11 @@ CREATE TABLE IF NOT EXISTS `user_accounts` (
   `blocked_at` int(11) DEFAULT NULL,
   `confirmed_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_unique_login` (`login`),
-  UNIQUE KEY `user_unique_username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `updated_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `user_accounts`
+-- Volcado de datos para la tabla `user_accounts`
 --
 
 INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_key`, `administrator`, `creator`, `creator_ip`, `confirm_token`, `recovery_token`, `blocked_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES
@@ -10093,107 +9957,925 @@ INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_k
 (4, 'walter86_799@hotmail.com', 'prueba', '$2y$13$3BvIuYnRrAoOGKFqtdDe2Ohn8NeaOx37XkENfZuoweWefnyWSBLVW', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1468848116, 1468848116, 1471441527);
 
 --
--- Constraints for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Constraints for table `accion_centralizada_accion_especifica`
+-- Indices de la tabla `accion_centralizada`
+--
+ALTER TABLE `accion_centralizada`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `accion_centralizada_accion_especifica`
+--
+ALTER TABLE `accion_centralizada_accion_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ac_centr` (`id_ac_centr`);
+
+--
+-- Indices de la tabla `accion_centralizada_ac_especifica_uej`
+--
+ALTER TABLE `accion_centralizada_ac_especifica_uej`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ue` (`id_ue`),
+  ADD KEY `id_v` (`id_ac_esp`);
+
+--
+-- Indices de la tabla `accion_centralizada_asignar`
+--
+ALTER TABLE `accion_centralizada_asignar`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario` (`usuario`),
+  ADD KEY `accion_especifica_ue` (`accion_especifica_ue`);
+
+--
+-- Indices de la tabla `accion_centralizada_desbloqueo_mes`
+--
+ALTER TABLE `accion_centralizada_desbloqueo_mes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_ejecucion` (`id_ejecucion`);
+
+--
+-- Indices de la tabla `accion_centralizada_pedido`
+--
+ALTER TABLE `accion_centralizada_pedido`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_material` (`id_material`),
+  ADD KEY `asignado` (`asignado`);
+
+--
+-- Indices de la tabla `accion_centralizada_variables`
+--
+ALTER TABLE `accion_centralizada_variables`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `unidad_medida_2` (`unidad_medida`),
+  ADD KEY `localizacion` (`localizacion`),
+  ADD KEY `meta_programada_variable` (`meta_programada_variable`),
+  ADD KEY `unidad_ejecutora` (`unidad_ejecutora`),
+  ADD KEY `acc_accion_especifica` (`acc_accion_especifica`);
+
+--
+-- Indices de la tabla `accion_centralizada_variables_usuarios`
+--
+ALTER TABLE `accion_centralizada_variables_usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_variable` (`id_variable`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `accion_centralizada_variable_ejecucion`
+--
+ALTER TABLE `accion_centralizada_variable_ejecucion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_programacion` (`id_programacion`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `accion_centralizada_variable_programacion`
+--
+ALTER TABLE `accion_centralizada_variable_programacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_localizacion` (`id_localizacion`);
+
+--
+-- Indices de la tabla `ambito`
+--
+ALTER TABLE `ambito`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `audit_data`
+--
+ALTER TABLE `audit_data`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_data_entry_id` (`entry_id`);
+
+--
+-- Indices de la tabla `audit_entry`
+--
+ALTER TABLE `audit_entry`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_route` (`route`);
+
+--
+-- Indices de la tabla `audit_error`
+--
+ALTER TABLE `audit_error`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_error_entry_id` (`entry_id`),
+  ADD KEY `idx_file` (`file`(180)),
+  ADD KEY `idx_emailed` (`emailed`);
+
+--
+-- Indices de la tabla `audit_javascript`
+--
+ALTER TABLE `audit_javascript`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_javascript_entry_id` (`entry_id`);
+
+--
+-- Indices de la tabla `audit_mail`
+--
+ALTER TABLE `audit_mail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_mail_entry_id` (`entry_id`);
+
+--
+-- Indices de la tabla `audit_trail`
+--
+ALTER TABLE `audit_trail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_audit_trail_entry_id` (`entry_id`),
+  ADD KEY `idx_audit_user_id` (`user_id`),
+  ADD KEY `idx_audit_trail_field` (`model`,`model_id`,`field`),
+  ADD KEY `idx_audit_trail_action` (`action`);
+
+--
+-- Indices de la tabla `auth_assignment`
+--
+ALTER TABLE `auth_assignment`
+  ADD PRIMARY KEY (`item_name`,`user_id`);
+
+--
+-- Indices de la tabla `auth_item`
+--
+ALTER TABLE `auth_item`
+  ADD PRIMARY KEY (`name`),
+  ADD KEY `rule_name` (`rule_name`),
+  ADD KEY `idx-auth_item-type` (`type`);
+
+--
+-- Indices de la tabla `auth_item_child`
+--
+ALTER TABLE `auth_item_child`
+  ADD PRIMARY KEY (`parent`,`child`),
+  ADD KEY `child` (`child`);
+
+--
+-- Indices de la tabla `auth_rule`
+--
+ALTER TABLE `auth_rule`
+  ADD PRIMARY KEY (`name`);
+
+--
+-- Indices de la tabla `cuenta_presupuestaria`
+--
+ALTER TABLE `cuenta_presupuestaria`
+  ADD PRIMARY KEY (`cuenta`);
+
+--
+-- Indices de la tabla `estados`
+--
+ALTER TABLE `estados`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pais` (`id_pais`);
+
+--
+-- Indices de la tabla `estatus_proyecto`
+--
+ALTER TABLE `estatus_proyecto`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `fuente_financiamiento`
+--
+ALTER TABLE `fuente_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `instancia_institucion`
+--
+ALTER TABLE `instancia_institucion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `localizacion_acc_variable`
+--
+ALTER TABLE `localizacion_acc_variable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_variable` (`id_variable`),
+  ADD KEY `id_pais` (`id_pais`),
+  ADD KEY `id_estado` (`id_estado`),
+  ADD KEY `id_municipio` (`id_municipio`),
+  ADD KEY `id_parroquia` (`id_parroquia`);
+
+--
+-- Indices de la tabla `materiales_servicios`
+--
+ALTER TABLE `materiales_servicios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `unidad_medida` (`unidad_medida`),
+  ADD KEY `presentacion` (`presentacion`),
+  ADD KEY `cuenta` (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`);
+
+--
+-- Indices de la tabla `migration`
+--
+ALTER TABLE `migration`
+  ADD PRIMARY KEY (`version`);
+
+--
+-- Indices de la tabla `modelhistory`
+--
+ALTER TABLE `modelhistory`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx-table` (`table`),
+  ADD KEY `idx-field_name` (`field_name`),
+  ADD KEY `idx-type` (`type`),
+  ADD KEY `idx-user_id` (`user_id`);
+
+--
+-- Indices de la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_estado` (`id_estado`);
+
+--
+-- Indices de la tabla `notification`
+--
+ALTER TABLE `notification`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `objetivos_estrategicos`
+--
+ALTER TABLE `objetivos_estrategicos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `directriz` (`objetivo_nacional`);
+
+--
+-- Indices de la tabla `objetivos_generales`
+--
+ALTER TABLE `objetivos_generales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estrategia` (`objetivo_estrategico`);
+
+--
+-- Indices de la tabla `objetivos_historicos`
+--
+ALTER TABLE `objetivos_historicos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `objetivos_nacionales`
+--
+ALTER TABLE `objetivos_nacionales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `directriz` (`objetivo_historico`);
+
+--
+-- Indices de la tabla `pais`
+--
+ALTER TABLE `pais`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `parroquia`
+--
+ALTER TABLE `parroquia`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_municipio` (`id_municipio`);
+
+--
+-- Indices de la tabla `partida_especifica`
+--
+ALTER TABLE `partida_especifica`
+  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`) USING BTREE;
+
+--
+-- Indices de la tabla `partida_generica`
+--
+ALTER TABLE `partida_generica`
+  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`) USING BTREE;
+
+--
+-- Indices de la tabla `partida_partida`
+--
+ALTER TABLE `partida_partida`
+  ADD PRIMARY KEY (`cuenta`,`partida`) USING BTREE,
+  ADD KEY `ramo` (`cuenta`);
+
+--
+-- Indices de la tabla `partida_sub_especifica`
+--
+ALTER TABLE `partida_sub_especifica`
+  ADD PRIMARY KEY (`cuenta`,`partida`,`generica`,`especifica`,`subespecifica`) USING BTREE;
+
+--
+-- Indices de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_accounts` (`user_accounts`);
+
+--
+-- Indices de la tabla `plan_operativo`
+--
+ALTER TABLE `plan_operativo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `presentacion`
+--
+ALTER TABLE `presentacion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `programacion_fisica_presupuestaria`
+--
+ALTER TABLE `programacion_fisica_presupuestaria`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_programacion_fisica_presupuestaria_1_idx` (`tipo_distribucion`),
+  ADD KEY `fk_programacion_fisica_presupuestaria_2_idx` (`id_proyecto_accion_especifica`);
+
+--
+-- Indices de la tabla `proyecto`
+--
+ALTER TABLE `proyecto`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo_proyecto_UNIQUE` (`codigo_proyecto`),
+  ADD UNIQUE KEY `codigo_sne_UNIQUE` (`codigo_sne`),
+  ADD KEY `estatus_proyecto_fk` (`estatus_proyecto`),
+  ADD KEY `situacion_presupuestaria_fk` (`situacion_presupuestaria`),
+  ADD KEY `clasificacion_sector_fk` (`sector`) USING BTREE,
+  ADD KEY `sub_sector_fk` (`sub_sector`) USING BTREE,
+  ADD KEY `plan_operativo_fk` (`plan_operativo`) USING BTREE,
+  ADD KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
+  ADD KEY `ambito_fk` (`ambito`) USING BTREE,
+  ADD KEY `usuario_creacion` (`usuario_creacion`);
+
+--
+-- Indices de la tabla `proyecto_accion_especifica`
+--
+ALTER TABLE `proyecto_accion_especifica`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_accion_especifica_proyecto_1_idx` (`id_proyecto`),
+  ADD KEY `fk_accion_especifica_proyecto_2_idx` (`id_unidad_ejecutora`),
+  ADD KEY `unidad_medida` (`unidad_medida`);
+
+--
+-- Indices de la tabla `proyecto_ae_meta`
+--
+ALTER TABLE `proyecto_ae_meta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto_accion_especifica` (`id_proyecto_accion_especifica`);
+
+--
+-- Indices de la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_fuente_financiamiento`
+--
+ALTER TABLE `proyecto_fuente_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `proyecto_localizacion`
+--
+ALTER TABLE `proyecto_localizacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estados_fk_idx` (`id_estado`),
+  ADD KEY `municipio_fk_idx` (`id_municipio`),
+  ADD KEY `parroquia_fk_idx` (`id_parroquia`),
+  ADD KEY `proyecto_fk_idx` (`id_proyecto`),
+  ADD KEY `id_pais` (`id_pais`);
+
+--
+-- Indices de la tabla `proyecto_pedido`
+--
+ALTER TABLE `proyecto_pedido`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_material` (`id_material`),
+  ADD KEY `asignado` (`asignado`);
+
+--
+-- Indices de la tabla `proyecto_registrador`
+--
+ALTER TABLE `proyecto_registrador`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `proyecto_fk` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable_administrativo`
+--
+ALTER TABLE `proyecto_responsable_administrativo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_proyecto_idx` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proyecto_fk` (`id_proyecto`);
+
+--
+-- Indices de la tabla `proyecto_usuario_asignar`
+--
+ALTER TABLE `proyecto_usuario_asignar`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario` (`usuario_id`),
+  ADD KEY `proyecto_especifica_ue` (`proyecto_id`),
+  ADD KEY `accion_especifica_id` (`accion_especifica_id`);
+
+--
+-- Indices de la tabla `responsable_acc_variable`
+--
+ALTER TABLE `responsable_acc_variable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_variable` (`id_variable`);
+
+--
+-- Indices de la tabla `sector`
+--
+ALTER TABLE `sector`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `situacion_presupuestaria`
+--
+ALTER TABLE `situacion_presupuestaria`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `sub_sector`
+--
+ALTER TABLE `sub_sector`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_distribucion`
+--
+ALTER TABLE `tipo_distribucion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_entidad`
+--
+ALTER TABLE `tipo_entidad`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipo_financiamiento`
+--
+ALTER TABLE `tipo_financiamiento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `ue_partida_entidad`
+--
+ALTER TABLE `ue_partida_entidad`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cuenta_2` (`cuenta`,`partida`,`id_ue`,`id_tipo_entidad`),
+  ADD KEY `id_ue` (`id_ue`),
+  ADD KEY `id_tipo_entidad` (`id_tipo_entidad`),
+  ADD KEY `partida` (`partida`);
+
+--
+-- Indices de la tabla `unidad_ejecutora`
+--
+ALTER TABLE `unidad_ejecutora`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo_ue_UNIQUE` (`codigo_ue`);
+
+--
+-- Indices de la tabla `unidad_medida`
+--
+ALTER TABLE `unidad_medida`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `user_accounts`
+--
+ALTER TABLE `user_accounts`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_unique_login` (`login`),
+  ADD UNIQUE KEY `user_unique_username` (`username`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada`
+--
+ALTER TABLE `accion_centralizada`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_accion_especifica`
+--
+ALTER TABLE `accion_centralizada_accion_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_ac_especifica_uej`
+--
+ALTER TABLE `accion_centralizada_ac_especifica_uej`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=396;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_asignar`
+--
+ALTER TABLE `accion_centralizada_asignar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_desbloqueo_mes`
+--
+ALTER TABLE `accion_centralizada_desbloqueo_mes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_pedido`
+--
+ALTER TABLE `accion_centralizada_pedido`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variables`
+--
+ALTER TABLE `accion_centralizada_variables`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variables_usuarios`
+--
+ALTER TABLE `accion_centralizada_variables_usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variable_ejecucion`
+--
+ALTER TABLE `accion_centralizada_variable_ejecucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+--
+-- AUTO_INCREMENT de la tabla `accion_centralizada_variable_programacion`
+--
+ALTER TABLE `accion_centralizada_variable_programacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+--
+-- AUTO_INCREMENT de la tabla `ambito`
+--
+ALTER TABLE `ambito`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla `audit_data`
+--
+ALTER TABLE `audit_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla `audit_entry`
+--
+ALTER TABLE `audit_entry`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=259;
+--
+-- AUTO_INCREMENT de la tabla `audit_error`
+--
+ALTER TABLE `audit_error`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_javascript`
+--
+ALTER TABLE `audit_javascript`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_mail`
+--
+ALTER TABLE `audit_mail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `audit_trail`
+--
+ALTER TABLE `audit_trail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `estados`
+--
+ALTER TABLE `estados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+--
+-- AUTO_INCREMENT de la tabla `estatus_proyecto`
+--
+ALTER TABLE `estatus_proyecto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT de la tabla `fuente_financiamiento`
+--
+ALTER TABLE `fuente_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT de la tabla `instancia_institucion`
+--
+ALTER TABLE `instancia_institucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `localizacion_acc_variable`
+--
+ALTER TABLE `localizacion_acc_variable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+--
+-- AUTO_INCREMENT de la tabla `materiales_servicios`
+--
+ALTER TABLE `materiales_servicios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1768;
+--
+-- AUTO_INCREMENT de la tabla `modelhistory`
+--
+ALTER TABLE `modelhistory`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `notification`
+--
+ALTER TABLE `notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_estrategicos`
+--
+ALTER TABLE `objetivos_estrategicos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_generales`
+--
+ALTER TABLE `objetivos_generales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_historicos`
+--
+ALTER TABLE `objetivos_historicos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT de la tabla `objetivos_nacionales`
+--
+ALTER TABLE `objetivos_nacionales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT de la tabla `parroquia`
+--
+ALTER TABLE `parroquia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `plan_operativo`
+--
+ALTER TABLE `plan_operativo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `presentacion`
+--
+ALTER TABLE `presentacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `proyecto`
+--
+ALTER TABLE `proyecto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_accion_especifica`
+--
+ALTER TABLE `proyecto_accion_especifica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_ae_meta`
+--
+ALTER TABLE `proyecto_ae_meta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_alcance`
+--
+ALTER TABLE `proyecto_alcance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_fuente_financiamiento`
+--
+ALTER TABLE `proyecto_fuente_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_localizacion`
+--
+ALTER TABLE `proyecto_localizacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_pedido`
+--
+ALTER TABLE `proyecto_pedido`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_registrador`
+--
+ALTER TABLE `proyecto_registrador`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable`
+--
+ALTER TABLE `proyecto_responsable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable_administrativo`
+--
+ALTER TABLE `proyecto_responsable_administrativo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_responsable_tecnico`
+--
+ALTER TABLE `proyecto_responsable_tecnico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla `proyecto_usuario_asignar`
+--
+ALTER TABLE `proyecto_usuario_asignar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT de la tabla `responsable_acc_variable`
+--
+ALTER TABLE `responsable_acc_variable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+--
+-- AUTO_INCREMENT de la tabla `sector`
+--
+ALTER TABLE `sector`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT de la tabla `situacion_presupuestaria`
+--
+ALTER TABLE `situacion_presupuestaria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `sub_sector`
+--
+ALTER TABLE `sub_sector`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `tipo_distribucion`
+--
+ALTER TABLE `tipo_distribucion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tipo_entidad`
+--
+ALTER TABLE `tipo_entidad`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `tipo_financiamiento`
+--
+ALTER TABLE `tipo_financiamiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `ue_partida_entidad`
+--
+ALTER TABLE `ue_partida_entidad`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4687;
+--
+-- AUTO_INCREMENT de la tabla `unidad_ejecutora`
+--
+ALTER TABLE `unidad_ejecutora`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+--
+-- AUTO_INCREMENT de la tabla `unidad_medida`
+--
+ALTER TABLE `unidad_medida`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=623;
+--
+-- AUTO_INCREMENT de la tabla `user_accounts`
+--
+ALTER TABLE `user_accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `accion_centralizada_accion_especifica`
 --
 ALTER TABLE `accion_centralizada_accion_especifica`
   ADD CONSTRAINT `frk_ac_acesp` FOREIGN KEY (`id_ac_centr`) REFERENCES `accion_centralizada` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_ac_especifica_uej`
+-- Filtros para la tabla `accion_centralizada_ac_especifica_uej`
 --
 ALTER TABLE `accion_centralizada_ac_especifica_uej`
   ADD CONSTRAINT `frk_acesp` FOREIGN KEY (`id_ac_esp`) REFERENCES `accion_centralizada_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_uej_acesp` FOREIGN KEY (`id_ue`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_asignar`
+-- Filtros para la tabla `accion_centralizada_asignar`
 --
 ALTER TABLE `accion_centralizada_asignar`
   ADD CONSTRAINT `accion_centralizada_asignar_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_asignacion_uej_acc_especifica` FOREIGN KEY (`accion_especifica_ue`) REFERENCES `accion_centralizada_ac_especifica_uej` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_desbloqueo_mes`
+-- Filtros para la tabla `accion_centralizada_desbloqueo_mes`
 --
 ALTER TABLE `accion_centralizada_desbloqueo_mes`
   ADD CONSTRAINT `frkey_ejecucion_mes` FOREIGN KEY (`id_ejecucion`) REFERENCES `accion_centralizada_variable_ejecucion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_pedido`
+-- Filtros para la tabla `accion_centralizada_pedido`
 --
 ALTER TABLE `accion_centralizada_pedido`
   ADD CONSTRAINT `frk_asignada_centralpedido` FOREIGN KEY (`asignado`) REFERENCES `accion_centralizada_asignar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_materiales_centralpedido` FOREIGN KEY (`id_material`) REFERENCES `materiales_servicios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_variables`
+-- Filtros para la tabla `accion_centralizada_variables`
 --
 ALTER TABLE `accion_centralizada_variables`
   ADD CONSTRAINT `frk_uej_variable` FOREIGN KEY (`unidad_ejecutora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_unidad_medida_variable` FOREIGN KEY (`unidad_medida`) REFERENCES `unidad_medida` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_variables_usuarios`
+-- Filtros para la tabla `accion_centralizada_variables_usuarios`
 --
 ALTER TABLE `accion_centralizada_variables_usuarios`
   ADD CONSTRAINT `frk_user_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_variable_usuario` FOREIGN KEY (`id_variable`) REFERENCES `accion_centralizada_variables` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_variable_ejecucion`
+-- Filtros para la tabla `accion_centralizada_variable_ejecucion`
 --
 ALTER TABLE `accion_centralizada_variable_ejecucion`
   ADD CONSTRAINT `frk_programacion_ejecucion` FOREIGN KEY (`id_programacion`) REFERENCES `accion_centralizada_variable_programacion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_user_ejecucion` FOREIGN KEY (`id_usuario`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_variable_programacion`
+-- Filtros para la tabla `accion_centralizada_variable_programacion`
 --
 ALTER TABLE `accion_centralizada_variable_programacion`
   ADD CONSTRAINT `frk-programacion-localizacion` FOREIGN KEY (`id_localizacion`) REFERENCES `localizacion_acc_variable` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `audit_data`
+-- Filtros para la tabla `audit_data`
 --
 ALTER TABLE `audit_data`
   ADD CONSTRAINT `fk_audit_data_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
 
 --
--- Constraints for table `audit_error`
+-- Filtros para la tabla `audit_error`
 --
 ALTER TABLE `audit_error`
   ADD CONSTRAINT `fk_audit_error_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
 
 --
--- Constraints for table `audit_javascript`
+-- Filtros para la tabla `audit_javascript`
 --
 ALTER TABLE `audit_javascript`
   ADD CONSTRAINT `fk_audit_javascript_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
 
 --
--- Constraints for table `audit_mail`
+-- Filtros para la tabla `audit_mail`
 --
 ALTER TABLE `audit_mail`
   ADD CONSTRAINT `fk_audit_mail_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
 
 --
--- Constraints for table `proyecto`
+-- Filtros para la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
   ADD CONSTRAINT `frk_proyecto_usuarios` FOREIGN KEY (`usuario_creacion`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_ae_meta`
+-- Filtros para la tabla `proyecto_ae_meta`
 --
 ALTER TABLE `proyecto_ae_meta`
   ADD CONSTRAINT `proyecto_ae_meta_ibfk_1` FOREIGN KEY (`id_proyecto_accion_especifica`) REFERENCES `proyecto_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `ue_partida_entidad`
+-- Filtros para la tabla `proyecto_usuario_asignar`
+--
+ALTER TABLE `proyecto_usuario_asignar`
+  ADD CONSTRAINT `proyecto_usuario_asignar_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `proyecto_usuario_asignar_ibfk_2` FOREIGN KEY (`proyecto_id`) REFERENCES `proyecto` (`id`),
+  ADD CONSTRAINT `proyecto_usuario_asignar_ibfk_3` FOREIGN KEY (`accion_especifica_id`) REFERENCES `proyecto_accion_especifica` (`id`);
+
+--
+-- Filtros para la tabla `ue_partida_entidad`
 --
 ALTER TABLE `ue_partida_entidad`
   ADD CONSTRAINT `frk_partida_ue_entidad` FOREIGN KEY (`id_tipo_entidad`) REFERENCES `tipo_entidad` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
