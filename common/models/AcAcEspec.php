@@ -208,6 +208,7 @@ class AcAcEspec extends \yii\db\ActiveRecord
         foreach ($ace as $key => $value) {
           $model_cambiar= AcEspUej::findOne($value);
           $model_cambiar->delete();
+          //$model_cambiar->cambiar();//campo eliminar se llena
           }
         }
         /*
