@@ -7,18 +7,12 @@ use yii\bootstrap\Modal;
 use yii\bootstrap\Button;
 use yii\bootstrap\Alert;
 
-
-
-
-
 //use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\AccionCentralizada */
-
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Accion Centralizadas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
 //Iconos
 $icons=[
     'crear'=>'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
@@ -28,66 +22,61 @@ $icons=[
 ];
 //Contenido de TABS
 $datos_basicos = Yii::$app->controller->renderPartial('_acdatosbasicos', ['model'=> $model]);
-
 $accionEspecifica = Yii::$app->controller->renderPartial('_accion_especifica_ac',[
     'model' => $model,
 ]);
-
 $distribucionPresupuestaria = '<p>'.
     Html::a($icons['crear'].' Agregar', ['proyecto-alcance/create', 'proyecto' => $model->id], ['class' => 'btn btn-success']).
     '</p>'.
     '<div class="well">No hay datos.</div>'
 ;
-
 ?>
 
-
 <div class="accion-centralizada-view">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <span><?= Html::encode("Acción Centralizada #".$this->title) ?></span>
+        </div>
+        <div class="panel-body">
 
-   <h1><?= Html::encode("Acción Centralizada #".$this->title) ?></h1>
+            <!-- TABS -->
+            <?= TabsX::widget([
+                'options' => 
+                [
+                'class' => 'nav-justified',
 
-    <!-- TABS -->
-    <?= TabsX::widget([
-        'options' => [
-            'class' => 'nav-justified',
-            'containerOptions' => ['id' => 'contenedorTabs'],
-        ],
-        'items' => [
-            [
-                'label' => 'Datos Básicos',
-                'content' =>$datos_basicos,
-                'active' => true,
-            ],
-           
-            [
-                'label' => 'Acciones Especificas',
-                 'content' => $accionEspecifica,
-                 
-              //  'linkOptions' => [
-               //     'data-url' => Url::to(['accion-centralizada/index', 'ac_centralizada' => $model->id]),
-                //],
-            ],
-           
-            
-        ],
-         'pluginOptions' => [
-            'enableCache' => false //Refrescar la pestaña
-        ]
-    ]);
-
-
-  ?>  
-  
+                    'containerOptions' => ['id' => 'contenedorTabs'],
+                ],
+                'items' => 
+                [
+                    [
+                        'label' => 'Datos Básicos',
+                        'content' =>$datos_basicos,
+                        'active' => true,
+                    ],
+                   
+                    [
+                        'label' => 'Acciones Especificas',
+                        'content' => $accionEspecifica,
+                    ],
+                ],
+                'pluginOptions' => 
+                [
+                    'enableCache' => false //Refrescar la pestaña
+                ]
+            ]);
 
 
-
-    <div class="btn-group">
-      <?= Html::a($icons['volver'].' Volver', ['accion-centralizada/index'], ['class' => 'btn btn-primary']) ?>       
+            ?>  
+        </div>
     </div>
-
-
+  
+    <div class="btn-group">
+        <?= Html::a($icons['volver'].' Volver', ['accion-centralizada/index'], ['class' => 'btn btn-primary'])?>       
+    </div>
 </div>
    
+
 <!-- Ventana modal -->
 <?php Modal::begin([
     "id"=>"ajaxCrubModal",

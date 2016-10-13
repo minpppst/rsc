@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use common\models\AcAcEspec;
 use common\components\Notification;
+use yii\db\Expression;
 /**
  * This is the model class for table "accion_centralizada_ac_especifica_uej".
  *
@@ -241,6 +242,12 @@ public function getnombreaccion(){
         }
         
      }
+
+      public function cambiar()
+      {
+        $this->fecha_eliminacion=new Expression('NOW()');
+        $this->save();
+      }
 
 
 

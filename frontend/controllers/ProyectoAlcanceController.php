@@ -113,9 +113,10 @@ class ProyectoAlcanceController extends \common\controllers\BaseController
      */
     public function actionDelete($id)
     {
+        $model=$this->findModel($id);
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['proyecto/view', 'id' => $model->id_proyecto]);
     }
 
     /**
