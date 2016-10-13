@@ -386,7 +386,7 @@ class Proyecto extends \yii\db\ActiveRecord
                materiales_servicios ms, proyecto_pedido pedido
             WHERE
                pae.id = :accion AND
-               pae.id = pa.proyecto_especifica AND
+               pae.id = pa.accion_especifica_id AND
                pa.id = pedido.asignado AND
                pedido.id_material = ms.id AND
                pedido.estatus = 1
