@@ -43,6 +43,7 @@ class ProyectoController extends \common\controllers\BaseController
     {
         $searchModel = new ProyectoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere(['usuario_creacion'=>Yii::$app->user->identity->id]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

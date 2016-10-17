@@ -107,6 +107,26 @@ return [
     ],
     [
         'class' => 'kartik\grid\ActionColumn',
+        'visibleButtons' => 
+        [
+            'update' => function ($model, $key, $index) 
+            {
+                return Yii::$app->user->can('proyecto-accion-especifica/update', ['id' => $model->id]) ? true : false;
+                
+            },
+            'delete' => function ($model, $key, $index) 
+            {
+                return Yii::$app->user->can('proyecto-accion-especifica/delete', ['id' => $model->id]) ?  true : false;
+                
+            },
+
+            'prg' => function ($model, $key, $index) 
+            {
+                return Yii::$app->user->can('proyecto-accion-especifica/update', ['id' => $model->id]) ?  true : false;
+                
+            }
+
+        ],
         'header' => 'Acciones',
         'dropdown' => false,
         'vAlign'=>'middle',

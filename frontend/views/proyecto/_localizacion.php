@@ -28,6 +28,21 @@ return [
     ],
     [
         'class' => 'kartik\grid\ActionColumn',
+        'visibleButtons' => 
+        [
+            'update' => function ($model, $key, $index) 
+            {
+                return \Yii::$app->user->can('proyecto-localizacion/update', ['id' => $model->id_proyecto]) ? true : false;
+                
+            },
+            
+            'delete' => function ($model, $key, $index) 
+            {
+                return \Yii::$app->user->can('proyecto-localizacion/delete', ['id' => $model->id_proyecto]) ? true : false;
+                
+            }
+
+        ],
         'dropdown' => false,
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 

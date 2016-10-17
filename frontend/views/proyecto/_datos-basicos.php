@@ -33,16 +33,25 @@ CrudAsset::register($this);
 ?>
 
 <!-- BOTONES -->
-<p>
-    <?= Html::a($icons['editar'].' Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a($icons['eliminar'].' Eliminar', ['delete', 'id' => $model->id], [
-        'class' => 'btn btn-danger',
-        'data' => [
-            'confirm' => '¿Está seguro que desea eliminar el Proyecto? (Todos los datos asociados serán eliminados)',
-            'method' => 'post',
-        ],
-    ]) ?>
-</p>
+<?php
+    if(Yii::$app->user->can('proyecto/update', ['id' => $model->id]))
+    {
+?>
+    <p>
+        <?= Html::a($icons['editar'].' Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a($icons['eliminar'].' Eliminar', ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => '¿Está seguro que desea eliminar el Proyecto? (Todos los datos asociados serán eliminados)',
+                'method' => 'post',
+            ],
+        ]) ?>
+    </p>
+<?php
+    }   
+?>
+
+    
 
 <!-- Widget con los datos -->
 <?= DetailView::widget([
@@ -124,10 +133,21 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_localizacion.php'),
             'toolbar'=> [
                 ['content'=>
+                    (Yii::$app->user->can('proyecto-localizacion/create', ['id' => $model->id]))
+                    
+                    ?
+                    
                     Html::a($icons['crear'].' Agregar', ['proyecto-localizacion/create', 'proyecto' => $model->id, 'ambito' => $model->ambito],
-                    ['role'=>'modal-remote','title'=> 'Agregar','class'=>'btn btn-default']).
+                        ['role'=>'modal-remote','title'=> 'Agregar','class'=>'btn btn-default']).
+                        Html::a($icons['recargar'].' Refrescar', ['proyecto/view', 'id' => $model->id],
+                        ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                        '{toggleData}'.
+                        '{export}'
+                    
+                    :
+
                     Html::a($icons['recargar'].' Refrescar', ['proyecto/view', 'id' => $model->id],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                        ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -139,18 +159,23 @@ CrudAsset::register($this);
                 'type' => 'default', 
                 //'heading' => '<i class="glyphicon glyphicon-map-marker"></i>',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
-                'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
-                                ["bulk-delete"] ,
-                                [
-                                    "class"=>"btn btn-danger btn-xs",
-                                    'role'=>'modal-remote-bulk',
-                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                    'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Are you sure?',
-                                    'data-confirm-message'=>'Are you sure want to delete this item'
-                                ]),
-                        ]).                        
+                'after'=> (Yii::$app->user->can('proyecto-localizacion/create', ['id' => $model->id]))
+
+                        ?
+                            BulkButtonWidget::widget([
+                                'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
+                                    ["bulk-delete"] ,
+                                    [
+                                        "class"=>"btn btn-danger btn-xs",
+                                        'role'=>'modal-remote-bulk',
+                                        'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                        'data-request-method'=>'post',
+                                        'data-confirm-title'=>'Are you sure?',
+                                        'data-confirm-message'=>'Are you sure want to delete this item'
+                                    ]),
+                            ]).                        
+                            '<div class="clearfix"></div>'
+                        :
                         '<div class="clearfix"></div>',
             ]
         ]) ?>          

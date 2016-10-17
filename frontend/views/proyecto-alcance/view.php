@@ -19,17 +19,21 @@ $icons=[
 ?>
 <div class="proyecto-alcance-view">
 
-    <p>
-        <?= Html::a($icons['editar'].' Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a($icons['eliminar'].' Eliminar', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-    
+    <?php
+    if(Yii::$app->user->can('proyecto-alcance/delete', ['id' => $model->id_proyecto]))
+    {
+    ?>
+        <p>
+            <?= Html::a($icons['editar'].' Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a($icons['eliminar'].' Eliminar', ['delete', 'id' => $model->id], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'post',
+                ],
+            ]) ?>
+        </p>
+    <?php }?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

@@ -95,6 +95,21 @@ return [
     */
     [
         'class' => 'kartik\grid\ActionColumn',
+        'visibleButtons' => 
+        [
+            'update' => function ($model, $key, $index) 
+            {
+                return Yii::$app->user->can('proyecto/update', ['id' => $model->id]) ? true : false;
+                
+            },
+            'delete' => function ($model, $key, $index) 
+            {
+                return Yii::$app->user->can('proyecto/delete', ['id' => $model->id]) ?  true : false;
+                
+            }
+
+        ],
+
         'header' => 'Acciones',
         'dropdown' => false,
         'vAlign'=>'middle',
@@ -110,4 +125,4 @@ return [
                           'class' => 'text-danger'], 
     ],
 
-];   
+];

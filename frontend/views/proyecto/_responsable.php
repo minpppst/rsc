@@ -37,22 +37,32 @@ use yii\bootstrap\Modal;
                 $cancelar = '<button type=\'button\' class=\'btn btn-default pull-left\' data-dismiss=\'modal\'>Cancelar</button>';
                 $aceptar = '<a href=\''.Url::to([$url.'/delete', 'id' => $model->id]).'\' class=\'btn btn-primary\' data-method=\'post\'>Aceptar</button>';
             ?>
-            <!-- Botones -->
-            <?= Html::a($icons['editar'].' Editar', [$url.'/update', 'id' => $model->id], [
-                'class' => 'btn btn-primary',
-                'role'=>'modal-remote',
-                'title'=> 'Editar',
-            ]) ?>
-            <?= Html::button($icons['eliminar'].' Eliminar', [
-                'class' => 'btn btn-danger',
-                'title'=> 'Eliminar',
-                'onclick' => new JsExpression('
-                    $(".modal-header").html("<h4 class=\'modal-title\'>Eliminar '.$nombre.'</h4>");
-                    $(".modal-body").html("¿Está seguro que desea eliminar este elemento?");
-                    $(".modal-footer").html("'.$cancelar.$aceptar.'");
-                    $("#ajaxCrubModal").modal("show");
-                '),
-            ]) ?>            
+            <?php
+            // aplicando permiso a los botones de responsables si el proyecto esta aprobado no pueden mostrarse
+            if(Yii::$app->user->can($url.'/update', ['id' => $model->id]))
+            {
+            ?>
+                <!-- Botones -->
+                <?= Html::a($icons['editar'].' Editar', [$url.'/update', 'id' => $model->id], [
+                    'class' => 'btn btn-primary',
+                    'role'=>'modal-remote',
+                    'title'=> 'Editar',
+                ]) ?>
+                <?= Html::button($icons['eliminar'].' Eliminar', [
+                    'class' => 'btn btn-danger',
+                    'title'=> 'Eliminar',
+                    'onclick' => new JsExpression('
+                        $(".modal-header").html("<h4 class=\'modal-title\'>Eliminar '.$nombre.'</h4>");
+                        $(".modal-body").html("¿Está seguro que desea eliminar este elemento?");
+                        $(".modal-footer").html("'.$cancelar.$aceptar.'");
+                        $("#ajaxCrubModal").modal("show");
+                    '),
+                ]) ?>
+
+            <?php
+            }
+            ?>
+
         </div>
     </h4>
     <?= DetailView::widget([
