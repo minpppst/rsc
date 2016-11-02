@@ -30,7 +30,15 @@
 	    	else
 	    	{
 	       		$proyecto=Proyecto::findOne(Yii::$app->request->get('id'));
-	     		return $proyecto->usuario_creacion==$user ? true : false;
+	     		if(isset($proyecto->usuario_creacion))
+	     		{
+	     			return $proyecto->usuario_creacion==$user ? true : false;	
+	     		}
+	     		else
+	     		{
+	     			return false;
+	     		}
+	     		
 	     	}
 
 	    }

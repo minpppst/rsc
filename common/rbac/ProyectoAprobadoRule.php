@@ -49,7 +49,7 @@
 			     		{
 			     			if($params!=NULL)
 			     			{
-				     			if($params['proyecto']!=NULL)
+				     			if(isset($params['proyecto']) && $params['proyecto']!=NULL)
 				     			{
 				     				$proyecto=Proyecto::findOne($params['proyecto']);
 					     			return $proyecto->aprobado==1 ? false : true;	
@@ -74,28 +74,52 @@
 			    case ('proyecto-localizacion/update'==$item->name || 'proyecto-localizacion/delete'==$item->name || 'proyecto-localizacion/create'==$item->name) :
 
 		       		$proyecto=ProyectoLocalizacion::findOne(Yii::$app->request->get('id'));
-		     		return $proyecto->idProyecto->aprobado==1 ? false : true;
+		     		if(isset($proyecto->idProyecto->aprobado))
+		     		{
+		     			return $proyecto->idProyecto->aprobado==1 ? false : true;	
+		     		}
+		     		else
+		     		{
+		     			return true;
+		     		}
+		     		
 
 	     		break;
 
 	     		case 
-	     		('proyecto-responsable/update'==$item->name || 'proyecto-responsable/delete'==$item->name || 'proyecto-responsable/delete'==$item->name ||
+	     		('proyecto-responsable/update'==$item->name || 'proyecto-responsable/delete'==$item->name || 'proyecto-responsable/create'==$item->name ||
 	     		'proyecto-responsable-administrativo/create'==$item->name || 'proyecto-responsable-administrativo/create-alt'==$item->name || 
-	     		'proyecto-responsable-administrativo/delete'==$item->name || 'proyecto-responsable-administrativo/update'==$item->name ||
-	     		'proyecto-responsable-administrativo-tecnico/create'==$item->name || 'proyecto-responsable-tecnico/update'==$item->name ||
+	     		'proyecto-responsable-administrativo/delete'==$item->name || 'proyecto-responsable-administrativo/update'==$item->name || 
+	     		'proyecto-responsable-tecnico/delete'==$item->name ||
+	     		'proyecto-responsable-tecnico/create'==$item->name || 'proyecto-responsable-tecnico/update'==$item->name ||
 	     		'proyecto-responsable-administrativo-tecnico/delete'==$item->name || 'proyecto-registrador/create'==$item->name ||
 	     		'proyecto-responsable-registrador/delete'==$item->name || 'proyecto-registrador/create'==$item->name || 'proyecto-registrador/update'==$item->name) :
 	     		
 	     			
 		       		$proyecto=Proyecto::findOne(Yii::$app->request->get('id'));
-		     		return $proyecto->aprobado==1 ? false : true;
+		       		if(isset($proyecto))
+		       		{
+		     			return $proyecto->aprobado==1 ? false : true;
+		     		}
+		     		else
+		     		{
+		     			return true;
+		     		}
 
 	     		break; 
 
-	     		case ('proyecto-alcance/update'==$item->name || 'proyecto-alcance/delete'==$item->name) :
+	     		case ('proyecto-alcance/update'==$item->name || 'proyecto-alcance/delete'==$item->name || 'proyecto-alcance/create'==$item->name) :
 					
 					$proyecto=ProyectoAlcance::findOne(Yii::$app->request->get('id'));
-		     		return $proyecto->proyecto->aprobado==1 ? false : true;
+					if(isset($proyecto))
+					{
+						return $proyecto->proyecto->aprobado==1 ? false : true;	
+					}
+					else
+					{
+						return true;
+					}
+		     		
 
 	     		break;
 
@@ -118,7 +142,15 @@
 	    				
 	    			}
 		       		
-		     		return $proyecto->idProyecto->aprobado==1 ? false: true;
+		     		if(isset($proyecto))
+		     		{
+		     			return $proyecto->idProyecto->aprobado==1 ? false: true;	
+		     		}
+		     		else
+		     		{
+		     			return true;
+		     		}
+		     		
 	     		
 	     		break;
 
