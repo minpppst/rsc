@@ -12,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 use common\models\UnidadMedida;
+use common\models\TipoImpacto;
 use common\models\InstanciaInstitucion;
 
 /**
@@ -65,14 +66,17 @@ class ProyectoAlcanceController extends \common\controllers\BaseController
 
         //Listas desplegables
         $unidadMedida = UnidadMedida::find()->all();
+        $tipoImpacto = TipoImpacto::find()->all();
         $instanciaInstitucion = InstanciaInstitucion::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['proyecto/view', 'id' => $model->id_proyecto]);
         } else {
+
             return $this->render('create', [
                 'model' => $model,
                 'unidadMedida' => $unidadMedida,
+                'tipoImpacto' => $tipoImpacto,
                 'instanciaInstitucion' => $instanciaInstitucion,
             ]);
         }
@@ -90,9 +94,8 @@ class ProyectoAlcanceController extends \common\controllers\BaseController
 
         //Listas desplegables
         $unidadMedida = UnidadMedida::find()->all();
+        $tipoImpacto = TipoImpacto::find()->all();
         $instanciaInstitucion = InstanciaInstitucion::find()->all();
-        //Formato de las fechas
-        $model->fecha_indicador_inicial = \Yii::$app->formatter->asDate($model->fecha_indicador_inicial);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['proyecto/view', 'id' => $model->id_proyecto]);
@@ -100,6 +103,7 @@ class ProyectoAlcanceController extends \common\controllers\BaseController
             return $this->render('update', [
                 'model' => $model,
                 'unidadMedida' => $unidadMedida,
+                'tipoImpacto' => $tipoImpacto,
                 'instanciaInstitucion' => $instanciaInstitucion,
             ]);
         }

@@ -29,9 +29,9 @@ use kartik\money\MaskMoney;
         <div class="panel-body">
             <?= $form->field($model, 'codigo_proyecto')->textInput(['maxlength' => true]); ?>
 
-            <?= $form->field($model, 'codigo_sne')->textInput(['maxlength' => true]); ?>
-
             <?= $form->field($model, 'nombre')->textarea(['rows' => 6]); ?>
+
+            <?= $form->field($model, 'descripcion_proyecto')->textarea(['rows' => 6]); ?>
 
             <?= $form->field($model, 'fecha_inicio')->widget(DatePicker::classname(), [
                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
@@ -57,16 +57,48 @@ use kartik\money\MaskMoney;
 
             <?= $form->field($model, 'situacion_presupuestaria')->dropDownList(ArrayHelper::map($situacion_presupuestaria,'id','situacion'),['prompt'=>'Seleccione']); ?>
 
-            <?= $form->field($model, 'monto_proyecto')->widget(MaskMoney::classname(), [                
+            <?= $form->field($model, 'proyecto_plurianual')->dropDownList([1=> 'Si', 0=> 'No'],['prompt'=>'Seleccione']); ?>
+
+            <?= $form->field($model, 'monto_proyecto_actual')->widget(MaskMoney::classname(), [                
                 'pluginOptions' => [
                     'prefix' => 'Bs. ',
+                    'allowZero' => false,
                     'allowNegative' => false,
                 ]
             ]); ?>
 
-            <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]); ?>
+            
+            <?= $form->field($model, 'monto_proyecto_anio_anteriores')->widget(MaskMoney::classname(), [                
+                'pluginOptions' => [
+                    'prefix' => 'Bs. ',
+                    'allowZero' => false,
+                    'allowNegative' => false,
+                ]
+            ]); ?>
 
-            <?= $form->field($model, 'objetivo_general_proyecto')->textarea(['rows' => 6]); ?>
+            <?= $form->field($model, 'monto_total_proyecto_proximo_anios')->widget(MaskMoney::classname(), [                
+                'pluginOptions' => [
+                    'prefix' => 'Bs. ',
+                    'allowZero' => false,
+                    'allowNegative' => false,
+                ]
+            ]); ?>
+
+            <?= $form->field($model, 'monto_proyecto')->widget(MaskMoney::classname(), [                
+                'pluginOptions' => [
+                    'prefix' => 'Bs. ',
+                    'allowZero' => true,
+                    'allowNegative' => false,
+                ]
+            ]); ?>
+
+            <?= $form->field($model, 'monto_financiar')->widget(MaskMoney::classname(), [                
+                'pluginOptions' => [
+                    'prefix' => 'Bs. ',
+                    'allowZero' => true,
+                    'allowNegative' => false,
+                ]
+            ]); ?>
 
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -86,7 +118,7 @@ use kartik\money\MaskMoney;
     <!-- VINCULACION CON LOS PLANES -->
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <span>VINCULACION CON LOS PLANES</span>
+            <span>Plan Nacional de Desarrollo Económico y Social (PNDES)</span>
         </div>
         <div class="panel-body">
             <?= $form->field($model, 'objetivo_general')->hiddenInput(); ?>
@@ -110,7 +142,7 @@ use kartik\money\MaskMoney;
                 ?>
             </div>
 
-            <?= $form->field($model, 'objetivo_estrategico_institucional')->textarea(['rows' => 6]); ?>
+            <?= $form->field($model, 'politicas_ministeriales')->textarea(['rows' => 6]); ?>
         </div>
     </div>
 
@@ -136,8 +168,20 @@ use kartik\money\MaskMoney;
 <script>
     //Actualizar el monto en el hidden input al escribir
     window.onload = function(){
+        jQuery("#proyecto-monto_proyecto-actual-disp").on('keyup', function(){
+            jQuery("#proyecto-monto_proyecto_actual").val(jQuery(this).maskMoney('unmasked')[0]);
+        });
         jQuery("#proyecto-monto_proyecto-disp").on('keyup', function(){
             jQuery("#proyecto-monto_proyecto").val(jQuery(this).maskMoney('unmasked')[0]);
+        });
+        jQuery("#proyecto-monto_proyecto-anio-anteriores-disp").on('keyup', function(){
+            jQuery("#proyecto-monto_proyecto_anio_anteriores").val(jQuery(this).maskMoney('unmasked')[0]);
+        });
+        jQuery("#proyecto-monto_proyecto-proximo-anios-disp").on('keyup', function(){
+            jQuery("#proyecto-monto_proyecto_proximo_anios").val(jQuery(this).maskMoney('unmasked')[0]);
+        });
+        jQuery("#proyecto-monto_financiar-disp").on('keyup', function(){
+            jQuery("#proyecto-monto_financiar").val(jQuery(this).maskMoney('unmasked')[0]);
         });
     };
 </script>

@@ -154,27 +154,14 @@
 		                          'data-confirm-title'=>'Are you sure?',
 		                          'data-confirm-message'=>'Are you sure want to delete this item',
 		                          'class' => 'text-danger'],
-		        'template' => '{view} {update} {prg} {delete}',
-		        'buttons' => [
-		            'prg' => function($model, $key, $index){
-		                return Html::a('<span class="glyphicon glyphicon-calendar"></span>', 
-		                    Url::to(['proyecto-ae-meta/update', 'accionEspecifica' => $index]), 
-		                    [
-		                        'role'=>'modal-remote',
-		                        'title'=>'Programación',
-		                        'data-toggle'=>'tooltip'
-		                    ]
-		                );
-		            }
-		        ]
+		        
+		        
 		    ],
 		],
 		'toolbar'=> [
             ['content'=>
                 Html::a($icons['nuevo'].' Nuevo', ['proyecto-accion-especifica/create','proyecto'=>$searchModel->id_proyecto],
                 ['role'=>'modal-remote','title'=> 'Crear Acción Específica','class'=>'btn btn-default']).
-                //Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
-                //['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).                
                 '{toggleData}'.
                 '{export}'
             ],

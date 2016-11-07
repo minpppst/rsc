@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "proyecto_ae_meta".
  *
  * @property integer $id
- * @property integer $id_proyecto_accion_especifica
+ * @property integer $id_proyecto_ac_localizacion
  * @property integer $enero
  * @property integer $febrero
  * @property integer $marzo
@@ -42,10 +42,10 @@ class ProyectoAeMeta extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_proyecto_accion_especifica', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'estatus'], 'required'],
-            [['id_proyecto_accion_especifica', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'estatus'], 'integer'],
+            [['id_proyecto_ac_localizacion', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'estatus'], 'required'],
+            [['id_proyecto_ac_localizacion', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'estatus'], 'integer'],
             [['fecha_creacion'], 'safe'],
-            [['id_proyecto_accion_especifica'], 'exist', 'skipOnError' => true, 'targetClass' => ProyectoAccionEspecifica::className(), 'targetAttribute' => ['id_proyecto_accion_especifica' => 'id']],
+            [['id_proyecto_ac_localizacion'], 'exist', 'skipOnError' => true, 'targetClass' => ProyectoAcLocalizacion::className(), 'targetAttribute' => ['id_proyecto_ac_localizacion' => 'id']],
         ];
     }
 
@@ -56,7 +56,7 @@ class ProyectoAeMeta extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_proyecto_accion_especifica' => 'Id Proyecto Accion Especifica',
+            'id_proyecto_ac_localizacion' => 'Id Proyecto Accion Especifica',
             'enero' => 'Enero',
             'febrero' => 'Febrero',
             'marzo' => 'Marzo',
@@ -77,8 +77,8 @@ class ProyectoAeMeta extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdProyectoAccionEspecifica()
+    public function getIdProyectoAcLocalizacion()
     {
-        return $this->hasOne(ProyectoAccionEspecifica::className(), ['id' => 'id_proyecto_accion_especifica']);
+        return $this->hasOne(ProyectoAcLocalizacion::className(), ['id' => 'id_proyecto_ac_localizacion']);
     }
 }

@@ -20,6 +20,7 @@ $this->registerJsFile('@web/js/hidden_field.js', ['depends' => [\yii\web\JqueryA
     <?= $this->render('_form', [
         'model' => $model,
         'unidadMedida' => $unidadMedida,
+        'tipoImpacto' => $tipoImpacto,
         'instanciaInstitucion' => $instanciaInstitucion,
     ]) ?>
 

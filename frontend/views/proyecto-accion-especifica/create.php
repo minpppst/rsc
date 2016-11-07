@@ -11,6 +11,13 @@ use yii\helpers\Html;
     <?= $this->render('_form', [
         'model' => $model,
         'unidadEjecutora' => $unidadEjecutora,
-        'unidadMedida' => $unidadMedida
+        'unidadMedida' => $unidadMedida,
+        'fuenteFinanciamiento' => $fuenteFinanciamiento,
+        'ambito' => $ambito,
+        'model2' => $model2,
+        //'paises' => $paises,
+        //'estados' => $estados,
+        //'parroquia' => $parroquia,
+        //'municipios' => $municipios
     ]) ?>
 </div>

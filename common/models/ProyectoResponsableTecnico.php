@@ -49,7 +49,7 @@ class ProyectoResponsableTecnico extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nombre' => 'Nombre',
             'cedula' => 'Cedula',
-            'email' => 'Email',
+            'email' => 'Correo Electrónico',
             'telefono' => 'Telefono',
             'unidad_tecnica' => 'Unidad Tecnica',
             'id_proyecto' => 'Id Proyecto',
@@ -62,5 +62,13 @@ class ProyectoResponsableTecnico extends \yii\db\ActiveRecord
     public function getIdProyecto()
     {
         return $this->hasOne(Proyecto::className(), ['id' => 'id_proyecto']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdUEjecutora()
+    {
+        return $this->hasOne(UnidadEjecutora::className(), ['id' => 'unidad_tecnica']);
     }
 }

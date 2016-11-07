@@ -39,7 +39,7 @@ use kartik\date\DatePicker;
         'value' => $model->fecha_inicio,
         'pluginOptions' => [
             'autoclose'=>true,
-            'format' => 'yyyy-mm-dd',
+            'format' => 'dd/mm/yyyy',
             'todayBtn' => true
         ],
         'options' => ['readonly' => true]
@@ -50,11 +50,95 @@ use kartik\date\DatePicker;
         'value' => $model->fecha_fin,
         'pluginOptions' => [
             'autoclose'=>true,
-            'format' => 'yyyy-mm-dd',
+            'format' => 'dd/mm/yyyy',
             'todayBtn' => true
         ],
         'options' => ['readonly' => true]
     ]); ?>
+
+    <?= Html::activeHiddenInput($model, 'ambito'); ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="glyphicon glyphicon-map-marker"></i> Ambito</h3>
+        </div>
+        <div class="panel-body">
+            <?php 
+                switch ($model2->scenario)
+                {
+                    case 'Internacional':
+                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto),['disabled' => true])->label('País'); 
+                    break;
+
+                    case 'Nacional':
+
+                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto),['disabled' => true])->label('País');
+                    break;
+
+                    case 'Estadal':
+                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto, 'pais'),['disabled' => true])->label('País');
+
+                        echo '<label class="control-label" for="acespuej-id_ue">Estado</label>';
+
+                        echo $filterwidget=\kartik\select2\Select2::widget([
+                            'name' => 'id_estado',
+                            'value' => isset($id_estado) ? $id_estado : '',
+                            'data' => $model2->localizar($model->id_proyecto),
+                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione el Estado ...', 'class' => 'form-control']
+                            ]);
+                    break;
+
+                    case 'Municipal':
+                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto, 'pais'))->label('País');
+                        echo '<label class="control-label" for="acespuej-id_ue">Estado</label>';
+
+                        echo $filterwidget=\kartik\select2\Select2::widget([
+                            'name' => 'id_estado',
+                            'value' => isset($id_estado) ? $id_estado : '',
+                            'data' => $model2->localizar($model->id_proyecto,'estado'),
+                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione el Estado ...', 'class' => 'form-control']
+                            ]);
+                        echo '<label class="control-label" for="acespuej-id_ue">Estado</label>';
+
+                        echo $filterwidget=\kartik\select2\Select2::widget([
+                            'name' => 'id_municipio',
+                            'value' => isset($id_municipio) ? $id_municipio : '',
+                            'data' => $model2->localizar($model->id_proyecto, 'municipio'),
+                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione el Municipio ...', 'class' => 'form-control']
+                            ]);
+                    break;
+
+                    case 'Parroquial':
+                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto, 'pais'))->label('País');
+
+                        echo '<label class="control-label" for="acespuej-id_ue">Estado</label>';
+                        echo $filterwidget=\kartik\select2\Select2::widget([
+                            'name' => 'id_estado',
+                            'value' => $id_estado,
+                            'data' => $model2->localizar($model->id_proyecto,'estado'),
+                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione el Estado ...', 'class' => 'form-control']
+                            ]);
+
+                        echo '<label class="control-label" for="acespuej-id_ue">Municipio</label>';
+                        echo $filterwidget=\kartik\select2\Select2::widget([
+                            'name' => 'id_municipio',
+                            'value' => $id_municipio,
+                            'data' => $model2->localizar($model->id_proyecto, 'municipio'),
+                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione el Municipio ...', 'class' => 'form-control']
+                            ]);
+                        echo '<label class="control-label" for="acespuej-id_ue">Parroquia</label>';
+                        echo $filterwidget=\kartik\select2\Select2::widget([
+                            'name' => 'id_parroquia',
+                            'value' => $id_parroquia,
+                            'data' => $model2->localizar($model->id_proyecto, 'parroquia'),
+                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione La Parroquia ...', 'class' => 'form-control']
+                            ]);
+                    break;
+
+                }
+            ?>
+        </div>
+    </div>
+
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">

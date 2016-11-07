@@ -80,11 +80,25 @@ class ProyectoAeMetaController extends Controller
      * @param int $accionEspecifica ID de la accion especifica
      * @return mixed
      */
-    public function actionCreate($accionEspecifica)
+    public function actionCreate($idLocalizacion)
     {
         $request = Yii::$app->request;
         $model = new ProyectoAeMeta();
-        $model->id_proyecto_accion_especifica = $accionEspecifica;
+        $model->id_proyecto_ac_localizacion = $idLocalizacion;
+        $model->estatus=1;
+        //inicializar variables en 0
+        $model->enero=0;
+        $model->febrero=0;
+        $model->marzo=0;
+        $model->abril=0;
+        $model->mayo=0;
+        $model->junio=0;
+        $model->julio=0;
+        $model->agosto=0;
+        $model->septiembre=0;
+        $model->octubre=0;
+        $model->noviembre=0;
+        $model->diciembre=0;
 
         if($request->isAjax){
             /*
@@ -97,8 +111,8 @@ class ProyectoAeMetaController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote']).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"]),
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -106,18 +120,16 @@ class ProyectoAeMetaController extends Controller
                     'forceReload'=>'#especifica-pjax',
                     'title'=> "Create new ProyectoAeMeta",
                     'content'=>'<span class="text-success">Create ProyectoAeMeta success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];         
-            }else{           
+                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                ];
+            }else{      
                 return [
                     'title'=> "Crear Meta",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote']).
+                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -143,11 +155,11 @@ class ProyectoAeMetaController extends Controller
      * @param integer $accionEspecifica ID de la accion
      * @return mixed
      */
-    public function actionUpdate($accionEspecifica)
+    public function actionUpdate($idLocalizacion)
     {
         $request = Yii::$app->request;
         $model = ProyectoAeMeta::find()->where([
-            'id_proyecto_accion_especifica' => $accionEspecifica
+            'id_proyecto_ac_localizacion' => $idLocalizacion
         ])->one();       
 
         if($request->isAjax){
@@ -161,7 +173,7 @@ class ProyectoAeMetaController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote']).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -171,8 +183,8 @@ class ProyectoAeMetaController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Editar',['update','accionEspecifica'=>$model->id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            
                 ];    
             }else{
                  return [
@@ -180,8 +192,8 @@ class ProyectoAeMetaController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                                
                 ];        
             }
         }else{

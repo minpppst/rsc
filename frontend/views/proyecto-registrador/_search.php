@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'telefono') ?>
 
+    <?= $form->field($model, 'unidad_tecnica') ?>
+
     <?php // echo $form->field($model, 'id_proyecto') ?>
 
     <div class="form-group">

@@ -6,6 +6,7 @@ use Yii;
 use yii\filters\AccessControl;
 use common\models\ProyectoResponsableTecnico;
 use common\models\ProyectoResponsableTecnicoSearch;
+use frontend\models\UnidadEjecutora;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -60,6 +61,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
         $request = Yii::$app->request;
         $model = new ProyectoResponsableTecnico();
         $model->id_proyecto = $proyecto;  
+        $unidadEjecutora = UnidadEjecutora::find()->all();
 
         if($request->isAjax){
             /*
@@ -71,6 +73,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
                     'title'=> "Create new ProyectoResponsableTecnico",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
+                        'unidadEjecutora' => $unidadEjecutora,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -89,6 +92,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
                     'title'=> "Create new ProyectoResponsableTecnico",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
+                        'unidadEjecutora' => $unidadEjecutora,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -104,6 +108,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'unidadEjecutora' => $unidadEjecutora,
                 ]);
             }
         }
@@ -121,7 +126,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
-
+        $unidadEjecutora = UnidadEjecutora::find()->all();
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -132,6 +137,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
                     'title'=> "Update ProyectoResponsableTecnico #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
+                        'unidadEjecutora' => $unidadEjecutora,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -142,6 +148,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
                     'title'=> "ProyectoResponsableTecnico #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
+                        'unidadEjecutora' => $unidadEjecutora,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -151,6 +158,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
                     'title'=> "Update ProyectoResponsableTecnico #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
+                        'unidadEjecutora' => $unidadEjecutora,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -165,6 +173,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
             } else {
                 return $this->render('update', [
                     'model' => $model,
+                    'unidadEjecutora' => $unidadEjecutora,
                 ]);
             }
         }

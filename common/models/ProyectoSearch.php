@@ -21,7 +21,7 @@ class ProyectoSearch extends Proyecto
     {
         return [
             [['id', 'estatus_proyecto', 'situacion_presupuestaria', 'sub_sector', 'plan_operativo', 'objetivo_general'], 'integer'],
-            [['codigo_proyecto', 'codigo_sne', 'nombre', 'fecha_inicio', 'fecha_fin', 'descripcion', 'nombreEstatus'], 'safe'],
+            [['codigo_proyecto', 'nombre', 'fecha_inicio', 'fecha_fin', 'nombreEstatus'], 'safe'],
             [['monto_proyecto'], 'number'],
         ];
     }
@@ -71,9 +71,7 @@ class ProyectoSearch extends Proyecto
         ]);
 
         $query->andFilterWhere(['like', 'codigo_proyecto', $this->codigo_proyecto])
-            ->andFilterWhere(['like', 'codigo_sne', $this->codigo_sne])
-            ->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
+            ->andFilterWhere(['like', 'nombre', $this->nombre]);
         $query->andFilterWhere(['estatus' => $this->nombreEstatus]);
 
         return $dataProvider;

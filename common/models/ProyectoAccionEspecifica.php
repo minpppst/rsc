@@ -16,6 +16,7 @@ use Yii;
  * @property double $ponderacion 
  * @property string $bien_servicio
  * @property integer $id_unidad_ejecutora
+ * @property integer $ambito
  * @property string $fecha_inicio 
  * @property string $fecha_fin
  * @property integer $estatus
@@ -49,7 +50,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_proyecto', 'codigo_accion_especifica', 'unidad_medida', 'ponderacion', 'bien_servicio', 'id_unidad_ejecutora', 'fecha_inicio', 'fecha_fin', 'estatus'], 'required'],
+            [['id_proyecto', 'codigo_accion_especifica', 'unidad_medida', 'ponderacion', 'bien_servicio', 'id_unidad_ejecutora', 'fecha_inicio', 'fecha_fin', 'estatus', 'ambito'], 'required'],
             [['id_proyecto', 'unidad_medida', 'id_unidad_ejecutora', 'estatus', 'aprobado'], 'integer'],
             [['nombre', 'bien_servicio'], 'string'],
             [['ponderacion'], 'number'],
@@ -58,7 +59,20 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             [['id_proyecto'], 'exist', 'skipOnError' => true, 'targetClass' => Proyecto::className(), 'targetAttribute' => ['id_proyecto' => 'id']],
             [['id_unidad_ejecutora'], 'exist', 'skipOnError' => true, 'targetClass' => UnidadEjecutora::className(), 'targetAttribute' => ['id_unidad_ejecutora' => 'id']],
             [['ponderacion'], 'match', 'pattern' => '/^(?:1(?:\.0)?|0(?:\.[1-9])?|0?\.[1-9])$/', 'message' => 'Debe colocar un número entre 0.1 y 0.9'],
+            ['fecha_inicio', 'validarFecha'],
         ];
+    }
+
+    public function validarFecha()
+
+    {   
+        $fecha1=date(str_replace("/", "-", $this->fecha_inicio));
+        $fecha2=date(str_replace("/", "-", $this->fecha_fin));
+        if(strtotime($fecha1)>strtotime($fecha2))
+        {
+            $this->addError('fecha_inicio','Fecha Inicio no puede ser mayor a Fecha Fin');
+            $this->addError('fecha_fin','Fecha Fin no puede ser menor a Fecha Inicio');
+        }
     }
 
 
@@ -75,16 +89,19 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             'unidad_medida' => 'Unidad de Medida',
             'meta' => 'Meta',
             'ponderacion' => 'Ponderación',
-            'bien_servicio' => 'Bien o Servicio',
+            'bien_servicio' => 'Descripción del Bien o Servicio',
             'id_unidad_ejecutora' => 'Unidad Ejecutora',
             'nombreUnidadEjecutora' => 'Unidad Ejecutora',
             'estatus' => 'Estatus',
             'nombreEstatus' => 'Estatus',
             'nombreProyecto' => 'Proyecto',
             'nombreUnidadMedida' => 'Unidad de Medida',
+            'ambito' => 'Ambito',
             'aprobado' => 'Aprobado'
         ];
     }
+
+    
     
 
     /**
@@ -102,6 +119,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Proyecto::className(), ['id' => 'id_proyecto']);
     }
+
 
     /**
      * @return string
@@ -144,6 +162,13 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UnidadEjecutora::className(), ['id' => 'id_unidad_ejecutora']);
     }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdAmbito()
+    {
+        return $this->hasOne(Ambito::className(), ['id' => 'ambito']);
+    }
 
     /**
      * Devuelve la relacion entre proyecto_accion_especifica y
@@ -164,23 +189,24 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
         //Calcular la meta
         $meta = Yii::$app->db->createCommand("
             SELECT SUM(
-                enero +
-                febrero +
-                marzo +
-                abril +
-                mayo +
-                junio +
-                julio +
-                agosto +
-                septiembre +
-                octubre +
-                noviembre +
-                diciembre
+                a.enero +
+                a.febrero +
+                a.marzo +
+                a.abril +
+                a.mayo +
+                a.junio +
+                a.julio +
+                a.agosto +
+                a.septiembre +
+                a.octubre +
+                a.noviembre +
+                a.diciembre
             ) AS 'total'
             FROM
-                proyecto_ae_meta
+                proyecto_ae_meta as a, proyecto_ac_localizacion as b
             WHERE
-                id_proyecto_accion_especifica = :accion_especifica", 
+                id_proyecto_ac_localizacion =b.id and
+                b.id_proyecto_ac = :accion_especifica", 
             [':accion_especifica' => $this->id])
         ->queryScalar();
 
@@ -285,45 +311,29 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
         return 0.1;
      }
 
-     /**
-      * Override afterSave.
-      * @param boolean $insert Verificar si se inserta o actualiza.
-      * @param array $changedAttributes Atributos que se van a guardar.
-      * @return afterSave().
-      */
-     public function afterSave($insert, $changedAttributes)
-     {       
-         if(!$insert)
-         {
-            //nada
-         }
-         else
-         {
-            //crear modelo relacionado
-            $meta = new ProyectoAeMeta();
+     public function beforeSave($insert)
+    {   
+        if (parent::beforeSave($insert)) {
 
-            //Llave foranea
-            $meta->id_proyecto_accion_especifica = $this->id;
+            //Cambiar el formato de las fechas
+            $formato = 'd/m/Y';
+            $inicio = date_create_from_format($formato,$this->fecha_inicio);
+            $fin = date_create_from_format($formato,$this->fecha_fin);
 
-            //Colocar meses en cero
-            $meta->enero = 0;
-            $meta->febrero = 0;
-            $meta->marzo = 0;
-            $meta->abril = 0;
-            $meta->mayo = 0;
-            $meta->junio = 0;
-            $meta->julio = 0;
-            $meta->agosto = 0;
-            $meta->septiembre = 0;
-            $meta->octubre = 0;
-            $meta->noviembre = 0;
-            $meta->diciembre = 0;
-            $meta->estatus = 1; //activo
-            $meta->fecha_creacion = date('Y-m-d H:i:s');
-            $meta->save(false);
-         }
-        
-        return parent::afterSave($insert, $changedAttributes);
-     }
-     
+            if($inicio != false)
+            {
+                $this->fecha_inicio = date_format($inicio,'Y-m-d');
+            }
+            
+            if($fin != false) 
+            {
+                $this->fecha_fin = date_format($fin,'Y-m-d');
+            }
+            
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

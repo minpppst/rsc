@@ -59,8 +59,8 @@ CrudAsset::register($this);
     'attributes' => [
         'id',
         'codigo_proyecto',
-        'codigo_sne',
         'nombre',
+        'descripcion_proyecto',
         [
             'label' => $model->getAttributeLabel('fecha_inicio'),
             'value' => \Yii::$app->formatter->asDate($model->fecha_inicio)
@@ -80,10 +80,29 @@ CrudAsset::register($this);
             'value' => SituacionPresupuestaria::find()->where(['id'=>$model->situacion_presupuestaria])->one()->situacion,
         ],
         [
+            'label' => $model->getAttributeLabel('nombrePlurianual'),
+            'value' => $model->nombrePlurianual,
+        ],
+        [
+            'label' => $model->getAttributeLabel('monto_proyecto_actual'),
+            'value' => $model->bolivarMontos($model->monto_proyecto_actual),
+        ],
+        [
+            'label' => $model->getAttributeLabel('monto_proyecto_anio_anteriores'),
+            'value' => $model->bolivarMontos($model->monto_proyecto_anio_anteriores),
+        ],
+                [
+            'label' => $model->getAttributeLabel('monto_total_proyecto_proximo_anios'),
+            'value' => $model->bolivarMontos($model->monto_total_proyecto_proximo_anios),
+        ],
+        [
             'label' => $model->getAttributeLabel('monto_proyecto'),
             'value' => $model->bolivarMonto,
         ],
-        'descripcion:ntext',
+                [
+            'label' => $model->getAttributeLabel('monto_financiar'),
+            'value' => $model->bolivarMontos($model->monto_financiar),
+        ],
         [
             'label' => $model->getAttributeLabel('sector'),
             'value' => $model->nombreSector,
@@ -112,7 +131,7 @@ CrudAsset::register($this);
             'label' => $model->getAttributeLabel('objetivo_general'),
             'value' => ObjetivosGenerales::find()->where(['id'=>$model->objetivo_general])->one()->objetivo_general,
         ],            
-        'objetivo_estrategico_institucional',
+        'politicas_ministeriales',
         [
             'label' => $model->getAttributeLabel('ambito'),
             'value' => $model->idAmbito->ambito,
@@ -196,7 +215,7 @@ CrudAsset::register($this);
                 'url' => 'proyecto-responsable',
                 'proyecto' => $model->id, 
                 'icons' => $icons,
-                'nombre' => 'Responsable',
+                'nombre' => 'Responsable Gerente',
                 'atributos' => [
                     'nombre',
                     'cedula',
@@ -219,7 +238,11 @@ CrudAsset::register($this);
                     'cedula',
                     'email',
                     'telefono',
-                    'unidad_administradora'
+                    [
+                        'label' => 'Unidad Técnica',
+                        'value' => $model->responsableAdministrativo ? ($model->responsableAdministrativo->idUEjecutora->nombre) : ''
+                    ],
+              
                 ]
             ]) ?>
         </div>
@@ -237,7 +260,10 @@ CrudAsset::register($this);
                     'cedula',
                     'email',
                     'telefono',
-                    'unidad_tecnica'
+                    [
+                        'label' => 'Unidad Técnica',
+                        'value' => $model->responsableTecnico ? $model->responsableTecnico->idUEjecutora->nombre : ''
+                    ],
                 ]
             ]) ?>
         </div>
@@ -249,12 +275,16 @@ CrudAsset::register($this);
                 'url' => 'proyecto-registrador',
                 'proyecto' => $model->id, 
                 'icons' => $icons,
-                'nombre' => 'Registrador',
+                'nombre' => 'Responsable Registrador',
                 'atributos' => [
                     'nombre',
                     'cedula',
                     'email',
                     'telefono',
+                    [
+                        'label' => 'Unidad Técnica',
+                        'value' => $model->registrador ? $model->registrador->idUEjecutora->nombre : ''
+                    ],
                 ]
             ]) ?>
         </div>

@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'cedula',
             'email:email',
             'telefono',
+            'unidad_tecnica',
             // 'id_proyecto',
 
             ['class' => 'yii\grid\ActionColumn'],

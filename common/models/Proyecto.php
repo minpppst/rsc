@@ -11,20 +11,22 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer $id
  * @property string $codigo_proyecto
- * @property string $codigo_sne
  * @property string $nombre 
  * @property string $fecha_inicio 
  * @property string $fecha_fin
  * @property integer $estatus_proyecto
  * @property integer $situacion_presupuestaria
+ * @property integer $monto_proyecto_actual
+ * @property integer $monto_proyecto_anio_anteriores
+ * @property integer $monto_total_proyecto_proximo_anios
+ * @property integer $monto_financiar
  * @property string $monto_proyecto
  * @property string $descripcion
- * @property string $objetivo_general_proyecto
  * @property integer $sector
  * @property integer $sub_sector
  * @property integer $plan_operativo
  * @property integer $objetivo_general
- * @property string $objetivo_estrategico_institucional
+ * @property string $politicas_ministeriales
  * @property integer $ambito
  * @property integer $aprobado
  * @property integer $estatus
@@ -61,15 +63,29 @@ class Proyecto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'objetivo_estrategico_institucional', 'ambito', 'usuario_creacion'], 'required'],
-            [['nombre', 'descripcion', 'objetivo_estrategico_institucional', 'objetivo_general_proyecto'], 'string'],
+            [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'politicas_ministeriales', 'ambito', 'usuario_creacion', 'proyecto_plurianual', 'monto_financiar', 'descripcion_proyecto'], 'required'],
+            [['nombre','politicas_ministeriales', 'descripcion_proyecto'], 'string'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
+            [['fecha_inicio', 'fecha_fin'], 'date'],
             [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'aprobado', 'estatus'], 'integer'],
-            [['monto_proyecto'], 'number'],
-            [['codigo_proyecto', 'codigo_sne'], 'string', 'max' => 45],
+            [['monto_proyecto', 'monto_proyecto_actual', 'monto_financiar', 'monto_proyecto_anio_anteriores', 'monto_total_proyecto_proximo_anios'], 'number'],
+            [['codigo_proyecto'], 'string', 'max' => 6],
             [['codigo_proyecto'], 'unique'],
-            [['codigo_sne'], 'unique'],
+            ['fecha_inicio', 'validarFecha'],
+            
         ];
+    }
+
+    public function validarFecha()
+
+    {   
+        $fecha1=date(str_replace("/", "-", $this->fecha_inicio));
+        $fecha2=date(str_replace("/", "-", $this->fecha_fin));
+        if(strtotime($fecha1)>strtotime($fecha2))
+        {
+            $this->addError('fecha_inicio','Fecha Inicio no puede ser mayor a Fecha Fin');
+            $this->addError('fecha_fin','Fecha Fin no puede ser menor a Fecha Inicio');
+        }
     }
 
     /**
@@ -80,26 +96,37 @@ class Proyecto extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'codigo_proyecto' => 'Código Proyecto',
-            'codigo_sne' => 'Código SNE',
-            'nombre' => 'Nombre',
+            'nombre' => 'Nombre Del Proyecto',
+            'descripcion_proyecto' => 'Descripción Del Proyecto',
             'estatus_proyecto' => 'Estatus del Proyecto',
             'situacion_presupuestaria' => 'Situación Presupuestaria',
-            'monto_proyecto' => 'Monto Proyecto',
-            'descripcion' => 'Descripción',
-            'objetivo_general_proyecto' => 'Objetivo General del Proyecto',
+            'proyecto_plurianual' => '¿El Proyecto es Plurianual?',
+            'monto_proyecto' => 'Monto Total del Proyecto',
+            'monto_proyecto_actual' => 'Monto Proyecto Año En Curso',
+            'monto_proyecto_anio_anteriores' => 'Monto Proyecto Años Anteriores',
+            'monto_total_proyecto_proximo_anios' => 'Monto Total Proyecto en los Proximos Años',
+            'monto_financiar' => 'Monto A Financiar',
             'sector' => 'Sector',
             'sub_sector' => 'Sub Sector',
             'plan_operativo' => 'Plan Operativo',
             'objetivo_general' => 'Objetivo General',
-            'objetivo_estrategico_institucional' => 'Objetivo Estrategico Institucional',
+            'politicas_ministeriales' => 'Politicas Ministeriales',
             'ambito' => 'Ambito',
             'aprobado' => 'Aprobado',
             'estatus' => 'Estatus',
             'nombreEstatus' => 'Estatus',
+            'nombrePlurianual' => '¿El Proyecto es Plurianual?',
             'usuario_creacion' => 'Usuario Creación'
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProyectoLocalizacion()
+    {
+        return $this->hasMany(ProyectoLocalizacion::className(), ['id_proyecto' => 'id']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -180,6 +207,20 @@ class Proyecto extends \yii\db\ActiveRecord
         }
 
         return "Inactivo";
+    }
+    /**
+     * @return string
+     */
+    public function getNombrePlurianual()
+    {
+        if($this->proyecto_plurianual === 1)
+        {
+            return "Si";
+        }
+        else
+        {
+            return "No";
+        }
     }
 
     /**
@@ -291,6 +332,20 @@ class Proyecto extends \yii\db\ActiveRecord
         }
 
         return \Yii::$app->formatter->asCurrency($this->monto_proyecto);
+    }
+
+    /**
+    * @param numeric $monto
+    * @return string
+    */
+    public function BolivarMontos($monto)
+    {
+        if($monto === null)
+        {
+            return null;
+        }
+
+        return \Yii::$app->formatter->asCurrency($monto);
     }
 
     /**

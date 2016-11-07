@@ -24,6 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'cedula',
             'email:email',
             'telefono',
+            [
+                'label' => 'Unidad Técnica',
+                'value' => $model->idUEjecutora->nombre
+            ],
         ],
     ]) ?>
 

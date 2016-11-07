@@ -64,31 +64,13 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_proyecto', 'enunciado_problema', 'poblacion_afectada', 'indicador_situacion', 'formula_indicador', 'fuente_indicador', 'fecha_indicador_inicial', 'enunciado_situacion_deseada', 'poblacion_objetivo', 'indicador_situacion_deseada', 'resultado_esperado', 'unidad_medida', 'meta_proyecto', 'benficiarios_femeninos', 'beneficiarios_masculinos', 'denominacion_beneficiario', 'total_empleos_directos_femeninos', 'total_empleos_directos_masculino', 'empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino','requiere_accion_no_financiera','contribuye_complementa','vinculado_otro', 'obstaculos'], 'required'],
-            [['id_proyecto', 'unidad_medida', 'requiere_accion_no_financiera',  'contribuye_complementa', 'especifique_complementa_cual', 'vinculado_otro', 'vinculado_especifique'], 'integer'],
-            [['enunciado_problema', 'poblacion_afectada', 'indicador_situacion', 'formula_indicador', 'enunciado_situacion_deseada', 'poblacion_objetivo', 'indicador_situacion_deseada', 'resultado_esperado', 'meta_proyecto', 'requiere_mencione_acciones', 'contribuye_mencione_acciones', 'vinculado_nombre_proyecto', 'vinculado_medida', 'obstaculos'], 'string'],
-            [['fecha_indicador_inicial'], 'safe'],
-            [['benficiarios_femeninos', 'beneficiarios_masculinos', 'total_empleos_directos_femeninos', 'total_empleos_directos_masculino', 'empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino'], 'number'],
-            [['fuente_indicador', 'denominacion_beneficiario'], 'string', 'max' => 45],
-            //reglas de campo que dependendientes
-            [['especifique_con_cual','requiere_nombre_institucion','requiere_nombre_instancia','requiere_mencione_acciones'], 'required', 'when' => function ($model) {
-            return $model->requiere_accion_no_financiera == 1;
-            }, 'whenClient' => "function (attribute, value) {
-            return $('#proyectoalcance-requiere_accion_no_financiera').val() ==1;
-            }"],
-            [['contribuye_complementa', 'especifique_complementa_cual','contribuye_nombre_institucion','contribuye_nombre_instancia','contribuye_mencione_acciones'], 'required', 'when' => function ($model) {
-            return $model->contribuye_complementa == 1;
-            }, 'whenClient' => "function (attribute, value) {
-            return $('#proyectoalcance-contribuye_complementa').val() ==1;
-            }"],
-             [['vinculado_especifique', 'vinculado_nombre_institucion','vinculado_nombre_instancia','vinculado_nombre_proyecto','vinculado_medida'], 'required', 'when' => function ($model) {
-            return $model->vinculado_otro == 1;
-            }, 'whenClient' => "function (attribute, value) {
-            return $('#proyectoalcance-vinculado_otro').val() ==1;
-            }"],
-            //fin de las reglas de campos dependientes
+            [['id_proyecto', 'formula_indicador', 'fuente_indicador', 'unidad_medida', 'meta_proyecto','empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino', 'relacion_instituciones', 'beneficiarios', 'objetivo_estrategico_institucional', 'objetivo_especifico_proyecto','causas_criticas_proyecto', 'problemas_aborda_proyecto','consecuencias_problema','justificacion_proyecto','alcance_proyecto','descripcion_situacion_actual', 'fecha_ultima_data', 'situacion_objetivo', 'meta_proyecto', 'tiempo_impacto', 'servicio_bien', 'tipo_impacto', 'cualitativa_efectos', 'importancia', 'mitigar_impacto_ambiental', 'balance_servicio_energetico', 'programacion_anual_consumidor'], 'required'],
+            [['id_proyecto', 'unidad_medida'], 'integer'],
+            [['formula_indicador', 'meta_proyecto', 'causas_criticas_proyecto', 'problemas_aborda_proyecto','consecuencias_problema', 'justificacion_proyecto', 'alcance_proyecto', 'descripcion_situacion_actual'], 'string'],
+            [['empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino', 'beneficiarios_femeninos', 'beneficiarios_masculinos', 'beneficiarios'], 'number'],
+            [['fuente_indicador'], 'string', 'max' => 45],
+                        
             
-            [['requiere_nombre_institucion', 'requiere_nombre_instancia', 'contribuye_nombre_institucion', 'contribuye_nombre_instancia', 'vinculado_nombre_institucion', 'vinculado_nombre_instancia'], 'string', 'max' => 80]
         ];
     }
 
@@ -100,44 +82,38 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_proyecto' => 'Id Proyecto',
-            'enunciado_problema' => 'Enunciado del problema o necesidad',
-            'poblacion_afectada' => 'Población afectada',
-            'indicador_situacion' => 'Indicador de la situación inicial',
-            'formula_indicador' => 'Fórmula del indicador',
-            'fuente_indicador' => 'Fuente del indicador',
-            'fecha_indicador_inicial' => 'Fecha del indicador de la situación inicial',
-            'enunciado_situacion_deseada' => 'Enunciado de la situación deseada',
-            'poblacion_objetivo' => 'Población objetivo',
-            'indicador_situacion_deseada' => 'Indicador de la situación deseada',
-            'resultado_esperado' => 'Resultado esperado',
-            'unidad_medida' => 'Unidad de medida',
-            'meta_proyecto' => 'Meta del proyecto',
-            'benficiarios_femeninos' => 'Número de beneficiarios femeninos',
-            'beneficiarios_masculinos' => 'Número de beneficiarios masculinos',
-            'denominacion_beneficiario' => 'Denominación del beneficiario',
-            'total_empleos_directos_femeninos' => 'Total de empleos directos femeninos',
-            'total_empleos_directos_masculino' => 'Total de empleos directos masculinos',
+            'relacion_instituciones' => 'Relación con instituciones (conexiones interinstitucionales para la ejecución del proyecto)',
             'empleos_directos_nuevos_femeninos' => 'Empleos directos nuevos femeninos',
             'empleos_directos_nuevos_masculino' => 'Empleos directos nuevos masculinos',
             'empleos_directos_sostenidos_femeninos' => 'Empleos directos sostenidos femeninos',
             'empleos_directos_sostenidos_masculino' => 'Empleos directos sostenidos masculinos',
-            'requiere_accion_no_financiera' => '¿Este proyecto requiere acciones no financieras de otra institución o instancia del Poder Popular?',
-            'especifique_con_cual' => 'Si es si, especifique con cual',
-            'requiere_nombre_institucion' => 'Nombre de la institución',
-            'requiere_nombre_instancia' => 'Nombre de la instancia',
-            'requiere_mencione_acciones' => 'Mencione las acciones',
-            'contribuye_complementa' => '¿Contribuye o complementa acciones de otra institución o instancia del Poder Popular?',
-            'especifique_complementa_cual' => 'Si es si, especifique',
-            'contribuye_nombre_institucion' => 'Nombre de la institución',
-            'contribuye_nombre_instancia' => 'Nombre de la instancia',
-            'contribuye_mencione_acciones' => 'Mencione las acciones',
-            'vinculado_otro' => '¿Este proyecto está vinculado a otro?',
-            'vinculado_especifique' => 'Si es si, especifique',
-            'vinculado_nombre_institucion' => 'Nombre de la institución responsable del proyecto con el que este se encuentra vinculado',
-            'vinculado_nombre_instancia' => 'Nombre de la instancia responsable del proyecto con el que este se encuentra vinculado',
-            'vinculado_nombre_proyecto' => 'Nombre del proyecto con el que se encuentra vinculado',
-            'vinculado_medida' => '¿En que medida se encuentran vinculados los proyectos?',
-            'obstaculos' => ' ¿Cuáles serían los supuestos obstáculos para la ejecución de este proyecto? Especifique:',
+            'beneficiarios_masculinos' => 'Beneficiarios Masculinos',
+            'beneficiarios_femeninos' => 'Beneficiarios Femeninos',
+            'beneficiarios' => 'Total Beneficiarios',
+            'objetivo_estrategico_institucional' => 'Objetivo Estratégico Institucional',
+            'objetivo_especifico_proyecto' => 'Objetivo Específico del Proyecto',
+            'causas_criticas_proyecto' => 'Causas del problema que se aborda con el proyecto (causas críticas)',
+            'problemas_aborda_proyecto' => 'Problemas que se abordan con el proyecto',
+            'consecuencias_problema' => 'Consecuencias del Problema',
+            'justificacion_proyecto' => 'Justificación del proyecto',
+            'alcance_proyecto' => 'Alcance del Proyecto',
+            'descripcion_situacion_actual' => 'Descripcion de la situación actual del problema',
+            'formula_indicador' => 'Fórmula del indicador',
+            'fuente_indicador' => 'Fuente del indicador',
+            'fecha_ultima_data' => 'Fecha la última data',
+            'situacion_objetivo' => 'Situación Objetivo',
+            'meta_proyecto' => 'Meta del proyecto',
+            'tiempo_impacto' => 'Tiempo de Impacto',
+            'servicio_bien' => 'Descripción del Bien o Servicio (Resultados)',
+            'unidad_medida' => 'Unidad de medida',
+            'tipo_impacto' => 'Tipo De Impacto Ambiental',
+            'cualitativa_efectos' => 'Caracterización cualitativa de los efectos',
+            'importancia' => 'Importancia',
+            'mitigar_impacto_ambiental' => '¿Cúales serán las medidas para mitigar o eliminar los impactos ambientales de este proyecto?',
+            'balance_servicio_energetico' => 'Balance Estimado Nacional de Servicios Energéticos',
+            'programacion_anual_consumidor' => 'Programación Anual por Consumidor',
+
+
         ];
     }
 
@@ -155,6 +131,14 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
     public function getUnidadMedida()
     {
         return $this->hasOne(UnidadMedida::className(), ['id' => 'unidad_medida']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTipoImpacto()
+    {
+        return $this->hasOne(TipoImpacto::className(), ['id' => 'tipo_impacto']);
     }
 
     /**
@@ -196,22 +180,29 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
         return $this->proyecto->accionesEspecificas;
     }
     */
+
+        /**
+     * Antes de guardar en BD
+     */
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
             //Cambiar el formato de las fechas
             $formato = 'd/m/Y';
-            $inicio = date_create_from_format($formato,$this->fecha_indicador_inicial);
-            
+            $inicio = date_create_from_format($formato,$this->fecha_ultima_data);
+
             if($inicio != false)
             {
-                $this->fecha_indicador_inicial = date_format($inicio,'Y-m-d');
+                $this->fecha_ultima_data = date_format($inicio,'Y-m-d');
             }
             
             return true;
-        } else {
+        } 
+        else
+        {
             return false;
         }
     }
+    
 
 }

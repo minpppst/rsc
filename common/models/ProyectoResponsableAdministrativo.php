@@ -35,7 +35,7 @@ class ProyectoResponsableAdministrativo extends \yii\db\ActiveRecord
         return [
             [['nombre', 'cedula', 'email', 'telefono', 'unidad_administradora', 'id_proyecto'], 'required'],
             [['cedula', 'id_proyecto'], 'integer'],
-            [['nombre', 'email', 'telefono', 'unidad_administradora'], 'string', 'max' => 45],
+            [['nombre', 'email', 'telefono'], 'string', 'max' => 45],
             [['email'],'email'],
         ];
     }
@@ -49,9 +49,9 @@ class ProyectoResponsableAdministrativo extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nombre' => 'Nombre',
             'cedula' => 'Cedula',
-            'email' => 'Email',
+            'email' => 'Correo Electrónico',
             'telefono' => 'Telefono',
-            'unidad_administradora' => 'Unidad Administradora',
+            'unidad_administradora' => 'Unidad tecnica',
             'id_proyecto' => 'Id Proyecto',
         ];
     }
@@ -62,5 +62,13 @@ class ProyectoResponsableAdministrativo extends \yii\db\ActiveRecord
     public function getIdProyecto()
     {
         return $this->hasOne(Proyecto::className(), ['id' => 'id_proyecto']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdUEjecutora()
+    {
+        return $this->hasOne(UnidadEjecutora::className(), ['id' => 'unidad_administradora']);
     }
 }

@@ -84,15 +84,19 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         return $this->hasMany(AcVariable::className(), ['id_ac' => 'id']);
     }
 
-        public   function getnombreEstatus(){
-                              return ($this->estatus == 1)? 'Activo':'Inactivo';
-                      }
+    /**
+     * @return string
+     */
+    public   function getnombreEstatus()
+    {
+        return ($this->estatus == 1)? 'Activo':'Inactivo';
+    }
 
 
-
-
-
-        public function desactivar()
+    /**
+     * Colocar estatus en 0 "DesaActivo"
+     */
+    public function desactivar()
     {
         $this->estatus = 0;
         $this->save(false);
@@ -129,8 +133,8 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         return true;
      }
 
-      public function toggleAprobado()
-     {
+    public function toggleAprobado()
+    {
         if($this->aprobado == 1)
         {
             $this->aprobado = 0;
@@ -142,14 +146,9 @@ class AccionCentralizada extends \yii\db\ActiveRecord
          //solo en caso de modelos q tengan fecha
         $this->fecha_inicio = date_create($this->fecha_inicio);
         $this->fecha_fin = date_create($this->fecha_fin);
-
         $this->fecha_inicio=date_format($this->fecha_inicio, 'd/m/Y');
         $this->fecha_fin=date_format($this->fecha_fin, 'd/m/Y');
-        
         $this->save();
-
-        
-        
 
         return true;
      }
@@ -178,7 +177,10 @@ class AccionCentralizada extends \yii\db\ActiveRecord
             return false;
         }
     }
-// cabeceras de partida primer primer nivel
+    /*
+    / Mostrar las partidas de primer nivel unicamente
+    /@return array
+    */
     public function cabeceras(){
 
         //cabeceras
@@ -204,13 +206,17 @@ class AccionCentralizada extends \yii\db\ActiveRecord
                     return ($model['nombre']);
          },
         ];
-        foreach ($columnas as $key => $value) {
-            $data[]=[
-           'class'=>'\kartik\grid\DataColumn',
-           'attribute'=>$value['partida'],
-           'value' => function  ($model, $index, $dataColumn, $dataProvider){
-                    if (array_key_exists($dataProvider->attribute, $model)) return ($model[$dataProvider->attribute]);
-                }
+        foreach ($columnas as $key => $value) 
+        {
+            $data[]=
+            [
+               'class'=>'\kartik\grid\DataColumn',
+               'attribute'=>$value['partida'],
+               'value' => function  ($model, $index, $dataColumn, $dataProvider)
+                           {
+                                if (array_key_exists($dataProvider->attribute, $model)) return ($model[$dataProvider->attribute]);
+                            }
+
             ];
            
         }
@@ -221,6 +227,7 @@ class AccionCentralizada extends \yii\db\ActiveRecord
 
     /**
     * Mostrar las acciones especificas y sus pedidos dividos por partidas sin iva
+    *@return $dataProvider
     **/
     public function distribucionPresupuestaria()
     {
@@ -295,8 +302,6 @@ class AccionCentralizada extends \yii\db\ActiveRecord
             }
 
             $data[] = $arreglo;           
-            
-           
         }
         
 

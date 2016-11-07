@@ -11,14 +11,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-     <?= Html::hiddenInput('id_proyecto_accion_especifica', '', ['id' => 'id_proyecto_accion_especifica']) ?>
+     
+     <?= $form->field($model, 'id_proyecto_ac_localizacion')->hiddenInput()->label(false) ?>
 
     <table class="table table-bordered table-condensed table-striped">
         <tbody>
             <tr class="warning">
                 <td><label>TRIM I</label></td>
 
-                <td><?= $form->field($model, 'enero')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1 form-control']) ?></td>
+                <td><?= $form->field($model, 'enero')->input('number', ['style' => 'max-width:100px', 'class' => 'trim1 form-control']) ?></td>
 
                 <td><?= $form->field($model, 'febrero')->input('number', ['style' => 'max-width:100px', 'placeholder' => '0', 'class' => 'trim1 form-control']) ?></td>
 
@@ -101,36 +102,36 @@ use yii\widgets\ActiveForm;
     function trim1()
     {
         $('#total1').val(
-            parseInt($('#proyectoaemeta-enero').val())+
-            parseInt($('#proyectoaemeta-febrero').val())+
-            parseInt($('#proyectoaemeta-marzo').val())
+            (Number($('#proyectoaemeta-enero').val()) ? parseInt($('#proyectoaemeta-enero').val()) : 0)+
+            (Number($('#proyectoaemeta-febrero').val()) ? parseInt($('#proyectoaemeta-febrero').val()) : 0)+
+            (Number($('#proyectoaemeta-marzo').val()) ? parseInt($('#proyectoaemeta-marzo').val()) : 0)
         );
     }
 
     function trim2()
     {
         $('#total2').val(
-            parseInt($('#proyectoaemeta-abril').val())+
-            parseInt($('#proyectoaemeta-mayo').val())+
-            parseInt($('#proyectoaemeta-junio').val())
+            (Number($('#proyectoaemeta-abril').val()) ? parseInt($('#proyectoaemeta-abril').val()) : 0)+
+            (Number($('#proyectoaemeta-mayo').val()) ? parseInt($('#proyectoaemeta-mayo').val()) : 0)+
+            (Number($('#proyectoaemeta-junio').val()) ? parseInt($('#proyectoaemeta-junio').val()) : 0)
         );
     }
 
     function trim3()
     {
         $('#total3').val(
-            parseInt($('#proyectoaemeta-julio').val())+
-            parseInt($('#proyectoaemeta-agosto').val())+
-            parseInt($('#proyectoaemeta-septiembre').val())
+            (Number($('#proyectoaemeta-julio').val()) ? parseInt($('#proyectoaemeta-julio').val()) : 0)+
+            (Number($('#proyectoaemeta-agosto').val()) ? parseInt($('#proyectoaemeta-agosto').val()) : 0)+
+            (Number($('#proyectoaemeta-septiembre').val()) ? parseInt($('#proyectoaemeta-septiembre').val()) : 0)
         );
     }
 
     function trim4()
     {
         $('#total4').val(
-            parseInt($('#proyectoaemeta-octubre').val())+
-            parseInt($('#proyectoaemeta-noviembre').val())+
-            parseInt($('#proyectoaemeta-diciembre').val())
+            (Number($('#proyectoaemeta-octubre').val()) ? parseInt($('#proyectoaemeta-octubre').val()) : 0)+
+            (Number($('#proyectoaemeta-noviembre').val()) ? parseInt($('#proyectoaemeta-noviembre').val()) : 0)+
+            (Number($('#proyectoaemeta-diciembre').val()) ? parseInt($('#proyectoaemeta-diciembre').val()) : 0)
         );
     }
 

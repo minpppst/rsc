@@ -12,6 +12,7 @@ use Yii;
  * @property integer $cedula
  * @property string $email
  * @property string $telefono
+ * @property string $unidad_tecnica
  * @property integer $id_proyecto
  */
 class ProyectoRegistrador extends \yii\db\ActiveRecord
@@ -30,7 +31,7 @@ class ProyectoRegistrador extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'cedula', 'telefono', 'id_proyecto'], 'required'],
+            [['nombre', 'cedula', 'telefono','unidad_tecnica', 'id_proyecto'], 'required'],
             [['cedula', 'id_proyecto'], 'integer'],
             [['nombre'], 'string', 'max' => 30],
             [['email'], 'string', 'max' => 80],
@@ -49,9 +50,18 @@ class ProyectoRegistrador extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nombre' => 'Nombre',
             'cedula' => 'Cedula',
-            'email' => 'Email',
+            'email' => 'Correo Electrónico',
             'telefono' => 'Telefono',
+            'unidad_tecnica' => 'Unidad Tecnica',
             'id_proyecto' => 'Id Proyecto',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdUEjecutora()
+    {
+        return $this->hasOne(UnidadEjecutora::className(), ['id' => 'unidad_tecnica']);
     }
 }

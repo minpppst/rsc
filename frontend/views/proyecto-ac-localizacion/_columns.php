@@ -10,28 +10,30 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        
+        // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'id',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_proyecto_accion_especifica',
+        'attribute'=>'id_proyecto_ac',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'enero',
+        'attribute'=>'id_pais',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'febrero',
+        'attribute'=>'id_estado',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'marzo',
+        'attribute'=>'id_municipio',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'abril',
+        'attribute'=>'id_parroquia',
     ],
-    
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
@@ -46,23 +48,7 @@ return [
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',
                           'data-confirm-title'=>'Are you sure?',
-                          'data-confirm-message'=>'Are you sure want to delete this item'],
-        'template' => '{view} {update} {prg} {delete}',
-        'buttons' => 
-        [
-            'prg' => function($model, $key, $index){
-                return 
-                    Html::a('<span class="glyphicon glyphicon-calendar"></span>', 
-                    Url::to(['proyecto-ae-meta/create', 'idLocalizacion' => $index]), 
-                    [
-                        'role'=>'modal-remote',
-                        'title'=>'Programación',
-                        'data-toggle'=>'tooltip'
-                    ]
-                   
-                    );
-            }
-        ]
+                          'data-confirm-message'=>'Are you sure want to delete this item'], 
     ],
 
 ];   

@@ -142,19 +142,8 @@ return [
                           'data-confirm-title'=>'¿Está seguro?',
                           'data-confirm-message'=>'¿Está seguro que desea eliminar este item?',
                           'class' => 'text-danger'], 
-        'template' => '{view} {update} {prg} {delete}',
-        'buttons' => [
-            'prg' => function($model, $key, $index){
-                return Html::a('<span class="glyphicon glyphicon-calendar"></span>', 
-                    Url::to(['proyecto-ae-meta/update', 'accionEspecifica' => $index]), 
-                    [
-                        'role'=>'modal-remote',
-                        'title'=>'Programación',
-                        'data-toggle'=>'tooltip'
-                    ]
-                );
-            }
-        ]
+        
+        
     ],
 
 ];   

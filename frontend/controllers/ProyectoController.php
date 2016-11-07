@@ -43,8 +43,11 @@ class ProyectoController extends \common\controllers\BaseController
     {
         $searchModel = new ProyectoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->andWhere(['usuario_creacion'=>Yii::$app->user->identity->id]);
-
+        if(!Yii::$app->user->can('sysadmin'))
+        {
+            $dataProvider->query->andWhere(['usuario_creacion'=>Yii::$app->user->identity->id]);    
+        }
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -192,7 +195,7 @@ class ProyectoController extends \common\controllers\BaseController
     }
 
      /**
-     * Delete multiple existing PartidaPartida model.
+     * Delete multiple existing Proyecto model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -202,7 +205,7 @@ class ProyectoController extends \common\controllers\BaseController
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (PartidaPartida::findAll(json_decode($pks)) as $model) {
+        foreach (Proyecto::findAll(json_decode($pks)) as $model) {
             $model->delete();
         }
         

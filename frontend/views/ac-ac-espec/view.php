@@ -42,10 +42,9 @@ use yii\widgets\DetailView;
 
             ],
 
-             [
-            'label' => 'Unidades Ejecutoras',
-           
-            'value' => $rows
+            [
+                'label' => 'Unidades Ejecutoras',
+                'value' => $rows
             ],
         ],
     ]) ?>

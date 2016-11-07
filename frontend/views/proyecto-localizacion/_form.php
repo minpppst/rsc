@@ -25,7 +25,7 @@ use app\models\Ambito;
                 echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($paises,'id','nombre'),['prompt'=>'Seleccione']); 
                 break;
             case 'Nacional':
-                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($paises,'id','nombre'),['prompt'=>'Seleccione']);
+                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($paises,'id','nombre'),['prompt'=>'Seleccione', 'disabled' =>'true' ]);
                 break;
             case 'Estadal':
                 echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($paises,'id','nombre'),['prompt'=>'Seleccione']);

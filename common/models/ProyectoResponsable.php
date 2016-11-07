@@ -49,7 +49,7 @@ class ProyectoResponsable extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nombre' => 'Nombre',
             'cedula' => 'Cedula',
-            'email' => 'Email',
+            'email' => 'Correo Electrónico',
             'telefono' => 'Telefono',
             'id_proyecto' => 'Id Proyecto',
         ];

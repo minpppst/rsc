@@ -99,7 +99,8 @@ class AcAcEspecController extends \common\controllers\BaseController
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){ 
+            if($request->isGet)
+            {
                 return [
                     'title'=> "Crear nueva Acion Especifica",
                     'content'=>$this->renderAjax('_form', [
@@ -108,8 +109,10 @@ class AcAcEspecController extends \common\controllers\BaseController
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
-                ];         
-            }else if($model->load($request->post())){
+                ];
+            }
+            else if($model->load($request->post()))
+            {
                     
                     $uni_eje=$request->post('id_ue');
                     $i=0;
@@ -119,16 +122,17 @@ class AcAcEspecController extends \common\controllers\BaseController
                     try { 
                     if($model->save()){
                     // si salva el modelo padre, contamos las uej a guardar
-                    while(count($request->post('id_ue'))!=$i){
-                    // guardamos las uej, si ocurre algun error devuelve false
-                    $salvar=$model->uejecutoras_crear($uni_eje[$i]);
-                    $i++;
-                    if($salvar){
-                    }else{
-                      $transaction->rollback();
-                      $i=count($request->post('id_ue'));
+                    while(count($request->post('id_ue'))!=$i)
+                    {
+                        // guardamos las uej, si ocurre algun error devuelve false
+                        $salvar=$model->uejecutoras_crear($uni_eje[$i]);
+                        $i++;
+                        if(!$salvar)
+                        {
+                          $transaction->rollback();
+                          $i=count($request->post('id_ue'));
                         }
-                        }// termina el while
+                    }// termina el while
                     $transaction->commit();
 
 

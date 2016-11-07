@@ -17,10 +17,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'codigo_proyecto',
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'codigo_sne',
-    ],
+    
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
