@@ -5,15 +5,16 @@ namespace frontend\controllers;
 use Yii;
 use yii\helpers\Json;
 use yii\filters\AccessControl;
-use common\models\ProyectoAccionEspecifica;
-use common\models\ProyectoAccionEspecificaSearch;
-use common\models\UnidadMedida;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
+use common\models\ProyectoAccionEspecifica;
+use common\models\ProyectoAccionEspecificaSearch;
+use common\models\UnidadMedida;
 use common\models\FuenteFinanciamiento;
 use common\models\UnidadEjecutora;
 use common\models\Ambito;
@@ -105,7 +106,6 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
         $unidadEjecutora = UnidadEjecutora::find()->all();
         $unidadMedida = UnidadMedida::find()->all();
         $fuenteFinanciamiento = FuenteFinanciamiento::find()->all();
-        $ambito = Ambito::find()->all();
         //id del pais
         if($model->idProyecto->proyectoLocalizacion)
         {
@@ -133,7 +133,6 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                         'unidadEjecutora' => $unidadEjecutora,
                         'unidadMedida' => $unidadMedida,
                         'fuenteFinanciamiento' => $fuenteFinanciamiento,
-                        'ambito' => $ambito,
                         'model2' => $model2,
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -169,7 +168,6 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                                         'unidadEjecutora' => $unidadEjecutora,
                                         'unidadMedida' => $unidadMedida,
                                         'fuenteFinanciamiento' => $fuenteFinanciamiento,
-                                        'ambito' => $ambito,
                                         'model2' => $model2,
                                     ]),
                                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Crear',['class'=>'btn btn-success','type'=>"submit"])
@@ -178,18 +176,17 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                             else
                             {
                                 //caso Exitoso
-                                $transaction->commit();    
+                                $transaction->commit();
+                                return
+                                [
+                                    'forceReload'=>'#especifica-pjax',
+                                    'title'=> "Nueva Acción Específica",
+                                    'content'=>'<span class="text-success">Creada exitosamente.</span>',
+                                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                            Html::a('Crear otra',['create', 'proyecto' => $proyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                        
+                                ];
                             }
-                                
-                            return 
-                            [
-                                'forceReload'=>'#especifica-pjax',
-                                'title'=> "Nueva Acción Específica",
-                                'content'=>'<span class="text-success">Creada exitosamente.</span>',
-                                'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                        Html::a('Crear otra',['create', 'proyecto' => $proyecto],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                    
-                            ];
                         }
                         else
                         {   //caso de error al intentar guardar maestro
@@ -200,7 +197,6 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                                     'unidadEjecutora' => $unidadEjecutora,
                                     'unidadMedida' => $unidadMedida,
                                     'fuenteFinanciamiento' => $fuenteFinanciamiento,
-                                    'ambito' => $ambito,
                                     'model2' => $model2,
                                 ]),
                                 'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Crear',['class'=>'btn btn-success','type'=>"submit"])
@@ -224,7 +220,6 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                             'unidadEjecutora' => $unidadEjecutora,
                             'unidadMedida' => $unidadMedida,
                             'fuenteFinanciamiento' => $fuenteFinanciamiento,
-                            'ambito' => $ambito,
                             'model2' => $model2,
                         ]),
                         'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Crear',['class'=>'btn btn-success','type'=>"submit"])
@@ -247,7 +242,6 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                     'unidadEjecutora' => $unidadEjecutora,
                     'unidadMedida' => $unidadMedida,
                     'fuenteFinanciamiento' => $fuenteFinanciamiento,
-                    'ambito' => $ambito,
                     'model2' => $model2,
                 ]);
             }

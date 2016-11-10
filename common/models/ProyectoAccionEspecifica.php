@@ -262,8 +262,8 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
       * Activar o desactivar
       * @return boolean
       */
-     public function toggleActivo()
-     {
+    public function toggleActivo()
+    {
         if($this->estatus == 1)
         {
             $this->desactivar();
@@ -274,42 +274,42 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
         }
 
         return true;
-     }
+    }
 
      /**
       * Ponderacion.
       * @return int $sum Suma total de las ponderaciones
       */
-     public function ponderacion()
-     {
+    public function ponderacion()
+    {
         $comando = \Yii::$app->db->createCommand('SELECT SUM(ponderacion) FROM proyecto_accion_especifica WHERE id_proyecto = '.$this->id_proyecto);
         $sum = $comando->queryScalar();
 
         return $sum;
-     }
+    }
 
      /**
       * Devuelve el máximo de ponderación.
       * @return int
       */
-     public function getMaxPonderacion()
-     {
+    public function getMaxPonderacion()
+    {
         return (1 - $this->ponderacion());
-     }
+    }
 
      /**
       * Devuelve el minimo de ponderacion.
       * @return int 
       */
-     public function getMinPonderacion()
-     {
+    public function getMinPonderacion()
+    {
         if($this->ponderacion() == 1.0)
         {
             return 0;
         }
 
         return 0.1;
-     }
+    }
 
      public function beforeSave($insert)
     {   

@@ -13,11 +13,6 @@ use yii\helpers\Html;
         'unidadEjecutora' => $unidadEjecutora,
         'unidadMedida' => $unidadMedida,
         'fuenteFinanciamiento' => $fuenteFinanciamiento,
-        'ambito' => $ambito,
         'model2' => $model2,
-        //'paises' => $paises,
-        //'estados' => $estados,
-        //'parroquia' => $parroquia,
-        //'municipios' => $municipios
     ]) ?>
 </div>

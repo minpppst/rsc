@@ -168,13 +168,7 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
         }
         return $this->idParroquia->nombre;
     }
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdProyectoLocalizacion()
-    {
-        return $this->hasOne(ProyectoAcLocalizacion::className(), ['id_proyecto_ac_localizacion' => 'id']);
-    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -265,8 +259,6 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
 
                 }
 
-                
-
             break;
 
 
@@ -323,10 +315,8 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
             default:
                 # code...
             break;
-            
                 
         }
-        
 
     }
 
@@ -380,7 +370,7 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
                         $model->id_estado=$key;
                         if(!$model->save())
                         {
-                            return false; 
+                            return false;
                             exit();
                         }
                     };
@@ -401,10 +391,10 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
     }
 
     /*
-    *Permite Agregar/Borrar las localizacion del combo select2
+    *Permite Agregar/Borrar las localizacion del combo select2 se da en el update de la accionespecifica
     * array $params
     * int $accion, $pais
-    *string $scenario
+    * string $scenario
     */
      function modificarLocalizacion($params,$accion,$scenario, $pais)
      {
@@ -431,7 +421,6 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
                     foreach ($ace as $key => $value) 
                     {
                         $model_cambiar= ProyectoAcLocalizacion::findOne($value);
-                        
                         if(!$model_cambiar->delete())
                         {
                             return false;
@@ -449,8 +438,7 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
                         ->where(['id_proyecto_ac' => $accion])
                         ->andwhere(['in', 'id_estado', $params['id_estado']])
                         ->asArray()
-                        ->all();                                        
-                
+                        ->all();
                 /*
                 Declaro arreglo donde se guardará los nuevos elementos agregados
                 */
@@ -459,13 +447,12 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
                 {
                     $tabla[]=$value['id_estado'];
                 };
-
                 
                 /*
                 Guardo en $nuevo los elementos nuevos que se han agregado.
                 */
                 $nuevo=array_diff($params['id_estado'], $tabla);
-                            
+                //se almacenan los elementos nuevos            
                 foreach ($nuevo as $key => $value) 
                 {
                     if($value!="")
@@ -477,7 +464,6 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
                         $model2->id_estado=$value;
                         if(!$model2->save())
                         {
-                            print_r($model2->getErrors()); exit();
                             return false;
                         }
                     }
@@ -504,7 +490,7 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
     **@return array or null
     */
     public function ObtenerLocalizaciones($id)
-     {
+    {
         
         $localizaciones=ProyectoAcLocalizacion::find()
         ->select(['pais.nombre as pais', 'estados.nombre as estado', 'municipio.nombre as municipio', 'parroquia.nombre as parroquia'])
@@ -526,5 +512,5 @@ class ProyectoAcLocalizacion extends \yii\db\ActiveRecord
         }
 
 
-     }
+    }
 }

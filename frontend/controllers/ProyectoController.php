@@ -94,7 +94,6 @@ class ProyectoController extends \common\controllers\BaseController
     public function actionCreate()
     {
         $model = new Proyecto();
-        //$model->estatus = 1; //Por defecto
         //usuario Creacion
         $model->usuario_creacion=Yii::$app->user->identity->id;
 
@@ -110,9 +109,12 @@ class ProyectoController extends \common\controllers\BaseController
                 ->all();
         $ambito = Ambito::find()->all();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+        {
             return $this->redirect(['proyecto-localizacion/create', 'proyecto' => $model->id, 'ambito' => $model->ambito]);
-        } else {
+        } 
+        else 
+        {
             return $this->render('create', [
                 'model' => $model,
                 'estatus_proyecto' => $estatus_proyecto,
@@ -209,14 +211,15 @@ class ProyectoController extends \common\controllers\BaseController
             $model->delete();
         }
         
-
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>'true']; 
-        }else{
+        }
+        else
+        {
             /*
             *   Process for non-ajax request
             */
@@ -232,18 +235,21 @@ class ProyectoController extends \common\controllers\BaseController
      */
     public function actionToggleActivo($id) {
         $model = $this->findModel($id);
-
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        if ($model != null && $model->toggleActivo()) {
+        if ($model != null && $model->toggleActivo()) 
+        {
             return ['forceClose' => true, 'forceReload' => 'true'];
-        } else {
-            return [
+        } 
+        else 
+        {
+            return 
+            [
                 'title' => 'Ocurrió un error.',
                 'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
                 'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
             ];
-            return;
+            
         }
     }
 
@@ -254,25 +260,28 @@ class ProyectoController extends \common\controllers\BaseController
      * @param integer id
      * @return mixed
      */
-    public function actionBulkDesactivar() {
+    public function actionBulkDesactivar() 
+    {
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         //Obtener el nombre de la clase del modelo
         $className = Proyecto::className();
-        
         //call_user_func - Invocar el callback 
-        foreach (call_user_func($className . '::findAll', $pks) as $model) {            
+        foreach (call_user_func($className . '::findAll', $pks) as $model) {
             $model->desactivar();
-        }
+        };
         
 
-        if ($request->isAjax) {
+        if ($request->isAjax) 
+        {
             /*
              *   Process for ajax request
              */
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose' => true, 'forceReload' => 'true'];
-        } else {
+        } 
+        else 
+        {
             /*
              *   Process for non-ajax request
              */
@@ -287,7 +296,8 @@ class ProyectoController extends \common\controllers\BaseController
      * @param integer id
      * @return mixed
      */
-    public function actionBulkActivar() {
+    public function actionBulkActivar() 
+    {
         $request = Yii::$app->request;
         $pks = json_decode($request->post('pks')); // Array or selected records primary keys
         //Obtener el nombre de la clase del modelo

@@ -60,7 +60,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
     {
         $request = Yii::$app->request;
         $model = new ProyectoResponsableTecnico();
-        $model->id_proyecto = $proyecto;  
+        $model->id_proyecto = $proyecto;
         $unidadEjecutora = UnidadEjecutora::find()->all();
 
         if($request->isAjax){

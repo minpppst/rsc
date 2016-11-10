@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'Editar';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'unidadEjecutora' => $unidadEjecutora,
     ]) ?>
 
 </div>

@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 
 use common\models\UnidadMedida;
+use common\models\TipoImpacto;
 use common\models\InstanciaInstitucion;
 
 /**
@@ -48,11 +49,12 @@ class ProyectoAlcanceController extends \common\controllers\BaseController
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        
+        $model->fecha_ultima_data = \Yii::$app->formatter->asDate($model->fecha_ultima_data);
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         //Listas desplegables
         $unidadMedida = UnidadMedida::find()->all();
+        $tipoImpacto = TipoImpacto::find()->all();
         $instanciaInstitucion = InstanciaInstitucion::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -61,6 +63,7 @@ class ProyectoAlcanceController extends \common\controllers\BaseController
             return $this->renderAjax('view', [
                 'model' => $model,
                 'unidadMedida' => $unidadMedida,
+                'tipoImpacto' => $tipoImpacto,
                 'instanciaInstitucion' => $instanciaInstitucion,
             ]);
         }

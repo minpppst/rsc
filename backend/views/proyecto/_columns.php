@@ -19,14 +19,12 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'codigo_sne'
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
-        'value' => function($model){
-            return StringHelper::truncateWords($model->nombre,10);
-        }
+        'contentOptions' => 
+        [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+        ]
     ],
     [
         'class' => '\kartik\grid\DataColumn',

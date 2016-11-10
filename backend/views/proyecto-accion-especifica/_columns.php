@@ -12,15 +12,7 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
-    // ],
-    /*
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_proyecto',
-    ],*/
+        
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'codigo_accion_especifica',
@@ -28,40 +20,22 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
+        'contentOptions' => 
+        [
+        'style'=>'max-width: 350px;  word-wrap: break-word;
+        white-space: normal;'
+        ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombreUnidadEjecutora',
+        'contentOptions' => 
+        [
+        'style'=>'max-width: 350px;  word-wrap: break-word;
+        white-space: normal;'
+        ]
     ],
-    /*
-    [
-        'class' => '\kartik\grid\DataColumn',
-        'width' => '50px',
-        'attribute' => 'nombreEstatus',
-        'value' => function ($model) {
-            if ($model->estatus == 1) {
-                return Html::a($model->nombreEstatus, ['toggle-activo', 'id' => $model->id], [
-                            'class' => 'btn btn-xs btn-success btn-block',
-                            'role' => 'modal-remote',
-                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
-                            'data-request-method' => 'post',
-                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
-                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea desactivar este elemento?'),
-                ]);
-            } else {
-                return Html::a($model->nombreEstatus, ['toggle-activo', 'id' => $model->id], [
-                            'class' => 'btn btn-xs btn-warning btn-block',
-                            'role' => 'modal-remote',
-                            'data-confirm' => false, 'data-method' => false, // for overide yii data api
-                            'data-request-method' => 'post',
-                            'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
-                            'data-confirm-message' => Yii::t('user', '¿Está seguro que desea activar este elemento?'),
-                ]);
-            }
-        },
-        'format' => 'raw'
-    ],
-    */
+    
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'fecha_inicio',

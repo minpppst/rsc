@@ -4,6 +4,9 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use kartik\detail\DetailView;
 
+use common\models\UnidadMedida;
+use common\models\TipoImpacto;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectoAlcance */
 
@@ -34,21 +37,112 @@ $icons=[
         ],
         'attributes' => [
             [
-                'attribute' => 'enunciado_problema',
+                'attribute' => 'relacion_instituciones',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'3',
                 ],
             ],
             [
-                'attribute' => 'poblacion_afectada',
+                'attribute' => 'empleos_directos_nuevos_femeninos',
+                'type' => DetailView::INPUT_TEXT,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'empleos_directos_nuevos_masculino',
+                'type' => DetailView::INPUT_TEXT,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'empleos_directos_sostenidos_femeninos',
+                'type' => DetailView::INPUT_TEXT,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'empleos_directos_sostenidos_masculino',
+                'type' => DetailView::INPUT_TEXT,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'beneficiarios_masculinos',
+                'type' => DetailView::INPUT_TEXT,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'beneficiarios_femeninos',
+                'type' => DetailView::INPUT_TEXT,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'beneficiarios',
+                'type' => DetailView::INPUT_TEXT,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'objetivo_estrategico_institucional',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'3',
                 ],
             ],
             [
-                'attribute' => 'indicador_situacion',
+                'attribute' => 'objetivo_especifico_proyecto',
+                'type' => DetailView::INPUT_TEXTAREA,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'causas_criticas_proyecto',
+                'type' => DetailView::INPUT_TEXTAREA,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'problemas_aborda_proyecto',
+                'type' => DetailView::INPUT_TEXTAREA,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'consecuencias_problema',
+                'type' => DetailView::INPUT_TEXTAREA,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'justificacion_proyecto',
+                'type' => DetailView::INPUT_TEXTAREA,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'alcance_proyecto',
+                'type' => DetailView::INPUT_TEXTAREA,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'descripcion_situacion_actual',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'3',
@@ -56,18 +150,24 @@ $icons=[
             ],
             [
                 'attribute' => 'formula_indicador',
+                'type' => DetailView::INPUT_TEXT,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'fuente_indicador',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'3',
                 ],
             ],
-            'fuente_indicador',
             [
-                'label' => $model->getAttributeLabel('fecha_indicador_inicial'),
-                'attribute' => 'fecha_indicador_inicial',
+                'label' => $model->getAttributeLabel('fecha_ultima_data'),
+                'attribute' => 'fecha_ultima_data',
                 'type' => DetailView::INPUT_DATE,
                 'options' => [
-                    //'style' => 'width:47%'
+                    'style' => 'width:47%'
                 ],
                 'widgetOptions' => [
                     'pluginOptions' => [
@@ -75,45 +175,14 @@ $icons=[
                         'format' => 'dd/mm/yyyy'
                     ]
                 ],
+
             ],
             [
-                'attribute' => 'enunciado_situacion_deseada',
+                'attribute' => 'situacion_objetivo',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'3',
                 ],
-            ],
-            [
-                'attribute' => 'poblacion_objetivo',
-                'type' => DetailView::INPUT_TEXTAREA,
-                'options' => [
-                    'rows'=>'3',
-                ],
-            ],
-            [
-                'attribute' => 'indicador_situacion_deseada',
-                'type' => DetailView::INPUT_TEXTAREA,
-                'options' => [
-                    'rows'=>'3',
-                ],
-            ],
-            [
-                'attribute' => 'resultado_esperado',
-                'type' => DetailView::INPUT_TEXTAREA,
-                'options' => [
-                    'rows'=>'3',
-                ],
-            ],
-            [
-                'label' => 'Unidad de Medida',
-                'attribute' => 'unidad_medida',
-                'value' => $model->unidadMedida->unidad_medida,
-                'type' => DetailView::INPUT_SELECT2,
-                'widgetOptions' => [
-                    'data' => ArrayHelper::map($unidadMedida, 'id', 'unidad_medida'),
-                    'options' => ['placeholder' => 'Seleccione'],
-                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
-                ]
             ],
             [
                 'attribute' => 'meta_proyecto',
@@ -122,77 +191,77 @@ $icons=[
                     'rows'=>'3',
                 ],
             ],
-            'benficiarios_femeninos',
-            'beneficiarios_masculinos',
-            'denominacion_beneficiario',
-            'total_empleos_directos_femeninos',
-            'total_empleos_directos_masculino',
-            'empleos_directos_nuevos_femeninos',
-            'empleos_directos_nuevos_masculino',
-            'empleos_directos_sostenidos_femeninos',
-            'empleos_directos_sostenidos_masculino',
             [
-                'attribute' => 'requiere_accion_no_financiera',
-                'value' => $model->requiere_accion_no_financiera,
-                'type' => DetailView::INPUT_DROPDOWN_LIST,
-                'items' => [1 => 'Si',  0 => 'No'],
-            ],
-            'especifique_con_cual',
-            'requiere_nombre_institucion',
-            'requiere_nombre_instancia',
-            [
-                'attribute' => 'requiere_mencione_acciones',
+                'attribute' => 'tiempo_impacto',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'3',
                 ],
             ],
             [
-                'attribute' => 'contribuye_complementa',
-                'value' => $model->contribuye_complementa,
-                'type' => DetailView::INPUT_DROPDOWN_LIST,
-                'items' => [1 => 'Si',  0 => 'No'],
-            ],
-            'especifique_complementa_cual',
-            'contribuye_nombre_institucion',
-            'contribuye_nombre_instancia',
-            [
-                'attribute' => 'contribuye_mencione_acciones',
+                'attribute' => 'servicio_bien',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'3',
                 ],
             ],
             [
-                'attribute' => 'vinculado_otro',
-                'value' => $model->vinculado_otro,
-                'type' => DetailView::INPUT_DROPDOWN_LIST,
-                'items' => [1 => 'Si',  0 => 'No'],
+                'attribute' => 'unidad_medida',
+                'value' => $model->unidadMedida->unidad_medida,
+                'type' => DetailView::INPUT_SELECT2,
+                'widgetOptions' => [
+                    'data' => ArrayHelper::map(unidadMedida::find()->all(), 'id', 'unidad_medida'),
+                    'options' => ['placeholder' => 'Seleccione'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                ]
+
             ],
-            'vinculado_especifique',
-            'vinculado_nombre_institucion',
-            'vinculado_nombre_instancia',
             [
-                'attribute' => 'vinculado_nombre_proyecto',
+                'attribute' => 'tipo_impacto',
+                'value' => $model->tipoImpacto->descripcion,
+                'type' => DetailView::INPUT_SELECT2,
+                'widgetOptions' => [
+                    'data' => ArrayHelper::map(TipoImpacto::find()->all(), 'id', 'descripcion'),
+                    'options' => ['placeholder' => 'Seleccione'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                ]
+            ],
+            [
+                'attribute' => 'cualitativa_efectos',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'3',
                 ],
             ],
             [
-                'attribute' => 'vinculado_medida',
+                'attribute' => 'importancia',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'3',
                 ],
             ],
             [
-                'attribute' => 'obstaculos',
+                'attribute' => 'mitigar_impacto_ambiental',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'3',
                 ],
             ],
+            [
+                'attribute' => 'balance_servicio_energetico',
+                'type' => DetailView::INPUT_TEXTAREA,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+            [
+                'attribute' => 'programacion_anual_consumidor',
+                'type' => DetailView::INPUT_TEXTAREA,
+                'options' => [
+                    'rows'=>'3',
+                ],
+            ],
+
         ],
         'panel' => [
             'type' => 'primary', 

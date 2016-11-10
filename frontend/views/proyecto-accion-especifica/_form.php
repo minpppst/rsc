@@ -22,8 +22,6 @@ use kartik\date\DatePicker;
 
     <?= $form->field($model, 'unidad_medida')->dropDownList(ArrayHelper::map($unidadMedida, 'id', 'unidad_medida'), ['prompt' => 'Seleccione']); ?>
 
-    <?= $form->field($model, 'meta')->textInput(['readonly' => true]); ?>    
-
     <?= $form->field($model, 'ponderacion')->input('number', [
         'min' => $model->minPonderacion, 
         'max' => $model->maxPonderacion, 

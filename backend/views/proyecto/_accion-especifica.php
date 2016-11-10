@@ -14,9 +14,12 @@
 	use kartik\date\DatePicker;
 	use johnitvn\ajaxcrud\CrudAsset; 
 	use johnitvn\ajaxcrud\BulkButtonWidget;
-
+	use kartik\select2\Select2;
+	\kartik\select2\Select2Asset::register($this);
+	
 	$searchModel = new ProyectoAccionEspecificaSearch(['id_proyecto'=>$model->id]);
     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    
 
     //Iconos
 	$icons=[
@@ -61,10 +64,20 @@
 		    [
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'nombre',
+		        'contentOptions' => 
+		        [
+		        'style'=>'max-width: 350px;  word-wrap: break-word;
+		        white-space: normal;'
+		        ]
 		    ],
 		    [
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'nombreUnidadEjecutora',
+		        'contentOptions' => 
+		        [
+		        'style'=>'max-width: 350px;  word-wrap: break-word;
+		        white-space: normal;'
+		        ]
 		    ],
 		    [
 		        'class' => '\kartik\grid\DataColumn',

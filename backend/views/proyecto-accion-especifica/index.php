@@ -5,6 +5,9 @@ use yii\bootstrap\Modal;
 use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
+use kartik\select2\Select2;
+use kartik\select2\Select2Asset;
+Select2Asset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProyectoAccionEspecificaSearch */

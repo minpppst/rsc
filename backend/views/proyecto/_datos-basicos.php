@@ -50,9 +50,16 @@ CrudAsset::register($this);
         'attributes' => [
             'id',
             'codigo_proyecto',
-            'codigo_sne',
             [
                 'attribute' => 'nombre',
+                'type' => DetailView::INPUT_TEXTAREA,
+                'options' => [
+                    'rows'=>'6',
+                    'style' => 'width:50%'
+                ],
+            ],
+            [
+                'attribute' => 'descripcion_proyecto',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'6',
@@ -112,6 +119,41 @@ CrudAsset::register($this);
                 ]
             ],
             [
+                'label' => $model->getAttributeLabel('nombrePlurianual'),
+                'attribute' => 'proyecto_plurianual',
+                'value' => $model->nombrePlurianual,
+                'type' => DetailView::INPUT_SELECT2,
+                'widgetOptions' => [
+                    'data' => [1=> 'Si', 0=> 'No'],
+                    'options' => ['placeholder' => 'Seleccione'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                ]
+            ],
+            [
+                'label' => $model->getAttributeLabel('monto_proyecto_actual'),
+                'attribute' => 'monto_proyecto_actual',
+                'value' => $model->bolivarMontos($model->monto_proyecto_actual),
+                'type' => DetailView::INPUT_MONEY,
+                'widgetOptions' => [
+                ]
+            ],
+            [
+                'label' => $model->getAttributeLabel('monto_proyecto_anio_anteriores'),
+                'attribute' => 'monto_proyecto_anio_anteriores',
+                'value' => $model->bolivarMontos($model->monto_proyecto_anio_anteriores),
+                'type' => DetailView::INPUT_MONEY,
+                'widgetOptions' => [
+                ]
+            ],
+            [
+                'label' => $model->getAttributeLabel('monto_total_proyecto_proximo_anios'),
+                'attribute' => 'monto_total_proyecto_proximo_anios',
+                'value' => $model->bolivarMontos($model->monto_total_proyecto_proximo_anios),
+                'type' => DetailView::INPUT_MONEY,
+                'widgetOptions' => [
+                ]
+            ],
+            [
                 'label' => $model->getAttributeLabel('monto_proyecto'),
                 'attribute' => 'monto_proyecto',
                 'value' => $model->bolivarMonto,
@@ -120,12 +162,12 @@ CrudAsset::register($this);
                 ]
             ],
             [
-                'attribute' => 'descripcion',
-                'type' => DetailView::INPUT_TEXTAREA,
-                'options' => [
-                    'rows'=>'6',
-                    'style' => 'width:50%'
-                ],
+                'label' => $model->getAttributeLabel('monto_financiar'),
+                'attribute' => 'monto_financiar',
+                'value' => $model->bolivarMontos($model->monto_financiar),
+                'type' => DetailView::INPUT_MONEY,
+                'widgetOptions' => [
+                ]
             ],
             [
                 'label' => $model->getAttributeLabel('sector'),
@@ -193,14 +235,6 @@ CrudAsset::register($this);
                     'options' => ['placeholder' => 'Seleccione'],
                     'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
                 ]
-            ],
-            [
-                'attribute' => 'objetivo_estrategico_institucional',
-                'type' => DetailView::INPUT_TEXTAREA,
-                'options' => [
-                    'rows'=>'6',
-                    'style' => 'width:50%'
-                ],
             ],
             [
                 'label' => $model->getAttributeLabel('ambito'),
@@ -304,7 +338,10 @@ CrudAsset::register($this);
                     'cedula',
                     'email',
                     'telefono',
-                    'unidad_administradora'
+                    [
+                        'label' => 'Unidad Técnica',
+                        'value' => $model->responsableAdministrativo ? ($model->responsableAdministrativo->idUEjecutora->nombre) : ''
+                    ],
                 ]
             ]) ?>
         </div>
@@ -322,7 +359,10 @@ CrudAsset::register($this);
                     'cedula',
                     'email',
                     'telefono',
-                    'unidad_tecnica'
+                    [
+                        'label' => 'Unidad Técnica',
+                        'value' => $model->responsableTecnico ? $model->responsableTecnico->idUEjecutora->nombre : ''
+                    ],
                 ]
             ]) ?>
         </div>
@@ -340,6 +380,10 @@ CrudAsset::register($this);
                     'cedula',
                     'email',
                     'telefono',
+                    [
+                        'label' => 'Unidad Técnica',
+                        'value' => $model->registrador ? $model->registrador->idUEjecutora->nombre : ''
+                    ],
                 ]
             ]) ?>
         </div>
