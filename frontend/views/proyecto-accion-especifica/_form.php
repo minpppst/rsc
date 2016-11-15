@@ -1,8 +1,11 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
+use kartik\depdrop\DepDrop;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectoAccionEspecifica */
@@ -66,6 +69,18 @@ use kartik\date\DatePicker;
                     case 'Internacional':
                         echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto),['disabled' => true])->label('País'); 
                     break;
+                    
+                    case 'Regional':
+                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto),['disabled' => true])->label('País'); 
+                    break;
+                    
+                    case 'Comunal':
+                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto),['disabled' => true])->label('País'); 
+                    break;
+                    
+                    case 'Otros':
+                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto),['disabled' => true])->label('País'); 
+                    break;
 
                     case 'Nacional':
 
@@ -79,57 +94,83 @@ use kartik\date\DatePicker;
 
                         echo $filterwidget=\kartik\select2\Select2::widget([
                             'name' => 'id_estado',
-                            'value' => isset($id_estado) ? $id_estado : '',
+                            'value' => $model->isNewRecord ? null : $model2->id_estado,
                             'data' => $model2->localizar($model->id_proyecto),
                             'options' => ['multiple' => true, 'placeholder' => 'Seleccione el Estado ...', 'class' => 'form-control']
                             ]);
                     break;
 
                     case 'Municipal':
-                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto, 'pais'))->label('País');
-                        echo '<label class="control-label" for="acespuej-id_ue">Estado</label>';
+                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto, 'pais'), ['disabled' => true, 'id'=> 'id_pais'])->label('País');
+                            
+                        
+                        echo $form->field($model2, 'id_estado')->widget(Select2::classname(), 
+                            [
+                                'data' => $model2->localizar($model->id_proyecto,null,'estado'),
+                                'options' => 
+                                [
+                                'id'=>'estado_id', 'prompt' => 'Seleccione un Estado', 'multiple' => true, 
+                                'pluginOptions'=>['allowClear'=>true,  'tags' => true,],
+                                ],
+                            ])->label('Estado');
 
-                        echo $filterwidget=\kartik\select2\Select2::widget([
-                            'name' => 'id_estado',
-                            'value' => isset($id_estado) ? $id_estado : '',
-                            'data' => $model2->localizar($model->id_proyecto,'estado'),
-                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione el Estado ...', 'class' => 'form-control']
-                            ]);
-                        echo '<label class="control-label" for="acespuej-id_ue">Estado</label>';
-
-                        echo $filterwidget=\kartik\select2\Select2::widget([
-                            'name' => 'id_municipio',
-                            'value' => isset($id_municipio) ? $id_municipio : '',
-                            'data' => $model2->localizar($model->id_proyecto, 'municipio'),
-                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione el Municipio ...', 'class' => 'form-control']
-                            ]);
+                        echo $form->field($model2, 'id_municipio')->widget(DepDrop::classname(), 
+                            [
+                                'type'=>DepDrop::TYPE_SELECT2,
+                                'data' => $model->isNewRecord ? NULL : $model2->localizar($model->id_proyecto,null, null, 'municipio', null, $model2->id_estado),
+                                'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+                                'options' => ['id'=>'id_municipio', 'prompt' => 'Seleccione un Estado', 'multiple' => true],
+                                'pluginOptions'=>
+                                [
+                                    'depends'=>['estado_id'],
+                                    'loadingText' => 'Cargando Municipios ...',
+                                    'placeholder' => 'Seleccione un Municipio...',
+                                    'url' => Url::to(['/proyecto-ac-localizacion/municipios','proyecto'=>$model->id_proyecto])
+                                ]
+                            ])->label('Municipio');
                     break;
 
                     case 'Parroquial':
-                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto, 'pais'))->label('País');
+                        echo $form->field($model2, 'id_pais')->dropDownList($model2->localizar($model->id_proyecto, 'pais'), ['disabled' => true, 'id'=> 'id_pais'])->label('País');
+                            
+                        
+                        echo $form->field($model2, 'id_estado')->widget(Select2::classname(), 
+                            [
+                                'data' => $model2->localizar($model->id_proyecto,null,'estado'),
+                                'options' => 
+                                [
+                                'id'=>'estado_id', 'prompt' => 'Seleccione un Estado', 'multiple' => true, 
+                                'pluginOptions'=>['allowClear'=>true,  'tags' => true,],
+                                ],
+                            ])->label('Estado');
 
-                        echo '<label class="control-label" for="acespuej-id_ue">Estado</label>';
-                        echo $filterwidget=\kartik\select2\Select2::widget([
-                            'name' => 'id_estado',
-                            'value' => $id_estado,
-                            'data' => $model2->localizar($model->id_proyecto,'estado'),
-                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione el Estado ...', 'class' => 'form-control']
-                            ]);
-
-                        echo '<label class="control-label" for="acespuej-id_ue">Municipio</label>';
-                        echo $filterwidget=\kartik\select2\Select2::widget([
-                            'name' => 'id_municipio',
-                            'value' => $id_municipio,
-                            'data' => $model2->localizar($model->id_proyecto, 'municipio'),
-                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione el Municipio ...', 'class' => 'form-control']
-                            ]);
-                        echo '<label class="control-label" for="acespuej-id_ue">Parroquia</label>';
-                        echo $filterwidget=\kartik\select2\Select2::widget([
-                            'name' => 'id_parroquia',
-                            'value' => $id_parroquia,
-                            'data' => $model2->localizar($model->id_proyecto, 'parroquia'),
-                            'options' => ['multiple' => true, 'placeholder' => 'Seleccione La Parroquia ...', 'class' => 'form-control']
-                            ]);
+                        echo $form->field($model2, 'id_municipio')->widget(DepDrop::classname(), 
+                            [
+                                'type'=>DepDrop::TYPE_SELECT2,
+                                'data' => $model->isNewRecord ? NULL : $model2->localizar($model->id_proyecto,null, null, 'municipio', null, $model2->id_estado),
+                                'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+                                'options' => ['id'=>'id_municipio', 'prompt' => 'Seleccione un Estado', 'multiple' => true],
+                                'pluginOptions'=>
+                                [
+                                    'depends'=>['estado_id'],
+                                    'placeholder' => 'Seleccione un Municipio...',
+                                    'url' => Url::to(['/proyecto-ac-localizacion/municipios','proyecto'=>$model->id_proyecto])
+                                ]
+                            ])->label('Municipio');
+                        
+                        echo $form->field($model2, 'id_parroquia')->widget(DepDrop::classname(), 
+                            [
+                                'type'=>DepDrop::TYPE_SELECT2,
+                                'data' => $model->isNewRecord ? NULL : $model2->localizar($model->id_proyecto,null, null, null, 'parroquia', $model2->id_municipio),
+                                'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+                                'options' => ['id'=>'id_parroquia', 'prompt' => 'Seleccione un Municipio', 'multiple' => true],
+                                'pluginOptions'=>
+                                [
+                                    'depends'=>['id_municipio'],
+                                    'placeholder' => 'Seleccione una Parroquia...',
+                                    'url' => Url::to(['/proyecto-ac-localizacion/parroquias','proyecto'=>$model->id_proyecto])
+                                ]
+                            ])->label('Parroquia');
                     break;
 
                 }

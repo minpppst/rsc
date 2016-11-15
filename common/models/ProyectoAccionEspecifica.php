@@ -54,6 +54,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             [['id_proyecto', 'unidad_medida', 'id_unidad_ejecutora', 'estatus', 'aprobado'], 'integer'],
             [['nombre', 'bien_servicio'], 'string'],
             [['ponderacion'], 'number'],
+            //[['codigo_accion_especifica'], 'unique'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['codigo_accion_especifica'], 'string', 'max' => 3],
             [['id_proyecto'], 'exist', 'skipOnError' => true, 'targetClass' => Proyecto::className(), 'targetAttribute' => ['id_proyecto' => 'id']],

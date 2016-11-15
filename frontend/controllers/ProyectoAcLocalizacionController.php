@@ -5,32 +5,27 @@ namespace frontend\controllers;
 use Yii;
 use common\models\ProyectoAcLocalizacion;
 use common\models\ProyectoAcLocalizacionSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\Json;
+
 
 
 /**
  * ProyectoAcLocalizacionController implements the CRUD actions for ProyectoAcLocalizacion model.
  */
-class ProyectoAcLocalizacionController extends Controller
+class ProyectoAcLocalizacionController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-        ];
+        return parent::behaviors();
     }
 
     /**
@@ -269,4 +264,61 @@ class ProyectoAcLocalizacionController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /**
+     * Busca los  Municipios model basado en el id de estado.
+     * @return json con los municipios
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionMunicipios($proyecto) {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) 
+            {
+                $est_id = $parents[0];
+                $out = ProyectoACLocalizacion::MunicipiosEstados($est_id,$proyecto);
+                // the getSubCatList function will query the database based on the
+                // cat_id and return an array like below:
+                // [
+                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+                // ]
+                echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+
+
+    /**
+     * Busca las  Parroquias model basado en el id de Municipio.
+     * @return json con las parroquias
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionParroquias($proyecto) {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) 
+            {
+                $muni_id = $parents[0];
+                $out = ProyectoACLocalizacion::ParroquiasMunicipios($muni_id,$proyecto);
+                // the getSubCatList function will query the database based on the
+                // cat_id and return an array like below:
+                // [
+                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+                // ]
+                echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+
+
+
+
 }

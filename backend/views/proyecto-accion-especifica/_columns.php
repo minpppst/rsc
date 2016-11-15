@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use kartik\date\DatePicker;
 
 return [
@@ -20,6 +21,10 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
+        'value' => function ($model)
+                    {
+                        return $model->nombre;
+                    },
         'contentOptions' => 
         [
         'style'=>'max-width: 350px;  word-wrap: break-word;
@@ -29,6 +34,10 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombreUnidadEjecutora',
+        'value' => function ($model)
+                    {
+                        return $model->nombreUnidadEjecutora;
+                    },
         'contentOptions' => 
         [
         'style'=>'max-width: 350px;  word-wrap: break-word;

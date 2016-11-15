@@ -1,37 +1,40 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
-use common\models\ProyectoAeMeta;
-use common\models\ProyectoAeMetaSearch;
-use yii\web\Controller;
+use common\models\ProyectoAcLocalizacion;
+use common\models\ProyectoAcLocalizacionSearch;
 use yii\filters\AccessControl;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\Json;
+
+
 
 /**
- * ProyectoAeMetaController implements the CRUD actions for ProyectoAeMeta model.
+ * ProyectoAcLocalizacionController implements the CRUD actions for ProyectoAcLocalizacion model.
  */
-class ProyectoAeMetaController extends \common\controllers\BaseController
+class ProyectoAcLocalizacionController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc
      */
-      public function behaviors()
+    public function behaviors()
     {
         return parent::behaviors();
     }
 
     /**
-     * Lists all ProyectoAeMeta models.
+     * Lists all ProyectoAcLocalizacion models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new ProyectoAeMetaSearch();
+        $searchModel = new ProyectoAcLocalizacionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +45,7 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
 
 
     /**
-     * Displays a single ProyectoAeMeta model.
+     * Displays a single ProyectoAcLocalizacion model.
      * @param integer $id
      * @return mixed
      */
@@ -52,7 +55,7 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "ProyectoAeMeta #".$id,
+                    'title'=> "ProyectoAcLocalizacion #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -67,31 +70,15 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
     }
 
     /**
-     * Creates a new ProyectoAeMeta model.
+     * Creates a new ProyectoAcLocalizacion model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
-     * @param int $accionEspecifica ID de la accion especifica
      * @return mixed
      */
-    public function actionCreate($idLocalizacion)
+    public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new ProyectoAeMeta();
-        $model->id_proyecto_ac_localizacion = $idLocalizacion;
-        $model->estatus=1;
-        //inicializar variables en 0
-        $model->enero=0;
-        $model->febrero=0;
-        $model->marzo=0;
-        $model->abril=0;
-        $model->mayo=0;
-        $model->junio=0;
-        $model->julio=0;
-        $model->agosto=0;
-        $model->septiembre=0;
-        $model->octubre=0;
-        $model->noviembre=0;
-        $model->diciembre=0;
+        $model = new ProyectoAcLocalizacion();  
 
         if($request->isAjax){
             /*
@@ -100,29 +87,31 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Crear Meta",
+                    'title'=> "Create new ProyectoAcLocalizacion",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote']).
-                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'#especifica-pjax',
-                    'title'=> "Create new ProyectoAeMeta",
-                    'content'=>'<span class="text-success">Create ProyectoAeMeta success</span>',
-                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];
-            }else{      
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Create new ProyectoAcLocalizacion",
+                    'content'=>'<span class="text-success">Create ProyectoAcLocalizacion success</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        
+                ];         
+            }else{           
                 return [
-                    'title'=> "Crear Meta",
+                    'title'=> "Create new ProyectoAcLocalizacion",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote']).
-                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -142,18 +131,16 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
     }
 
     /**
-     * Updates an existing ProyectoAeMeta model.
+     * Updates an existing ProyectoAcLocalizacion model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $accionEspecifica ID de la accion
+     * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($idLocalizacion)
+    public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = ProyectoAeMeta::find()->where([
-            'id_proyecto_ac_localizacion' => $idLocalizacion
-        ])->one();       
+        $model = $this->findModel($id);       
 
         if($request->isAjax){
             /*
@@ -162,31 +149,31 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ProyectoAeMeta #".$model->id,
+                    'title'=> "Update ProyectoAcLocalizacion #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote']).
-                                Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'#especifica-pjax',
-                    'title'=> "ProyectoAeMeta #".$model->id,
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "ProyectoAcLocalizacion #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                            
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update ProyectoAeMeta #".$model->id,
+                    'title'=> "Update ProyectoAcLocalizacion #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::a('Regresar',['proyecto-accion-especifica/view', 'id' => $model->idProyectoAcLocalizacion->id_proyecto_ac],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                                
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -204,7 +191,7 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
     }
 
     /**
-     * Delete an existing ProyectoAeMeta model.
+     * Delete an existing ProyectoAcLocalizacion model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -220,7 +207,7 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>'true','forceReload'=>'#especifica-pjax'];
+            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
         }else{
             /*
             *   Process for non-ajax request
@@ -232,7 +219,7 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
     }
 
      /**
-     * Delete multiple existing ProyectoAeMeta model.
+     * Delete multiple existing ProyectoAcLocalizacion model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -252,7 +239,7 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>'true','forceReload'=>'#crud-datatable-pjax'];
+            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
         }else{
             /*
             *   Process for non-ajax request
@@ -263,18 +250,75 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
     }
 
     /**
-     * Finds the ProyectoAeMeta model based on its primary key value.
+     * Finds the ProyectoAcLocalizacion model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ProyectoAeMeta the loaded model
+     * @return ProyectoAcLocalizacion the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ProyectoAeMeta::findOne($id)) !== null) {
+        if (($model = ProyectoAcLocalizacion::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /**
+     * Busca los  Municipios model basado en el id de estado.
+     * @return json con los municipios
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionMunicipios($proyecto) {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) 
+            {
+                $est_id = $parents[0];
+                $out = ProyectoACLocalizacion::MunicipiosEstados($est_id,$proyecto);
+                // the getSubCatList function will query the database based on the
+                // cat_id and return an array like below:
+                // [
+                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+                // ]
+                echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+
+
+    /**
+     * Busca las  Parroquias model basado en el id de Municipio.
+     * @return json con las parroquias
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionParroquias($proyecto) {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) 
+            {
+                $muni_id = $parents[0];
+                $out = ProyectoACLocalizacion::ParroquiasMunicipios($muni_id,$proyecto);
+                // the getSubCatList function will query the database based on the
+                // cat_id and return an array like below:
+                // [
+                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+                // ]
+                echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+
+
+
+
 }

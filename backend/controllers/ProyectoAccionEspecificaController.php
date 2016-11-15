@@ -110,11 +110,14 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
         foreach ($modelodata as $key => $value) 
         {
             $id_estados[]=$value->id_estado;
-            $id_municipio[]=$value->id_municipio;
-            $id_parroquia[]=$value->id_parroquia;
+            $id_municipio[]=$value->id_estado."-".$value->id_municipio;
+            $id_parroquia[]=$value->id_estado."-".$value->id_municipio."-".$value->id_parroquia;
         }
-        //Escenario
         $model2= new ProyectoACLocalizacion();
+        $model2->id_estado=$id_estados;
+        $model2->id_municipio=$id_municipio;
+        $model2->id_parroquia=$id_parroquia;
+        //Escenario
         $model2->scenario = Ambito::findOne(['id'=>$model->ambito])->ambito;
         //cargando pais
         if($model->idProyecto->proyectoLocalizacion)
@@ -125,6 +128,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
         {
             $model2->id_pais=null;
         }
+
         if($request->isAjax)
         {
             /*
@@ -141,9 +145,6 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                         'unidadMedida' => $unidadMedida,
                         'fuenteFinanciamiento' => $fuenteFinanciamiento,
                         'model2' => $model2,
-                        'id_estado' => $id_estados,
-                        'id_municipio' => $id_municipio,
-                        'id_parroquia' => $id_parroquia
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -198,9 +199,6 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                                             'unidadMedida' => $unidadMedida,
                                             'fuenteFinanciamiento' => $fuenteFinanciamiento,
                                             'model2' => $model2,
-                                            'id_estado' => $id_estados,
-                                            'id_municipio' => $id_municipio,
-                                            'id_parroquia' => $id_parroquia
                                         ]),
                                         'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                                     Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -222,9 +220,6 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                                             'unidadMedida' => $unidadMedida,
                                             'fuenteFinanciamiento' => $fuenteFinanciamiento,
                                             'model2' => $model2,
-                                            'id_estado' => $id_estados,
-                                            'id_municipio' => $id_municipio,
-                                            'id_parroquia' => $id_parroquia
                                         ]),
                                         'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                                     Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -246,7 +241,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                                 'unidadEjecutora' => $unidadEjecutora,
                                 'unidadMedida' => $unidadMedida,
                                 'fuenteFinanciamiento' => $fuenteFinanciamiento,
-                                'ambito' => $ambito
+                                'model2' => $model2,
                             ]),
                             'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                         Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])

@@ -28,6 +28,9 @@ class ProyectoLocalizacion extends \yii\db\ActiveRecord
     const SCENARIO_ESTADAL = 'Estadal';
     const SCENARIO_MUNICIPAL = 'Municipal';
     const SCENARIO_PARROQUIAL = 'Parroquial';
+    const SCENARIO_REGIONAL = 'Regional';
+    const SCENARIO_COMUNAL = 'Comunal';
+    const SCENARIO_OTROS = 'Otros';
 
     /**
      * @inheritdoc
@@ -43,8 +46,13 @@ class ProyectoLocalizacion extends \yii\db\ActiveRecord
     public function scenarios()
     {
         return [
+            '' => ['proyecto', 'id_pais'],
             self::SCENARIO_INTERNACIONAL => ['id_proyecto', 'id_pais'],
+            self::SCENARIO_REGIONAL => ['id_proyecto', 'id_pais'],
+            self::SCENARIO_COMUNAL => ['id_proyecto', 'id_pais'],
+            self::SCENARIO_OTROS => ['id_proyecto', 'id_pais'],
             self::SCENARIO_NACIONAL => ['id_proyecto', 'id_pais'],
+            
             self::SCENARIO_ESTADAL => ['id_proyecto', 'id_pais', 'id_estado'],
             self::SCENARIO_MUNICIPAL => ['id_proyecto', 'id_pais', 'id_estado', 'id_municipio'],
             self::SCENARIO_PARROQUIAL => ['id_proyecto', 'id_pais', 'id_estado', 'id_municipio', 'id_parroquia'],
@@ -96,7 +104,7 @@ class ProyectoLocalizacion extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return String
      */
     public function getNombrePais()
     {
@@ -112,7 +120,7 @@ class ProyectoLocalizacion extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return String
      */
     public function getNombreEstado()
     {
@@ -133,7 +141,7 @@ class ProyectoLocalizacion extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return String
      */
     public function getNombreMunicipio()
     {
@@ -154,7 +162,7 @@ class ProyectoLocalizacion extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return String
      */
     public function getNombreParroquia()
     {
@@ -173,4 +181,38 @@ class ProyectoLocalizacion extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Proyecto::className(), ['id' => 'id_proyecto']);
     }
+
+    /**
+     * @return String
+     */
+    public function getNombreProyecto()
+    {
+        if($this->idProyecto == null)
+        {
+            return null;
+        }
+
+        return $this->idProyecto->nombre;
+    }
+    /**
+    *busca los municipios asociados a un id de estado
+    *$estado integer
+    *@return array 
+    **/
+    public function MunicipiosEstados($estado)
+    {
+        $municipios=Municipio::find()->select(['id', 'nombre as name'])->where(['id_estado' => $estado])->asArray()->all();
+        return $municipios;
+    }
+    /**
+    *busca las parroquias asociados a un id de municipio
+    *$municipio integer
+    *@return array 
+    **/
+    public function ParroquiasMunicipios($municipio)
+    {
+        $parroquias=Parroquia::find()->select(['id', 'nombre as name'])->where(['id_municipio' => $municipio])->asArray()->all();
+        return $parroquias;
+    }
+
 }

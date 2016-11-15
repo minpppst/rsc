@@ -11,6 +11,8 @@ use yii\helpers\Html;
     <?= $this->render('_form', [
         'model' => $model,
         'unidadEjecutora' => $unidadEjecutora,
-        'unidadMedida' => $unidadMedida
+        'unidadMedida' => $unidadMedida,
+        'fuenteFinanciamiento' => $fuenteFinanciamiento,
+        'model2' => $model2,
     ]) ?>
 </div>

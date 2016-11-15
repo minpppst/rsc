@@ -14,20 +14,6 @@ use yii\bootstrap\Alert;
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Proyectos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$this->registerJs(
-  "$(document).on(function() {  // 'pjax:success' use if you have used pjax
-    function probando(){
-        alert('asdasdasd');
-    }
-    $('.prg55').click(function(e){
-        alert('dio');
-       e.preventDefault();      
-       $('#CrubModalonModal').modal('show')
-                  .find('.modal-content')
-                  .load($(this).attr('href'));  
-   });
-});
-");
 
 //Iconos
 $icons=[

@@ -14,5 +14,6 @@ use yii\helpers\Html;
         'unidadMedida' => $unidadMedida,
         'fuenteFinanciamiento' => $fuenteFinanciamiento,
         'model2' => $model2,
+        
     ]) ?>
 </div>

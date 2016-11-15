@@ -4,21 +4,22 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use app\models\Proyecto;
-use app\models\ProyectoLocalizacion;
-use app\models\ProyectoLocalizacionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\Json;
 
-use app\models\Ambito;
-use app\models\Pais;
-use app\models\Estados;
-use app\models\Municipio;
-use app\models\Parroquia;
+use common\models\Proyecto;
+use common\models\ProyectoLocalizacion;
+use common\models\ProyectoLocalizacionSearch;
+use common\models\Ambito;
+use common\models\Pais;
+use common\models\Estados;
+use common\models\Municipio;
+use common\models\Parroquia;
 
 /**
  * ProyectoLocalizacionController implements the CRUD actions for ProyectoLocalizacion model.
@@ -110,7 +111,7 @@ class ProyectoLocalizacionController extends \common\controllers\BaseController
             if($request->isGet){
                 return [
                     'title'=> "Localización",
-                    'content'=>$this->renderPartial('create', [
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'paises' => $paises,
                         'estados' => $estados,
@@ -134,7 +135,7 @@ class ProyectoLocalizacionController extends \common\controllers\BaseController
             }else{           
                 return [
                     'title'=> "Localización",
-                    'content'=>$this->renderPartial('create', [
+                    'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'paises' => $paises,
                         'estados' => $estados,
@@ -205,7 +206,7 @@ class ProyectoLocalizacionController extends \common\controllers\BaseController
             if($request->isGet){
                 return [
                     'title'=> "Update ProyectoLocalizacion #".$id,
-                    'content'=>$this->renderPartial('update', [
+                    'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'paises' => $paises,
                         'estados' => $estados,
@@ -344,5 +345,53 @@ class ProyectoLocalizacionController extends \common\controllers\BaseController
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * Busca los  Municipios model basado en el id de estado.
+     * @return json con los municipios
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionMunicipios() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) 
+            {
+                $est_id = $parents[0];
+                $out = ProyectoLocalizacion::MunicipiosEstados($est_id);
+                // the getSubCatList function will query the database based on the
+                // cat_id and return an array like below:
+                // [
+                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+                // ]
+                echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>$this->id_municipio]);
+    }
+
+    public function actionParroquias() 
+    {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) 
+            {
+                $id_mun = $parents[0];
+                $out = ProyectoLocalizacion::ParroquiasMunicipios($id_mun);
+                // the getSubCatList function will query the database based on the
+                // cat_id and return an array like below:
+                // [
+                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+                // ]
+                echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
     }
 }

@@ -6,6 +6,7 @@ use Yii;
 use common\models\ProyectoAeMeta;
 use common\models\ProyectoAeMetaSearch;
 use yii\web\Controller;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
@@ -14,22 +15,14 @@ use yii\helpers\Html;
 /**
  * ProyectoAeMetaController implements the CRUD actions for ProyectoAeMeta model.
  */
-class ProyectoAeMetaController extends Controller
+class ProyectoAeMetaController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc
      */
-    public function behaviors()
+      public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-        ];
+        return parent::behaviors();
     }
 
     /**

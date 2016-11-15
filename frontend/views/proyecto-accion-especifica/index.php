@@ -103,29 +103,6 @@ CrudAsset::register($this);
                     ])
                 ]).'<div class="clearfix"></div>'
 
-                        /*
-                            Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
-                            ["bulk-desactivar", 'id_proyecto' => $searchModel->id_proyecto] ,
-                            [
-                                "class"=>"btn btn-warning btn-xs",
-                                'role'=>'modal-remote-bulk',
-                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                'data-request-method'=>'post',
-                                'data-confirm-title'=>'¿Está seguro?',
-                                'data-confirm-message'=>'¿Está seguro que desea desactivar los elementos seleccionados?'
-                            ]).' '.
-                        Html::a('<i class="glyphicon glyphicon-ok-circle"></i>&nbsp; Activar',
-                            ["bulk-activar", 'id_proyecto' =>$searchModel->id_proyecto] ,
-                            [
-                                "class"=>"btn btn-success btn-xs",
-                                'role'=>'modal-remote-bulk',
-                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                'data-request-method'=>'post',
-                                'data-confirm-title'=>'¿Está seguro?',
-                                'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
-                            ]),
-                        */
-                                            
                     
         ,]
     ])?>
