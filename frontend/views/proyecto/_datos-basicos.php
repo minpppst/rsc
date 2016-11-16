@@ -57,7 +57,7 @@ CrudAsset::register($this);
 <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
-        'id',
+        
         'codigo_proyecto',
         'nombre',
         'descripcion_proyecto',

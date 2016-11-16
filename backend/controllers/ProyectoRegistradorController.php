@@ -135,7 +135,7 @@ class ProyectoRegistradorController extends \common\controllers\BaseController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ProyectoRegistrador #".$id,
+                    'title'=> "Modificar Registrador ".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
@@ -146,7 +146,7 @@ class ProyectoRegistradorController extends \common\controllers\BaseController
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#responsable',
-                    'title'=> "ProyectoRegistrador #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
@@ -156,7 +156,7 @@ class ProyectoRegistradorController extends \common\controllers\BaseController
                 ];    
             }else{
                  return [
-                    'title'=> "Update ProyectoRegistrador #".$id,
+                    'title'=> "Modificar Registrador ".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,

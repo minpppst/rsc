@@ -15,8 +15,11 @@ use yii\bootstrap\Modal;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'codigo_accion_especifica',
+            [
+                'class'=>'\kartik\grid\DataColumn',
+                'attribute'=>'codigo_accion_especifica',
+                'label' => 'Código',
+            ],
             'nombre:ntext',
             'nombreUnidadMedida',
             'meta',

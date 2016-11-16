@@ -48,18 +48,11 @@
 		        'class' => 'kartik\grid\SerialColumn',
 		        'width' => '30px',
 		    ],
-		        // [
-		        // 'class'=>'\kartik\grid\DataColumn',
-		        // 'attribute'=>'id',
-		    // ],
-		    /*
-		    [
-		        'class'=>'\kartik\grid\DataColumn',
-		        'attribute'=>'id_proyecto',
-		    ],*/
+		        
 		    [
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'codigo_accion_especifica',
+		        'label' => 'Código',
 		    ],
 		    [
 		        'class'=>'\kartik\grid\DataColumn',
@@ -106,40 +99,7 @@
 		        },
 		        'format' => 'raw'
 		    ],
-		    [
-		        'class' => '\kartik\grid\DataColumn',
-		        'attribute' => 'fecha_inicio',
-		        'value' => function($model) {
-		            return date('d/m/Y',strtotime($model->fecha_inicio));
-		        },
-		        'filterType' => '\kartik\date\DatePicker',
-		        'filterWidgetOptions' => [
-		            'readonly' => true,
-		            'pluginOptions' => [
-		                'todayHighlight' => false,
-		                'todayBtn' => true,
-		                'format' => 'yyyy-mm-dd',
-		                'autoclose' => true,
-		            ]
-		        ]
-		    ],
-		    [
-		        'class' => '\kartik\grid\DataColumn',
-		        'attribute' => 'fecha_fin',
-		        'value' => function($model) {
-		            return date('d/m/Y',strtotime($model->fecha_fin));
-		        },
-		        'filterType' => '\kartik\date\DatePicker',
-		        'filterWidgetOptions' => [
-		            'readonly' => true,
-		            'pluginOptions' => [
-		                'todayHighlight' => false,
-		                'todayBtn' => true,
-		                'format' => 'yyyy-mm-dd',
-		                'autoclose' => true,
-		            ]
-		        ]
-		    ],
+		    
 		    [
 		        'class' => 'kartik\grid\ActionColumn',
 		        'dropdown' => false,
@@ -162,8 +122,6 @@
             ['content'=>
                 Html::a($icons['nuevo'].' Nuevo', ['create','proyecto'=>$searchModel->id_proyecto],
                 ['role'=>'modal-remote','title'=> 'Crear Acción Específica','class'=>'btn btn-default']).
-                //Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
-                //['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).                
                 '{toggleData}'.
                 '{export}'
             ],

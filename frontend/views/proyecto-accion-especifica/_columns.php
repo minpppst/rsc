@@ -17,6 +17,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'codigo_accion_especifica',
+        'label' => 'Código',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -45,7 +46,7 @@ return [
         ]
     ],
     
-    [
+    /*[
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'fecha_inicio',
         'value' => function($model) {
@@ -78,7 +79,7 @@ return [
                 'autoclose' => true,
             ]
         ]
-    ],
+    ],*/
     [
         'class' => 'kartik\grid\ActionColumn',
         'visibleButtons' => 

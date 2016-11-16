@@ -33,7 +33,7 @@ class ProyectoRegistrador extends \yii\db\ActiveRecord
         return [
             [['nombre', 'cedula', 'telefono','unidad_tecnica', 'id_proyecto'], 'required'],
             [['cedula', 'id_proyecto'], 'integer'],
-            [['nombre'], 'string', 'max' => 30],
+            [['nombre'], 'string', 'max' => 100],
             [['email'], 'string', 'max' => 80],
             [['telefono'], 'string', 'max' => 14],
             [['id_proyecto'], 'unique'],

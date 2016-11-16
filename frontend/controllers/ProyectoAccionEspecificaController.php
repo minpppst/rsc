@@ -43,7 +43,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
         $searchModel = new ProyectoAccionEspecificaSearch(['id_proyecto'=>$proyecto]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $html = $this->renderAjax('index', [
+        $html = $this->renderPartial('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -65,7 +65,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
             Yii::$app->response->format = Response::FORMAT_JSON;
             return 
                 [
-                    'title'=> "Accion Especfica #".$id,
+                    'title'=> "Accion Especfica",
                     'content'=>$this->renderPartial('view', 
                     [
                         'model' => $this->findModel($id),

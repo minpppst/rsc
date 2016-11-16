@@ -48,7 +48,7 @@ CrudAsset::register($this);
             'params' => ['id' => $model->id, 'kvdelete'=>true],
         ],
         'attributes' => [
-            'id',
+            
             'codigo_proyecto',
             [
                 'attribute' => 'nombre',

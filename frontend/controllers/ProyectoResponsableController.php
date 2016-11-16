@@ -131,7 +131,7 @@ class ProyectoResponsableController extends \common\controllers\BaseController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ProyectoResponsable #".$id,
+                    'title'=> "Modificar Responsable ".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -141,7 +141,7 @@ class ProyectoResponsableController extends \common\controllers\BaseController
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#responsable',
-                    'title'=> "ProyectoResponsable #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -150,7 +150,7 @@ class ProyectoResponsableController extends \common\controllers\BaseController
                 ];    
             }else{
                  return [
-                    'title'=> "Update ProyectoResponsable #".$id,
+                    'title'=> "Modificar Responsable ".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

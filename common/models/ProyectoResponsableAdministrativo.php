@@ -35,7 +35,7 @@ class ProyectoResponsableAdministrativo extends \yii\db\ActiveRecord
         return [
             [['nombre', 'cedula', 'email', 'telefono', 'unidad_administradora', 'id_proyecto'], 'required'],
             [['cedula', 'id_proyecto'], 'integer'],
-            [['nombre', 'email', 'telefono'], 'string', 'max' => 45],
+            [['nombre', 'email', 'telefono'], 'string', 'max' => 100],
             [['email'],'email'],
         ];
     }

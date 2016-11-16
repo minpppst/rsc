@@ -11,7 +11,7 @@ use yii\bootstrap\Alert;
 /* @var $this yii\web\View */
 /* @var $model app\models\Proyecto */
 
-$this->title = $model->id;
+$this->title = $model->codigo_proyecto;
 $this->params['breadcrumbs'][] = ['label' => 'Proyectos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -44,7 +44,7 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
 ?>
 <div class="proyecto-view">
 
-    <h1>Proyecto #<?= Html::encode($this->title) ?></h1>
+    <h1>Proyecto <?= Html::encode($this->title) ?></h1>
 
     <!-- TABS -->
     <?= TabsX::widget([
@@ -68,9 +68,10 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
             [
                 'label' => 'Acciones Específicas',
                 'content' => $accionEspecifica,
+                /* se quita hasta reparar las busquedas en los filtros
                 'linkOptions' => [
                     'data-url' => Url::to(['proyecto-accion-especifica/index', 'proyecto' => $model->id])
-                ]
+                ]*/
             ],
         ],
         'pluginOptions' => [

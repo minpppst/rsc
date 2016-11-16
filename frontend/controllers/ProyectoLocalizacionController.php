@@ -59,7 +59,7 @@ class ProyectoLocalizacionController extends \common\controllers\BaseController
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "ProyectoLocalizacion #".$id,
+                    'title'=> "",
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -205,7 +205,7 @@ class ProyectoLocalizacionController extends \common\controllers\BaseController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ProyectoLocalizacion #".$id,
+                    'title'=> "Modificar Localización #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'paises' => $paises,
@@ -219,7 +219,7 @@ class ProyectoLocalizacionController extends \common\controllers\BaseController
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "ProyectoLocalizacion #".$id,
+                    'title'=> "",
                     'content'=>$this->renderPartial('view', [
                         'model' => $model,
                         'paises' => $paises,
@@ -232,7 +232,7 @@ class ProyectoLocalizacionController extends \common\controllers\BaseController
                 ];    
             }else{
                  return [
-                    'title'=> "Update ProyectoLocalizacion #".$id,
+                    'title'=> "Modificar Localización #".$id,
                     'content'=>$this->renderPartial('update', [
                         'model' => $model,
                         'paises' => $paises,

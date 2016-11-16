@@ -135,7 +135,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ProyectoResponsableTecnico #".$id,
+                    'title'=> "Modificar Responsable Técnico ".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
@@ -146,7 +146,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#responsable',
-                    'title'=> "ProyectoResponsableTecnico #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
@@ -156,7 +156,7 @@ class ProyectoResponsableTecnicoController extends \common\controllers\BaseContr
                 ];    
             }else{
                  return [
-                    'title'=> "Update ProyectoResponsableTecnico #".$id,
+                    'title'=> "Modificar Responsable Técnico ".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,

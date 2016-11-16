@@ -36,7 +36,7 @@ use kartik\date\DatePicker;
 
             <?= $form->field($model, 'beneficiarios_femeninos')->textInput() ?>
             
-            <?= $form->field($model, 'beneficiarios')->textInput() ?>
+            <!--<?= $form->field($model, 'beneficiarios')->textInput() ?>-->
 
             <?= $form->field($model, 'objetivo_estrategico_institucional')->textarea(['rows' => 6]) ?>
 

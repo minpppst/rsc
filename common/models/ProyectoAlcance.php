@@ -68,10 +68,25 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
             [['id_proyecto', 'unidad_medida'], 'integer'],
             [['formula_indicador', 'meta_proyecto', 'causas_criticas_proyecto', 'problemas_aborda_proyecto','consecuencias_problema', 'justificacion_proyecto', 'alcance_proyecto', 'descripcion_situacion_actual'], 'string'],
             [['empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino', 'beneficiarios_femeninos', 'beneficiarios_masculinos', 'beneficiarios'], 'number'],
-            [['fuente_indicador'], 'string', 'max' => 45],
+            [['fuente_indicador', 'tiempo_impacto'], 'string', 'max' => 100],
+            [['fecha_ultima_data'], 'comprobarFecha'],
                         
             
         ];
+    }
+
+    /**Comprobar que la fecha no sea mayor al día Presente
+    *
+    **/
+    public function comprobarFecha($fecha)
+    {
+        $fecha1=date(str_replace("/", "-", $this->fecha_ultima_data));
+        $fecha2=date("Y-m-d");
+        if(strtotime($fecha1)>strtotime($fecha2))
+        {
+            $this->addError('fecha_ultima_data','Fecha última data no puede ser mayor al día actual');
+            
+        }
     }
 
     /**
@@ -195,6 +210,9 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
             {
                 $this->fecha_ultima_data = date_format($inicio,'Y-m-d');
             }
+
+            //sumar los beneficiarios
+            $this->beneficiarios=$this->beneficiarios_masculinos+$this->beneficiarios_femeninos;
             
             return true;
         } 

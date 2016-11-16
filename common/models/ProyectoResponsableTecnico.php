@@ -35,7 +35,7 @@ class ProyectoResponsableTecnico extends \yii\db\ActiveRecord
         return [
             [['nombre', 'cedula', 'email', 'telefono', 'unidad_tecnica', 'id_proyecto'], 'required'],
             [['cedula', 'id_proyecto'], 'integer'],
-            [['nombre', 'email', 'telefono', 'unidad_tecnica'], 'string', 'max' => 45],
+            [['nombre', 'email', 'telefono', 'unidad_tecnica'], 'string', 'max' => 100],
             [['email'],'email'],
         ];
     }

@@ -10,12 +10,28 @@ use yii\widgets\DetailView;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'id_proyecto',
-            'id_estado',
-            'id_municipio',
-            'id_parroquia',
-        ],
+            
+            [
+                'class'=>'\kartik\grid\DataColumn',
+                'attribute'=>'nombreProyecto',
+                'label' => 'Proyecto'
+            ],
+            [
+                'class'=>'\kartik\grid\DataColumn',
+                'attribute'=>'nombreEstado',
+                'label' => 'Estado'
+            ],
+            [
+                'class'=>'\kartik\grid\DataColumn',
+                'attribute'=>'nombreMunicipio',
+                'label' => 'Municipio'
+            ],
+            [
+                'class'=>'\kartik\grid\DataColumn',
+                'attribute'=>'nombreParroquia',
+                'label' => 'Parroquia'
+            ],
+        ]
     ]) ?>
 
 </div>

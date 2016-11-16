@@ -16,6 +16,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'codigo_proyecto',
+        'label' => 'Código',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -26,7 +27,7 @@ return [
             white-space: normal;'
         ]
     ],
-    [
+    /*[
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'fecha_inicio',
         'value' => function($model) {
@@ -59,7 +60,7 @@ return [
                 'autoclose' => true,
             ]
         ]
-    ],
+    ],*/
     
     [
         'class' => '\kartik\grid\DataColumn',

@@ -162,7 +162,7 @@ class ProyectoAeMetaController extends \common\controllers\BaseController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ProyectoAeMeta #".$model->id,
+                    'title'=> "Actualizar Meta ".$model->idProyectoAcLocalizacion->idProyectoAc->codigo_accion_especifica,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

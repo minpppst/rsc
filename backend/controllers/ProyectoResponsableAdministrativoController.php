@@ -135,7 +135,7 @@ class ProyectoResponsableAdministrativoController extends \common\controllers\Ba
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ProyectoResponsableAdministrativo #".$id,
+                    'title'=> "Modificar Responsable Administrativo ".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
@@ -146,7 +146,7 @@ class ProyectoResponsableAdministrativoController extends \common\controllers\Ba
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#administrativo',
-                    'title'=> "ProyectoResponsableAdministrativo #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,
@@ -156,7 +156,7 @@ class ProyectoResponsableAdministrativoController extends \common\controllers\Ba
                 ];    
             }else{
                  return [
-                    'title'=> "Update ProyectoResponsableAdministrativo #".$id,
+                    'title'=> "Modificar Responsable Administrativo ".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidadEjecutora' => $unidadEjecutora,

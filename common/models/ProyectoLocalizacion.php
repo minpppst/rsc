@@ -68,6 +68,13 @@ class ProyectoLocalizacion extends \yii\db\ActiveRecord
             [['id_proyecto', 'id_pais'], 'required'],
             [['id_proyecto', 'id_pais', 'id_estado', 'id_municipio', 'id_parroquia'], 'integer'],
             //Escenarios
+            [[ 'id_pais'], 'comNacional', 'on' => self::SCENARIO_NACIONAL],
+            [[ 'id_pais'], 'comNacional', 'on' => self::SCENARIO_INTERNACIONAL],
+            [[ 'id_pais'], 'comNacional', 'on' => self::SCENARIO_REGIONAL],
+            [[ 'id_pais'], 'comNacional', 'on' => self::SCENARIO_COMUNAL],
+            [[ 'id_estado'], 'comEstado', 'on' => self::SCENARIO_ESTADAL],
+            [[ 'id_municipio'], 'comMunicipal', 'on' => self::SCENARIO_MUNICIPAL],
+            [[ 'id_parroquia'], 'comParroquial', 'on' => self::SCENARIO_PARROQUIAL],
             [['id_proyecto', 'id_pais'], 'required', 'on' => self::SCENARIO_INTERNACIONAL],
             [['id_proyecto', 'id_pais'], 'required', 'on' => self::SCENARIO_NACIONAL],
             [['id_proyecto', 'id_pais', 'id_estado'], 'required', 'on' => self::SCENARIO_ESTADAL],
@@ -75,6 +82,76 @@ class ProyectoLocalizacion extends \yii\db\ActiveRecord
             [['id_proyecto', 'id_pais', 'id_estado', 'id_municipio', 'id_parroquia'], 'required', 'on' => self::SCENARIO_PARROQUIAL],
         ];
     }
+
+    /**
+     * rules para escenario nacional
+     * @param int $idpais
+     * @return bool
+     */
+    function comNacional($idpais)
+    {
+        
+            $existe=ProyectoLocalizacion::find()->where(['id_proyecto' => $this->id_proyecto])->One();
+            if($existe!=null)
+            {
+                $this->addError($idpais, "Error, Ya Se Agregó a Venezuela");
+            }
+        
+
+    }
+
+    /**
+     * rules para escenario estado
+     * @param int $estado
+     * @return bool
+     */
+    function comEstado($estado)
+    {
+
+        
+            $existe=ProyectoLocalizacion::find()->where(['id_proyecto' => $this->id_proyecto])->andWhere(['id_estado' => $this->id_estado])->One();
+            if($existe!=null)
+            {
+                $this->addError($estado, "Error, Ya Se Agregó Este Estado");
+            }
+        
+    }
+
+    /**
+     * rules para escenario estado
+     * @param int $estado
+     * @return bool
+     */
+    function comMunicipal($municipio)
+    {
+
+        if($this->isNewRecord)
+        {
+            $existe=ProyectoLocalizacion::find()->where(['id_proyecto' => $this->id_proyecto])->andWhere(['id_municipio' => $this->id_municipio])->One();
+            if($existe!=null)
+            {
+                $this->addError($municipio, "Error, Ya Se Agregó Este Municipio");
+            }
+        }
+    }
+
+    /**
+     * rules para escenario estado
+     * @param int $estado
+     * @return bool
+     */
+    function comParroquial($parroquia)
+    {
+
+        
+            $existe=ProyectoLocalizacion::find()->where(['id_proyecto' => $this->id_proyecto])->andWhere(['id_parroquia' => $this->id_parroquia])->One();
+            if($existe!=null)
+            {
+                $this->addError($parroquia, "Error, Ya Se Agregó Esta Parroquia");
+            }
+        
+    }
+
 
     /**
      * @inheritdoc

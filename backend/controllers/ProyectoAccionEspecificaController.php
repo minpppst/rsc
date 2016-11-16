@@ -66,7 +66,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Accion Especfica #".$id,
+                    'title'=> "Accion Especfica ",
                     'content'=>$this->renderPartial('view', [
                         'model' => $this->findModel($id),
                         'localizaciones' => $dataProvider,

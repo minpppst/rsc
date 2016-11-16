@@ -38,9 +38,9 @@ use yii\bootstrap\Modal;
                 $aceptar = '<a href=\''.Url::to([$url.'/delete', 'id' => $model->id]).'\' class=\'btn btn-primary\' data-method=\'post\'>Aceptar</button>';
             ?>
             <?php
-            // aplicando permiso a los botones de responsables si el proyecto esta aprobado no pueden mostrarse
-            if(Yii::$app->user->can($url.'/update', ['id' => $model->id]))
-            {
+                // aplicando permiso a los botones de responsables si el proyecto esta aprobado no pueden mostrarse
+                if(Yii::$app->user->can($url.'/update', ['id' => $model->id]))
+                {
             ?>
                 <!-- Botones -->
                 <?= Html::a($icons['editar'].' Editar', [$url.'/update', 'id' => $model->id], [

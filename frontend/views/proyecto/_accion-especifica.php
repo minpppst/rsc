@@ -46,34 +46,29 @@
 		        'class' => 'kartik\grid\SerialColumn',
 		        'width' => '30px',
 		    ],
-		        // [
-		        // 'class'=>'\kartik\grid\DataColumn',
-		        // 'attribute'=>'id',
-		    // ],
-		    /*
-		    [
-		        'class'=>'\kartik\grid\DataColumn',
-		        'attribute'=>'id_proyecto',
-		    ],*/
+		    
 		    [
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'codigo_accion_especifica',
+		        'label' => 'Código',
 		    ],
 		    [
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'nombre',
-		        'value' => function($model){
-		            //Cortar el nombre
-		            return StringHelper::truncateWords($model->nombre,10);
-		        }
+		        'contentOptions' => 
+		        [
+		        'style'=>'max-width: 350px;  word-wrap: break-word;
+		        white-space: normal;'
+		        ]
 		    ],
 		    [
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'nombreUnidadEjecutora',
-		        'value' => function($model){
-		            //Cortar el nombre de la UE
-		            return StringHelper::truncateWords($model->nombreUnidadEjecutora,6);
-		        }
+		        'contentOptions' => 
+		        [
+		        'style'=>'max-width: 350px;  word-wrap: break-word;
+		        white-space: normal;'
+		        ]
 		    ],
 		    /*
 		    [
@@ -105,40 +100,6 @@
 		    ],
 		    */
 		    [
-		        'class' => '\kartik\grid\DataColumn',
-		        'attribute' => 'fecha_inicio',
-		        'value' => function($model) {
-		            return date('d/m/Y',strtotime($model->fecha_inicio));
-		        },
-		        'filterType' => '\kartik\date\DatePicker',
-		        'filterWidgetOptions' => [
-		            'readonly' => true,
-		            'pluginOptions' => [
-		                'todayHighlight' => false,
-		                'todayBtn' => true,
-		                'format' => 'yyyy-mm-dd',
-		                'autoclose' => true,
-		            ]
-		        ]
-		    ],
-		    [
-		        'class' => '\kartik\grid\DataColumn',
-		        'attribute' => 'fecha_fin',
-		        'value' => function($model) {
-		            return date('d/m/Y',strtotime($model->fecha_fin));
-		        },
-		        'filterType' => '\kartik\date\DatePicker',
-		        'filterWidgetOptions' => [
-		            'readonly' => true,
-		            'pluginOptions' => [
-		                'todayHighlight' => false,
-		                'todayBtn' => true,
-		                'format' => 'yyyy-mm-dd',
-		                'autoclose' => true,
-		            ]
-		        ]
-		    ],
-		    [
 		        'class' => 'kartik\grid\ActionColumn',
 		        'dropdown' => false,
 		        'vAlign'=>'middle',
@@ -154,8 +115,6 @@
 		                          'data-confirm-title'=>'Are you sure?',
 		                          'data-confirm-message'=>'Are you sure want to delete this item',
 		                          'class' => 'text-danger'],
-		        
-		        
 		    ],
 		],
 		'toolbar'=> [
@@ -183,7 +142,7 @@
                                 'data-request-method'=>'post',
                                 'data-confirm-title'=>'Are you sure?',
                                 'data-confirm-message'=>'Are you sure want to delete this item'
-                            ]).' '.
+                            ])/*.' '.
                             Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
                             ["proyecto-accion-especifica/bulk-desactivar", 'id_proyecto' => $searchModel->id_proyecto] ,
                             [
@@ -203,7 +162,7 @@
                                 'data-request-method'=>'post',
                                 'data-confirm-title'=>'¿Está seguro?',
                                 'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
-                            ]),
+                            ])*/,
                     ]).                        
                     '<div class="clearfix"></div>',
         ],

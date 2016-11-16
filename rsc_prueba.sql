@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2016 at 10:21 AM
+-- Generation Time: Nov 16, 2016 at 03:13 PM
 -- Server version: 5.7.14
 -- PHP Version: 5.5.12
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
 --
 
 INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`, `estatus`, `fecha_inicio`, `fecha_fin`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
-(1, 1, '001-01', 'Asignación y control de los recursos para gastos de los trabajadores y trabajadoras', 1, '2016-01-01', '2016-12-31', '2016-10-04 20:28:29', NULL, NULL),
+(1, 1, '001-01', 'Asignación y control de los recursos para gastos de los trabajadores y trabajadoras', 1, '2016-01-01', '2017-01-01', '2016-10-04 20:28:29', '2016-11-16 19:13:54', NULL),
 (2, 2, '002-01', 'Apoyo institucional a las acciones específicas de los proyectos del organismo', 1, '2016-01-01', '2016-12-31', '2016-10-04 20:28:29', NULL, NULL),
 (3, 2, '002-02', 'Apoyo institucional al sector privado y al sector externo', 1, '2016-01-01', '2016-12-31', '2016-10-04 20:28:29', NULL, NULL),
 (4, 2, '002-03', 'Apoyo institucional al sector público', 1, '2016-01-01', '2016-12-31', '2016-10-04 20:28:29', NULL, NULL),
@@ -133,7 +133,14 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_asignar` (
   PRIMARY KEY (`id`),
   KEY `usuario` (`usuario`),
   KEY `accion_especifica_ue` (`accion_especifica_ue`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada' AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `accion_centralizada_asignar`
+--
+
+INSERT INTO `accion_centralizada_asignar` (`id`, `usuario`, `accion_especifica_ue`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
+(1, 1, 1, 1, '2016-11-16 15:43:42', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -209,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
   KEY `meta_programada_variable` (`meta_programada_variable`),
   KEY `unidad_ejecutora` (`unidad_ejecutora`),
   KEY `acc_accion_especifica` (`acc_accion_especifica`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -227,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variables_usuarios` (
   PRIMARY KEY (`id`),
   KEY `id_variable` (`id_variable`),
   KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -284,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
   `fecha_eliminacion` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_localizacion` (`id_localizacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -361,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `audit_entry` (
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`),
   KEY `idx_route` (`route`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52385 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55459 ;
 
 --
 -- Dumping data for table `audit_entry`
@@ -769,31 +776,21 @@ INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `reques
 (498, '2016-10-04 16:35:43', 2, 0.226202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4891328),
 (499, '2016-10-04 16:35:51', 2, 0.35602, '127.0.0.1', 'POST', 1, 'accion-centralizada-pedido/create', 6659168),
 (500, '2016-10-04 16:35:51', 2, 0.450824, '127.0.0.1', 'GET', 1, 'accion-centralizada-pedido/pedido', 7637760),
-(52360, '2016-11-15 15:48:58', 2, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584712),
-(52361, '2016-11-15 15:49:00', 1, 0.264015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584784),
-(52362, '2016-11-15 15:49:09', 2, 0.203012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584712),
-(52363, '2016-11-15 15:49:10', 1, 0.365616, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584784),
-(52364, '2016-11-15 15:49:20', 2, 0.373413, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584712),
-(52365, '2016-11-15 15:49:20', 1, 0.257006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584784),
-(52366, '2016-11-15 15:49:30', 1, 0.210603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584784),
-(52367, '2016-11-15 15:49:31', 2, 0.221004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584712),
-(52368, '2016-11-15 15:49:40', 1, 0.29981, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584784),
-(52369, '2016-11-15 15:49:42', 2, 0.33001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584712),
-(52370, '2016-11-15 15:49:50', 1, 0.1736, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584784),
-(52371, '2016-11-15 15:49:52', 2, 0.25661, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584712),
-(52372, '2016-11-15 15:50:00', 1, 0.274413, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584784),
-(52373, '2016-11-15 15:50:02', 2, 0.282206, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584712),
-(52374, '2016-11-15 15:50:10', 1, 0.536009, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584784),
-(52375, '2016-11-15 15:50:13', 2, 0.229207, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584712),
-(52376, '2016-11-15 15:50:20', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584784),
-(52377, '2016-11-15 15:50:23', 2, 0.171601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584712),
-(52378, '2016-11-15 15:50:30', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584784),
-(52379, '2016-11-15 10:21:11', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6046736),
-(52380, '2016-11-15 10:21:14', 2, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6046704),
-(52381, '2016-11-15 10:21:21', 1, 0.4836, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6046736),
-(52382, '2016-11-15 10:21:24', 2, 0.421201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6046704),
-(52383, '2016-11-15 10:21:31', 1, 0.473824, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6046736),
-(52384, '2016-11-15 10:21:35', 2, 0.36862, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6046704);
+(55444, '2016-11-16 20:41:40', 2, 0.511004, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584808),
+(55445, '2016-11-16 20:41:49', 1, 0.187005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4581456),
+(55446, '2016-11-16 20:41:50', 2, 0.142001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584808),
+(55447, '2016-11-16 20:41:59', 1, 0.211012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4581456),
+(55448, '2016-11-16 20:42:00', 2, 0.191011, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584808),
+(55449, '2016-11-16 20:42:09', 1, 0.476027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4581456),
+(55450, '2016-11-16 20:42:10', 2, 0.278016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4584808),
+(55451, '2016-11-16 15:12:52', 1, 0.532017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6039928),
+(55452, '2016-11-16 15:12:52', 2, 0.606017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6046720),
+(55453, '2016-11-16 15:13:00', 2, 0.393022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6046720),
+(55454, '2016-11-16 15:13:01', 1, 0.35502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6039928),
+(55455, '2016-11-16 15:13:10', 2, 0.314002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6046720),
+(55456, '2016-11-16 15:13:11', 1, 0.331008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6039928),
+(55457, '2016-11-16 15:13:20', 2, 0.570029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6046720),
+(55458, '2016-11-16 15:13:22', 1, 0.70704, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6039928);
 
 -- --------------------------------------------------------
 
@@ -882,7 +879,86 @@ CREATE TABLE IF NOT EXISTS `audit_trail` (
   KEY `idx_audit_user_id` (`user_id`),
   KEY `idx_audit_trail_field` (`model`,`model_id`,`field`),
   KEY `idx_audit_trail_action` (`action`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1836 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1909 ;
+
+--
+-- Dumping data for table `audit_trail`
+--
+
+INSERT INTO `audit_trail` (`id`, `entry_id`, `user_id`, `action`, `model`, `model_id`, `field`, `old_value`, `new_value`, `created`) VALUES
+(1836, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'id', '', '7', '2016-11-15 10:43:45'),
+(1837, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'codigo_proyecto', '', '001', '2016-11-15 10:43:45'),
+(1838, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'nombre', '', 'asdawdas', '2016-11-15 10:43:45'),
+(1839, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'descripcion_proyecto', '', 'asdasdas', '2016-11-15 10:43:45'),
+(1840, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'fecha_inicio', '', '2016-11-01', '2016-11-15 10:43:45'),
+(1841, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'fecha_fin', '', '2016-11-30', '2016-11-15 10:43:45'),
+(1842, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'estatus_proyecto', '', '2', '2016-11-15 10:43:45'),
+(1843, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'situacion_presupuestaria', '', '1', '2016-11-15 10:43:45'),
+(1844, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'proyecto_plurianual', '', '1', '2016-11-15 10:43:45'),
+(1845, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'monto_proyecto_actual', '', '2000', '2016-11-15 10:43:45'),
+(1846, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'monto_proyecto_anio_anteriores', '', '200', '2016-11-15 10:43:45'),
+(1847, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'monto_total_proyecto_proximo_anios', '', '200', '2016-11-15 10:43:45'),
+(1848, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'monto_proyecto', '', '20', '2016-11-15 10:43:45'),
+(1849, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'monto_financiar', '', '20000', '2016-11-15 10:43:45'),
+(1850, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'sector', '', '2', '2016-11-15 10:43:45'),
+(1851, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'sub_sector', '', '1', '2016-11-15 10:43:45'),
+(1852, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'plan_operativo', '', '1', '2016-11-15 10:43:45'),
+(1853, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'objetivo_general', '', '2', '2016-11-15 10:43:45'),
+(1854, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'politicas_ministeriales', '', 'probnado', '2016-11-15 10:43:45'),
+(1855, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'ambito', '', '2', '2016-11-15 10:43:45'),
+(1856, 52653, 2, 'CREATE', 'common\\models\\Proyecto', '7', 'usuario_creacion', '', '2', '2016-11-15 10:43:45'),
+(1857, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'id', '', '37', '2016-11-15 10:44:50'),
+(1858, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'id_proyecto', '', '7', '2016-11-15 10:44:50'),
+(1859, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'codigo_accion_especifica', '', '003', '2016-11-15 10:44:50'),
+(1860, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'nombre', '', 'asdsasdasdas', '2016-11-15 10:44:50'),
+(1861, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'unidad_medida', '', '2', '2016-11-15 10:44:50'),
+(1862, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'ponderacion', '', '0.1', '2016-11-15 10:44:50'),
+(1863, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'bien_servicio', '', 'probnasodsadadas', '2016-11-15 10:44:50'),
+(1864, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'id_unidad_ejecutora', '', '14', '2016-11-15 10:44:50'),
+(1865, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'fecha_inicio', '', '2016-11-01', '2016-11-15 10:44:50'),
+(1866, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'fecha_fin', '', '2016-11-30', '2016-11-15 10:44:50'),
+(1867, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'ambito', '', '2', '2016-11-15 10:44:50'),
+(1868, 52688, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'estatus', '', '1', '2016-11-15 10:44:50'),
+(1869, 53981, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '1', 'id', '', '1', '2016-11-16 16:43:42'),
+(1870, 53981, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '1', 'usuario', '', '1', '2016-11-16 16:43:42'),
+(1871, 53981, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '1', 'accion_especifica_ue', '', '1', '2016-11-16 16:43:42'),
+(1872, 53981, 1, 'CREATE', 'common\\models\\AccionCentralizadaAsignar', '1', 'estatus', '', '1', '2016-11-16 16:43:42'),
+(1873, 54130, 2, 'UPDATE', 'common\\models\\Proyecto', '7', 'ambito', '2', '4', '2016-11-16 17:05:23'),
+(1874, 54147, 2, 'UPDATE', 'common\\models\\Proyecto', '7', 'ambito', '4', '5', '2016-11-16 17:06:00'),
+(1875, 54180, 2, 'UPDATE', 'common\\models\\Proyecto', '7', 'ambito', '5', '6', '2016-11-16 17:08:21'),
+(1876, 54251, 2, 'UPDATE', 'common\\models\\Proyecto', '7', 'ambito', '6', '7', '2016-11-16 17:12:00'),
+(1877, 54328, 2, 'UPDATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'nombre', 'asdsasdasdas', 'asdsasdasdassadasda', '2016-11-16 18:58:39'),
+(1878, 54434, 1, 'UPDATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'estatus', '1', '0', '2016-11-16 19:14:03'),
+(1879, 54436, 1, 'UPDATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'estatus', '0', '1', '2016-11-16 19:14:07'),
+(1880, 55008, 1, 'UPDATE', 'common\\models\\AcAcEspec', '1', 'fecha_fin', '2016-12-31', '2017-01-01', '2016-11-16 20:13:54'),
+(1881, 55079, 2, 'UPDATE', 'common\\models\\ProyectoAccionEspecifica', '37', 'nombre', 'asdsasdasdassadasda', 'probnado', '2016-11-16 20:18:15'),
+(1882, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'id', '', '38', '2016-11-16 20:22:07'),
+(1883, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'id_proyecto', '', '7', '2016-11-16 20:22:07'),
+(1884, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'codigo_accion_especifica', '', '003', '2016-11-16 20:22:07'),
+(1885, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'nombre', '', 'probnado', '2016-11-16 20:22:07'),
+(1886, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'unidad_medida', '', '2', '2016-11-16 20:22:07'),
+(1887, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'ponderacion', '', '0.2', '2016-11-16 20:22:07'),
+(1888, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'bien_servicio', '', 'probnaod', '2016-11-16 20:22:07'),
+(1889, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'id_unidad_ejecutora', '', '3', '2016-11-16 20:22:07'),
+(1890, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'fecha_inicio', '', '2016-11-01', '2016-11-16 20:22:07'),
+(1891, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'fecha_fin', '', '2016-12-11', '2016-11-16 20:22:07'),
+(1892, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'ambito', '', '7', '2016-11-16 20:22:07'),
+(1893, 55151, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '38', 'estatus', '', '1', '2016-11-16 20:22:07'),
+(1894, 55159, 2, 'DELETE', 'common\\models\\ProyectoAccionEspecifica', '38', NULL, NULL, NULL, '2016-11-16 20:22:33'),
+(1895, 55170, 2, 'UPDATE', 'common\\models\\Proyecto', '7', 'ambito', '7', '6', '2016-11-16 20:22:49'),
+(1896, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'id', '', '39', '2016-11-16 20:23:36'),
+(1897, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'id_proyecto', '', '7', '2016-11-16 20:23:36'),
+(1898, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'codigo_accion_especifica', '', '004', '2016-11-16 20:23:36'),
+(1899, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'nombre', '', 'probnaod', '2016-11-16 20:23:36'),
+(1900, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'unidad_medida', '', '2', '2016-11-16 20:23:36'),
+(1901, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'ponderacion', '', '0.1', '2016-11-16 20:23:36'),
+(1902, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'bien_servicio', '', 'probnado', '2016-11-16 20:23:36'),
+(1903, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'id_unidad_ejecutora', '', '4', '2016-11-16 20:23:36'),
+(1904, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'fecha_inicio', '', '2016-11-01', '2016-11-16 20:23:36'),
+(1905, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'fecha_fin', '', '2016-11-30', '2016-11-16 20:23:36'),
+(1906, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'ambito', '', '6', '2016-11-16 20:23:36'),
+(1907, 55194, 2, 'CREATE', 'common\\models\\ProyectoAccionEspecifica', '39', 'estatus', '', '1', '2016-11-16 20:23:36'),
+(1908, 55209, 2, 'DELETE', 'common\\models\\ProyectoAccionEspecifica', '37', NULL, NULL, NULL, '2016-11-16 20:24:16');
 
 -- --------------------------------------------------------
 
@@ -1648,7 +1724,7 @@ CREATE TABLE IF NOT EXISTS `localizacion_acc_variable` (
   KEY `id_estado` (`id_estado`),
   KEY `id_municipio` (`id_municipio`),
   KEY `id_parroquia` (`id_parroquia`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -6961,7 +7037,14 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
   KEY `objetivo_general_fk` (`objetivo_general`) USING BTREE,
   KEY `ambito_fk` (`ambito`) USING BTREE,
   KEY `usuario_creacion` (`usuario_creacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `proyecto`
+--
+
+INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `nombre`, `descripcion_proyecto`, `fecha_inicio`, `fecha_fin`, `estatus_proyecto`, `situacion_presupuestaria`, `proyecto_plurianual`, `monto_proyecto_actual`, `monto_proyecto_anio_anteriores`, `monto_total_proyecto_proximo_anios`, `monto_proyecto`, `monto_financiar`, `sector`, `sub_sector`, `plan_operativo`, `objetivo_general`, `politicas_ministeriales`, `ambito`, `aprobado`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`, `usuario_creacion`) VALUES
+(7, '001', 'asdawdas', 'asdasdas', '2016-11-01', '2016-11-30', 2, 1, 1, '2000.00', '200.00', '200.00', '20.00', '20000.00', 2, 1, 1, 2, 'probnado', 6, 0, 1, '2016-11-15 15:13:45', '2016-11-16 19:22:49', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -6993,7 +7076,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
   KEY `unidad_medida` (`unidad_medida`),
   KEY `fuente_financiamiento` (`id_fuente_financiamiento`),
   KEY `ambito` (`ambito`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
+
+--
+-- Dumping data for table `proyecto_accion_especifica`
+--
+
+INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_especifica`, `nombre`, `unidad_medida`, `ponderacion`, `bien_servicio`, `id_unidad_ejecutora`, `fecha_inicio`, `fecha_fin`, `id_fuente_financiamiento`, `ambito`, `estatus`, `aprobado`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
+(39, 7, '004', 'probnaod', 2, 0.1, 'probnado', 4, '2016-11-01', '2016-11-30', NULL, 6, 1, 0, '2016-11-16 19:23:36', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -7010,7 +7100,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_ac_localizacion` (
   `id_parroquia` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_proyecto_ac` (`id_proyecto_ac`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
+
+--
+-- Dumping data for table `proyecto_ac_localizacion`
+--
+
+INSERT INTO `proyecto_ac_localizacion` (`id`, `id_proyecto_ac`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
+(54, 39, 862, 1, 2, 7);
 
 -- --------------------------------------------------------
 
@@ -7038,7 +7135,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_ae_meta` (
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `id_proyecto_accion_especifica` (`id_proyecto_ac_localizacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Meta física de accion especifica de proyecto' AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Meta física de accion especifica de proyecto' AUTO_INCREMENT=13 ;
 
 -- --------------------------------------------------------
 
@@ -7067,10 +7164,10 @@ CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
   `alcance_proyecto` varchar(150) NOT NULL COMMENT 'alcance del proyecto',
   `descripcion_situacion_actual` text NOT NULL COMMENT 'descripción de la situación actual del problema',
   `formula_indicador` text NOT NULL COMMENT 'Fórmula del indicador',
-  `fuente_indicador` varchar(45) NOT NULL COMMENT 'Fuente del indicador',
+  `fuente_indicador` varchar(100) NOT NULL COMMENT 'Fuente del indicador',
   `fecha_ultima_data` date DEFAULT NULL,
   `situacion_objetivo` text NOT NULL,
-  `tiempo_impacto` varchar(45) NOT NULL,
+  `tiempo_impacto` varchar(100) NOT NULL,
   `servicio_bien` text NOT NULL,
   `unidad_medida` int(11) NOT NULL COMMENT 'Unidad de medida',
   `tipo_impacto` int(11) NOT NULL,
@@ -7084,7 +7181,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
   PRIMARY KEY (`id`),
   KEY `id_proyecto` (`id_proyecto`),
   KEY `tipo_impacto` (`tipo_impacto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto' AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `proyecto_alcance`
+--
+
+INSERT INTO `proyecto_alcance` (`id`, `id_proyecto`, `relacion_instituciones`, `meta_proyecto`, `empleos_directos_nuevos_femeninos`, `empleos_directos_nuevos_masculino`, `empleos_directos_sostenidos_femeninos`, `empleos_directos_sostenidos_masculino`, `beneficiarios_masculinos`, `beneficiarios_femeninos`, `beneficiarios`, `objetivo_estrategico_institucional`, `objetivo_especifico_proyecto`, `causas_criticas_proyecto`, `problemas_aborda_proyecto`, `consecuencias_problema`, `justificacion_proyecto`, `alcance_proyecto`, `descripcion_situacion_actual`, `formula_indicador`, `fuente_indicador`, `fecha_ultima_data`, `situacion_objetivo`, `tiempo_impacto`, `servicio_bien`, `unidad_medida`, `tipo_impacto`, `cualitativa_efectos`, `importancia`, `mitigar_impacto_ambiental`, `balance_servicio_energetico`, `programacion_anual_consumidor`, `fecha_creacion`, `fecha_modificacion`) VALUES
+(1, 7, ' skd askldmaslmdasñl sñla dañls dasñl dañls dañls dasñld añls dasl dasñld asñld añls dasl dasñl ', ' ajsk djaskd asjkd saskjd akjsd akjd asjkd askjd askjd askjd asjkd askjds ajkjas dkjas dkasjd askjd askjd askjd askjd askjd sajd', 12, 12, 12, 12, 30, 24, 54, 'kasd fkasld askl daskld askdl asdk askldas dkasl daskd sakld askldas dklsa daskld sakld sakld sakld sakld askld askldas dkasl daskld sakds ', 'askd aksld sakl daskld askld askl daskdl askdl asdklas dkasl daskl dskald askld sakld askadsl ', 'aks dlaskd askld askld askld askld askdl askdl askld askld askld askld askld saklda daskl dk', 'akls daskl daskld sakdl askd askld aslkd sakld askd askld askd asdklas dsklas ', 'kals daksld askldsa daskld askld sakld akls daskld aslkd askd askld asklds askld askld askl', 'kal sdklas daskdals dkasd aslkd askld askld sakld askld sakl ', 'kasl dklas daskla askl daskls daskld askldmasdkas lksa alskd askld sakl adkl', 'askld askld klasd askdlas dklas dklas daskl daskld aslkd askld akls daskld sakld', 'alks daklsd aslkd aslkd ask askld askld askld askld kasl dsklad asklds asklsd askl', 'klas dklas daskld skla daskld askld salk daslk daskld askld askd askld sakld askdl askld askld askld', '2016-11-16', 'sd askjd askjd asjkd askjd askjd askjd askjd asjkd asjd askjd asjkd skjas djask dasjkd askjd askjd askjd askjd askdj askjd askjd asjkd asjkd askjd', 'jak sdajskd asjkd asjkd askjdsa daskj dskjdas askjd askjdasas djaskd askj dasjkd kasj daskj daksj ds', 'kjs djaks daskjd asjbnlkja daskjd sakjd askj daskjd sajkd asdjjhd ashsadkj askjd asdjkas djkas daskjd jaskd askjd sakjd kjas j', 3, 2, 'akjs djaksd askjd askjd asjkd asjkd askj', 'asdasd', 'asdasda', 'asdasdsa', 'asdasdsa', '2016-11-16 13:09:33', '2016-11-16 19:39:57');
 
 -- --------------------------------------------------------
 
@@ -7116,7 +7220,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_localizacion` (
   KEY `parroquia_fk_idx` (`id_parroquia`),
   KEY `proyecto_fk_idx` (`id_proyecto`),
   KEY `id_pais` (`id_pais`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+
+--
+-- Dumping data for table `proyecto_localizacion`
+--
+
+INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
+(21, 7, 862, 1, 2, 7);
 
 -- --------------------------------------------------------
 
@@ -7158,7 +7269,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
 
 CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(30) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(80) DEFAULT NULL,
   `telefono` varchar(14) NOT NULL,
@@ -7167,7 +7278,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
   PRIMARY KEY (`id`),
   KEY `id_proyecto` (`id_proyecto`),
   KEY `unidad_tecnica` (`unidad_tecnica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `proyecto_registrador`
+--
+
+INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_tecnica`, `id_proyecto`) VALUES
+(7, 'sadf asd asd as das das da sd as dasd as a asd asd asd as das da da das das', 123123, 'sadasda@asdad.com', '123123', 3, 7);
 
 -- --------------------------------------------------------
 
@@ -7177,14 +7295,21 @@ CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
 
 CREATE TABLE IF NOT EXISTS `proyecto_responsable` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(14) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `proyecto_fk` (`id_proyecto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `proyecto_responsable`
+--
+
+INSERT INTO `proyecto_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono`, `id_proyecto`) VALUES
+(7, 'waltersa as da asd asd asd as das das dasd as das dasd as das s asdasda', 17389814, 'waler84@osd.com', '02124813639', 7);
 
 -- --------------------------------------------------------
 
@@ -7194,7 +7319,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable` (
 
 CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
@@ -7203,7 +7328,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
   PRIMARY KEY (`id`),
   KEY `fk_id_proyecto_idx` (`id_proyecto`),
   KEY `unidad_administradora` (`unidad_administradora`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `proyecto_responsable_administrativo`
+--
+
+INSERT INTO `proyecto_responsable_administrativo` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_administradora`, `id_proyecto`) VALUES
+(7, 'probandoasd asd asld aslk askl daks aslkd askld askld askld askld askld as das das das ', 123132, 'walsad@asda.com', '123132', 3, 7);
 
 -- --------------------------------------------------------
 
@@ -7213,7 +7345,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
 
 CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
   `cedula` int(10) NOT NULL,
   `email` varchar(45) NOT NULL,
   `telefono` varchar(45) NOT NULL,
@@ -7222,7 +7354,14 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
   PRIMARY KEY (`id`),
   KEY `id_proyecto_fk` (`id_proyecto`),
   KEY `unidad_tecnica` (`unidad_tecnica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `proyecto_responsable_tecnico`
+--
+
+INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_tecnica`, `id_proyecto`) VALUES
+(7, 'probando1saddas d asd asd asd asd as dasd asd d as das dasd as das ', 1231323, 'wadas@asdasd.com', '123123', 3, 7);
 
 -- --------------------------------------------------------
 
@@ -7261,7 +7400,7 @@ CREATE TABLE IF NOT EXISTS `responsable_acc_variable` (
   `id_variable` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_variable` (`id_variable`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `responsable_acc_variable`
@@ -7271,7 +7410,8 @@ INSERT INTO `responsable_acc_variable` (`id`, `nombre`, `cedula`, `email`, `tele
 (19, 'walter', 17389814, 'walter86_79@hotmail.com', '02124813639', 'caracas', 31),
 (20, 'walteer', 17389814, 'walter86_79@hotmail.com', '02124813639', 'caracas', 32),
 (21, 'walter', 17389814, 'walter86_79@hotmail.com', '02124813630', 'caracas', 33),
-(22, 'walter', 17389814, 'walter86_79@hotmail.com', '02124813639', 'caracas', 1);
+(22, 'walter', 17389814, 'walter86_79@hotmail.com', '02124813639', 'caracas', 1),
+(23, 'walter', 17389814, 'walter86_79@hotmail.com', '02124813639', 'caracas', 1);
 
 -- --------------------------------------------------------
 

@@ -91,6 +91,8 @@ class ProyectoAlcanceController extends \common\controllers\BaseController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        //formateando fecha
+        $model->fecha_ultima_data=date('d/m/Y',strtotime($model->fecha_ultima_data));
 
         //Listas desplegables
         $unidadMedida = UnidadMedida::find()->all();

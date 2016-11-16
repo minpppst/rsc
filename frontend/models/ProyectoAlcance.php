@@ -69,7 +69,8 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
             [['enunciado_problema', 'poblacion_afectada', 'indicador_situacion', 'formula_indicador', 'enunciado_situacion_deseada', 'poblacion_objetivo', 'indicador_situacion_deseada', 'resultado_esperado', 'meta_proyecto', 'requiere_mencione_acciones', 'contribuye_mencione_acciones', 'vinculado_nombre_proyecto', 'vinculado_medida', 'obstaculos'], 'string'],
             [['fecha_indicador_inicial'], 'safe'],
             [['benficiarios_femeninos', 'beneficiarios_masculinos', 'total_empleos_directos_femeninos', 'total_empleos_directos_masculino', 'empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino'], 'number'],
-            [['fuente_indicador', 'denominacion_beneficiario'], 'string', 'max' => 45],
+            [['fuente_indicador', 'denominacion_beneficiario'], 'string', 'max' => 100],
+            
             //reglas de campo que dependendientes
             [['especifique_con_cual','requiere_nombre_institucion','requiere_nombre_instancia','requiere_mencione_acciones'], 'required', 'when' => function ($model) {
             return $model->requiere_accion_no_financiera == 1;

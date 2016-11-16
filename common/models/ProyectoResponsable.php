@@ -34,7 +34,7 @@ class ProyectoResponsable extends \yii\db\ActiveRecord
         return [
             [['nombre', 'cedula', 'email', 'telefono', 'id_proyecto'], 'required'],
             [['cedula','id_proyecto'], 'integer'],
-            [['nombre', 'email'], 'string', 'max' => 45],
+            [['nombre', 'email'], 'string', 'max' => 100],
             [['telefono'], 'string', 'max' => 14],
             [['email'],'email'],
         ];
