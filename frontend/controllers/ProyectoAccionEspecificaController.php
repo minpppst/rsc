@@ -65,7 +65,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
             Yii::$app->response->format = Response::FORMAT_JSON;
             return 
                 [
-                    'title'=> "Accion Especfica",
+                    'title'=> "Accion Específica",
                     'content'=>$this->renderPartial('view', 
                     [
                         'model' => $this->findModel($id),
