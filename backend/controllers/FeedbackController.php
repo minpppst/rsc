@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Feedback;
 use backend\models\FeedbackSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,22 +15,14 @@ use yii\helpers\Html;
 /**
  * FeedbackController implements the CRUD actions for Feedback model.
  */
-class FeedbackController extends Controller
+class FeedbackController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-        ];
+        return parent::behaviors();
     }
 
     /**
@@ -269,21 +262,26 @@ class FeedbackController extends Controller
         }
     }
 
+    
+
     public function actionFind($id)
     {   
         $request = Yii::$app->request;
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $model = Feedback::findOne($id);
-       // Yii::$app->response->format = Response::FORMAT_JSON;
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $model = Feedback::findOne($id);
+            
+            return $model;
+            // Yii::$app->response->format = Response::FORMAT_JSON;
         
         }
         else
         {
-        return 0;
+            return 0;
         }
         
     }

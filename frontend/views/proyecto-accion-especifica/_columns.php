@@ -86,20 +86,15 @@ return [
         [
             'update' => function ($model, $key, $index) 
             {
-                return Yii::$app->user->can('proyecto-accion-especifica/update', ['id' => $model->id]) ? true : false;
+                return Yii::$app->user->can('proyecto-accion-especifica/update', ['proyecto' => $model->id]) ? true : false;
                 
             },
             'delete' => function ($model, $key, $index) 
             {
-                return Yii::$app->user->can('proyecto-accion-especifica/delete', ['id' => $model->id]) ?  true : false;
+                return Yii::$app->user->can('proyecto-accion-especifica/delete', ['proyecto' => $model->id]) ?  true : false;
                 
             },
 
-            'prg' => function ($model, $key, $index) 
-            {
-                return Yii::$app->user->can('proyecto-accion-especifica/update', ['id' => $model->id]) ?  true : false;
-                
-            }
 
         ],
         'header' => 'Acciones',

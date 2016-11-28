@@ -41,6 +41,7 @@
         	[
 		        'class' => 'kartik\grid\CheckboxColumn',
 		        'width' => '20px',
+
 		    ],
 		    [
 		        'class' => 'kartik\grid\SerialColumn',
@@ -51,14 +52,15 @@
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'codigo_accion_especifica',
 		        'label' => 'Código',
+		        
 		    ],
 		    [
 		        'class'=>'\kartik\grid\DataColumn',
 		        'attribute'=>'nombre',
 		        'contentOptions' => 
 		        [
-		        'style'=>'max-width: 350px;  word-wrap: break-word;
-		        white-space: normal;'
+		        	'style'=>'max-width: 350px;  word-wrap: break-word;
+		        	white-space: normal;'
 		        ]
 		    ],
 		    [
@@ -66,8 +68,8 @@
 		        'attribute'=>'nombreUnidadEjecutora',
 		        'contentOptions' => 
 		        [
-		        'style'=>'max-width: 350px;  word-wrap: break-word;
-		        white-space: normal;'
+		        	'style'=>'max-width: 350px;  word-wrap: break-word;
+		        	white-space: normal;'
 		        ]
 		    ],
 		    /*
@@ -101,6 +103,20 @@
 		    */
 		    [
 		        'class' => 'kartik\grid\ActionColumn',
+		        'visibleButtons' => 
+		        [
+		            'update' => function ($model, $key, $index) 
+		            {
+		                return Yii::$app->user->can('proyecto-accion-especifica/update', ['id' => $model->id]) ? true : false;
+		                
+		            },
+		            'delete' => function ($model, $key, $index) 
+		            {
+		                return Yii::$app->user->can('proyecto-accion-especifica/delete', ['id' => $model->id]) ?  true : false;
+		                
+		            },
+
+		        ],
 		        'dropdown' => false,
 		        'vAlign'=>'middle',
 		        'urlCreator' => function($action, $model, $key, $index) { 

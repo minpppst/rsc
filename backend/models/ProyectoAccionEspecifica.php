@@ -8,6 +8,8 @@ use yii\base\Model;
 use common\models\Proyecto;
 use common\models\UnidadEjecutora;
 use common\models\PartidaPartida;
+use common\models\ProyectoUsuarioAsignar;
+use common\components\Notification;
 
 /**
  * This is the model class for table "proyecto_accion_especifica".
@@ -29,6 +31,9 @@ use common\models\PartidaPartida;
  */
 class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
 {
+    
+    const EVENT_PEDIDOAPROBADO = 'AprobacionPedido';
+    const EVENT_PEDIDODESAPROBADO = 'DesaprobacionPedido';
     /**
      * @inheritdoc
      */
@@ -52,6 +57,13 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             [['id_unidad_ejecutora'], 'exist', 'skipOnError' => true, 'targetClass' => UnidadEjecutora::className(), 'targetAttribute' => ['id_unidad_ejecutora' => 'id']],
         ];
     }
+      /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        $this->on(self::EVENT_PEDIDOAPROBADO, [$this, 'notificacionAprobacion']);
+    }
 
     /**
      * @inheritdoc
@@ -70,6 +82,41 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             'nombreProyecto' => 'Proyecto'
         ];
     }
+
+    /**
+     * Notificacion Aprobacion
+     */
+     public function notificacionAprobacion($evento)
+     {
+        if($this->aprobado==1)
+        {
+            //Ids de los usuarios con el rol "proyecto_pedido"
+            $usuarios = \Yii::$app->authManager->getUserIdsByRole('proyecto_pedido');
+            $usuarios=ProyectoUsuarioAsignar::find()
+            ->where(['proyecto_usuario_asignar.accion_especifica_id' => $this->id])
+            ->andWhere(['proyecto_usuario_asignar.usuario_id' => $usuarios])
+            ->all();
+            foreach ($usuarios as $key => $value) 
+            {
+                // usuarios pertenecientes a esa unidad ejecutora
+                Notification::notify(Notification::KEY_PEDIDOAPROBADO, $value['usuario_id'], $this->id); 
+            }
+        }
+        else
+        {
+            $usuarios = \Yii::$app->authManager->getUserIdsByRole('proyecto_pedido');
+            $usuarios=ProyectoUsuarioAsignar::find()
+            ->where(['proyecto_usuario_asignar.accion_especifica_id' => $this->id])
+            ->andWhere(['proyecto_usuario_asignar.usuario_id' => $usuarios])
+            ->all();
+            foreach ($usuarios as $key => $value) 
+            {
+                // usuarios pertenecientes a esa unidad ejecutora
+                Notification::notify(Notification::KEY_PEDIDODESAPROBADO, $value['usuario_id'], $this->id); 
+            }   
+        }
+
+     }
 
     /**
      * Guardar en la tabla proyecto_distribucion_presupuestaria

@@ -239,6 +239,7 @@ class ProyectoController extends \common\controllers\BaseController
 
         if ($model != null && $model->toggleActivo()) 
         {
+            
             return ['forceClose' => true, 'forceReload' => 'true'];
         } 
         else 

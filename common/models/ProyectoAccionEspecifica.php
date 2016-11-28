@@ -29,6 +29,9 @@ use Yii;
  */
 class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
 {
+    const EVENT_PEDIDOAPROBADO = 'AprobacionPedido';
+    const EVENT_PEDIDODESAPROBADO = 'DesaprobacionPedido';
+
     /**
      * @inheritdoc
      */
@@ -42,6 +45,14 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
         return [
             'bedezign\yii2\audit\AuditTrailBehavior'
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        $this->on(self::EVENT_PEDIDOAPROBADO, [$this, 'notificacionAprobacion']);
     }
 
     /**
@@ -65,7 +76,6 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     }
 
     public function validarFecha()
-
     {   
         $fecha1=date(str_replace("/", "-", $this->fecha_inicio));
         $fecha2=date(str_replace("/", "-", $this->fecha_fin));
@@ -75,6 +85,41 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             $this->addError('fecha_fin','Fecha Fin no puede ser menor a Fecha Inicio');
         }
     }
+
+    /**
+     * Notificacion Aprobacion
+     */
+     public function notificacionAprobacion($evento)
+     {
+        if($this->aprobado==1)
+        {
+            //Ids de los usuarios con el rol "proyecto_pedido"
+            $usuarios = \Yii::$app->authManager->getUserIdsByRole('proyecto_pedido');
+            $usuarios=ProyectoUsuarioAsignar::find()
+            ->where(['proyecto_usuario_asignar.accion_especifica_id' => $this->id])
+            ->andWhere(['proyecto_usuario_asignar.usuario_id' => $usuarios])
+            ->all();
+            foreach ($usuarios as $key => $value) 
+            {
+                // usuarios pertenecientes a esa unidad ejecutora
+                Notification::notify(Notification::KEY_PEDIDOAPROBADO, $value['usuario_id'], $this->id); 
+            }
+        }
+        else
+        {
+            $usuarios = \Yii::$app->authManager->getUserIdsByRole('proyecto_pedido');
+            $usuarios=ProyectoUsuarioAsignar::find()
+            ->where(['proyecto_usuario_asignar.accion_especifica_id' => $this->id])
+            ->andWhere(['proyecto_usuario_asignar.usuario_id' => $usuarios])
+            ->all();
+            foreach ($usuarios as $key => $value) 
+            {
+                // usuarios pertenecientes a esa unidad ejecutora
+                Notification::notify(Notification::KEY_PEDIDODESAPROBADO, $value['usuario_id'], $this->id); 
+            }   
+        }
+
+     }
 
 
     /**

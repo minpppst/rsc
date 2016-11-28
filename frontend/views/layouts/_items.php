@@ -49,9 +49,11 @@
         //Notificaciones
         $items[] = ['label' => '<span class="glyphicon glyphicon-bell" aria-hidden="true"></span><span class="label label-danger notifications-icon-count">0</span>', 'items' =>
             [
-                ['label' => 'Tienes <span class="notifications-header-count">0</span> notificaciones'],
-                ['label' => '<li><div id="notifications"></div></li>',
+                ['label' => 'Tienes <span class="notifications-header-count">0</span> notificaciones nuevas'],
+                ['label' => '<li><div id="notifications" style="overflow-y: auto; overflow-x: hidden; height:auto; max-height:400px;"></div></li>',
                 'options'=>['style'=>'width: 300px;']
+                ],
+                ['label' => 'Ver todas ('.Yii::$app->user->identity->username . ')', 'url' => ['/notification/index'], 'linkOptions' => ['data-method' => 'post']
                 ],
 
             ],

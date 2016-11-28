@@ -70,8 +70,10 @@ class Feedback extends \yii\db\ActiveRecord
      */
       public function notificacion_cargar($evento)
      {
-        
+            //usuario destino
            Notification::warning(Notification::KEY_FEEDBACK, $this->id_usuario_destino, $this->id);
+           //usuario origen
+           Notification::warning(Notification::KEY_FEEDBACK, $this->id_usuario, $this->id);
         
      }
 

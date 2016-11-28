@@ -49,13 +49,16 @@ CrudAsset::register($this);
         ],
         'attributes' => [
             
-            'codigo_proyecto',
+            [
+                'attribute' => 'codigo_proyecto',
+                'options' => ['style' => 'width:70%'],
+            ],
             [
                 'attribute' => 'nombre',
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'6',
-                    'style' => 'width:50%'
+                    'style' => 'width:70%'
                 ],
             ],
             [
@@ -63,7 +66,7 @@ CrudAsset::register($this);
                 'type' => DetailView::INPUT_TEXTAREA,
                 'options' => [
                     'rows'=>'6',
-                    'style' => 'width:50%'
+                    'style' => 'width:70%'
                 ],
             ],
             [
@@ -71,7 +74,7 @@ CrudAsset::register($this);
                 'attribute' => 'fecha_inicio',
                 'type' => DetailView::INPUT_DATE,
                 'options' => [
-                    'style' => 'width:47%'
+                    'style' => 'width:68%'
                 ],
                 'widgetOptions' => [
                     'pluginOptions' => [
@@ -86,7 +89,7 @@ CrudAsset::register($this);
                 'attribute' => 'fecha_fin',
                 'type' => DetailView::INPUT_DATE,
                 'options' => [
-                    'style' => 'width:47%'
+                    'style' => 'width:68%'
                 ],
                 'widgetOptions' => [
                     'pluginOptions' => [
@@ -104,7 +107,7 @@ CrudAsset::register($this);
                 'widgetOptions' => [
                     'data' => ArrayHelper::map(EstatusProyecto::find()->all(), 'id', 'estatus'),
                     'options' => ['placeholder' => 'Seleccione'],
-                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'70%'],
                 ]
             ],
             [
@@ -115,7 +118,7 @@ CrudAsset::register($this);
                 'widgetOptions' => [
                     'data' => ArrayHelper::map(SituacionPresupuestaria::find()->all(), 'id', 'situacion'),
                     'options' => ['placeholder' => 'Seleccione'],
-                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'70%'],
                 ]
             ],
             [
@@ -126,7 +129,7 @@ CrudAsset::register($this);
                 'widgetOptions' => [
                     'data' => [1=> 'Si', 0=> 'No'],
                     'options' => ['placeholder' => 'Seleccione'],
-                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'70%'],
                 ]
             ],
             [
@@ -134,40 +137,45 @@ CrudAsset::register($this);
                 'attribute' => 'monto_proyecto_actual',
                 'value' => $model->bolivarMontos($model->monto_proyecto_actual),
                 'type' => DetailView::INPUT_MONEY,
-                'widgetOptions' => [
-                ]
+                'options' => [
+                    'style' => 'width:70%'
+                ],
             ],
             [
                 'label' => $model->getAttributeLabel('monto_proyecto_anio_anteriores'),
                 'attribute' => 'monto_proyecto_anio_anteriores',
                 'value' => $model->bolivarMontos($model->monto_proyecto_anio_anteriores),
                 'type' => DetailView::INPUT_MONEY,
-                'widgetOptions' => [
-                ]
+                'options' => [
+                    'style' => 'width:70%'
+                ],
             ],
             [
                 'label' => $model->getAttributeLabel('monto_total_proyecto_proximo_anios'),
                 'attribute' => 'monto_total_proyecto_proximo_anios',
                 'value' => $model->bolivarMontos($model->monto_total_proyecto_proximo_anios),
                 'type' => DetailView::INPUT_MONEY,
-                'widgetOptions' => [
-                ]
+                'options' => [
+                    'style' => 'width:70%'
+                ],
             ],
             [
                 'label' => $model->getAttributeLabel('monto_proyecto'),
                 'attribute' => 'monto_proyecto',
                 'value' => $model->bolivarMonto,
                 'type' => DetailView::INPUT_MONEY,
-                'widgetOptions' => [
-                ]
+                'options' => [
+                    'style' => 'width:70%'
+                ],
             ],
             [
                 'label' => $model->getAttributeLabel('monto_financiar'),
                 'attribute' => 'monto_financiar',
                 'value' => $model->bolivarMontos($model->monto_financiar),
                 'type' => DetailView::INPUT_MONEY,
-                'widgetOptions' => [
-                ]
+                'options' => [
+                    'style' => 'width:70%'
+                ],
             ],
             [
                 'label' => $model->getAttributeLabel('sector'),
@@ -177,7 +185,7 @@ CrudAsset::register($this);
                 'widgetOptions' => [
                     'data' => ArrayHelper::map(Sector::find()->all(), 'id', 'sector'),
                     'options' => ['placeholder' => 'Seleccione'],
-                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'70%'],
                 ]
 
             ],
@@ -189,7 +197,7 @@ CrudAsset::register($this);
                 'widgetOptions' => [
                     'data' => ArrayHelper::map(SubSector::find()->all(), 'id', 'sub_sector'),
                     'options' => ['placeholder' => 'Seleccione'],
-                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'70%'],
                 ]
 
             ],
@@ -201,28 +209,28 @@ CrudAsset::register($this);
                 'widgetOptions' => [
                     'data' => ArrayHelper::map(PlanOperativo::find()->all(), 'id', 'plan_operativo'),
                     'options' => ['placeholder' => 'Seleccione'],
-                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'70%'],
                 ]
             ],
             [
                 'label' => 'Objetivo Historico',
                 'value' => $historico->objetivo_historico,
                 'options' => [
-                    'style' => 'width:50%'
+                    'style' => 'width:70%'
                 ],
             ],
             [
                 'label' => 'Objetivo Nacional',
                 'value' => $nacional->objetivo_nacional,
                 'options' => [
-                    'style' => 'width:50%'
+                    'style' => 'width:70%'
                 ],
             ], 
             [
                 'label' => 'Objetivo Estratégico',
                 'value' => $estrategico->objetivo_estrategico,
                 'options' => [
-                    'style' => 'width:50%'
+                    'style' => 'width:70%'
                 ],
             ],            
             [
@@ -233,7 +241,7 @@ CrudAsset::register($this);
                 'widgetOptions' => [
                     'data' => ArrayHelper::map(ObjetivosGenerales::find()->all(), 'id', 'objetivo_general'),
                     'options' => ['placeholder' => 'Seleccione'],
-                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'70%'],
                 ]
             ],
             [
@@ -244,7 +252,7 @@ CrudAsset::register($this);
                 'widgetOptions' => [
                     'data' => ArrayHelper::map(Ambito::find()->all(), 'id', 'ambito'),
                     'options' => ['placeholder' => 'Seleccione'],
-                    'pluginOptions' => ['allowClear'=>true, 'width'=>'50%'],
+                    'pluginOptions' => ['allowClear'=>true, 'width'=>'70%'],
                 ]
             ]
         ],

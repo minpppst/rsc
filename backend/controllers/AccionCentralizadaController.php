@@ -425,15 +425,18 @@ class AccionCentralizadaController extends \common\controllers\BaseController
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        if ($model != null && $model->toggleAprobado()) {
+        if ($model != null && $model->toggleAprobado()) 
+        {
             return ['forceClose' => true, 'forceReload' => '#aprobar'];
-        } else {
+        } 
+        else 
+        {
             return [
                 'title' => 'Ocurrió un error.',
                 'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
                 'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
             ];
-            return;
+            
         }
     }
 

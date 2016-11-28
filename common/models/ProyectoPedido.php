@@ -37,7 +37,7 @@ class ProyectoPedido extends \yii\db\ActiveRecord
     /**
      * Constante que guarda el nombre del evento
      */
-    const EVENT_NUEVO_PEDIDO = 'evento_nuevo_pedido';
+    const EVENT_NUEVO_PEDIDO = 'evento_nuevo_requerimiento';
 
     /**
      * @inheritdoc
@@ -116,13 +116,26 @@ class ProyectoPedido extends \yii\db\ActiveRecord
      */
      public function notificacion($evento)
      {
+        
         //Ids de los usuarios con el rol "proyecto_pedido"
         $usuarios = \Yii::$app->authManager->getUserIdsByRole('proyecto_pedido');
-        foreach ($usuarios as $key => $usuario) {
+        //se comenta, pues falta indicar ademas quienes tienen asignada esa accion especifica.
+        /*foreach ($usuarios as $key => $usuario) {
             Notification::notify(Notification::KEY_NUEVO_PEDIDO, $usuario, $this->id);
+        }*/
+        $usuarios=ProyectoUsuarioAsignar::find()
+        ->where(['proyecto_usuario_asignar.accion_especifica_id' => $this->asignado0->accion_especifica_id])
+        ->andWhere(['proyecto_usuario_asignar.usuario_id' => $usuarios])
+        ->all();
+        foreach ($usuarios as $key => $value) 
+        {
+            //ahora si filtramos los usuarios que tengan los permisos proyecto_pedido y ademas fueron asignados a esa accion_especifica o mejor decir usuarios pertenecientes a esa unidad ejecutora
+            Notification::notify(Notification::KEY_NUEVO_PEDIDO, $value['usuario_id'], $this->id); 
         }
-        
      }
+
+    
+     
 
     /**
      * @return \yii\db\ActiveQuery

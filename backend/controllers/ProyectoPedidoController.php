@@ -59,8 +59,8 @@ class ProyectoPedidoController extends \common\controllers\BaseController
      */
     public function actionPedido($proyectoEspecifica)
     {
-        //Datos para el gridview
-        $searchModel = new ProyectoPedidoSearch(['proyectoEspecifica' => $proyectoEspecifica]);
+        //Datos para el gridview['Asignado0.accion_especifica_id' => $proyectoEspecifica]
+        $searchModel = new ProyectoPedidoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         //Otros datos
@@ -306,11 +306,13 @@ class ProyectoPedidoController extends \common\controllers\BaseController
      */
     public function actionAprobar($proyectoEspecifica)
     {
+        
         $model = ProyectoAccionEspecifica::find()->where(['id' => $proyectoEspecifica])->one();
         
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         if ($model != null && $model->toggleAprobado()) {
+            $model->trigger(ProyectoAccionEspecifica::EVENT_PEDIDOAPROBADO); //Notificacion
             return ['forceClose' => true, 'forceReload' => '#aprobado'];
         } else {
             return [

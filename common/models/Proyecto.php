@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
-
+use common\components\Notification as Notificaciones;
 /**
  * This is the model class for table "proyecto".
  *
@@ -42,6 +42,20 @@ use yii\helpers\ArrayHelper;
  */
 class Proyecto extends \yii\db\ActiveRecord
 {
+
+    /**
+     * Constante que guarda el nombre del evento
+     */
+    const EVENT_APROBAR = 'Proyecto Aprobado/Desaprobado';
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        $this->on(self::EVENT_APROBAR, [$this, 'notificacion']);
+    }
+
     /**
      * @inheritdoc
      */
@@ -66,7 +80,6 @@ class Proyecto extends \yii\db\ActiveRecord
             [['nombre', 'fecha_inicio', 'fecha_fin', 'estatus_proyecto', 'situacion_presupuestaria', 'plan_operativo', 'objetivo_general', 'politicas_ministeriales', 'ambito', 'usuario_creacion', 'proyecto_plurianual', 'monto_financiar', 'descripcion_proyecto'], 'required'],
             [['nombre','politicas_ministeriales', 'descripcion_proyecto'], 'string'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
-            [['fecha_inicio', 'fecha_fin'], 'date'],
             [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'aprobado', 'estatus'], 'integer'],
             [['monto_proyecto', 'monto_proyecto_actual', 'monto_financiar', 'monto_proyecto_anio_anteriores', 'monto_total_proyecto_proximo_anios'], 'number'],
             [['codigo_proyecto'], 'string', 'max' => 6],
@@ -76,6 +89,9 @@ class Proyecto extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+    * Regla Validar Fecha inicio debe ser mayor Fecha fin
+    */
     public function validarFecha()
 
     {   
@@ -87,6 +103,27 @@ class Proyecto extends \yii\db\ActiveRecord
             $this->addError('fecha_fin','Fecha Fin no puede ser menor a Fecha Inicio');
         }
     }
+
+    /**
+     * Notificacion
+     */
+     public function notificacion($evento)
+     {
+        if($this->aprobado==1)
+        {
+            //se crea la notificacion, la primera al usuario que creo el proyecto
+            Notificaciones::notify(Notificaciones::KEY_APROBAR, $this->usuario_creacion, $this->id);
+            //se crea la notificacion, la segunda para el usuario quien hace la aprobacion
+            Notificaciones::notify(Notificaciones::KEY_APROBAR, Yii::$app->user->identity->id, $this->id);
+        }
+        else
+        {
+            //se crea la notificacion, la primera al usuario que creo el proyecto
+            Notificaciones::notify(Notificaciones::KEY_DESAPROBAR, $this->usuario_creacion, $this->id);
+            //se crea la notificacion, la segunda para el usuario quien hace la aprobacion
+            Notificaciones::notify(Notificaciones::KEY_DESAPROBAR, Yii::$app->user->identity->id, $this->id);   
+        }
+     }
 
     /**
      * @inheritdoc

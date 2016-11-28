@@ -32,7 +32,7 @@ use machour\yii2\notifications\widgets\NotificationsWidget;
                 <div class="col-xs-2">
                     <div class="actions pull-right">
                         <span class="notification-seen fa fa-check" title="Marcar como visto"></span>
-                        <span class="notification-delete fa fa-close" title="Eliminar notificación"></span>
+                        <!--<span class="notification-delete fa fa-close" title="Eliminar notificación"></span>-->
                     </div>
                 </div>
             </div>'
@@ -64,6 +64,12 @@ use machour\yii2\notifications\widgets\NotificationsWidget;
                         <li class="header">Tienes <span class="notifications-header-count">0</span> notificaciones</li>
                         <li>
                             <div id="notifications"></div>
+                        </li>
+                        <li class="header"><?= Html::a(
+                                    'Ver Todas ('.Yii::$app->user->identity->username.')',
+                                    ['/notification/index'],
+                                    ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
+                                ); ?>
                         </li>
                     </ul>
                 </li>                

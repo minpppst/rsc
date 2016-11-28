@@ -5,6 +5,7 @@ namespace backend\controllers;
 //Yii
 use Yii;
 use yii\helpers\Json;
+use yii\helpers\Html;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -357,10 +358,10 @@ class ProyectoController extends \common\controllers\BaseController
     public function actionAprobar($id)
     {
         $model = $this->findModel($id);
-
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         if ($model != null && $model->toggleAprobado()) {
+            $model->trigger(Proyecto::EVENT_APROBAR); //Notificacion
             return ['forceClose' => true, 'forceReload' => '#aprobar'];
         } else {
             return [
@@ -405,6 +406,7 @@ class ProyectoController extends \common\controllers\BaseController
             $model->id_usuario_destino=$model_proyecto->usuario_creacion;
             $model->mensaje=$data->note;
             $model->img=$data->img;
+
             
             if($model->save())
             {

@@ -23,18 +23,22 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <script type="text/javascript">
-    
-    function feedback(id){
-
-      $.getJSON('/rsc/backend/web/index.php?r=feedback/find&id='+id, function(data)
+    //llamada al detalle de la observacion
+    function feedback(id, id_observacion)
+    {
+      $.getJSON('/rsc/backend/web/index.php?r=feedback/find&id='+id_observacion, function(data)
       {
         $("#modalContent").html('<img src="'+ data.img +'" />');
         $("#mensaje").html('<p align="center">'+ data.mensaje +'</p>');
-        $('#grading-sys-modal').modal('show');
+        //se coloca como leido
+        $.get('index.php?r=notifications/notifications/read', {id: id}, function () {
+            $('#grading-sys-modal').modal('show');
+        });
 
-
-      });
+           
         
+        
+      });
     }
     </script>
 </head>
@@ -63,10 +67,10 @@ AppAsset::register($this);
                 <div class="col-xs-2">
                     <div class="actions pull-right">
                         <span class="notification-seen fa fa-check" title="Marcar como visto"></span>
-                        <span class="notification-delete fa fa-close" title="Eliminar notificación"></span>
+                        <!--<span class="notification-delete fa fa-close" title="Eliminar notificación"></span>-->
                     </div>
                 </div>
-            </div>'
+            </div>',
         
     ]);
 ?>
@@ -142,7 +146,7 @@ AppAsset::register($this);
    echo 
     "
         <div id='modalContent' style='overflow: scroll';>
-            <img id='imgFromScript' style='max-width: auto;' src='#'  alt=''/>
+            <img id='imgFromScript'  style='max-width: auto;' src='#'  alt=''/>
         </div>
         <h3><p align='center'>Observaci&oacute;n</p></h3>
         <div id='mensaje'></div>

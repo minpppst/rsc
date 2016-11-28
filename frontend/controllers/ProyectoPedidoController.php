@@ -44,7 +44,7 @@ class ProyectoPedidoController extends \common\controllers\BaseController
         //Modelo de busqueda y dataprovider
         $searchModel = new ProyectoUsuarioAsignarSearch([
             'usuario_id' => $usuario->id,
-            'aprobado' => 1
+            //'aprobado' => 1
         ]);
 
         //DataProvider

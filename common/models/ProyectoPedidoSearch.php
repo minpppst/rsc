@@ -47,6 +47,8 @@ class ProyectoPedidoSearch extends ProyectoPedido
         $query = ProyectoPedido::find();
         // Join para la relacion
         $query->joinWith(['idMaterial']);
+        // relacion asignacion
+        $query->joinWith(['asignado0']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -88,6 +90,7 @@ class ProyectoPedidoSearch extends ProyectoPedido
         ]);
 
         $query->andFilterWhere(['like','materiales_servicios.nombre',$this->nombreMaterial]);
+
 
         return $dataProvider;
     }
