@@ -19,6 +19,20 @@ use kartik\grid\GridView;
             ],
             [
                 'class'=>'\kartik\grid\DataColumn',
+                'attribute'=>'user_origin',
+                'label' => 'Usuario Origen',
+                'value' => $model->idUserOrigin->username,
+                
+            ],
+            [
+                'class'=>'\kartik\grid\DataColumn',
+                'attribute'=>'user_id',
+                'label' => 'Usuario Destino',
+                'value' => $model->idUser->username,
+                
+            ],
+            [
+                'class'=>'\kartik\grid\DataColumn',
                 'attribute'=>'key_id',
                 'label' => 'Resumen',
                 'value' => $model->resumen,
@@ -33,8 +47,8 @@ use kartik\grid\GridView;
             [   'class'=>'\kartik\grid\DataColumn',
                 'attribute' => 'id',
                 'label' => 'IMG',
-                'value' => $model->key=='observacion' ? $model->ImgObservacion : '',
-                'format' => ['image',['width'=>'480','height'=>'200',]],
+                'value' => $model->key=='observacion' ? $model->ImgObservacion : null,
+                'format' => $model->key=='observacion' ? ['image',['width'=>'480','height'=>'200',]] : 'TEXT',
                 
             ],
             [

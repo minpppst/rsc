@@ -2,6 +2,8 @@
 
 namespace common\models;
 use backend\models\Feedback;
+use machour\yii2\notifications\models\Notification as BaseNotifications;
+use machour\yii2\notifications\NotificationsModule;
 use Yii;
 
 /**
@@ -15,8 +17,12 @@ use Yii;
  * @property integer $seen
  * @property string $created_at
  */
-class Notification extends \yii\db\ActiveRecord
+class Notification extends BaseNotifications
 {
+       public  function getTitle () { return null; }  //Método abstracto sobreescrito en esta clase
+       public  function getDescription () { return null; }  //Método abstracto sobreescrito en esta clase
+       public  function getRoute () { return null; }  //Método abstracto sobreescrito en esta clase
+    
     /**
      * @inheritdoc
      */
@@ -24,6 +30,7 @@ class Notification extends \yii\db\ActiveRecord
     {
         return 'notification';
     }
+
 
     /**
      * @inheritdoc
@@ -54,13 +61,31 @@ class Notification extends \yii\db\ActiveRecord
         ];
     }
 
-      /**
+    /**
      * @return \yii\db\ActiveQuery
-     */
+    */
     public function getIdFeeback()
     {
         return $this->hasOne(Feedback::className(), ['id' => 'key_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+    */
+    public function getIdUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+    */
+    public function getIdUserOrigin()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_origin']);
+    }
+
+
 
     /**
     *@return string
@@ -84,18 +109,47 @@ class Notification extends \yii\db\ActiveRecord
             
              
             default:
-                 # code...
+                return null;
             break;
          }
     }
 
     /**
-    *@return string
+    *@return string img
     */
     public function getImgObservacion()
     {
-        
-        return $this->idFeeback->img;
+        return $this->idFeeback->img!=null ? $this->idFeeback->img : null;
+    }
+
+    /**
+     * Creates a notification
+     *
+     * @param string $key
+     * @param integer $user_id The user id that will get the notification
+     * @param integer $key_id The foreign instance id
+     * @param string $type
+     * @return bool Returns TRUE on success, FALSE on failure
+     * @throws \Exception
+     */
+    public static function notify($key, $user_id, $key_id = null, $type = self::TYPE_DEFAULT)
+    {
+        $class = self::className();
+        $user_origin=Yii::$app->user->identity->id;
+        return NotificationsModule::notify(new $class(), $key, $user_id, $key_id, $type, $user_origin);
+    }
+
+    /**
+     * Creates a warning notification
+     *
+     * @param string $key
+     * @param integer $user_id The user id that will get the notification
+     * @param integer $key_id The notification key id
+     * @return bool Returns TRUE on success, FALSE on failure
+     */
+    public static function warning($key, $user_id, $key_id = null)
+    {
+        return static::notify($key, $user_id, $key_id, self::TYPE_WARNING);
     }
 
 

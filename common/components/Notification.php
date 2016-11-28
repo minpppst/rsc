@@ -7,7 +7,8 @@
     use common\models\AcEspUej;
     use common\models\Proyecto;
     use common\models\ProyectoAccionEspecifica;
-    use machour\yii2\notifications\models\Notification as BaseNotification;
+    //use machour\yii2\notifications\models\Notification as BaseNotification;
+    use common\models\Notification as BaseNotification;
     use backend\models\feedback;
 
     class Notification extends BaseNotification

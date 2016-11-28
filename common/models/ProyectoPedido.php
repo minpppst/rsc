@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\rbac\DbManager;
-use common\components\Notification;
+use common\components\Notification as Notificaciones;
 
 /**
  * This is the model class for table "proyecto_pedido".
@@ -130,7 +130,7 @@ class ProyectoPedido extends \yii\db\ActiveRecord
         foreach ($usuarios as $key => $value) 
         {
             //ahora si filtramos los usuarios que tengan los permisos proyecto_pedido y ademas fueron asignados a esa accion_especifica o mejor decir usuarios pertenecientes a esa unidad ejecutora
-            Notification::notify(Notification::KEY_NUEVO_PEDIDO, $value['usuario_id'], $this->id); 
+            Notificaciones::notify(Notificaciones::KEY_NUEVO_PEDIDO, $value['usuario_id'], $this->id); 
         }
      }
 
