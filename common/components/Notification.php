@@ -4,6 +4,7 @@
     use Yii;
     use common\models\ProyectoPedido;
     use common\models\AccionCentralizadaPedido;
+    use common\models\AccionCentralizada;
     use common\models\AcEspUej;
     use common\models\Proyecto;
     use common\models\ProyectoAccionEspecifica;
@@ -20,11 +21,14 @@
         const KEY_NUEVO_PEDIDO = 'nuevo_requerimiento';
         const KEY_PEDIDOAPROBADO = 'RequerimientoAprobado';
         const KEY_PEDIDODESAPROBADO = 'RequerimientoDesAprobado';
-        const KEY_NUEVO_PEDIDO_ACC = 'requerimiento_accion_centralizada';
-        const KEY_PEDIDO_ACC_APROBADO= 'requerimiento_acc_aprobado';
+        const KEY_NUEVO_PEDIDO_ACC = 'NuevoRequerimientoAC';
+        const KEY_ACPEDIDOAPROBADO = 'RequerimientoACAprobado';
+        const KEY_ACPEDIDODESAPROBADO = 'RequerimientoACDesAprobado';
         const KEY_FEEDBACK ='observacion';
         const KEY_APROBAR ='Proyecto Aprobado';
         const KEY_DESAPROBAR ='Proyecto Desaprobado';
+        const KEY_ACAPROBAR ='Acción Centralizada Aprobada';
+        const KEY_ACDESAPROBAR ='Acción Centralizada Desaprobada';
 
         /**
          * @var array Holds all usable notifications
@@ -34,10 +38,13 @@
             self::KEY_NUEVO_PEDIDO_ACC,
             self::KEY_PEDIDOAPROBADO,
             self::KEY_PEDIDODESAPROBADO,
-            self::KEY_PEDIDO_ACC_APROBADO,
+            self::KEY_ACPEDIDOAPROBADO,
+            self::KEY_ACPEDIDODESAPROBADO,
             self::KEY_FEEDBACK,
             self::KEY_APROBAR,
             self::KEY_DESAPROBAR,
+            self::KEY_ACAPROBAR,
+            self::KEY_ACDESAPROBAR,
         ];
 
         /**
@@ -47,18 +54,28 @@
         {
             switch ($this->key) {
                 case self::KEY_NUEVO_PEDIDO:
-                    $pedido = ProyectoPedido::findOne($this->key_id);
+                    //$pedido = ProyectoPedido::findOne($this->key_id);
                     return Yii::t('app', 'Nuevo Requerimiento');
                 break;
 
                 case self::KEY_PEDIDOAPROBADO:
-                    $pedido = ProyectoPedido::findOne($this->key_id);
+                    //$pedido = ProyectoPedido::findOne($this->key_id);
                     return Yii::t('app', 'Aprobación De Requerimiento');
                 break;
 
                 case self::KEY_PEDIDODESAPROBADO:
-                    $pedido = ProyectoPedido::findOne($this->key_id);
+                    //$pedido = ProyectoPedido::findOne($this->key_id);
                     return Yii::t('app', 'Desaprobación De Requerimiento');
+                break;
+
+                case self::KEY_ACPEDIDOAPROBADO:
+                    //$pedido = AcEspUej::findOne($this->key_id);
+                    return Yii::t('app', 'Aprobación De Requerimiento AC');
+                break;
+
+                case self::KEY_ACPEDIDODESAPROBADO:
+                    //$pedido = AcEspUej::findOne($this->key_id);
+                    return Yii::t('app', 'Desaprobación De Requerimiento AC');
                 break;
 
                 case self::KEY_NUEVO_PEDIDO_ACC:
@@ -66,12 +83,6 @@
                     return Yii::t('app', 'Nuevo Requerimiento Central');
                 break;
 
-                case self::KEY_PEDIDO_ACC_APROBADO:
-                    $acc_uej=AcEspUej::findOne($this->key_id);
-                    $pedido = $acc_uej->nombreunidadejecutora;
-                    return yii::t('app', 'Aprobación De Requerimientos');
-                break;
-                    
                 case self::KEY_FEEDBACK : 
                     return yii::t('app', 'Observacion Proyecto');
                 break;
@@ -82,6 +93,14 @@
 
                 case self::KEY_DESAPROBAR : 
                     return yii::t('app', 'Estatus De Proyecto Cambio');
+                break;
+
+                case self::KEY_ACAPROBAR : 
+                    return yii::t('app', 'Estatus De Acción Centralizada Cambio');
+                break;
+
+                case self::KEY_ACDESAPROBAR : 
+                    return yii::t('app', 'Estatus De Acción Centralizada Cambio');
                 break;
                 
             }
@@ -96,7 +115,7 @@
                 case self::KEY_NUEVO_PEDIDO:
                     $pedido = ProyectoPedido::findOne($this->key_id);
                     
-                    return Yii::t('app', 'Pedido #{pedido} por {usuario}', [
+                    return Yii::t('app', 'Requerimiento #{pedido} por {usuario}', [
                         'pedido' => $pedido->id,
                         'usuario' => $pedido->asignado0->usuario->username
                     ]);
@@ -117,21 +136,27 @@
                     ]);
                 break;
 
+                case self::KEY_ACPEDIDOAPROBADO:
+                    $acc_uej=AcEspUej::findOne($this->key_id);
+                    return Yii::t('app', 'Aprobado Requerimientos AC a {unidad}', [
+                        'unidad' => $acc_uej->Nombreunidadejecutora,
+                    ]);
+                break;
+
+                case self::KEY_ACPEDIDODESAPROBADO:
+                    $acc_uej=AcEspUej::findOne($this->key_id);
+                    return Yii::t('app', 'Desaprobado Requerimientos AC a {unidad}', [
+                        'unidad' => $acc_uej->Nombreunidadejecutora,
+                    ]);
+                break;
+
                 case self::KEY_NUEVO_PEDIDO_ACC:
                     $pedido = AccionCentralizadaPedido::findOne($this->key_id);
                     
                     return Yii::t('app', 'Requerimiento #{pedido} por {usuario}', [
                         'pedido' => isset($pedido->id) ? $pedido->id : '',
-                        'usuario' => isset($pedido->asignado0->nombreUsuario) ? isset($pedido->asignado0->nombreUsuario) : ''
+                        'usuario' => isset($pedido->nombreUsuario) ? $pedido->nombreUsuario : '',
                     ]);
-                break;
-
-                case self::KEY_PEDIDO_ACC_APROBADO:
-                    $acc_uej=AcEspUej::findOne($this->key_id);
-                    $pedido = $acc_uej->Nombreunidadejecutora;
-                    $aprobado = $acc_uej->aprobado==1 ? 'aprobados' : 'no aprobados';
-                    return Yii::t('app', 'Requerimiento De Unidad Ejecutora '.$pedido.' fuerón '.$aprobado.''
-                        );
                 break;
 
                 case self::KEY_FEEDBACK:
@@ -171,6 +196,18 @@
                 case self::KEY_DESAPROBAR:
                     $proyecto=Proyecto::findOne($this->key_id);
                     return Yii::t('app', 'Desaprobado El Proyecto #'.$proyecto->codigo_proyecto
+                        );
+                break;
+
+                case self::KEY_ACAPROBAR:
+                    $proyecto=AccionCentralizada::findOne($this->key_id);
+                    return Yii::t('app', 'Aprobado La Acción Centraliada #'.$proyecto->codigo_accion
+                        );
+                break;
+
+                case self::KEY_ACDESAPROBAR:
+                    $proyecto=AccionCentralizada::findOne($this->key_id);
+                    return Yii::t('app', 'Desaprobada La Acción Centralizada #'.$proyecto->codigo_accion
                         );
                 break;
 

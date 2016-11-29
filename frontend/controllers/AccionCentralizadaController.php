@@ -59,6 +59,7 @@ class AccionCentralizadaController extends \common\controllers\BaseController
     public function actionCreate()
     {
         $model = new AccionCentralizada();
+        $model->usuario_creacion=Yii::$app->user->identity->id;
         $model->estatus=1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

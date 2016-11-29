@@ -30,17 +30,13 @@ class NotificationController extends \common\controllers\BaseController
      */
     public function actionIndex()
     {    
+        $searchModel = new NotificationSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         //si es admin puede ver todas las notificaciones
         if(!Yii::$app->user->can('sysadmin'))
         {
-            $searchModel = new NotificationSearch(['user_id' => \Yii::$app->user->id]);
+            $dataProvider->query->andWhere(['user_id'=>Yii::$app->user->identity->id]);
         }
-        else
-        {
-            $searchModel = new NotificationSearch();   
-        }
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
 
         return $this->render('index', [
             'searchModel' => $searchModel,

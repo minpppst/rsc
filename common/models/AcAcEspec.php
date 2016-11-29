@@ -37,8 +37,6 @@ class AcAcEspec extends \yii\db\ActiveRecord
     }
 
 
-    
-
     /**
      * @inheritdoc
      */
@@ -50,11 +48,25 @@ class AcAcEspec extends \yii\db\ActiveRecord
             [['id_ac_centr'], 'integer'],
             [['cod_ac_espe'], 'unique'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
-            ['fecha_inicio', 'compare', 'compareAttribute' => 'fecha_fin', 'operator' => '<'],
+            //['fecha_inicio', 'compare', 'compareAttribute' => 'fecha_fin', 'operator' => '<'],
             [['id_ac_centr'], 'exist', 'skipOnError' => true, 'targetClass' => AccionCentralizada::className(), 'targetAttribute' => ['id_ac_centr' => 'id']],
-            
+            ['fecha_inicio', 'validarFecha'],
             [['cod_ac_espe'], 'string', 'max' => 6]
         ];
+    }
+
+    /**
+    * Regla Validar Fecha inicio debe ser mayor Fecha fin
+    */
+    public function validarFecha()
+    {   
+        $fecha1=date(str_replace("/", "-", $this->fecha_inicio));
+        $fecha2=date(str_replace("/", "-", $this->fecha_fin));
+        if(strtotime($fecha1)>strtotime($fecha2))
+        {
+            $this->addError('fecha_inicio','Fecha Inicio no puede ser mayor a Fecha Fin');
+            $this->addError('fecha_fin','Fecha Fin no puede ser menor a Fecha Inicio');
+        }
     }
 
     /**

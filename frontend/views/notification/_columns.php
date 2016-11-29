@@ -22,6 +22,25 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'user_origin',
+        'label' => 'Usuario Origen',
+        'value' => function($model)
+        {
+            return $model->idUserOrigin->username;
+        },
+                
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'user_id',
+        'label' => 'Usuario Destino',
+        'value' => function($model)
+        {
+            return $model->idUser->username;
+        },
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'key_id',
         'label' => 'Resumen',
         'value' => function($model){

@@ -119,10 +119,6 @@ class ProyectoPedido extends \yii\db\ActiveRecord
         
         //Ids de los usuarios con el rol "proyecto_pedido"
         $usuarios = \Yii::$app->authManager->getUserIdsByRole('proyecto_pedido');
-        //se comenta, pues falta indicar ademas quienes tienen asignada esa accion especifica.
-        /*foreach ($usuarios as $key => $usuario) {
-            Notification::notify(Notification::KEY_NUEVO_PEDIDO, $usuario, $this->id);
-        }*/
         $usuarios=ProyectoUsuarioAsignar::find()
         ->where(['proyecto_usuario_asignar.accion_especifica_id' => $this->asignado0->accion_especifica_id])
         ->andWhere(['proyecto_usuario_asignar.usuario_id' => $usuarios])

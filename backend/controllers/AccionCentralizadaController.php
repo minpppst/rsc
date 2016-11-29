@@ -23,6 +23,7 @@ use yii\data\SqlDataProvider;
  */
 class AccionCentralizadaController extends \common\controllers\BaseController
 {
+
     public function behaviors()
     {
         return parent::behaviors();
@@ -63,7 +64,6 @@ class AccionCentralizadaController extends \common\controllers\BaseController
             ]);
         }
 
-
         return $this->render('view', [
             'model' => $model
         ]);
@@ -77,7 +77,7 @@ class AccionCentralizadaController extends \common\controllers\BaseController
     public function actionCreate()
     {
         $model = new AccionCentralizada();
-
+        $model->usuario_creacion=Yii::$app->user->identity->id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -97,9 +97,12 @@ class AccionCentralizadaController extends \common\controllers\BaseController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+        {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        } 
+        else 
+        {
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -137,9 +140,12 @@ class AccionCentralizadaController extends \common\controllers\BaseController
      */
     protected function findModel($id)
     {
-        if (($model = AccionCentralizada::findOne($id)) !== null) {
+        if (($model = AccionCentralizada::findOne($id)) !== null) 
+        {
             return $model;
-        } else {
+        }
+        else 
+        {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
@@ -174,7 +180,9 @@ class AccionCentralizadaController extends \common\controllers\BaseController
                     {                        
                         $ue = new AccionCentralizada;
                    
-                    }else{
+                    }
+                    else
+                    {
                         $mensaje="Accion Ya Existe: Codigo Accion:".$exploded[0]." SNE:".$exploded[1];
                         $ue="";
                     }
@@ -188,12 +196,14 @@ class AccionCentralizadaController extends \common\controllers\BaseController
                     //guardando a mysql
                     $date = explode('/', $exploded[3]);
                     $exploded[3]=$date[2]."/".$date[1]."/".$date[0];
-                    if(!checkdate ( (int) $date[1], (int) $date[0] , (int) rtrim($date[2]))){
+                    if(!checkdate ( (int) $date[1], (int) $date[0] , (int) rtrim($date[2])))
+                    {
                          $mensaje="Fecha No Valida, Verifique Fecha";
                         unset($ue);
                     }
                     $date_fin = explode('/', $exploded[4]);
-                    if(!checkdate ( (int) $date_fin[1] , (int) $date_fin[0], (int) rtrim($date_fin[2]))){
+                    if(!checkdate ( (int) $date_fin[1] , (int) $date_fin[0], (int) rtrim($date_fin[2])))
+                    {
                          $mensaje="Fecha No Valida, Verifique Fecha";
                         unset($ue);
                     }
@@ -216,8 +226,6 @@ class AccionCentralizadaController extends \common\controllers\BaseController
                     $ue->fecha_fin= $exploded[4];
                     $ue->estatus = 0;
                     $ue->save(false);
-                        
-                    //    print_r($ue->getErrors()); exit();
                     
                 }
                 
@@ -226,7 +234,8 @@ class AccionCentralizadaController extends \common\controllers\BaseController
                 Yii::$app->session->setFlash('importado', '<div class="alert alert-success">Registros importados exitosamente.</div>');
                 return $this->refresh();
 
-            }catch(\Exception $e){
+            }catch(\Exception $e)
+            {
                 $transaccion->rollBack();
                 Yii::$app->session->setFlash('importado', '<div class="alert alert-danger">'.$mensaje.'</div>');
             }
@@ -349,13 +358,16 @@ class AccionCentralizadaController extends \common\controllers\BaseController
         }
         
 
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>'true']; 
-        }else{
+        }
+        else
+        {
             /*
             *   Process for non-ajax request
             */
@@ -373,47 +385,51 @@ class AccionCentralizadaController extends \common\controllers\BaseController
 
 
         //si esta vacio el modelo es por que fue borrado
-        if($post!=null){
-
-        //buscamos la ultima version
-        $attributes = Version::lastVersion($post->className(), $post->id);
-        //cargamos los datos de la ultima version
-        $post = Version::find($post->className(), $post->id, $attributes);
-        
-        //solo para el caso de modelos que tenga fecha, formatear la fecha
-        $post->fecha_inicio = date_create($post->fecha_inicio);
-        $post->fecha_fin = date_create($post->fecha_fin);
-
-        $post->fecha_inicio=date_format($post->fecha_inicio, 'd/m/Y');
-        $post->fecha_fin=date_format($post->fecha_fin, 'd/m/Y');
-        
-         }else
+        if($post!=null)
         {
-        //en que caso que fue borrado se busca la ultima version por medio del  id almacenado en el modelo trail
-        $attributes = Version::lastVersion(AccionCentralizada::className(), $post1->model_id);
+            //buscamos la ultima version
+            $attributes = Version::lastVersion($post->className(), $post->id);
+            //cargamos los datos de la ultima version
+            $post = Version::find($post->className(), $post->id, $attributes);
+            
+            //solo para el caso de modelos que tenga fecha, formatear la fecha
+            $post->fecha_inicio = date_create($post->fecha_inicio);
+            $post->fecha_fin = date_create($post->fecha_fin);
 
-        //cargamos los datos 
-        $post = Version::find(AccionCentralizada::className(), $post1->model_id, $attributes);
+            $post->fecha_inicio=date_format($post->fecha_inicio, 'd/m/Y');
+            $post->fecha_fin=date_format($post->fecha_fin, 'd/m/Y');
         
-        
-        //solo en caso de modelos q tengan fecha
-        $post->fecha_inicio = date_create($post->fecha_inicio);
-        $post->fecha_fin = date_create($post->fecha_fin);
+        }
+        else
+        {
+            //en que caso que fue borrado se busca la ultima version por medio del  id almacenado en el modelo trail
+            $attributes = Version::lastVersion(AccionCentralizada::className(), $post1->model_id);
 
-        $post->fecha_inicio=date_format($post->fecha_inicio, 'Y-m-d');
-        $post->fecha_fin=date_format($post->fecha_fin, 'Y-m-d');
+            //cargamos los datos 
+            $post = Version::find(AccionCentralizada::className(), $post1->model_id, $attributes);
+            
+            
+            //solo en caso de modelos q tengan fecha
+            $post->fecha_inicio = date_create($post->fecha_inicio);
+            $post->fecha_fin = date_create($post->fecha_fin);
+
+            $post->fecha_inicio=date_format($post->fecha_inicio, 'Y-m-d');
+            $post->fecha_fin=date_format($post->fecha_fin, 'Y-m-d');
 
         }
         //se almacena y redirecciona.
-        if($post->save()){
-        return $this->redirect('index.php?r=audit/trail');
-        }else{
+        if($post->save())
+        {
+            return $this->redirect('index.php?r=audit/trail');
+        }
+        else
+        {
             //print_r($post->getErrors());
             return $this->redirect('index.php?r=audit/trail');
         }
            
 
-        }
+    }
 
         /**
      * Aprobar o desaprobar una Accion.
@@ -427,6 +443,7 @@ class AccionCentralizadaController extends \common\controllers\BaseController
 
         if ($model != null && $model->toggleAprobado()) 
         {
+            $model->trigger(AccionCentralizada::EVENT_ACAPROBAR); //Notificacion
             return ['forceClose' => true, 'forceReload' => '#aprobar'];
         } 
         else 
@@ -446,7 +463,7 @@ class AccionCentralizadaController extends \common\controllers\BaseController
     {
         $model = $this->findModel($accion_centralizada);
         
-     return $this->render('distribucion',[
+        return $this->render('distribucion',[
             'model' => $model
         ]);
     }

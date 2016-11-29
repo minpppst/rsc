@@ -93,7 +93,6 @@ class Proyecto extends \yii\db\ActiveRecord
     * Regla Validar Fecha inicio debe ser mayor Fecha fin
     */
     public function validarFecha()
-
     {   
         $fecha1=date(str_replace("/", "-", $this->fecha_inicio));
         $fecha2=date(str_replace("/", "-", $this->fecha_fin));

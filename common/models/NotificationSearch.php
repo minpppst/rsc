@@ -18,8 +18,8 @@ class NotificationSearch extends Notification
     public function rules()
     {
         return [
-            [['id', 'key_id', 'user_id', 'seen'], 'integer'],
-            [['key', 'type', 'created_at'], 'safe'],
+            [['id', 'key_id',  'seen'], 'integer'],
+            [['key', 'type', 'user_id', 'user_origin', 'created_at'], 'safe'],
         ];
     }
 
@@ -43,6 +43,10 @@ class NotificationSearch extends Notification
     {
         $query = Notification::find();
 
+        // relacion usuarios
+        $query->joinWith(['idUserOrigin as user_accountsO']);
+        $query->joinWith(['idUser']);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -58,13 +62,14 @@ class NotificationSearch extends Notification
         $query->andFilterWhere([
             'id' => $this->id,
             'key_id' => $this->key_id,
-            'user_id' => $this->user_id,
             'seen' => $this->seen,
             'created_at' => $this->created_at,
         ]);
 
         $query->andFilterWhere(['like', 'key', $this->key])
-            ->andFilterWhere(['like', 'type', $this->type]);
+            ->andFilterWhere(['like', 'type', $this->type])
+            ->andFilterWhere(['like', 'user_accountsO.username', $this->user_origin])
+            ->andFilterWhere(['like', 'user_accounts.username', $this->user_id]);
 
         return $dataProvider;
     }

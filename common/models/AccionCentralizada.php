@@ -2,6 +2,7 @@
 
 namespace common\models;
 use yii\data\ArrayDataProvider;
+use common\components\Notification as Notificaciones;
 
 use Yii;
 
@@ -28,13 +29,60 @@ class AccionCentralizada extends \yii\db\ActiveRecord
     {
         return 'accion_centralizada';
     }
+    
+    /**
+     * Constante que guarda el nombre del evento
+     */
+    const EVENT_ACAPROBAR = 'Accion Centralizada Aprobado/Desaprobado';
 
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        $this->on(self::EVENT_ACAPROBAR, [$this, 'notificacion']);
+    }
+
+    /**
+    * Modelo behaviors para auditar o realizar reversos
+    */
     public function behaviors()
     {
         return [
             'bedezign\yii2\audit\AuditTrailBehavior'
         ];
     }
+
+    /**
+     * Notificacion
+     */
+     public function notificacion($evento)
+     {
+        if($this->aprobado==1)
+        {
+            //puede darse el caso que este vacio el usuario de creacion
+            if($this->usuario_creacion==null)
+            {
+                $this->usuario_creacion=Yii::$app->user->identity->id;
+            }
+            //se crea la notificacion, la primera al usuario que creo el proyecto
+            Notificaciones::notify(Notificaciones::KEY_ACAPROBAR, $this->usuario_creacion, $this->id);
+            //se crea la notificacion, la segunda para el usuario quien hace la aprobacion
+            Notificaciones::notify(Notificaciones::KEY_ACAPROBAR, Yii::$app->user->identity->id, $this->id);
+        }
+        else
+        {
+            //puede darse el caso que este vacio el usuario de creacion
+            if($this->usuario_creacion==null)
+            {
+                $this->usuario_creacion=Yii::$app->user->identity->id;
+            }
+            //se crea la notificacion, la primera al usuario que creo el proyecto
+            Notificaciones::notify(Notificaciones::KEY_ACDESAPROBAR, $this->usuario_creacion, $this->id);
+            //se crea la notificacion, la segunda para el usuario quien hace la aprobacion
+            Notificaciones::notify(Notificaciones::KEY_ACDESAPROBAR, Yii::$app->user->identity->id, $this->id);   
+        }
+     }
 
     /**
      * @inheritdoc
@@ -46,17 +94,26 @@ class AccionCentralizada extends \yii\db\ActiveRecord
             [['codigo_accion', 'codigo_accion_sne'],'unique'],
             [['aprobado'], 'integer'],
             [['codigo_accion', 'codigo_accion_sne', 'nombre_accion', 'estatus', 'fecha_inicio', 'fecha_fin'], 'required'],
-            ['fecha_inicio', 'compare', 'compareAttribute'=>'fecha_fin','operator'=>'<'],
+            ['fecha_inicio', 'validarFecha'],
+            //['fecha_inicio', 'compare', 'compareAttribute'=>'fecha_fin','operator'=>'<'],
             
         ];
     }
 
-
     /**
-     * @param string $attribute
-     * @param array $params
-     */
-    
+    * Regla Validar Fecha inicio debe ser mayor Fecha fin
+    */
+    public function validarFecha()
+    {   
+        $fecha1=date(str_replace("/", "-", $this->fecha_inicio));
+        $fecha2=date(str_replace("/", "-", $this->fecha_fin));
+        if(strtotime($fecha1)>strtotime($fecha2))
+        {
+            $this->addError('fecha_inicio','Fecha Inicio no puede ser mayor a Fecha Fin');
+            $this->addError('fecha_fin','Fecha Fin no puede ser menor a Fecha Inicio');
+        }
+    }
+
 
     /**
      * @inheritdoc
@@ -149,7 +206,6 @@ class AccionCentralizada extends \yii\db\ActiveRecord
         $this->fecha_inicio=date_format($this->fecha_inicio, 'd/m/Y');
         $this->fecha_fin=date_format($this->fecha_fin, 'd/m/Y');
         $this->save();
-
         return true;
      }
 

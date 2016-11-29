@@ -6,7 +6,7 @@ use Yii;
 
 use common\models\AccionCentralizadaAsignar;
 use common\models\MaterialesServicios;
-use common\components\Notification;
+use common\components\Notification as Notificaciones;
 
 /**
  * This is the model class for table "accion_centralizada_pedido".
@@ -45,7 +45,6 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
     public function init()
     {
         $this->on(self::EVENT_NUEVO_PEDIDO, [$this, 'notificacion_cargar']);
-        $this->on(self::EVENT_NUEVO_PEDIDO, [$this, 'notificacion']);
     }
 
 
@@ -122,18 +121,19 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
   /**
      * Notificacion
      */
-     public function notificacion($evento)
-     {
-        Notification::notify(Notification::KEY_NUEVO_PEDIDO_ACC, 1, $this->id);
-     }
 
       public function notificacion_cargar($evento)
      {
         
         //Ids de los usuarios con el rol "proyecto_pedido"
         $usuarios = \Yii::$app->authManager->getUserIdsByRole('accion_centralizada_requerimiento');
+        $usuarios=AccionCentralizadaAsignar::find()
+        ->innerjoin('accion_centralizada_ac_especifica_uej')
+        ->where(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $this->asignado0->accion_centralizada_ac_especifica_uej->id_ac_esp])
+        ->andWhere(['usuario' => $usuarios])
+        ->all();
         foreach ($usuarios as $key => $usuario) {
-            Notification::notify(Notification::KEY_NUEVO_PEDIDO_ACC, $usuario, $this->id);
+            Notificaciones::notify(Notificaciones::KEY_NUEVO_PEDIDO_ACC, $usuario, $this->id);
         }
         
      }
@@ -303,6 +303,10 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
         return true;
     }
 
+    /*
+    *@active model $insert
+    *formato de la fecha
+    */
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {

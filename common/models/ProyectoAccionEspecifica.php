@@ -99,11 +99,28 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             ->where(['proyecto_usuario_asignar.accion_especifica_id' => $this->id])
             ->andWhere(['proyecto_usuario_asignar.usuario_id' => $usuarios])
             ->all();
+            $bandera=0;
             foreach ($usuarios as $key => $value) 
             {
+                //verificar si quien aprueba/desaprueba esta asociado al proyecto
+                if($value['usuario_id']==\Yii::$app->user->id)
+                {
+                    $bandera=1;
+                }
                 // usuarios pertenecientes a esa unidad ejecutora
                 Notification::notify(Notification::KEY_PEDIDOAPROBADO, $value['usuario_id'], $this->id); 
             }
+            
+            if($bandera==0)
+            {
+                //enviar a quien lo hace, pues no necesariamente este asociada al proyecto
+                Notificaciones::notify(Notificaciones::KEY_ACPEDIDOAPROBADO, \Yii::$app->user->id, $this->id);
+            }
+            /**
+            /*NOTA
+            /*puede darse el caso que existan usuarios del backend que no este asociados, pero igual por su rol 
+            /*deben llegarle las notificaciones, una vez definidos estos roles se les debe enviar las notificaciones.
+            */
         }
         else
         {
@@ -112,11 +129,28 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             ->where(['proyecto_usuario_asignar.accion_especifica_id' => $this->id])
             ->andWhere(['proyecto_usuario_asignar.usuario_id' => $usuarios])
             ->all();
+            $bandera=0;
             foreach ($usuarios as $key => $value) 
             {
+                //verificar si quien aprueba/desaprueba esta asociado al proyecto
+                if($value['usuario_id']==\Yii::$app->user->id)
+                {
+                    $bandera=1;
+                }
                 // usuarios pertenecientes a esa unidad ejecutora
                 Notification::notify(Notification::KEY_PEDIDODESAPROBADO, $value['usuario_id'], $this->id); 
-            }   
+            }
+            
+            if($bandera==0)
+            {
+                //enviar a quien lo hace, pues no necesariamente este asociada al proyecto
+                Notificaciones::notify(Notificaciones::KEY_ACPEDIDOAPROBADO, \Yii::$app->user->id, $this->id);
+            }
+            /**
+            /*NOTA
+            /*puede darse el caso que existan usuarios del backend que no este asociados, pero igual por su rol 
+            /*deben llegarle las notificaciones, una vez definidos estos roles se les debe enviar las notificaciones.
+            */
         }
 
      }

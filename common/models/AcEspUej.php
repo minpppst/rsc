@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 use common\models\AcAcEspec;
-//use common\components\Notification;
+use common\components\Notification as Notificaciones;
 use yii\db\Expression;
 /**
  * This is the model class for table "accion_centralizada_ac_especifica_uej".
@@ -22,13 +22,15 @@ use yii\db\Expression;
 class AcEspUej extends \yii\db\ActiveRecord
 {
 
-    const EVENT_PEDIDO_APROBADO = 'pedido_aprobado';
+    const EVENT_ACPEDIDOAPROBADO = 'ACAprobacionPedido';
+    const EVENT_ACPEDIDODESAPROBADO = 'ACDesaprobacionPedido';
 
     
-    public function init(){
+    
+    public function init()
+    {
 
-        $this->on(self::EVENT_PEDIDO_APROBADO, [$this, 'notificacion_cargar']);
-        $this->on(self::EVENT_PEDIDO_APROBADO, [$this, 'notificacion']);
+        $this->on(self::EVENT_ACPEDIDOAPROBADO, [$this, 'notificacionAprobacion']);
     }
 
 
@@ -87,20 +89,21 @@ class AcEspUej extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UnidadEjecutora::className(), ['id' => 'id_ue']);
     }
+    
+    /**
+    * @return \yii\db\ActiveQuery
+    */
     public function getIdAccionEspecifica()
     {
         return $this->hasOne(AcAcEspec::className(), ['id' => 'id_ac_esp']);
     }
 
-    public function nombre_accion($accion){
-         $especifica = AcAcEspec::find()->where(['id'=>$accion])->one();
-
-         
-         return $especifica->nombre;
-    }
-
-
-    public function getnombreunidadejecutora(){
+    /*
+    *Obtener el codigo de unidad ejecutora
+    *return string
+    */
+    public function getnombreunidadejecutora()
+    {
         
         if($this->idUe == null)
         {
@@ -111,7 +114,12 @@ class AcEspUej extends \yii\db\ActiveRecord
     } 
 
 
-public function getnombreaccion(){
+    /*
+    *Obtener el codigo de accion central especifica
+    *return string
+    */
+    public function getnombreaccion()
+    {
         if($this->idAcEsp == null)
         {
             return null;
@@ -120,6 +128,10 @@ public function getnombreaccion(){
         return $this->idAcEsp->nombre;
     }
 
+    /*
+    *Obtener el nombre de accion central
+    *return string
+    */
     public function getnombrecentral(){
         
         if($this->idAcEsp == null)
@@ -130,38 +142,54 @@ public function getnombreaccion(){
         return $this->idAcEsp->idAcCentr->nombre_accion;//idAcCentr->nombre_accion;
     }
 
-    public function getCodigocentral(){
+    
+    /*
+    *Obtener el codigo de accion central
+    *return string
+    */
+    public function getCodigocentral()
+    {
         
         if($this->idAcEsp == null)
         {
             return null;
         }
 
-        return $this->idAcEsp->idAcCentr->codigo_accion;//idAcCentr->nombre_accion;
+        return $this->idAcEsp->idAcCentr->codigo_accion;
     }
 
 
-    public function getPedidoEjecutado(){
+    /*
+    *verificar si ya cargaron algo en el pedido
+    *return boolean
+    */
+    public function getPedidoEjecutado()
+    {
+        //buscar si la asignacion ya fue ejecutada
+        $asignacion=AccionCentralizadaAsignar::find()
+            ->select(['accion_centralizada_pedido.id'])
+            ->innerjoin('accion_centralizada_pedido', 'accion_centralizada_pedido.asignado=accion_centralizada_asignar.id')
+            ->where(['accion_centralizada_asignar.accion_especifica_ue' => $this->id])
+            ->One();
 
-    //buscar si la asignacion ya fue ejecutada
-    $asignacion=AccionCentralizadaAsignar::find()
-        ->select(['accion_centralizada_pedido.id'])
-        ->innerjoin('accion_centralizada_pedido', 'accion_centralizada_pedido.asignado=accion_centralizada_asignar.id')
-        ->where(['accion_centralizada_asignar.accion_especifica_ue' => $this->id])
-        ->One();
-        //print_r($asignacion);
-
-        if($asignacion!=NULL){
-            return 1;
-        }else{
-            return 0;
-        }
-
+            if($asignacion!=NULL)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
     }
 
 
-     public function toggleAprobar()
-     {
+     
+    /*
+    *Aprobar o Desaprobar Requerimientos
+    *return booleam
+    */
+    public function toggleAprobar()
+    {
         if($this->aprobado == 1)
         {
             $this->aprobado = 0;
@@ -171,24 +199,34 @@ public function getnombreaccion(){
             $this->aprobado = 1;
         }
         
-        if($this->save()){
-        $this->trigger(AcEspUej::EVENT_PEDIDO_APROBADO);
-        return true;
-
-        
+        if($this->save())
+        {
+            $this->trigger(AcEspUej::EVENT_ACPEDIDOAPROBADO);
+            return true;
         }
         else
-       return false; 
+        {
+            return false; 
         }
+    }
 
-      public  function uej_eliminar($id){
+    /* Eliminar unidad Ejecutora asociada a accion especica
+    *@integer id
+    *return booleam
+    */
+    public  function uej_eliminar($id)
+    {
         $model = AcEspUej::findOne($id);
         $model->estatus=2;
         return $model->save();
-     }
+    }
 
 
 
+     /* Unidades ejecutoras relaciones 
+     *@integer $id
+     *@return array
+     */
      public function obtener_uej_relacionadas($id)
      {
         $ue="";
@@ -204,50 +242,91 @@ public function getnombreaccion(){
         }
         $ue = substr($ue, 0, -2);
         return $ue;
+    }
 
 
-     }
-
-
-
-     public function notificacion($evento)
-     {
+     /**
+     *Carga De las notificaciones pueden darse dos casos aprobados y desaprobados.
+     */
+    public function notificacionAprobacion($evento)
+    {
         
-        if($evento->name=='pedido_aprobado')
-        Notification::notify(Notification::KEY_PEDIDO_ACC_APROBADO, 1, $this->id);
-
-     }
-
-      public function notificacion_cargar($evento)
-     {
-        
-        
-        if($evento->name=='pedido_aprobado'){
-        
-        //buscando los usuarios que tenga asignado esa unidad ejecutora y accion_especifica
-        $usuarios =AcEspUej::find()
-        ->select(["accion_centralizada_asignar.usuario"])
-        ->innerjoin('accion_centralizada_asignar', 'accion_centralizada_ac_especifica_uej.id=accion_centralizada_asignar.accion_especifica_ue')
-        ->where(['accion_centralizada_asignar.accion_especifica_ue' => $this->id])
-        ->andWhere(['accion_centralizada_ac_especifica_uej.estatus' => 1])
-        ->asArray()
-        ->all();
-
-        
-        
-        foreach ($usuarios as $key => $usuario) {
+        if($this->aprobado==1)
+        {
+            //Ids de los usuarios con el rol "proyecto_pedido"
+            $usuarios =AcEspUej::find()
+            ->select(["accion_centralizada_asignar.usuario"])
+            ->innerjoin('accion_centralizada_asignar', 'accion_centralizada_ac_especifica_uej.id=accion_centralizada_asignar.accion_especifica_ue')
+            ->where(['accion_centralizada_asignar.accion_especifica_ue' => $this->id])
+            ->andWhere(['accion_centralizada_ac_especifica_uej.estatus' => 1])
+            ->asArray()
+            ->all();
+            $bandera=0;
+            foreach ($usuarios as $key => $value) 
+            {
+                //verificar si quien aprueba/desaprueba esta asociado al proyecto
+                if($value['usuario']==\Yii::$app->user->id)
+                {
+                    $bandera=1;
+                }
+                // usuarios pertenecientes a esa unidad ejecutora
+                Notificaciones::notify(Notificaciones::KEY_ACPEDIDOAPROBADO, $value['usuario'], $this->id);
+            }
             
-            Notification::notify(Notification::KEY_PEDIDO_ACC_APROBADO, $usuario['usuario'], $this->id);
-        } 
+            if($bandera==0)
+            {
+                //enviar a quien lo hace, pues no necesariamente este asociada al proyecto
+                Notificaciones::notify(Notificaciones::KEY_ACPEDIDOAPROBADO, \Yii::$app->user->id, $this->id);
+            }
+            /**
+            /*NOTA
+            /*puede darse el caso que existan usuarios del backend que no este asociados, pero igual por su rol 
+            /*deben llegarle las notificaciones, una vez definidos estos roles se les debe enviar las notificaciones.
+            */
+            
         }
-        
-     }
+        else
+        {
+            $usuarios =AcEspUej::find()
+            ->select(["accion_centralizada_asignar.usuario"])
+            ->innerjoin('accion_centralizada_asignar', 'accion_centralizada_ac_especifica_uej.id=accion_centralizada_asignar.accion_especifica_ue')
+            ->where(['accion_centralizada_asignar.accion_especifica_ue' => $this->id])
+            ->andWhere(['accion_centralizada_ac_especifica_uej.estatus' => 1])
+            ->asArray()
+            ->all();
+            $bandera=0;
+            foreach ($usuarios as $key => $value) 
+            {
+                //verificar si quien aprueba/desaprueba esta asociado al proyecto
+                if($value['usuario']==\Yii::$app->user->id)
+                {
+                    $bandera=1;
+                }
+                // usuarios pertenecientes a esa unidad ejecutora
+                Notificaciones::notify(Notificaciones::KEY_ACPEDIDODESAPROBADO, $value['usuario'], $this->id); 
+            }
+            if($bandera==0)
+            {
+                //enviar a quien lo hace, pues no necesariamente este asociada al proyecto
+                Notificaciones::notify(Notificaciones::KEY_ACPEDIDOAPROBADO, \Yii::$app->user->id, $this->id);
+            }
+            /**
+            /*NOTA
+            /*puede darse el caso que existan usuarios del backend que no este asociados, pero igual por su rol 
+            /*deben llegarle las notificaciones, una vez definidos estos roles se les debe enviar las notificaciones.
+            */
 
-      public function cambiar()
-      {
+        }
+    }
+
+    /*
+    *Ejemplo de la eliminacion falsa, donde solo se guarda fecha de eliminacion y no se borra el modelo
+    */
+    public function cambiar()
+    {
         $this->fecha_eliminacion=new Expression('NOW()');
         $this->save();
-      }
+    }
 
 
 
