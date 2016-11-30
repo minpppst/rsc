@@ -110,6 +110,19 @@
 		       ['label' => 'Importar', 'icon' => 'glyphicon glyphicon-import', 'url' => ['/materiales-servicios/importar']]
 		   ]
 		];
+		$items[] =	[
+		   'label' => 'Propiedades Proyecto', 
+		   'icon' => 'fa fa-folder',
+		   'url' => '#',
+		   'items' => [
+		       ['label' => 'Estatus Proyecto', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/estatus-proyecto/index'],],
+		       ['label' => 'Plan Operativo', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/plan-operativo/index'],],
+		       ['label' => 'Sector Proyecto', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/sector/index'],],
+		       ['label' => 'Sub-Sector Proyecto', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/sub-sector/index'],],
+		       
+		       
+		   ]
+		];
 	}
 
 	//SISTEMA
