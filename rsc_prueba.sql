@@ -2,10 +2,10 @@
 -- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 29, 2016 at 03:20 PM
--- Server version: 5.7.14
--- PHP Version: 5.5.12
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 30-11-2016 a las 14:24:20
+-- Versión del servidor: 5.7.14
+-- Versión de PHP: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `registro_seguimiento`
+-- Base de datos: `registro_seguimiento`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada`
+-- Estructura de tabla para la tabla `accion_centralizada`
 --
 
 CREATE TABLE IF NOT EXISTS `accion_centralizada` (
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `accion_centralizada`
+-- Volcado de datos para la tabla `accion_centralizada`
 --
 
 INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `nombre_accion`, `fecha_inicio`, `fecha_fin`, `estatus`, `aprobado`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`, `usuario_creacion`) VALUES
@@ -58,7 +58,7 @@ INSERT INTO `accion_centralizada` (`id`, `codigo_accion`, `codigo_accion_sne`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_accion_especifica`
+-- Estructura de tabla para la tabla `accion_centralizada_accion_especifica`
 --
 
 CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_accion_especifica` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
--- Dumping data for table `accion_centralizada_accion_especifica`
+-- Volcado de datos para la tabla `accion_centralizada_accion_especifica`
 --
 
 INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_ac_espe`, `nombre`, `estatus`, `fecha_inicio`, `fecha_fin`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -94,7 +94,7 @@ INSERT INTO `accion_centralizada_accion_especifica` (`id`, `id_ac_centr`, `cod_a
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_ac_especifica_uej`
+-- Estructura de tabla para la tabla `accion_centralizada_ac_especifica_uej`
 --
 
 CREATE TABLE IF NOT EXISTS `accion_centralizada_ac_especifica_uej` (
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_ac_especifica_uej` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `accion_centralizada_ac_especifica_uej`
+-- Volcado de datos para la tabla `accion_centralizada_ac_especifica_uej`
 --
 
 INSERT INTO `accion_centralizada_ac_especifica_uej` (`id`, `id_ue`, `id_ac_esp`, `estatus`, `aprobado`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -124,7 +124,7 @@ INSERT INTO `accion_centralizada_ac_especifica_uej` (`id`, `id_ue`, `id_ac_esp`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_asignar`
+-- Estructura de tabla para la tabla `accion_centralizada_asignar`
 --
 
 CREATE TABLE IF NOT EXISTS `accion_centralizada_asignar` (
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_asignar` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de una accion centralizada' AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `accion_centralizada_asignar`
+-- Volcado de datos para la tabla `accion_centralizada_asignar`
 --
 
 INSERT INTO `accion_centralizada_asignar` (`id`, `usuario`, `accion_especifica_ue`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -151,7 +151,7 @@ INSERT INTO `accion_centralizada_asignar` (`id`, `usuario`, `accion_especifica_u
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_desbloqueo_mes`
+-- Estructura de tabla para la tabla `accion_centralizada_desbloqueo_mes`
 --
 
 CREATE TABLE IF NOT EXISTS `accion_centralizada_desbloqueo_mes` (
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_desbloqueo_mes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_pedido`
+-- Estructura de tabla para la tabla `accion_centralizada_pedido`
 --
 
 CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_pedido` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
--- Dumping data for table `accion_centralizada_pedido`
+-- Volcado de datos para la tabla `accion_centralizada_pedido`
 --
 
 INSERT INTO `accion_centralizada_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `precio`, `fecha_creacion`, `asignado`, `estatus`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -211,7 +211,7 @@ INSERT INTO `accion_centralizada_pedido` (`id`, `id_material`, `enero`, `febrero
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_variables`
+-- Estructura de tabla para la tabla `accion_centralizada_variables`
 --
 
 CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variables` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_variables_usuarios`
+-- Estructura de tabla para la tabla `accion_centralizada_variables_usuarios`
 --
 
 CREATE TABLE IF NOT EXISTS `accion_centralizada_variables_usuarios` (
@@ -257,7 +257,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variables_usuarios` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_variable_ejecucion`
+-- Estructura de tabla para la tabla `accion_centralizada_variable_ejecucion`
 --
 
 CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_ejecucion` (
@@ -286,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_ejecucion` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accion_centralizada_variable_programacion`
+-- Estructura de tabla para la tabla `accion_centralizada_variable_programacion`
 --
 
 CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
@@ -314,7 +314,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_variable_programacion` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ambito`
+-- Estructura de tabla para la tabla `ambito`
 --
 
 CREATE TABLE IF NOT EXISTS `ambito` (
@@ -324,7 +324,7 @@ CREATE TABLE IF NOT EXISTS `ambito` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `ambito`
+-- Volcado de datos para la tabla `ambito`
 --
 
 INSERT INTO `ambito` (`id`, `ambito`) VALUES
@@ -340,7 +340,7 @@ INSERT INTO `ambito` (`id`, `ambito`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_data`
+-- Estructura de tabla para la tabla `audit_data`
 --
 
 CREATE TABLE IF NOT EXISTS `audit_data` (
@@ -354,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `audit_data` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `audit_data`
+-- Volcado de datos para la tabla `audit_data`
 --
 
 INSERT INTO `audit_data` (`id`, `entry_id`, `type`, `data`, `created`) VALUES
@@ -370,7 +370,7 @@ INSERT INTO `audit_data` (`id`, `entry_id`, `type`, `data`, `created`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_entry`
+-- Estructura de tabla para la tabla `audit_entry`
 --
 
 CREATE TABLE IF NOT EXISTS `audit_entry` (
@@ -386,10 +386,10 @@ CREATE TABLE IF NOT EXISTS `audit_entry` (
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`),
   KEY `idx_route` (`route`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=76672 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=77179 ;
 
 --
--- Dumping data for table `audit_entry`
+-- Volcado de datos para la tabla `audit_entry`
 --
 
 INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
@@ -3504,12 +3504,520 @@ INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `reques
 (76668, '2016-11-29 15:19:48', 2, 0.428024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
 (76669, '2016-11-29 15:19:58', 2, 0.484028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
 (76670, '2016-11-29 15:20:08', 2, 0.293017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
-(76671, '2016-11-29 15:20:18', 2, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472);
+(76671, '2016-11-29 15:20:18', 2, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76672, '2016-11-29 15:20:28', 2, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76673, '2016-11-29 15:20:38', 2, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76674, '2016-11-29 15:20:58', 2, 0.715041, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76675, '2016-11-29 15:20:59', 2, 1.6851, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76676, '2016-11-29 15:21:08', 2, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76677, '2016-11-29 15:21:18', 2, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76678, '2016-11-29 15:21:28', 2, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76679, '2016-11-29 15:21:38', 2, 0.330019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76680, '2016-11-29 15:21:48', 2, 0.263015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76681, '2016-11-29 15:21:58', 2, 0.445026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76682, '2016-11-29 15:22:08', 2, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76683, '2016-11-29 15:22:18', 2, 0.322019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76684, '2016-11-29 15:22:28', 2, 0.286016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76685, '2016-11-29 15:22:38', 2, 0.264015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76686, '2016-11-29 15:22:48', 2, 0.294016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76687, '2016-11-29 15:22:58', 2, 0.300017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76688, '2016-11-29 15:23:08', 2, 0.292017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76689, '2016-11-29 15:23:18', 2, 0.273016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76690, '2016-11-29 15:23:28', 2, 0.271015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76691, '2016-11-29 15:23:38', 2, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76692, '2016-11-29 15:23:48', 2, 0.301018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76693, '2016-11-29 15:23:58', 2, 0.480028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76694, '2016-11-29 15:24:08', 2, 0.273016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76695, '2016-11-29 15:24:18', 2, 0.288016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76696, '2016-11-29 15:24:28', 2, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76697, '2016-11-29 15:24:38', 2, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76698, '2016-11-29 15:24:48', 2, 0.322018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76699, '2016-11-29 15:24:58', 2, 0.611035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6452472),
+(76700, '2016-11-30 13:06:11', 0, 0.721042, '127.0.0.1', 'GET', 0, 'site/index', 5436144),
+(76701, '2016-11-30 13:06:12', 0, 1.7001, '127.0.0.1', 'GET', 0, 'user/security/login', 7184408),
+(76702, '2016-11-30 13:06:16', 0, 0.623036, '127.0.0.1', 'GET', 0, 'user/security/login', 7127360),
+(76703, '2016-11-30 13:06:36', 0, 3.4892, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6077936),
+(76704, '2016-11-30 13:06:36', 0, 3.72121, '127.0.0.1', 'GET', 0, 'user/security/login', 7127360),
+(76705, '2016-11-30 13:06:43', 0, 0.413023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6077936),
+(76706, '2016-11-30 13:06:53', 0, 0.250015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6077936),
+(76707, '2016-11-30 13:07:01', 0, 1.49309, '127.0.0.1', 'POST', 1, 'user/security/login', 6718224),
+(76708, '2016-11-30 13:07:03', 0, 0.298017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6077936),
+(76709, '2016-11-30 13:07:06', 0, 1.82011, '127.0.0.1', 'POST', 1, 'user/security/login', 6446320),
+(76710, '2016-11-30 13:07:08', 1, 2.04512, '127.0.0.1', 'POST', 0, 'user/security/login', 6398128),
+(76711, '2016-11-30 13:07:11', 1, 1.33908, '127.0.0.1', 'GET', 0, 'site/index', 7929576),
+(76712, '2016-11-30 13:07:12', 1, 0.730042, '127.0.0.1', 'GET', 0, 'site/index', 7929224),
+(76713, '2016-11-30 13:07:13', 1, 0.859049, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76714, '2016-11-30 13:07:16', 1, 2.93517, '127.0.0.1', 'GET', 0, 'proyecto/index', 10767512),
+(76715, '2016-11-30 13:07:21', 1, 1.22107, '127.0.0.1', 'GET', 0, 'proyecto/index', 10766904),
+(76716, '2016-11-30 13:07:22', 1, 1.14006, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76717, '2016-11-30 13:07:31', 1, 0.34802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76718, '2016-11-30 13:07:41', 1, 0.34402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76719, '2016-11-30 13:07:51', 1, 0.324019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76720, '2016-11-30 13:08:01', 1, 0.467027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76721, '2016-11-30 13:08:11', 1, 0.433025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76722, '2016-11-30 13:08:21', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76723, '2016-11-30 13:08:31', 1, 0.320018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76724, '2016-11-30 13:08:41', 1, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76725, '2016-11-30 13:08:51', 1, 0.329018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76726, '2016-11-30 13:09:01', 1, 0.338019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76727, '2016-11-30 13:09:11', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76728, '2016-11-30 13:09:21', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76729, '2016-11-30 13:09:31', 1, 0.33602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76730, '2016-11-30 13:09:41', 1, 0.377021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76731, '2016-11-30 13:09:51', 1, 0.362021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76732, '2016-11-30 13:10:01', 1, 0.33802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76733, '2016-11-30 13:10:11', 1, 0.33502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76734, '2016-11-30 13:10:21', 1, 0.397022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76735, '2016-11-30 13:10:31', 1, 0.303018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76736, '2016-11-30 13:10:41', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76737, '2016-11-30 13:10:51', 1, 0.379021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76738, '2016-11-30 13:11:01', 1, 0.312018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76739, '2016-11-30 13:11:11', 1, 0.475028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76740, '2016-11-30 13:11:21', 1, 0.399023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76741, '2016-11-30 13:11:31', 1, 0.382021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76742, '2016-11-30 13:11:41', 1, 0.34302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76743, '2016-11-30 13:11:51', 1, 0.329019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76744, '2016-11-30 13:12:01', 1, 0.373021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76745, '2016-11-30 13:12:11', 1, 0.398023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76746, '2016-11-30 13:12:21', 1, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76747, '2016-11-30 13:12:31', 1, 0.615035, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76748, '2016-11-30 13:12:41', 1, 0.602034, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76749, '2016-11-30 13:12:51', 1, 0.34602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76750, '2016-11-30 13:13:01', 1, 0.366021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76751, '2016-11-30 13:13:11', 1, 0.370021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76752, '2016-11-30 13:13:21', 1, 0.381022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76753, '2016-11-30 13:13:31', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76754, '2016-11-30 13:13:41', 1, 0.35302, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(76755, '2016-11-30 13:13:51', 1, 0.365021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76756, '2016-11-30 13:14:01', 1, 0.436801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76757, '2016-11-30 13:14:11', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76758, '2016-11-30 13:14:21', 1, 0.359801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76759, '2016-11-30 13:14:31', 1, 0.346201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76760, '2016-11-30 13:14:41', 1, 0.453401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76761, '2016-11-30 13:14:51', 1, 0.442801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76762, '2016-11-30 13:15:01', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76763, '2016-11-30 13:15:11', 1, 0.392402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76764, '2016-11-30 13:15:21', 1, 0.313001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76765, '2016-11-30 13:15:31', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76766, '2016-11-30 13:15:41', 1, 0.344201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76767, '2016-11-30 13:15:51', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76768, '2016-11-30 13:16:01', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76769, '2016-11-30 13:16:11', 1, 0.345201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76770, '2016-11-30 13:16:21', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76771, '2016-11-30 13:16:31', 1, 0.299401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76772, '2016-11-30 13:16:41', 1, 0.4524, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76773, '2016-11-30 13:16:51', 1, 0.375401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76774, '2016-11-30 13:17:01', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76775, '2016-11-30 13:17:11', 1, 0.4368, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76776, '2016-11-30 13:17:21', 1, 0.361801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76777, '2016-11-30 13:17:31', 1, 0.393001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76778, '2016-11-30 13:17:41', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76779, '2016-11-30 13:17:51', 1, 0.422201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76780, '2016-11-30 13:18:01', 1, 0.313, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76781, '2016-11-30 13:18:11', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76782, '2016-11-30 13:18:21', 1, 0.764401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76783, '2016-11-30 13:18:31', 1, 0.3442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76784, '2016-11-30 13:18:41', 1, 0.4056, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76785, '2016-11-30 13:18:51', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76786, '2016-11-30 13:19:01', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76787, '2016-11-30 13:19:11', 1, 0.284801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76788, '2016-11-30 13:19:21', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76789, '2016-11-30 13:19:31', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76790, '2016-11-30 13:19:41', 1, 0.391, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76791, '2016-11-30 13:19:51', 1, 0.316802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76792, '2016-11-30 13:20:01', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76793, '2016-11-30 13:20:11', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76794, '2016-11-30 13:20:21', 1, 0.300401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76795, '2016-11-30 13:20:31', 1, 0.297401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76796, '2016-11-30 13:20:41', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76797, '2016-11-30 13:20:51', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76798, '2016-11-30 13:21:01', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76799, '2016-11-30 13:21:10', 1, 4.14974, '127.0.0.1', 'GET', 1, 'proyecto/create', 9904760),
+(76800, '2016-11-30 13:21:14', 1, 3.32291, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76801, '2016-11-30 13:21:14', 1, 0.836048, '127.0.0.1', 'GET', 0, 'proyecto/create', 9942912),
+(76802, '2016-11-30 13:21:16', 1, 1.49809, '127.0.0.1', 'GET', 0, 'proyecto/create', 9942456),
+(76803, '2016-11-30 13:21:17', 1, 0.835845, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76804, '2016-11-30 13:21:27', 1, 0.372017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76805, '2016-11-30 13:21:37', 1, 0.387022, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76806, '2016-11-30 13:21:47', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76807, '2016-11-30 13:21:57', 1, 0.368814, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76808, '2016-11-30 13:22:07', 1, 0.305203, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76809, '2016-11-30 13:22:17', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76810, '2016-11-30 13:22:28', 1, 0.3286, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76811, '2016-11-30 13:22:38', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76812, '2016-11-30 13:22:48', 1, 0.3286, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76813, '2016-11-30 13:22:58', 1, 0.381021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76814, '2016-11-30 13:23:08', 1, 0.427024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76815, '2016-11-30 13:23:18', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76816, '2016-11-30 13:23:28', 1, 0.35002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76817, '2016-11-30 13:23:38', 1, 0.336019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76818, '2016-11-30 13:23:48', 1, 0.403023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76819, '2016-11-30 13:23:59', 1, 0.51803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76820, '2016-11-30 13:24:09', 1, 0.420024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76821, '2016-11-30 13:24:19', 1, 0.328019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76822, '2016-11-30 13:24:30', 1, 0.339601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76823, '2016-11-30 13:24:41', 1, 0.315402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76824, '2016-11-30 13:24:52', 1, 0.310402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76825, '2016-11-30 13:25:02', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76826, '2016-11-30 13:25:13', 1, 0.392001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76827, '2016-11-30 13:25:23', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76828, '2016-11-30 13:25:34', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76829, '2016-11-30 13:25:45', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76830, '2016-11-30 13:25:55', 1, 0.423201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76831, '2016-11-30 13:26:06', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76832, '2016-11-30 13:26:17', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76833, '2016-11-30 13:26:27', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76834, '2016-11-30 13:26:38', 1, 0.396402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76835, '2016-11-30 13:26:49', 1, 0.329601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76836, '2016-11-30 13:27:00', 1, 0.313001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76837, '2016-11-30 13:27:10', 1, 0.3608, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76838, '2016-11-30 13:27:21', 1, 0.391, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76839, '2016-11-30 13:27:32', 1, 0.353201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76840, '2016-11-30 13:27:42', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76841, '2016-11-30 13:27:53', 1, 0.3452, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76842, '2016-11-30 13:28:03', 1, 0.3608, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76843, '2016-11-30 13:28:14', 1, 0.421813, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76844, '2016-11-30 13:28:24', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76845, '2016-11-30 13:28:34', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76846, '2016-11-30 13:28:44', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76847, '2016-11-30 13:28:55', 1, 1.02506, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76848, '2016-11-30 13:29:04', 1, 0.318018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76849, '2016-11-30 13:29:14', 1, 0.315018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76850, '2016-11-30 13:29:24', 1, 0.334019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76851, '2016-11-30 13:29:34', 1, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76852, '2016-11-30 13:29:44', 1, 0.305017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76853, '2016-11-30 13:29:54', 1, 0.316018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76854, '2016-11-30 13:30:04', 1, 0.313018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76855, '2016-11-30 13:30:14', 1, 0.341019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76856, '2016-11-30 13:30:24', 1, 0.389023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76857, '2016-11-30 13:30:34', 1, 0.301017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76858, '2016-11-30 13:30:44', 1, 0.326019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76859, '2016-11-30 13:30:54', 1, 0.294017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76860, '2016-11-30 13:31:04', 1, 0.313, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76861, '2016-11-30 13:31:14', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76862, '2016-11-30 13:31:24', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76863, '2016-11-30 13:31:34', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76864, '2016-11-30 13:31:45', 1, 0.530401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76865, '2016-11-30 13:31:54', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76866, '2016-11-30 13:32:04', 1, 0.487601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76867, '2016-11-30 13:32:14', 1, 0.514801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76868, '2016-11-30 13:32:24', 1, 0.328601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76869, '2016-11-30 13:32:34', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76870, '2016-11-30 13:32:44', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76871, '2016-11-30 13:32:54', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76872, '2016-11-30 13:33:04', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76873, '2016-11-30 13:33:14', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76874, '2016-11-30 13:33:24', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76875, '2016-11-30 13:33:34', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76876, '2016-11-30 13:33:44', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76877, '2016-11-30 13:33:54', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76878, '2016-11-30 13:34:04', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76879, '2016-11-30 13:34:14', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76880, '2016-11-30 13:34:24', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76881, '2016-11-30 13:34:34', 1, 0.313005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76882, '2016-11-30 13:34:44', 1, 0.288202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76883, '2016-11-30 13:34:55', 1, 0.957054, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76884, '2016-11-30 13:35:04', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76885, '2016-11-30 13:35:14', 1, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76886, '2016-11-30 13:35:24', 1, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76887, '2016-11-30 13:35:34', 1, 0.304017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76888, '2016-11-30 13:35:45', 1, 0.290017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76889, '2016-11-30 13:35:55', 1, 0.300018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76890, '2016-11-30 13:36:05', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76891, '2016-11-30 13:36:15', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76892, '2016-11-30 13:36:25', 1, 0.468001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76893, '2016-11-30 13:36:36', 1, 0.302802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76894, '2016-11-30 13:36:47', 1, 0.406221, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76895, '2016-11-30 13:36:58', 1, 0.328601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76896, '2016-11-30 13:37:08', 1, 0.3442, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76897, '2016-11-30 13:37:19', 1, 0.313, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76898, '2016-11-30 13:37:29', 1, 0.328601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76899, '2016-11-30 13:37:39', 1, 0.316001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76900, '2016-11-30 13:37:49', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76901, '2016-11-30 13:38:00', 1, 0.483601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76902, '2016-11-30 13:38:10', 1, 0.268201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76903, '2016-11-30 13:38:20', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76904, '2016-11-30 13:38:30', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76905, '2016-11-30 13:38:40', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76906, '2016-11-30 13:38:50', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76907, '2016-11-30 13:39:00', 1, 0.532401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76908, '2016-11-30 13:39:10', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76909, '2016-11-30 13:39:20', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76910, '2016-11-30 13:39:30', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76911, '2016-11-30 13:39:40', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76912, '2016-11-30 13:39:50', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76913, '2016-11-30 13:40:00', 1, 0.359801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76914, '2016-11-30 13:40:10', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76915, '2016-11-30 13:40:20', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76916, '2016-11-30 13:40:30', 1, 0.376401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76917, '2016-11-30 13:40:40', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76918, '2016-11-30 13:40:50', 1, 0.546001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76919, '2016-11-30 13:41:00', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76920, '2016-11-30 13:41:10', 1, 0.421201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76921, '2016-11-30 13:41:20', 1, 0.425201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76922, '2016-11-30 13:41:30', 1, 0.391, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76923, '2016-11-30 13:41:40', 1, 0.422201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76924, '2016-11-30 13:41:50', 1, 0.406601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76925, '2016-11-30 13:42:00', 1, 0.461401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76926, '2016-11-30 13:42:10', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76927, '2016-11-30 13:42:20', 1, 0.337601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76928, '2016-11-30 13:42:30', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76929, '2016-11-30 13:42:40', 1, 0.391, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76930, '2016-11-30 13:42:50', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76931, '2016-11-30 13:43:00', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76932, '2016-11-30 13:43:10', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76933, '2016-11-30 13:43:20', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76934, '2016-11-30 13:43:30', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76935, '2016-11-30 13:43:40', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76936, '2016-11-30 13:43:50', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76937, '2016-11-30 13:44:00', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76938, '2016-11-30 13:44:10', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76939, '2016-11-30 13:44:20', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76940, '2016-11-30 13:44:30', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76941, '2016-11-30 13:44:40', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76942, '2016-11-30 13:44:50', 1, 0.304401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76943, '2016-11-30 13:45:00', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76944, '2016-11-30 13:45:10', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76945, '2016-11-30 13:45:20', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76946, '2016-11-30 13:45:31', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76947, '2016-11-30 13:45:40', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76948, '2016-11-30 13:45:50', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76949, '2016-11-30 13:46:01', 1, 0.3744, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76950, '2016-11-30 13:46:11', 1, 0.360801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76951, '2016-11-30 13:46:22', 1, 2.7008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76952, '2016-11-30 13:46:31', 1, 0.670802, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76953, '2016-11-30 13:46:41', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76954, '2016-11-30 13:46:51', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76955, '2016-11-30 13:47:01', 1, 0.579201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76956, '2016-11-30 13:47:11', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76957, '2016-11-30 13:47:21', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76958, '2016-11-30 13:47:31', 1, 0.530401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76959, '2016-11-30 13:47:41', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76960, '2016-11-30 13:47:51', 1, 0.468001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76961, '2016-11-30 13:48:01', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76962, '2016-11-30 13:48:11', 1, 0.517801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76963, '2016-11-30 13:48:21', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76964, '2016-11-30 13:48:31', 1, 0.436801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76965, '2016-11-30 13:48:41', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76966, '2016-11-30 13:48:51', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76967, '2016-11-30 13:49:01', 1, 0.461401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76968, '2016-11-30 13:49:11', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76969, '2016-11-30 13:49:21', 1, 0.468001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76970, '2016-11-30 13:49:31', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76971, '2016-11-30 13:49:41', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76972, '2016-11-30 13:49:51', 1, 0.468, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76973, '2016-11-30 13:50:01', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76974, '2016-11-30 13:50:11', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76975, '2016-11-30 13:50:21', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76976, '2016-11-30 13:50:31', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76977, '2016-11-30 13:50:41', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76978, '2016-11-30 13:50:51', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76979, '2016-11-30 13:51:01', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76980, '2016-11-30 13:51:11', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76981, '2016-11-30 13:51:21', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76982, '2016-11-30 13:51:31', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76983, '2016-11-30 13:51:41', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76984, '2016-11-30 13:51:51', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76985, '2016-11-30 13:52:01', 1, 0.470001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76986, '2016-11-30 13:52:11', 1, 0.421201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76987, '2016-11-30 13:52:21', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76988, '2016-11-30 13:52:31', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76989, '2016-11-30 13:52:41', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76990, '2016-11-30 13:52:51', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76991, '2016-11-30 13:53:01', 1, 0.514801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76992, '2016-11-30 13:53:11', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76993, '2016-11-30 13:53:21', 1, 0.405601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76994, '2016-11-30 13:53:31', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76995, '2016-11-30 13:53:41', 1, 0.468001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76996, '2016-11-30 13:53:51', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76997, '2016-11-30 13:54:01', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76998, '2016-11-30 13:54:11', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(76999, '2016-11-30 13:54:21', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77000, '2016-11-30 13:54:31', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77001, '2016-11-30 13:54:41', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77002, '2016-11-30 13:54:51', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77003, '2016-11-30 13:55:01', 1, 0.3452, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77004, '2016-11-30 13:55:11', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77005, '2016-11-30 13:55:21', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77006, '2016-11-30 13:55:31', 1, 0.3744, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77007, '2016-11-30 13:55:41', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77008, '2016-11-30 13:55:51', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77009, '2016-11-30 13:56:01', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77010, '2016-11-30 13:56:11', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77011, '2016-11-30 13:56:21', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77012, '2016-11-30 13:56:31', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77013, '2016-11-30 13:56:41', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77014, '2016-11-30 13:56:51', 1, 0.521611, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77015, '2016-11-30 13:57:01', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77016, '2016-11-30 13:57:11', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77017, '2016-11-30 13:57:21', 1, 0.530401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77018, '2016-11-30 13:57:31', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77019, '2016-11-30 13:57:41', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77020, '2016-11-30 13:57:51', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77021, '2016-11-30 13:58:01', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77022, '2016-11-30 13:58:11', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77023, '2016-11-30 13:58:21', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77024, '2016-11-30 13:58:31', 1, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77025, '2016-11-30 13:58:41', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77026, '2016-11-30 13:58:51', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77027, '2016-11-30 13:59:01', 1, 0.423201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77028, '2016-11-30 13:59:11', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77029, '2016-11-30 13:59:21', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77030, '2016-11-30 13:59:31', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77031, '2016-11-30 13:59:41', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77032, '2016-11-30 13:59:51', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77033, '2016-11-30 14:00:01', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77034, '2016-11-30 14:00:11', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77035, '2016-11-30 14:00:21', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77036, '2016-11-30 14:00:31', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77037, '2016-11-30 14:00:41', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77038, '2016-11-30 14:00:51', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77039, '2016-11-30 14:01:01', 1, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77040, '2016-11-30 14:01:11', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77041, '2016-11-30 14:01:21', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77042, '2016-11-30 14:01:31', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77043, '2016-11-30 14:01:41', 1, 0.288801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77044, '2016-11-30 14:01:51', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77045, '2016-11-30 14:02:01', 1, 0.361602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77046, '2016-11-30 14:02:11', 1, 0.2974, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77047, '2016-11-30 14:02:21', 1, 0.323402, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77048, '2016-11-30 14:02:31', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77049, '2016-11-30 14:02:41', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77050, '2016-11-30 14:02:51', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77051, '2016-11-30 14:03:02', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77052, '2016-11-30 14:03:11', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77053, '2016-11-30 14:03:21', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77054, '2016-11-30 14:03:31', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77055, '2016-11-30 14:03:42', 1, 0.358801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77056, '2016-11-30 14:03:51', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77057, '2016-11-30 14:04:02', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77058, '2016-11-30 14:04:11', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77059, '2016-11-30 14:04:21', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77060, '2016-11-30 14:04:31', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77061, '2016-11-30 14:04:42', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77062, '2016-11-30 14:04:52', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77063, '2016-11-30 14:05:01', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77064, '2016-11-30 14:05:12', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77065, '2016-11-30 14:05:21', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77066, '2016-11-30 14:05:32', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77067, '2016-11-30 14:05:42', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77068, '2016-11-30 14:05:52', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77069, '2016-11-30 14:06:02', 1, 0.334416, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77070, '2016-11-30 14:06:12', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77071, '2016-11-30 14:06:22', 1, 0.421201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77072, '2016-11-30 14:06:32', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77073, '2016-11-30 14:06:42', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77074, '2016-11-30 14:06:52', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77075, '2016-11-30 14:07:02', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77076, '2016-11-30 14:07:12', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77077, '2016-11-30 14:07:22', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77078, '2016-11-30 14:07:32', 1, 0.314001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77079, '2016-11-30 14:07:42', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77080, '2016-11-30 14:07:52', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77081, '2016-11-30 14:08:02', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77082, '2016-11-30 14:08:12', 1, 0.321014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77083, '2016-11-30 14:08:22', 1, 1.05606, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77084, '2016-11-30 14:08:32', 1, 0.345019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77085, '2016-11-30 14:08:42', 1, 0.332019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77086, '2016-11-30 14:08:52', 1, 0.460027, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77087, '2016-11-30 14:09:02', 1, 0.335019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77088, '2016-11-30 14:09:12', 1, 0.34102, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77089, '2016-11-30 14:09:22', 1, 0.450025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77090, '2016-11-30 14:09:32', 1, 0.342601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77091, '2016-11-30 14:09:42', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77092, '2016-11-30 14:09:52', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77093, '2016-11-30 14:10:02', 1, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77094, '2016-11-30 14:10:12', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77095, '2016-11-30 14:10:22', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77096, '2016-11-30 14:10:32', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77097, '2016-11-30 14:10:42', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77098, '2016-11-30 14:10:52', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77099, '2016-11-30 14:11:02', 1, 0.719602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77100, '2016-11-30 14:11:12', 1, 0.592801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77101, '2016-11-30 14:11:22', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77102, '2016-11-30 14:11:32', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77103, '2016-11-30 14:11:42', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77104, '2016-11-30 14:11:52', 1, 0.3744, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77105, '2016-11-30 14:12:02', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77106, '2016-11-30 14:12:12', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77107, '2016-11-30 14:12:22', 1, 0.344019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77108, '2016-11-30 14:12:32', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77109, '2016-11-30 14:12:42', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77110, '2016-11-30 14:12:52', 1, 0.473803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77111, '2016-11-30 14:13:03', 1, 0.624001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77112, '2016-11-30 14:13:12', 1, 0.336601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77113, '2016-11-30 14:13:22', 1, 0.327002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77114, '2016-11-30 14:13:32', 1, 0.352201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77115, '2016-11-30 14:13:42', 1, 0.375401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77116, '2016-11-30 14:13:52', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77117, '2016-11-30 14:14:02', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77118, '2016-11-30 14:14:12', 1, 0.315001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77119, '2016-11-30 14:14:22', 1, 0.2974, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77120, '2016-11-30 14:14:32', 1, 0.333019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77121, '2016-11-30 14:14:42', 1, 0.497029, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77122, '2016-11-30 14:14:52', 1, 0.295017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77123, '2016-11-30 14:15:02', 1, 0.327019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77124, '2016-11-30 14:15:12', 1, 0.320019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77125, '2016-11-30 14:15:22', 1, 0.284017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77126, '2016-11-30 14:15:32', 1, 0.36502, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77127, '2016-11-30 14:15:42', 1, 0.294017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77128, '2016-11-30 14:15:52', 1, 0.325019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77129, '2016-11-30 14:16:02', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77130, '2016-11-30 14:16:12', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77131, '2016-11-30 14:16:22', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77132, '2016-11-30 14:16:32', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77133, '2016-11-30 14:16:42', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77134, '2016-11-30 14:16:52', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77135, '2016-11-30 14:17:02', 1, 0.312401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77136, '2016-11-30 14:17:12', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77137, '2016-11-30 14:17:22', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77138, '2016-11-30 14:17:32', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77139, '2016-11-30 14:17:42', 1, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77140, '2016-11-30 14:17:52', 1, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77141, '2016-11-30 14:18:02', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77142, '2016-11-30 14:18:13', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77143, '2016-11-30 14:18:23', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77144, '2016-11-30 14:18:32', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77145, '2016-11-30 14:18:43', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77146, '2016-11-30 14:18:53', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77147, '2016-11-30 14:19:03', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77148, '2016-11-30 14:19:13', 1, 0.3432, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77149, '2016-11-30 14:19:23', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77150, '2016-11-30 14:19:33', 1, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77151, '2016-11-30 14:19:43', 1, 0.546001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77152, '2016-11-30 14:19:53', 1, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77153, '2016-11-30 14:20:03', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77154, '2016-11-30 14:20:13', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77155, '2016-11-30 14:20:23', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77156, '2016-11-30 14:20:33', 1, 0.3276, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77157, '2016-11-30 14:20:43', 1, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77158, '2016-11-30 14:20:53', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77159, '2016-11-30 14:21:03', 1, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77160, '2016-11-30 14:21:13', 1, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77161, '2016-11-30 14:21:23', 1, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77162, '2016-11-30 14:21:34', 1, 0.771044, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77163, '2016-11-30 14:21:44', 1, 0.279016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77164, '2016-11-30 14:21:55', 1, 0.292017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77165, '2016-11-30 14:22:06', 1, 0.289016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77166, '2016-11-30 14:22:17', 1, 0.339019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77167, '2016-11-30 14:22:28', 1, 0.286017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77168, '2016-11-30 14:22:38', 1, 0.316019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77169, '2016-11-30 14:22:48', 1, 0.317018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77170, '2016-11-30 14:22:58', 1, 0.297017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77171, '2016-11-30 14:23:08', 1, 0.331019, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77172, '2016-11-30 14:23:18', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77173, '2016-11-30 14:23:28', 1, 0.291016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77174, '2016-11-30 14:23:38', 1, 0.310018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77175, '2016-11-30 14:23:48', 1, 0.307018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77176, '2016-11-30 14:23:58', 1, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77177, '2016-11-30 14:24:08', 1, 0.3744, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304),
+(77178, '2016-11-30 14:24:18', 1, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6545304);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_error`
+-- Estructura de tabla para la tabla `audit_error`
 --
 
 CREATE TABLE IF NOT EXISTS `audit_error` (
@@ -3532,7 +4040,7 @@ CREATE TABLE IF NOT EXISTS `audit_error` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_javascript`
+-- Estructura de tabla para la tabla `audit_javascript`
 --
 
 CREATE TABLE IF NOT EXISTS `audit_javascript` (
@@ -3550,7 +4058,7 @@ CREATE TABLE IF NOT EXISTS `audit_javascript` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_mail`
+-- Estructura de tabla para la tabla `audit_mail`
 --
 
 CREATE TABLE IF NOT EXISTS `audit_mail` (
@@ -3574,7 +4082,7 @@ CREATE TABLE IF NOT EXISTS `audit_mail` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `audit_trail`
+-- Estructura de tabla para la tabla `audit_trail`
 --
 
 CREATE TABLE IF NOT EXISTS `audit_trail` (
@@ -3596,7 +4104,7 @@ CREATE TABLE IF NOT EXISTS `audit_trail` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2291 ;
 
 --
--- Dumping data for table `audit_trail`
+-- Volcado de datos para la tabla `audit_trail`
 --
 
 INSERT INTO `audit_trail` (`id`, `entry_id`, `user_id`, `action`, `model`, `model_id`, `field`, `old_value`, `new_value`, `created`) VALUES
@@ -4060,7 +4568,7 @@ INSERT INTO `audit_trail` (`id`, `entry_id`, `user_id`, `action`, `model`, `mode
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_assignment`
+-- Estructura de tabla para la tabla `auth_assignment`
 --
 
 CREATE TABLE IF NOT EXISTS `auth_assignment` (
@@ -4071,7 +4579,7 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_assignment`
+-- Volcado de datos para la tabla `auth_assignment`
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
@@ -4100,7 +4608,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_item`
+-- Estructura de tabla para la tabla `auth_item`
 --
 
 CREATE TABLE IF NOT EXISTS `auth_item` (
@@ -4117,7 +4625,7 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_item`
+-- Volcado de datos para la tabla `auth_item`
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
@@ -4197,6 +4705,11 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('accion-centralizada/toggle-activo', 2, 'Activar o Desactivar Acción Centralizada', NULL, NULL, 1472228123, 1472228123),
 ('accion-centralizada/update', 2, 'actualizar acciones centralizadas', NULL, NULL, 1455130436, 1455136413),
 ('accion-centralizada/view', 2, 'ver el detalle de la accion centralizada', NULL, NULL, 1455130492, 1455130492),
+('estatus-proyecto/create', 2, 'crear un tipo de estatus de proyecto', NULL, NULL, 1480529774, 1480529774),
+('estatus-proyecto/delete', 2, 'borrar un tipo de estatus de proyecto', NULL, NULL, 1480529805, 1480529805),
+('estatus-proyecto/index', 2, 'Lista de los tipos de estatus del proyecto', NULL, NULL, 1480529760, 1480529760),
+('estatus-proyecto/update', 2, 'modificar tipo de estatus de proyecto', NULL, NULL, 1480529791, 1480529791),
+('estatus-proyecto/view', 2, 'ver el detalle de un estatus de proyecto', NULL, NULL, 1480529820, 1480529820),
 ('feedback/find', 2, 'Ver el detalle de la observacion hecha a algún proyecto', NULL, NULL, 1479993729, 1479993729),
 ('Formulador Proyecto', 1, 'Usuario que formula el proyecto, los datos basicos, alcance y las acciones especificas de este', NULL, NULL, 1478090341, 1479993797),
 ('gestor_proyecto', 1, 'Administrador de proyecto', NULL, NULL, 1456979251, 1475608501),
@@ -4208,11 +4721,17 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('materiales_servicios', 1, 'Crea, modifica y elimina materiales y servicios', NULL, NULL, 1455502889, 1455502889),
 ('materiales-servicios/create', 2, 'Crear materiales y servicios', NULL, NULL, 1455502798, 1455502798),
 ('materiales-servicios/delete', 2, 'Eliminar materiales y servicios', NULL, NULL, 1455502828, 1455502828),
+('materiales-servicios/importar', 2, 'Importar lista de materiales y servicios', NULL, NULL, 1480527096, 1480527096),
 ('materiales-servicios/index', 2, 'Lista de materiales y servicios', NULL, NULL, 1455502782, 1455502782),
 ('materiales-servicios/update', 2, 'Modificar materiales y servicios', NULL, NULL, 1455502813, 1455502813),
 ('notification/delete', 2, 'Borrar la notificaciones del usuario', NULL, NULL, 1479923824, 1479924073),
 ('notification/index', 2, 'Ver listado de las notificaciones del usuario', NULL, NULL, 1479923764, 1479924079),
 ('notification/view', 2, 'ver el detalle de la notificacion del usuario', NULL, NULL, 1479923799, 1479924087),
+('plan-operativo/create', 2, 'crear tipo de plan operativo', NULL, NULL, 1480530075, 1480530075),
+('plan-operativo/delete', 2, 'eliminar tipo de plan operativo', NULL, NULL, 1480530103, 1480530103),
+('plan-operativo/index', 2, 'lista de los tipos de planes operativos', NULL, NULL, 1480530059, 1480530059),
+('plan-operativo/update', 2, 'modificar tipo de plan operativo', NULL, NULL, 1480530089, 1480530089),
+('plan-operativo/view', 2, 'detalle del tipo de plan operativo', NULL, NULL, 1480530120, 1480530120),
 ('proyecto_asignar', 1, 'Gestionar las asignaciones de usuarios a las acciones específicas de un proyecto', NULL, NULL, 1458229165, 1467246247),
 ('proyecto_pedido', 1, 'Pedidos de materiales y servicios de proyecto', NULL, NULL, 1457400383, 1468845605),
 ('proyecto-ac-localizacion/municipios', 2, 'lista ajax, permite cargar los municipios asociados a un estado ', NULL, NULL, 1479215249, 1479215249),
@@ -4309,9 +4828,19 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('role/index', 2, 'poder ver los roles', NULL, NULL, 1471968844, 1471968844),
 ('role/update', 2, 'modificar los roles', NULL, NULL, 1471969306, 1471969306),
 ('role/view', 2, 'ver el detalle de los roles y permisos que posee', NULL, NULL, 1471969295, 1471969295),
+('sector/create', 2, 'crear tipo de sector de proyecto', NULL, NULL, 1480530285, 1480530285),
+('sector/delete', 2, 'eliminar tipo de sector de proyecto', NULL, NULL, 1480530303, 1480530303),
+('sector/index', 2, 'lista de los tipos de sector del proyecto', NULL, NULL, 1480530264, 1480530264),
+('sector/update', 2, 'modificar el tipo de sector de proyecto', NULL, NULL, 1480530316, 1480530316),
+('sector/view', 2, 'ver el detalle del tipo de sector de proyecto', NULL, NULL, 1480530330, 1480530330),
 ('site/audit', 2, 'Auditoría', NULL, NULL, 1458665093, 1458665093),
 ('site/configuracion', 2, 'Configurar el sistema', NULL, NULL, 1450736795, 1450736795),
-('sysadmin', 1, 'Administrador del sistema', NULL, NULL, 1450736017, 1479993825),
+('sub-sector/create', 2, 'crear un tipo de sub-sector de proyecto', NULL, NULL, 1480530489, 1480530489),
+('sub-sector/delete', 2, 'eliminar un tipo de sub-sector de proyecto', NULL, NULL, 1480530516, 1480530516),
+('sub-sector/index', 2, 'lista de los tipos de sub-sector de proyecto', NULL, NULL, 1480530466, 1480530497),
+('sub-sector/update', 2, 'modificar el tipo de sub-sector de proyecto', NULL, NULL, 1480530538, 1480530538),
+('sub-sector/view', 2, 'ver el detalle del tipo de sub-sector de proyecto', NULL, NULL, 1480530558, 1480530558),
+('sysadmin', 1, 'Administrador del sistema', NULL, NULL, 1450736017, 1480530945),
 ('ue-partida-entidad/index', 2, 'partidas relacionadas con las unidades ejecutoras', NULL, NULL, 1471980474, 1471980474),
 ('ue-partida-entidad/update', 2, 'modificar las unidades ejecutoras por sus partidas', NULL, NULL, 1471980497, 1471980497),
 ('ue-partida-entidad/view', 2, 'ver el detalle de las unidades ejecutoras por partidas', NULL, NULL, 1471980513, 1471980513),
@@ -4324,7 +4853,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_item_child`
+-- Estructura de tabla para la tabla `auth_item_child`
 --
 
 CREATE TABLE IF NOT EXISTS `auth_item_child` (
@@ -4335,7 +4864,7 @@ CREATE TABLE IF NOT EXISTS `auth_item_child` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_item_child`
+-- Volcado de datos para la tabla `auth_item_child`
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
@@ -4486,6 +5015,11 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sysadmin', 'accion-centralizada/update'),
 ('accion_centralizada', 'accion-centralizada/view'),
 ('sysadmin', 'accion-centralizada/view'),
+('sysadmin', 'estatus-proyecto/create'),
+('sysadmin', 'estatus-proyecto/delete'),
+('sysadmin', 'estatus-proyecto/index'),
+('sysadmin', 'estatus-proyecto/update'),
+('sysadmin', 'estatus-proyecto/view'),
 ('Formulador Proyecto', 'feedback/find'),
 ('sysadmin', 'feedback/find'),
 ('acc_variables', 'localizacion-acc-variable/create'),
@@ -4502,6 +5036,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sysadmin', 'materiales-servicios/create'),
 ('materiales_servicios', 'materiales-servicios/delete'),
 ('sysadmin', 'materiales-servicios/delete'),
+('sysadmin', 'materiales-servicios/importar'),
 ('materiales_servicios', 'materiales-servicios/index'),
 ('sysadmin', 'materiales-servicios/index'),
 ('materiales_servicios', 'materiales-servicios/update'),
@@ -4511,6 +5046,11 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sysadmin', 'notification/index'),
 ('Formulador Proyecto', 'notification/view'),
 ('sysadmin', 'notification/view'),
+('sysadmin', 'plan-operativo/create'),
+('sysadmin', 'plan-operativo/delete'),
+('sysadmin', 'plan-operativo/index'),
+('sysadmin', 'plan-operativo/update'),
+('sysadmin', 'plan-operativo/view'),
 ('Formulador Proyecto', 'proyecto-ac-localizacion/municipios'),
 ('sysadmin', 'proyecto-ac-localizacion/municipios'),
 ('Formulador Proyecto', 'proyecto-ac-localizacion/parroquias'),
@@ -4733,8 +5273,18 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sysadmin', 'role/index'),
 ('sysadmin', 'role/update'),
 ('sysadmin', 'role/view'),
+('sysadmin', 'sector/create'),
+('sysadmin', 'sector/delete'),
+('sysadmin', 'sector/index'),
+('sysadmin', 'sector/update'),
+('sysadmin', 'sector/view'),
 ('sysadmin', 'site/audit'),
 ('sysadmin', 'site/configuracion'),
+('sysadmin', 'sub-sector/create'),
+('sysadmin', 'sub-sector/delete'),
+('sysadmin', 'sub-sector/index'),
+('sysadmin', 'sub-sector/update'),
+('sysadmin', 'sub-sector/view'),
 ('sysadmin', 'ue-partida-entidad/index'),
 ('sysadmin', 'ue-partida-entidad/update'),
 ('sysadmin', 'ue-partida-entidad/view'),
@@ -4747,7 +5297,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_rule`
+-- Estructura de tabla para la tabla `auth_rule`
 --
 
 CREATE TABLE IF NOT EXISTS `auth_rule` (
@@ -4759,7 +5309,7 @@ CREATE TABLE IF NOT EXISTS `auth_rule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `auth_rule`
+-- Volcado de datos para la tabla `auth_rule`
 --
 
 INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
@@ -4770,7 +5320,7 @@ INSERT INTO `auth_rule` (`name`, `data`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cuenta_presupuestaria`
+-- Estructura de tabla para la tabla `cuenta_presupuestaria`
 --
 
 CREATE TABLE IF NOT EXISTS `cuenta_presupuestaria` (
@@ -4780,7 +5330,7 @@ CREATE TABLE IF NOT EXISTS `cuenta_presupuestaria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cuenta_presupuestaria`
+-- Volcado de datos para la tabla `cuenta_presupuestaria`
 --
 
 INSERT INTO `cuenta_presupuestaria` (`cuenta`, `nombre`) VALUES
@@ -4790,7 +5340,7 @@ INSERT INTO `cuenta_presupuestaria` (`cuenta`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `estados`
+-- Estructura de tabla para la tabla `estados`
 --
 
 CREATE TABLE IF NOT EXISTS `estados` (
@@ -4802,7 +5352,7 @@ CREATE TABLE IF NOT EXISTS `estados` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
--- Dumping data for table `estados`
+-- Volcado de datos para la tabla `estados`
 --
 
 INSERT INTO `estados` (`id`, `nombre`, `id_pais`) VALUES
@@ -4835,7 +5385,7 @@ INSERT INTO `estados` (`id`, `nombre`, `id_pais`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `estatus_proyecto`
+-- Estructura de tabla para la tabla `estatus_proyecto`
 --
 
 CREATE TABLE IF NOT EXISTS `estatus_proyecto` (
@@ -4845,7 +5395,7 @@ CREATE TABLE IF NOT EXISTS `estatus_proyecto` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Lista de estatus de proyecto' AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `estatus_proyecto`
+-- Volcado de datos para la tabla `estatus_proyecto`
 --
 
 INSERT INTO `estatus_proyecto` (`id`, `estatus`) VALUES
@@ -4856,7 +5406,7 @@ INSERT INTO `estatus_proyecto` (`id`, `estatus`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `feedback`
+-- Estructura de tabla para la tabla `feedback`
 --
 
 CREATE TABLE IF NOT EXISTS `feedback` (
@@ -4872,7 +5422,7 @@ CREATE TABLE IF NOT EXISTS `feedback` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fuente_financiamiento`
+-- Estructura de tabla para la tabla `fuente_financiamiento`
 --
 
 CREATE TABLE IF NOT EXISTS `fuente_financiamiento` (
@@ -4882,7 +5432,7 @@ CREATE TABLE IF NOT EXISTS `fuente_financiamiento` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `fuente_financiamiento`
+-- Volcado de datos para la tabla `fuente_financiamiento`
 --
 
 INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
@@ -4901,7 +5451,7 @@ INSERT INTO `fuente_financiamiento` (`id`, `fuente`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `instancia_institucion`
+-- Estructura de tabla para la tabla `instancia_institucion`
 --
 
 CREATE TABLE IF NOT EXISTS `instancia_institucion` (
@@ -4911,7 +5461,7 @@ CREATE TABLE IF NOT EXISTS `instancia_institucion` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Tipo de instancia o institución' AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `instancia_institucion`
+-- Volcado de datos para la tabla `instancia_institucion`
 --
 
 INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
@@ -4922,7 +5472,7 @@ INSERT INTO `instancia_institucion` (`id`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `localizacion_acc_variable`
+-- Estructura de tabla para la tabla `localizacion_acc_variable`
 --
 
 CREATE TABLE IF NOT EXISTS `localizacion_acc_variable` (
@@ -4945,7 +5495,7 @@ CREATE TABLE IF NOT EXISTS `localizacion_acc_variable` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `materiales_servicios`
+-- Estructura de tabla para la tabla `materiales_servicios`
 --
 
 CREATE TABLE IF NOT EXISTS `materiales_servicios` (
@@ -4971,7 +5521,7 @@ CREATE TABLE IF NOT EXISTS `materiales_servicios` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1768 ;
 
 --
--- Dumping data for table `materiales_servicios`
+-- Volcado de datos para la tabla `materiales_servicios`
 --
 
 INSERT INTO `materiales_servicios` (`id`, `cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `unidad_medida`, `presentacion`, `precio`, `iva`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -5646,7 +6196,7 @@ INSERT INTO `materiales_servicios` (`id`, `cuenta`, `partida`, `generica`, `espe
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migration`
+-- Estructura de tabla para la tabla `migration`
 --
 
 CREATE TABLE IF NOT EXISTS `migration` (
@@ -5656,7 +6206,7 @@ CREATE TABLE IF NOT EXISTS `migration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `migration`
+-- Volcado de datos para la tabla `migration`
 --
 
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
@@ -5677,7 +6227,7 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `modelhistory`
+-- Estructura de tabla para la tabla `modelhistory`
 --
 
 CREATE TABLE IF NOT EXISTS `modelhistory` (
@@ -5700,7 +6250,7 @@ CREATE TABLE IF NOT EXISTS `modelhistory` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `municipio`
+-- Estructura de tabla para la tabla `municipio`
 --
 
 CREATE TABLE IF NOT EXISTS `municipio` (
@@ -5712,7 +6262,7 @@ CREATE TABLE IF NOT EXISTS `municipio` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=463 ;
 
 --
--- Dumping data for table `municipio`
+-- Volcado de datos para la tabla `municipio`
 --
 
 INSERT INTO `municipio` (`id`, `nombre`, `id_estado`) VALUES
@@ -6055,7 +6605,7 @@ INSERT INTO `municipio` (`id`, `nombre`, `id_estado`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notification`
+-- Estructura de tabla para la tabla `notification`
 --
 
 CREATE TABLE IF NOT EXISTS `notification` (
@@ -6071,7 +6621,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=180 ;
 
 --
--- Dumping data for table `notification`
+-- Volcado de datos para la tabla `notification`
 --
 
 INSERT INTO `notification` (`id`, `key`, `key_id`, `type`, `user_id`, `user_origin`, `seen`, `created_at`) VALUES
@@ -6084,7 +6634,7 @@ INSERT INTO `notification` (`id`, `key`, `key_id`, `type`, `user_id`, `user_orig
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objetivos_estrategicos`
+-- Estructura de tabla para la tabla `objetivos_estrategicos`
 --
 
 CREATE TABLE IF NOT EXISTS `objetivos_estrategicos` (
@@ -6096,7 +6646,7 @@ CREATE TABLE IF NOT EXISTS `objetivos_estrategicos` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos estrategicos - Area estrategica' AUTO_INCREMENT=150 ;
 
 --
--- Dumping data for table `objetivos_estrategicos`
+-- Volcado de datos para la tabla `objetivos_estrategicos`
 --
 
 INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_nacional`) VALUES
@@ -6253,7 +6803,7 @@ INSERT INTO `objetivos_estrategicos` (`id`, `objetivo_estrategico`, `objetivo_na
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objetivos_generales`
+-- Estructura de tabla para la tabla `objetivos_generales`
 --
 
 CREATE TABLE IF NOT EXISTS `objetivos_generales` (
@@ -6265,7 +6815,7 @@ CREATE TABLE IF NOT EXISTS `objetivos_generales` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos generales - Area estrategica' AUTO_INCREMENT=23 ;
 
 --
--- Dumping data for table `objetivos_generales`
+-- Volcado de datos para la tabla `objetivos_generales`
 --
 
 INSERT INTO `objetivos_generales` (`id`, `objetivo_general`, `objetivo_estrategico`) VALUES
@@ -6295,7 +6845,7 @@ INSERT INTO `objetivos_generales` (`id`, `objetivo_general`, `objetivo_estrategi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objetivos_historicos`
+-- Estructura de tabla para la tabla `objetivos_historicos`
 --
 
 CREATE TABLE IF NOT EXISTS `objetivos_historicos` (
@@ -6305,7 +6855,7 @@ CREATE TABLE IF NOT EXISTS `objetivos_historicos` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos historicos - Area estrategica' AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `objetivos_historicos`
+-- Volcado de datos para la tabla `objetivos_historicos`
 --
 
 INSERT INTO `objetivos_historicos` (`id`, `objetivo_historico`) VALUES
@@ -6318,7 +6868,7 @@ INSERT INTO `objetivos_historicos` (`id`, `objetivo_historico`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objetivos_nacionales`
+-- Estructura de tabla para la tabla `objetivos_nacionales`
 --
 
 CREATE TABLE IF NOT EXISTS `objetivos_nacionales` (
@@ -6330,7 +6880,7 @@ CREATE TABLE IF NOT EXISTS `objetivos_nacionales` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Objetivos nacionales - Area estrategica' AUTO_INCREMENT=25 ;
 
 --
--- Dumping data for table `objetivos_nacionales`
+-- Volcado de datos para la tabla `objetivos_nacionales`
 --
 
 INSERT INTO `objetivos_nacionales` (`id`, `objetivo_nacional`, `objetivo_historico`) VALUES
@@ -6362,7 +6912,7 @@ INSERT INTO `objetivos_nacionales` (`id`, `objetivo_nacional`, `objetivo_histori
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pais`
+-- Estructura de tabla para la tabla `pais`
 --
 
 CREATE TABLE IF NOT EXISTS `pais` (
@@ -6372,7 +6922,7 @@ CREATE TABLE IF NOT EXISTS `pais` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `pais`
+-- Volcado de datos para la tabla `pais`
 --
 
 INSERT INTO `pais` (`id`, `nombre`) VALUES
@@ -6621,7 +7171,7 @@ INSERT INTO `pais` (`id`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `parroquia`
+-- Estructura de tabla para la tabla `parroquia`
 --
 
 CREATE TABLE IF NOT EXISTS `parroquia` (
@@ -6633,7 +7183,7 @@ CREATE TABLE IF NOT EXISTS `parroquia` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1139 ;
 
 --
--- Dumping data for table `parroquia`
+-- Volcado de datos para la tabla `parroquia`
 --
 
 INSERT INTO `parroquia` (`id`, `nombre`, `id_municipio`) VALUES
@@ -7779,7 +8329,7 @@ INSERT INTO `parroquia` (`id`, `nombre`, `id_municipio`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partida_especifica`
+-- Estructura de tabla para la tabla `partida_especifica`
 --
 
 CREATE TABLE IF NOT EXISTS `partida_especifica` (
@@ -7796,7 +8346,7 @@ CREATE TABLE IF NOT EXISTS `partida_especifica` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `partida_especifica`
+-- Volcado de datos para la tabla `partida_especifica`
 --
 
 INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -8802,7 +9352,7 @@ INSERT INTO `partida_especifica` (`cuenta`, `partida`, `generica`, `especifica`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partida_generica`
+-- Estructura de tabla para la tabla `partida_generica`
 --
 
 CREATE TABLE IF NOT EXISTS `partida_generica` (
@@ -8818,7 +9368,7 @@ CREATE TABLE IF NOT EXISTS `partida_generica` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `partida_generica`
+-- Volcado de datos para la tabla `partida_generica`
 --
 
 INSERT INTO `partida_generica` (`cuenta`, `partida`, `generica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -9057,7 +9607,7 @@ INSERT INTO `partida_generica` (`cuenta`, `partida`, `generica`, `nombre`, `esta
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partida_partida`
+-- Estructura de tabla para la tabla `partida_partida`
 --
 
 CREATE TABLE IF NOT EXISTS `partida_partida` (
@@ -9073,7 +9623,7 @@ CREATE TABLE IF NOT EXISTS `partida_partida` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `partida_partida`
+-- Volcado de datos para la tabla `partida_partida`
 --
 
 INSERT INTO `partida_partida` (`cuenta`, `partida`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -9107,7 +9657,7 @@ INSERT INTO `partida_partida` (`cuenta`, `partida`, `nombre`, `estatus`, `fecha_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partida_sub_especifica`
+-- Estructura de tabla para la tabla `partida_sub_especifica`
 --
 
 CREATE TABLE IF NOT EXISTS `partida_sub_especifica` (
@@ -9125,7 +9675,7 @@ CREATE TABLE IF NOT EXISTS `partida_sub_especifica` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `partida_sub_especifica`
+-- Volcado de datos para la tabla `partida_sub_especifica`
 --
 
 INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifica`, `subespecifica`, `nombre`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -10131,7 +10681,7 @@ INSERT INTO `partida_sub_especifica` (`cuenta`, `partida`, `generica`, `especifi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `perfil`
+-- Estructura de tabla para la tabla `perfil`
 --
 
 CREATE TABLE IF NOT EXISTS `perfil` (
@@ -10148,7 +10698,7 @@ CREATE TABLE IF NOT EXISTS `perfil` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `plan_operativo`
+-- Estructura de tabla para la tabla `plan_operativo`
 --
 
 CREATE TABLE IF NOT EXISTS `plan_operativo` (
@@ -10158,7 +10708,7 @@ CREATE TABLE IF NOT EXISTS `plan_operativo` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `plan_operativo`
+-- Volcado de datos para la tabla `plan_operativo`
 --
 
 INSERT INTO `plan_operativo` (`id`, `plan_operativo`) VALUES
@@ -10168,7 +10718,7 @@ INSERT INTO `plan_operativo` (`id`, `plan_operativo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `presentacion`
+-- Estructura de tabla para la tabla `presentacion`
 --
 
 CREATE TABLE IF NOT EXISTS `presentacion` (
@@ -10178,7 +10728,7 @@ CREATE TABLE IF NOT EXISTS `presentacion` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `presentacion`
+-- Volcado de datos para la tabla `presentacion`
 --
 
 INSERT INTO `presentacion` (`id`, `nombre`) VALUES
@@ -10188,7 +10738,7 @@ INSERT INTO `presentacion` (`id`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `programacion_fisica_presupuestaria`
+-- Estructura de tabla para la tabla `programacion_fisica_presupuestaria`
 --
 
 CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
@@ -10218,7 +10768,7 @@ CREATE TABLE IF NOT EXISTS `programacion_fisica_presupuestaria` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto`
+-- Estructura de tabla para la tabla `proyecto`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto` (
@@ -10261,7 +10811,7 @@ CREATE TABLE IF NOT EXISTS `proyecto` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `proyecto`
+-- Volcado de datos para la tabla `proyecto`
 --
 
 INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `nombre`, `descripcion_proyecto`, `fecha_inicio`, `fecha_fin`, `estatus_proyecto`, `situacion_presupuestaria`, `proyecto_plurianual`, `monto_proyecto_actual`, `monto_proyecto_anio_anteriores`, `monto_total_proyecto_proximo_anios`, `monto_proyecto`, `monto_financiar`, `sector`, `sub_sector`, `plan_operativo`, `objetivo_general`, `politicas_ministeriales`, `ambito`, `aprobado`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`, `usuario_creacion`) VALUES
@@ -10271,7 +10821,7 @@ INSERT INTO `proyecto` (`id`, `codigo_proyecto`, `nombre`, `descripcion_proyecto
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_accion_especifica`
+-- Estructura de tabla para la tabla `proyecto_accion_especifica`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
@@ -10301,7 +10851,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_accion_especifica` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
--- Dumping data for table `proyecto_accion_especifica`
+-- Volcado de datos para la tabla `proyecto_accion_especifica`
 --
 
 INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_especifica`, `nombre`, `unidad_medida`, `ponderacion`, `bien_servicio`, `id_unidad_ejecutora`, `fecha_inicio`, `fecha_fin`, `id_fuente_financiamiento`, `ambito`, `estatus`, `aprobado`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -10311,7 +10861,7 @@ INSERT INTO `proyecto_accion_especifica` (`id`, `id_proyecto`, `codigo_accion_es
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_ac_localizacion`
+-- Estructura de tabla para la tabla `proyecto_ac_localizacion`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_ac_localizacion` (
@@ -10326,7 +10876,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_ac_localizacion` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=56 ;
 
 --
--- Dumping data for table `proyecto_ac_localizacion`
+-- Volcado de datos para la tabla `proyecto_ac_localizacion`
 --
 
 INSERT INTO `proyecto_ac_localizacion` (`id`, `id_proyecto_ac`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
@@ -10336,7 +10886,7 @@ INSERT INTO `proyecto_ac_localizacion` (`id`, `id_proyecto_ac`, `id_pais`, `id_e
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_ae_meta`
+-- Estructura de tabla para la tabla `proyecto_ae_meta`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_ae_meta` (
@@ -10364,7 +10914,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_ae_meta` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_alcance`
+-- Estructura de tabla para la tabla `proyecto_alcance`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
@@ -10408,7 +10958,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_alcance` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Alcance e impacto del proyecto' AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `proyecto_alcance`
+-- Volcado de datos para la tabla `proyecto_alcance`
 --
 
 INSERT INTO `proyecto_alcance` (`id`, `id_proyecto`, `relacion_instituciones`, `meta_proyecto`, `empleos_directos_nuevos_femeninos`, `empleos_directos_nuevos_masculino`, `empleos_directos_sostenidos_femeninos`, `empleos_directos_sostenidos_masculino`, `beneficiarios_masculinos`, `beneficiarios_femeninos`, `beneficiarios`, `objetivo_estrategico_institucional`, `objetivo_especifico_proyecto`, `causas_criticas_proyecto`, `problemas_aborda_proyecto`, `consecuencias_problema`, `justificacion_proyecto`, `alcance_proyecto`, `descripcion_situacion_actual`, `formula_indicador`, `fuente_indicador`, `fecha_ultima_data`, `situacion_objetivo`, `tiempo_impacto`, `servicio_bien`, `unidad_medida`, `tipo_impacto`, `cualitativa_efectos`, `importancia`, `mitigar_impacto_ambiental`, `balance_servicio_energetico`, `programacion_anual_consumidor`, `fecha_creacion`, `fecha_modificacion`) VALUES
@@ -10418,7 +10968,7 @@ INSERT INTO `proyecto_alcance` (`id`, `id_proyecto`, `relacion_instituciones`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_fuente_financiamiento`
+-- Estructura de tabla para la tabla `proyecto_fuente_financiamiento`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_fuente_financiamiento` (
@@ -10429,7 +10979,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_fuente_financiamiento` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_localizacion`
+-- Estructura de tabla para la tabla `proyecto_localizacion`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_localizacion` (
@@ -10448,7 +10998,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_localizacion` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
 
 --
--- Dumping data for table `proyecto_localizacion`
+-- Volcado de datos para la tabla `proyecto_localizacion`
 --
 
 INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`) VALUES
@@ -10458,7 +11008,7 @@ INSERT INTO `proyecto_localizacion` (`id`, `id_proyecto`, `id_pais`, `id_estado`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_pedido`
+-- Estructura de tabla para la tabla `proyecto_pedido`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
@@ -10488,7 +11038,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_pedido` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `proyecto_pedido`
+-- Volcado de datos para la tabla `proyecto_pedido`
 --
 
 INSERT INTO `proyecto_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `precio`, `fecha_creacion`, `asignado`, `estatus`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -10504,7 +11054,7 @@ INSERT INTO `proyecto_pedido` (`id`, `id_material`, `enero`, `febrero`, `marzo`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_registrador`
+-- Estructura de tabla para la tabla `proyecto_registrador`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
@@ -10521,7 +11071,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_registrador` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `proyecto_registrador`
+-- Volcado de datos para la tabla `proyecto_registrador`
 --
 
 INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_tecnica`, `id_proyecto`) VALUES
@@ -10531,7 +11081,7 @@ INSERT INTO `proyecto_registrador` (`id`, `nombre`, `cedula`, `email`, `telefono
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_responsable`
+-- Estructura de tabla para la tabla `proyecto_responsable`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_responsable` (
@@ -10546,7 +11096,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `proyecto_responsable`
+-- Volcado de datos para la tabla `proyecto_responsable`
 --
 
 INSERT INTO `proyecto_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono`, `id_proyecto`) VALUES
@@ -10556,7 +11106,7 @@ INSERT INTO `proyecto_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_responsable_administrativo`
+-- Estructura de tabla para la tabla `proyecto_responsable_administrativo`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
@@ -10573,7 +11123,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_administrativo` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `proyecto_responsable_administrativo`
+-- Volcado de datos para la tabla `proyecto_responsable_administrativo`
 --
 
 INSERT INTO `proyecto_responsable_administrativo` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_administradora`, `id_proyecto`) VALUES
@@ -10583,7 +11133,7 @@ INSERT INTO `proyecto_responsable_administrativo` (`id`, `nombre`, `cedula`, `em
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_responsable_tecnico`
+-- Estructura de tabla para la tabla `proyecto_responsable_tecnico`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
@@ -10600,7 +11150,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_responsable_tecnico` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `proyecto_responsable_tecnico`
+-- Volcado de datos para la tabla `proyecto_responsable_tecnico`
 --
 
 INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `telefono`, `unidad_tecnica`, `id_proyecto`) VALUES
@@ -10610,7 +11160,7 @@ INSERT INTO `proyecto_responsable_tecnico` (`id`, `nombre`, `cedula`, `email`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_usuario_asignar`
+-- Estructura de tabla para la tabla `proyecto_usuario_asignar`
 --
 
 CREATE TABLE IF NOT EXISTS `proyecto_usuario_asignar` (
@@ -10629,7 +11179,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_usuario_asignar` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relación entre usuarios, unidades ejecutoras y acciones específicas de un proyecto' AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `proyecto_usuario_asignar`
+-- Volcado de datos para la tabla `proyecto_usuario_asignar`
 --
 
 INSERT INTO `proyecto_usuario_asignar` (`id`, `usuario_id`, `proyecto_id`, `accion_especifica_id`, `estatus`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
@@ -10640,7 +11190,7 @@ INSERT INTO `proyecto_usuario_asignar` (`id`, `usuario_id`, `proyecto_id`, `acci
 -- --------------------------------------------------------
 
 --
--- Table structure for table `responsable_acc_variable`
+-- Estructura de tabla para la tabla `responsable_acc_variable`
 --
 
 CREATE TABLE IF NOT EXISTS `responsable_acc_variable` (
@@ -10656,7 +11206,7 @@ CREATE TABLE IF NOT EXISTS `responsable_acc_variable` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
--- Dumping data for table `responsable_acc_variable`
+-- Volcado de datos para la tabla `responsable_acc_variable`
 --
 
 INSERT INTO `responsable_acc_variable` (`id`, `nombre`, `cedula`, `email`, `telefono`, `oficina`, `id_variable`) VALUES
@@ -10669,7 +11219,7 @@ INSERT INTO `responsable_acc_variable` (`id`, `nombre`, `cedula`, `email`, `tele
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sector`
+-- Estructura de tabla para la tabla `sector`
 --
 
 CREATE TABLE IF NOT EXISTS `sector` (
@@ -10679,7 +11229,7 @@ CREATE TABLE IF NOT EXISTS `sector` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
--- Dumping data for table `sector`
+-- Volcado de datos para la tabla `sector`
 --
 
 INSERT INTO `sector` (`id`, `sector`) VALUES
@@ -10703,7 +11253,7 @@ INSERT INTO `sector` (`id`, `sector`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `situacion_presupuestaria`
+-- Estructura de tabla para la tabla `situacion_presupuestaria`
 --
 
 CREATE TABLE IF NOT EXISTS `situacion_presupuestaria` (
@@ -10713,7 +11263,7 @@ CREATE TABLE IF NOT EXISTS `situacion_presupuestaria` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `situacion_presupuestaria`
+-- Volcado de datos para la tabla `situacion_presupuestaria`
 --
 
 INSERT INTO `situacion_presupuestaria` (`id`, `situacion`) VALUES
@@ -10722,7 +11272,7 @@ INSERT INTO `situacion_presupuestaria` (`id`, `situacion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sub_sector`
+-- Estructura de tabla para la tabla `sub_sector`
 --
 
 CREATE TABLE IF NOT EXISTS `sub_sector` (
@@ -10732,7 +11282,7 @@ CREATE TABLE IF NOT EXISTS `sub_sector` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `sub_sector`
+-- Volcado de datos para la tabla `sub_sector`
 --
 
 INSERT INTO `sub_sector` (`id`, `sub_sector`) VALUES
@@ -10741,7 +11291,7 @@ INSERT INTO `sub_sector` (`id`, `sub_sector`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo_distribucion`
+-- Estructura de tabla para la tabla `tipo_distribucion`
 --
 
 CREATE TABLE IF NOT EXISTS `tipo_distribucion` (
@@ -10753,7 +11303,7 @@ CREATE TABLE IF NOT EXISTS `tipo_distribucion` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo_entidad`
+-- Estructura de tabla para la tabla `tipo_entidad`
 --
 
 CREATE TABLE IF NOT EXISTS `tipo_entidad` (
@@ -10763,7 +11313,7 @@ CREATE TABLE IF NOT EXISTS `tipo_entidad` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `tipo_entidad`
+-- Volcado de datos para la tabla `tipo_entidad`
 --
 
 INSERT INTO `tipo_entidad` (`id`, `nombre`) VALUES
@@ -10773,7 +11323,7 @@ INSERT INTO `tipo_entidad` (`id`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo_financiamiento`
+-- Estructura de tabla para la tabla `tipo_financiamiento`
 --
 
 CREATE TABLE IF NOT EXISTS `tipo_financiamiento` (
@@ -10783,7 +11333,7 @@ CREATE TABLE IF NOT EXISTS `tipo_financiamiento` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `tipo_financiamiento`
+-- Volcado de datos para la tabla `tipo_financiamiento`
 --
 
 INSERT INTO `tipo_financiamiento` (`id`, `tipo`) VALUES
@@ -10793,7 +11343,7 @@ INSERT INTO `tipo_financiamiento` (`id`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo_impacto`
+-- Estructura de tabla para la tabla `tipo_impacto`
 --
 
 CREATE TABLE IF NOT EXISTS `tipo_impacto` (
@@ -10803,7 +11353,7 @@ CREATE TABLE IF NOT EXISTS `tipo_impacto` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `tipo_impacto`
+-- Volcado de datos para la tabla `tipo_impacto`
 --
 
 INSERT INTO `tipo_impacto` (`id`, `descripcion`) VALUES
@@ -10814,7 +11364,7 @@ INSERT INTO `tipo_impacto` (`id`, `descripcion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ue_partida_entidad`
+-- Estructura de tabla para la tabla `ue_partida_entidad`
 --
 
 CREATE TABLE IF NOT EXISTS `ue_partida_entidad` (
@@ -10831,7 +11381,7 @@ CREATE TABLE IF NOT EXISTS `ue_partida_entidad` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4687 ;
 
 --
--- Dumping data for table `ue_partida_entidad`
+-- Volcado de datos para la tabla `ue_partida_entidad`
 --
 
 INSERT INTO `ue_partida_entidad` (`id`, `cuenta`, `partida`, `id_ue`, `id_tipo_entidad`) VALUES
@@ -14055,7 +14605,7 @@ INSERT INTO `ue_partida_entidad` (`id`, `cuenta`, `partida`, `id_ue`, `id_tipo_e
 -- --------------------------------------------------------
 
 --
--- Table structure for table `unidad_ejecutora`
+-- Estructura de tabla para la tabla `unidad_ejecutora`
 --
 
 CREATE TABLE IF NOT EXISTS `unidad_ejecutora` (
@@ -14069,7 +14619,7 @@ CREATE TABLE IF NOT EXISTS `unidad_ejecutora` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=148 ;
 
 --
--- Dumping data for table `unidad_ejecutora`
+-- Volcado de datos para la tabla `unidad_ejecutora`
 --
 
 INSERT INTO `unidad_ejecutora` (`id`, `codigo_ue`, `nombre`, `fecha_creacion`, `fecha_eliminacion`) VALUES
@@ -14223,7 +14773,7 @@ INSERT INTO `unidad_ejecutora` (`id`, `codigo_ue`, `nombre`, `fecha_creacion`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `unidad_medida`
+-- Estructura de tabla para la tabla `unidad_medida`
 --
 
 CREATE TABLE IF NOT EXISTS `unidad_medida` (
@@ -14233,7 +14783,7 @@ CREATE TABLE IF NOT EXISTS `unidad_medida` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Unidad de medida para el alcance e impacto del proyecto' AUTO_INCREMENT=623 ;
 
 --
--- Dumping data for table `unidad_medida`
+-- Volcado de datos para la tabla `unidad_medida`
 --
 
 INSERT INTO `unidad_medida` (`id`, `unidad_medida`) VALUES
@@ -14863,7 +15413,7 @@ INSERT INTO `unidad_medida` (`id`, `unidad_medida`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_accounts`
+-- Estructura de tabla para la tabla `user_accounts`
 --
 
 CREATE TABLE IF NOT EXISTS `user_accounts` (
@@ -14887,7 +15437,7 @@ CREATE TABLE IF NOT EXISTS `user_accounts` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `user_accounts`
+-- Volcado de datos para la tabla `user_accounts`
 --
 
 INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_key`, `administrator`, `creator`, `creator_ip`, `confirm_token`, `recovery_token`, `blocked_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES
@@ -14897,44 +15447,44 @@ INSERT INTO `user_accounts` (`id`, `login`, `username`, `password_hash`, `auth_k
 (4, 'walter86_799@hotmail.com', 'prueba', '$2y$13$3BvIuYnRrAoOGKFqtdDe2Ohn8NeaOx37XkENfZuoweWefnyWSBLVW', '', 0, 1, '127.0.0.1', NULL, NULL, NULL, 1468848116, 1468848116, 1471441527);
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `accion_centralizada_accion_especifica`
+-- Filtros para la tabla `accion_centralizada_accion_especifica`
 --
 ALTER TABLE `accion_centralizada_accion_especifica`
   ADD CONSTRAINT `frk_ac_acesp` FOREIGN KEY (`id_ac_centr`) REFERENCES `accion_centralizada` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_ac_especifica_uej`
+-- Filtros para la tabla `accion_centralizada_ac_especifica_uej`
 --
 ALTER TABLE `accion_centralizada_ac_especifica_uej`
   ADD CONSTRAINT `frk_acesp` FOREIGN KEY (`id_ac_esp`) REFERENCES `accion_centralizada_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_uej_acesp` FOREIGN KEY (`id_ue`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_asignar`
+-- Filtros para la tabla `accion_centralizada_asignar`
 --
 ALTER TABLE `accion_centralizada_asignar`
   ADD CONSTRAINT `accion_centralizada_asignar_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_asignacion_uej_acc_especifica` FOREIGN KEY (`accion_especifica_ue`) REFERENCES `accion_centralizada_ac_especifica_uej` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_desbloqueo_mes`
+-- Filtros para la tabla `accion_centralizada_desbloqueo_mes`
 --
 ALTER TABLE `accion_centralizada_desbloqueo_mes`
   ADD CONSTRAINT `frkey_ejecucion_mes` FOREIGN KEY (`id_ejecucion`) REFERENCES `accion_centralizada_variable_ejecucion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_pedido`
+-- Filtros para la tabla `accion_centralizada_pedido`
 --
 ALTER TABLE `accion_centralizada_pedido`
   ADD CONSTRAINT `frk_asignada_centralpedido` FOREIGN KEY (`asignado`) REFERENCES `accion_centralizada_asignar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_materiales_centralpedido` FOREIGN KEY (`id_material`) REFERENCES `materiales_servicios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_variables`
+-- Filtros para la tabla `accion_centralizada_variables`
 --
 ALTER TABLE `accion_centralizada_variables`
   ADD CONSTRAINT `frk_acc_variable` FOREIGN KEY (`acc_accion_especifica`) REFERENCES `accion_centralizada_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -14942,63 +15492,63 @@ ALTER TABLE `accion_centralizada_variables`
   ADD CONSTRAINT `frk_unidad_medida_variable` FOREIGN KEY (`unidad_medida`) REFERENCES `unidad_medida` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_variables_usuarios`
+-- Filtros para la tabla `accion_centralizada_variables_usuarios`
 --
 ALTER TABLE `accion_centralizada_variables_usuarios`
   ADD CONSTRAINT `frk_user_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_variable_usuario` FOREIGN KEY (`id_variable`) REFERENCES `accion_centralizada_variables` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_variable_ejecucion`
+-- Filtros para la tabla `accion_centralizada_variable_ejecucion`
 --
 ALTER TABLE `accion_centralizada_variable_ejecucion`
   ADD CONSTRAINT `frk_programacion_ejecucion` FOREIGN KEY (`id_programacion`) REFERENCES `accion_centralizada_variable_programacion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_user_ejecucion` FOREIGN KEY (`id_usuario`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `accion_centralizada_variable_programacion`
+-- Filtros para la tabla `accion_centralizada_variable_programacion`
 --
 ALTER TABLE `accion_centralizada_variable_programacion`
   ADD CONSTRAINT `frk-programacion-localizacion` FOREIGN KEY (`id_localizacion`) REFERENCES `localizacion_acc_variable` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `audit_data`
+-- Filtros para la tabla `audit_data`
 --
 ALTER TABLE `audit_data`
   ADD CONSTRAINT `fk_audit_data_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
 
 --
--- Constraints for table `audit_error`
+-- Filtros para la tabla `audit_error`
 --
 ALTER TABLE `audit_error`
   ADD CONSTRAINT `fk_audit_error_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
 
 --
--- Constraints for table `audit_javascript`
+-- Filtros para la tabla `audit_javascript`
 --
 ALTER TABLE `audit_javascript`
   ADD CONSTRAINT `fk_audit_javascript_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
 
 --
--- Constraints for table `audit_mail`
+-- Filtros para la tabla `audit_mail`
 --
 ALTER TABLE `audit_mail`
   ADD CONSTRAINT `fk_audit_mail_entry_id` FOREIGN KEY (`entry_id`) REFERENCES `audit_entry` (`id`);
 
 --
--- Constraints for table `localizacion_acc_variable`
+-- Filtros para la tabla `localizacion_acc_variable`
 --
 ALTER TABLE `localizacion_acc_variable`
   ADD CONSTRAINT `frk_var_loca` FOREIGN KEY (`id_variable`) REFERENCES `accion_centralizada_variables` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto`
+-- Filtros para la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
   ADD CONSTRAINT `frk_proyecto_usuarios` FOREIGN KEY (`usuario_creacion`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_accion_especifica`
+-- Filtros para la tabla `proyecto_accion_especifica`
 --
 ALTER TABLE `proyecto_accion_especifica`
   ADD CONSTRAINT `frk_fuentefinanciamiento_pac` FOREIGN KEY (`id_fuente_financiamiento`) REFERENCES `fuente_financiamiento` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -15006,65 +15556,65 @@ ALTER TABLE `proyecto_accion_especifica`
   ADD CONSTRAINT `frk_ue_especifica` FOREIGN KEY (`id_unidad_ejecutora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_ac_localizacion`
+-- Filtros para la tabla `proyecto_ac_localizacion`
 --
 ALTER TABLE `proyecto_ac_localizacion`
   ADD CONSTRAINT `frk_proyectoac_proyectoloc` FOREIGN KEY (`id_proyecto_ac`) REFERENCES `proyecto_accion_especifica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_ae_meta`
+-- Filtros para la tabla `proyecto_ae_meta`
 --
 ALTER TABLE `proyecto_ae_meta`
   ADD CONSTRAINT `fk_proyectoaemeta_proyectoaelocalizacion` FOREIGN KEY (`id_proyecto_ac_localizacion`) REFERENCES `proyecto_ac_localizacion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_alcance`
+-- Filtros para la tabla `proyecto_alcance`
 --
 ALTER TABLE `proyecto_alcance`
   ADD CONSTRAINT `frk_proyecto_alcance` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_tipoimpacto_alance` FOREIGN KEY (`tipo_impacto`) REFERENCES `tipo_impacto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_localizacion`
+-- Filtros para la tabla `proyecto_localizacion`
 --
 ALTER TABLE `proyecto_localizacion`
   ADD CONSTRAINT `frk_proyecto_localizacion` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`);
 
 --
--- Constraints for table `proyecto_pedido`
+-- Filtros para la tabla `proyecto_pedido`
 --
 ALTER TABLE `proyecto_pedido`
   ADD CONSTRAINT `frk_pedido_asignar` FOREIGN KEY (`asignado`) REFERENCES `proyecto_usuario_asignar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_registrador`
+-- Filtros para la tabla `proyecto_registrador`
 --
 ALTER TABLE `proyecto_registrador`
   ADD CONSTRAINT `frk_proyecto_registrador` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_uejecutora_registrador` FOREIGN KEY (`unidad_tecnica`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_responsable`
+-- Filtros para la tabla `proyecto_responsable`
 --
 ALTER TABLE `proyecto_responsable`
   ADD CONSTRAINT `frk_proyecto_responsable` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_responsable_administrativo`
+-- Filtros para la tabla `proyecto_responsable_administrativo`
 --
 ALTER TABLE `proyecto_responsable_administrativo`
   ADD CONSTRAINT `frk_proyecto_administrativo` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_uejecutoras_administrativo` FOREIGN KEY (`unidad_administradora`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_responsable_tecnico`
+-- Filtros para la tabla `proyecto_responsable_tecnico`
 --
 ALTER TABLE `proyecto_responsable_tecnico`
   ADD CONSTRAINT `frk_proyecto_tecnico` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `frk_uejecutora_tenico` FOREIGN KEY (`unidad_tecnica`) REFERENCES `unidad_ejecutora` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto_usuario_asignar`
+-- Filtros para la tabla `proyecto_usuario_asignar`
 --
 ALTER TABLE `proyecto_usuario_asignar`
   ADD CONSTRAINT `proyecto_usuario_asignar_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `user_accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -15072,7 +15622,7 @@ ALTER TABLE `proyecto_usuario_asignar`
   ADD CONSTRAINT `proyecto_usuario_asignar_ibfk_3` FOREIGN KEY (`accion_especifica_id`) REFERENCES `proyecto_accion_especifica` (`id`);
 
 --
--- Constraints for table `ue_partida_entidad`
+-- Filtros para la tabla `ue_partida_entidad`
 --
 ALTER TABLE `ue_partida_entidad`
   ADD CONSTRAINT `frk_partida_ue_entidad` FOREIGN KEY (`id_tipo_entidad`) REFERENCES `tipo_entidad` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
