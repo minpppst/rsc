@@ -56,9 +56,6 @@ use kartik\date\DatePicker;
 
             <?= $form->field($model, 'situacion_presupuestaria')->dropDownList(ArrayHelper::map($situacion_presupuestaria,'id','situacion'),['prompt'=>'Seleccione']) ?>
 
-            <?= $form->field($model, 'monto_proyecto', [
-                'inputTemplate' => '<div class="input-group"><span class="input-group-addon">Bs.</span>{input}</div>',
-            ])->input('number', ['min' => 1, 'step' => 0.01]) ?>
 
             <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 

@@ -27,6 +27,7 @@ class SituacionPresupuestaria extends \yii\db\ActiveRecord
     {
         return [
             [['situacion'], 'required'],
+            [['situacion'], 'unique'],
             [['situacion'], 'string', 'max' => 25]
         ];
     }

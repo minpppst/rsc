@@ -22,7 +22,7 @@ CrudAsset::register($this);
 
 <div class="accion-centralizada-variables-index">
 <div id="ajaxCrudDatatable">
-    <h1><?= Html::encode($this->title) ?></h1>
+    
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     

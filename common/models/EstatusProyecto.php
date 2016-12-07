@@ -27,6 +27,7 @@ class EstatusProyecto extends \yii\db\ActiveRecord
     {
         return [
             [['estatus'], 'required'],
+            [['estatus'], 'unique'],
             [['estatus'], 'string', 'max' => 25]
         ];
     }

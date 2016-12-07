@@ -56,11 +56,11 @@ use machour\yii2\notifications\widgets\NotificationsWidget;
 
                 <!-- Messages: style can be found in dropdown.less-->
                 <li class="dropdown notifications-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
                         <i class="fa fa-bell-o"></i>
                         <span class="label label-danger notifications-icon-count">0</span>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style="overflow-y: auto; overflow-x: hidden; max-height: 400px;">
                         <li class="header">Tienes <span class="notifications-header-count">0</span> notificaciones</li>
                         <li>
                             <div id="notifications"></div>

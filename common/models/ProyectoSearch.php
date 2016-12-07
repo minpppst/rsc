@@ -22,7 +22,7 @@ class ProyectoSearch extends Proyecto
         return [
             [['id', 'estatus_proyecto', 'situacion_presupuestaria', 'sub_sector', 'plan_operativo', 'objetivo_general'], 'integer'],
             [['codigo_proyecto', 'nombre', 'fecha_inicio', 'fecha_fin', 'nombreEstatus'], 'safe'],
-            [['monto_proyecto'], 'number'],
+            
         ];
     }
 
@@ -64,7 +64,7 @@ class ProyectoSearch extends Proyecto
             'fecha_fin' => $this->fecha_fin,
             'estatus_proyecto' => $this->estatus_proyecto,
             'situacion_presupuestaria' => $this->situacion_presupuestaria,
-            'monto_proyecto' => $this->monto_proyecto,
+            
             'sub_sector' => $this->sub_sector,
             'plan_operativo' => $this->plan_operativo,
             'objetivo_general' => $this->objetivo_general,

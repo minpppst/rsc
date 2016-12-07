@@ -27,6 +27,7 @@ class PlanOperativo extends \yii\db\ActiveRecord
     {
         return [
             [['plan_operativo'], 'required'],
+            [['plan_operativo'], 'unique'],
             [['plan_operativo'], 'string', 'max' => 10]
         ];
     }

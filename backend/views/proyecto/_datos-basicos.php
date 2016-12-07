@@ -134,9 +134,7 @@ CrudAsset::register($this);
             ],
             [
                 'label' => $model->getAttributeLabel('monto_proyecto_actual'),
-                'attribute' => 'monto_proyecto_actual',
-                'value' => $model->bolivarMontos($model->monto_proyecto_actual),
-                'type' => DetailView::INPUT_MONEY,
+                'value' => $model->bolivarMontos($model->montoActual),
                 'options' => [
                     'style' => 'width:70%'
                 ],
@@ -160,10 +158,8 @@ CrudAsset::register($this);
                 ],
             ],
             [
-                'label' => $model->getAttributeLabel('monto_proyecto'),
-                'attribute' => 'monto_proyecto',
-                'value' => $model->bolivarMonto,
-                'type' => DetailView::INPUT_MONEY,
+                'label' => $model->getAttributeLabel('Total Monto Proyecto'),
+                'value' => $model->bolivarMontos($model->montoTotalProyecto),
                 'options' => [
                     'style' => 'width:70%'
                 ],

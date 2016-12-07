@@ -4,6 +4,7 @@ namespace backend\models;
 
 use common\models\UnidadEjecutora;
 use common\models\UnidadMedida;
+use common\models\AcEspUej;
 use backend\models\LocalizacionAccVariable;
 use Yii;
 
@@ -69,6 +70,18 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
             'acc_accion_especifica' => 'Accion Especifica',
         ];
     }
+
+    
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsuariosVariables()
+    {
+        return $this->hasmany(AccionCentralizadaVariablesUsuarios::className(), ['id_variable' => 'id']);
+        
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery
@@ -205,6 +218,27 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
             return $ace;
     }
 
+    
+
+    /**
+     * obtener los usuarios asociados a la unidad ejecutora y accion especifica
+     * @param int $accion
+     * @return array
+     */
+    public function BuscarUserUej($accion)
+    {
+
+          $ace = AcEspUej::find()
+            ->select(["user_accounts.id", "user_accounts.username as name"])
+            ->innerjoin('accion_centralizada_asignar', 'accion_centralizada_asignar.accion_especifica_ue=accion_centralizada_ac_especifica_uej.id')
+            ->innerjoin('user_accounts', 'user_accounts.id=accion_centralizada_asignar.usuario')
+            ->where(['accion_centralizada_ac_especifica_uej.id_ue' => $accion['accioncentralizadavariables-unidad_ejecutora'], 'accion_centralizada_ac_especifica_uej.id_ac_esp' => $accion['accioncentralizadavariables-acc_accion_especifica']])
+            ->asArray()
+            ->all();
+
+            return $ace;
+    }
+
 
     /**
      * operacion para agregar o eliminar los usuarios que vienen del combo select de variables
@@ -220,6 +254,7 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
         $usuarios='';
 
       }
+
       $ace = AccionCentralizadaVariablesUsuarios::find()
               ->select('accion_centralizada_variables_usuarios.id')
               ->where(['accion_centralizada_variables_usuarios.id_variable' => $this->id])
@@ -232,9 +267,12 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
       {
         $model_cambiar= new AccionCentralizadaVariablesUsuarios;
         foreach ($ace as $key => $value) {
-        $model_cambiar->usuario_eliminar($value);
+          if(!$model_cambiar->usuario_eliminar($value))
+          {
+            return false;
+          }
           
-      }
+        }
       }
       //buscar si agregaron un usuario si es asi almacenar las nuevos y guardar
       $ace = AccionCentralizadaVariablesUsuarios::find()
@@ -257,6 +295,7 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
         $usuarios=[];
       }
 
+
         
       $nuevo=array_diff($usuarios, $tabla);
       foreach ($nuevo as $key => $value) 
@@ -264,8 +303,12 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
         $model_variable_usuario=new AccionCentralizadaVariablesUsuarios;
         $model_variable_usuario->id_usuario=$value;
         $model_variable_usuario->id_variable=$this->id;  
-        $model_variable_usuario->save();
+        if(!$model_variable_usuario->save())
+        {
+          return false;
+        }
       }
+      return true;
       }
 
 

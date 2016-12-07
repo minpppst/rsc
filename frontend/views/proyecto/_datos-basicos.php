@@ -85,7 +85,7 @@ CrudAsset::register($this);
         ],
         [
             'label' => $model->getAttributeLabel('monto_proyecto_actual'),
-            'value' => $model->bolivarMontos($model->monto_proyecto_actual),
+            'value' => $model->bolivarMontos($model->montoActual),
         ],
         [
             'label' => $model->getAttributeLabel('monto_proyecto_anio_anteriores'),
@@ -96,8 +96,8 @@ CrudAsset::register($this);
             'value' => $model->bolivarMontos($model->monto_total_proyecto_proximo_anios),
         ],
         [
-            'label' => $model->getAttributeLabel('monto_proyecto'),
-            'value' => $model->bolivarMonto,
+            'label' => $model->getAttributeLabel('Total Monto Proyecto'),
+            'value' => $model->bolivarMontos($model->montoTotalProyecto),
         ],
                 [
             'label' => $model->getAttributeLabel('monto_financiar'),

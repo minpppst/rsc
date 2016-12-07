@@ -81,7 +81,7 @@ class Proyecto extends \yii\db\ActiveRecord
             [['nombre','politicas_ministeriales', 'descripcion_proyecto'], 'string'],
             [['fecha_inicio', 'fecha_fin'], 'safe'],
             [['estatus_proyecto', 'situacion_presupuestaria', 'sector', 'sub_sector', 'plan_operativo', 'objetivo_general', 'ambito', 'aprobado', 'estatus'], 'integer'],
-            [['monto_proyecto', 'monto_proyecto_actual', 'monto_financiar', 'monto_proyecto_anio_anteriores', 'monto_total_proyecto_proximo_anios'], 'number'],
+            [[ 'monto_proyecto_actual', 'monto_financiar', 'monto_proyecto_anio_anteriores', 'monto_total_proyecto_proximo_anios'], 'number'],
             [['codigo_proyecto'], 'string', 'max' => 6],
             [['codigo_proyecto'], 'unique'],
             ['fecha_inicio', 'validarFecha'],
@@ -137,7 +137,6 @@ class Proyecto extends \yii\db\ActiveRecord
             'estatus_proyecto' => 'Estatus del Proyecto',
             'situacion_presupuestaria' => 'Situación Presupuestaria',
             'proyecto_plurianual' => '¿El Proyecto es Plurianual?',
-            'monto_proyecto' => 'Monto Total del Proyecto',
             'monto_proyecto_actual' => 'Monto Proyecto Año En Curso',
             'monto_proyecto_anio_anteriores' => 'Monto Proyecto Años Anteriores',
             'monto_total_proyecto_proximo_anios' => 'Monto Total Proyecto en los Proximos Años',
@@ -358,9 +357,52 @@ class Proyecto extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+     public function getProyectoUsuarioAsignar()
+    {
+        return $this->hasOne(ProyectoUsuarioAsignar::className(), ['proyecto_id' => 'id']);
+    }
+
+    /**
+     * Monto de la suma de todos los requerimientos del proyecto
+     * @return null | integer total monto requerimiento
+     */
+     public function getMontoActual()
+    {
+        $total=ProyectoUsuarioAsignar::find()->select(['sum((enero+febrero+marzo+abril+mayo+junio+julio+agosto+septiembre+octubre+noviembre+diciembre)*precio) as total'])->innerJoin('proyecto_pedido', 'proyecto_usuario_asignar.id = proyecto_pedido.asignado')->where(['proyecto_usuario_asignar.proyecto_id' => $this->id])->asArray()->One();
+
+        if($total!=null)
+        {
+            return $total['total'];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /** Monto total de proyecto (años anteriores, años futuros y monto actual)
+     * @return null | integer monto total de proyecto
+     */
+     public function getMontoTotalProyecto()
+    {
+        $total=$this->montoActual;
+
+        if($total!=null)
+        {
+            return $total+$this->monto_proyecto_anio_anteriores+$this->monto_total_proyecto_proximo_anios;
+        }
+        else
+        {
+            return $this->monto_total_proyecto_proximo_anios+$this->monto_proyecto_anio_anteriores;
+        }
+    }
+
+    /**
      * @return string
      */
-    public function getBolivarMonto()
+    /*public function getBolivarMonto()
     {
         if($this->monto_proyecto === null)
         {
@@ -368,7 +410,7 @@ class Proyecto extends \yii\db\ActiveRecord
         }
 
         return \Yii::$app->formatter->asCurrency($this->monto_proyecto);
-    }
+    }*/
 
     /**
     * @param numeric $monto

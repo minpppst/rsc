@@ -27,6 +27,7 @@ class SubSector extends \yii\db\ActiveRecord
     {
         return [
             [['sub_sector'], 'required'],
+            [['sub_sector'], 'unique'],
             [['sub_sector'], 'string', 'max' => 30]
         ];
     }

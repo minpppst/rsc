@@ -59,13 +59,13 @@ use kartik\money\MaskMoney;
 
             <?= $form->field($model, 'proyecto_plurianual')->dropDownList([1=> 'Si', 0=> 'No'],['prompt'=>'Seleccione']); ?>
 
-            <?= $form->field($model, 'monto_proyecto_actual')->widget(MaskMoney::classname(), [                
+            <!--<?= $form->field($model, 'monto_proyecto_actual')->widget(MaskMoney::classname(), [                
                 'pluginOptions' => [
                     'prefix' => 'Bs. ',
                     'allowZero' => false,
                     'allowNegative' => false,
                 ]
-            ]); ?>
+            ]); ?>-->
 
             
             <?= $form->field($model, 'monto_proyecto_anio_anteriores')->widget(MaskMoney::classname(), [                
@@ -84,13 +84,7 @@ use kartik\money\MaskMoney;
                 ]
             ]); ?>
 
-            <?= $form->field($model, 'monto_proyecto')->widget(MaskMoney::classname(), [                
-                'pluginOptions' => [
-                    'prefix' => 'Bs. ',
-                    'allowZero' => true,
-                    'allowNegative' => false,
-                ]
-            ]); ?>
+            
 
             <?= $form->field($model, 'monto_financiar')->widget(MaskMoney::classname(), [                
                 'pluginOptions' => [

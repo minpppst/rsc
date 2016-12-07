@@ -27,6 +27,7 @@ class Sector extends \yii\db\ActiveRecord
     {
         return [
             [['sector'], 'required'],
+            [['sector'], 'unique'],
             [['sector'], 'string', 'max' => 30]
         ];
     }

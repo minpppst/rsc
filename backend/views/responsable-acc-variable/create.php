@@ -12,7 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="responsable-acc-variable-create">
  <?php if (!Yii::$app->request->isAjax){ ?>
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php } ?>
 
     <?= $this->render('_form', [
