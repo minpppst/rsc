@@ -75,13 +75,13 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
             ]);
 
             $usuarios_variables=new AccionCentralizadaVariablesUsuarios;
-            $usuarios=$usuarios_variables->obtener_usuario_variables($model->id);
+            
 
             return $this->render('view', [
                 'model' => $model,
                 'localizacion' => $localizacion,
                 'ambito' => $ambito,
-                'usuarios' => $usuarios,
+                'usuarios' =>$usuarios_variables->obtener_usuario_variables($model->id),
             ]);
         }
     }
@@ -95,6 +95,7 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
     {
         $model = new AccionCentralizadaVariables();
         $accionAC= new AccionCentralizada();
+        $verificar1 = new UserAccounts();
         //listas desplegables
         $accion_centralizada = AccionCentralizada::find(['estatus' => 1])->all();
         $accion_especifica = AcAcEspec::find()->where(['id' => $model->acc_accion_especifica, 'estatus' => 1])->all();
@@ -139,6 +140,7 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
                  'accion_centralizada' => $accion_centralizada,
                  'accion_especifica' => $accion_especifica,
                  'accionAC' => $accionAC,
+                 'verificar1' => $verificar1,
                  'ue' => $ue,
             ]);
         }
@@ -272,8 +274,7 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
             if($request->isPost)
             {
                 //Acciones Especificas
-                $ace= new AccionCentralizadaVariables();                
-                $unidad = new UnidadEjecutora();
+                $ace= new ProyectoVariables();
                 $unidad=$ace->obtenerUnidadesEJ($request->post('depdrop_parents'));
                               
                 return [

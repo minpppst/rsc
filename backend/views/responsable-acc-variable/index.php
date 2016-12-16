@@ -29,7 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'cedula',
             'email:email',
             'telefono',
-            // 'oficina',
+            [
+                'attribute' => 'oficina',
+                'value' => $model->idUnidadEjecutora->nombre,
+            ],
             // 'id_variable',
 
             ['class' => 'yii\grid\ActionColumn'],

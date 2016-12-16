@@ -28,16 +28,16 @@ use app\models\Ambito;
         {
             case 'Internacional':
                 echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($paises,'id','nombre'),['prompt'=>'Seleccione', 'disabled' => true]); 
-                break;
+            break;
 
             case 'Nacional':
                 echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($paises,'id','nombre'),['prompt'=>'Seleccione', 'disabled' =>'true']);
-                break;
+            break;
 
             case 'Estadal':
                 echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($paises,'id','nombre'),['prompt'=>'Seleccione', 'disabled' => true]);
                 echo $form->field($model, 'id_estado')->dropDownList(ArrayHelper::map($estados,'id','nombre'),['prompt'=>'Seleccione']);
-                break;
+            break;
 
             case 'Municipal':
                 echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($paises,'id','nombre'),['prompt'=>'Seleccione', 'disabled' => true] );
@@ -55,7 +55,7 @@ use app\models\Ambito;
                         'url' => Url::to(['/proyecto-localizacion/municipios'])
                      ]
                  ]);
-                break;
+            break;
 
             case 'Parroquial':
                 echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($paises,'id','nombre'),['prompt'=>'Seleccione', 'disabled' => true]);
@@ -84,11 +84,11 @@ use app\models\Ambito;
                         'url' => Url::to(['/proyecto-localizacion/parroquias'])
                      ]
                  ]);
-                break;
+            break;
 
             default:
                 echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($paises,'id','nombre'),['prompt'=>'Seleccione', 'disabled' => true]); 
-                break;
+            break;
         }
     ?>
   

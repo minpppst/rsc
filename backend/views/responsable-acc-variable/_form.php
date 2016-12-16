@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -27,7 +28,7 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'telefono')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'oficina')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'oficina')->dropDownList(ArrayHelper::map($modeluej,'id','nombre'),['prompt' => 'Seleccione']); ?>
 
             <?= $form->field($model, 'id_variable')->hiddenInput()->label(false) ?>
 

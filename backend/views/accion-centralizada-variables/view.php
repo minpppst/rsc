@@ -104,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                     Html::a($icons['recargar'].' Refrescar', ['/accion-centralizada-variables/view', 'id' => $model->id],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).
                     '{toggleData}'.
                     '{export}'
                 ],

@@ -309,7 +309,7 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
         }
       }
       return true;
-      }
+    }
 
 
 }

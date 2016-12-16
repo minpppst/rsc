@@ -51,25 +51,29 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
         $model1= AccionCentralizadaVariableProgramacion::find()->where(['id_localizacion' => $model->id])->One();
         $model2= AccionCentralizadaVariables::find($model->id_variable)->One();
         $request = Yii::$app->request;
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> "Variable #".$id,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                        'model1' => $model1,
-                    ]),
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+            return 
+            [
+                'title' => 'Localización Y Programación De Variable',
+                'content'=>$this->renderAjax('view', 
+                [
+                    'model' => $model,
+                    'model1' => $model1,
+                ]),
+                'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Editar',['update','id'=>$id, 'variable' => $model->id_variable, 'localizacion' => $model2->localizacion,],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
+            ];    
         }
-
-        else{
-        return $this->render('view', [
-            'model' => $model, 
-            'model1'=> $model1,
-        ]);
-    }
+        else
+        {
+            return $this->render('view', 
+            [
+                'model' => $model, 
+                'model1'=> $model1,
+            ]);
+        }
     }
 
     /**
@@ -87,7 +91,6 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
         $model->id_variable=$variable;
         //Escenario
         $model->scenario = ($localizacion=='0' ? 'Nacional' : 'Estadal');
-
         $model->id_pais = Pais::findOne(['nombre'=>'Venezuela'])->id;
         //lista desplegable
         $paises = Pais::find()->all();

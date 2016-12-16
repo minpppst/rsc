@@ -1,7 +1,7 @@
 <?php
 
 namespace backend\models;
-
+use common\models\UnidadEjecutora;
 use Yii;
 
 /**
@@ -52,5 +52,13 @@ class ResponsableAccVariable extends \yii\db\ActiveRecord
             'oficina' => 'Oficina',
             'id_variable' => 'Id Variable',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdUnidadEjecutora()
+    {
+        return $this->hasOne(UnidadEjecutora::className(), ['id' => 'oficina']);
     }
 }

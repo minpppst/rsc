@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
          'accion_centralizada' => $accion_centralizada,
          'accion_especifica' => $accion_especifica,
          'accionAC' => $accionAC,
+         'verificar1' => $verificar1,
          'ue' => $ue,
     ]) ?>
 

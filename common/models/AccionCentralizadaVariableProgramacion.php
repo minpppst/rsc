@@ -51,7 +51,11 @@ class AccionCentralizadaVariableProgramacion extends \yii\db\ActiveRecord
     }
 
 
-    public function numero_ingresado($attribute){
+    /**
+    *Validar que no quede todos los meses vacios
+    */
+    public function numero_ingresado($attribute)
+    {
 
         if($this->enero<=0 && $this->febrero<=0 && $this->marzo<=0 && $this->abril<=0 && $this->mayo<=0 && $this->junio<=0 && $this->julio<=0 && $this->agosto<=0 && $this->septiembre<=0 && $this->octubre<=0 && $this->noviembre<=0 && $this->diciembre<=0 )
              $this->addError($attribute, 'Error, Necesita Cargar Al Menos Una Cantidad Positiva En Uno De Los Meses');

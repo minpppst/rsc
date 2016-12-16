@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\ResponsableAccVariable;
 use backend\models\ResponsableAccVariableSearch;
+use common\models\UnidadEjecutora;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -58,6 +59,7 @@ class ResponsableAccVariableController extends \common\controllers\BaseControlle
         $model = new ResponsableAccVariable();
         $model->id_variable=$id_variable;
         $request = Yii::$app->request;
+        $modeluej=UnidadEjecutora::find()->all();
         
         if($request->isAjax){
             /*
@@ -69,6 +71,7 @@ class ResponsableAccVariableController extends \common\controllers\BaseControlle
                     'title'=> "Responsable",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'modeluej' => $modeluej,
                         
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -91,6 +94,7 @@ class ResponsableAccVariableController extends \common\controllers\BaseControlle
                     'title'=> "Responsable",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
+                        'modeluej' => $modeluej,
                                    
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -107,6 +111,7 @@ class ResponsableAccVariableController extends \common\controllers\BaseControlle
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'modeluej' => $modeluej,
             ]);
         }
 
@@ -126,7 +131,7 @@ class ResponsableAccVariableController extends \common\controllers\BaseControlle
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $modeluej=UnidadEjecutora::find()->all();
         $request = Yii::$app->request;
         //ajax
         if($request->isAjax){
@@ -139,8 +144,7 @@ class ResponsableAccVariableController extends \common\controllers\BaseControlle
                     'title'=> "Responsable",
                     'content'=>$this->renderPartial('update', [
                         'model' => $model,
-                        
-                        
+                        'modeluej' => $modeluej,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -153,7 +157,7 @@ class ResponsableAccVariableController extends \common\controllers\BaseControlle
                     'title'=> "Responsable",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
-                        
+                        'modeluej' => $modeluej,
                     ]),
                     
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -165,6 +169,7 @@ class ResponsableAccVariableController extends \common\controllers\BaseControlle
                     'title'=> "Responsable",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
+                        'modeluej' => $modeluej,
                         
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -181,6 +186,7 @@ class ResponsableAccVariableController extends \common\controllers\BaseControlle
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'modeluej' => $modeluej,
             ]);
         }
     }
