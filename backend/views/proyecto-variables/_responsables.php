@@ -39,6 +39,11 @@ use yii\bootstrap\Modal;
                 $aceptar = '<a class=\'btn btn-primary\' href=\''.Url::to([$url.'/delete2', 'id' => $model->id]).'\'  title=\'Aceptar\' role=\'modal-remote\' \'data-method\'=\'post\' >Aceptar</a>';
                 
                 //$aceptar = '<a class="btn btn-primary" href="/rsc/backend/web/index.php?r=proyecto-variable-responsable%2Fupdate&amp;id=6" title="Editar" role="modal-remote"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</a>';
+                $atributos[]=
+                    [
+                        'attribute' => 'oficina',
+                        'value' => $model->oficina0->nombre,
+                    ];
             ?>
             <!-- Botones -->
             <?= Html::a($icons['editar'].' Editar', [$url.'/update', 'id' => $model->id], [
@@ -60,6 +65,7 @@ use yii\bootstrap\Modal;
     </h4>
     <?= DetailView::widget([
             'model' => $model,
-            'attributes' => $atributos
-    ]) ?>
+            'attributes' => $atributos,
+
+        ]) ?>
 <?php endif; ?>

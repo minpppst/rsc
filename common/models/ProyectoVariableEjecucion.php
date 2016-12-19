@@ -1,0 +1,216 @@
+<?php
+
+namespace common\models;
+use backend\models\ProyectoVariables;
+use backend\models\ProyectoVariableLocalizacion;
+use backend\models\ProyectoVariableDesbloqueoMes;
+use backend\models\ProyectoVariableProgramacion;
+use johnitvn\userplus\base\models\UserAccounts;
+use yii\data\ArrayDataProvider;
+use Yii;
+
+/**
+ * This is the model class for table "proyecto_variable_ejecucion".
+ *
+ * @property integer $id
+ * @property integer $id_programacion
+ * @property integer $id_usuario
+ * @property string $fecha
+ * @property integer $enero
+ * @property integer $febrero
+ * @property integer $marzo
+ * @property integer $abril
+ * @property integer $mayo
+ * @property integer $junio
+ * @property integer $julio
+ * @property integer $agosto
+ * @property integer $septiembre
+ * @property integer $octubre
+ * @property integer $noviembre
+ * @property integer $diciembre
+ * @property string $fecha_creacion
+ *
+ * @property ProyectoVariableDesbloqueoMes[] $proyectoVariableDesbloqueoMes
+ * @property ProyectoVariableProgramacion $idProgramacion
+ * @property UserAccounts $idUsuario
+ */
+class ProyectoVariableEjecucion extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'proyecto_variable_ejecucion';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['id_programacion', 'id_usuario'], 'required'],
+            [['id_programacion', 'id_usuario', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'], 'integer'],
+            [['fecha', 'fecha_creacion'], 'safe'],
+            [['id_programacion'], 'exist', 'skipOnError' => true, 'targetClass' => ProyectoVariableProgramacion::className(), 'targetAttribute' => ['id_programacion' => 'id']],
+            [['id_usuario'], 'exist', 'skipOnError' => true, 'targetClass' => UserAccounts::className(), 'targetAttribute' => ['id_usuario' => 'id']],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'id_programacion' => 'Id Programacion',
+            'id_usuario' => 'Id Usuario',
+            'fecha' => 'Fecha',
+            'enero' => 'Enero',
+            'febrero' => 'Febrero',
+            'marzo' => 'Marzo',
+            'abril' => 'Abril',
+            'mayo' => 'Mayo',
+            'junio' => 'Junio',
+            'julio' => 'Julio',
+            'agosto' => 'Agosto',
+            'septiembre' => 'Septiembre',
+            'octubre' => 'Octubre',
+            'noviembre' => 'Noviembre',
+            'diciembre' => 'Diciembre',
+            'fecha_creacion' => 'Fecha Creacion',
+            'trimestre1' => 'Trimestre I',
+            'trimestre2' => 'Trimestre II',
+            'trimestre3' => 'Trimestre III',
+            'trimestre4' => 'Trimestre IV',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProyectoVariableDesbloqueoMes()
+    {
+        return $this->hasMany(ProyectoVariableDesbloqueoMes::className(), ['id_ejecucion' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdProgramacion()
+    {
+        return $this->hasOne(ProyectoVariableProgramacion::className(), ['id' => 'id_programacion']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdUsuario()
+    {
+        return $this->hasOne(UserAccounts::className(), ['id' => 'id_usuario']);
+    }
+
+    /** retorna la suma del trimestre uno
+     * @return string
+     */
+    public function getTrimestre1()
+    {
+        return ($this->enero+$this->febrero+$this->marzo);
+    }
+
+    /** retorna la suma del trimestre dos
+     * @return string
+     */
+    public function getTrimestre2()
+    {
+        return ($this->abril+$this->mayo+$this->junio);
+    }
+
+    /** retorna la suma del trimestre tres
+     * @return string
+     */
+    public function getTrimestre3()
+    {
+        return ($this->julio+$this->agosto+$this->septiembre);
+    }
+
+    /** retorna la suma del trimestre cuatro
+     * @return string
+     */
+    public function getTrimestre4()
+    {
+        return ($this->octubre+$this->noviembre+$this->diciembre);
+    }
+
+    /** retorna la suma del total de los trimestres
+     * @return integer
+     */
+    public function getTotalTrimestre()
+    {
+        return (
+            $this->trimestre1 +
+            $this->trimestre2 +
+            $this->trimestre3 +
+            $this->trimestre4
+        );
+    }
+
+    /**
+    *Busca Las variables Asignadas al usuario actual
+    * @return array dataprovider
+    */
+    public function VariablesAsignadas()
+    {
+        $ace =ProyectoVariables::find()
+        ->select(["proyecto_variables.nombre_variable as nombre","proyecto_variables.id as id", "proyecto_variables.localizacion", "proyecto_variable_localizacion.id as id_localizacion"])
+        ->innerjoin('proyecto_variable_usuarios', 'proyecto_variable_usuarios.id_variable=proyecto_variables.id')
+        ->innerjoin('proyecto_variable_localizacion', 'proyecto_variable_localizacion.id_variable=proyecto_variables.id')
+        ->where(['proyecto_variable_usuarios.id_usuario' => Yii::$app->user->getid()])
+        ->asArray()
+        ->all();
+        
+        $provider=new ArrayDataProvider([
+            'allModels' => $ace,
+            'sort' => [
+                'attributes' => ['nombre'],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $provider;
+    }
+
+    /** Busca la variable asignada al usuario por region(de poseerla)
+    * int $id
+    * @return array provider
+    */
+    public function LocalizacionVariables($id){
+
+        $ace = ProyectoVariableLocalizacion::find()
+        ->select("estados.nombre as nombre_estados, municipio.nombre as nombre_municipio, parroquia.nombre as nombre_parroquia, id_variable, proyecto_variable_localizacion.id, proyecto_variables.nombre_variable as nombre")
+        ->innerjoin("proyecto_variables", "proyecto_variable_localizacion.id_variable=proyecto_variables.id")
+        ->innerjoin("estados", 'proyecto_variable_localizacion.id_estado=estados.id')
+        ->leftjoin("municipio", 'proyecto_variable_localizacion.id_municipio=municipio.id')
+        ->leftjoin("parroquia", 'proyecto_variable_localizacion.id_parroquia=parroquia.id')
+        ->where(['proyecto_variable_localizacion.id_variable' => $id])
+        ->asArray()
+        ->All();
+            
+        $provider=new ArrayDataProvider([
+        'allModels' => $ace,
+        'sort' => [
+            'attributes' => ['nombre'],
+        ],
+        'pagination' => [
+            'pageSize' => 10,
+        ],
+        ]);
+        
+        return $provider;
+
+
+    }
+}

@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 use backend\models\AccionCentralizadaVariablesUsuarios;
+use backend\models\ProyectoVariableUsuarios;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -269,12 +270,30 @@ class User extends UserAccounts implements IdentityInterface
       }//fin del else
 
    }
+   /**
+    * Determinar si posee variables activas de Proyecto
+    * @return boolean
+    */
+   public function hasProyectoVariables()
+   {
+      $model = ProyectoVariableUsuarios::find()->where(['id_usuario' => $this->Id])->andwhere(['estatus' => 1])->One();
+
+      if($model!=null)
+      {
+         return true;
+      }
+      else
+      {
+         return false;
+      }//fin del else
+
+   }
 
 
     public function canVariables()
     {
 
-      return Yii::$app->user->can('proyecto-variables/index') || Yii::$app->user->can('accion-centralizada-variables/index') ? true : false;
+      return Yii::$app->user->can('proyecto-variable-ejecucion/variables') || Yii::$app->user->can('accion-centralizada-variable-ejecucion/index') ? true : false;
         //if($variables){
         //$variablesp = Yii::$app->user->can('proyecto-variables/index') ? true : false;
         //}

@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 return [
     [
@@ -51,10 +52,16 @@ return [
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
+        'template' => '{view}{update}{delete}{desbloqueo}', 
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to(['/proyecto-variable-localizacion/'.$action,'id'=>$key]);
         },
+        'buttons' => [
+        'desbloqueo' => function ($url, $model, $key) {
+         return $model->obtenerEjecucion ?   html::a(' <span class="glyphicon glyphicon-lock"></span>',['proyecto-variable-desbloqueo-mes/index', 'id'=>$model->id,], ['role'=>'modal-remote','title'=>'Desbloquear Mes','data-toggle'=>'tooltip']) : '';
+        },
+        ],
         'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
         'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 

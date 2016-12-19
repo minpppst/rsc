@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\ProyectoVariableDesbloqueoMes;
-use backend\models\ProyectoDesbloqueoMesSearch;
+use backend\models\ProyectoVariableDesbloqueoMesSearch;
 use common\models\ProyectoVariableEjecucion;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -14,45 +14,37 @@ use \yii\web\Response;
 use yii\helpers\Html;
 
 /**
- * ProyectoDesbloqueoMesController implements the CRUD actions for ProyectoVariableDesbloqueoMes model.
+ * ProyectoVariableDesbloqueoMesController implements the CRUD actions for ProyectoVariableDesbloqueoMes model.
  */
-class ProyectoDesbloqueoMesController extends Controller
+class ProyectoVariableDesbloqueoMesController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-        ];
+        return parent::behaviors();
     }
 
     /**
-     * Lists all ProyectoVariableDesbloqueoMes models.
+     * Lists all ProyectoVariableDesbloqueoMes models. por localizacion
+     *integer $id
      * @return mixed
      */
     public function actionIndex($id)
     {    
-        $searchModel = new ProyectoDesbloqueoMesSearch();
-
-        $buscar=ProyectoVariableEjecucion::find()
+        
+        $searchModel = new ProyectoVariableDesbloqueoMesSearch();
+        $ejecucion=ProyectoVariableEjecucion::find()
         ->innerjoin('proyecto_variable_programacion', 'proyecto_variable_programacion.id=proyecto_variable_ejecucion.id_programacion')
-        ->where(['proyecto_variable_programacion.id_localizacion' => $id])
-        ->One();
+        ->where(['proyecto_variable_programacion.id_localizacion' => $id])->one();
         
         $model = ProyectoVariableDesbloqueoMes::find();
         
-        if($buscar!=null)
+        if($ejecucion!=null)
         {
             $model->andFilterWhere([
-                'id_ejecucion' => $buscar->id,
+                'id_ejecucion' => $ejecucion->id,
             ]);
         }
         else
@@ -61,15 +53,24 @@ class ProyectoDesbloqueoMesController extends Controller
                 'id' => -1,
             ]);
         }
+        
         $dataProvider = new ActiveDataProvider([
         'query' => $model,
         ]);
+        $searchModel='';
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'ejecucion' => $buscar,
-            'dataProvider' => $dataProvider,
-        ]);
+        return 
+        [
+            'title' => "Desbloqueo Por Mes Variables",
+            'content' => $this->renderAjax('index', [
+                'searchModel' => $searchModel,
+                'id_ejecucion' => $ejecucion,
+                'dataProvider' => $dataProvider,
+            ]),
+        ];
+        
     }
 
 
@@ -101,14 +102,15 @@ class ProyectoDesbloqueoMesController extends Controller
     /**
      * Creates a new ProyectoVariableDesbloqueoMes model.
      * For ajax request will return json object
+     *integer $id_ejecucion
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id_ejecucion)
     {
         $request = Yii::$app->request;
         $model = new ProyectoVariableDesbloqueoMes();  
-
+        $model->id_ejecucion=$id_ejecucion;
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -119,6 +121,7 @@ class ProyectoDesbloqueoMesController extends Controller
                     'title'=> "Create new ProyectoVariableDesbloqueoMes",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
+                        'mes' => $model->meses,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -130,7 +133,7 @@ class ProyectoDesbloqueoMesController extends Controller
                     'title'=> "Create new ProyectoVariableDesbloqueoMes",
                     'content'=>'<span class="text-success">Create ProyectoVariableDesbloqueoMes success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Create More',['create', 'id_ejecucion' => $id_ejecucion,],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
@@ -138,6 +141,7 @@ class ProyectoDesbloqueoMesController extends Controller
                     'title'=> "Create new ProyectoVariableDesbloqueoMes",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
+                        'mes' => $model->meses,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -153,6 +157,7 @@ class ProyectoDesbloqueoMesController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'mes' => $model->meses,
                 ]);
             }
         }

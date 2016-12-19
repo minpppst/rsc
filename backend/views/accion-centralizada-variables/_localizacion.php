@@ -30,7 +30,7 @@ return [
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
-         'template' => '{view}{update}{delete}{desbloqueo}', 
+        'template' => '{view}{update}{delete}{desbloqueo}', 
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to(['localizacion-acc-variable/'.$action,'id'=>$key, 'variable' => $model->id_variable, 'localizacion' => $model->idVariable->localizacion]);

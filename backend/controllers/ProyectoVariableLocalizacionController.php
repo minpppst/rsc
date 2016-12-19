@@ -21,22 +21,14 @@ use yii\helpers\Json;
 /**
  * ProyectoVariableLocalizacionController implements the CRUD actions for ProyectoVariableLocalizacion model.
  */
-class ProyectoVariableLocalizacionController extends Controller
+class ProyectoVariableLocalizacionController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-        ];
+        return parent::behaviors();
     }
 
     /**

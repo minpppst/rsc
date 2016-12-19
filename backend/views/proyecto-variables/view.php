@@ -141,7 +141,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'nombre',
                     'cedula',
                     'email',
-                    'telefono'
+                    'telefono',
+                    
                 ]
             ]) ?>
         

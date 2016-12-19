@@ -15,22 +15,14 @@ use yii\helpers\Html;
 /**
  * ProyectoVariableResponsableController implements the CRUD actions for ProyectoVariableResponsable model.
  */
-class ProyectoVariableResponsableController extends Controller
+class ProyectoVariableResponsableController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc
      */
-    public function behaviors()
+   public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-        ];
+        return parent::behaviors();
     }
 
     /**
@@ -170,7 +162,7 @@ class ProyectoVariableResponsableController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'#responsable2',
+                    'forceReload'=>'#responsable-data',
                     'title'=> "ProyectoVariableResponsable #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,

@@ -7,16 +7,16 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\ProyectoDesbloqueoMesSearch */
+/* @var $searchModel backend\models\ProyectoVariableEjecucionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Proyecto Variable Desbloqueo Mes';
+$this->title = 'Proyecto Variable Ejecucions';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
 
 ?>
-<div class="proyecto-variable-desbloqueo-mes-index">
+<div class="proyecto-variable-ejecucion-index">
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
@@ -26,8 +26,8 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                   Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create', 'id_ejecucion'=> $ejecucion->id],
-                    ['role'=>'modal-remote','title'=> 'Desbloquear Mes','class'=>'btn btn-default']).
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
+                    ['role'=>'modal-remote','title'=> 'Create new Proyecto Variable Ejecucions','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
@@ -39,7 +39,7 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Proyecto Variable Desbloqueo Mes listing',
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Proyecto Variable Ejecucions listing',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',

@@ -226,4 +226,25 @@ class ProyectoVariableLocalizacion extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ProyectoVariableProgramacion::className(), ['id_localizacion' => 'id']);
     }
+
+    /**
+     * mostrar si ya se ejecuto la programación de esta localización
+     * @return bool
+     */
+    public function getObtenerEjecucion(){
+    
+        $programacion_ejecucion=ProyectoVariableProgramacion::find()
+        ->innerjoin('proyecto_variable_ejecucion', 'proyecto_variable_programacion.id=proyecto_variable_ejecucion.id_programacion')
+        ->where(['proyecto_variable_programacion.id_localizacion'=> $this->id])
+        ->One();
+    
+        if($programacion_ejecucion!=NULL)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

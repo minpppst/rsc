@@ -25,22 +25,14 @@ use yii\data\ActiveDataProvider;
 /**
  * ProyectoVariablesController implements the CRUD actions for ProyectoVariables model.
  */
-class ProyectoVariablesController extends Controller
+class ProyectoVariablesController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-        ];
+        return parent::behaviors();
     }
 
     /**
@@ -395,7 +387,7 @@ class ProyectoVariablesController extends Controller
     }
 
     /**
-     * Encontrar las acciones especificas
+     * Encontrar las acciones especificas asociadas a un proyecto
      * @return array
      */
      public function actionAce2()
@@ -449,8 +441,6 @@ class ProyectoVariablesController extends Controller
     /**
      * Encontrar  los usuarios  que esten asociados a las acciones especificas
      * @return array
-     * @param integer $id, $acc
-     * @param string or array $q
      */
     public function actionAce1()
     {

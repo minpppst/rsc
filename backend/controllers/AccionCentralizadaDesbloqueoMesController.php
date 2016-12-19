@@ -36,19 +36,21 @@ class AccionCentralizadaDesbloqueoMesController extends \common\controllers\Base
         $ejecucion=AccionCentralizadaVariableEjecucion::find()
         ->innerjoin('accion_centralizada_variable_programacion', 'accion_centralizada_variable_programacion.id=accion_centralizada_variable_ejecucion.id_programacion')
         ->where(['accion_centralizada_variable_programacion.id_localizacion' => $id])->one();
-        //print_r($programacion); exit();
 
         $model = AccionCentralizadaDesbloqueoMes::find();
-        if($ejecucion!=null){
-        
-        $model->andFilterWhere([
-            'id_ejecucion' => $ejecucion->id,
-        ]);
-        }else{
+        if($ejecucion!=null)
+        {
+            $model->andFilterWhere([
+                'id_ejecucion' => $ejecucion->id,
+            ]);
+        }
+        else
+        {
             $model->andFilterWhere([
                 'id' => -1,
             ]);
         }
+        
         $dataProvider = new ActiveDataProvider([
         'query' => $model,
         ]);
