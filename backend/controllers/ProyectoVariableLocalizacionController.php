@@ -122,8 +122,10 @@ class ProyectoVariableLocalizacionController extends \common\controllers\BaseCon
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];
-            }else 
+            }
+            else
             {
+                //transaction para guardar dos modelos localizacion y programacion
                 $connection = \Yii::$app->db;
                 $transaction = $connection->beginTransaction();
                 if($model->load($request->post()) && $model->save())

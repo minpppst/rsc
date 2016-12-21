@@ -17,5 +17,6 @@ use yii\helpers\Html;
         'ue' => $ue,
         'impacto' => $impacto,
         'lugares' => $lugares,
+        'listausuariosaccion' => $listausuariosaccion,
     ]) ?>
 </div>

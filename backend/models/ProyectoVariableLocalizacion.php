@@ -231,7 +231,8 @@ class ProyectoVariableLocalizacion extends \yii\db\ActiveRecord
      * mostrar si ya se ejecuto la programación de esta localización
      * @return bool
      */
-    public function getObtenerEjecucion(){
+    public function getObtenerEjecucion()
+    {
     
         $programacion_ejecucion=ProyectoVariableProgramacion::find()
         ->innerjoin('proyecto_variable_ejecucion', 'proyecto_variable_programacion.id=proyecto_variable_ejecucion.id_programacion')

@@ -48,7 +48,7 @@ DepDropAsset::register($this);
 
       <div>
       
-        <?php
+        <?php 
         echo $form->field($modeluser, 'id')->widget(DepDrop::classname(),
               [
                 'type'=>DepDrop::TYPE_SELECT2,
@@ -86,18 +86,17 @@ $this->registerJs(
         //GE
           $("#proyectovariables-accion_especifica").depdrop({
             depends: ["proyecto"],
+            //initialize : true,
+            //initDepends:["proyecto"],
             url: "'.Url::to(["ace2"]).'"
         });
         $("#proyectovariables-unidad_ejecutora").depdrop({
             depends: ["proyectovariables-accion_especifica"],
+            //initialize : true,
+            //initDepends:["proyectovariables-accion_especifica"],
             url: "'.Url::to(["ace"]).'"
         });
-        $("#proyecto").on("change", function(){
-        });
-        $("#proyectovariables-accion_especifica").on("change", function(){
-        });
-        $("#proyectovariables-unidad_ejecutora").on("change", function(){
-        });
+
         });
         '
 );

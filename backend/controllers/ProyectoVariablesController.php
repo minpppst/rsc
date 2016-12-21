@@ -107,43 +107,68 @@ class ProyectoVariablesController extends \common\controllers\BaseController
         //listas desplegables
         $listproyecto = Proyecto::find()->all();
         $lugares = Ambito::find()->all();
-        $proyectoac = ProyectoAccionEspecifica::find()->where(['id' => null])->all();
-        $ue = UnidadEjecutora:: find()->where(['id' => null])->all();
+        $proyectoac = new ProyectoAccionEspecifica();
+        $ue = new UnidadEjecutora();//::find()->select(['id',"CONCAT(codigo_ue, ' - ', nombre) as name"])->asArray()->all();
+        
         
         if ($model->load($request->post())) 
         {
+            //transaction pues se guarda dos modelos (variables y los usuarios asociadas a ella)
             $connection = \Yii::$app->db;
             $transaction = $connection->beginTransaction();
             try 
             {
-                
                 if($model->save())
                 {
                     $model_usuarios= new ProyectoVariableUsuarios();
                     $model_usuarios->id_variable=$model->id;
                     $usuarios=Yii::$app->request->post('UserAccounts');
-                    
-                    foreach ($usuarios['id'] as $key => $value)
-                    {
-                        if(!$model_usuarios->UsuariosAgregar($model->id,$value))
-                        {
-                            $transaction->rollback();
-                            return $this->render('create',
-                            [
-                                'model' => $model,
-                                'proyecto' => $proyecto,
-                                'proyectoac' => $proyectoac,
-                                'listproyecto' => $listproyecto,
-                                'modeluser' => $modeluser,
-                                'lugares' => $lugares,
-                                'ue' => $ue,
-                                'impacto' => $impacto,
-                            ]);
-                        }
-                    }
+                    //para la precarga de los combos necesito recuperar el valor de proyecto
+                    $proyectos=Yii::$app->request->post('Proyecto');
+                    $proyecto->id=$proyectos['nombre'];
 
-                    $transaction->commit();
-                    return $this->redirect(['proyecto-variable-responsable/create',  'id_variable' => $model->id]);
+                    if($usuarios['id']!="")
+                    {
+                        foreach ($usuarios['id'] as $key => $value)
+                        {
+                            if(!$model_usuarios->UsuariosAgregar($model->id,$value))
+                            {
+                                $transaction->rollback();
+                                return $this->render('create',
+                                [
+                                    'model' => $model,
+                                    'proyecto' => $proyecto,
+                                    'proyectoac' => $proyectoac,
+                                    'listproyecto' => $listproyecto,
+                                    'modeluser' => $modeluser,
+                                    'lugares' => $lugares,
+                                    'ue' => $ue,
+                                    'impacto' => $impacto,
+                                    'listausuariosaccion' => $modeluser,
+                                ]);
+                            }
+                        }
+
+                        $transaction->commit();
+                        return $this->redirect(['proyecto-variable-responsable/create',  'id_variable' => $model->id]);    
+                    }
+                    else
+                    {   //usuarios esta vacio
+                        $transaction->rollback();
+                        return $this->render('create',
+                        [
+                            'model' => $model,
+                            'proyecto' => $proyecto,
+                            'proyectoac' => $proyectoac,
+                            'listproyecto' => $listproyecto,
+                            'modeluser' => $modeluser,
+                            'lugares' => $lugares,
+                            'ue' => $ue,
+                            'impacto' => $impacto,
+                            'listausuariosaccion' => $modeluser,
+                        ]);
+                    }
+                    
                 }
                 else
                 {
@@ -157,6 +182,7 @@ class ProyectoVariablesController extends \common\controllers\BaseController
                         'lugares' => $lugares,
                         'ue' => $ue,
                         'impacto' => $impacto,
+                        'listausuariosaccion' => $modeluser,
                     ]);
                 }
             }
@@ -178,6 +204,7 @@ class ProyectoVariablesController extends \common\controllers\BaseController
                 'lugares' => $lugares,
                 'ue' => $ue,
                 'impacto' => $impacto,
+
             ]);
         }
     }
@@ -194,18 +221,22 @@ class ProyectoVariablesController extends \common\controllers\BaseController
         $request = Yii::$app->request;
         $model = $this->findModel($id);
         $impacto = ProyectoVariableImpacto::find()->asArray()->all();
-        //lista desplegables
+        //lista desplegables y variables precargadas
         $lugares = Ambito::find()->all();
         $proyecto= Proyecto::findOne(['id' => $model->accionEspecifica->id_proyecto]);
         $listproyecto = Proyecto::find(['estatus' => 1])->all();
+        
         $proyectoac = ProyectoAccionEspecifica::find()->where(['id_proyecto' => $model->accionEspecifica->id_proyecto, 'estatus' => 1])->all();
+
         $ue = UnidadEjecutora::find(['estatus' => 1])
-        ->select(["unidad_ejecutora.id as id", "unidad_ejecutora.nombre as name"])
+        ->select(["unidad_ejecutora.id as id", "CONCAT(unidad_ejecutora.codigo_ue, ' - ',unidad_ejecutora.nombre) as name"])
         ->asArray()
         ->where(['id' => $model->unidad_ejecutora])
         ->All();
+
         $listausuariosaccion=ProyectoUsuarioAsignar::find()->select(['usuario_id as id', 'username'])->innerjoin('user_accounts', 'user_accounts.id=proyecto_usuario_asignar.usuario_id')->where(['accion_especifica_id' => $model->accion_especifica])->asArray()->all();
         //fin listas precargadas y modelos necesarios
+        
         //usuarios seleccionados
         $usuariosaccion=ProyectoVariableUsuarios::find()->select(['id_usuario as id', 'username'])->innerjoin('user_accounts', 'user_accounts.id=proyecto_variable_usuarios.id_usuario')->where(['id_variable' => $model->id])->asArray()->all();
         foreach ($usuariosaccion as $key => $value) 
@@ -214,7 +245,8 @@ class ProyectoVariablesController extends \common\controllers\BaseController
         }
         $modeluser =new UserAccounts();
         $modeluser->id=$usuarios;
-
+        //fin de los usuarios seleccionados
+        
         if ($model->load($request->post())) 
         {
             $connection = \Yii::$app->db;
@@ -228,7 +260,7 @@ class ProyectoVariablesController extends \common\controllers\BaseController
                     $usuarios=Yii::$app->request->post('UserAccounts');
                     if($usuarios['id']!=null)
                     {
-                        //print_r($usuarios['id']); exit();   
+                        
                         if(!$model_usuarios->UsuariosModificar($usuarios['id'], $model->id))
                         {
                             $transaction->rollback();

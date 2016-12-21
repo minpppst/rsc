@@ -23,7 +23,7 @@ DepDropAsset::register($this);
             break;
 
             case 'Nacional':
-                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione', 'disabled' =>'true']);
+                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione'], ['disabled' => 'disabled']);
             break;
 
             case 'Estadal':
@@ -54,7 +54,7 @@ DepDropAsset::register($this);
 
 
             default:
-                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione', 'disabled' => true]); 
+                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione'], ['disabled' => 'disabled']);
             break;
         }
     ?>

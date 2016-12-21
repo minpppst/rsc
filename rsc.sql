@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2016 at 03:39 PM
+-- Generation Time: Dec 20, 2016 at 08:11 PM
 -- Server version: 5.7.14
 -- PHP Version: 5.5.12
 
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `accion_centralizada_desbloqueo_mes` (
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `id_ejecucion` (`id_ejecucion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -427,7 +427,7 @@ CREATE TABLE IF NOT EXISTS `audit_entry` (
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`),
   KEY `idx_route` (`route`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=87906 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=88171 ;
 
 --
 -- Dumping data for table `audit_entry`
@@ -3981,7 +3981,273 @@ INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `reques
 (87902, '2016-12-19 15:38:41', 2, 0.234014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
 (87903, '2016-12-19 15:38:52', 2, 0.250014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
 (87904, '2016-12-19 15:39:03', 2, 0.264209, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
-(87905, '2016-12-19 15:39:13', 2, 0.318014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688);
+(87905, '2016-12-19 15:39:13', 2, 0.318014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87906, '2016-12-19 15:39:24', 2, 0.35602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87907, '2016-12-19 15:39:34', 2, 0.267015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87908, '2016-12-19 15:39:59', 2, 1.06106, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87909, '2016-12-19 15:39:59', 2, 1.44308, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87910, '2016-12-19 15:40:05', 2, 0.29941, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87911, '2016-12-19 15:40:15', 2, 0.262015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87912, '2016-12-19 15:40:26', 2, 0.218401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87913, '2016-12-19 15:40:37', 2, 0.858001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87914, '2016-12-19 15:40:46', 2, 0.218401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87915, '2016-12-19 15:40:56', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87916, '2016-12-19 15:41:06', 2, 0.218401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87917, '2016-12-19 15:41:16', 2, 0.39, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87918, '2016-12-19 15:41:27', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87919, '2016-12-19 15:41:38', 2, 0.234001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87920, '2016-12-19 15:41:49', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87921, '2016-12-19 15:41:59', 2, 0.530401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87922, '2016-12-19 15:42:10', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87923, '2016-12-19 15:42:20', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87924, '2016-12-19 15:42:31', 2, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87925, '2016-12-19 15:42:42', 2, 0.234001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87926, '2016-12-19 15:42:53', 2, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87927, '2016-12-19 15:43:04', 2, 0.202801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87928, '2016-12-19 15:43:15', 2, 0.2028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87929, '2016-12-19 15:43:25', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87930, '2016-12-19 15:43:37', 2, 0.271016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87931, '2016-12-19 15:43:46', 2, 0.368021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87932, '2016-12-19 15:43:57', 2, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87933, '2016-12-19 15:44:07', 2, 0.2194, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87934, '2016-12-19 15:44:17', 2, 0.411614, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87935, '2016-12-19 15:44:28', 2, 0.330804, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87936, '2016-12-19 15:44:39', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87937, '2016-12-19 15:44:50', 2, 0.234001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87938, '2016-12-19 15:45:00', 2, 0.255002, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87939, '2016-12-19 15:45:10', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87940, '2016-12-19 15:45:20', 2, 0.218401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87941, '2016-12-19 15:45:31', 2, 0.205603, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87942, '2016-12-19 15:45:41', 2, 0.266016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87943, '2016-12-19 15:45:52', 2, 0.2028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87944, '2016-12-19 15:46:03', 2, 0.202801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87945, '2016-12-19 15:46:14', 2, 0.266015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87946, '2016-12-19 15:46:24', 2, 0.221801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87947, '2016-12-19 15:46:35', 2, 0.306018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87948, '2016-12-19 15:46:45', 2, 0.281016, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87949, '2016-12-19 15:46:56', 2, 0.210801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87950, '2016-12-19 15:47:07', 2, 1.15407, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87951, '2016-12-19 15:47:16', 2, 0.257014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87952, '2016-12-19 15:47:26', 2, 0.236803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87953, '2016-12-19 15:47:37', 2, 0.268015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87954, '2016-12-19 15:47:47', 2, 0.253803, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87955, '2016-12-19 15:47:57', 2, 0.212201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87956, '2016-12-19 15:48:08', 2, 0.244013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87957, '2016-12-19 15:48:18', 2, 0.235013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87958, '2016-12-19 15:48:28', 2, 0.247015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87959, '2016-12-19 15:48:38', 2, 0.232014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87960, '2016-12-19 15:48:48', 2, 0.257015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87961, '2016-12-19 15:48:58', 2, 0.225012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87962, '2016-12-19 15:49:08', 2, 0.252808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87963, '2016-12-19 15:49:19', 2, 0.246807, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87964, '2016-12-19 15:49:30', 2, 0.29941, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87965, '2016-12-19 15:49:41', 2, 0.221202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87966, '2016-12-19 15:49:51', 2, 0.2028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87967, '2016-12-19 15:50:01', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87968, '2016-12-19 15:50:12', 2, 0.230806, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87969, '2016-12-19 15:50:22', 2, 0.2028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87970, '2016-12-19 15:50:32', 2, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87971, '2016-12-19 15:50:43', 2, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87972, '2016-12-19 15:50:54', 2, 0.234001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87973, '2016-12-19 15:51:05', 2, 0.234001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87974, '2016-12-19 15:51:15', 2, 0.2028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87975, '2016-12-19 15:51:26', 2, 0.234001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87976, '2016-12-19 15:51:36', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87977, '2016-12-19 15:51:47', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87978, '2016-12-19 15:51:58', 2, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87979, '2016-12-19 15:52:08', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87980, '2016-12-19 15:52:19', 2, 0.205003, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87981, '2016-12-19 15:52:30', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87982, '2016-12-19 15:52:40', 2, 0.367616, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124688),
+(87983, '2016-12-20 19:51:50', 0, 1.20107, '127.0.0.1', 'GET', 0, 'site/index', 5615408),
+(87984, '2016-12-20 19:51:52', 0, 0.685039, '127.0.0.1', 'GET', 0, 'user/security/login', 7188504),
+(87985, '2016-12-20 19:51:53', 0, 0.433024, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080904),
+(87986, '2016-12-20 19:51:53', 0, 0.898052, '127.0.0.1', 'GET', 0, 'user/security/login', 7130384),
+(87987, '2016-12-20 19:52:02', 0, 1.39761, '127.0.0.1', 'POST', 1, 'user/security/login', 6449424),
+(87988, '2016-12-20 19:52:03', 0, 0.748008, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080904),
+(87989, '2016-12-20 19:52:04', 2, 1.36008, '127.0.0.1', 'POST', 0, 'user/security/login', 6401216),
+(87990, '2016-12-20 19:52:05', 2, 0.704041, '127.0.0.1', 'GET', 0, 'site/index', 8041712),
+(87991, '2016-12-20 19:52:06', 2, 0.791046, '127.0.0.1', 'GET', 0, 'site/index', 8041008),
+(87992, '2016-12-20 19:52:07', 2, 0.746043, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124680),
+(87993, '2016-12-20 19:52:11', 2, 1.01506, '127.0.0.1', 'GET', 0, 'accion-centralizada-variable-ejecucion/variables', 9850416),
+(87994, '2016-12-20 19:52:12', 2, 0.951055, '127.0.0.1', 'GET', 0, 'accion-centralizada-variable-ejecucion/variables', 9850000),
+(87995, '2016-12-20 19:52:13', 2, 1.00485, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124768),
+(87996, '2016-12-20 19:52:14', 2, 0.888051, '127.0.0.1', 'GET', 0, 'accion-centralizada-variable-ejecucion/create', 8923840),
+(87997, '2016-12-20 19:52:15', 2, 0.988056, '127.0.0.1', 'GET', 0, 'accion-centralizada-variable-ejecucion/create', 8923496),
+(87998, '2016-12-20 19:52:16', 2, 0.902448, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124776),
+(87999, '2016-12-20 19:52:25', 2, 0.229604, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124776),
+(88000, '2016-12-20 19:52:32', 2, 0.750043, '127.0.0.1', 'GET', 0, 'accion-centralizada-variable-ejecucion/variables', 9850296),
+(88001, '2016-12-20 19:52:34', 2, 1.26007, '127.0.0.1', 'GET', 0, 'accion-centralizada-variable-ejecucion/variables', 9850000),
+(88002, '2016-12-20 19:52:34', 2, 1.10146, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124768),
+(88003, '2016-12-20 19:52:37', 2, 1.54769, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9798576),
+(88004, '2016-12-20 19:52:39', 2, 1.01806, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9797992);
+INSERT INTO `audit_entry` (`id`, `created`, `user_id`, `duration`, `ip`, `request_method`, `ajax`, `route`, `memory_max`) VALUES
+(88005, '2016-12-20 19:52:40', 2, 0.825245, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88006, '2016-12-20 19:52:49', 2, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88007, '2016-12-20 19:52:59', 2, 0.468001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88008, '2016-12-20 19:53:09', 2, 0.218401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88009, '2016-12-20 19:53:19', 2, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88010, '2016-12-20 19:53:29', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88011, '2016-12-20 19:53:39', 2, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88012, '2016-12-20 19:53:50', 2, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88013, '2016-12-20 19:53:59', 2, 0.218401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88014, '2016-12-20 19:54:09', 2, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88015, '2016-12-20 19:54:19', 2, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88016, '2016-12-20 19:54:29', 2, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88017, '2016-12-20 19:54:39', 2, 0.2506, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88018, '2016-12-20 19:54:49', 2, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88019, '2016-12-20 19:54:59', 2, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88020, '2016-12-20 19:55:10', 2, 0.655201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88021, '2016-12-20 19:55:20', 2, 0.390001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88022, '2016-12-20 19:55:30', 2, 0.733201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88023, '2016-12-20 19:55:39', 2, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88024, '2016-12-20 19:55:42', 2, 0.70004, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9801824),
+(88025, '2016-12-20 19:55:42', 2, 0.850049, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9801296),
+(88026, '2016-12-20 19:55:43', 2, 0.399221, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88027, '2016-12-20 19:55:53', 2, 0.309005, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88028, '2016-12-20 19:56:01', 2, 0.614035, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9800992),
+(88029, '2016-12-20 19:56:02', 2, 0.986057, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9800344),
+(88030, '2016-12-20 19:56:02', 2, 0.957054, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88031, '2016-12-20 19:56:12', 2, 0.345813, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88032, '2016-12-20 19:56:12', 2, 0.88705, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8670176),
+(88033, '2016-12-20 19:56:13', 2, 0.835047, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8669864),
+(88034, '2016-12-20 19:56:14', 2, 0.737241, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88035, '2016-12-20 19:56:16', 2, 0.383022, '127.0.0.1', 'POST', 0, 'proyecto-variable-ejecucion/create', 6830824),
+(88036, '2016-12-20 19:56:17', 2, 0.667038, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8732192),
+(88037, '2016-12-20 19:56:18', 2, 0.371021, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88038, '2016-12-20 19:56:18', 2, 0.880051, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8731616),
+(88039, '2016-12-20 19:56:21', 2, 0.715041, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8731696),
+(88040, '2016-12-20 19:56:22', 2, 0.435025, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88041, '2016-12-20 19:56:22', 2, 1.05906, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8731616),
+(88042, '2016-12-20 19:56:27', 2, 0.783045, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9800736),
+(88043, '2016-12-20 19:56:28', 2, 1.03706, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9800344),
+(88044, '2016-12-20 19:56:29', 2, 1.05106, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88045, '2016-12-20 19:56:29', 2, 0.780243, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8670264),
+(88046, '2016-12-20 19:56:30', 2, 0.319018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88047, '2016-12-20 19:56:30', 2, 0.975056, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8669864),
+(88048, '2016-12-20 19:56:34', 2, 0.406023, '127.0.0.1', 'POST', 0, 'proyecto-variable-ejecucion/create', 6830824),
+(88049, '2016-12-20 19:56:34', 2, 0.570032, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8732120),
+(88050, '2016-12-20 19:56:35', 2, 0.748043, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8731704),
+(88051, '2016-12-20 19:56:35', 2, 0.725042, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88052, '2016-12-20 19:56:36', 2, 0.647037, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8731688),
+(88053, '2016-12-20 19:56:37', 2, 1.06606, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8731704),
+(88054, '2016-12-20 19:56:38', 2, 0.943653, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88055, '2016-12-20 19:56:41', 2, 0.785045, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9800736),
+(88056, '2016-12-20 19:56:42', 2, 0.963055, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9800344),
+(88057, '2016-12-20 19:56:43', 2, 0.800843, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88058, '2016-12-20 19:56:43', 2, 0.670038, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8670176),
+(88059, '2016-12-20 19:56:44', 2, 0.449026, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88060, '2016-12-20 19:56:44', 2, 1.01706, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8669864),
+(88061, '2016-12-20 19:56:48', 2, 0.375022, '127.0.0.1', 'POST', 0, 'proyecto-variable-ejecucion/create', 6830824),
+(88062, '2016-12-20 19:56:48', 2, 0.578033, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8732192),
+(88063, '2016-12-20 19:56:49', 2, 0.785045, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8731616),
+(88064, '2016-12-20 19:56:49', 2, 0.678039, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88065, '2016-12-20 19:56:59', 2, 0.328601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88066, '2016-12-20 19:57:09', 2, 0.3588, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88067, '2016-12-20 19:57:19', 2, 0.374401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88068, '2016-12-20 19:57:29', 2, 0.2214, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88069, '2016-12-20 19:57:39', 2, 0.222401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88070, '2016-12-20 19:57:49', 2, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88071, '2016-12-20 19:57:59', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88072, '2016-12-20 19:58:09', 2, 0.218401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88073, '2016-12-20 19:58:19', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88074, '2016-12-20 19:58:29', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88075, '2016-12-20 19:58:39', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88076, '2016-12-20 19:58:49', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88077, '2016-12-20 19:58:59', 2, 0.202801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88078, '2016-12-20 19:59:09', 2, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88079, '2016-12-20 19:59:19', 2, 0.280801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88080, '2016-12-20 19:59:29', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88081, '2016-12-20 19:59:39', 2, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88082, '2016-12-20 19:59:49', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88083, '2016-12-20 19:59:59', 2, 0.2808, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88084, '2016-12-20 20:00:10', 2, 0.436801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88085, '2016-12-20 20:00:19', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88086, '2016-12-20 20:00:29', 2, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88087, '2016-12-20 20:00:39', 2, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88088, '2016-12-20 20:00:49', 2, 0.234001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88089, '2016-12-20 20:00:59', 2, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88090, '2016-12-20 20:01:09', 2, 0.233013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88091, '2016-12-20 20:01:19', 2, 0.225012, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88092, '2016-12-20 20:01:29', 2, 0.224013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88093, '2016-12-20 20:01:39', 2, 0.232014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88094, '2016-12-20 20:01:50', 2, 0.233014, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88095, '2016-12-20 20:02:00', 2, 0.258015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88096, '2016-12-20 20:02:10', 2, 0.223013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88097, '2016-12-20 20:02:20', 2, 0.233013, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88098, '2016-12-20 20:02:30', 2, 0.300018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88099, '2016-12-20 20:02:40', 2, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88100, '2016-12-20 20:02:51', 2, 0.218401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88101, '2016-12-20 20:03:02', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88102, '2016-12-20 20:03:15', 2, 1.9032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88103, '2016-12-20 20:03:23', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88104, '2016-12-20 20:03:33', 2, 0.218401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88105, '2016-12-20 20:03:43', 2, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88106, '2016-12-20 20:03:54', 2, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88107, '2016-12-20 20:04:04', 2, 0.2028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88108, '2016-12-20 20:04:14', 2, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88109, '2016-12-20 20:04:24', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88110, '2016-12-20 20:04:34', 2, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88111, '2016-12-20 20:04:44', 2, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88112, '2016-12-20 20:04:54', 2, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88113, '2016-12-20 20:05:05', 2, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88114, '2016-12-20 20:05:16', 2, 0.343201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88115, '2016-12-20 20:05:27', 2, 0.249601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88116, '2016-12-20 20:05:37', 2, 0.670801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88117, '2016-12-20 20:05:48', 2, 0.296401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88118, '2016-12-20 20:05:59', 2, 0.873601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88119, '2016-12-20 20:06:10', 2, 0.218401, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88120, '2016-12-20 20:06:20', 2, 0.2194, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88121, '2016-12-20 20:06:31', 2, 0.2184, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88122, '2016-12-20 20:06:38', 2, 0.645037, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8731696),
+(88123, '2016-12-20 20:06:39', 2, 1.02806, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8731616),
+(88124, '2016-12-20 20:06:39', 2, 0.861446, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88125, '2016-12-20 20:06:49', 2, 0.207602, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88126, '2016-12-20 20:06:56', 2, 0.604035, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9801568),
+(88127, '2016-12-20 20:06:57', 2, 0.725041, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/variables', 9801208),
+(88128, '2016-12-20 20:06:58', 2, 0.822047, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88129, '2016-12-20 20:06:59', 2, 0.838048, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/localizacion', 10015280),
+(88130, '2016-12-20 20:07:00', 2, 0.414023, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124768),
+(88131, '2016-12-20 20:07:01', 2, 1.25907, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/localizacion', 10014368),
+(88132, '2016-12-20 20:07:02', 2, 0.613612, '127.0.0.1', 'GET', 1, 'proyecto-variable-ejecucion/create', 8657728),
+(88133, '2016-12-20 20:07:03', 2, 0.544031, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8670216),
+(88134, '2016-12-20 20:07:04', 2, 0.295017, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88135, '2016-12-20 20:07:04', 2, 0.943054, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8669864),
+(88136, '2016-12-20 20:07:05', 2, 0.748043, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/localizacion', 10015280),
+(88137, '2016-12-20 20:07:06', 2, 1.04506, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/localizacion', 10014368),
+(88138, '2016-12-20 20:07:07', 2, 0.903849, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124768),
+(88139, '2016-12-20 20:07:07', 2, 0.556407, '127.0.0.1', 'GET', 1, 'proyecto-variable-ejecucion/create', 8657728),
+(88140, '2016-12-20 20:07:08', 2, 0.570033, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8670216),
+(88141, '2016-12-20 20:07:09', 2, 0.321018, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6124744),
+(88142, '2016-12-20 20:07:09', 2, 1.07106, '127.0.0.1', 'GET', 0, 'proyecto-variable-ejecucion/create', 8669864),
+(88143, '2016-12-20 20:07:18', 2, 0.311018, '127.0.0.1', 'POST', 0, 'user/security/logout', 6116552),
+(88144, '2016-12-20 20:07:18', 0, 0.34702, '127.0.0.1', 'GET', 0, 'user/security/login', 7130936),
+(88145, '2016-12-20 20:07:19', 0, 0.789045, '127.0.0.1', 'GET', 0, 'user/security/login', 7130240),
+(88146, '2016-12-20 20:07:19', 0, 0.736241, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88147, '2016-12-20 20:07:29', 0, 0.187201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88148, '2016-12-20 20:07:39', 0, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88149, '2016-12-20 20:07:49', 0, 0.312, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88150, '2016-12-20 20:07:59', 0, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88151, '2016-12-20 20:08:09', 0, 0.2964, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88152, '2016-12-20 20:08:19', 0, 0.735202, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88153, '2016-12-20 20:08:30', 0, 0.327601, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88154, '2016-12-20 20:08:40', 0, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88155, '2016-12-20 20:08:50', 0, 0.187201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88156, '2016-12-20 20:09:00', 0, 0.2496, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88157, '2016-12-20 20:09:10', 0, 0.234001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88158, '2016-12-20 20:09:20', 0, 0.1872, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88159, '2016-12-20 20:09:30', 0, 0.202801, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88160, '2016-12-20 20:09:41', 0, 0.2028, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88161, '2016-12-20 20:09:51', 0, 0.234, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88162, '2016-12-20 20:10:01', 0, 0.228211, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88163, '2016-12-20 20:10:12', 0, 0.254015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88164, '2016-12-20 20:10:22', 0, 0.237, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88165, '2016-12-21 01:40:53', 0, 0.312001, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4654968),
+(88166, '2016-12-21 01:40:54', 0, 0.2652, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4654968),
+(88167, '2016-12-21 01:41:05', 0, 0.265201, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 4654968),
+(88168, '2016-12-20 20:11:21', 0, 0.561032, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88169, '2016-12-20 20:11:27', 0, 0.577425, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712),
+(88170, '2016-12-20 20:11:38', 0, 0.410015, '127.0.0.1', 'GET', 1, 'notifications/notifications/poll', 6080712);
 
 -- --------------------------------------------------------
 
@@ -4878,10 +5144,12 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto-variable-ejecucion/update', 2, 'Modificar la ejecución de variable-proyecto ', NULL, NULL, 1482157827, 1482157827),
 ('proyecto-variable-ejecucion/variables', 2, 'Ver las variables-proyecto asignadas al usuario', NULL, NULL, 1482157692, 1482157692),
 ('proyecto-variable-ejecucion/view', 2, 'Ver el detalle de la ejecucion de variable-proyecto', NULL, NULL, 1482157853, 1482157853),
-('proyecto-variable-localizacion', 1, 'Rol para manejar las localizaciones y programaciones de proyecto-variable', NULL, NULL, 1482154758, 1482154758),
+('proyecto-variable-localizacion', 1, 'Rol para manejar las localizaciones y programaciones de proyecto-variable', NULL, NULL, 1482154758, 1482280512),
 ('proyecto-variable-localizacion/create', 2, 'Crear la localizacion y programación de variable proyecto', NULL, NULL, 1482154638, 1482154638),
 ('proyecto-variable-localizacion/delete', 2, 'Eliminar la localizacion y programación de variable proyecto', NULL, NULL, 1482154657, 1482154657),
+('proyecto-variable-localizacion/estadomunicipios', 2, 'json para buscar los municipios dependientes del estado, en proyecto  variables localizacion', NULL, NULL, 1482280422, 1482280422),
 ('proyecto-variable-localizacion/index', 2, 'Lista de las localizaciones de variable de proyecto', NULL, NULL, 1482154561, 1482154561),
+('proyecto-variable-localizacion/municipiosParroquias', 2, 'Json para encontrar las parroquias asociadas a un municipio proyecto variable localizacion', NULL, NULL, 1482280477, 1482280477),
 ('proyecto-variable-localizacion/update', 2, 'Modificar la localización y programación de variable de proyecto', NULL, NULL, 1482154685, 1482154685),
 ('proyecto-variable-localizacion/view', 2, 'Detalle de la localización y su programación de variable proyecto', NULL, NULL, 1482154614, 1482154614),
 ('proyecto-variable-responsable/create', 2, 'Crear el responsable de variable de proyecto', NULL, NULL, 1482152370, 1482152370),
@@ -4889,10 +5157,11 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('proyecto-variable-responsable/index', 2, 'Lista de los responsables de la variable de proyecto ', NULL, NULL, 1482152322, 1482152322),
 ('proyecto-variable-responsable/update', 2, 'Modificar el responsable de variable Proyecto', NULL, NULL, 1482152391, 1482152391),
 ('proyecto-variable-responsable/view', 2, 'Detalle del responsable de variable proyecto', NULL, NULL, 1482152352, 1482152352),
-('Proyecto-Variables', 1, 'Rol para la creación, modificación, eliminación de variables de proyecto', NULL, NULL, 1482151082, 1482153802),
+('Proyecto-Variables', 1, 'Rol para la creación, modificación, eliminación de variables de proyecto', NULL, NULL, 1482151082, 1482272716),
 ('proyecto-variables/ace', 2, 'Buscar las unidades ejecutoras asociadas a una accion especifica, variables proyecto', NULL, NULL, 1482151831, 1482151831),
 ('proyecto-variables/ace1', 2, 'Buscar los usuarios asociados a una accion especifíca de variables proyecto', NULL, NULL, 1482151937, 1482151937),
 ('proyecto-variables/ace2', 2, 'Buscar las acciones especificas asociadas a un proyecto en la creación de variables', NULL, NULL, 1482151471, 1482151518),
+('proyecto-variables/bulk-delete', 2, 'Borrar por lotes las variables de proyecto', NULL, NULL, 1482272635, 1482272635),
 ('proyecto-variables/create', 2, 'Crear variable de proyecto', NULL, NULL, 1482151148, 1482151148),
 ('proyecto-variables/delete', 2, 'Eliminar la variable de proyecto', NULL, NULL, 1482150708, 1482150754),
 ('proyecto-variables/index', 2, 'Lista de las variables de proyecto', NULL, NULL, 1482150666, 1482150666),
@@ -5336,7 +5605,9 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('ejecucion-variable-proyecto', 'proyecto-variable-ejecucion/view'),
 ('proyecto-variable-localizacion', 'proyecto-variable-localizacion/create'),
 ('proyecto-variable-localizacion', 'proyecto-variable-localizacion/delete'),
+('proyecto-variable-localizacion', 'proyecto-variable-localizacion/estadomunicipios'),
 ('proyecto-variable-localizacion', 'proyecto-variable-localizacion/index'),
+('proyecto-variable-localizacion', 'proyecto-variable-localizacion/municipiosParroquias'),
 ('proyecto-variable-localizacion', 'proyecto-variable-localizacion/update'),
 ('proyecto-variable-localizacion', 'proyecto-variable-localizacion/view'),
 ('Proyecto-Variables', 'proyecto-variable-responsable/create'),
@@ -5346,6 +5617,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Proyecto-Variables', 'proyecto-variables/ace'),
 ('Proyecto-Variables', 'proyecto-variables/ace1'),
 ('Proyecto-Variables', 'proyecto-variables/ace2'),
+('Proyecto-Variables', 'proyecto-variables/bulk-delete'),
 ('Proyecto-Variables', 'proyecto-variables/create'),
 ('Proyecto-Variables', 'proyecto-variables/delete'),
 ('Proyecto-Variables', 'proyecto-variables/index'),
@@ -11359,16 +11631,17 @@ CREATE TABLE IF NOT EXISTS `proyecto_variables` (
   KEY `localizacion_2` (`localizacion`),
   KEY `unidad_ejecutora_2` (`unidad_ejecutora`),
   KEY `accion_especifica` (`accion_especifica`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=77 ;
 
 --
 -- Dumping data for table `proyecto_variables`
 --
 
 INSERT INTO `proyecto_variables` (`id`, `nombre_variable`, `unidad_medida`, `localizacion`, `definicion`, `base_calculo`, `fuente_informacion`, `unidad_ejecutora`, `accion_especifica`, `impacto`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
-(17, 'probnado', 466, 1, 'probnado', 'pronbado', 'probnado', 17, 41, 1, '2016-12-09 15:02:50', '2016-12-12 15:59:41', NULL),
-(25, 'probandootro', 1, 6, 'asdasd', 'asdasd', 'asdasd', 17, 41, 2, '2016-12-16 19:31:19', NULL, NULL),
-(26, 'probnado222', 2, 4, 'probnado222', 'probnado222', 'probando22', 17, 41, 3, '2016-12-19 12:54:04', NULL, NULL);
+(71, 'probando2', 2, 1, 'probnado2', 'probando', 'probnado', 17, 41, 1, '2016-12-20 23:44:40', NULL, NULL),
+(74, 'probando', 2, 2, 'probando', 'probando', 'probnado', 17, 41, 1, '2016-12-21 00:06:20', NULL, NULL),
+(75, 'probando1', 2, 8, 'probando', 'asdasd', 'asdasdsa', 17, 41, 3, '2016-12-21 00:25:19', NULL, NULL),
+(76, 'probando3', 2, 6, 'probnado', 'probando', 'probando', 17, 41, 2, '2016-12-21 00:27:19', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -11384,14 +11657,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_variable_desbloqueo_mes` (
   `fecha_modificacion` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `id_ejecucion` (`id_ejecucion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
-
---
--- Dumping data for table `proyecto_variable_desbloqueo_mes`
---
-
-INSERT INTO `proyecto_variable_desbloqueo_mes` (`id`, `id_ejecucion`, `mes`, `fecha_creacion`, `fecha_modificacion`) VALUES
-(6, 2, 1, '2016-12-19 20:01:13', NULL);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -11420,15 +11686,16 @@ CREATE TABLE IF NOT EXISTS `proyecto_variable_ejecucion` (
   PRIMARY KEY (`id`),
   KEY `id_programacion` (`id_programacion`),
   KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `proyecto_variable_ejecucion`
 --
 
 INSERT INTO `proyecto_variable_ejecucion` (`id`, `id_programacion`, `id_usuario`, `fecha`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `fecha_creacion`) VALUES
-(2, 9, 2, '2016-12-19 19:49:57', 22, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-12-19 19:49:47'),
-(3, 24, 2, '2016-12-19 18:26:59', 100, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-12-19 19:56:59');
+(4, 31, 2, '2016-12-20 22:56:16', 100, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-12-21 00:26:17'),
+(5, 30, 2, '2016-12-20 22:56:34', 12, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-12-21 00:26:34'),
+(6, 32, 2, '2016-12-20 22:56:48', 100, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-12-21 00:26:48');
 
 -- --------------------------------------------------------
 
@@ -11473,17 +11740,17 @@ CREATE TABLE IF NOT EXISTS `proyecto_variable_localizacion` (
   KEY `id_estado` (`id_estado`),
   KEY `id_municipio` (`id_municipio`),
   KEY `id_parroquia` (`id_parroquia`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
 
 --
 -- Dumping data for table `proyecto_variable_localizacion`
 --
 
 INSERT INTO `proyecto_variable_localizacion` (`id`, `id_variable`, `id_pais`, `id_estado`, `id_municipio`, `id_parroquia`, `fecha_creacion`, `fecha_modificacion`) VALUES
-(9, 17, 862, NULL, NULL, NULL, '2016-12-15 18:02:28', NULL),
-(30, 25, 862, 2, 9, 29, '2016-12-16 19:32:32', NULL),
-(32, 26, 862, 1, NULL, NULL, '2016-12-19 13:40:45', NULL),
-(33, 26, 862, 2, NULL, NULL, '2016-12-19 13:44:35', NULL);
+(40, 74, 862, NULL, NULL, NULL, '2016-12-21 00:11:50', NULL),
+(41, 71, 862, NULL, NULL, NULL, '2016-12-21 00:23:04', NULL),
+(42, 75, 862, NULL, NULL, NULL, '2016-12-21 00:25:36', NULL),
+(43, 76, 862, 9, 101, 315, '2016-12-21 00:35:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -11511,17 +11778,17 @@ CREATE TABLE IF NOT EXISTS `proyecto_variable_programacion` (
   `fecha_eliminacion` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_localizacion` (`id_localizacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `proyecto_variable_programacion`
 --
 
 INSERT INTO `proyecto_variable_programacion` (`id`, `id_localizacion`, `enero`, `febrero`, `marzo`, `abril`, `mayo`, `junio`, `julio`, `agosto`, `septiembre`, `octubre`, `noviembre`, `diciembre`, `fecha_creacion`, `fecha_modificacion`, `fecha_eliminacion`) VALUES
-(9, 9, '22', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2016-12-15 18:02:28', NULL, NULL),
-(24, 30, '100', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '2016-12-16 19:32:32', NULL, NULL),
-(26, 32, '12', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '2016-12-19 13:40:45', NULL, NULL),
-(27, 33, '20', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '20', '2016-12-19 13:44:35', '2016-12-19 13:44:51', NULL);
+(30, 40, '12', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '2016-12-21 00:11:50', NULL, NULL),
+(31, 41, '100', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '2016-12-21 00:23:04', NULL, NULL),
+(32, 42, '100', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '2016-12-21 00:25:36', NULL, NULL),
+(33, 43, '12', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '222', '2016-12-21 00:35:33', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -11540,16 +11807,17 @@ CREATE TABLE IF NOT EXISTS `proyecto_variable_responsable` (
   PRIMARY KEY (`id`),
   KEY `id_variable` (`id_variable`),
   KEY `oficina` (`oficina`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
 
 --
 -- Dumping data for table `proyecto_variable_responsable`
 --
 
 INSERT INTO `proyecto_variable_responsable` (`id`, `nombre`, `cedula`, `email`, `telefono`, `oficina`, `id_variable`) VALUES
-(10, 'walter', 17389814, 'walteer@sdasda.com', '02124813639', 3, 17),
-(26, 'walter', 17389814, 'walteer@sdasda.com', '02124813639', 3, 25),
-(30, 'walter', 17389814, 'walteer@sdasda.com', '02124813639', 3, 26);
+(32, 'walter', 17389814, 'walteer@sdasda.com', '02124813639', 3, 71),
+(33, 'walter', 17389814, 'walteer@sdasda.com', '02124813639', 3, 74),
+(34, 'walter', 17389814, 'walteer@sdasda.com', '02124813639', 3, 75),
+(35, 'walter', 17389814, 'walteer@sdasda.com', '02124813639', 3, 76);
 
 -- --------------------------------------------------------
 
@@ -11567,19 +11835,20 @@ CREATE TABLE IF NOT EXISTS `proyecto_variable_usuarios` (
   PRIMARY KEY (`id`),
   KEY `id_variable` (`id_variable`),
   KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `proyecto_variable_usuarios`
 --
 
 INSERT INTO `proyecto_variable_usuarios` (`id`, `id_variable`, `id_usuario`, `estatus`, `fecha_creacion`, `fecha_eliminacion`) VALUES
-(17, 17, 3, 1, '2016-12-16 13:01:59', NULL),
-(18, 25, 2, 1, '2016-12-16 19:31:19', NULL),
-(19, 25, 3, 1, '2016-12-16 19:31:19', NULL),
-(20, 26, 3, 1, '2016-12-19 12:54:04', NULL),
-(21, 17, 2, 1, '2016-12-19 19:28:21', NULL),
-(22, 26, 2, 1, '2016-12-19 19:42:43', NULL);
+(26, 71, 2, 1, '2016-12-20 23:44:40', NULL),
+(28, 74, 3, 1, '2016-12-21 00:06:20', NULL),
+(29, 74, 2, 1, '2016-12-21 00:23:37', NULL),
+(30, 75, 2, 1, '2016-12-21 00:25:19', NULL),
+(31, 75, 3, 1, '2016-12-21 00:25:19', NULL),
+(32, 76, 2, 1, '2016-12-21 00:27:19', NULL),
+(33, 76, 3, 1, '2016-12-21 00:27:19', NULL);
 
 -- --------------------------------------------------------
 

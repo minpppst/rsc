@@ -126,7 +126,7 @@ class ProyectoVariableUsuarios extends \yii\db\ActiveRecord
             ->all();
 
 
-        
+      //si encontro algo, es que quitaron un usuario por ende se debe eliminar
       if($ace!=null)
       {
         $model_cambiar= new ProyectoVariableUsuarios;
@@ -138,6 +138,7 @@ class ProyectoVariableUsuarios extends \yii\db\ActiveRecord
           
         }
       }
+      
       //buscar si agregaron un usuario si es asi almacenar las nuevos y guardar
       $ace = ProyectoVariableUsuarios::find()
             ->select('proyecto_variable_usuarios.id_usuario as id')
@@ -146,11 +147,11 @@ class ProyectoVariableUsuarios extends \yii\db\ActiveRecord
             ->asArray()
             ->all();
         
-      $i=0;
+      
       $tabla[]=null;
-      foreach ($ace as $key => $value) 
+      foreach ($ace as $key => $value)
       {
-      $tabla[]=$value['id'];
+        $tabla[]=$value['id'];
       }
       //si viene vacio
       if($usuarios==null)
@@ -158,6 +159,8 @@ class ProyectoVariableUsuarios extends \yii\db\ActiveRecord
         $usuarios=[];
       }
         
+      //se comparan, si en nuevo aparecen usuarios estos serian
+      //los nuevos usuarios que hay que agregar
       $nuevo=array_diff($usuarios, $tabla);
       foreach ($nuevo as $key => $value) 
       {
