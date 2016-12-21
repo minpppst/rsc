@@ -27,7 +27,7 @@ return [
         'label' => 'Estado',
         'value' => function ($modelLocalizacion)
                     {
-                        return $modelLocalizacion->idEstado->nombre;
+                        return ($modelLocalizacion->idEstado)!=null ? $modelLocalizacion->idEstado->nombre : '';
                     },
     ],
     [
@@ -36,7 +36,7 @@ return [
         'label' => 'Municipio',
         'value' => function ($modelLocalizacion)
                     {
-                        return $modelLocalizacion->idMunicipio->nombre;
+                        return ($modelLocalizacion->idMunicipio)!=null ? $modelLocalizacion->idMunicipio->nombre : '';
                     },
     ],
     [
@@ -45,7 +45,7 @@ return [
         'label' => 'Parroquia',
         'value' => function ($modelLocalizacion)
                     {
-                        return $modelLocalizacion->idParroquia->nombre;
+                          return ($modelLocalizacion->idParroquia)!=null ? $modelLocalizacion->idParroquia->nombre : '';
                     },
     ],
     

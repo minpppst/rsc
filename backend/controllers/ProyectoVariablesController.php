@@ -204,6 +204,7 @@ class ProyectoVariablesController extends \common\controllers\BaseController
                 'lugares' => $lugares,
                 'ue' => $ue,
                 'impacto' => $impacto,
+                'listausuariosaccion' => $modeluser,
 
             ]);
         }
