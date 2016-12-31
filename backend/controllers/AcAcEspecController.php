@@ -121,60 +121,60 @@ class AcAcEspecController extends \common\controllers\BaseController
             {
 
 
-                       $uni_eje=$request->post('id_ue');
-                       $i=0;
+                $uni_eje=$request->post('id_ue');
+                $i=0;
                        
-                       $connection = \Yii::$app->db;
-                       $transaction = $connection->beginTransaction();
-                       try { 
+                $connection = \Yii::$app->db;
+                $transaction = $connection->beginTransaction();
+                try { 
                         if($model->save()){
                         // si salva el modelo padre, contamos las uej a guardar
-                        while(count($request->post('id_ue'))!=$i)
-                        {
-                        //guardamos las uej, si ocurre algun error devuelve false
-                        $salvar=$model->uejecutoras_crear($uni_eje[$i]);
-                        $i++;
-                        if($salvar)
-                        {
+                            while(count($request->post('id_ue'))!=$i)
+                            {
+                                //guardamos las uej, si ocurre algun error devuelve false
+                                $salvar=$model->uejecutoras_crear($uni_eje[$i]);
+                                $i++;
+                                if(!$salvar)
+                                {
+                                    $transaction->rollback();
+                                    $i=count($request->post('id_ue'));
+                                    
+                                }
+                            }// termina el while
+                            $transaction->commit();
+                            return 
+                            [
+                                'forceReload'=>'true',
+                                'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id_ac_centr]),
+                                'title'=> "Create new AcAcEspec",
+                                'content'=>'<span class="text-success">Create AcAcEspec success</span>',
+                                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                        Html::a('Create More',['create','ac_centralizada'=>$model->id_ac_centr],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            ];
                         }
                         else
-                        {
-                            $transaction->rollback();
-                            $i=count($request->post('id_ue'));
-                            
+                        { // si falla el save de accion centralizada
+                            return 
+                            [
+                                'title'=> "Create new AcAcEspec",
+                                'content'=>$this->renderAjax('create', [
+                                    'model' => $model,
+                                    'unidades_ejecutoras'=>$unidades_ejecutoras
+                                ]),
+                                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                            Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    
+                            ];         
                         }
-                        }// termina el while
-                        $transaction->commit();
-
-
-                return [
-                    'forceReload'=>'true',
-                    'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id_ac_centr]),
-                    'title'=> "Create new AcAcEspec",
-                    'content'=>'<span class="text-success">Create AcAcEspec success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create','ac_centralizada'=>$model->id_ac_centr],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                        ];
+                    } catch(Exception $e) 
+                    {
+                        $transaction->rollback();
+                    }        
             }
             else
-            { // si falla el save de accion centralizada
-                return [ 
-                    'title'=> "Create new AcAcEspec",
-                    'content'=>$this->renderAjax('create', [
-                        'model' => $model,
-                        'unidades_ejecutoras'=>$unidades_ejecutoras
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-        
-                        ];         
-            }
-            } catch(Exception $e) {
-                    $transaction->rollback();
-                    }        
-            }else{        
-                return [ 
+            {
+                return 
+                [
                     'title'=> "Create new AcAcEspec",
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
@@ -186,13 +186,16 @@ class AcAcEspecController extends \common\controllers\BaseController
             }
         }
         else
-        { 
+        {
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
+            if ($model->load($request->post()) && $model->save()) 
+            {
                 return $this->redirect(['view', 'id' => $model->id]);
-            } else {
+            } 
+            else 
+            {
                 return $this->render('create', [
                     'model' => $model,
                 ]);

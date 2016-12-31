@@ -6,24 +6,25 @@ use Yii;
 use backend\models\AccionCentralizadaVariables;
 use backend\models\AccionCentralizadaVariablesSearch;
 use backend\models\AccionCentralizadaVariablesUsuarios;
-use johnitvn\userplus\base\models\UserAccounts;
+use backend\models\LocalizacionAccVariable;
+use backend\models\ResponsableAccVariable;
+use common\models\AccionCentralizadaAsignar;
 use common\models\AccionCentralizada;
 use common\models\UnidadEjecutora;
 use common\models\AcEspUej;
+use common\models\Ambito;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\AcAcEspec;
 use \yii\web\Response;
 use yii\data\ActiveDataProvider;
-use backend\models\LocalizacionAccVariable;
-use backend\models\ResponsableAccVariable;
-use common\models\AccionCentralizadaAsignar;
 use kartik\widgets\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
+use johnitvn\userplus\base\models\UserAccounts;
 /**
  * AccionCentralizadaVariablesController implements the CRUD actions for AccionCentralizadaVariables model.
  */
@@ -75,7 +76,6 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
             ]);
 
             $usuarios_variables=new AccionCentralizadaVariablesUsuarios;
-            
 
             return $this->render('view', [
                 'model' => $model,
@@ -87,68 +87,88 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
     }
 
     /**
-     * Creates a new AccionCentralizadaVariables model.
+     * Creates a new AccionCentralizadaVariables and accioncentralizadavariablesusuarios model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
+        //instanciar los modelos necesarios para guardar (accion_centralizada, usuarios)
         $model = new AccionCentralizadaVariables();
-        $accionAC= new AccionCentralizada();
-        $verificar1 = new UserAccounts();
+        $modelAC= new AccionCentralizada();
+        $usuariomodel = new UserAccounts();
+        $lugares= Ambito::find()->asarray()->all();
         //listas desplegables
-        $accion_centralizada = AccionCentralizada::find(['estatus' => 1])->all();
-        $accion_especifica = AcAcEspec::find()->where(['id' => $model->acc_accion_especifica, 'estatus' => 1])->all();
+        $listaaccion_centralizada = AccionCentralizada::find(['estatus' => 1])->all();
+        $listaaccion_especifica = AcAcEspec::find()->where(['id' => $model->acc_accion_especifica, 'estatus' => 1])->all();
         $ue = UnidadEjecutora::find(['estatus' => 1])
         ->select(["unidad_ejecutora.id as id", "unidad_ejecutora.nombre as name"])
         ->where(['id' => $model->unidad_ejecutora])
         ->asArray()
         ->all();
 
-        $connection = \Yii::$app->db;
-        $transaction = $connection->beginTransaction();
-        try {
-        
-        if ($model->load(Yii::$app->request->post()) && $model->save())
+        if ($model->load(Yii::$app->request->post()))
         {
-            $model_usuarios= new AccionCentralizadaVariablesUsuarios();
-            $model_usuarios->id_variable=$model->id;
-            $usuarios=Yii::$app->request->post('id_usuario');
-            $i=0;
-            while(count(Yii::$app->request->post('id_usuario'))!=$i)
+            $connection = \Yii::$app->db;
+            $transaction = $connection->beginTransaction();
+            try 
             {
-                //funcion en el modelo para guardar
-                if($model_usuarios->usuarios_agregar($model->id,$usuarios[$i]))
+                if ($model->save())
                 {
-                    $i++;
+                    $model_usuarios= new AccionCentralizadaVariablesUsuarios();
+                    $model_usuarios->id_variable=$model->id;
+                    $usuarios=Yii::$app->request->post('id_usuario');
+                    $i=0;
+                    while(count(Yii::$app->request->post('id_usuario'))!=$i)
+                    {
+                        //funcion en el modelo variable-usuario para guardar
+                        if($model_usuarios->usuarios_agregar($model->id,$usuarios[$i]))
+                        {
+                            $i++;
+                        }
+                        else
+                        {
+                            $transaction->rollback();
+                            $i=count($request->post('id_usuario'));
+                        }
+                    }// termina el while
+
+                    $transaction->commit();
+                    return $this->redirect(['responsable-acc-variable/create',  'id_variable' => $model->id]);
                 }
-                else
+                else 
                 {
                     $transaction->rollback();
-                    $i=count($request->post('id_usuario'));
+                    return $this->render('create', [
+                        'model' => $model,
+                        'listaaccion_centralizada' => $listaaccion_centralizada,
+                        'listaaccion_especifica' => $listaaccion_especifica,
+                        'modelAC' => $modelAC,
+                        'usuariomodel' => $usuariomodel,
+                        'ue' => $ue,
+                        'lugares' => $lugares
+                        ]);
                 }
-            }// termina el while
 
-            $transaction->commit();
-            return $this->redirect(['responsable-acc-variable/create',  'id_variable' => $model->id]);
-        } 
+            } catch (\Exception $e) 
+            {
+                $transaction->rollBack();
+                throw $e;
+            }
+        }
         else 
         {
-        
             return $this->render('create', [
-                'model' => $model,
-                 'accion_centralizada' => $accion_centralizada,
-                 'accion_especifica' => $accion_especifica,
-                 'accionAC' => $accionAC,
-                 'verificar1' => $verificar1,
-                 'ue' => $ue,
+            'model' => $model,
+            'listaaccion_centralizada' => $listaaccion_centralizada,
+            'listaaccion_especifica' => $listaaccion_especifica,
+            'modelAC' => $modelAC,
+            'usuariomodel' => $usuariomodel,
+            'ue' => $ue,
+            'lugares' => $lugares
             ]);
         }
-
-       } catch (\Exception $e) {
-            $transaction->rollBack();
-            throw $e;
-        }
+        
     }
 
     /**
@@ -160,12 +180,13 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
     public function actionUpdate($id)
     {
         $precarga="";
+        // instancia a los modelos
         $model = $this->findModel($id);
-        $accionAC=AccionCentralizada::findOne($model->accAccionEspecifica->idAcCentr->id);
-        $verificar1 = new UserAccounts();
+        $modelAC=AccionCentralizada::findOne($model->accAccionEspecifica->idAcCentr->id);
+        $usuariomodel = new UserAccounts();
         //listas precargadas
-        $accion_centralizada = AccionCentralizada::find(['estatus' => 1])->all();
-        $accion_especifica = AcAcEspec::find()->where(['id_ac_centr' => $accionAC->id, 'estatus' => 1])->all();
+        $listaaccion_centralizada = AccionCentralizada::find(['estatus' => 1])->all();
+        $listaaccion_especifica = AcAcEspec::find()->where(['id_ac_centr' => $modelAC->id, 'estatus' => 1])->all();
         $ue = UnidadEjecutora::find(['estatus' => 1])
         ->select(["unidad_ejecutora.id as id", "unidad_ejecutora.nombre as name"])
         ->innerjoin('accion_centralizada_ac_especifica_uej', 'unidad_ejecutora.id=accion_centralizada_ac_especifica_uej.id_ue')
@@ -173,74 +194,93 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
         ->asArray()
         ->all();
         
-        $verificar = AcEspUej::find()
+        //lista de usuarios dependera de la unidad ejecutora
+        $listausuarios = AcEspUej::find()
             ->select(["user_accounts.id", "user_accounts.username as username"])
             ->innerjoin('accion_centralizada_asignar', 'accion_centralizada_asignar.accion_especifica_ue=accion_centralizada_ac_especifica_uej.id')
             ->innerjoin('user_accounts', 'user_accounts.id=accion_centralizada_asignar.usuario')
             ->where(['accion_centralizada_ac_especifica_uej.id_ue' => $model->unidad_ejecutora, 'accion_centralizada_ac_especifica_uej.id_ac_esp' => $model->acc_accion_especifica])
             ->asArray()
             ->all();
-        //buscar los usuarios ya seleccionados
-        foreach ($model->usuariosVariables as $key )
+
+        //buscar los usuarios ya seleccionados y agregarlos al modelo
+        $usuarios=$model->UsuariosVariablesId;
+        foreach ($usuarios as $key)
         {
             $precarga[]=$key['id_usuario'];
         }
-        //agregarlos al modelo
-        $verificar1->id=$precarga;
-        $acciones_especificas= [$model->accAccionEspecifica->id =>$model->accAccionEspecifica->cod_ac_espe." - ".$model->accAccionEspecifica->nombre,];
-        $connection = \Yii::$app->db;
-        $transaction = $connection->beginTransaction();
-       if ($model->load(Yii::$app->request->post()) && $model->save())
-       {
-            $usuarios=Yii::$app->request->post('UserAccounts');
-            if(!empty($usuarios['id']))
+        //agregarlos al modelo de usuario
+        $usuariomodel->id=$precarga;
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $connection = \Yii::$app->db;
+            $transaction = $connection->beginTransaction();
+            if($model->save())
             {
-                foreach ($usuarios as $key => $value) {
-                    if(!$salvar=$model->uejecutoras($value))
+                $usuarios=Yii::$app->request->post('UserAccounts');
+                if(!empty($usuarios['id']))
+                {
+                    foreach ($usuarios as $key => $value) 
                     {
-                        
-                        $transaction->rollback();
-                        return $this->render('update', 
+                        if(!$salvar=$model->uejecutoras($value))
+                        {
+                            
+                            $transaction->rollback();
+                            return $this->render('update', 
+                            [
+                                'model' => $model,
+                                'listausuarios' => $listausuarios,
+                                'usuariomodel' => $usuariomodel,
+                                'listaaccion_centralizada' => $listaaccion_centralizada,
+                                'modelAC' => $modelAC,
+                                'listaaccion_especifica' => $listaaccion_especifica,
+                                'ue' => $ue,
+                            ]);
+                        }
+                    }
+                    $transaction->commit();
+                    return $this->redirect(['accion-centralizada-variables/view',  'id' => $model->id]);
+                }
+                else
+                {
+                    $transaction->rollback();
+                    return $this->render('update', 
                         [
                             'model' => $model,
-                            'precarga' => $precarga,
-                            'verificar' => $verificar,
-                            'verificar1' => $verificar1,
-                            'accion_centralizada' => $accion_centralizada,
-                            'accion_especifica' => $accion_especifica,
-                            'accionAC' => $accionAC,
+                            'listausuarios' => $listausuarios,
+                            'usuariomodel' => $usuariomodel,
+                            'listaaccion_centralizada' => $listaaccion_centralizada,
+                            'modelAC' => $modelAC,
+                            'listaaccion_especifica' => $listaaccion_especifica,
                             'ue' => $ue,
                         ]);
-                    }
                 }
-                $transaction->commit();
-                return $this->redirect(['accion-centralizada-variables/view',  'id' => $model->id]);
             }
             else
             {
                 return $this->render('update', 
-                    [
-                        'model' => $model,
-                        'precarga' => $precarga,
-                        'verificar' => $verificar,
-                        'verificar1' => $verificar1,
-                        'accion_centralizada' => $accion_centralizada,
-                        'accion_especifica' => $accion_especifica,
-                        'accionAC' => $accionAC,
-                        'ue' => $ue,
-                    ]);
+                [
+                    'model' => $model,
+                    'listausuarios' => $listausuarios,
+                    'usuariomodel' => $usuariomodel,
+                    'listaaccion_centralizada' => $listaaccion_centralizada,
+                    'modelAC' => $modelAC,
+                    'listaaccion_especifica' => $listaaccion_especifica,
+                    'ue' => $ue,
+                ]);
+
             }
-       }
+        }
        else
        {
-            return $this->render('update', [
+            return $this->render('update', 
+            [
                 'model' => $model,
-                'precarga' => $precarga,
-                'verificar' => $verificar,
-                'verificar1' => $verificar1,
-                'accion_centralizada' => $accion_centralizada,
-                'accion_especifica' => $accion_especifica,
-                'accionAC' => $accionAC,
+                'listausuarios' => $listausuarios,
+                'usuariomodel' => $usuariomodel,
+                'listaaccion_centralizada' => $listaaccion_centralizada,
+                'modelAC' => $modelAC,
+                'listaaccion_especifica' => $listaaccion_especifica,
                 'ue' => $ue,
             ]);
         }
@@ -273,8 +313,8 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
 
             if($request->isPost)
             {
-                //Acciones Especificas
-                $ace= new ProyectoVariables();
+                // se llama al metodo obtenerunidadesej del modelo accion_centralizada_variabls para buscar las unidades ejecutoras
+                $ace= new AccionCentralizadaVariables();
                 $unidad=$ace->obtenerUnidadesEJ($request->post('depdrop_parents'));
                               
                 return [

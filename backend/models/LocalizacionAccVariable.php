@@ -31,6 +31,9 @@ class LocalizacionAccVariable extends \yii\db\ActiveRecord
 
      //Escenarios
     const SCENARIO_INTERNACIONAL = 'Internacional';
+    const SCENARIO_REGIONAL = 'Regional';
+    const SCENARIO_COMUNAL = 'Comunal';
+    const SCENARIO_OTROS = 'Otros';
     const SCENARIO_NACIONAL = 'Nacional';
     const SCENARIO_ESTADAL = 'Estadal';
     const SCENARIO_MUNICIPAL = 'Municipal';
@@ -45,14 +48,20 @@ class LocalizacionAccVariable extends \yii\db\ActiveRecord
     }
 
 
-     public function scenarios()
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
     {
         return [
-            self::SCENARIO_INTERNACIONAL => ['id_variable', 'id_pais'],
-            self::SCENARIO_NACIONAL => ['id_variable', 'id_pais'],
-            self::SCENARIO_ESTADAL => ['id_variable', 'id_pais', 'id_estado'],
-            self::SCENARIO_MUNICIPAL => ['id_variable', 'id_pais', 'id_estado', 'id_municipio'],
-            self::SCENARIO_PARROQUIAL => ['id_variable', 'id_pais', 'id_estado', 'id_municipio', 'id_parroquia'],
+            self::SCENARIO_INTERNACIONAL => ['id_proyecto_ac', 'id_pais'],
+            self::SCENARIO_REGIONAL => ['id_proyecto', 'id_pais'],
+            self::SCENARIO_COMUNAL => ['id_proyecto', 'id_pais'],
+            self::SCENARIO_OTROS => ['id_proyecto', 'id_pais'],
+            self::SCENARIO_NACIONAL => ['id_proyecto_ac', 'id_pais'],
+            self::SCENARIO_ESTADAL => ['id_proyecto_ac', 'id_pais', 'id_estado'],
+            self::SCENARIO_MUNICIPAL => ['id_proyecto_ac', 'id_pais', 'id_estado', 'id_municipio'],
+            self::SCENARIO_PARROQUIAL => ['id_proyecto_ac', 'id_pais', 'id_estado', 'id_municipio', 'id_parroquia'],
         ];
     }
 
@@ -67,11 +76,17 @@ class LocalizacionAccVariable extends \yii\db\ActiveRecord
             [['id_variable', 'id_pais'], 'required'],
             [['id_variable', 'id_pais'], 'integer'],
 
-             //Escenarios
+            //Escenarios
             [['id_proyecto', 'id_pais'], 'required', 'on' => self::SCENARIO_INTERNACIONAL],
-            [['id_proyecto', 'id_pais'], 'required', 'on' => self::SCENARIO_NACIONAL],
-            [[ 'id_pais'], 'com_nacional', 'on' => self::SCENARIO_NACIONAL],
+            [[ 'id_pais'], 'com_default', 'on' => self::SCENARIO_INTERNACIONAL],
+            [[ 'id_pais'], 'com_default', 'on' => self::SCENARIO_NACIONAL],
+            [[ 'id_pais'], 'com_default', 'on' => self::SCENARIO_REGIONAL],
+            [[ 'id_pais'], 'com_default', 'on' => self::SCENARIO_COMUNAL],
+            [[ 'id_pais'], 'com_default', 'on' => self::SCENARIO_OTROS],
             [[ 'id_estado'], 'com_estado', 'on' => self::SCENARIO_ESTADAL],
+            [[ 'id_municipio'], 'com_municipio', 'on' => self::SCENARIO_MUNICIPAL],
+            [[ 'id_parroquia'], 'com_parroquia', 'on' => self::SCENARIO_PARROQUIAL],
+            [['id_proyecto', 'id_pais'], 'required', 'on' => self::SCENARIO_NACIONAL],
             [['id_proyecto', 'id_pais', 'id_estado'], 'required', 'on' => self::SCENARIO_ESTADAL],
             [['id_proyecto', 'id_pais', 'id_estado', 'id_municipio'], 'required', 'on' => self::SCENARIO_MUNICIPAL],
             [['id_proyecto', 'id_pais', 'id_estado', 'id_municipio', 'id_parroquia'], 'required', 'on' => self::SCENARIO_PARROQUIAL],
@@ -81,38 +96,78 @@ class LocalizacionAccVariable extends \yii\db\ActiveRecord
 
     /**
      * rules para escenario nacional
-     * @param int $idpais
+     * @param attribute $idpais
      * @return bool
      */
-    function com_nacional($idpais)
+    function com_default($idpais)
     {
-    if($this->isNewRecord)
-    {
-    $existe=LocalizacionAccVariable::find()->where(['id_variable' => $this->id_variable])->One();
-    if($existe!=null && $this->idVariable->nombre_variable!=null)
-    {
-    $this->addError($idpais, "Error, Ya Se Agregó a Venezuela");
-    }
-    }
+        if($this->isNewRecord)
+        {
+            //si es venezuela solo debe existir una localización
+            $existe=LocalizacionAccVariable::find()->where(['id_variable' => $this->id_variable])->One();
+            if($existe!=null)
+            {
+                $this->addError($idpais, "Error, Ya Se Agregó a Venezuela");
+            }
+        }
 
     }
 
     /**
      * rules para escenario estado
-     * @param int $estado
+     * @param attribute $estado
      * @return bool
      */
-    function com_estado($estado){
+    function com_estado($estado)
+    {
 
-    if($this->isNewRecord)
-    {
-    $existe=LocalizacionAccVariable::find()->where(['id_variable' => $this->id_variable])->andWhere(['id_estado' => $this->id_estado])->One();
-    
-    if($existe!=null)
-    {
-    $this->addError($estado, "Error, Ya Se Agregó Este Estado");
+        if($this->isNewRecord)
+        {
+            $existe=LocalizacionAccVariable::find()->where(['id_variable' => $this->id_variable])->andWhere(['id_estado' => $this->id_estado])->One();
+        
+            if($existe!=null)
+            {
+                $this->addError($estado, "Error, Ya Se Agregó Este Estado");
+            }
+        }
     }
+
+    /**
+     * rules para escenario municipio
+     * @param attribute $municipio
+     * @return bool
+     */
+    function com_municipio($municipio)
+    {
+
+        if($this->isNewRecord)
+        {
+            $existe=LocalizacionAccVariable::find()->where(['id_variable' => $this->id_variable])->andWhere(['id_municipio' => $this->id_municipio])->One();
+        
+            if($existe!=null)
+            {
+                $this->addError($municipio, "Error, Ya Se Agregó Este Municipio");
+            }
+        }
     }
+
+    /**
+     * rules para escenario parroquia
+     * @param attribute $parroquia
+     * @return bool
+     */
+    function com_parroquia($parroquia)
+    {
+
+        if($this->isNewRecord)
+        {
+            $existe=LocalizacionAccVariable::find()->where(['id_variable' => $this->id_variable])->andWhere(['id_parroquia' => $this->id_parroquia])->One();
+        
+            if($existe!=null)
+            {
+                $this->addError($parroquia, "Error, Ya Se Agregó Esta Parroquia");
+            }
+        }
     }
 
     /**
@@ -204,6 +259,34 @@ class LocalizacionAccVariable extends \yii\db\ActiveRecord
         }
 
         return $this->idEstado->nombre;
+    }
+
+    /**
+     * mostrasr nombre del estado
+     * @return string
+     */
+    public function getNombreMunicipio()
+    {
+        if($this->idMunicipio == null)
+        {
+            return null;
+        }
+
+        return $this->idMunicipio->nombre;
+    }
+
+    /**
+     * mostrasr nombre del estado
+     * @return string
+     */
+    public function getNombreParroquia()
+    {
+        if($this->idParroquia == null)
+        {
+            return null;
+        }
+
+        return $this->idParroquia->nombre;
     }
 
 

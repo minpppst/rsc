@@ -1,12 +1,11 @@
 <?php
-
 use yii\helpers\Html;
-//use yii\widgets\ActiveForm;
-use yii\bootstrap\ActiveForm;
-use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
+use kartik\depdrop\DepDrop;
+use kartik\depdrop\DepDropAsset;
 use yii\helpers\Url;
-use yii\web\JsExpression;
-use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
+DepDropAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model backend\models\LocalizacionAccVariable */
 /* @var $form yii\widgets\ActiveForm */
@@ -16,7 +15,7 @@ use yii\helpers\Json;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <!--<?= $form->field($model, 'id_variable')->textInput() ?>-->
+    
      <?= Html::activeHiddenInput($model, 'id_variable') ?>
      <?php
 
@@ -25,30 +24,53 @@ use yii\helpers\Json;
         switch ($model->scenario)
         {
             
+            case 'Internacional':
+                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione'], ['disabled' => 'disabled']);
+            break;
+
             case 'Nacional':
-                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'), ['disabled' => 'disabled'], ['readonyl' => 'readonly'], ['prompt'=>'Seleccione']);
-                break;
+                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione'], ['disabled' => 'disabled']);
+            break;
+
             case 'Estadal':
-                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'), ['disabled' => 'disabled'], ['readonyl' => 'readonly'], ['prompt'=>'Seleccione']);
+                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione', 'disabled' => true]);
                 echo $form->field($model, 'id_estado')->dropDownList(ArrayHelper::map($estados,'id','nombre'),['prompt'=>'Seleccione']);
-                break;
-            
+            break;
+
+            case 'Municipal':
+                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione', 'disabled' => true]);
+                
+                echo $form->field($model, 'id_estado')->dropDownList(ArrayHelper::map($estados,'id','nombre'),['prompt'=>'Seleccione', 'id' => 'id_estado']);
+
+                echo $form->field($model, 'id_municipio')->dropDownList(ArrayHelper::map($municipios,'id','nombre'),['prompt'=>'Seleccione', 'id' => 'id_municipio']);
+
+            break;
+
+            case 'Parroquial':
+                
+                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione', 'disabled' => true]);
+
+                echo $form->field($model, 'id_estado')->dropDownList(ArrayHelper::map($estados,'id','nombre'),['prompt'=>'Seleccione', 'id' => 'id_estado']);
+
+                echo $form->field($model, 'id_municipio')->dropDownList(ArrayHelper::map($municipios,'id','nombre'),['prompt'=>'Seleccione', 'id' => 'id_municipio']);
+                
+                echo $form->field($model, 'id_parroquia')->dropDownList(ArrayHelper::map($parroquias,'id','nombre'),['prompt'=>'Seleccione', 'id' => 'id_parroquia']);
+                
+            break;
+
             default:
-                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione']); 
-                break;
+                echo $form->field($model, 'id_pais')->dropDownList(ArrayHelper::map($pais,'id','nombre'),['prompt'=>'Seleccione'], ['disabled' => 'disabled']);
+            break;
         }
     ?>
     
-   <!-- <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>-->
-
 <br>
     <div style='width: 550px'>
     <table class="table table-bordered table-condensed table-striped">
         <tbody>
             <tr class="warning">
-                <td><label>TRIM I</label></td>
+                <td>
+                <label>TRIM I</label></td>
             
                 <td><?= $form->field($model1, 'enero')->input('number', ['style' => 'max-width:100px',  'placeholder' => '0', 'class' => 'trim1' ])->label('Enero', ['style' => 'display: block;']) ?></td>
             
@@ -102,16 +124,6 @@ use yii\helpers\Json;
     </table>
 </div>
 
-
-
-
-
-
-
-
-
-
-
     <?php if (!Yii::$app->request->isAjax){ ?>
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -123,15 +135,12 @@ use yii\helpers\Json;
 </div>
 
 
-
 <script type="text/javascript">
-    jQuery(document).ready(function(){
-
-
+    jQuery(document).ready(function()
+    {
         //llenar campo precio
         initTotal();
         
-
         //TRIM I
         $('.trim1').on('change', function(){
             initTotal();
@@ -150,81 +159,88 @@ use yii\helpers\Json;
         });
 
         //TOTAL
-        $('.trim1, .trim2, .trim3, .trim4').on('change', function(){
+        $('.trim1, .trim2, .trim3, .trim4').on('keyup', function()
+        {
             initTotal();
         });
         
-
-
-
-
-       function trim1()
+        function trim1()
         {
-        $('#total1').val(
-        (Number($('#accioncentralizadavariableprogramacion-enero').val()) ? parseInt($('#accioncentralizadavariableprogramacion-enero').val()) : 0)+
-        (Number($('#accioncentralizadavariableprogramacion-febrero').val()) ? parseInt($('#accioncentralizadavariableprogramacion-febrero').val()) : 0)+
-        (Number($('#accioncentralizadavariableprogramacion-marzo').val()) ? parseInt($('#accioncentralizadavariableprogramacion-marzo').val()) : 0)
-        );
-        
+            $('#total1').val(
+            (Number($('#accioncentralizadavariableprogramacion-enero').val()) ? parseInt($('#accioncentralizadavariableprogramacion-enero').val()) : 0)+
+            (Number($('#accioncentralizadavariableprogramacion-febrero').val()) ? parseInt($('#accioncentralizadavariableprogramacion-febrero').val()) : 0)+
+            (Number($('#accioncentralizadavariableprogramacion-marzo').val()) ? parseInt($('#accioncentralizadavariableprogramacion-marzo').val()) : 0)
+            );
         }
-
 
         //TRIM II
           function trim2()
         {
-        $('#total2').val(
-        (Number($('#accioncentralizadavariableprogramacion-abril').val()) ? parseInt($('#accioncentralizadavariableprogramacion-abril').val()) : 0)+
-        (Number($('#accioncentralizadavariableprogramacion-mayo').val())  ? parseInt($('#accioncentralizadavariableprogramacion-mayo').val()) : 0)+
-        (Number($('#accioncentralizadavariableprogramacion-junio').val()) ? parseInt($('#accioncentralizadavariableprogramacion-junio').val()) : 0)
-        );
+            $('#total2').val(
+            (Number($('#accioncentralizadavariableprogramacion-abril').val()) ? parseInt($('#accioncentralizadavariableprogramacion-abril').val()) : 0)+
+            (Number($('#accioncentralizadavariableprogramacion-mayo').val())  ? parseInt($('#accioncentralizadavariableprogramacion-mayo').val()) : 0)+
+            (Number($('#accioncentralizadavariableprogramacion-junio').val()) ? parseInt($('#accioncentralizadavariableprogramacion-junio').val()) : 0)
+            );
         }
-
-
 
         //TRIM III
         function trim3()
         {
-        $('#total3').val(
-        (Number($('#accioncentralizadavariableprogramacion-julio').val()) ? parseInt($('#accioncentralizadavariableprogramacion-julio').val()) : 0)+
-        (Number($('#accioncentralizadavariableprogramacion-agosto').val()) ? parseInt($('#accioncentralizadavariableprogramacion-agosto').val()) : 0)+
-        (Number($('#accioncentralizadavariableprogramacion-septiembre').val()) ? parseInt($('#accioncentralizadavariableprogramacion-septiembre').val()) : 0)
-        );
+            $('#total3').val(
+            (Number($('#accioncentralizadavariableprogramacion-julio').val()) ? parseInt($('#accioncentralizadavariableprogramacion-julio').val()) : 0)+
+            (Number($('#accioncentralizadavariableprogramacion-agosto').val()) ? parseInt($('#accioncentralizadavariableprogramacion-agosto').val()) : 0)+
+            (Number($('#accioncentralizadavariableprogramacion-septiembre').val()) ? parseInt($('#accioncentralizadavariableprogramacion-septiembre').val()) : 0)
+            );
         }
 
         //TRIM IV
         function trim4()
         {
             $('#total4').val(
-        (Number($('#accioncentralizadavariableprogramacion-octubre').val()) ? parseInt($('#accioncentralizadavariableprogramacion-octubre').val()) : 0)+
-        (Number($('#accioncentralizadavariableprogramacion-noviembre').val()) ? parseInt($('#accioncentralizadavariableprogramacion-noviembre').val()) : 0)+
-        (Number($('#accioncentralizadavariableprogramacion-diciembre').val()) ? parseInt($('#accioncentralizadavariableprogramacion-diciembre').val()) : 0)
-        );
+            (Number($('#accioncentralizadavariableprogramacion-octubre').val()) ? parseInt($('#accioncentralizadavariableprogramacion-octubre').val()) : 0)+
+            (Number($('#accioncentralizadavariableprogramacion-noviembre').val()) ? parseInt($('#accioncentralizadavariableprogramacion-noviembre').val()) : 0)+
+            (Number($('#accioncentralizadavariableprogramacion-diciembre').val()) ? parseInt($('#accioncentralizadavariableprogramacion-diciembre').val()) : 0)
+            );
         }
 
-
-
-
-        
-
-            function initTotal(){
-
+        function initTotal()
+        {
             trim1();
             trim2();
             trim3();
             trim4();
 
-             $('#total').val(
+            $('#total').val(
                 parseInt($('#total1').val())+
                 parseInt($('#total2').val())+
                 parseInt($('#total3').val())+
                 parseInt($('#total4').val())
             );
 
-        
+        }
 
-
-            }
-
-
-            });
+    });
 </script>
+<?php
+$this->registerJs(
+   
+    /* Listas desplegables dependientes */
+      '$("document").ready(function(){
+        //GE
+          $("#id_municipio").depdrop({
+            depends: ["id_estado"],
+            initialize : true,
+            initDepends:["id_estado"],
+            url: "'.Url::to(["proyecto-variable-localizacion/estadomunicipios"]).'"
+        });
+        $("#id_parroquia").depdrop({
+            depends: ["id_municipio"],
+            initialize : true,
+            initDepends:["id_municipio"],
+            url: "'.Url::to(["/proyecto-variable-localizacion/municipiosparroquias"]).'"
+        });
+        
+        });
+        '
+);
+?>

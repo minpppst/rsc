@@ -97,11 +97,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => require(__DIR__.'/_localizacion.php'),
             'toolbar'=> [
                 ['content'=>
-                
-                    (($model->local_variable==false && $model->localizacion==0) || ($model->local_variable_estados==false && $model->localizacion==1)  ?  
                     Html::a($icons['crear'].' Nuevo', ['localizacion-acc-variable/create', 'variable' => $model->id, 'localizacion' => $model->localizacion,],  
-                    ['role'=>'modal-remote','title'=> 'Nuevo','class'=>'btn btn-default']) : '').
-
+                    ['role'=>'modal-remote','title'=> 'Nuevo','class'=>'btn btn-default']).
 
                     Html::a($icons['recargar'].' Refrescar', ['/accion-centralizada-variables/view', 'id' => $model->id],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).

@@ -26,6 +26,14 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombreEstado',
     ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nombreMunicipio',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nombreParroquia',
+    ],
    
     [
         'class' => 'kartik\grid\ActionColumn',

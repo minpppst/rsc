@@ -99,8 +99,16 @@ class AccionCentralizadaVariablesUsuarios extends \yii\db\ActiveRecord
      public function usuario_eliminar($id)
      {
         $model = AccionCentralizadaVariablesUsuarios::findOne($id);
-        $model->estatus=2;
-        return $model->save();
+        if($model->delete())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        //$model->estatus=2;
+        //return $model->save();
      }
 
      /**

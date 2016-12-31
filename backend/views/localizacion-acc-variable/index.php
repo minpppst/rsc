@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use johnitvn\ajaxcrud\CrudAsset; 
+use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\LocalizacionAccVariableSearch */
@@ -9,6 +11,9 @@ use yii\grid\GridView;
 
 $this->title = 'Localizacion Acc Variables';
 $this->params['breadcrumbs'][] = $this->title;
+
+CrudAsset::register($this);
+
 ?>
 <div class="localizacion-acc-variable-index">
 

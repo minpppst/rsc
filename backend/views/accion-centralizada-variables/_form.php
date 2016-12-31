@@ -39,20 +39,20 @@ DepDropAsset::register($this);
       <?= $form->field($model, 'fuente_informacion')->textarea(['rows' => 2]) ?>
 
       <!-- Se Agrega La Acciones Centralizadas -->
-      <?= $form->field($accionAC, 'nombre_accion')->dropDownList(ArrayHelper::map($accion_centralizada,'id','nombre_accion'), ['options' => [$accionAC->id => ['Selected' => 'seleted']],'prompt' => 'Seleccione Una Acción', 'id'=> 'accion_centralizada'])->label('Acción Centralizada');
+      <?= $form->field($modelAC, 'nombre_accion')->dropDownList(ArrayHelper::map($listaaccion_centralizada,'id','nombre_accion'), ['options' => [$modelAC->id => ['Selected' => 'seleted']],'prompt' => 'Seleccione Una Acción', 'id'=> 'accion_centralizada'])->label('Acción Centralizada');
       ?>
     
-      <?= $form->field($model, 'acc_accion_especifica')->dropDownList(ArrayHelper::map($accion_especifica, 'id', 'nombre'), ['prompt' => 'Seleccione']) ?>
+      <?= $form->field($model, 'acc_accion_especifica')->dropDownList(ArrayHelper::map($listaaccion_especifica, 'id', 'nombre'), ['prompt' => 'Seleccione']) ?>
     
       <?= $form->field($model, 'unidad_ejecutora')->dropDownList(ArrayHelper::map($ue, 'id', 'name'), ['prompt' => 'Seleccione']) ?>
 
       <div>
       
         <?php
-        echo $form->field($verificar1, 'id')->widget(DepDrop::classname(),
+        echo $form->field($usuariomodel, 'id')->widget(DepDrop::classname(),
               [
                 'type'=>DepDrop::TYPE_SELECT2,
-                'data' => $model->isNewRecord ? NULL : ArrayHelper::map($verificar,'id', 'username'),
+                'data' => $model->isNewRecord ? NULL : ArrayHelper::map($listausuarios,'id', 'username'),
                 'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
                 'options' => ['id'=>'id_usuario', 'prompt' => 'Seleccione una Ejecutora', 'multiple' => true],
                 'pluginOptions'=>
@@ -65,8 +65,8 @@ DepDropAsset::register($this);
               ])->label('Usuarios De Carga');
         ?>
       </div>
-      <?php  $lugares =[ ['id' => '0', 'nombre' => 'Nacional'], ['id' => '1', 'nombre' => 'Estadal'], ];?>
-      <?= $form->field($model, 'localizacion')->dropDownList(ArrayHelper::map($lugares,'id','nombre'),['prompt'=>'Seleccione']) ?>
+      
+      <?= $form->field($model, 'localizacion')->dropDownList(ArrayHelper::map($lugares,'id','ambito'),['prompt'=>'Seleccione']) ?>
 
       <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

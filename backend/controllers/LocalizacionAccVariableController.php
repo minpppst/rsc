@@ -6,14 +6,17 @@ use Yii;
 use backend\models\LocalizacionAccVariable;
 use backend\models\AccionCentralizadaVariables;
 use backend\models\LocalizacionAccVariableSearch;
+use common\models\Pais;
+use common\models\Estados;
+use common\models\Municipio;
+use common\models\Parroquia;
+use common\models\AccionCentralizadaVariableProgramacion;
+use common\models\Ambito;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\Pais;
-use common\models\Estados;
 use \yii\web\Response;
 use yii\helpers\Html;
-use common\models\AccionCentralizadaVariableProgramacion;
 use yii\filters\AccessControl;
 /**
  * LocalizacionAccVariableController implements the CRUD actions for LocalizacionAccVariable model.
@@ -85,16 +88,19 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
     public function actionCreate($variable,$localizacion)
     {
         $request = Yii::$app->request;
+        $ACVariable=AccionCentralizadaVariables::findOne($variable);
         $model = new LocalizacionAccVariable();
         $model1= new AccionCentralizadaVariableProgramacion();
 
         $model->id_variable=$variable;
         //Escenario
-        $model->scenario = ($localizacion=='0' ? 'Nacional' : 'Estadal');
+        $model->scenario = $ACVariable->ambito->ambito;
         $model->id_pais = Pais::findOne(['nombre'=>'Venezuela'])->id;
         //lista desplegable
-        $paises = Pais::find()->all();
+        $pais = Pais::find()->where(['nombre'=>'Venezuela'])->all();
         $estados = Estados::find()->all();
+        $municipios = Municipio::find()->all();
+        $parroquias = Parroquia::find()->all();
 
         if($request->isAjax){
             /*
@@ -104,54 +110,102 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
             if($request->isGet){
                 return [
                     'title'=> "Localización Y Programación Mensual",
-                    'content'=>$this->renderPartial('create', [
-                        'model' => $model,
-                        'pais' => $paises,
-                        'estados' => $estados,
-                        'model1' => $model1,
-                        
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-        
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
-                $model1->id_localizacion=$model->id;
-                if( $model1->load($request->post()) && $model1->save()){
-                return [
-                    'forceReload'=>'true',                   
-                    'title'=> "Localización y Programación",
-
-                    'content'=>'<span class="text-success">Create VariableLocalizacion success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create', 'variable' => $variable,
-                    'localizacion' => $localizacion],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];}else{
-                    
-                    return [
-                    'title'=> "Localización y Programación",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'pais' => $paises,
+                        'pais' => $pais,
                         'estados' => $estados,
+                        'municipios' => $municipios,
+                        'parroquias' => $parroquias,
                         'model1' => $model1,
-
                         
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
+            }
+            if($model->load($request->post()))
+            {
+                $connection = \Yii::$app->db;
+                $transaction = $connection->beginTransaction();
+                try 
+                {
+                    if($model->save())
+                    {
+                        //guardando el modelo programacion
+                        $model1->id_localizacion=$model->id;
+                        if( $model1->load($request->post()) && $model1->save())
+                        {
+                            $transaction->commit();
+                            return [
+                                'forceReload'=>'true',                   
+                                'title'=> "Localización y Programación",
 
+                                'content'=>'<span class="text-success">Create VariableLocalizacion success</span>',
+                                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                        Html::a('Create More',['create', 'variable' => $variable,
+                                'localizacion' => $localizacion],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    
+                            ];
+                        }
+                        else
+                        {
+                            $transaction->rollBack();
+                            return 
+                            [
+                                'title'=> "Localización y Programación",
+                                'content'=>$this->renderAjax('create', [
+                                    'model' => $model,
+                                    'pais' => $pais,
+                                    'estados' => $estados,
+                                    'municipios' => $municipios,
+                                    'parroquias' => $parroquias,
+                                    'model1' => $model1,
+
+                                    
+                                ]),
+                                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                        Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                            ];         
+
+                        }
+                    }
+                    else
+                    {
+                        $transaction->rollBack();
+                        return 
+                        [
+                            'title'=> "Localización y Programación",
+                            'content'=>$this->renderAjax('create', [
+                                'model' => $model,
+                                'pais' => $pais,
+                                'estados' => $estados,
+                                'municipios' => $municipios,
+                                'parroquias' => $parroquias,
+                                'model1' => $model1,
+                            ]),
+                            'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                        Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                        ];                        
+                    }
                 }
-            }else{           
-                  return [
+                catch (\Exception $e)
+                {
+                    $transaction->rollBack();
+                    throw $e;
+                }
+            }
+            else
+            {
+                return 
+                [
                     'title'=> "Localización",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'pais' => $paises,
+                        'pais' => $pais,
                         'estados' => $estados,
+                        'municipios' => $municipios,
+                        'parroquias' => $parroquias,
                         'model1' => $model1,
 
                         
@@ -161,20 +215,28 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
         
                 ];         
             }
-        } else{
+        } 
+        else
+        {
             
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['create', 'id' => $model->id]);
-            return $this->redirect(['accion-centralizada-variable-programacion/create',  'id_localizacion' => $model->id]);
-            } else {
-            return $this->render('create', [
-                'model' => $model,
-                'pais' => $paises,
-                'estados' => $estados,
-            ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) 
+            {
+                //return $this->redirect(['create', 'id' => $model->id]);
+                return $this->redirect(['accion-centralizada-variable-programacion/create',  'id_localizacion' => $model->id]);
+            } 
+            else 
+            {
+                return $this->render('create', [
+                    'model' => $model,
+                    'pais' => $paises,
+                    'estados' => $estados,
+                    'municipios' => $municipios,
+                    'parroquias' => $parroquias,
+                    'model1' => $model1,
+                ]);
             }
 
-    }
+        }
     }
 
     /**
@@ -188,91 +250,147 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
         $request = Yii::$app->request;
         $model = $this->findModel($id);
         $model1= AccionCentralizadaVariableProgramacion::find()->where(['id_localizacion' => $model->id])->One();
-        
-        $model->scenario = ($localizacion=='0' ? 'Nacional' : 'Estadal');
-
+        //Escenario
+        $model->scenario = $model->idVariable->ambito->ambito;
         //lista desplegable
-        $paises = Pais::find()->all();
+        $paises = Pais::find()->where(['nombre'=>'Venezuela'])->all();
         $estados = Estados::find()->all();
+        $municipios = Municipio::find()->where(['id_estado'=> $model->id_estado])->all();
+        $parroquias = Parroquia::find()->where(['id_municipio' => $model->id_municipio])->all();
 
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
+            if($request->isGet)
+            {
                 return [
-                    'title'=> "Localización y Programación",
-                    'content'=>$this->renderPartial('update', [
-                        'model' => $model,
-                        'pais' => $paises,
-                        'estados' => $estados,
-                        'model1' => $model1,
-                        
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-        
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
-                $model1->id_localizacion=$model->id;
-                if( $model1->load($request->post()) && $model1->save()){
-                return [
-                    'forceReload'=>'true',                   
-                    'title'=> "Localización y Programación",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                        'model1' => $model1,
-                        'id' => $model->id,
-                        ]),
-                    
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Editar',['update', 'id' => $model->id, 'variable' => $model->id_variable, 'localizacion' => $model->idVariable->localizacion,],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];}else{
-                    
-                    return [
                     'title'=> "Localización y Programación",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'pais' => $paises,
                         'estados' => $estados,
+                        'municipios' => $municipios,
+                        'parroquias' => $parroquias,
                         'model1' => $model1,
-
-                        
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-        
-                ];         
-
-                }
-            }else{           
-                  return [
-                    'title'=> "Localización",
-                    'content'=>$this->renderAjax('update', [
-                        'model' => $model,
-                        'pais' => $paises,
-                        'estados' => $estados,
-                        'model1' => $model1,
-
-                        
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
-        }else {
+            else
+            {
+                if($model->load($request->post()))
+                {
+                    $connection = \Yii::$app->db;
+                    $transaction = $connection->beginTransaction();
+                    try 
+                    {
+                        if($model->save())
+                        {
+                            //guardando el modelo programacion
+                            $model1->id_localizacion=$model->id;
+                            if( $model1->load($request->post()) && $model1->save())
+                            {
+                                $transaction->commit();
+                                return [
+                                    'forceReload'=>'true',                   
+                                    'title'=> "Localización y Programación",
+                                    'content'=>$this->renderAjax('view', [
+                                    'model' => $model,
+                                    'model1' => $model1,
+                                    'id' => $model->id,
+                                    ]),
+                                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                    Html::a('Editar',['update', 'id' => $model->id, 'variable' => $model->id_variable, 'localizacion' => $model->idVariable->localizacion,],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                                ];
+                            }
+                            else
+                            {
+                                $transaction->rollBack();
+                                return 
+                                [
+                                    'title'=> "Localización y Programación",
+                                    'content'=>$this->renderAjax('create', [
+                                        'model' => $model,
+                                        'pais' => $pais,
+                                        'estados' => $estados,
+                                        'municipios' => $municipios,
+                                        'parroquias' => $parroquias,
+                                        'model1' => $model1,
+                                    ]),
+                                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                            Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                ];         
 
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+                            }
+                        }
+                        else
+                        {
+                            $transaction->rollBack();
+                            return 
+                            [
+                                'title'=> "Localización y Programación",
+                                'content'=>$this->renderAjax('create', [
+                                    'model' => $model,
+                                    'pais' => $pais,
+                                    'estados' => $estados,
+                                    'municipios' => $municipios,
+                                    'parroquias' => $parroquias,
+                                    'model1' => $model1,
+                                ]),
+                                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                            Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                            ];                        
+                        }
+                    }
+                    catch (\Exception $e)
+                    {
+                        $transaction->rollBack();
+                        throw $e;
+                    }
+                }
+                else
+                {
+                    return 
+                    [
+                        'title'=> "Localización",
+                        'content'=>$this->renderAjax('create', [
+                            'model' => $model,
+                            'pais' => $pais,
+                            'estados' => $estados,
+                            'municipios' => $municipios,
+                            'parroquias' => $parroquias,
+                            'model1' => $model1,
+                        ]),
+                        'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                    Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+            
+                    ];         
+                }
+            }
         }
-    }
+        else 
+        {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) 
+            {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            else 
+            {
+                return $this->render('update', [
+                    'model' => $model,
+                    'pais' => $paises,
+                    'estados' => $estados,
+                    'municipios' => $municipios,
+                    'parroquias' => $parroquias,
+                    'model1' => $model1,
+                ]);
+            }
+        }
     }
 
 

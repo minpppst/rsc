@@ -9,20 +9,13 @@ use yii\helpers\Html;
 
 ?>
 <div class="localizacion-acc-variable-create">
-	<?php if (!Yii::$app->request->isAjax){ 
-		$this->title = 'Crear planificación De Variable';
-$this->params['breadcrumbs'][] = ['label' => 'Localizacion Acc Variables', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-?>
-
-    	<h1><?= Html::encode($this->title) ?></h1>
-    <?php } ?>
-   <!-- <h1><?= Html::encode($this->title) ?></h1>-->
-
+	
     <?= $this->render('_form', [
         'model' => $model,
         'pais' => $pais,
         'estados' => $estados,
+        'municipios' => $municipios,
+        'parroquias' => $parroquias,
         'model1' => $model1,
     ]) ?>
 

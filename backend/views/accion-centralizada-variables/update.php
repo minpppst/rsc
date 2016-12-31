@@ -14,13 +14,12 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
-         'precarga' => $precarga,
-         'verificar' => $verificar,
-         'verificar1' => $verificar1,
+         'listausuarios' => $listausuarios,
+         'usuariomodel' => $usuariomodel,
          'ue' => $ue,
-        'accion_centralizada' => $accion_centralizada,
-        'accionAC' => $accionAC,
-        'accion_especifica' => $accion_especifica,
+        'listaaccion_centralizada' => $listaaccion_centralizada,
+        'modelAC' => $modelAC,
+        'listaaccion_especifica' => $listaaccion_especifica,
     ]) ?>
 
 </div>
