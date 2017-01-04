@@ -33,6 +33,7 @@ class AccionCentralizadaDesbloqueoMesController extends \common\controllers\Base
     {    
         $searchModel = new AccionCentralizadaDesbloqueoMesSearch();
         
+        //solo deben mostrarse los modelos asociados a una localizacion
         $ejecucion=AccionCentralizadaVariableEjecucion::find()
         ->innerjoin('accion_centralizada_variable_programacion', 'accion_centralizada_variable_programacion.id=accion_centralizada_variable_ejecucion.id_programacion')
         ->where(['accion_centralizada_variable_programacion.id_localizacion' => $id])->one();

@@ -32,6 +32,16 @@ class ProyectoVariableLocalizacion extends \yii\db\ActiveRecord
         return 'proyecto_variable_localizacion';
     }
 
+    /*
+    *Guargar los cambios hechos(auditoria)
+    */
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
+
      //Escenarios
     const SCENARIO_INTERNACIONAL = 'Internacional';
     const SCENARIO_REGIONAL = 'Regional';

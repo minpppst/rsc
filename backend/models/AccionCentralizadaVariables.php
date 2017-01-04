@@ -37,6 +37,16 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
     {
         return 'accion_centralizada_variables';
     }
+    
+    /*
+    *Guargar los cambios hechos(auditoria)
+    */
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
 
     /**
      * @inheritdoc

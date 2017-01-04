@@ -63,7 +63,9 @@ class Proyecto extends \yii\db\ActiveRecord
     {
         return 'proyecto';
     }
-
+    /*
+    *Guargar los cambios hechos(auditoria)
+    */
     public function behaviors()
     {
         return [

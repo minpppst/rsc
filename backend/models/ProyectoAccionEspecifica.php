@@ -41,6 +41,15 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     {
         return 'proyecto_accion_especifica';
     }
+    /*
+    *Guargar los cambios hechos(auditoria)
+    */
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
 
     /**
      * @inheritdoc

@@ -22,6 +22,15 @@ class AccionCentralizadaDesbloqueoMes extends \yii\db\ActiveRecord
     {
         return 'accion_centralizada_desbloqueo_mes';
     }
+    /*
+    *Guargar los cambios hechos(auditoria)
+    */
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
 
     /**
      * @inheritdoc

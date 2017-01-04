@@ -179,6 +179,7 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
      */
     public function actionUpdate($id)
     {
+        //array para almacenar los usuarios que ya habian sido seleccionados
         $precarga="";
         // instancia a los modelos
         $model = $this->findModel($id);
@@ -211,12 +212,14 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
         }
         //agregarlos al modelo de usuario
         $usuariomodel->id=$precarga;
+        
         if ($model->load(Yii::$app->request->post()))
         {
             $connection = \Yii::$app->db;
             $transaction = $connection->beginTransaction();
             if($model->save())
             {
+                //si guarda procedemos a guardar los usuarios seleccionados con el metodo uejecutoras
                 $usuarios=Yii::$app->request->post('UserAccounts');
                 if(!empty($usuarios['id']))
                 {
@@ -351,7 +354,6 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
                     ];
             }
         }
-    
     }
 
 
@@ -382,8 +384,12 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
     }
 
 
+    /**
+     * Borrar por lotes las variables
+     * @return Mixed
+     */
     public function actionBulkDelete()
-    {        
+    {
         $request = Yii::$app->request;
      
         $pks = explode(',', $request->post('pks')); 

@@ -46,6 +46,15 @@ class LocalizacionAccVariable extends \yii\db\ActiveRecord
     {
         return 'localizacion_acc_variable';
     }
+    /*
+    *Guargar los cambios hechos(auditoria)
+    */
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
 
 
     /**

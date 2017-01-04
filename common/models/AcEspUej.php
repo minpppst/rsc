@@ -27,10 +27,24 @@ class AcEspUej extends \yii\db\ActiveRecord
 
     
     
+    /*
+    *Iniciar la notificacion aprobacion
+    */
     public function init()
     {
 
         $this->on(self::EVENT_ACPEDIDOAPROBADO, [$this, 'notificacionAprobacion']);
+    }
+
+    /*
+    *Guargar los cambios hechos(auditoria)
+    */
+    
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
     }
 
 
@@ -110,7 +124,7 @@ class AcEspUej extends \yii\db\ActiveRecord
             return null;
         }
 
-        return $this->idUe->nombre;//idAcCentr->nombre_accion;
+        return $this->idUe->nombre;
     } 
 
 
@@ -139,7 +153,7 @@ class AcEspUej extends \yii\db\ActiveRecord
             return null;
         }
 
-        return $this->idAcEsp->idAcCentr->nombre_accion;//idAcCentr->nombre_accion;
+        return $this->idAcEsp->idAcCentr->nombre_accion;
     }
 
     
@@ -167,19 +181,19 @@ class AcEspUej extends \yii\db\ActiveRecord
     {
         //buscar si la asignacion ya fue ejecutada
         $asignacion=AccionCentralizadaAsignar::find()
-            ->select(['accion_centralizada_pedido.id'])
-            ->innerjoin('accion_centralizada_pedido', 'accion_centralizada_pedido.asignado=accion_centralizada_asignar.id')
-            ->where(['accion_centralizada_asignar.accion_especifica_ue' => $this->id])
-            ->One();
+        ->select(['accion_centralizada_pedido.id'])
+        ->innerjoin('accion_centralizada_pedido', 'accion_centralizada_pedido.asignado=accion_centralizada_asignar.id')
+        ->where(['accion_centralizada_asignar.accion_especifica_ue' => $this->id])
+        ->One();
 
-            if($asignacion!=NULL)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
+        if($asignacion!=NULL)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
 
@@ -201,6 +215,7 @@ class AcEspUej extends \yii\db\ActiveRecord
         
         if($this->save())
         {
+            //hay que disparar la notificacion
             $this->trigger(AcEspUej::EVENT_ACPEDIDOAPROBADO);
             return true;
         }
@@ -237,8 +252,9 @@ class AcEspUej extends \yii\db\ActiveRecord
         ->andwhere(['accion_centralizada_ac_especifica_uej.estatus' => 1])
         ->asArray()
         ->all();
-        foreach ($uej as $key => $value) {
-        $ue.=$value['name'].", ";
+        foreach ($uej as $key => $value) 
+        {
+            $ue.=$value['name'].", ";
         }
         $ue = substr($ue, 0, -2);
         return $ue;

@@ -39,6 +39,15 @@ class ProyectoVariableEjecucion extends \yii\db\ActiveRecord
     {
         return 'proyecto_variable_ejecucion';
     }
+    /*
+    *Guargar los cambios hechos(auditoria)
+    */
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+    }
 
     /**
      * @inheritdoc
