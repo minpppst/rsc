@@ -120,8 +120,8 @@
 		],
 		'toolbar'=> [
             ['content'=>
-                Html::a($icons['nuevo'].' Nuevo', ['create','proyecto'=>$searchModel->id_proyecto],
-                ['role'=>'modal-remote','title'=> 'Crear Acción Específica','class'=>'btn btn-default']).
+                /*Html::a($icons['nuevo'].' Nuevo', ['create','proyecto'=>$searchModel->id_proyecto],
+                ['role'=>'modal-remote','title'=> 'Crear Acción Específica','class'=>'btn btn-default']).*/
                 '{toggleData}'.
                 '{export}'
             ],

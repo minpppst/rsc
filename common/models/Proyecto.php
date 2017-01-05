@@ -466,22 +466,48 @@ class Proyecto extends \yii\db\ActiveRecord
 
      /**
       * Aprobar
-      * @return boolean
+      * @return int 1 salvado, 2 error suma ponderacion, 3 error al guardar
       */
-     public function toggleAprobado()
-     {
+    public function toggleAprobado()
+    {
+        //caso desaprobar
         if($this->aprobado == 1)
         {
             $this->aprobado = 0;
-        }
+            if($this->save())
+            {
+                return 1;
+            }
+            else
+            {
+                return 3;
+            }
+        }//aprobar
         else
         {
             $this->aprobado = 1;
+            //se verifica si la suma de la ponderaciones de las acciones especificas de dicho proyecto es 1
+            $comando = \Yii::$app->db->createCommand('SELECT SUM(ponderacion) FROM proyecto_accion_especifica WHERE id_proyecto = '.$this->id);
+            $sum = $comando->queryScalar();
+
+            if($sum==1)
+            {
+                if($this->save())
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 3;
+                }
+            }
+            else
+            {
+                return 2;
+            }
+
         }
-
-        $this->save();
-
-        return true;
+            
      }
 
      /**

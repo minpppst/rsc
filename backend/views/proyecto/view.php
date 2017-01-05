@@ -48,6 +48,7 @@ $accionEspecifica = Yii::$app->controller->renderPartial('_accion-especifica',[
 <div class="proyecto-view">
 
     <h1>Proyecto <?= Html::encode($this->title) ?></h1>
+    <!--Extension feedback-->
 <?= \dilden\feedbackwidget\DildenFeedback::widget(['ajaxURL' => 'index.php?r=proyecto/feedback&id='.$model->id, 'highlightElement' => 0,]);
 ?>
     <div class="container-fluid">

@@ -70,7 +70,7 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
             [['codigo_accion_especifica'], 'string', 'max' => 3],
             [['id_proyecto'], 'exist', 'skipOnError' => true, 'targetClass' => Proyecto::className(), 'targetAttribute' => ['id_proyecto' => 'id']],
             [['id_unidad_ejecutora'], 'exist', 'skipOnError' => true, 'targetClass' => UnidadEjecutora::className(), 'targetAttribute' => ['id_unidad_ejecutora' => 'id']],
-            [['ponderacion'], 'match', 'pattern' => '/^(?:1(?:\.0)?|0(?:\.[1-9])?|0?\.[1-9])$/', 'message' => 'Debe colocar un número entre 0.1 y 0.9'],
+            [['ponderacion'], 'match', 'pattern' => '/^(0(?:\.[01-9]){1,2}?|0?\.[01-99]{1,2})$/', 'message' => 'Debe colocar un número entre 0.01 y 0.99'],
             ['fecha_inicio', 'validarFecha'],
         ];
     }
@@ -362,7 +362,16 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
       */
     public function ponderacion()
     {
-        $comando = \Yii::$app->db->createCommand('SELECT SUM(ponderacion) FROM proyecto_accion_especifica WHERE id_proyecto = '.$this->id_proyecto);
+        //no puedo tomarse en cuenta el mismo en la suma (update)
+        if($this->id==null)
+        {
+            $filtro='';
+        }
+        else
+        {
+            $filtro=' and id<>'.$this->id;
+        }
+        $comando = \Yii::$app->db->createCommand('SELECT SUM(ponderacion) FROM proyecto_accion_especifica WHERE id_proyecto = '.$this->id_proyecto. ' ' .$filtro);
         $sum = $comando->queryScalar();
 
         return $sum;
@@ -374,7 +383,12 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
       */
     public function getMaxPonderacion()
     {
-        return (1 - $this->ponderacion());
+        
+        if($this->ponderacion() == 0)
+        {
+            return 0.99;
+        }
+        return (1.00 - $this->ponderacion());
     }
 
      /**
@@ -383,12 +397,12 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
       */
     public function getMinPonderacion()
     {
-        if($this->ponderacion() == 1.0)
+        if($this->ponderacion() == 1.00)
         {
             return 0;
         }
 
-        return 0.1;
+        return 0.01;
     }
 
      public function beforeSave($insert)

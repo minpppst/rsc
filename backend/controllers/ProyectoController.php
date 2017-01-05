@@ -360,15 +360,30 @@ class ProyectoController extends \common\controllers\BaseController
         $model = $this->findModel($id);
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        if ($model != null && $model->toggleAprobado()) {
+        if ($model != null && $model->toggleAprobado()==1) 
+        {
             $model->trigger(Proyecto::EVENT_APROBAR); //Notificacion
             return ['forceClose' => true, 'forceReload' => '#aprobar'];
-        } else {
-            return [
+        } 
+        else 
+        {
+            if($model->toggleAprobado()==3)
+            {
+                return [
                 'title' => 'Ocurrió un error.',
                 'content' => '<span class="text-danger">No se pudo realizar la operación. Error desconocido</span>',
                 'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
-            ];
+                ];    
+            }
+            else
+            {
+                return [
+                'title' => 'Error.',
+                'content' => '<span class="text-danger">No se pudo realizar la operación. La suma de la ponderación de las acciones debe ser igual 1</span>',
+                'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"])
+                ];       
+            }
+            
         }
     }
 

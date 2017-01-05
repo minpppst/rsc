@@ -28,7 +28,7 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'ponderacion')->input('number', [
         'min' => $model->minPonderacion, 
         'max' => $model->maxPonderacion, 
-        'step' => 0.1
+        'step' => 0.01
     ]); ?>
 
     <?= $form->field($model, 'bien_servicio')->textarea(['rows' => 6]); ?>
