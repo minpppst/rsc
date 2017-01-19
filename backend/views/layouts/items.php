@@ -22,13 +22,13 @@
 	}
 
 	//PROYECTO Y ACC
-	if($usuario->can('sysadmin')){
+	//if($usuario->can('sysadmin') || $usuario->can('Planificacion')){
 		//Header
 		$items[] =	['label' => 'Proyectos y Acciones Centralizadas', 'options' => ['class' => 'header']];
 		//Items
 		$items[] =	['label' => 'Proyecto', 'icon' => 'fa fa-folder', 'url' => ['/proyecto/index']];
 		$items[] =	['label' => 'Acción Centralizada', 'icon' => 'fa fa-folder-open', 'url' => ['/accion-centralizada/index']]; 
-	}
+	//}
 
 
 	//ASIGNACIONES
@@ -50,13 +50,13 @@
 	}
 
 	//VARIABLES
-	if($usuario->can('sysadmin')){
+	//if($usuario->can('sysadmin') || $usuario->can('Planificacion')){
 		//header
 		$items[] =	['label' => 'Variables', 'options' => ['class' => 'header']];
 		//Items
 		$items[] =	['label' => 'Proyecto', 'icon' => 'fa fa-calendar-check-o', 'url' => ['/proyecto-variables/index']];
 		$items[] =	['label' => 'Accion Centralizada', 'icon' => 'fa fa-calendar-o', 'url' => ['/accion-centralizada-variables/index']];
-	}
+	//}
 
 	//PROPIEDADES
 	if($usuario->can('sysadmin')){
