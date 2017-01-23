@@ -8,7 +8,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use johnitvn\rbacplus\models\Role;
+use backend\models\Permission as Permisos;
 use johnitvn\rbacplus\models\RoleSearch;
 
 /**
@@ -16,8 +18,8 @@ use johnitvn\rbacplus\models\RoleSearch;
  * @author John Martin <john.itvn@gmail.com>
  * @since 1.0.0
  */
+//class RoleController extends \common\controllers\BaseController {
 class RoleController extends Controller {
-
     public function behaviors()
     {
         return parent::behaviors();
@@ -69,6 +71,9 @@ class RoleController extends Controller {
     public function actionCreate() {
         $request = Yii::$app->request;
         $model = new Role(null);
+        $permisoSuperior= Permisos::ObtenerPermisosNivelUno();
+
+
 
         if ($request->isAjax) {
             /*
@@ -80,6 +85,7 @@ class RoleController extends Controller {
                     'title' => Yii::t('rbac', "Create new {0}", ["Role"]),
                     'content' => $this->renderAjax('create', [
                         'model' => $model,
+                        'permisoSuperior' => $permisoSuperior,
                     ]),
                     'footer' => Html::button(Yii::t('rbac', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
                     Html::button(Yii::t('rbac', 'Save'), ['class' => 'btn btn-primary', 'type' => "submit"])
@@ -98,6 +104,7 @@ class RoleController extends Controller {
                     'title' => Yii::t('rbac', "Create new {0}", ["Role"]),
                     'content' => $this->renderAjax('create', [
                         'model' => $model,
+                        'permisoSuperior' => $permisoSuperior,
                     ]),
                     'footer' => Html::button(Yii::t('rbac', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
                     Html::button(Yii::t('rbac', 'Save'), ['class' => 'btn btn-primary', 'type' => "submit"])
@@ -112,6 +119,7 @@ class RoleController extends Controller {
             } else {
                 return $this->render('create', [
                             'model' => $model,
+                            'permisoSuperior' => $permisoSuperior,
                 ]);
             }
         }
@@ -127,6 +135,10 @@ class RoleController extends Controller {
     public function actionUpdate($name) {
         $request = Yii::$app->request;
         $model = $this->findModel($name);
+        //datos precargados
+        $permisoSuperiorDatos= Permisos::ObtenerPermisosNivelUnoUpdate($name);
+        $permisoSuperior=Permisos::ObtenerPermisosNivelUno();
+
 
         if ($request->isAjax) {
             /*
@@ -138,6 +150,8 @@ class RoleController extends Controller {
                     'title' => Yii::t('rbac', "Update {0}", ['"' . $name . '" Role']),
                     'content' => $this->renderAjax('update', [
                         'model' => $this->findModel($name),
+                        'permisoSuperior' => $permisoSuperior,
+                        'permisoSuperiorDatos' => $permisoSuperiorDatos,
                     ]),
                     'footer' => Html::button(Yii::t('rbac', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
                     Html::button(Yii::t('rbac', 'Save'), ['class' => 'btn btn-primary', 'type' => "submit"])
@@ -148,6 +162,8 @@ class RoleController extends Controller {
                     'title' => $name,
                     'content' => $this->renderAjax('view', [
                         'model' => $this->findModel($name),
+                        'permisoSuperior' => $permisoSuperior,
+                        'permisoSuperiorDatos' => $permisoSuperiorDatos,
                     ]),
                     'footer' => Html::button(Yii::t('rbac', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
                     Html::a(Yii::t('rbac', 'Edit'), ['update', 'name' => $name], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
@@ -157,6 +173,8 @@ class RoleController extends Controller {
                     'title' => Yii::t('rbac', "Update {0}", ['"' . $name . '" Role']),
                     'content' => $this->renderAjax('update', [
                         'model' => $model,
+                        'permisoSuperior' => $permisoSuperior,
+                        'permisoSuperiorDatos' => $permisoSuperiorDatos,
                     ]),
                     'footer' => Html::button(Yii::t('rbac', 'Close'), ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
                     Html::button(Yii::t('rbac', 'Save'), ['class' => 'btn btn-primary', 'type' => "submit"])
@@ -171,6 +189,8 @@ class RoleController extends Controller {
             } else {
                 return $this->render('update', [
                             'model' => $model,
+                            'permisoSuperior' => $permisoSuperior,
+                            'permisoSuperiorDatos' => $permisoSuperiorDatos,
                 ]);
             }
         }
@@ -213,6 +233,39 @@ class RoleController extends Controller {
             return $model;
         } else {
             throw new NotFoundHttpException(Yii::t('rbac', 'The requested page does not exist.'));
+        }
+    }
+
+    /*
+    *Realiza el filtro de permisos por nivel superior 
+    * Mehtod Ajax
+    * @return json result
+    */
+    public function actionFiltropermisos() 
+    {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) 
+        {
+            $ids = $_POST['depdrop_parents'];
+            $cat_id = empty($ids[0]) ? null : $ids[0];
+            if ($cat_id != null) 
+            {
+               $data = Permisos::ObtenerPermisosNivelUnoFiltro($cat_id);
+                /**
+                 * the getProdList function will query the database based on the
+                 * cat_id and sub_cat_id and return an array like below:
+                 *  [
+                 *      'out'=>[
+                 *          ['id'=>'<prod-id-1>', 'name'=>'<prod-name1>'],
+                 *          ['id'=>'<prod_id_2>', 'name'=>'<prod-name2>']
+                 *       ],
+                 *       'selected'=>'<prod-id-1>'
+                 *  ]
+                 */
+               
+               echo Json::encode(['output'=>$data, 'selected'=>$data['selected']]);
+               return;
+            }
         }
     }
 

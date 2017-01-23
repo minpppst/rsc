@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\helpers\StringHelper;
 
 return [
     [
@@ -12,32 +11,39 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
-    // ],
-    /*
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'usuario',
-    ],
-    */
+        
     [
         'class'=>'\kartik\grid\DataColumn',
         'header' => 'Proyecto',
-        'value' => function($model){
-            return StringHelper::truncateWords($model->proyecto->nombre,10);
-        }
+        'value' => function($model)
+        {
+            return $model->proyecto->nombre;
+        },
+        'contentOptions' => 
+        [
+          'style'=>'max-width: 350px;  word-wrap: break-word;
+          white-space: normal;'
+        ]
     ],    
     [
         'class'=>'\kartik\grid\DataColumn',
         'header' => 'Acción Específica',
         'attribute'=>'proyectoEspecifica.nombre',
+        'contentOptions' => 
+        [
+          'style'=>'max-width: 350px;  word-wrap: break-word;
+          white-space: normal;'
+        ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'header' => 'Unidad Ejecutora',
         'attribute'=>'proyectoEspecifica.idUnidadEjecutora.nombre',
+        'contentOptions' => 
+        [
+          'style'=>'max-width: 350px;  word-wrap: break-word;
+          white-space: normal;'
+        ]
     ],
     [
         'class' => '\kartik\grid\DataColumn',

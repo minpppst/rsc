@@ -123,7 +123,7 @@ use kartik\money\MaskMoney;
                         'name' => 'general',
                         'options'=> [
                             'class' => 'form-control',
-                            'placeholder' => 'Escriba para buscar',
+                            'placeholder' => 'Escriba para buscar Objetivo General del PNDES ',
                         ],
                         'clientOptions' => [                
                             'source' => $objetivo_general,

@@ -17,6 +17,10 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'codigo_proyecto',
         'label' => 'Código',
+        'contentOptions' =>
+        [
+            'style'=>'width: 100px;'
+        ],
     ],
     
     [

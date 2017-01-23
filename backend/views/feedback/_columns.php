@@ -51,4 +51,4 @@ return [
                           'data-confirm-message'=>'Are you sure want to delete this item'], 
     ],
 
-];   
+];

@@ -14,22 +14,14 @@ use yii\helpers\Html;
 /**
  * ProyectoVariableUsuariosController implements the CRUD actions for ProyectoVariableUsuarios model.
  */
-class ProyectoVariableUsuariosController extends Controller
+class ProyectoVariableUsuariosController extends \common\controllers\BaseController
 {
-    /**
+     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-        ];
+        return parent::behaviors();
     }
 
     /**

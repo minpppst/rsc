@@ -118,6 +118,103 @@ use yii\widgets\ActiveForm;
         </tbody>
         
     </table>
+    <!--Comienzan las observaciones por meses -->
+            <?php  
+                if($desbloqueo['0']==1 || isset($desbloqueo['1']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_enero')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==2 || isset($desbloqueo['2']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_febrero')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==3 || isset($desbloqueo['3']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_marzo')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==4 || isset($desbloqueo['4']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_abril')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==5 || isset($desbloqueo['5']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_mayo')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==6 || isset($desbloqueo['6']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_junio')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==7 || isset($desbloqueo['7']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_julio')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==8 || isset($desbloqueo['8']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_agosto')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==9 || isset($desbloqueo['9']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_septiembre')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==10 || isset($desbloqueo['10']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_octubre')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==11 || isset($desbloqueo['11']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_noviembre')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
+            <?php  
+                if($desbloqueo['0']==12 || isset($desbloqueo['12']))
+                {
+            ?>
+                    <?= $form->field($model, 'observacion_diciembre')->textarea(['rows' => 3]) ?>
+            <?php
+                }
+            ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>

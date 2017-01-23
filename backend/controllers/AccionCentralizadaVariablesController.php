@@ -117,12 +117,12 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
                 {
                     $model_usuarios= new AccionCentralizadaVariablesUsuarios();
                     $model_usuarios->id_variable=$model->id;
-                    $usuarios=Yii::$app->request->post('id_usuario');
+                    $usuarios=Yii::$app->request->post('UserAccounts');
                     $i=0;
-                    while(count(Yii::$app->request->post('id_usuario'))!=$i)
+                    while(count($usuarios['id'])!=$i)
                     {
                         //funcion en el modelo variable-usuario para guardar
-                        if($model_usuarios->usuarios_agregar($model->id,$usuarios[$i]))
+                        if($model_usuarios->usuarios_agregar($model->id,$usuarios['id'][$i]))
                         {
                             $i++;
                         }
@@ -132,7 +132,6 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
                             $i=count($request->post('id_usuario'));
                         }
                     }// termina el while
-
                     $transaction->commit();
                     return $this->redirect(['responsable-acc-variable/create',  'id_variable' => $model->id]);
                 }
@@ -210,8 +209,11 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
         {
             $precarga[]=$key['id_usuario'];
         }
+        //print_r($model->UsuariosVariablesId); exit();
         //agregarlos al modelo de usuario
         $usuariomodel->id=$precarga;
+        //agregar lugares
+        $lugares= Ambito::find()->asarray()->all();
         
         if ($model->load(Yii::$app->request->post()))
         {
@@ -237,6 +239,7 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
                                 'listaaccion_centralizada' => $listaaccion_centralizada,
                                 'modelAC' => $modelAC,
                                 'listaaccion_especifica' => $listaaccion_especifica,
+                                'lugares' => $lugares,
                                 'ue' => $ue,
                             ]);
                         }
@@ -255,6 +258,7 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
                             'listaaccion_centralizada' => $listaaccion_centralizada,
                             'modelAC' => $modelAC,
                             'listaaccion_especifica' => $listaaccion_especifica,
+                            'lugares' => $lugares,
                             'ue' => $ue,
                         ]);
                 }
@@ -269,6 +273,7 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
                     'listaaccion_centralizada' => $listaaccion_centralizada,
                     'modelAC' => $modelAC,
                     'listaaccion_especifica' => $listaaccion_especifica,
+                    'lugares' => $lugares,
                     'ue' => $ue,
                 ]);
 
@@ -284,6 +289,7 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
                 'listaaccion_centralizada' => $listaaccion_centralizada,
                 'modelAC' => $modelAC,
                 'listaaccion_especifica' => $listaaccion_especifica,
+                'lugares' => $lugares,
                 'ue' => $ue,
             ]);
         }

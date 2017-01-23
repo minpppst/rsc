@@ -13,9 +13,9 @@ use common\models\AccionCentralizadaAsignar;
 class AccionCentralizadaAsignarSearch extends AccionCentralizadaAsignar
 {
     //variables
-    public $nombreue;
-    public $nombreacc;
-    public $nombreacc_acc;
+    public $nombreue; //unidad ejecutora
+    public $nombreacc; //accion centralizada
+    public $nombreacc_acc; //acciones especifica
 
     /**
      * @inheritdoc

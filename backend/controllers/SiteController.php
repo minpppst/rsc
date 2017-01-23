@@ -17,33 +17,30 @@ use bedezign\yii2\audit\models\AuditTrailSearch;
  */
 class SiteController extends \common\controllers\BaseController
 {
-    /**
+     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout', 'index'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
+        return [ 
+            'access' => [ 
+                'class' => AccessControl::className(), 
+                'rules' => [ 
+                    [ 
+                        'actions' => ['logout','index','error','configuracion'], 
+                        'allow' => true, 
+                        'roles' => ['@'], //autenticados 
+                    ], 
+                ], 
+            ], 
+            'verbs' => [ 
+                'class' => VerbFilter::className(), 
+                'actions' => [ 
+                    'logout' => ['post'], 
+                ], 
+            ], 
+        ]; 
+        //return parent::behaviors();
     }
 
     /**

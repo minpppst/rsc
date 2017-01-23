@@ -73,7 +73,7 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_proyecto', 'formula_indicador', 'fuente_indicador', 'unidad_medida', 'meta_proyecto','empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino', 'relacion_instituciones', 'objetivo_estrategico_institucional', 'objetivo_especifico_proyecto','causas_criticas_proyecto', 'problemas_aborda_proyecto','consecuencias_problema','justificacion_proyecto','alcance_proyecto','descripcion_situacion_actual', 'fecha_ultima_data', 'situacion_objetivo', 'meta_proyecto', 'tiempo_impacto', 'servicio_bien', 'tipo_impacto', 'cualitativa_efectos', 'importancia', 'mitigar_impacto_ambiental', 'balance_servicio_energetico', 'programacion_anual_consumidor'], 'required'],
+            [['id_proyecto', 'formula_indicador', 'fuente_indicador', 'unidad_medida', 'meta_proyecto','empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino', 'relacion_instituciones', 'objetivo_estrategico_institucional', 'objetivo_especifico_proyecto','causas_criticas_proyecto', 'problemas_aborda_proyecto','consecuencias_problema','justificacion_proyecto','alcance_proyecto','descripcion_situacion_actual', 'fecha_ultima_data', 'situacion_objetivo', 'meta_proyecto', 'tiempo_impacto', 'servicio_bien', 'tipo_impacto'], 'required'],
             [['id_proyecto', 'unidad_medida'], 'integer'],
             [['formula_indicador', 'meta_proyecto', 'causas_criticas_proyecto', 'problemas_aborda_proyecto','consecuencias_problema', 'justificacion_proyecto', 'alcance_proyecto', 'descripcion_situacion_actual'], 'string'],
             [['empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino', 'beneficiarios_femeninos', 'beneficiarios_masculinos'], 'number'],
@@ -82,6 +82,7 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
                         
             
         ];
+        //'cualitativa_efectos', 'importancia', 'mitigar_impacto_ambiental', 'balance_servicio_energetico', 'programacion_anual_consumidor'
     }
 
     /**Comprobar que la fecha no sea mayor al día Presente
@@ -114,8 +115,8 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
             'beneficiarios_masculinos' => 'Beneficiarios Masculinos',
             'beneficiarios_femeninos' => 'Beneficiarios Femeninos',
             'beneficiarios' => 'Total Beneficiarios',
-            'objetivo_estrategico_institucional' => 'Objetivo Estratégico Institucional',
-            'objetivo_especifico_proyecto' => 'Objetivo Específico del Proyecto',
+            'objetivo_estrategico_institucional' => 'Objetivo General',//'Objetivo Estratégico Institucional',
+            'objetivo_especifico_proyecto' => 'Objetivos Específicos del Proyecto',
             'causas_criticas_proyecto' => 'Causas del problema que se aborda con el proyecto (causas críticas)',
             'problemas_aborda_proyecto' => 'Problemas que se abordan con el proyecto',
             'consecuencias_problema' => 'Consecuencias del Problema',

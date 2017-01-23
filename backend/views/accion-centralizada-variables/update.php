@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'listaaccion_centralizada' => $listaaccion_centralizada,
         'modelAC' => $modelAC,
         'listaaccion_especifica' => $listaaccion_especifica,
+        'lugares' => $lugares
     ]) ?>
 
 </div>

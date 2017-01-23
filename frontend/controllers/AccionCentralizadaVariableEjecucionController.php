@@ -63,10 +63,11 @@ class AccionCentralizadaVariableEjecucionController extends \common\controllers\
             $desbloqueo=""; $total_cargado=0;
 
             $model= new AccionCentralizadaVariableEjecucion();
+            //buscando el modelo de la programacion
             $model_programacion = AccionCentralizadaVariableProgramacion::find()->where(['id_localizacion' => $id_localizacion])->All();
-            $total=$model_programacion[0]['enero']+$model_programacion[0]['febrero']+$model_programacion[0]['marzo']+$model_programacion[0]['abril']+$model_programacion[0]['mayo']+$model_programacion[0]['junio']+$model_programacion[0]['julio']+$model_programacion[0]['agosto']+$model_programacion[0]['septiembre']+$model_programacion[0]['octubre']+$model_programacion[0]['noviembre']+$model_programacion[0]['diciembre'];
+            //sacando el total de los trimestres de la programacion asociada a esta ejecución
+            $total=$model_programacion[0]['TotalTrimestre']=="" ? 0 : $model_programacion[0]['TotalTrimestre'];
             $model_inicial = AccionCentralizadaVariableEjecucion::find()->where(['id_programacion'=> $model_programacion[0]['id']])->asArray()->One();
-            
             $model->id_programacion=$model_programacion[0]['id'];
             $model->id_usuario=Yii::$app->user->getId();
             
@@ -76,11 +77,13 @@ class AccionCentralizadaVariableEjecucionController extends \common\controllers\
             $desbloqueo[0]=0;    
 
             //verificar campos bloqueado
-            if($model_inicial==NULL){
-            //primera vez que carga, deberia habilitarse solamente enero
-            $desbloqueo[0]=1;
+            if($model_inicial==NULL)
+            {
+                //primera vez que carga, deberia habilitarse solamente enero
+                $desbloqueo[0]=1;
 
-                }else{
+            }else
+            {
                 //verificar mes pendiente con la fecha o ultima carga realizada y fecha
                 if($model_inicial['diciembre']==NULL && (($hoy['mon']==12 && $hoy['mday']>=5) || ($hoy['mon']>12)))
                 $desbloqueo[0]=12;
@@ -108,9 +111,11 @@ class AccionCentralizadaVariableEjecucionController extends \common\controllers\
                 //verificamos si desde el backend se le dio permiso para habilitar campos
                 $permisos_espe = AccionCentralizadaDesbloqueoMes::find()->where(['id_ejecucion'=> $model_inicial['id']])->asArray()->All();
                 
-                if($permisos_espe!=""){
+                if($permisos_espe!="")
+                {
 
-                    foreach ($permisos_espe as $key) {
+                    foreach ($permisos_espe as $key) 
+                    {
                         // se cargan los meses que se le dio permiso de carga
                      
                         $desbloqueo[$key['mes']]='1';
@@ -119,14 +124,18 @@ class AccionCentralizadaVariableEjecucionController extends \common\controllers\
 
                 $model = $this->findModel($model_inicial['id']);
                 $total_cargado=$model->enero+$model->febrero+$model->marzo+$model->abril+$model->mayo+$model->junio+$model->julio+$model->agosto+$model->septiembre+$model->octubre+$model->noviembre+$model->diciembre;
-                }//fin else modelo con datos
+
+            }//fin else modelo con datos
 
 
         
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+        {
             return $this->redirect(['create', 'id' => $id, 'id_localizacion' => $id_localizacion]);
-        }else {
+        }
+        else 
+        {
             return $this->render('create', [
                 'model' => $model,
                 'model_programacion' => $model_programacion,

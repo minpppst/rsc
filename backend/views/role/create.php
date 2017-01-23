@@ -10,5 +10,6 @@ use yii\helpers\Html;
 <div class="auth-item-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'permisoSuperior' => $permisoSuperior,
     ]) ?>
 </div>

@@ -12,6 +12,7 @@ use backend\models\ProyectoVariableUsuarios;
  */
 class ProyectoVariableUsuariosSearch extends ProyectoVariableUsuarios
 {
+    
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class ProyectoVariableUsuariosSearch extends ProyectoVariableUsuarios
     {
         return [
             [['id', 'id_variable', 'id_usuario', 'estatus'], 'integer'],
-            [['fecha_creacion', 'fecha_eliminacion'], 'safe'],
+            [['nombreue', 'nombreproyecto', 'proyecto_acc'], 'safe'],
         ];
     }
 

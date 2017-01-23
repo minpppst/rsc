@@ -1,7 +1,6 @@
 <?php
 
 namespace frontend\models;
-
 use Yii;
 use johnitvn\userplus\base\models\UserAccounts;
 use common\models\AccionCentralizadaVariableProgramacion;
@@ -29,6 +28,18 @@ use yii\db\Expression;
  * @property integer $octubre
  * @property integer $noviembre
  * @property integer $diciembre
+ * @property string $observacion_enero
+ * @property string $observacion_febrero
+ * @property string $observacion_marzo
+ * @property string $observacion_abril
+ * @property string $observacion_mayo
+ * @property string $observacion_junio
+ * @property string $observacion_julio'
+ * @property string $observacion_agosto
+ * @property string $observacion_septiembre
+ * @property string $observacion_octubre
+ * @property string $observacion_noviembre
+ * @property string $observacion_diciembre
  *
  * @property AccionCentralizadaDesbloqueoMes[] $accionCentralizadaDesbloqueoMes
  * @property UserAccounts $idUsuario
@@ -44,15 +55,6 @@ class AccionCentralizadaVariableEjecucion extends \yii\db\ActiveRecord
         return 'accion_centralizada_variable_ejecucion';
     }
 
-
-
-
-
-
-
-
-
-
     /**
      * @inheritdoc
      */
@@ -65,14 +67,11 @@ class AccionCentralizadaVariableEjecucion extends \yii\db\ActiveRecord
             [['id_programacion', 'id_usuario', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'], 'integer'],
 
             
-            [['fecha'], 'safe'],
+            [['fecha', 'observacion_enero', 'observacion_febrero', 'observacion_marzo', 'observacion_abril', 'observacion_mayo', 'observacion_junio', 'observacion_julio', 'observacion_agosto', 'observacion_septiembre', 'observacion_octubre', 'observacion_noviembre', 'observacion_diciembre'], 'safe'],
             [['id_usuario'], 'exist', 'skipOnError' => true, 'targetClass' => UserAccounts::className(), 'targetAttribute' => ['id_usuario' => 'id']],
             [['id_programacion'], 'exist', 'skipOnError' => true, 'targetClass' => AccionCentralizadaVariableProgramacion::className(), 'targetAttribute' => ['id_programacion' => 'id']],
         ];
     }
-
-
-
 
     public function numero_ingresado($attribute){
 
@@ -88,9 +87,6 @@ class AccionCentralizadaVariableEjecucion extends \yii\db\ActiveRecord
         $this->addError($attribute, 'Error, Necesita Cargar Una Cantidad Positiva');
         
         }
-
-
-
 
     /**
      * @inheritdoc
@@ -114,6 +110,18 @@ class AccionCentralizadaVariableEjecucion extends \yii\db\ActiveRecord
             'octubre' => 'Octubre',
             'noviembre' => 'Noviembre',
             'diciembre' => 'Diciembre',
+            'observacion_enero' => 'Observación Enero',
+            'observacion_febrero' => 'Observación Febrero',
+            'observacion_marzo' => 'Observación Marzo',
+            'observacion_abril' => 'Observación Abril',
+            'observacion_mayo' => 'Observación Mayo',
+            'observacion_junio' => 'Observación Junio',
+            'observacion_julio' => 'Observación Julio',
+            'observacion_agosto' => 'Observación Agosto',
+            'observacion_septiembre' => 'Observación Septiembre',
+            'observacion_octubre' => 'Observación Octubre',
+            'observacion_noviembre' => 'Observación Noviembre',
+            'observacion_diciembre' => 'Observación Diciembre'
         ];
     }
 
@@ -141,20 +149,19 @@ class AccionCentralizadaVariableEjecucion extends \yii\db\ActiveRecord
         return $this->hasOne(AccionCentralizadaVariableProgramacion::className(), ['id' => 'id_programacion']);
     }
 
-
-
-
-
-    public function VariablesAsignadas(){
-
+    /*
+    * retorna las variables que han sido asignadas al usuario activo
+    * @return $arrayprovider
+    */
+    public function VariablesAsignadas()
+    {
         $ace = AccionCentralizadaVariables::find()
-                    ->select(["accion_centralizada_variables.nombre_variable as nombre", "accion_centralizada_variables.id", "accion_centralizada_variables.localizacion as localizacion", "localizacion_acc_variable.id id_localizacion"])
-                    ->innerjoin('accion_centralizada_variables_usuarios', 'accion_centralizada_variables_usuarios.id_variable=accion_centralizada_variables.id')
-                    ->innerjoin('localizacion_acc_variable', 'localizacion_acc_variable.id_variable=accion_centralizada_variables.id')
-                    ->where(['accion_centralizada_variables_usuarios.id_usuario' =>Yii::$app->user->getId()])
-                    ->asArray()
-                    ->all();  
-
+                ->select(["accion_centralizada_variables.nombre_variable as nombre", "accion_centralizada_variables.id", "accion_centralizada_variables.localizacion as localizacion", "localizacion_acc_variable.id id_localizacion"])
+                ->innerjoin('accion_centralizada_variables_usuarios', 'accion_centralizada_variables_usuarios.id_variable=accion_centralizada_variables.id')
+                ->innerjoin('localizacion_acc_variable', 'localizacion_acc_variable.id_variable=accion_centralizada_variables.id')
+                ->where(['accion_centralizada_variables_usuarios.id_usuario' =>Yii::$app->user->getId()])
+                ->asArray()
+                ->all();
                     
                 $provider=new ArrayDataProvider([
                 'allModels' => $ace,
@@ -169,9 +176,13 @@ class AccionCentralizadaVariableEjecucion extends \yii\db\ActiveRecord
                 return $provider;
     }
 
-
-    public function LocalizacionVariables($id){
-
+    /*
+    * Localización de las variables, caso de tener ambitos estadales, municipales o parroquiales
+    *
+    * @return $arrayprovider
+    */
+    public function LocalizacionVariables($id)
+    {
         $ace = LocalizacionAccVariable::find()  
         ->select("estados.nombre as nombre_estados, id_variable, localizacion_acc_variable.id, accion_centralizada_variables.nombre_variable as nombre")
         ->innerjoin("accion_centralizada_variables", "localizacion_acc_variable.id_variable=accion_centralizada_variables.id")
@@ -180,27 +191,18 @@ class AccionCentralizadaVariableEjecucion extends \yii\db\ActiveRecord
         ->asArray()
         ->All();
         
-                    
-                $provider=new ArrayDataProvider([
-                'allModels' => $ace,
-                'sort' => [
-                    'attributes' => ['nombre'],
-                ],
-                'pagination' => [
-                    'pageSize' => 10,
-                ],
-            ]);
+        $provider=new ArrayDataProvider([
+            'allModels' => $ace,
+            'sort' => 
+            [
+                'attributes' => ['nombre'],
+            ],
+            'pagination' => 
+            [
+                'pageSize' => 10,
+            ],
+        ]);
 
-                return $provider;
-
-
+        return $provider;
     }
-
-
-
-
-
-
-
-
 }

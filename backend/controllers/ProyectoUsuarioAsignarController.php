@@ -10,6 +10,8 @@ use common\models\ProyectoUsuarioAsignar;
 use common\models\ProyectoUsuarioAsignarSearch;
 use common\models\UnidadEjecutora;
 use common\models\ProyectoAccionEspecifica;
+use common\models\user;
+use common\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,37 +23,14 @@ use johnitvn\userplus\base\models\UserAccounts;
 /**
  * ProyectoAsignarController implements the CRUD actions for ProyectoAsignar model.
  */
-class ProyectoUsuarioAsignarController extends WebController
+class ProyectoUsuarioAsignarController extends \common\controllers\BaseController
 {
+    /**
+     * @inheritdoc
+    */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'matchCallback' => function($rule,$action)
-                        {
-                            $controller = Yii::$app->controller->id;
-                            $action = Yii:: $app->controller->action->id;                    
-                            $route = "$controller/$action";
-                            if(\Yii::$app->user->can($route))
-                            {
-                                return true;
-                            }
-                        }
-                    ],
-                ],
-            ],
-        ];
+        return parent::behaviors();
     }
 
     /**
@@ -60,12 +39,12 @@ class ProyectoUsuarioAsignarController extends WebController
      */
     public function actionIndex()
     {
-        /*
-        $searchModel = new ProyectoAsignarSearch();
+        
+        $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        */
-        $searchModel = $this->userPlusModule->createModelInstance('UserSearch');
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        //$searchModel = $this->userPlusModule->createModelInstance('UserSearch');
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

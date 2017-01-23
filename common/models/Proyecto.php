@@ -146,7 +146,7 @@ class Proyecto extends \yii\db\ActiveRecord
             'sector' => 'Sector',
             'sub_sector' => 'Sub Sector',
             'plan_operativo' => 'Plan Operativo',
-            'objetivo_general' => 'Objetivo General',
+            'objetivo_general' => 'Objetivo General Del PNDES',
             'politicas_ministeriales' => 'Politicas Ministeriales',
             'ambito' => 'Ambito',
             'aprobado' => 'Aprobado',

@@ -16,6 +16,18 @@ use Yii;
  * @property integer $id_programacion
  * @property integer $id_usuario
  * @property string $fecha
+ * @property string $observacion_enero
+ * @property string $observacion_febrero
+ * @property string $observacion_marzo
+ * @property string $observacion_abril
+ * @property string $observacion_mayo
+ * @property string $observacion_junio
+ * @property string $observacion_julio'
+ * @property string $observacion_agosto
+ * @property string $observacion_septiembre
+ * @property string $observacion_octubre
+ * @property string $observacion_noviembre
+ * @property string $observacion_diciembre
  * @property integer $enero
  * @property integer $febrero
  * @property integer $marzo
@@ -63,7 +75,7 @@ class ProyectoVariableEjecucion extends \yii\db\ActiveRecord
         return [
             [['id_programacion', 'id_usuario'], 'required'],
             [['id_programacion', 'id_usuario', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'], 'integer'],
-            [['fecha', 'fecha_creacion'], 'safe'],
+            [['fecha', 'fecha_creacion', 'observacion_enero', 'observacion_febrero', 'observacion_marzo', 'observacion_abril', 'observacion_mayo', 'observacion_junio', 'observacion_julio', 'observacion_agosto', 'observacion_septiembre', 'observacion_octubre', 'observacion_noviembre', 'observacion_diciembre'], 'safe'],
             [['id_programacion'], 'exist', 'skipOnError' => true, 'targetClass' => ProyectoVariableProgramacion::className(), 'targetAttribute' => ['id_programacion' => 'id']],
             [['id_usuario'], 'exist', 'skipOnError' => true, 'targetClass' => UserAccounts::className(), 'targetAttribute' => ['id_usuario' => 'id']],
         ];
@@ -91,6 +103,18 @@ class ProyectoVariableEjecucion extends \yii\db\ActiveRecord
             'octubre' => 'Octubre',
             'noviembre' => 'Noviembre',
             'diciembre' => 'Diciembre',
+            'observacion_enero' => 'Observación Enero',
+            'observacion_febrero' => 'Observación Febrero',
+            'observacion_marzo' => 'Observación Marzo',
+            'observacion_abril' => 'Observación Abril',
+            'observacion_mayo' => 'Observación Mayo',
+            'observacion_junio' => 'Observación Junio',
+            'observacion_julio' => 'Observación Julio',
+            'observacion_agosto' => 'Observación Agosto',
+            'observacion_septiembre' => 'Observación Septiembre',
+            'observacion_octubre' => 'Observación Octubre',
+            'observacion_noviembre' => 'Observación Noviembre',
+            'observacion_diciembre' => 'Observación Diciembre',
             'fecha_creacion' => 'Fecha Creacion',
             'trimestre1' => 'Trimestre I',
             'trimestre2' => 'Trimestre II',
