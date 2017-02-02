@@ -6,6 +6,7 @@ use Yii;
 use backend\models\LocalizacionAccVariable;
 use backend\models\AccionCentralizadaVariables;
 use backend\models\LocalizacionAccVariableSearch;
+use frontend\models\AccionCentralizadaVariableEjecucion;
 use common\models\Pais;
 use common\models\Estados;
 use common\models\Municipio;
@@ -434,19 +435,87 @@ class LocalizacionAccVariableController extends \common\controllers\BaseControll
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
         $request = Yii::$app->request;
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'true']; 
-        }else{
+        $model = $this->findModel($id);
+        $bandera=0; //variable para determinar si ha ocurrido una ejecucion
+        
+        $programacion= AccionCentralizadaVariableProgramacion::find()->where(['id_localizacion' => $model->id])->one();
+        if(isset($programacion) && $programacion!=null)
+        {
+            $usuario = \Yii::$app->user; //el admin no debe ser restringido
+            if($usuario->can('sysadmin'))
+            {
+                //metodo del modelo donde se borra todo lo relacionado con la accion central
+                if($model->eliminarTodoLocalizacion())
+                {
+                    if($request->isAjax)
+                    {
+                        /*
+                        *   Process for ajax request
+                        */
+                        Yii::$app->response->format = Response::FORMAT_JSON;
+                        return ['forceClose'=>true,'forceReload'=>'true'];    
+                    }
+                    else
+                    {
+                        /*
+                        *   Process for non-ajax request
+                        */
+                        return $this->redirect(['index']);
+                    }
+                }
+                else
+                {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    echo "\n<span class='text-danger'>Error Desconocido consulte al administrador.</span>";
+                    Yii::$app->end();
+                }
+            }//fin admin
+            else
+            {
+                //si existe alguna ejecucion de la programacion no se podrá eliminar
+                $modelojecucion=AccionCentralizadaVariableEjecucion::find()->where(['id_programacion'=> $programacion->id])->One();
+                if($modelojecucion!=null)
+                {
+                    $bandera=1;
+                }
+                
+                if($bandera==1)
+                {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    echo "\n<span class='text-danger'>Esta localización tiene una Ejecución asociada.</span>";
+                    Yii::$app->end();
+                }
+                else
+                {
+                    //borrar programaciones
+                    AccionCentralizadaVariableProgramacion::findOne($programacion->id)->delete();
+                    //borrar localizacion
+                    $this->findModel($id)->delete();
+                    
+                    if($request->isAjax)
+                    {
+                        /*
+                        *   Process for ajax request
+                        */
+                        Yii::$app->response->format = Response::FORMAT_JSON;
+                        return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
+                    }
+                    else
+                    {
+                        /*
+                        *   Process for non-ajax request
+                        */
+                        return $this->redirect(['index']);
+                    }
+                }
+            }//fin del else
+        }
+        else
+        {
+            $this->findModel($id)->delete();
+        }
 
-        return $this->redirect(['/accion_centralizada_variables/index']);
-    }
     }
 
     /**

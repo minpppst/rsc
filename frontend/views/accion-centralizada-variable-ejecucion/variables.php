@@ -28,8 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
              'label'=>'Nombre De Variable',
              'format' => 'raw',
-             'value'=>function ($data) {
-             return $data['localizacion']==0 ?  Html::a($data['nombre'], ['accion-centralizada-variable-ejecucion/create', 'id' =>$data['id'], 'id_localizacion' => $data['id_localizacion']]) : Html::a($data['nombre'], ['accion-centralizada-variable-ejecucion/localizacion', 'id' =>$data['id']]);
+             'value'=>function ($data) 
+             {
+                return $data['localizacion']==1 || $data['localizacion']==2 || $data['localizacion']==3 || $data['localizacion']==7 || $data['localizacion']==8
+                    ?  Html::a($data['nombre'], ['accion-centralizada-variable-ejecucion/create', 'id' =>$data['id'], 'id_localizacion' => $data['id_localizacion']]) 
+                    : Html::a($data['nombre'], ['accion-centralizada-variable-ejecucion/localizacion', 'id' =>$data['id']]);
             },
             'contentOptions' => 
             [

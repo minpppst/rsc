@@ -5,6 +5,8 @@ namespace common\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use common\models\AcEspUej;
+use backend\models\AccionCentralizadaVariables;
+use frontend\models\AccionCentralizadaVariableEjecucion;
 /**
  * This is the model class for table "accion_centralizada_accion_especifica".
  *
@@ -109,12 +111,6 @@ class AcAcEspec extends \yii\db\ActiveRecord
         }
     }
 
-
-
-
-
-    
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -138,20 +134,46 @@ class AcAcEspec extends \yii\db\ActiveRecord
         return $this->hasMany(AcVariable::className(), ['id_ac_esp' => 'id']);
     }
 
-    public function existe_uej(){
-       
-        $resultado =ArrayHelper::map(AcEspUej::find()->limit(1)->where('id_ac_esp= :id', ['id'=>$this->id])->all(),'id','id_ue');
-        if(count($resultado)>0){
-        return(1);}
-    else{
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccionVariables()
+    {
+        return $this->hasMany(AccioncentralizadaVariables::className(), ['acc_accion_especifica' => 'id']);
+    }
+
+    /*
+    *Verifica si existen acuej asociadas a la accion
+    */
+    public function existe_uej()
+    {
+      $resultado =ArrayHelper::map(AcEspUej::find()->limit(1)->where('id_ac_esp= :id', ['id'=>$this->id])->all(),'id','id_ue');
+      if(count($resultado)>0)
+      {
+        return(1);
+      }
+      else
+      {
         return(0);
-    }
+      }
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+/*    public function getAccionAsignar()
+    {
+        return $this->hasMany(AccioncentralizadaAsignar::className(), ['accion_especifica_ue' => 'id']);
+    }
+*/
 
-    public   function getnombreEstatus(){
-                              return ($this->estatus == 1)? 'Activo':'Inactivo';
-                      }
+    /*
+    * devuelve nombre de estatus
+    */
+    public   function getnombreEstatus()
+    {
+      return ($this->estatus == 1)? 'Activo':'Inactivo';
+    }
 
 
     public function desactivar()
@@ -190,9 +212,8 @@ class AcAcEspec extends \yii\db\ActiveRecord
      /*
       Permite Agregar/Borrar las UE del combo select2
      */
-     function uejecutoras($id_uej){
-
-
+     function uejecutoras($id_uej)
+     {
 
       /*
       Vaciar Si viene null
@@ -215,12 +236,21 @@ class AcAcEspec extends \yii\db\ActiveRecord
         /*
         Si encontró algo, son las unidades que deben ser eliminadas
         */
-        if($ace!=null){
+        if($ace!=null)
+        {
         
-        foreach ($ace as $key => $value) {
-          $model_cambiar= AcEspUej::findOne($value);
-          $model_cambiar->delete();
-          //$model_cambiar->cambiar();//campo eliminar se llena
+          foreach ($ace as $key => $value) 
+          {
+            $model_cambiar= AcEspUej::findOne($value);
+            //se verifica si existe alguna asociación con asignar de ser asi no se puede eliminar
+            if(isset($model_cambiar->idAccionCentralizadaAsignar) && $model_cambiar->idAccionCentralizadaAsignar!=null)
+            {
+              return false;
+            }
+            else
+            {
+              $model_cambiar->delete();
+            }
           }
         }
         /*
@@ -268,15 +298,121 @@ class AcAcEspec extends \yii\db\ActiveRecord
       /*
       Funcion para guardar las unidades ejecutoras relacionadas con las acc (solamente para la accion create)
       */
-      public function uejecutoras_crear($id_ue){
-        
+      public function uejecutoras_crear($id_ue)
+      {
         $model_uej=new AcEspUej;
         $model_uej->id_ue=$id_ue;
         $model_uej->id_ac_esp=$this->id;
-        if($model_uej->save()){
+        if($model_uej->save())
+        {
           return true;
-        }else{
+        }
+        else
+        {
           return false;
         }
       }
+  /**
+  *
+  *Proceso para eliminar todo lo relacionado con la acción especifica de la accion centralizada por el admin.
+  */
+  public function eliminarTodoEspecifica()
+  {
+      //buscamos las acciones especificas
+      $accionesespecificas=AcAcEspec::find()->where(['id' => $this->id])->all();
+      if($accionesespecificas!=null)
+      {
+        
+        foreach ($accionesespecificas as $key => $value2) 
+        {
+          //buscamos las unidades ejecutoras asociadas a esas acciones
+          $uejecutoras=AcEspUej::find()->where(['id_ac_esp' =>$value2->id])->all();
+
+          if($uejecutoras!=null)
+          {
+              //buscamos los asignaciones de esas unidades ejecutoras(usuarios)
+              foreach ($uejecutoras as $key => $value4)
+              {
+                //almacenamos los asignaciones
+                $asignaciones=AccionCentralizadaAsignar::find()->where(['accion_especifica_ue' => $value4->id])->All();
+                
+                if($asignaciones!=null)
+                {
+                  foreach ($asignaciones as $key => $value3)
+                  {
+                    //buscamos los pedidos hechos por esos usuarios-unidad-ejecutora
+                    $pedido=AccionCentralizadaPedido::find()->where(['asignado' => $value3->id])->All();
+                    
+                    if($pedido!=null)
+                    {
+                      foreach ($pedido as $key => $value)
+                      {
+                        // se borra el pedido
+                        $value->delete();
+                      };
+                    }
+                    //se borra asignacion si no existen pedidos
+                    $value3->delete();
+                  };
+                }
+                //se borra unidad-ejecutora
+                $value4->delete();
+              }//fin del for de buscar asignaciones
+          } // fin del if uejecutoras
+          //listo primera parte
+
+          //buscamos la eliminacino de las acciones centralizadas variables
+          $variables=AccionCentralizadaVariables::find()->where(['acc_accion_especifica' =>$value2->id])->all();
+          if($variables!=null)
+          {
+            //buscamos las variables asociadas al proyecto
+            foreach ($variables as $key => $value) 
+            {
+                //buscamos las localizaciones asociadas a esa variable
+                if($value!=null)
+                {
+                    $localizaciones=$value->localizacionAccVariables;
+
+                    foreach ($localizaciones as $key => $value5)
+                    {
+                        if($value5!=null)
+                        {
+                            //buscamos las programaciones y ejecuciones de esas variables
+                            $programaciones=AccionCentralizadaVariableProgramacion::find()->where(['id' => $value5->idAccionCentralizadaProgramacion->id])->One();
+                            
+                              if($programaciones!=null)
+                              {
+                                $modelojecucion=AccionCentralizadaVariableEjecucion::find()->where(['id_programacion'=> $programaciones->id])->One();
+                                if($modelojecucion!=null)
+                                {
+                                  //borrando la ejecucion
+                                  $modelojecucion->delete();
+                                }
+                                //borrando la programacion
+                                $programaciones->delete();  
+                              }
+                            //borrando localizacion
+                            $value5->delete();
+                        }
+                    }//fin del foreach de localizacion
+                    //borrando variables
+                    $value->delete();
+                }//fin del foreach del variables
+            }
+          }
+
+          
+        }//fin del for de buscar acciones especificas
+         //eliminado el acacespecifica
+        if(AcAcEspec::findOne($this->id)->delete())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+          
+      }//fin de buscar acciones especificas
+  }
 }

@@ -20,17 +20,17 @@ use yii\widgets\DetailView;
                         [
                             'attribute' => 'id_estado',
                             'label' => 'Estado',
-                            'value' => $model->idEstado->nombre,
+                            'value' => isset($model->idEstado->nombre) ? $model->idEstado->nombre : 'No Aplica',
                         ],
                         [
                             'attribute' => 'id_municipio',
                             'label' => 'Municipio',
-                            'value' => $model->idMunicipio->nombre,
+                            'value' => isset($model->idMunicipio->nombre) ? $model->idMunicipio->nombre : 'No Aplica',
                         ],
                         [
                             'attribute' => 'id_parroquia',
                             'label' => 'Parroquia',
-                            'value' => $model->idParroquia->nombre,
+                            'value' => isset($model->idParroquia->nombre) ? $model->idParroquia->nombre: 'No Aplica',
                         ],
                         
                     ],

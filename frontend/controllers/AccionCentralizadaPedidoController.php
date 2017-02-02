@@ -189,7 +189,7 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
                     'title'=> "Requerimientos",
                     'content'=>'<span class="text-success">Create ProyectoAsignar success</span>',
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::a('Asignar otro',['create', 'asignar' => $asignar],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                                Html::a('Otro Requerimiento',['create', 'asignar' => $asignar],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           

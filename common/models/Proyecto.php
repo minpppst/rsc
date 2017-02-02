@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use backend\models\ProyectoVariables;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
@@ -616,9 +617,102 @@ class Proyecto extends \yii\db\ActiveRecord
             }
             
             return true;
-        } else {
+        } 
+        else 
+        {
             return false;
         }
+    }
+
+    /**
+    *
+    *Proceso para eliminar todo lo relacionado con el proyecto por el admin.
+    */
+    public function eliminarTodo()
+    {
+        //buscamos las acciones especificas
+        $accionesespecificas=$this->accionesEspecificas;
+        if($accionesespecificas!=null)
+        {
+            
+            foreach ($accionesespecificas as $key => $value2) 
+            {
+                //buscamos las asignaciones de esas acciones espcificas
+                $asignaciones=ProyectoUsuarioAsignar::find()->where(['accion_especifica_id' =>$value2->id])->all();
+
+                if($asignaciones!=null)
+                {
+                    //buscamos los pedidos de esas asignaciones
+                    foreach ($asignaciones as $key => $value3)
+                    {
+                        $pedidos=$value3->proyectoPedidos;
+
+                        if($pedidos!=null)
+                        {
+                            foreach ($pedidos as $key => $value4)
+                            {
+                                // se borra el pedido
+                                $value4->delete();
+                            }
+                        }
+                        //se borra la asignacion una vez que se borre los pedidos
+                        
+                        $value3->delete();
+                    }//fin del while de buscar pedido
+                } // fin del if de asignaciones
+
+                //buscamos los proyectos variables
+                $variables=ProyectoVariables::find()->where(['accion_especifica' =>$value2->id])->all();
+                if($variables!=null)
+                {
+                    //buscamos las variables asociadas al proyecto
+                    foreach ($variables as $key => $value5) 
+                    {
+                        //buscamos las localizaciones asociadas a esa variable
+                        if($value5!=null)
+                        {
+                            $localizaciones=$value5->proyectoVariableLocalizacions;
+
+                            foreach ($localizaciones as $key => $value6) 
+                            {
+                                if($value6!=null)
+                                {
+                                    //buscamos las programaciones y ejecuciones de esas variables
+                                    foreach ($value6->proyectoVariableProgramacions as $key => $value7) 
+                                    {
+                                        $modelojecucion=ProyectoVariableEjecucion::find()->where(['id_programacion'=> $value7->id])->One();
+                                        if($modelojecucion!=null)
+                                        {
+                                            //borrando la ejecucion
+                                            $modelojecucion->delete();
+                                        }
+                                        //borrando la programacion
+                                        $value7->delete();
+                                    }
+
+                                    $value6->delete();
+                                }
+                            }//fin del foreach de localizacion
+                            //borrando variables
+                            $value5->delete();
+                        }//fin del foreach del variables
+                    }
+                }
+                ProyectoAccionEspecifica::findOne($value2->id)->delete();
+            }//fin del for de buscar acciones especificas
+            
+        }//fin de buscar acciones especificas
+
+        //eliminado el proyecto
+        if(Proyecto::findOne($this->id)->delete())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
     }
 
 }

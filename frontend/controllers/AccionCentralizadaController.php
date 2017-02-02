@@ -99,21 +99,72 @@ class AccionCentralizadaController extends \common\controllers\BaseController
      * @return mixed
      */
     public function actionDelete($id)
-    {   
-         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'true'];    
-        }else{
-
-        return $this->redirect(['index']);
+    {
+        $request = Yii::$app->request;
+        //antes de eliminar chequeamos si existen acciones especificas, de ser asi no puede eliminar
+        $model=$this->findModel($id);
+        //si es admin, puede borrar todo el proyecto
+        $usuario = \Yii::$app->user;
+        if($usuario->can('sysadmin'))
+        {
+            //metodo del modelo donde se borra todo lo relacionado con la accion central
+            if($model->eliminarTodo())
+            {
+                if($request->isAjax)
+                {
+                    /*
+                    *   Process for ajax request
+                    */
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ['forceClose'=>true,'forceReload'=>'true'];    
+                }
+                else
+                {
+                    /*
+                    *   Process for non-ajax request
+                    */
+                    return $this->redirect(['index']);
+                }
+            }
+            else
+            {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                echo "\n<span class='text-danger'>Error Desconocido consulte al administrador.</span>";
+                Yii::$app->end();
+            }
+        }
+        else
+        {
+            if(isset($model->accionesEspecificas) && $model->accionesEspecificas!=null)
+            {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                echo "\n<span class='text-danger'>Este Proyecto Posee Acciones Específicas Asociadas.</span>";
+                Yii::$app->end();
+            }
+            else
+            {
+                if($this->findModel($id)->delete())
+                {
+                    if($request->isAjax)
+                    {
+                        /*
+                        *   Process for ajax request
+                        */
+                        Yii::$app->response->format = Response::FORMAT_JSON;
+                        return ['forceClose'=>true,'forceReload'=>'true'];    
+                    }
+                    else
+                    {
+                        /*
+                        *   Process for non-ajax request
+                        */
+                        return $this->redirect(['index']);
+                    }
+                }
+            }
+        }
+        //termina
     }
-
-}
     /**
      * Finds the AccionCentralizada model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -277,20 +277,64 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $proyecto = $model->id_proyecto;
-        $model->delete();
+        //si es admin, puede borrar todo el proyecto
+        $usuario = \Yii::$app->user;
+        if($usuario->can('sysadmin'))
+        {
+            //metodo del modelo donde se borra todo lo relacionado con la accion especifica
+            if($model->eliminarAccionTodo())
+            {
+                if($request->isAjax)
+                {
+                    /*
+                    *   Process for ajax request
+                    */
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ['forceClose'=>true,'forceReload'=>'true'];    
+                }
+                else
+                {
+                    /*
+                    *   Process for non-ajax request
+                    */
+                    return $this->redirect(['index']);
+                }
+            }
+            else
+            {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                echo "\n<span class='text-danger'>Error Desconocido consulte al administrador.</span>";
+                Yii::$app->end();
+            }
+        }
+        else
+        {
+            //si existe alguna asignación o variable, no se podrá eliminar
+            if((isset($model->asignacion) && $model->asignacion!=null) || (isset($model->variable) && $model->variable!=null))
+            {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                echo "\n<span class='text-danger'>Esta Acción Posee Asignaciones(Usuarios) o Variables asociadas.</span>";
+                Yii::$app->end();
+            }
+            else
+            {
+                $model->delete();
 
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#especifica-pjax'];    
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+                if($request->isAjax)
+                {
+                    /*
+                    *   Process for ajax request
+                    */
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ['forceClose'=>true,'forceReload'=>'#especifica-pjax'];    
+                }else
+                {
+                    /*
+                    *   Process for non-ajax request
+                    */
+                    return $this->redirect(['index']);
+                }
+            }
         }
 
 

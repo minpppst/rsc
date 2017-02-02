@@ -184,9 +184,11 @@ class AccionCentralizadaVariableEjecucion extends \yii\db\ActiveRecord
     public function LocalizacionVariables($id)
     {
         $ace = LocalizacionAccVariable::find()  
-        ->select("estados.nombre as nombre_estados, id_variable, localizacion_acc_variable.id, accion_centralizada_variables.nombre_variable as nombre")
+        ->select("estados.nombre as nombre_estados, municipio.nombre as nombre_municipio, parroquia.nombre as nombre_parroquia, id_variable, localizacion_acc_variable.id, accion_centralizada_variables.nombre_variable as nombre")
         ->innerjoin("accion_centralizada_variables", "localizacion_acc_variable.id_variable=accion_centralizada_variables.id")
         ->innerjoin("estados", 'localizacion_acc_variable.id_estado=estados.id')
+        ->leftjoin("municipio", 'localizacion_acc_variable.id_municipio=municipio.id')
+        ->leftjoin("parroquia", 'localizacion_acc_variable.id_parroquia=parroquia.id')
         ->where(['localizacion_acc_variable.id_variable' => $id])
         ->asArray()
         ->All();

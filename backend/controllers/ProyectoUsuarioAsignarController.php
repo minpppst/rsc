@@ -269,22 +269,34 @@ class ProyectoUsuarioAsignarController extends \common\controllers\BaseControlle
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
-
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
+        
+        //si tiene pedido asociado un pedido no puede borrar
+        $model=$this->findModel($id);
+        if(isset($model->proyectoPedidos) && $model->proyectoPedidos!=null)
+        {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>true];    
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+            echo "\n<span class='text-danger'>Este Asignación Posee Pedidos Asociados.</span>";
+            Yii::$app->end();
         }
-
-
+        else
+        {
+            $this->findModel($id)->delete();
+            if($request->isAjax)
+            {
+                /*
+                *   Process for ajax request
+                */
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ['forceClose'=>true,'forceReload'=>true];    
+            }
+            else
+            {
+                /*
+                *   Process for non-ajax request
+                */
+                return $this->redirect(['index']);
+            }    
+        }
     }
 
     /**

@@ -186,9 +186,8 @@ class AccionCentralizadaVariableEjecucionController extends \common\controllers\
 
     
         $model= new AccionCentralizadaVariableEjecucion();
-      
-       
-            return $this->render('variables', [
+        
+        return $this->render('variables', [
                 'model' => $model->variablesAsignadas(),//provider,
             ]);
 

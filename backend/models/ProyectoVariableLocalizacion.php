@@ -258,4 +258,31 @@ class ProyectoVariableLocalizacion extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    /**
+     * Elimina la localizacion, programacion y ejecucion de poseerla (admin)
+     * @return bool
+     */
+    public function EliminarTodoLocalizacion()
+    {
+        $programacion= ProyectoVariableProgramacion::find()->where(['id_localizacion' => $this->id])->one();
+        if(isset($programacion) && $programacion!=null)
+        {
+            $modelojecucion=ProyectoVariableEjecucion::find()->where(['id_programacion'=> $programacion->id])->One();
+
+            if(isset($modelojecucion) && $modelojecucion!=null)
+            {
+                ProyectoVariableEjecucion::findOne($modelojecucion->id)->delete();
+            }
+            ProyectoVariableProgramacion::findOne($programacion->id)->delete();
+        }
+        if(ProyectoVariableLocalizacion::findOne($this->id)->delete())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

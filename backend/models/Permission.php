@@ -71,7 +71,7 @@ class Permission extends AuthItem {
     {
         $connection = Yii::$app->getDb();
         //$sql = array('0'); // Stop errors when $words is empty
-
+        $sql="";
         foreach($permisos as $word)
         {
             

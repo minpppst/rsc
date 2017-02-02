@@ -352,19 +352,32 @@ class ProyectoVariablesController extends \common\controllers\BaseController
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
-
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
+        $model = $this->findModel($id);
+        //si existe alguna localizacion no se podrá eliminar
+        if((isset($model->proyectoVariableLocalizacions) && $model->proyectoVariableLocalizacions!=null))
+        {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+            echo "\n<span class='text-danger'>Esta Variable posee localizaciones asociadas.</span>";
+            Yii::$app->end();
+        }
+        else
+        {
+            $this->findModel($id)->delete();
+            if($request->isAjax)
+            {
+                /*
+                *   Process for ajax request
+                */
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
+            }
+            else
+            {
+                /*
+                *   Process for non-ajax request
+                */
+                return $this->redirect(['index']);
+            }
         }
 
 

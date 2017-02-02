@@ -79,6 +79,7 @@ class ProyectoAlcance extends \yii\db\ActiveRecord
             [['empleos_directos_nuevos_femeninos', 'empleos_directos_nuevos_masculino', 'empleos_directos_sostenidos_femeninos', 'empleos_directos_sostenidos_masculino', 'beneficiarios_femeninos', 'beneficiarios_masculinos'], 'number'],
             [['fuente_indicador', 'tiempo_impacto'], 'string', 'max' => 100],
             [['fecha_ultima_data'], 'comprobarFecha'],
+            [['cualitativa_efectos', 'importancia', 'mitigar_impacto_ambiental', 'balance_servicio_energetico', 'programacion_anual_consumidor'], 'safe'],
                         
             
         ];

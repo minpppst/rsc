@@ -36,7 +36,7 @@
 	    		
 	     	switch(true)
 	     	{
-	     		case ('proyecto/update'==$item->name || 'proyecto/delete'==$item->name) :
+	     		case ('proyecto/update'==$item->name || 'proyecto/delete'==$item->name ) :
 
 	     			
 	     			if(Yii::$app->request->get('id')!=NULL)
@@ -151,6 +151,54 @@
 		     			return true;
 		     		}
 		     		
+	     		
+	     		break;
+
+	     		case ('proyecto/bulk-delete'==$item->name) :
+
+		       		$request = Yii::$app->request;
+		       		$pks = $request->post('pks'); // Array or selected records primary keys
+		       		$bandera=0;
+        			foreach (Proyecto::findAll(json_decode($pks)) as $proyecto) 
+        			{
+		       			
+		       			
+		       			if(isset($proyecto->aprobado))
+		       			{
+		       				$proyecto->aprobado==1 ? $bandera=1 : '';
+		       			}
+		       		}
+		     		if($bandera==1)
+		     		{
+		     			return false;
+		     		}
+		     		else
+		     		{
+		     			return true;
+		     		}
+	     		
+	     		break;
+
+	     		case ('proyecto-accion-especifica/bulk-delete'==$item->name) :
+
+		       		$request = Yii::$app->request;
+		       		$pks = $request->post('pks'); // Array or selected records primary keys
+		       		$bandera=0;
+        			foreach (ProyectoAccionEspecifica::findOne(json_decode($pks)) as $proyecto) 
+        			{
+		       			if(isset($proyecto->idProyecto->aprobado))
+		       			{
+		       				$proyecto->idProyecto->aprobado==1 ? $bandera=1 : '';
+		       			}
+		       		}
+		     		if($bandera==1)
+		     		{
+		     			return false;
+		     		}
+		     		else
+		     		{
+		     			return false;
+		     		}
 	     		
 	     		break;
 

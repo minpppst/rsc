@@ -116,15 +116,15 @@
                     $pedido = ProyectoPedido::findOne($this->key_id);
                     
                     return Yii::t('app', 'Requerimiento #{pedido} por {usuario}', [
-                        'pedido' => $pedido->id,
-                        'usuario' => $pedido->asignado0->usuario->username
+                        'pedido' => isset($pedido) ? $pedido->id : '',
+                        'usuario' => isset($pedido) ? $pedido->asignado0->usuario->username : '',
                     ]);
                 break;
                 case self::KEY_PEDIDOAPROBADO:
                     $proyectoEspecifica= ProyectoAccionEspecifica::findOne($this->key_id);
                     
                     return Yii::t('app', 'Aprobado Requerimientos a {unidad}', [
-                        'unidad' => $proyectoEspecifica->idUnidadEjecutora->nombre,
+                        'unidad' => isset($proyectoEspecifica) ? $proyectoEspecifica->idUnidadEjecutora->nombre : '',
                     ]);
                 break;
 
@@ -132,21 +132,21 @@
                     $proyectoEspecifica = ProyectoAccionEspecifica::findOne($this->key_id);
                     
                     return Yii::t('app', 'Desaprobado Requerimientos a {unidad}', [
-                        'unidad' => $proyectoEspecifica->idUnidadEjecutora->nombre,
+                        'unidad' => isset($proyectoEspecifica) ? $proyectoEspecifica->idUnidadEjecutora->nombre : '',
                     ]);
                 break;
 
                 case self::KEY_ACPEDIDOAPROBADO:
                     $acc_uej=AcEspUej::findOne($this->key_id);
                     return Yii::t('app', 'Aprobado Requerimientos AC a {unidad}', [
-                        'unidad' => $acc_uej->Nombreunidadejecutora,
+                        'unidad' => isset($acc_uej) ? $acc_uej->Nombreunidadejecutora : '',
                     ]);
                 break;
 
                 case self::KEY_ACPEDIDODESAPROBADO:
                     $acc_uej=AcEspUej::findOne($this->key_id);
                     return Yii::t('app', 'Desaprobado Requerimientos AC a {unidad}', [
-                        'unidad' => $acc_uej->Nombreunidadejecutora,
+                        'unidad' => isset($acc_uej) ? $acc_uej->Nombreunidadejecutora : '',
                     ]);
                 break;
 
@@ -189,26 +189,26 @@
                 case self::KEY_APROBAR:
                     $proyecto=Proyecto::findOne($this->key_id);
                     
-                    return Yii::t('app', 'Aprobado El Proyecto #'.$proyecto->codigo_proyecto
-                        );
+                    return isset($proyecto) ? Yii::t('app', 'Aprobado El Proyecto #'.$proyecto->codigo_proyecto
+                        ) : '';
                 break;
 
                 case self::KEY_DESAPROBAR:
                     $proyecto=Proyecto::findOne($this->key_id);
-                    return Yii::t('app', 'Desaprobado El Proyecto #'.$proyecto->codigo_proyecto
-                        );
+                    return isset($proyecto) ? Yii::t('app', 'Desaprobado El Proyecto #'.$proyecto->codigo_proyecto
+                        ) : '';
                 break;
 
                 case self::KEY_ACAPROBAR:
                     $proyecto=AccionCentralizada::findOne($this->key_id);
-                    return Yii::t('app', 'Aprobado La Acción Centraliada #'.$proyecto->codigo_accion
-                        );
+                    return isset($proyecto) ? Yii::t('app', 'Aprobado La Acción Centraliada #'.$proyecto->codigo_accion
+                        ) : '';
                 break;
 
                 case self::KEY_ACDESAPROBAR:
                     $proyecto=AccionCentralizada::findOne($this->key_id);
-                    return Yii::t('app', 'Desaprobada La Acción Centralizada #'.$proyecto->codigo_accion
-                        );
+                    return isset($proyecto) ? Yii::t('app', 'Desaprobada La Acción Centralizada #'.$proyecto->codigo_accion
+                        ) : '';
                 break;
 
             }
@@ -235,8 +235,6 @@
                 case self::KEY_PEDIDO_ACC_APROBADO:
                     return['/'];
                 break;
-
-                
 
             };
         }

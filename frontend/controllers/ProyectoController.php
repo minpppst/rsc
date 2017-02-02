@@ -178,22 +178,68 @@ class ProyectoController extends \common\controllers\BaseController
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
-
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'true'];    
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+        //antes de eliminar chequeamos si existen acciones especificas, de ser asi no puede eliminar
+        $model=$this->findModel($id);
+        //si es admin, puede borrar todo el proyecto
+        $usuario = \Yii::$app->user;
+        if($usuario->can('sysadmin'))
+        {
+            //metodo del modelo donde se borra todo lo relacionado con el proyecto
+            if($model->eliminarTodo())
+            {
+                if($request->isAjax)
+                {
+                    /*
+                    *   Process for ajax request
+                    */
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ['forceClose'=>true,'forceReload'=>'true'];    
+                }
+                else
+                {
+                    /*
+                    *   Process for non-ajax request
+                    */
+                    return $this->redirect(['index']);
+                }
+            }
+            else
+            {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                echo "\n<span class='text-danger'>Error Desconocido consulte al administrador.</span>";
+                Yii::$app->end();
+            }
         }
-
-
+        else
+        {
+            if(isset($model->accionesEspecificas) && $model->accionesEspecificas!=null)
+            {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                echo "\n<span class='text-danger'>Este Proyecto Posee Acciones Específicas Asociadas.</span>";
+                Yii::$app->end();
+            }
+            else
+            {
+                if($this->findModel($id)->delete())
+                {
+                    if($request->isAjax)
+                    {
+                        /*
+                        *   Process for ajax request
+                        */
+                        Yii::$app->response->format = Response::FORMAT_JSON;
+                        return ['forceClose'=>true,'forceReload'=>'true'];
+                    }
+                    else
+                    {
+                        /*
+                        *   Process for non-ajax request
+                        */
+                        return $this->redirect(['index']);
+                    }
+                }
+            }
+        }
     }
 
      /**
@@ -206,24 +252,65 @@ class ProyectoController extends \common\controllers\BaseController
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (Proyecto::findAll(json_decode($pks)) as $model) {
-            $model->delete();
-        }
+        //si es admin, puede borrar todo el proyecto
+        $error=1;
+        $usuario = \Yii::$app->user;
+        $pks = explode(',',$request->post('pks')); // arreglo o llave primaria
         
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'true']; 
-        }
-        else
+        foreach ($pks as $keys)
         {
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+            $model=$this->findModel($keys);
+
+            if($usuario->can('sysadmin'))
+            {
+                //metodo del modelo donde se borra todo lo relacionado con el proyecto
+                if(!$model->eliminarTodo())
+                {
+                    $error=0;
+                }
+                else
+                {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    echo "\n<span class='text-danger'>Error Desconocido consulte al administrador.</span>";
+                    Yii::$app->end();
+                }
+            }
+            else
+            {
+                if(isset($model->accionesEspecificas) && $model->accionesEspecificas!=null)
+                {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    echo "\n<span class='text-danger'>Este Proyecto Posee Acciones Específicas Asociadas.</span>";
+                    Yii::$app->end();
+                }
+                else
+                {
+                    
+                    if(!$model->delete())
+                    {
+                        $error=0;
+                    }
+                }
+            }
+
+        }
+        if($error==1)
+        {
+            if($request->isAjax)
+            {
+                /*
+                *   Process for ajax request
+                */
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ['forceClose'=>true,'forceReload'=>'true'];    
+            }
+            else
+            {
+                /*
+                *   Process for non-ajax request
+                */
+                return $this->redirect(['index']);
+            }
         }
        
     }

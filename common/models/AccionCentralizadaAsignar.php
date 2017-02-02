@@ -94,22 +94,32 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
         return $this->hasOne(UserAccounts::className(), ['id' => 'usuario']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccionCentralizadaPedido()
+    {
+        return $this->hasOne(AccionCentralizadaPedido::className(), ['asignado' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getaccion_centralizada_ac_especifica_uej(){
 
          return $this->hasOne(AcEspUej::className(), ['id' => 'accion_especifica_ue']);
 
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getAccion_especifica_ue0()
     {
         return $this->hasOne(AcEspUej::className(), ['id' => 'accion_especifica_ue']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     
-
     /**
      * @return string
      */

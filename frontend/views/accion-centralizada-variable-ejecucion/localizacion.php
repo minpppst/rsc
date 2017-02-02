@@ -52,6 +52,32 @@ $icons=[
                        
                  },
              ],
+             [
+             'attribute' => 'nombre_municipio',
+             'label'=>'Municipio',
+              'contentOptions'=>['style'=>'word-wrap:break-word; width:220px;'],
+
+             'format' => 'raw',
+             'value'=>function ($data) {
+                    
+                return Html::a($data['nombre_municipio'], ['accion-centralizada-variable-ejecucion/create', 'id' =>$data['id_variable'], 'id_localizacion' => $data['id']]);
+                        
+                       
+                 },
+             ],
+             [
+             'attribute' => 'nombre_parroquia',
+             'label'=>'Parroquia',
+              'contentOptions'=>['style'=>'word-wrap:break-word; width:220px;'],
+
+             'format' => 'raw',
+             'value'=>function ($data) {
+                    
+                return Html::a($data['nombre_parroquia'], ['accion-centralizada-variable-ejecucion/create', 'id' =>$data['id_variable'], 'id_localizacion' => $data['id']]);
+                        
+                       
+                 },
+             ],
             
         ],
     ]); ?>

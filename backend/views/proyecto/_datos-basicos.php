@@ -7,7 +7,7 @@ use yii\bootstrap\Modal;
 use yii\bootstrap\Button;
 use kartik\grid\GridView;
 use kartik\detail\DetailView;
-use johnitvn\ajaxcrud\CrudAsset; 
+use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use yii\widgets\Pjax;
 

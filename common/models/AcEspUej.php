@@ -91,6 +91,14 @@ class AcEspUej extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getIdAccionCentralizadaAsignar()
+    {
+        return $this->hasMany(AccionCentralizadaAsignar::className(), ['accion_especifica_ue' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getAcEspUejs()
     {
         return $this->hasMany(AcEspUej::className(), ['id_ac_esp' => 'id']);

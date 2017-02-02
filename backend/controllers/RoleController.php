@@ -263,7 +263,7 @@ class RoleController extends Controller {
                  *  ]
                  */
                
-               echo Json::encode(['output'=>$data, 'selected'=>$data['selected']]);
+               echo Json::encode(['output'=>$data, 'selected'=>'']);
                return;
             }
         }

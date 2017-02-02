@@ -303,9 +303,34 @@ class AccionCentralizadaVariablesController extends \common\controllers\BaseCont
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $request = Yii::$app->request;
+        $model = $this->findModel($id);
+        //si existe alguna localizacion no se podrá eliminar
+        if((isset($model->localizacionAccVariables) && $model->localizacionAccVariables!=null))
+        {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            echo "\n<span class='text-danger'>Esta Variable posee localizaciones asociadas.</span>";
+            Yii::$app->end();
+        }
+        else
+        {
+            $this->findModel($id)->delete();
+            if($request->isAjax)
+            {
+                /*
+                *   Process for ajax request
+                */
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
+            }
+            else
+            {
+                /*
+                *   Process for non-ajax request
+                */
+                return $this->redirect(['index']);
+            }
+        }
     }
 
     /**

@@ -8,6 +8,7 @@ use common\models\Estados;
 use common\models\Municipio;
 use common\models\Parroquia;
 use common\models\AccionCentralizadaVariableProgramacion;
+use frontend\models\AccionCentralizadaVariableEjecucion;
 
 /**
  * This is the model class for table "localizacion_acc_variable".
@@ -237,6 +238,14 @@ class LocalizacionAccVariable extends \yii\db\ActiveRecord
         return $this->hasOne(Parroquia::className(), ['id' => 'id_parroquia']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdAccionCentralizadaProgramacion()
+    {
+        return $this->hasOne(AccionCentralizadaVariableProgramacion::className(), ['id_localizacion' => 'id']);
+    }
+
 
     /**
      * mostrasr nombre de la variable
@@ -303,30 +312,47 @@ class LocalizacionAccVariable extends \yii\db\ActiveRecord
      * mostrar si ya existe una ejecucion
      * @return bool
      */
-    public function getObtener_Ejecucion(){
-    
-    $programacion_ejecucion=AccionCentralizadaVariableProgramacion::find()
-    ->innerjoin('accion_centralizada_variable_ejecucion','accion_centralizada_variable_programacion.id=accion_centralizada_variable_ejecucion.id_programacion')
-    ->where(['accion_centralizada_variable_programacion.id_localizacion' => $this->id])->one();
+    public function getObtener_Ejecucion()
+    {
+        $programacion_ejecucion=AccionCentralizadaVariableProgramacion::find()
+        ->innerjoin('accion_centralizada_variable_ejecucion','accion_centralizada_variable_programacion.id=accion_centralizada_variable_ejecucion.id_programacion')
+        ->where(['accion_centralizada_variable_programacion.id_localizacion' => $this->id])->one();
 
-    if($programacion_ejecucion==NULL){
-        return false;
-    }else{
-        return true;
+        if($programacion_ejecucion==NULL)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
-        
 
+    /**
+     * Elimina la localizacion, programacion y ejecucion de poseerla (admin)
+     * @return bool
+     */
+    public function EliminarTodoLocalizacion()
+    {
+        $programacion= AccionCentralizadaVariableProgramacion::find()->where(['id_localizacion' => $this->id])->one();
+        if(isset($programacion) && $programacion!=null)
+        {
+            $modelojecucion=AccionCentralizadaVariableEjecucion::find()->where(['id_programacion'=> $programacion->id])->One();
+
+            if(isset($modelojecucion) && $modelojecucion!=null)
+            {
+                AccionCentralizadaVariableEjecucion::findOne($modelojecucion->id)->delete();
+            }
+            AccionCentralizadaVariableProgramacion::findOne($programacion->id)->delete();
+        }
+        if(LocalizacionAccVariable::findOne($this->id)->delete())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

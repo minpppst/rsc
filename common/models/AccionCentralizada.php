@@ -3,7 +3,8 @@
 namespace common\models;
 use yii\data\ArrayDataProvider;
 use common\components\Notification as Notificaciones;
-
+use backend\models\AccionCentralizadaVariables;
+use frontend\models\AccionCentralizadaVariableEjecucion;
 use Yii;
 
 /**
@@ -370,5 +371,112 @@ class AccionCentralizada extends \yii\db\ActiveRecord
 
         return $dataProvider;
     }
+
+
+    /**
+    *
+    *Proceso para eliminar todo lo relacionado con la acción centralizada por el admin.
+    */
+    public function eliminarTodo()
+    {
+        //buscamos las acciones especificas
+        $accionesespecificas=$this->accionesEspecificas;
+        if($accionesespecificas!=null)
+        {
+          foreach ($accionesespecificas as $key => $value2) 
+          {
+            //buscamos las unidades ejecutoras asociadas a esas acciones
+            $uejecutoras=AcEspUej::find()->where(['id_ac_esp' =>$value2->id])->all();
+
+            if($uejecutoras!=null)
+            {
+                //buscamos los asignaciones de esas unidades ejecutoras(usuarios)
+                foreach ($uejecutoras as $key => $value4)
+                {
+                  //almacenamos los asignaciones
+                  $asignaciones=AccionCentralizadaAsignar::find()->where(['accion_especifica_ue' => $value4->id])->All();
+                  
+                  if($asignaciones!=null)
+                  {
+                    foreach ($asignaciones as $key => $value3)
+                    {
+                      //buscamos los pedidos hechos por esos usuarios-unidad-ejecutora
+                      $pedido=AccionCentralizadaPedido::find()->where(['asignado' => $value3->id])->All();
+                      
+                      if($pedido!=null)
+                      {
+                        foreach ($pedido as $key => $value)
+                        {
+                          // se borra el pedido
+                          $value->delete();
+                        };
+                      }
+                      //se borra asignacion si no existen pedidos
+                      $value3->delete();
+                    };
+                  }
+                  //se borra unidad-ejecutora
+                  $value4->delete();
+                }//fin del for de buscar asignaciones
+            } // fin del if uejecutoras
+            //listo primera parte
+
+            //buscamos la eliminacino de las acciones centralizadas variables
+            $variables=AccionCentralizadaVariables::find()->where(['acc_accion_especifica' =>$value2->id])->all();
+            if($variables!=null)
+            {
+              //buscamos las variables asociadas al proyecto
+              foreach ($variables as $key => $value) 
+              {
+                  //buscamos las localizaciones asociadas a esa variable
+                  if($value!=null)
+                  {
+                      $localizaciones=$value->localizacionAccVariables;
+
+                      foreach ($localizaciones as $key => $value5)
+                      {
+                          if($value5!=null)
+                          {
+                              //buscamos las programaciones y ejecuciones de esas variables
+                              $programaciones=AccionCentralizadaVariableProgramacion::find()->where(['id' => $value5->idAccionCentralizadaProgramacion->id])->One();
+                              
+                                if($programaciones!=null)
+                                {
+                                  $modelojecucion=AccionCentralizadaVariableEjecucion::find()->where(['id_programacion'=> $programaciones->id])->One();
+                                  if($modelojecucion!=null)
+                                  {
+                                    //borrando la ejecucion
+                                    $modelojecucion->delete();
+                                  }
+                                  //borrando la programacion
+                                  $programaciones->delete();  
+                                }
+                              //borrando localizacion
+                              $value5->delete();
+                          }
+                      }//fin del foreach de localizacion
+                      //borrando variables
+                      $value->delete();
+                  }//fin del foreach del variables
+              }
+            }
+            AcAcEspec::findOne($value2->id)->delete();
+          }//fin del for de buscar acciones especificas
+            
+        }//fin de buscar acciones especificas
+
+        //eliminado el proyecto
+        if(AccionCentralizada::findOne($this->id)->delete())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+
+    
 
 }

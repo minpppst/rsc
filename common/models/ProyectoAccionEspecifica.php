@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use backend\models\ProyectoVariables;
 use Yii;
 
 /**
@@ -244,6 +244,23 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getAsignacion()
+    {
+        return $this->hasOne(ProyectoUsuarioAsignar::className(), ['accion_especifica_id' => 'id' ]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVariable()
+    {
+        return $this->hasOne(ProyectoVariables::className(), ['accion_especifica' => 'id']);
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getIdAmbito()
     {
         return $this->hasOne(Ambito::className(), ['id' => 'ambito']);
@@ -429,4 +446,84 @@ class ProyectoAccionEspecifica extends \yii\db\ActiveRecord
         }
     }
 
+    /*
+    * Eliminar la accion especifica y todo lo relacionada con ella (admin)
+    *
+    */
+    public function EliminarAccionTodo()
+    {
+        //traemos la accion especificas
+        $value=ProyectoAccionEspecifica::findOne($this->id);
+        $asignaciones=ProyectoUsuarioAsignar::find()->where(['accion_especifica_id' =>$value->id])->all();
+
+        
+        if($asignaciones!=null)
+        {
+            
+            //buscamos los pedidos de esas asignaciones
+            foreach ($asignaciones as $key => $value1)
+            {
+                $pedidos=$value1->proyectoPedidos;
+
+                if($pedidos!=null)
+                {
+                    foreach ($pedidos as $key => $value2)
+                    {
+                        // se borra el pedido
+                        $value2->delete();
+                    }
+                }
+                //se borra la asignacion una vez que se borre los pedidos
+                
+                $value1->delete();
+            }//fin del while de buscar pedido
+        } // fin del if de asignaciones
+
+        //buscamos los proyectos variables
+        $variables=ProyectoVariables::find()->where(['accion_especifica' =>$value->id])->all();
+        if($variables!=null)
+        {
+            //buscamos las variables asociadas al proyecto
+            foreach ($variables as $key => $value3) 
+            {
+                //buscamos las localizaciones asociadas a esa variable
+                if($value3!=null)
+                {
+                    $localizaciones=$value3->proyectoVariableLocalizacions;
+
+                    foreach ($localizaciones as $key => $value4) 
+                    {
+                        if($value4!=null)
+                        {
+                            //buscamos las programaciones y ejecuciones de esas variables
+                            foreach ($value4->proyectoVariableProgramacions as $key => $value5) 
+                            {
+                                $modelojecucion=ProyectoVariableEjecucion::find()->where(['id_programacion'=> $value5->id])->One();
+                                if($modelojecucion!=null)
+                                {
+                                    //borrando la ejecucion
+                                    $modelojecucion->delete();
+                                }
+                                //borrando la programacion
+                                $value5->delete();
+                            }
+
+                            $value4->delete();
+                        }
+                    }//fin del foreach de localizacion
+                    //borrando variables
+                    $value3->delete();
+                }//fin del foreach del variables
+            }
+        }
+        //eliminamos la accion
+        if(ProyectoAccionEspecifica::findOne($this->id)->delete())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
