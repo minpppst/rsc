@@ -42,7 +42,7 @@
 	}
 
 	//PEDIDOS
-	if($usuario->can('sysadmin'))
+	if($usuario->can('sysadmin') || $usuario->can('Presupuesto'))
 	{
 		//Header
 		$items[] =	['label' => 'Requerimientos/Solicitudes', 'options' => ['class' => 'header']];
