@@ -47,7 +47,7 @@ class MaterialesServiciosSearch extends MaterialesServicios
     {
         $query = MaterialesServicios::find();
         // Join para la relacion
-        $query->joinWith(['cuenta0']);
+        //$query->joinWith(['cuenta0']);
         $query->joinWith(['presentacion0']);
         $query->joinWith(['unidadMedida']);
 
@@ -88,7 +88,7 @@ class MaterialesServiciosSearch extends MaterialesServicios
         ]);
 
         $query->andFilterWhere(['materiales_servicios.estatus' => $this->nombreEstatus]);
-        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['like', 'materiales_servicios.nombre', $this->nombre]);
         $query->andFilterWhere(['like', 'presentacion.nombre', $this->nombrePresentacion]);
         $query->andFilterWhere(['like', 'unidad_medida.unidad_medida', $this->nombreUnidadMedida]);
 

@@ -12,6 +12,6 @@ use yii\helpers\Html;
         'model' => $model,
         'unidad_medida' => $unidad_medida,
         'presentacion' => $presentacion,
-        'sub_especfica' => $sub_especfica
+        'sub_especifica' => $sub_especifica
     ]) ?>
 </div>

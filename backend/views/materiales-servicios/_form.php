@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
 use yii\web\JsExpression;
 use kartik\select2\Select2;
+use kartik\depdrop\DepDrop;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\MaterialesServicios */
@@ -24,14 +25,55 @@ $icons=[
 <div class="materiales-servicios-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    
+    <!--<?= $form->field($model, 'cuenta')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map($sub_especifica, 'cuenta', 'value'),
+        'options' => ['placeholder' => 'Escriba para buscar', 'id' => 'partida_cuenta'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]) 
+    ?>-->
+    <?php 
+        echo $form->field($model, 'cuentapartida')->widget(DepDrop::classname(), 
+            [
+                'type'=>DepDrop::TYPE_SELECT2,
+                'data' => ArrayHelper::map($sub_especifica, 'partida', 'nombre'),
+                'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+                'options' => ['id'=>'nro_partida', 'prompt' => 'Seleccione una cuenta partida'],
+                'pluginOptions'=>
+                [
+                    'depends'=>['partida_cuenta'],
+                    'loadingText' => 'Cargando partidas ...',
+                    'placeholder' => 'Seleccione una partida...',
+                    'url' => Url::to(['partida_partida'])
+                ]
+            ]);
+    ?>
 
-    <?= $form->field($model, 'cuenta')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map($sub_especfica, 'cuenta', 'value'),
+    <!--<?= $form->field($model, 'generica')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map($sub_especifica, 'generica', 'value'),
         'options' => ['placeholder' => 'Escriba para buscar'],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ]) ?>
+
+    <?= $form->field($model, 'especifica')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map($sub_especifica, 'especifica', 'value'),
+        'options' => ['placeholder' => 'Escriba para buscar'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]) ?>
+
+    <?= $form->field($model, 'subespecifica')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map($sub_especifica, 'subespecifica', 'value'),
+        'options' => ['placeholder' => 'Escriba para buscar'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]) ?>-->
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 

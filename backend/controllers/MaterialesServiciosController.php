@@ -86,17 +86,18 @@ class MaterialesServiciosController extends \common\controllers\BaseController
         $unidad_medida = UnidadMedida::find()->all();
         $presentacion = Presentacion::find()->all();
         //autocompletar
-        $sub_especfica = PartidaSubEspecifica::find()
-           ->select([
+        $sub_especifica = PartidaSubEspecifica::find()
+           /*->select([
                 'nombre as value',
                 'cuenta as cuenta',
                 'partida as partida',
                 'generica as generica',
                 'especifica as especifica',
                 'subespecifica as subespecifica'
-            ])
-           ->asArray()
-           ->all(); 
+            ])*/
+            ->select(["concat(cuenta, '-', partida, '-', generica, '-', especifica, '-', subespecifica, ' ', nombre) as nombre", "concat(cuenta, '-', partida, '-', generica, '-', especifica, '-', subespecifica) as partida"])
+            ->asArray()
+            ->all(); 
 
         if($request->isAjax){
             /*
@@ -110,7 +111,7 @@ class MaterialesServiciosController extends \common\controllers\BaseController
                         'model' => $model,
                         'unidad_medida' => $unidad_medida,
                         'presentacion' => $presentacion,
-                        'sub_especfica' => $sub_especfica
+                        'sub_especifica' => $sub_especifica
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -132,7 +133,7 @@ class MaterialesServiciosController extends \common\controllers\BaseController
                         'model' => $model,
                         'unidad_medida' => $unidad_medida,
                         'presentacion' => $presentacion,
-                        'sub_especfica' => $sub_especfica
+                        'sub_especifica' => $sub_especifica
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -150,7 +151,7 @@ class MaterialesServiciosController extends \common\controllers\BaseController
                     'model' => $model,
                     'unidad_medida' => $unidad_medida,
                     'presentacion' => $presentacion,
-                    'sub_especfica' => $sub_especfica
+                    'sub_especifica' => $sub_especifica
                 ]);
             }
         }
@@ -168,14 +169,15 @@ class MaterialesServiciosController extends \common\controllers\BaseController
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
+        $model->cuentapartida=$model->cuenta."-".$model->partida."-".$model->generica."-".$model->especifica."-".$model->subespecifica;
         //Desplegables
         $unidad_medida = UnidadMedida::find()->all();
         $presentacion = Presentacion::find()->all();
         //autocompletar
-        $sub_especfica = PartidaSubEspecifica::find()
-           ->select(['nombre as value', 'id as id'])
+        $sub_especifica = PartidaSubEspecifica::find()
+            ->select(["concat(cuenta, '-', partida, '-', generica, '-', especifica, '-', subespecifica, ' ', nombre) as nombre", "concat(cuenta, '-', partida, '-', generica, '-', especifica, '-', subespecifica) as partida"])
            ->asArray()
-           ->all();       
+           ->all();
 
         if($request->isAjax){
             /*
@@ -189,7 +191,7 @@ class MaterialesServiciosController extends \common\controllers\BaseController
                         'model' => $model,
                         'unidad_medida' => $unidad_medida,
                         'presentacion' => $presentacion,
-                        'sub_especfica' => $sub_especfica
+                        'sub_especifica' => $sub_especifica
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -202,19 +204,20 @@ class MaterialesServiciosController extends \common\controllers\BaseController
                         'model' => $model,
                         'unidad_medida' => $unidad_medida,
                         'presentacion' => $presentacion,
-                        'sub_especfica' => $sub_especfica
+                        'sub_especifica' => $sub_especifica
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
+                print_r($model->getErrors()); exit();
                  return [
                     'title'=> "Modificar Materiales/Servicios #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'unidad_medida' => $unidad_medida,
                         'presentacion' => $presentacion,
-                        'sub_especfica' => $sub_especfica
+                        'sub_especifica' => $sub_especifica
                     ]),
                     'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
@@ -231,7 +234,7 @@ class MaterialesServiciosController extends \common\controllers\BaseController
                     'model' => $model,
                     'unidad_medida' => $unidad_medida,
                     'presentacion' => $presentacion,
-                    'sub_especfica' => $sub_especfica
+                    'sub_especifica' => $sub_especifica
                 ]);
             }
         }

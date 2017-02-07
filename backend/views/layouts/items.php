@@ -32,7 +32,7 @@
 
 
 	//ASIGNACIONES
-	if($usuario->can('sysadmin') || $usuario->can('Planificacion'))
+	if($usuario->can('sysadmin') || $usuario->can('Planificacion') || $usuario->can('Presupuesto'))
 	{
 		//Header
 		$items[] =	['label' => 'Asginar Usuarios', 'options' => ['class' => 'header']];
