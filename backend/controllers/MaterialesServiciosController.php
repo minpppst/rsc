@@ -8,6 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\Console;
 
 use common\models\MaterialesServicios;
 use common\models\MaterialesServiciosSearch;
@@ -210,7 +211,6 @@ class MaterialesServiciosController extends \common\controllers\BaseController
                             Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
-                print_r($model->getErrors()); exit();
                  return [
                     'title'=> "Modificar Materiales/Servicios #".$id,
                     'content'=>$this->renderAjax('update', [
@@ -494,6 +494,122 @@ class MaterialesServiciosController extends \common\controllers\BaseController
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Lists all MaterialesServicios models.
+     * @return mixed
+     */
+    public function actionBuscarmaterial()
+    {    
+        $searchModel = new MaterialesServiciosSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('buscarmaterial', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Updates an existing MaterialesServicios model.
+     * For ajax request will return json object
+     * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionCambiarprecio($id)
+    {
+        $request = Yii::$app->request;
+        $model = $this->findModel($id);
+
+        if($request->isAjax)
+        {
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            
+            if($request->isGet)
+            {
+                //proceso de confirmación y realizar el cambio definitivo
+                if($request->get('cambiartodo')!=null && $request->get('cambiartodo')==1)
+                {
+                    $model=MaterialesServicios::findOne($request->get('id'));
+                    $model->precio=$request->get('precio');
+                    //metodo en el model que cambia el precio y ademas cambio los pedidos hechos en el año en curso
+                    if($model->cambiarTodo())
+                    {
+                        return 
+                        [
+                            'title'=> "MaterialesServicios #".$id,
+                            'content'=>$this->renderAjax('view', [
+                            'model' => $model,
+                            ]),
+                            'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+                        ]; 
+                    }
+                    else
+                    {
+                        return 
+                            [
+                                'title'=> "Modificar Precio Materiales/Servicios #".$id,
+                                'content'=>$this->renderAjax('_cambiarprecio', 
+                                    [
+                                        'model' => $model,
+                                    ]),
+                                'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                            Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
+                            ];
+                    }
+                }
+                else
+                {
+                    return 
+                    [
+                        'title'=> "Modificar Precio Materiales/Servicios #".$id,
+                        'content'=>$this->renderAjax('_cambiarprecio', 
+                            [
+                                'model' => $model,
+                            ]),
+                        'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                    Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
+                    ];
+                }
+            }
+            else
+            {
+                if($model->load($request->post()))
+                {
+                    //reporte temporal
+                    return 
+                    [
+                        'forceReload'=>'#crud-datatable-pjax',
+                        'title'=> "MaterialesServicios #".$id,
+                        'content'=>$this->renderAjax('_reporte_temporal',
+                            [
+                                'model' => $model,
+                            ]),
+                        'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::a('Editar',['cambiarprecio','id'=>$id, 'precio'=>$model->precio, 'cambiartodo'=>'1'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    ];
+                    
+                }
+                else
+                {
+                    return 
+                    [
+                        'title'=> "Modificar Materiales/Servicios #".$id,
+                        'content'=>$this->renderAjax('_cambiarprecio', 
+                            [
+                                'model' => $model,
+                            ]),
+                        'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                    Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
+                    ];        
+                }
+            }
         }
     }
 }

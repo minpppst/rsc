@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\data\ArrayDataProvider;
 
 /**
  * This is the model class for table "materiales_servicios".
@@ -227,4 +228,99 @@ class MaterialesServicios extends \yii\db\ActiveRecord
 
         return true;
      }
+
+     /**
+      * Proceso para cambiar precio base y el precio de los requerimientos asociados a ese material
+      */
+     public function cambiarTodo()
+     {
+        //comenzamos con la transaccion
+        $connection = \Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+        $anio=date('Y');
+        try
+        {
+          //guardamos sin validar datos
+          $this->save(false);
+          //cambiamos el precio de todos los requerimietos asociados a esos ms
+          $connection->createCommand()->update('proyecto_pedido', ['precio' => $this->precio], ['YEAR(fecha_creacion)' => $anio, 'id_material' => $this->id])->execute();
+          $connection->createCommand()->update('accion_centralizada_pedido', ['precio' => $this->precio], ['YEAR(fecha_creacion)' =>$anio, 'id_material' => $this->id])->execute();
+            $transaction->commit();
+            return true;
+        }
+        catch (Exception $e) 
+        {
+          $transaction->rollBack();
+          return false;
+        };
+     }
+
+      /**
+      *reporte temporal de como quedaria el monto total de los pedidos por accinoes especificas
+      */
+      public function ResultadoTemporal()
+      {
+        //Construccion del query
+        $sql = "
+            SELECT
+               a.nombre as 'proyecto - accion', pae.nombre as 'proyecto_accion',
+               (
+                    pedido.enero +
+                    pedido.febrero +
+                    pedido.marzo +
+                    pedido.abril +
+                    pedido.mayo +
+                    pedido.junio +
+                    pedido.julio +
+                    pedido.agosto +
+                    pedido.septiembre +
+                    pedido.octubre +
+                    pedido.noviembre +
+                    pedido.diciembre
+                ) * if(pedido.id_material=".$this->id.", ".$this->precio.", pedido.precio) as total
+            FROM
+               proyecto a, proyecto_accion_especifica pae, proyecto_usuario_asignar pa,
+               materiales_servicios ms, proyecto_pedido pedido
+            WHERE
+               pae.id_proyecto = a.id AND
+               pae.id = pa.accion_especifica_id AND
+               pa.id = pedido.asignado AND
+               pedido.id_material = ms.id 
+               AND
+               pedido.estatus = 1
+
+               UNION 
+
+            Select
+              a.nombre_accion as 'proyecto - accion', b.nombre as 'proyecto_ac - accion_ac', 
+              (
+              (e.enero+
+              e.febrero+
+              e.marzo+
+              e.abril+
+              e.mayo+
+              e.junio+
+              e.julio+
+              e.agosto+
+              e.septiembre+
+              e.octubre+
+              e.noviembre+
+              e.diciembre)* if(e.id_material=".$this->id.", ".$this->precio.", e.precio)) as total
+              from accion_centralizada as a
+              inner join accion_centralizada_accion_especifica as b on a.id=b.id_ac_centr
+              inner join accion_centralizada_ac_especifica_uej as c on b.id=c.id_ac_esp
+              inner join accion_centralizada_asignar as d on c.id=d.accion_especifica_ue
+              inner join accion_centralizada_pedido as e on d.id=e.asignado
+              where
+              e.estatus = 1
+          ";
+
+      //Arreglo para el DataProvider
+      $query = Yii::$app->db->createCommand($sql)->queryAll();
+      //DataProvider
+      $dataProvider = new ArrayDataProvider([
+          'allModels' => $query,
+        ]);
+        return $dataProvider;
+      }
 }

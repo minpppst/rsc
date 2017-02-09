@@ -36,7 +36,7 @@ $datos_basicos = Yii::$app->controller->renderPartial('_datos-basicos',[
 ]);
 $alcanceImpacto = 
     '<p>'.
-    Html::a($icons['crear'].' Agregar', ['proyecto-alcance/create', 'proyecto' => $model->id], ['class' => 'btn btn-success']).
+    //Html::a($icons['crear'].' Agregar', ['proyecto-alcance/create', 'proyecto' => $model->id], ['class' => 'btn btn-success']).
     '</p>'.
     '<div class="well">No hay datos.</div>'
 ;

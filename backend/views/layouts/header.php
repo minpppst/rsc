@@ -121,9 +121,9 @@ use machour\yii2\notifications\widgets\NotificationsWidget;
                 </li>
 
                 <!-- User Account: style can be found in dropdown.less -->
-                <li>
+                <!--<li>
                     <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                </li>
+                </li>-->
             </ul>
         </div>
     </nav>

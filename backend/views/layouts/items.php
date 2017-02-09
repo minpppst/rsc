@@ -109,10 +109,12 @@
 		   'icon' => 'fa fa-cutlery',
 		   'url' => '#',
 		   'items' => [
-		       ['label' => 'Lista', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/materiales-servicios/index']],
-		       ['label' => 'Importar', 'icon' => 'glyphicon glyphicon-import', 'url' => ['/materiales-servicios/importar']]
+		    	['label' => 'Lista', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/materiales-servicios/index']],
+		       	['label' => 'Importar', 'icon' => 'glyphicon glyphicon-import', 'url' => ['/materiales-servicios/importar']],
+		       	['label' => 'Cambio Precio', 'icon' => 'glyphicon glyphicon-retweet', 'url' => ['/materiales-servicios/buscarmaterial']],
 		   ]
 		];
+		
 		$items[] =	[
 		   'label' => 'Propiedades Proyecto', 
 		   'icon' => 'fa fa-folder',
@@ -129,8 +131,26 @@
 		];
 	}
 
+	//Presupuesto, Materiales y cambio precio
+	if($usuario->can('Presupuesto'))
+	{
+		//Header
+		$items[] =	['label' => 'Materiales', 'options' => ['class' => 'header']];
+		$items[] =	[
+			   'label' => 'Materiales y Servicios', 
+			   'icon' => 'fa fa-cutlery',
+			   'url' => '#',
+			   'items' => [
+			    	['label' => 'Lista', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/materiales-servicios/index']],
+			       	['label' => 'Importar', 'icon' => 'glyphicon glyphicon-import', 'url' => ['/materiales-servicios/importar']],
+			       	['label' => 'Cambio Precio', 'icon' => 'glyphicon glyphicon-retweet', 'url' => ['/materiales-servicios/buscarmaterial']],
+			   ]
+			];
+	}
+
 	//SISTEMA
-	if($usuario->can('sysadmin')){
+	if($usuario->can('sysadmin'))
+	{
 		//Header
 		$items[] =	['label' => 'Sistema', 'options' => ['class' => 'header']];
 		//Items
@@ -138,5 +158,6 @@
 		$items[] =	['label' => 'Debug', 'icon' => 'fa fa-bug', 'url' => ['/debug']];
 		$items[] =	['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest];
 	}
+
 
 	return $items;
