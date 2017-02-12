@@ -18,8 +18,8 @@ use common\models\UnidadMedida;
 use common\models\FuenteFinanciamiento;
 use common\models\UnidadEjecutora;
 use common\models\Ambito;
-use common\models\ProyectoACLocalizacion;
-use common\models\ProyectoACLocalizacionSearch;
+use common\models\ProyectoAcLocalizacion;
+use common\models\ProyectoAcLocalizacionSearch;
 use app\models\Pais;
 use app\models\Estados;
 use app\models\Municipio;
@@ -58,7 +58,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
     public function actionView($id)
     {   
         $request = Yii::$app->request;
-        $localizaciones=new ProyectoAClocalizacionSearch(['id_proyecto_ac' => $id]);
+        $localizaciones=new ProyectoAcLocalizacionSearch(['id_proyecto_ac' => $id]);
         $dataProvider = $localizaciones->search(Yii::$app->request->queryParams);
         if($request->isAjax)
         {
@@ -97,7 +97,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
     {
         $request = Yii::$app->request;
         $model = new ProyectoAccionEspecifica();
-        $model2= new ProyectoACLocalizacion();
+        $model2= new ProyectoAcLocalizacion();
         $model->id_proyecto = $proyecto;
         $model->estatus = 1;
         $model->ambito=$model->idProyecto->ambito;
@@ -151,7 +151,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                         if($model->save())
                         {
                             
-                            //si salva  la accion intentamos salvar su localizacion del modelo proyectoAcLocalizacion
+                            //si salva  la accion intentamos salvar su localizacion del modelo ProyectoAcLocalizacion
                             $model2->id_proyecto_ac=$model->id;
                             if(!$salvar=$model2->guardarLocalizacion($request->post()))
                             {
@@ -265,7 +265,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
         $unidadEjecutora = UnidadEjecutora::find()->all();
         $unidadMedida = UnidadMedida::find()->all();
         $fuenteFinanciamiento= fuenteFinanciamiento::find()->all();
-        $modelodata = ProyectoACLocalizacion::find()->where(['id_proyecto_ac' => $model->id])->all();
+        $modelodata = ProyectoAcLocalizacion::find()->where(['id_proyecto_ac' => $model->id])->all();
         $id_estados[]="";
         $id_municipio[]="";
         $id_parroquia[]="";
@@ -275,7 +275,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
             $id_municipio[]=$value->id_estado."-".$value->id_municipio;
             $id_parroquia[]=$value->id_estado."-".$value->id_municipio."-".$value->id_parroquia;
         }
-        $model2= new ProyectoACLocalizacion();
+        $model2= new ProyectoAcLocalizacion();
         $model2->id_estado=$id_estados;
         $model2->id_municipio=$id_municipio;
         $model2->id_parroquia=$id_parroquia;
@@ -324,12 +324,12 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
                             
                             if($model->save())
                             {
-                                //si salva el modelo principal intentamos salvar los cambios al modelo de proyectoAClocalizacion
+                                //si salva el modelo principal intentamos salvar los cambios al modelo de ProyectoAcLocalizacion
                                 $salvar=$model2->modificarLocalizacion($request->post(),$model->id, $model2->scenario, $model2->id_pais);
                                 if($salvar)
                                 {   
                                     $transaction->commit();
-                                    $localizaciones=new ProyectoAClocalizacionSearch(['id_proyecto_ac' => $model->id]);
+                                    $localizaciones=new ProyectoAcLocalizacionSearch(['id_proyecto_ac' => $model->id]);
                                     $dataProvider = $localizaciones->search(Yii::$app->request->queryParams);
                                     //retorna exitoso
                                     return  
