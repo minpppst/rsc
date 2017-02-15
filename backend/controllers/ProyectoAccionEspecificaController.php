@@ -18,8 +18,8 @@ use common\models\UnidadMedida;
 use common\models\FuenteFinanciamiento;
 use common\models\UnidadEjecutora;
 use common\models\Ambito;
-use common\models\ProyectoACLocalizacion;
-use common\models\ProyectoACLocalizacionSearch;
+use common\models\ProyectoAcLocalizacion;
+use common\models\ProyectoAcLocalizacionSearch;
 use app\models\Pais;
 use app\models\Estados;
 use app\models\Municipio;
@@ -61,7 +61,7 @@ class ProyectoAccionEspecificaController extends \common\controllers\BaseControl
     public function actionView($id)
     {   
         $request = Yii::$app->request;
-        $localizaciones=new ProyectoAClocalizacionSearch(['id_proyecto_ac' => $id]);
+        $localizaciones=new ProyectoAclocalizacionSearch(['id_proyecto_ac' => $id]);
         $dataProvider = $localizaciones->search(Yii::$app->request->queryParams);
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
