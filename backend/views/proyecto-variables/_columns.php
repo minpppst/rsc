@@ -19,7 +19,7 @@ return [
         'attribute'=>'nombre_variable',
         'contentOptions' => 
             [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
+            'style'=>'max-width: 450px;  word-wrap: break-word;
             white-space: normal;'
             ]
     ],
@@ -40,10 +40,20 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'definicion',
+        'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'base_calculo',
+        'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
