@@ -6,7 +6,43 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\AccionCentralizadaVariableEjecucion */
 /* @var $form yii\widgets\ActiveForm */
+
+//agregando boton atras y breadcrumbs
+$localizacion=$model->idProgramacion->idLocalizacion->idVariable->localizacion;
+//declarando variables para autocompletar informacion necesaria
+$bandera=0;
+$estado=""; $municipio=""; $parroquia=""; $nacional="";
+if($localizacion==1 || $localizacion==2 || $localizacion==3 || $localizacion==7 || $localizacion==8)
+{
+    $atras= ['proyecto-variable-ejecucion/variables'];
+    $nacional=" - ".$model->idProgramacion->idLocalizacion->idVariable->ambito->ambito;
+}
+else
+{
+    $atras= ['proyecto-variable-ejecucion/localizacion', 'id' =>$model->idProgramacion->idLocalizacion->id];
+    $bandera=1;
+    $estado=isset($model->idProgramacion->idLocalizacion->idEstado->nombre) ? " - ".$model->idProgramacion->idLocalizacion->idEstado->nombre : '';
+    $municipio=isset($model->idProgramacion->idLocalizacion->idMunicipio->nombre) ? " - ".$model->idProgramacion->idLocalizacion->idMunicipio->nombre : '';
+    $parroquia=isset($model->idProgramacion->idLocalizacion->idParroquia->nombre) ? " - ".$model->idProgramacion->idLocalizacion->idParroquia->nombre : '';
+}
+//titulo
+$this->title = $model->idProgramacion->idLocalizacion->idVariable->nombre_variable.$nacional.$estado.$municipio.$parroquia;
+//breadcrumbs
+$this->params['breadcrumbs'][] = ['label' => 'Proyecto Variables Asignadas', 'url' => ['variables']];
+$bandera==1 ? $this->params['breadcrumbs'][] = ['label' => 'Variables Por Región', 'url' => ['proyecto-variable-ejecucion/localizacion', 'id' =>$model->idProgramacion->idLocalizacion->id]] : '';
+
+$this->params['breadcrumbs'][] = $this->title;
+
+$icons=[
+  'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
+];
+
 ?>
+
+<div class="Proyecto-variable-ejecucion">
+
+    <h4><?= Html::encode($this->title) ?></h4>
+
 
 <div class="accion-centralizada-variable-ejecucion-form">
 
@@ -232,9 +268,10 @@ use yii\widgets\ActiveForm;
             ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
+        <?= Html::a($icons['volver'].' Volver', $atras, ['class' => 'btn btn-primary']) . " " . Html::submitButton('Guardar', ['class' => 'btn btn-primary'])?>
     </div>
 
     <?php ActiveForm::end(); ?>
 
+</div>
 </div>

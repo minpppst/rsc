@@ -195,7 +195,7 @@ class ProyectoPedido extends \yii\db\ActiveRecord
     /**
      * @return integer
      */
-    public function getIva()
+    public function getIvaTotal()
     {
         return ($this->subTotal / 100 * $this->idMaterial->iva);
     }

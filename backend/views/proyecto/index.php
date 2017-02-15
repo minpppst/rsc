@@ -78,7 +78,7 @@ CrudAsset::register($this);
                     ['class' => 'btn btn-default']) : '').
                     */                    
                     Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Recargar Grid']).
                     '{toggleData}'.
                     '{export}'
                 ],

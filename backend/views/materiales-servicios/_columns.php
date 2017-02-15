@@ -12,16 +12,7 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
-    // ],
-    /*
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_se',
-    ],
-    */
+      
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
@@ -38,14 +29,7 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'precio',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'iva',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'estatus',
-    // ],
+    
     [
         'class' => '\kartik\grid\DataColumn',
         'width' => '50px',

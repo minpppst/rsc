@@ -10,10 +10,7 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
-    // ],
+        
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'key',
@@ -49,14 +46,6 @@ return [
         'filter' => false,
 
     ],
-    /*[
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'type',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'user_id',
-    ],*/
 
     [
         'class'=>'\kartik\grid\DataColumn',

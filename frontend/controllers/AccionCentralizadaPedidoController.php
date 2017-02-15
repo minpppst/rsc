@@ -48,7 +48,7 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
             $searchModel->usuario = $usuario->id;
             $searchModel->estatus = 1;
         }
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -139,16 +139,19 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
         $materiales= UePartidaEntidad::find()
         ->andWhere(['id_tipo_entidad' => 2])
         ->andWhere(['id_ue' => $model->asignado0->accion_especifica_ue0->id_ue])
+        ->orderBy('partida', 'cuenta')
         ->All();
         
-        
-        foreach ($materiales as $key => $value) {
-
-            foreach ($value->materialesPartidaEntidad as $key => $value) {
-            if(isset($value)){
-            $materiales1[]=$value;
-        }
-        }
+        foreach ($materiales as $key => $value) 
+        {
+            foreach ($value->materialesPartidaEntidad as $key => $value) 
+            {
+                if(isset($value))
+                {
+                    $value['nombre']=$value['nombre']." - ".$value->nombrePresentacion." - ".$value->nombreUnidadMedida;
+                    $materiales1[]=$value;
+                }
+            }
         }
         
         
@@ -161,17 +164,19 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
             
             $usuario = UserAccounts::findOne(\Yii::$app->user->id);
             $accion=AccionCentralizadaAsignar::find()->where(['usuario'=> $usuario->id])->One();
-            if($accion->accion_centralizada_ac_especifica_uej->aprobado==1){
-            return [
-                    
-                    'title'=> "Requerimientos",
-                    'content'=>'<span class="text-danger">Esta Unidad Ejecutora Ya no Puede Realizar Pedidos </span>',
-                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]),
-                    ];
-        }
+            if($accion->accion_centralizada_ac_especifica_uej->aprobado==1)
+            {
+                return [
+                        
+                        'title'=> "Requerimientos",
+                        'content'=>'<span class="text-danger">Esta Unidad Ejecutora Ya no Puede Realizar Pedidos </span>',
+                        'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]),
+                        ];
+            }
 
         
-            if($request->isGet){
+            if($request->isGet)
+            {
                 return [
                     'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('create', [

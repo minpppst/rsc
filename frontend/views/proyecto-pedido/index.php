@@ -37,11 +37,36 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class'=>'\kartik\grid\DataColumn',
                 'attribute'=>'proyectoEspecifica.nombreProyecto',
                 'value' => function($model){
-                    return StringHelper::truncateWords($model->proyectoEspecifica->nombreProyecto,15);
-                }
+                    return $model->proyectoEspecifica->nombreProyecto;
+                },
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
             ],
             //Acción específica
-            'nombreEspecifica',
+            [
+                'attribute' =>  'nombreEspecifica',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
+            ],
+            //unidad ejecutora
+            [
+                'class'=>'\kartik\grid\DataColumn',
+                'attribute'=>'proyectoEspecifica.nombreUnidadEjecutora',
+                'value' => function($model){
+                    return $model->proyectoEspecifica->nombreUnidadEjecutora;
+                },
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
+            ],
 
             //Acciones
             [

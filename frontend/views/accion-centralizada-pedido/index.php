@@ -33,23 +33,32 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             [
-            'attribute' => 'nombreAe',
-            'label' => 'Nombre Acción Específica',
-            'contentOptions' => 
+                'attribute' => 'accionCentralizada',
+                'label' => 'Nombre Acción Específica',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
+            ],
             [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
-            white-space: normal;'
-            ]
+                'attribute' => 'nombreAe',
+                'label' => 'Nombre Acción Específica',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
             ],
 
             [
-            'attribute' => 'nombreUe',
-            'label' => 'Nombre Unidad Ejecutora',
-            'contentOptions' => 
-            [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
-            white-space: normal;'
-            ]
+                'attribute' => 'nombreUe',
+                'label' => 'Nombre Unidad Ejecutora',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
             ],
 
             

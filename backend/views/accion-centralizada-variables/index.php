@@ -39,34 +39,36 @@ CrudAsset::register($this);
             ['class' => 'kartik\grid\SerialColumn'],
 
             [
-            'attribute' =>'nombre_variable',
-            'contentOptions' => 
-            [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
-            white-space: normal;'
-            ]
+                'attribute' =>'nombre_variable',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                white-space: normal;'
+                ]
 
             ],
             [
 
-            'attribute' => 'unidad_medida',
-            'value' => function ($model){
-                return $model->unidadMedida->unidad_medida;
-            }
+                'attribute' => 'unidad_medida',
+                'value' => function ($model)
+                    {
+                        return $model->unidadMedida->unidad_medida;
+                    }
             ],
             [
-            'attribute' => 'localizacion',
-            'value' => function ($model){
-                return $model->nombreLocalizacion;
-            }
+                'attribute' => 'localizacion',
+                'value' => function ($model)
+                {
+                    return $model->nombreLocalizacion;
+                }
             ],
             [
-            'attribute' => 'definicion',
-            'contentOptions' => 
-            [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
-            white-space: normal;'
-            ]
+                'attribute' => 'definicion',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
             ],
             
             ['class' => 'kartik\grid\ActionColumn',

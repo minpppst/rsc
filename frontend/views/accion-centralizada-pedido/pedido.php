@@ -11,7 +11,7 @@ use yii\web\JsExpression;
 
 
 $this->title = 'Accion Centralizada - Requerimientos';
-$this->params['breadcrumbs'][] = ['label' => 'Pedido', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Requerimientos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);

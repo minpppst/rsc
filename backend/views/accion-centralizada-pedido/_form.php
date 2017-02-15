@@ -48,6 +48,10 @@ use yii\helpers\Url;
         'inputTemplate' => '<div class="input-group"><span class="input-group-addon">Bs.</span>{input}</div>',
     ])->input('number', ['maxlength' => true, 'placeholder' => '0', 'readonly' => true]) ?>
 
+    <?= $form->field($model, 'iva', [
+        'inputTemplate' => '<div class="input-group"><span class="input-group-addon">%.</span>{input}</div>',
+    ])->input('number', ['maxlength' => true, 'placeholder' => '0', 'readonly' => true]) ?>
+
     <?= Html::hiddenInput('iva_precio', '', ['id' => 'iva_precio']) ?>
 
     <!-- TRIMESTRES -->
@@ -170,6 +174,7 @@ use yii\helpers\Url;
         success: function (data) {
             if(data!=0){
             $('#accioncentralizadapedido-precio').val(parseFloat(data[0]['precio']));
+            $('#accioncentralizadapedido-iva').val(parseFloat(data[0]['iva']));
             $('#iva_precio').val(parseFloat(data[0]['iva']));
             
             }
@@ -182,47 +187,31 @@ use yii\helpers\Url;
             });
 
 
-       if($('#iva_precio').val()=="" && $("#material").val()!="" ){ 
-        
-        $.ajax({
-                url: "<?= Url::to(['llenarprecio']) ?>",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                id: $("#material").val()
-                },
-                success: function (data) {
-                $('#iva_precio').val(parseFloat(data[0]['iva']));
-
-                //Totalizar
-                initTotal();
-                //Calcular
-                calcular();
-                        
-                    }
-                
-            });
-            }
-
+        if($('#iva_precio').val()=="" && $("#material").val()!="" )
+        { 
+            initTotal();
+            //Calcular
+            calcular();
+        }
         
          $('#material').on('change', function(){
             initTotal();
         });
 
         //TRIM I
-        $('.trim1').on('change', function(){
+        $('.trim1').on('input', function(){
             initTotal();
         });
         //TRIM II
-        $('.trim2').on('change', function(){
+        $('.trim2').on('input', function(){
             initTotal();
         });
         //TRIM III
-        $('.trim3').on('change', function(){
+        $('.trim3').on('input', function(){
             initTotal();
         });
         //TRIM IV
-        $('.trim4').on('change', function(){
+        $('.trim4').on('input', function(){
             initTotal();
         });
 
@@ -285,11 +274,10 @@ use yii\helpers\Url;
         {
             //variables
             
-            var iva_precio=(Number($('#iva_precio').val()) ? $('#iva_precio').val() : 0 );
+            var iva_precio=(Number($('#accioncentralizadapedido-iva').val()) ? $('#accioncentralizadapedido-iva').val() : 0 );
             var sub_total = $('#accioncentralizadapedido-precio').val() * $('#total').val();
             var iva = (sub_total  * iva_precio) / 100;
             var total = sub_total + iva;
-
 
             //Sub-total
             $('#subtotal').val(sub_total);

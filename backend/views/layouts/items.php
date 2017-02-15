@@ -125,13 +125,11 @@
 		       ['label' => 'Plan Operativo', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/plan-operativo/index'],],
 		       ['label' => 'Sector Proyecto', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/sector/index'],],
 		       ['label' => 'Sub-Sector Proyecto', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/sub-sector/index'],],
-		       
-		       
 		   ]
 		];
 	}
 
-	//Presupuesto, Materiales y cambio precio
+	//Presupuesto, Materiales, ue y partidas
 	if($usuario->can('Presupuesto'))
 	{
 		//Header
@@ -146,6 +144,34 @@
 			       	['label' => 'Cambio Precio', 'icon' => 'glyphicon glyphicon-retweet', 'url' => ['/materiales-servicios/buscarmaterial']],
 			   ]
 			];
+			//ue
+		$items[] =	['label' => 'Unidades Ejecutoras', 'options' => ['class' => 'header']];
+		$items[] =	[
+		   		'label' => 'Unidades Ejecutoras', 
+		   		'icon' => 'fa fa-briefcase', 
+		   		'url' => '#',
+		   		'items' => [
+		       		['label' => 'Lista', 'icon' => 'glyphicon glyphicon-th-list', 'url' => ['/unidad-ejecutora/index'],],
+		       	['label' => 'Importar', 'icon' => 'glyphicon glyphicon-import', 'url' => ['/unidad-ejecutora/importar'],],                                    
+		   		]
+			];
+			//partias
+		$items[] =	['label' => 'Partidas', 'options' => ['class' => 'header']];
+		$items[] =	[
+			   'label' => 'Partidas', 
+			   'icon' => 'glyphicon glyphicon-list-alt', 
+			   'url' => '#',
+			   'items' => [
+			       ['label' => 'Partida', 'icon' => 'glyphicon glyphicon-list-alt', 'url' => ['/partida-partida/index'],],
+			       ['label' => 'Genérica', 'icon' => 'glyphicon glyphicon-tree-deciduous', 'url' => ['/partida-generica/index'],],
+			       ['label' => 'Específica', 'icon' => 'glyphicon glyphicon-tree-conifer', 'url' => ['/partida-especifica/index'],],
+			       ['label' => 'Sub-específica', 'icon' => 'glyphicon glyphicon-leaf', 'url' => ['/partida-sub-especifica/index'],],
+			   	]
+
+			];
+
+		$items[] =	['label' => 'Partidas - Unidades Ejecutoras', 'icon' => 'glyphicon glyphicon-list-alt', 'url' => ['/ue-partida-entidad/index']];
+		
 	}
 
 	//SISTEMA

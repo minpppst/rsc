@@ -159,7 +159,7 @@ class MaterialesServicios extends \yii\db\ActiveRecord
     public function getNombreEstatus()
     {
         
-        if($this->estatus === 1)
+        if($this->estatus == 1)
         {
             return 'Activo';
         }
@@ -173,7 +173,7 @@ class MaterialesServicios extends \yii\db\ActiveRecord
      */
     public function getNombreUnidadMedida()
     {
-        if($this->unidad_medida === null)
+        if($this->unidad_medida == null)
         {
             return null;
         }
@@ -186,7 +186,7 @@ class MaterialesServicios extends \yii\db\ActiveRecord
      */
     public function getNombrePresentacion()
     {
-        if($this->presentacion === null)
+        if($this->presentacion == null)
         {
             return null;
         }

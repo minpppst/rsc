@@ -10,8 +10,8 @@ use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 
 
-$this->title = 'Accion Centralizada - Pedidos';
-$this->params['breadcrumbs'][] = ['label' => 'Accion Centralizada - Pedido', 'url' => ['index']];
+$this->title = 'Accion Centralizada - Requerimientos';
+$this->params['breadcrumbs'][] = ['label' => 'Accion Centralizada - Requermiento', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -38,7 +38,7 @@ $icons=[
                                 'data-confirm' => false, 'data-method' => false, // for overide yii data api
                                 'data-request-method' => 'post',
                                 'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
-                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"No Aprobado"</b>?'),
+                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este requerimietno como <b>"No Aprobado"</b>?'),
                     ]);
                 } else {
                     //if($model->pedidoEjecutado==true){
@@ -48,7 +48,7 @@ $icons=[
                                 'data-confirm' => false, 'data-method' => false, // for overide yii data api
                                 'data-request-method' => 'post',
                                 'data-confirm-title' => Yii::t('user', '¿Está seguro?'),
-                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este proyecto como <b>"Aprobado"</b>?'),
+                                'data-confirm-message' => Yii::t('user', '¿Está seguro que desea marcar este requermiento como <b>"Aprobado"</b>?'),
                     ]);
                 //}
                 }
@@ -79,7 +79,7 @@ $icons=[
             'responsive' => true,          
             'panel' => [
                 'type' => 'default', 
-                'heading' => '<h4><i class="fa fa-shopping-basket"></i>Accion Centralizada - Pedidos</h4>',
+                'heading' => '<h4><i class="fa fa-shopping-basket"></i>Accion Centralizada - Requerimientos</h4>',
                 'before'=>'<em><span class="glyphicon glyphicon-briefcase"></span> '.$ue->nombre.'</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',

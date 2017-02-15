@@ -14,14 +14,29 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'cuenta',
+        'contentOptions' => 
+                [
+                    'style'=>'width: 50px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'partida',
+        'contentOptions' => 
+                [
+                    'style'=>'width: 50px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'label' => 'Nombre',
+        'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ],
         'value' => function ($model, $key, $index){
         return $model->partidaPartida->nombre;
         },

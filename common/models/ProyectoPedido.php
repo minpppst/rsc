@@ -68,7 +68,7 @@ class ProyectoPedido extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'precio', 'asignado', 'estatus'], 'required'],
+            [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'precio', 'iva', 'asignado', 'estatus'], 'required'],
             [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'asignado', 'estatus'], 'integer'],
             [['precio'], 'number'],
             [['fecha_creacion'], 'safe']
@@ -165,6 +165,32 @@ class ProyectoPedido extends \yii\db\ActiveRecord
     /**
      * @return string
      */
+    public function getNombreUnidadMedida()
+    {
+        if($this->idMaterial->NombreUnidadMedida == null)
+        {
+            return null;
+        }
+
+        return $this->idMaterial->NombreUnidadMedida;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombrePresentacion()
+    {
+        if($this->idMaterial->nombrePresentacion == null)
+        {
+            return null;
+        }
+
+        return $this->idMaterial->nombrePresentacion;
+    }
+
+    /**
+     * @return string
+     */
     public function getTrimestre1()
     {
         return ($this->enero+$this->febrero+$this->marzo);
@@ -218,7 +244,7 @@ class ProyectoPedido extends \yii\db\ActiveRecord
     /**
      * @return integer
      */
-    public function getIva()
+    public function getIvaTotal()
     {
         return ($this->subTotal / 100 * $this->idMaterial->iva);
     }

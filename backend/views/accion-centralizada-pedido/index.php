@@ -7,12 +7,10 @@ use kartik\grid\GridView;
 /* @var $searchModel app\models\AccionCentralizadaPedidoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Accion Centralizada - Pedidos';
+$this->title = 'Accion Centralizada - Requerimientos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="Accion Centralizada-pedido-index">
-
-    
     
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -30,39 +28,36 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            
             [
-            'label' => 'Accion Central',
-            'attribute' => 'nombre_central',
-            'value' => 'nombrecentral',
-            'contentOptions' => 
-            [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
-            white-space: normal;'
-            ]
+                'label' => 'Accion Central',
+                'attribute' => 'nombre_central',
+                'value' => 'nombrecentral',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
             ],
 
             [
-                
-            'attribute' => 'nombre_acc',
-            'value' => 'nombreaccion',
-            'label' => 'Acción Específica',
-            'contentOptions' => 
-            [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
-            white-space: normal;'
-            ]
+                'attribute' => 'nombre_acc',
+                'value' => 'nombreaccion',
+                'label' => 'Acción Específica',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
             ],
             [
-            'attribute' => 'nombre_ue',
-            'label' => 'Unidad Ejecutora',
-            'value' => 'nombreunidadejecutora',            
-            'contentOptions' => 
-            [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
-            white-space: normal;'
-            ]
+                'attribute' => 'nombre_ue',
+                'label' => 'Unidad Ejecutora',
+                'value' => 'nombreunidadejecutora',            
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
             ],
             [
                 'class' => 'kartik\grid\ActionColumn',
@@ -70,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'vAlign' => 'middle',
                 'buttons' => [
                     'asignar' => function($url, $model) {
-                        return Html::a('<i class="fa fa-shopping-basket"></i> Pedidos', 
+                        return Html::a('<i class="fa fa-shopping-basket"></i> Requerimientos', 
                             ['pedido', 'ue' => $model->id_ue, 'acc' => $model->id_ac_esp],
                             [
                                 'class' => 'btn btn-primary',
@@ -85,8 +80,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'panel' => [
             'type' => 'default', 
-            'heading' => '<h4><i class="fa fa-shopping-basket"></i> Accion Centralizada - Pedidos </h4>',
-            'before'=>'<em>Seleccione la acción específica para el pedido.</em>',
+            'heading' => '<h4><i class="fa fa-shopping-basket"></i> Accion Centralizada - Requerimientos </h4>',
+            'before'=>'<em>Seleccione la acción específica para el requerimiento.</em>',
             'after'=>'<div class="clearfix"></div>',
         ]
     ]); ?>

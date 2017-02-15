@@ -18,8 +18,8 @@ return [
          'label' => 'Accion Especifica',
          'contentOptions' => 
           [
-          'style'=>'max-width: 350px;  word-wrap: break-word;
-          white-space: normal;'
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
           ]
     ],
     
@@ -29,8 +29,8 @@ return [
          'label' => 'Accion Especifica',
          'contentOptions' => 
           [
-          'style'=>'max-width: 350px;  word-wrap: break-word;
-          white-space: normal;'
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
           ]
     ],
     
@@ -40,8 +40,8 @@ return [
          'label' => 'Unidad Ejecutora',
          'contentOptions' => 
           [
-          'style'=>'max-width: 350px;  word-wrap: break-word;
-          white-space: normal;'
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
           ]
     ],
 

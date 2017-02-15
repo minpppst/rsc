@@ -67,7 +67,9 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
             'usuario' => 'Usuario',
             'accion_especifica_ue' => 'ID Acción-Unidad',
             'estatus' => 'Estatus',
-            'nombreEstatus' => 'Estatus'
+            'nombreEstatus' => 'Estatus',
+
+
         ];
     }
 
@@ -78,8 +80,7 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
     
     public function getAccionCentralizada()
     {
-        $nombre= $this->accion_especifica_ue0->idAccionEspecifica->idAcCentr->nombre_accion;
-        return $nombre;
+        return $this->accion_especifica_ue0->idAccionEspecifica->idAcCentr->nombre_accion;
     }
     public function getAccionEspecifica()
     {

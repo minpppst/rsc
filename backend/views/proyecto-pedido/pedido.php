@@ -10,8 +10,8 @@ use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 
 
-$this->title = 'Pedidos';
-$this->params['breadcrumbs'][] = ['label' => 'Pedido', 'url' => ['index']];
+$this->title = 'Proyecto Requerimiento';
+$this->params['breadcrumbs'][] = ['label' => 'Requerimiento', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -86,7 +86,7 @@ echo $pe->id;
             'responsive' => true,          
             'panel' => [
                 'type' => 'default', 
-                'heading' => '<h4><i class="glyphicon glyphicon-shopping-cart"></i> Pedidos</h4>',
+                'heading' => '<h4><i class="glyphicon glyphicon-shopping-cart"></i> Requerimientos</h4>',
                 'before'=>'<em><span class="glyphicon glyphicon-briefcase"></span> '.$ue->nombre.'</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',

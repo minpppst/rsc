@@ -28,59 +28,61 @@ $icons=[
         'columns' => [
            
             [
-             'attribute'=>'nombre',
+                'attribute'=>'nombre',
              
-             'contentOptions' => 
-                [
-                'style'=>'max-width: 250px;  word-wrap: break-word;
-                white-space: normal;'
-                ],
+                'contentOptions' => 
+                    [
+                    'style'=>'max-width: 250px;  word-wrap: break-word;
+                    white-space: normal;'
+                    ],
 
-             'format' => 'raw',
+                'format' => 'raw',
              
              ],
              [
-             'attribute' => 'nombre_estado',
-             'label'=>'Estado',
-              'contentOptions'=>['style'=>'word-wrap:break-word; width:220px;'],
+                 'attribute' => 'nombre_estado',
+                 'label'=>'Estado',
+                  'contentOptions'=>['style'=>'word-wrap:break-word; width:220px;'],
 
-             'format' => 'raw',
-             'value'=>function ($data) {
-                    
-                return Html::a($data['nombre_estados'], ['proyecto-variable-ejecucion/create', 'id' =>$data['id_variable'], 'id_localizacion' => $data['id']]);
-                        
-                       
-                 },
+                 'format' => 'raw',
+                 'value'=>function ($data) 
+                 {
+                    return Html::a($data['nombre_estados'], ['proyecto-variable-ejecucion/create', 'id' =>$data['id_variable'], 'id_localizacion' => $data['id']]);
+                },
              ],
              [
-             'attribute' => 'nombre_municipio',
-             'label'=>'Municipio',
-              'contentOptions'=>['style'=>'word-wrap:break-word; width:220px;'],
+                'attribute' => 'nombre_municipio',
+                'label'=>'Municipio',
+                'contentOptions'=>['style'=>'word-wrap:break-word; width:220px;'],
 
-             'format' => 'raw',
-             'value'=>function ($data) {
-                    
-                return Html::a($data['nombre_municipio'], ['proyecto-variable-ejecucion/create', 'id' =>$data['id_variable'], 'id_localizacion' => $data['id']]);
+                'format' => 'raw',
+                'value'=>function ($data) 
+                {
                         
-                       
-                 },
+                    return Html::a($data['nombre_municipio'], ['proyecto-variable-ejecucion/create', 'id' =>$data['id_variable'], 'id_localizacion' => $data['id']]);
+                },
              ],
              [
-             'attribute' => 'nombre_parroquia',
-             'label'=>'Parroquia',
-              'contentOptions'=>['style'=>'word-wrap:break-word; width:220px;'],
+                 'attribute' => 'nombre_parroquia',
+                 'label'=>'Parroquia',
+                  'contentOptions'=>['style'=>'word-wrap:break-word; width:220px;'],
 
-             'format' => 'raw',
-             'value'=>function ($data) {
-                    
-                return Html::a($data['nombre_parroquia'], ['proyecto-variable-ejecucion/create', 'id' =>$data['id_variable'], 'id_localizacion' => $data['id']]);
-                        
-                       
-                 },
+                 'format' => 'raw',
+                 'value'=>function ($data) 
+                {
+                    return Html::a($data['nombre_parroquia'], ['proyecto-variable-ejecucion/create', 'id' =>$data['id_variable'], 'id_localizacion' => $data['id']]);
+                            
+                },
              ],
 
             
         ],
+        'panel' => 
+        [
+            'type' => 'default', 
+            'heading' => '<i class="glyphicon glyphicon-calendar"></i> Variable Proyecto',
+        ]
+        
     ]); ?>
 <?php Pjax::end(); ?></div>
 <div class="btn-group">

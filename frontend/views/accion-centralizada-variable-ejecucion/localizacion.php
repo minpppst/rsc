@@ -25,7 +25,8 @@ $icons=[
     <?= GridView::widget([
         'dataProvider' => $model,
        // 'filterModel' => $searchModel,
-        'columns' => [
+        'columns' => 
+        [
            
             [
              'attribute'=>'nombre',
@@ -80,6 +81,11 @@ $icons=[
              ],
             
         ],
+        'panel' => 
+        [
+            'type' => 'default', 
+            'heading' => '<i class="fa fa-calendar-o"></i> Variable Acción Centralizada Regionalización',
+        ]
     ]); ?>
 <?php Pjax::end(); ?></div>
 <div class="btn-group">

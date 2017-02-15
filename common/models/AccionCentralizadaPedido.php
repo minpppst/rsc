@@ -64,7 +64,7 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
     public function rules()
     {
        return [
-            [['id_material',  'precio', 'asignado', 'estatus'], 'required'],
+            [['id_material',  'precio', 'iva', 'asignado', 'estatus'], 'required'],
             [['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],  'default', 'value' => '0'],
             [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'asignado', 'estatus'], 'integer', 'min' => 0],
             //[['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],   'min' => 0],
@@ -232,9 +232,9 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
     /**
      * @return integer
      */
-    public function getIva()
+    public function getIvaTotal()
     {
-        return ($this->subTotal / 100 * $this->idMaterial->iva);
+        return ($this->subTotal / 100 * $this->iva);
     }
 
     /** 

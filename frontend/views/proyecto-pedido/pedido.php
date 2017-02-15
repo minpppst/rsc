@@ -10,8 +10,8 @@ use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 
 
-$this->title = 'Requerimientos';
-$this->params['breadcrumbs'][] = ['label' => 'Pedido', 'url' => ['index']];
+$this->title = 'Proyecto - Requerimientos';
+$this->params['breadcrumbs'][] = ['label' => 'Requerimientos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -42,7 +42,7 @@ $icons=[
                 ['content'=>
                     \Yii::$app->authManager->getAssignment('sysadmin',\Yii::$app->user->id) == null ?
                     	Html::a('<i class="glyphicon glyphicon-file"></i> Nuevo', ['create', 'asignar' => $asignado->id],
-                        ['role'=>'modal-remote','title'=> 'Pedido Nuevo','class'=>'btn btn-default']).
+                        ['role'=>'modal-remote','title'=> 'Requerimiento Nuevo','class'=>'btn btn-default']).
                         Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['pedido', 'asignado' => $asignado->id],
                         ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                         '{toggleData}'.
@@ -67,29 +67,6 @@ $icons=[
                                     'data-confirm-title'=>'Are you sure?',
                                     'data-confirm-message'=>'Are you sure want to delete this item'
                                 ])
-                            /*
-                            .' '.
-                            Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
-                            ["bulk-desactivar"] ,
-                            [
-                                "class"=>"btn btn-warning btn-xs",
-                                'role'=>'modal-remote-bulk',
-                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                'data-request-method'=>'post',
-                                'data-confirm-title'=>'¿Está seguro?',
-                                'data-confirm-message'=>'¿Está seguro que desea desactivar los elementos seleccionados?'
-                            ]).' '.
-                        Html::a('<i class="glyphicon glyphicon-ok-circle"></i>&nbsp; Activar',
-                            ["bulk-activar"] ,
-                            [
-                                "class"=>"btn btn-success btn-xs",
-                                'role'=>'modal-remote-bulk',
-                                'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                'data-request-method'=>'post',
-                                'data-confirm-title'=>'¿Está seguro?',
-                                'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
-                            ]),
-                        */
                         ]).                    
                         '<div class="clearfix"></div>',
             ]

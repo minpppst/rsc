@@ -5,6 +5,7 @@ use common\models\UnidadEjecutora;
 use common\models\UnidadMedida;
 use common\models\ProyectoVariableImpacto;
 use common\models\Ambito;
+use yii\data\ArrayDataProvider;
 
 use Yii;
 
@@ -206,5 +207,34 @@ class ProyectoVariables extends \yii\db\ActiveRecord
             ->all();
 
             return $ace;
+    }
+
+     /**
+    *Busca Las variables Asignadas al usuario actual
+    * @return array dataprovider
+    */
+    public function VariablesAsignadas()
+    {
+        $ace =ProyectoVariables::find()
+        ->select(["proyecto_variables.nombre_variable as nombre_variable","proyecto_variables.id as id", "proyecto_variables.localizacion", "proyecto_variable_localizacion.id as id_localizacion"])
+        ->innerjoin('proyecto_variable_usuarios', 'proyecto_variable_usuarios.id_variable=proyecto_variables.id')
+        ->innerjoin('proyecto_variable_localizacion', 'proyecto_variable_localizacion.id_variable=proyecto_variables.id')
+        ->where(['proyecto_variable_usuarios.id_usuario' => Yii::$app->user->getid()])
+        ->asArray()
+        ->all();
+        
+        $provider=new ArrayDataProvider([
+            'allModels' => $ace,
+            'sort' => [
+                'attributes' => ['nombre_variable'],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        //$ace->andFilterWhere(['like', 'nombre_variable', $this->nombre_variable]);
+
+        
+        return $provider;
     }
 }

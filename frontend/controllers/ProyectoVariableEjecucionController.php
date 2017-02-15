@@ -4,6 +4,8 @@ namespace frontend\controllers;
 
 use Yii;
 use backend\models\ProyectoVariableProgramacion;
+use backend\models\ProyectoVariablesSearch;
+use backend\models\ProyectoVariables;
 use backend\models\ProyectoVariableDesbloqueoMes;
 use common\models\ProyectoVariableEjecucion;
 use common\models\ProyectoVariableEjecucionSearch;
@@ -300,11 +302,14 @@ class ProyectoVariableEjecucionController extends \common\controllers\BaseContro
     **/
     public function actionVariables()
     {
+        $model= new ProyectoVariables();
+        $dataprovider=$model->variablesAsignadas();
+        $searchModel = new ProyectoVariablesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $model= new ProyectoVariableEjecucion();
-      
             return $this->render('variables', [
-                'model' => $model->variablesAsignadas(),
+                'model' => $dataprovider,
+                'searchModel' => $searchModel,
             ]);
     }
 

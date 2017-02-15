@@ -21,14 +21,14 @@ $icons=[
     'recargar' => '<span class="glyphicon glyphicon-repeat"></span>'
 ];
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Accion Centralizada Variables', 'url' => ['index']];
+$this->title = "Variable Accion Centralizada #".$model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Accion Centralizada Variables', 'url' => ['accion-centralizada-variables/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="accion-centralizada-variables-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!--<h1><?= Html::encode($this->title) ?></h1>-->
 
     <p>
       
@@ -43,42 +43,42 @@ $this->params['breadcrumbs'][] = $this->title;
         'condensed' => true,
         'responsive' => true,
         'enableEditMode' => false,
-        'attributes' => [
-          
-        'nombre_variable:ntext',
+        'attributes' => 
         [
-          
-        'attribute' => 'unidad_medida',
-        'value' =>$model->unidadMedida->unidad_medida,
               
-        ],
+            'nombre_variable:ntext',
+            [
+                'attribute' => 'unidad_medida',
+                'value' =>$model->unidadMedida->unidad_medida,
+            ],
 
-          
-        'definicion:ntext',
-        'base_calculo:ntext',
-        'fuente_informacion:ntext',
-            
+              
+            'definicion:ntext',
+            'base_calculo:ntext',
+            'fuente_informacion:ntext',
+                
+            [
+                'attribute' => 'unidad_ejecutora',
+                'value' =>$model->unidadEjecutora->nombre,
+            ],
+                
+            [
+                'attribute' => 'localizacion',
+                'value' => $model->nombreLocalizacion,
+            ],
+            [
+                'attribute' => 'acc_accion_especifica',
+                'value' => $model->accAccionEspecifica->nombre,
+            ],
+            [
+                'label' => 'Usuarios Responsables',
+                'value' => $usuarios,
+            ],
+        ],
+        'panel' => 
         [
-        'attribute' => 'unidad_ejecutora',
-        'value' =>$model->unidadEjecutora->nombre,
-        ],
-            
-        [
-        'attribute' => 'localizacion',
-        'value' => $model->nombreLocalizacion,
-        ],
-        [
-        'attribute' => 'acc_accion_especifica',
-        'value' => $model->accAccionEspecifica->nombre,
-        ],
-        [
-        'label' => 'Usuarios Responsables',
-        'value' => $usuarios,
-        ],
-        ],
-        'panel' => [
-        'type' => 'primary',
-        'heading' => '<i class="fa fa-list"></i> Datos Básicos Variables',
+            'type' => 'primary',
+            'heading' => '<i class="fa fa-list"></i> Datos Básicos Variables',
         ],
         ]) ?>
 
@@ -153,7 +153,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ]) ?>
         </div>
+    </div>
+</div>
 
+<div class="btn-group">
+    <?= Html::a('<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span> Volver', ['accion-centralizada-variables/index'], ['class' => 'btn btn-primary']) ?>
+</div>
 <!-- Ventana modal -->
 <?php Modal::begin([
     "id"=>"ajaxCrubModal",

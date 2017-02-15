@@ -35,6 +35,7 @@ use kartik\select2\Select2;
             "select2:select" => "function() {
                 var arreglo =  ".$precios.";
                 $('#proyectopedido-precio').val(arreglo[$(this).val()]['precio']);
+                $('#proyectopedido-iva').val(arreglo[$(this).val()]['iva']);
                 $('#iva-porcentaje').val(arreglo[$(this).val()]['iva']);
             }",
         ]
@@ -42,6 +43,10 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'precio', [
         'inputTemplate' => '<div class="input-group"><span class="input-group-addon">Bs.</span>{input}</div>',
+    ])->input('number', ['maxlength' => true, 'placeholder' => '0', 'readonly' => true]) ?>
+
+    <?= $form->field($model, 'iva', [
+        'inputTemplate' => '<div class="input-group"><span class="input-group-addon">%.</span>{input}</div>',
     ])->input('number', ['maxlength' => true, 'placeholder' => '0', 'readonly' => true]) ?>
 
     <?= Html::hiddenInput('iva-porcentaje', '', ['id' => 'iva-porcentaje']) ?>
@@ -120,6 +125,7 @@ use kartik\select2\Select2;
         <div class="input-group">
             <span class="input-group-addon">Bs.</span>
             <?= Html::input('text', 'iva','', ['id' => 'iva', 'placeholder' => 0, 'readonly' => true, 'class' => 'form-control']) ?>
+
         </div>
 
     </div>
@@ -229,7 +235,7 @@ use kartik\select2\Select2;
         {
             //variables
             var sub_total = $('#proyectopedido-precio').val() * $('#total').val();
-            var iva = sub_total / 100 * $('#iva-porcentaje').val();
+            var iva = sub_total / 100 * $('#proyectopedido-iva').val();
             var total = sub_total + iva;
 
             //Sub-total

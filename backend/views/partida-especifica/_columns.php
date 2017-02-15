@@ -18,22 +18,47 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'cuenta',
+        'contentOptions' => 
+                [
+                    'style'=>'width: 50px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'partida',
+        'contentOptions' => 
+                [
+                    'style'=>'width: 50px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'generica',
+        'contentOptions' => 
+                [
+                    'style'=>'width: 50px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'especifica',
+        'contentOptions' => 
+                [
+                    'style'=>'width: 50px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
+        'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
     ],
     [
         'class' => '\kartik\grid\DataColumn',

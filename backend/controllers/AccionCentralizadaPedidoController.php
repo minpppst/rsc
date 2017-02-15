@@ -90,7 +90,7 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Pedido #".$id,
+                    'title'=> "Requerimiento #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -120,15 +120,19 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
         $materiales= UePartidaEntidad::find()
         ->andWhere(['id_tipo_entidad' => 2])
         ->andWhere(['id_ue' => $model->asignado0->accion_especifica_ue0->id_ue])
+        ->orderBy('partida', 'cuenta')
         ->All();
         
         
-        foreach ($materiales as $key => $value) {
+        foreach ($materiales as $key => $value) 
+        {
 
-            foreach ($value->materialesPartidaEntidad as $key => $value) {
-            if(isset($value))
-            $materiales1[]=$value;
-        }
+            foreach ($value->materialesPartidaEntidad as $key => $value) 
+            {
+                if(isset($value))
+                    $value['nombre']=$value['nombre']." - ".$value->nombrePresentacion." - ".$value->nombreUnidadMedida;
+                    $materiales1[]=$value;
+            }
         }
 
         if($request->isAjax){
@@ -198,8 +202,18 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
 
         //autocomplete
         $materiales = MaterialesServicios::find()
-                ->select(['nombre', 'id', 'precio'])
-                ->all();      
+                ->select(['nombre', 'id', 'precio', 'iva', 'unidad_medida', 'presentacion'])
+                ->all();
+         //agregar presetnacion y unidad de medida
+        foreach ($materiales as $key => $value) 
+        {
+            if(isset($value))
+            {
+                $value['nombre']=$value['nombre']." - ".$value->nombreUnidadMedida." - ".$value->nombrePresentacion;
+                $materiales1[]=$value;  
+            }
+        }
+        $materiales=$materiales1;
 
         if($request->isAjax){
             /*
@@ -208,7 +222,7 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id),
                         'materiales' => $materiales
@@ -219,7 +233,7 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                         'materiales' => $materiales
@@ -229,7 +243,7 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
                 ];    
             }else{
                  return [
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id),
                         'materiales' => $materiales

@@ -8,24 +8,22 @@ use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use yii\bootstrap\Modal;
-/* @var $this yii\web\View */
-/* @var $model backend\models\ProyectoVariables */
-/* @var $this yii\web\View */
-/* @var $model app\models\AccionCentralizadaVariables */
+
 CrudAsset::register($this);
 //Iconos
 $icons=[
     'crear'=>'<span class="glyphicon glyphicon-file" aria-hidden="true"></span>',
     'editar'=>'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
     'eliminar'=>'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
+    'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',
     'recargar' => '<span class="glyphicon glyphicon-repeat"></span>'
 ];
-$this->title = $model->id;
+$this->title = "Variable - Proyecto #".$model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Proyecto Variables', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="proyecto-variables-view">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!--<h1><?= Html::encode($this->title) ?></h1>-->
 
     <?= DetailView::widget([
         'model' => $model,
@@ -89,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => require(__DIR__.'\..\proyecto-variable-localizacion/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['/proyecto-variable-localizacion/create', 'id_variable' => $model->id],
+                    Html::a($icons['crear'].' Nuevo', ['/proyecto-variable-localizacion/create', 'id_variable' => $model->id],
                     ['role'=>'modal-remote','title'=> 'Create new Proyecto Variable Localizacions','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['/proyecto-variables/view', 'id' => $model->id],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).
@@ -102,9 +100,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'responsive' => true,          
             'panel' => [
                 'type' => 'default', 
-                'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
+                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Borrar Todo',
                                 ["/proyecto-variable-localizacion/bulk-delete"] ,
                                 [
                                     "class"=>"btn btn-danger btn-xs",
@@ -149,6 +146,9 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         
     </div>
+</div>
+<div class="btn-group">
+    <?= Html::a($icons['volver'].' Volver', ['proyecto-variables/index'], ['class' => 'btn btn-primary']) ?>
 </div>
 
 <!-- Ventana modal -->

@@ -143,9 +143,20 @@ class ProyectoPedidoController extends \common\controllers\BaseController
 
         //autocomplete
         $materiales = MaterialesServicios::find()
-                ->select(['nombre', 'id', 'precio', 'iva'])
+                ->select(['nombre', 'id', 'precio', 'iva', 'unidad_medida', 'presentacion'])
                 ->all();
-
+        
+        //agregar presetnacion y unidad de medida
+        foreach ($materiales as $key => $value) 
+        {
+            if(isset($value))
+            {
+                $value['nombre']=$value['nombre']." - ".$value->nombreUnidadMedida." - ".$value->nombrePresentacion;
+                $materiales1[]=$value;  
+            }
+            
+        }
+        $materiales=$materiales1;
         //Arreglo de precios, iva, etc con id del material/servicio
         $precios = json_encode( //JSON
             ArrayHelper::toArray( //Convertir a arreglo
@@ -224,8 +235,19 @@ class ProyectoPedidoController extends \common\controllers\BaseController
 
         //autocomplete
         $materiales = MaterialesServicios::find()
-                ->select(['nombre', 'id', 'precio'])
+                ->select(['nombre', 'id', 'precio', 'iva', 'unidad_medida', 'presentacion'])
                 ->all();
+        
+        //agregar presetnacion y unidad de medida
+        foreach ($materiales as $key => $value) 
+        {
+            if(isset($value))
+            {
+                $value['nombre']=$value['nombre']." - ".$value->nombreUnidadMedida." - ".$value->nombrePresentacion;
+                $materiales1[]=$value;  
+            }
+        }
+        $materiales=$materiales1;
         //Arreglo de precios, iva, etc con id del material/servicio
         $precios = json_encode( //JSON
             ArrayHelper::toArray( //Convertir a arreglo

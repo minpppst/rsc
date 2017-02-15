@@ -13,12 +13,13 @@ $columnas = [
         'width' => '30px',
     ],
 
-    ['attribute' => 'nombreMaterial',
-    'contentOptions' => 
     [
-    'style'=>'max-width: 350px;  word-wrap: break-word;
-    white-space: normal;'
-    ]
+        'attribute' => 'nombreMaterial',
+        'contentOptions' => 
+        [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+        ]
     ],
     'trimestre1',
     'trimestre2',

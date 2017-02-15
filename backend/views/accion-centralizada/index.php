@@ -42,12 +42,12 @@ CrudAsset::register($this);
             'codigo_accion',
             'codigo_accion_sne',
             [
-            'attribute' => 'nombre_accion',
-            'contentOptions' => 
-            [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
-            white-space: normal;'
-            ]
+                'attribute' => 'nombre_accion',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
             ],
 
             [
@@ -124,7 +124,7 @@ CrudAsset::register($this);
                 'urlCreator' => function($action, $model, $key, $index) { 
                         return Url::to([$action,'id'=>$key]);
                 },
-                'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+                'deleteOptions'=>['role'=>'modal-remote','title'=>'Borrar', 
                     'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                     'data-request-method'=>'post',
                     'data-toggle'=>'tooltip',
@@ -138,7 +138,7 @@ CrudAsset::register($this);
                 'content'=>                  
                     //Html::a($icons['crear'].' Nuevo', ['create'], ['class' => 'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i> Recargar', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Recargar Grid']).
                     '{toggleData}'.
                     '{export}'
                     //Html::a($icons['importar'].' Importar', ['importar'],
@@ -148,7 +148,7 @@ CrudAsset::register($this);
         'panel' => [
             'type' => 'default', 
             'heading' => '<i class="glyphicon glyphicon-folder-open"></i> Acciones Centralizadas',
-            'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
+            
             'after'=>BulkButtonWidget::widget([
                 'buttons'=>
                     Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',

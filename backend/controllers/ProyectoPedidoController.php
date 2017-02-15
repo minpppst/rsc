@@ -92,7 +92,7 @@ class ProyectoPedidoController extends \common\controllers\BaseController
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Pedido #".$id,
+                    'title'=> "Requerimiento #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -120,8 +120,19 @@ class ProyectoPedidoController extends \common\controllers\BaseController
 
         //autocomplete
         $materiales = MaterialesServicios::find()
-                ->select(['nombre', 'id', 'precio', 'iva'])
-                ->all();      
+                ->select(['nombre', 'id', 'precio', 'iva', 'unidad_medida', 'presentacion'])
+                ->all();
+        
+        //agregar presetnacion y unidad de medida
+        foreach ($materiales as $key => $value) 
+        {
+            if(isset($value))
+            {
+                $value['nombre']=$value['nombre']." - ".$value->nombreUnidadMedida." - ".$value->nombrePresentacion;
+                $materiales1[]=$value;  
+            }
+        }
+        $materiales=$materiales1;
 
         //Arreglo de precios, iva, etc con id del material/servicio
         $precios = json_encode( //JSON
@@ -137,7 +148,7 @@ class ProyectoPedidoController extends \common\controllers\BaseController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id),
                         'materiales' => $materiales,
@@ -149,7 +160,7 @@ class ProyectoPedidoController extends \common\controllers\BaseController
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'true',
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                         'materiales' => $materiales,
@@ -160,7 +171,7 @@ class ProyectoPedidoController extends \common\controllers\BaseController
                 ];    
             }else{
                  return [
-                    'title'=> "Pedido",
+                    'title'=> "Requerimiento",
                     'content'=>$this->renderAjax('update', [
                         'model' => $this->findModel($id),
                         'materiales' => $materiales,
