@@ -19,7 +19,7 @@ if($localizacion==1 || $localizacion==2 || $localizacion==3 || $localizacion==7 
 }
 else
 {
-    $atras= ['proyecto-variable-ejecucion/localizacion', 'id' =>$model->idProgramacion->idLocalizacion->id];
+    $atras= ['proyecto-variable-ejecucion/localizacion', 'id' =>$model->idProgramacion->idLocalizacion->idVariable->id];
     $bandera=1;
     $estado=isset($model->idProgramacion->idLocalizacion->idEstado->nombre) ? " - ".$model->idProgramacion->idLocalizacion->idEstado->nombre : '';
     $municipio=isset($model->idProgramacion->idLocalizacion->idMunicipio->nombre) ? " - ".$model->idProgramacion->idLocalizacion->idMunicipio->nombre : '';
@@ -29,7 +29,7 @@ else
 $this->title = $model->idProgramacion->idLocalizacion->idVariable->nombre_variable.$nacional.$estado.$municipio.$parroquia;
 //breadcrumbs
 $this->params['breadcrumbs'][] = ['label' => 'Proyecto Variables Asignadas', 'url' => ['variables']];
-$bandera==1 ? $this->params['breadcrumbs'][] = ['label' => 'Variables Por Región', 'url' => ['proyecto-variable-ejecucion/localizacion', 'id' =>$model->idProgramacion->idLocalizacion->id]] : '';
+$bandera==1 ? $this->params['breadcrumbs'][] = ['label' => 'Variables Por Región', 'url' => ['proyecto-variable-ejecucion/localizacion', 'id' =>$model->idProgramacion->idLocalizacion->idVariable->id]] : '';
 
 $this->params['breadcrumbs'][] = $this->title;
 

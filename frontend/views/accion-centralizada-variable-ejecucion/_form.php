@@ -19,7 +19,7 @@ if($localizacion==1 || $localizacion==2 || $localizacion==3 || $localizacion==7 
 }
 else
 {
-    $atras= ['accion-centralizada-variable-ejecucion/localizacion', 'id' =>$model->idProgramacion->idLocalizacion->id];
+    $atras= ['accion-centralizada-variable-ejecucion/localizacion', 'id' =>$model->idProgramacion->idLocalizacion->idVariable->id];
     $bandera=1;
     $estado=isset($model->idProgramacion->idLocalizacion->idEstado->nombre) ? " - ".$model->idProgramacion->idLocalizacion->idEstado->nombre : '';
     $municipio=isset($model->idProgramacion->idLocalizacion->idMunicipio->nombre) ? " - ".$model->idProgramacion->idLocalizacion->idMunicipio->nombre : '';
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Acción Centralizada Variables Asi
 
 $bandera==1 
     ? 
-        $this->params['breadcrumbs'][] = ['label' => 'Variables Por Región', 'url' => ['accion-centralizada-variable-ejecucion/localizacion', 'id' =>$model->idProgramacion->idLocalizacion->id]] 
+        $this->params['breadcrumbs'][] = ['label' => 'Variables Por Región', 'url' => ['accion-centralizada-variable-ejecucion/localizacion', 'id' =>$model->idProgramacion->idLocalizacion->idVariable->id]] 
     : 
         '';
 
