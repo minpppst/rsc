@@ -17,6 +17,11 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre_variable',
+        'contentOptions' => 
+            [
+            'style'=>'max-width: 350px;  word-wrap: break-word;
+            white-space: normal;'
+            ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
