@@ -100,8 +100,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     Html::a($icons['crear'].' Nuevo', ['localizacion-acc-variable/create', 'variable' => $model->id, 'localizacion' => $model->localizacion,],  
                     ['role'=>'modal-remote','title'=> 'Nuevo','class'=>'btn btn-default']).
 
-                    Html::a($icons['recargar'].' Refrescar', ['/accion-centralizada-variables/view', 'id' => $model->id],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).
+                    Html::a($icons['recargar'].' Recargar', ['/accion-centralizada-variables/view', 'id' => $model->id],
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Recargar']).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -111,9 +111,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'responsive' => true,          
             'panel' => [
                 'type' => 'default', 
-                'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
+                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Borrar Todo',
                                 ["localizacion-acc-variable/bulk-delete"] ,
                                 [
                                     "class"=>"btn btn-danger btn-xs",

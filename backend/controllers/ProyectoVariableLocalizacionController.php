@@ -69,8 +69,8 @@ class ProyectoVariableLocalizacionController extends \common\controllers\BaseCon
                     'model' => $model,
                     'model1' => $model1,
                 ]),
-                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
             ];
         }else{
             return $this->render('view', [
@@ -119,8 +119,8 @@ class ProyectoVariableLocalizacionController extends \common\controllers\BaseCon
                         'parroquias' => $parroquias,
                         'model1' => $model1,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Crear',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];
             }
@@ -140,7 +140,7 @@ class ProyectoVariableLocalizacionController extends \common\controllers\BaseCon
                             'forceReload'=>'true',
                             'title'=> "Create Localización y Programación",
                             'content'=>'<span class="text-success">Creada Locazación y Programacion</span>',
-                            'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::a('Crear Más',['create', 'id_variable' => $model->id_variable],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::a('Crear Más',['create', 'id_variable' => $model->id_variable],['class'=>'btn btn-primary','role'=>'modal-remote'])
                         ];
                     }
                     else
@@ -158,7 +158,7 @@ class ProyectoVariableLocalizacionController extends \common\controllers\BaseCon
                                 'parroquias' => $parroquias,
                                 'model1' => $model1,
                             ]),
-                            'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                            'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Crear',['class'=>'btn btn-primary','type'=>"submit"])
                         ]; 
                     }
                 }else{ 
@@ -173,8 +173,8 @@ class ProyectoVariableLocalizacionController extends \common\controllers\BaseCon
                             'parroquias' => $parroquias,
                             'model1' => $model1,
                         ]),
-                        'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                    Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                        'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                    Html::button('Crear',['class'=>'btn btn-primary','type'=>"submit"])
             
                     ];         
                 }
@@ -234,8 +234,8 @@ class ProyectoVariableLocalizacionController extends \common\controllers\BaseCon
                         'parroquias' => $parroquias,
                         'model1' => $model1,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Editar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save())
             {
@@ -250,8 +250,8 @@ class ProyectoVariableLocalizacionController extends \common\controllers\BaseCon
                         'model' => $model,
                         'model1' => $model1,
                         ]),
-                        'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                        'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                     ];
                 }
                 else
@@ -268,7 +268,7 @@ class ProyectoVariableLocalizacionController extends \common\controllers\BaseCon
                             'parroquias' => $parroquias,
                             'model1' => $model1,
                         ]),
-                        'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                        'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Editar',['class'=>'btn btn-primary','type'=>"submit"])
                     ]; 
                 }
             }else
@@ -283,8 +283,8 @@ class ProyectoVariableLocalizacionController extends \common\controllers\BaseCon
                         'parroquias' => $parroquias,
                         'model1' => $model1,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Editar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{

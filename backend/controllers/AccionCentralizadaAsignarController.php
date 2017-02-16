@@ -43,6 +43,7 @@ class AccionCentralizadaAsignarController extends \common\controllers\BaseContro
         
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$dataProvider->query->where('blocked_at is null');
 
         return $this->render('index', [
             'searchModel' => $searchModel,

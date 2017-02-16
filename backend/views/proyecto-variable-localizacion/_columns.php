@@ -62,9 +62,9 @@ return [
          return $model->obtenerEjecucion ?   html::a(' <span class="glyphicon glyphicon-lock"></span>',['proyecto-variable-desbloqueo-mes/index', 'id'=>$model->id,], ['role'=>'modal-remote','title'=>'Desbloquear Mes','data-toggle'=>'tooltip']) : '';
         },
         ],
-        'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
-        'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
-        'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+        'viewOptions'=>['role'=>'modal-remote','title'=>'Ver','data-toggle'=>'tooltip'],
+        'updateOptions'=>['role'=>'modal-remote','title'=>'Editar', 'data-toggle'=>'tooltip'],
+        'deleteOptions'=>['role'=>'modal-remote','title'=>'Borrar', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',

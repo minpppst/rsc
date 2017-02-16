@@ -137,9 +137,9 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
             },
             'template' => '{view}{update} {delete}{crear-uej}{editar-uej}',        
             //'probandoOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
-            'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
-            'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
-            'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+            'viewOptions'=>['role'=>'modal-remote','title'=>'Ver','data-toggle'=>'tooltip'],
+            'updateOptions'=>['role'=>'modal-remote','title'=>'Editar', 'data-toggle'=>'tooltip'],
+            'deleteOptions'=>['role'=>'modal-remote','title'=>'Borrar', 
                               'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                               'data-request-method'=>'post',
                               'data-toggle'=>'tooltip',
@@ -163,8 +163,7 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
     'responsive' => true,          
     'panel' => [
     'type' => 'info', 
-    'heading' => '<i class="glyphicon glyphicon-list"></i> Accion Centralizada Acciones Especificas listing',
-    'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
+    'heading' => '<i class="glyphicon glyphicon-list"></i>Lista de las Acciones Centralizada Acciones Especificas',
     'after'=>BulkButtonWidget::widget([
             'buttons'=>
                 Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',

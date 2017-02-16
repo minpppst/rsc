@@ -73,8 +73,8 @@ class AcAcEspecController extends \common\controllers\BaseController
                     'model' => $this->findModel($id),
                     'rows' =>$ue,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -148,21 +148,21 @@ class AcAcEspecController extends \common\controllers\BaseController
                                 'contenedorUrl' => Url::to(['ac-ac-espec/index', 'ac_centralizada' => $model->id_ac_centr]),
                                 'title'=> "Create new AcAcEspec",
                                 'content'=>'<span class="text-success">Create AcAcEspec success</span>',
-                                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                        Html::a('Create More',['create','ac_centralizada'=>$model->id_ac_centr],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                                'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                        Html::a('Crear Más',['create','ac_centralizada'=>$model->id_ac_centr],['class'=>'btn btn-primary','role'=>'modal-remote'])
                             ];
                         }
                         else
                         { // si falla el save de accion centralizada
                             return 
                             [
-                                'title'=> "Create new AcAcEspec",
+                                'title'=> "Crear nueva Acción Específica",
                                 'content'=>$this->renderAjax('create', [
                                     'model' => $model,
                                     'unidades_ejecutoras'=>$unidades_ejecutoras
                                 ]),
-                                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                            Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                            Html::button('Crear',['class'=>'btn btn-primary','type'=>"submit"])
                     
                             ];         
                         }
@@ -179,8 +179,8 @@ class AcAcEspecController extends \common\controllers\BaseController
                     'content'=>$this->renderPartial('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Crear',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -234,8 +234,8 @@ class AcAcEspecController extends \common\controllers\BaseController
                     'unidades_ejecutoras'=>$unidades_ejecutoras,
                     'precarga'=>$verificar,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Editar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post())){
                        
@@ -264,8 +264,8 @@ class AcAcEspecController extends \common\controllers\BaseController
                     'model' => $this->findModel($id),
                     'rows' => $ue,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Editar',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];
 
             }else{ //si falla la actulización padre
@@ -276,8 +276,8 @@ class AcAcEspecController extends \common\controllers\BaseController
                     'unidades_ejecutoras'=>$unidades_ejecutoras,
                                      'precarga'=>$verificar,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Editar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];
 
                 }
@@ -292,8 +292,8 @@ class AcAcEspecController extends \common\controllers\BaseController
                     'content'=>$this->renderPartial('update', [
                     'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Editar',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{

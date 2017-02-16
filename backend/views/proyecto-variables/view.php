@@ -84,11 +84,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'id'=>'crud-datatable',
             'dataProvider' => $localizacion,
             'pjax'=>true,
-            'columns' => require(__DIR__.'\..\proyecto-variable-localizacion/_columns.php'),
+            'columns' => require(__DIR__.'/../proyecto-variable-localizacion/_columns.php'),
             'toolbar'=> [
                 ['content'=>
                     Html::a($icons['crear'].' Nuevo', ['/proyecto-variable-localizacion/create', 'id_variable' => $model->id],
-                    ['role'=>'modal-remote','title'=> 'Create new Proyecto Variable Localizacions','class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> 'Crear nuevo Proyecto Variable Localización','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['/proyecto-variables/view', 'id' => $model->id],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Refrescar']).
                     '{toggleData}'.

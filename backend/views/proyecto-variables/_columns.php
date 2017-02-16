@@ -90,9 +90,9 @@ return [
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to([$action,'id'=>$key]);
         },
-        'viewOptions'=>['title'=>'View','data-toggle'=>'tooltip'],
-        'updateOptions'=>['title'=>'Update', 'data-toggle'=>'tooltip'],
-        'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+        'viewOptions'=>['title'=>'Ver','data-toggle'=>'tooltip'],
+        'updateOptions'=>['title'=>'Editar', 'data-toggle'=>'tooltip'],
+        'deleteOptions'=>['role'=>'modal-remote','title'=>'Borrar', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',

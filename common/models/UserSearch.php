@@ -19,7 +19,7 @@ class UserSearch extends User
     {
         return [
             [['id'], 'integer'],
-            [['login', 'username', 'password_hash', 'auth_key', 'created_at', 'updated_at'], 'safe'],
+            [['blocked_at', 'login', 'username', 'password_hash', 'auth_key', 'created_at', 'updated_at'], 'safe'],
             ];
     }
 
@@ -57,9 +57,11 @@ class UserSearch extends User
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'blocked_at' => $this->blocked_at,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username]);
+        $query->andWhere(['blocked_at' => null]);
             
 
         return $dataProvider;
