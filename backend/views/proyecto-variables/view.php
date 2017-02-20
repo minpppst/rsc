@@ -52,6 +52,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $model->unidadEjecutora->nombre,
             ],
             [
+                'attribute' => 'nombreProyecto',
+                
+            ],
+            [
                 'attribute' => 'accion_especifica',
                 'value' => $model->accionEspecifica->nombre,
             ],
