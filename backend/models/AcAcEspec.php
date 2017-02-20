@@ -4,7 +4,7 @@ namespace backend\models;
 
 use Yii;
 
-use common\models\Accioncentralizada;
+use common\models\AccionCentralizada;
 use common\models\UnidadEjecutora;
 /**
  * This is the model class for table "accion_centralizada_accion_especifica".

@@ -37,7 +37,36 @@ CrudAsset::register($this);
                 'width' => '20px',
             ],
             ['class' => 'kartik\grid\SerialColumn'],
+            [
+                'attribute' =>'codigoAccion',
+                'label' => 'Código Acción',
+                'contentOptions' => 
+                [
+                    'style'=>'width: 50px;  word-wrap: break-word;
+                white-space: normal;'
+                ]
 
+            ],
+            [
+                'attribute' =>'nombreAccion',
+                'label' => 'Acción Central',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                white-space: normal;'
+                ]
+
+            ],
+            [
+                'attribute' =>'nombreEspecifica',
+                'label' => 'Acción Específica',
+                'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                white-space: normal;'
+                ]
+
+            ],
             [
                 'attribute' =>'nombre_variable',
                 'contentOptions' => 
@@ -47,29 +76,7 @@ CrudAsset::register($this);
                 ]
 
             ],
-            [
-
-                'attribute' => 'unidad_medida',
-                'value' => function ($model)
-                    {
-                        return $model->unidadMedida->unidad_medida;
-                    }
-            ],
-            [
-                'attribute' => 'localizacion',
-                'value' => function ($model)
-                {
-                    return $model->nombreLocalizacion;
-                }
-            ],
-            [
-                'attribute' => 'definicion',
-                'contentOptions' => 
-                [
-                    'style'=>'max-width: 350px;  word-wrap: break-word;
-                    white-space: normal;'
-                ]
-            ],
+            
             
             ['class' => 'kartik\grid\ActionColumn',
                 'dropdown' => false,

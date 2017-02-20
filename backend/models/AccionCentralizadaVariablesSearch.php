@@ -12,7 +12,7 @@ use backend\models\AccionCentralizadaVariables;
  */
 class AccionCentralizadaVariablesSearch extends AccionCentralizadaVariables
 {
-    public $localizacion, $unidad_medida;
+    public $localizacion, $unidad_medida, $nombreEspecifica, $nombreAccion, $codigoAccion;
 
     /**
      * @inheritdoc
@@ -21,7 +21,7 @@ class AccionCentralizadaVariablesSearch extends AccionCentralizadaVariables
     {
         return [
             [['id', 'responsable', 'meta_programada_variable', 'unidad_ejecutora', 'acc_accion_especifica'], 'integer'],
-            [['nombre_variable', 'definicion', 'base_calculo', 'fuente_informacion',  'unidad_medida'], 'safe'],
+            [['nombre_variable', 'definicion', 'base_calculo', 'fuente_informacion',  'unidad_medida', 'nombreEspecifica', 'nombreAccion', 'codigoAccion'], 'safe'],
         ];
     }
 
@@ -45,6 +45,8 @@ class AccionCentralizadaVariablesSearch extends AccionCentralizadaVariables
     {
         $query = AccionCentralizadaVariables::find();
         $query->joinWith(['unidadMedida']);
+        $query->joinWith(['accAccionEspecifica']);
+        $query->joinWith(['accAccionEspecifica.idAcCentr']);
 
         // add conditions that should always apply here
 
@@ -72,10 +74,10 @@ class AccionCentralizadaVariablesSearch extends AccionCentralizadaVariables
         ]);
 
         $query->andFilterWhere(['like', 'nombre_variable', $this->nombre_variable])
-            ->andFilterWhere(['like', 'definicion', $this->definicion])
-            ->andFilterWhere(['like', 'base_calculo', $this->base_calculo])
-            ->andFilterWhere(['like', 'unidad_medida.unidad_medida', $this->unidad_medida])
-            ->andFilterWhere(['like', 'fuente_informacion', $this->fuente_informacion]);
+            ->andFilterWhere(['like', 'accion_centralizada.codigo_accion', $this->codigoAccion])
+            ->andFilterWhere(['like', 'accion_centralizada.nombre_accion', $this->nombreAccion])
+            ->andFilterWhere(['like', 'accion_centralizada_accion_especifica.nombre', $this->nombreEspecifica]);
+            
 
         return $dataProvider;
     }

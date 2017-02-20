@@ -12,6 +12,9 @@ use backend\models\ProyectoVariables;
  */
 class ProyectoVariablesSearch extends ProyectoVariables
 {
+    public $nombreProyecto;
+    public $codigoProyecto;
+    public $nombreAccion;
     /**
      * @inheritdoc
      */
@@ -19,7 +22,7 @@ class ProyectoVariablesSearch extends ProyectoVariables
     {
         return [
             [['id', 'unidad_medida', 'localizacion', 'unidad_ejecutora', 'accion_especifica', 'impacto'], 'integer'],
-            [['nombre_variable', 'definicion', 'base_calculo', 'fuente_informacion', 'fecha_creacion', 'fecha_modificacion', 'fecha_eliminacion'], 'safe'],
+            [['nombre_variable', 'definicion', 'base_calculo', 'fuente_informacion', 'fecha_creacion', 'fecha_modificacion', 'fecha_eliminacion', 'nombreProyecto', 'nombreAccion', 'codigoProyecto'], 'safe'],
         ];
     }
 
@@ -43,6 +46,8 @@ class ProyectoVariablesSearch extends ProyectoVariables
     {
         $query = ProyectoVariables::find();
 
+        $query->joinWith(['accionEspecifica']);
+        $query->joinWith(['accionEspecifica.idProyecto']);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -68,9 +73,9 @@ class ProyectoVariablesSearch extends ProyectoVariables
         ]);
 
         $query->andFilterWhere(['like', 'nombre_variable', $this->nombre_variable])
-            ->andFilterWhere(['like', 'definicion', $this->definicion])
-            ->andFilterWhere(['like', 'base_calculo', $this->base_calculo])
-            ->andFilterWhere(['like', 'fuente_informacion', $this->fuente_informacion]);
+            ->andFilterWhere(['like', 'proyecto.nombre', $this->nombreProyecto])
+            ->andFilterWhere(['like', 'proyecto.codigo_proyecto', $this->codigoProyecto])
+            ->andFilterWhere(['like', 'proyecto_accion_especifica.nombre', $this->nombreAccion]);
 
         return $dataProvider;
     }

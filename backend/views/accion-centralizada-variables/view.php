@@ -67,6 +67,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $model->nombreLocalizacion,
             ],
             [
+                'label' => 'Acción Central',
+                'attribute' => 'nombreAccion',
+            ],
+            [
                 'attribute' => 'acc_accion_especifica',
                 'value' => $model->accAccionEspecifica->nombre,
             ],

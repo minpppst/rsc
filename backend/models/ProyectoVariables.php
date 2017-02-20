@@ -88,6 +88,8 @@ class ProyectoVariables extends \yii\db\ActiveRecord
             'fecha_creacion' => 'Fecha Creacion',
             'fecha_modificacion' => 'Fecha Modificacion',
             'fecha_eliminacion' => 'Fecha Eliminacion',
+            'nombreProyecto' => 'Proyecto',
+
         ];
     }
 
@@ -153,6 +155,33 @@ class ProyectoVariables extends \yii\db\ActiveRecord
     public function getUnidadMedida()
     {
         return $this->hasOne(UnidadMedida::className(), ['id' => 'unidad_medida']);
+    }
+
+    /** obtiene el nombre de proyecto
+    *@return string
+    */
+    public function getNombreProyecto()
+    {
+      
+      return isset($this->accionEspecifica) ? $this->accionEspecifica->idProyecto->nombre : null;
+    }
+
+    /** Obtiene el nombre de la accion especifica asociada a la variable
+    *@return string 
+    */
+    public function getNombreAccion()
+    {
+      
+      return isset($this->accionEspecifica) ? $this->accionEspecifica->nombre : null;
+    }
+
+    /** Obtiene el cod del proyecto asociada a la variable
+    *@return string 
+    */
+    public function getCodigoProyecto()
+    {
+      
+      return isset($this->accionEspecifica) ? $this->accionEspecifica->idProyecto->codigo_proyecto : null;
     }
 
     /**

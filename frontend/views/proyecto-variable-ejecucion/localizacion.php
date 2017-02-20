@@ -9,7 +9,7 @@ use yii\web\Url;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Variables Por Región';
-$this->params['breadcrumbs'][] = ['label' => 'Accion Centralizadas Variables Asignadas', 'url' => ['variables']];
+$this->params['breadcrumbs'][] = ['label' => 'Proyecto Variables Asignadas', 'url' => ['variables']];
 $this->params['breadcrumbs'][] = $this->title;
 $icons=[
   'volver'=>'<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>',

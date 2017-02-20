@@ -158,7 +158,7 @@ CrudAsset::register($this);
                     
                     Html::a($icons['crear'].' Agregar', ['proyecto-localizacion/create', 'proyecto' => $model->id, 'ambito' => $model->ambito],
                         ['role'=>'modal-remote','title'=> 'Agregar','class'=>'btn btn-default']).
-                        Html::a($icons['recargar'].' Refrescar', ['proyecto/view', 'id' => $model->id],
+                        Html::a($icons['recargar'].' Recargar', ['proyecto/view', 'id' => $model->id],
                         ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                         '{toggleData}'.
                         '{export}'
@@ -177,12 +177,11 @@ CrudAsset::register($this);
             'panel' => [
                 'type' => 'default', 
                 //'heading' => '<i class="glyphicon glyphicon-map-marker"></i>',
-                'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=> (Yii::$app->user->can('proyecto-localizacion/create', ['id' => $model->id]))
 
                         ?
                             BulkButtonWidget::widget([
-                                'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
+                                'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Borrar Todo',
                                     ["bulk-delete"] ,
                                     [
                                         "class"=>"btn btn-danger btn-xs",

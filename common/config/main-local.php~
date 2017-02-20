@@ -1,0 +1,74 @@
+<?php
+return [
+    'components' => [
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=localhost;dbname=registro_seguimiento',
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
+        ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@common/mail',
+            // send all mails to a file by default. You have to set
+            // 'useFileTransport' to false and configure a transport
+            // for the mailer to send real emails.
+            'useFileTransport' => true,
+        ],
+        'formatter' => [
+            'dateFormat' => 'dd/MM/yyyy',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => '.',
+            'currencyCode' => 'Bs.', //VEF
+        ],
+    ],
+    'modules' => [
+        'user' => [
+            'class' => 'johnitvn\userplus\basic\Module',
+        ],
+
+        'notifications' => [
+            'class' => 'machour\yii2\notifications\NotificationsModule',
+            // Point this to your own Notification class
+            // See the "Declaring your notifications" section below
+            'notificationClass' => 'common\components\Notification',
+            // This callable should return your logged in user Id
+            'userId' => function() {
+                return \Yii::$app->user->id;
+            }
+        ],
+        
+         'audit' => [
+            'class' => 'bedezign\yii2\audit\Audit',
+            'db' => 'db', // Name of the component to use for database access
+            'trackActions' => ['*'], // List of actions to track. '*' is allowed as the last character to use as wildcard
+            //'ignoreActions' => ['*'], // Actions to ignore. '*' is allowed as the last character to use as wildcard (eg 'debug/*')
+            'ignoreActions' => ['audit/*', 'debug/*', 'entries/*'],
+             'panels' => [
+                //'audit/request',
+                //'audit/error',
+                'audit/trail',
+                
+            ],
+            //'truncateChance' => 75, // Chance in % that the truncate operation will run, false to not run at all
+            'maxAge' => 'debug', // Maximum age (in days) of the audit entries before they are truncated
+            'accessUsers' => null, // (List of) user(s) IDs with access to the viewer, null for everyone (if the role matches)
+            'accessRoles' => ['sysadmin'], // (List of) role(s) with access to the viewer, null for everyone (if the user matches)
+        ],
+        
+        'rbac' => [
+            'class' => 'johnitvn\rbacplus\Module',
+            'userModelClassName'=>null,
+            'userModelIdField'=>'id',
+            'userModelLoginField'=>'username',
+            'userModelLoginFieldLabel'=>null,
+            'userModelExtraDataColumls'=>null,
+            'beforeCreateController'=>null,
+            'beforeAction'=>null
+        ],
+        'gridview' => [
+            'class' => 'kartik\grid\Module',
+        ],
+    ],
+];

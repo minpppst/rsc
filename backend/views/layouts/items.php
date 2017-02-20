@@ -65,7 +65,14 @@
 	if($usuario->can('sysadmin')){
 		//Header
 		$items[] =	['label' => 'Propiedades', 'options' => ['class' => 'header']];
-		//Items                    
+		$items[] =	[
+		   		'label' => 'Reportes Presupuesto', 
+		   		'icon' => 'glyphicon glyphicon-folder-open', 
+		   		'url' => '#',
+		   		'items' => [
+		       		['label' => 'Reporte 1', 'icon' => 'glyphicon glyphicon-list-alt', 'url' => ['/reportes-presupuesto/reporte1'],],
+		   		]
+			];
 		$items[] =	[
 		   'label' => 'Partidas', 
 		   'icon' => 'glyphicon glyphicon-list-alt', 
@@ -144,7 +151,7 @@
 			       	['label' => 'Cambio Precio', 'icon' => 'glyphicon glyphicon-retweet', 'url' => ['/materiales-servicios/buscarmaterial']],
 			   ]
 			];
-			//ue
+		//ue
 		$items[] =	['label' => 'Unidades Ejecutoras', 'options' => ['class' => 'header']];
 		$items[] =	[
 		   		'label' => 'Unidades Ejecutoras', 
@@ -171,8 +178,19 @@
 			];
 
 		$items[] =	['label' => 'Partidas - Unidades Ejecutoras', 'icon' => 'glyphicon glyphicon-list-alt', 'url' => ['/ue-partida-entidad/index']];
+		//Reportes de presupuesto
+		$items[] =	['label' => 'Reportes Presupuesto', 'options' => ['class' => 'header']];
+		$items[] =	[
+		   		'label' => 'Reportes', 
+		   		'icon' => 'glyphicon glyphicon-list-alt', 
+		   		'url' => '#',
+		   		'items' => [
+		       		['label' => 'Reporte 1', 'icon' => 'glyphicon glyphicon-folder-open', 'url' => ['/reportes-presupuesto/reporte1'],],
+		   		]
+			];
 		
 	}
+
 
 	//SISTEMA
 	if($usuario->can('sysadmin'))

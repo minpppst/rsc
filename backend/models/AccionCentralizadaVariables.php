@@ -93,6 +93,31 @@ class AccionCentralizadaVariables extends \yii\db\ActiveRecord
         
     }
 
+    /**
+     * @return string
+     */
+    public function getCodigoAccion()
+    {
+        return isset($this->accAccionEspecifica) ? $this->accAccionEspecifica->idAcCentr->codigo_accion : null;
+        
+    }
+    /**
+     * @return string
+     */
+    public function getNombreAccion()
+    {
+        return isset($this->accAccionEspecifica) ? $this->accAccionEspecifica->idAcCentr->nombre_accion : null;
+        
+    }
+    /**
+     * @return string
+     */
+    public function getNombreEspecifica()
+    {
+        return isset($this->accAccionEspecifica) ? $this->accAccionEspecifica->nombre : null;
+        
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery

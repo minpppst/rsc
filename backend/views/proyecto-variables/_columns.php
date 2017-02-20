@@ -10,79 +10,45 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'codigoProyecto',
+        'label' => 'Código Proyecto',
+        'contentOptions' => 
+            [
+                'style'=>'width: 50px;  word-wrap: break-word;
+                white-space: normal;'
+            ]
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nombreProyecto',
+        'contentOptions' => 
+            [
+                'style'=>'max-width: 450px;  word-wrap: break-word;
+                white-space: normal;'
+            ]
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'nombreAccion',
+        'label' => 'Proyecto Acción Específica',
+        'contentOptions' => 
+            [
+                'style'=>'max-width: 450px;  word-wrap: break-word;
+                white-space: normal;'
+            ]
+    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre_variable',
         'contentOptions' => 
             [
-            'style'=>'max-width: 450px;  word-wrap: break-word;
-            white-space: normal;'
+                'style'=>'max-width: 450px;  word-wrap: break-word;
+                white-space: normal;'
             ]
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'unidad_medida',
-        'value' => function($model){
-                        return $model->unidadMedida->unidad_medida;
-                    }
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'localizacion',
-        'value' => function($model){
-                        return $model->ambito->ambito;
-                    }
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'definicion',
-        'contentOptions' => 
-            [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
-            white-space: normal;'
-            ]
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'base_calculo',
-        'contentOptions' => 
-            [
-            'style'=>'max-width: 350px;  word-wrap: break-word;
-            white-space: normal;'
-            ]
-    ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'fuente_informacion',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'unidad_ejecutora',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'accion_especifica',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'impacto',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'fecha_creacion',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'fecha_modificacion',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'fecha_eliminacion',
-    // ],
+    
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

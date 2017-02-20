@@ -141,9 +141,9 @@ $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
             },
             'template' => '{view}{update} {delete}{crear-uej}{editar-uej}',        
             //'probandoOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
-            'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
-            'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
-            'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+            'viewOptions'=>['role'=>'modal-remote','title'=>'Ver','data-toggle'=>'tooltip'],
+            'updateOptions'=>['role'=>'modal-remote','title'=>'Editar', 'data-toggle'=>'tooltip'],
+            'deleteOptions'=>['role'=>'modal-remote','title'=>'Eliminar', 
                               'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                               'data-request-method'=>'post',
                               'data-toggle'=>'tooltip',
