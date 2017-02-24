@@ -114,10 +114,14 @@ DepDropAsset::register($this);
                         <td style="width: 50%;">
                             <label class="control-label">  Partida  </label>
                         </td>
+
                     </tr>
                     <tr class="default">
                         <td style="width: 50%;">
-                             <?= Html::input('text', 'partida','', ['placeholder' => 'Ejemplo 403, 402, 40401', 'class' => 'form-control', 'id' => 'partida' ]) ?>
+                             <?= Html::input('text', 'partida','', ['placeholder' => 'Ejemplo 403, 402, 40401', 'class' => 'form-control', 'id' => 'partida',]) ?>
+                             <?= Html::checkbox('partida_agrupar','', ['selected' => true,  'id' => 'partida_agrupar', 'style' => 'height:20; width: 20px;']) ?>
+                             Agrupar por partida
+
                         </td>
                     </tr>
                 </tbody>

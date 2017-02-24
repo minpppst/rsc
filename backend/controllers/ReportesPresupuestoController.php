@@ -47,8 +47,10 @@ class ReportesPresupuestoController extends \common\controllers\BaseController
         if(Yii::$app->request->post())
         {
             $reporte=new ReportePresupuesto;
+            $agrupar_partida=Yii::$app->request->post('partida_agrupar')==null ? true : false;
             return $this->render('resultado_reporte1',[
             'model' => $reporte->reporte1(Yii::$app->request->post()),
+            'agrupar_partida' => $agrupar_partida,
             ]);
             
         }

@@ -254,7 +254,7 @@ class ProyectoPedido extends \yii\db\ActiveRecord
      */
     public function getTotal()
     {
-        return \Yii::$app->formatter->asCurrency(($this->subTotal + $this->iva));
+        return \Yii::$app->formatter->asCurrency(($this->subTotal + $this->ivaTotal));
     }
 
     /**

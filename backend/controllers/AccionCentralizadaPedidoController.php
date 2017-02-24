@@ -69,12 +69,14 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
 
         //Otros datos
         $ue = UnidadEjecutora::findOne($ue);
+        $pedido = new AccionCentralizadaPedido();
 
         return $this->render('pedido', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'ue' => $ue,
             'model' => $model,
+            'total_ue' => $pedido,
         ]);
     }
 

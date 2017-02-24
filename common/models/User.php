@@ -29,6 +29,8 @@ class User extends UserAccounts implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 1;
+    const create = 'create';
+    const update = 'update';
 
     /**
      * @inheritdoc
@@ -52,17 +54,48 @@ class User extends UserAccounts implements IdentityInterface
     /**
      * @inheritdoc
      */
+    public function scenarios()
+    {
+        return 
+        [
+            self::create => ['password', 'confirm_password'],
+            self::update => ['password', 'confirm_password'],
+            
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            //['status', 'default', 'value' => self::STATUS_ACTIVE],
-            //['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            
+            [['password', 'confirm_password'], 'required', 'on' => ['create', 'update']],
+            [['password'], 'string', 'min' => 6, 'on' => ['create', 'update']],
+            //confirm password rules
+            //['password', 'required', 'on' => ['create']],
+            ['confirm_password', 'compare', 'compareAttribute' => 'password', 'message' => Yii::t("user", "Comfirm Passwords don't match"), 'on' => ['create', 'update']],
+            //['old_password', 'required', 'on' => ['change_password']],
+            //fin
             [['login', 'username', 'password_hash', 'auth_key', 'created_at', 'updated_at'], 'required'],
             [['administrator', 'creator', 'blocked_at', 'confirmed_at', 'created_at', 'updated_at'], 'integer'],
             [['login', 'username', 'password_hash', 'auth_key', 'confirm_token', 'recovery_token'], 'string', 'max' => 255],
             [['creator_ip'], 'string', 'max' => 40],
             [['login'], 'unique'],
             [['username'], 'unique'],
+            //[['correo'], 'safe'],
+        ];
+    }
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'password' => 'Contraseña',
+            'confirm_password' => 'Confirmar Contraseña',
+            
         ];
     }
 

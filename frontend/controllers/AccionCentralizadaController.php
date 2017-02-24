@@ -30,7 +30,7 @@ class AccionCentralizadaController extends \common\controllers\BaseController
     public function actionIndex()
     {
         $searchModel = new AccionCentralizadaSearch;
-         $searchModel->estatus = 1;
+        $searchModel->estatus = 1;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

@@ -211,19 +211,47 @@ class AccionCentralizadaAsignar extends \yii\db\ActiveRecord
         return true;
      }
 
-     public function requerimiento_pendiente($user){
+    public function requerimiento_pendiente($user)
+    {
 
         $model=AccionCentralizadaAsignar::find()->where(['usuario' => $user])->All();
         
-        if($model!=null){
-        $bandera=0;
-        foreach ($model as $key => $value) {
-        if($value->accion_centralizada_ac_especifica_uej->aprobado==0){
-            return true;
-        }
-        }//fin del for
-        return false;
-    }//fin del if
+        if($model!=null)
+        {
+            $bandera=0;
+            foreach ($model as $key => $value) 
+            {
+                if($value->accion_centralizada_ac_especifica_uej->aprobado==0)
+                {
+                    return true;
+                }
+            }//fin del for
+            return false;
+        }//fin del if
+    }
+
+    /**
+    *Obtener el total pedido por ue
+    */
+    public function getTotalunidad()
+    {
+        $sql="
+            select 
+                format(sum(((((c.enero+c.febrero+c.marzo+c.abril+c.mayo+c.junio+c.julio+c.agosto+c.septiembre+c.octubre+c.noviembre+c.diciembre) * c.precio) * c.iva)/100)
+                +
+                ((c.enero+c.febrero+c.marzo+c.abril+c.mayo+c.junio+c.julio+c.agosto+c.septiembre+c.octubre+c.noviembre+c.diciembre) * c.precio))
+                , 2, 'de_DE')
+                as total
+                from
+                accion_centralizada_accion_especifica as a 
+                inner join accion_centralizada_ac_especifica_uej b on a.id=b.id_ac_esp
+                inner join accion_centralizada_asignar d on  b.id=d.accion_especifica_ue
+                inner join accion_centralizada_pedido c on d.id=c.asignado
+                where a.id=".$this->accion_especifica_ue0->idAccionEspecifica->id." and b.id_ue=".$this->accion_especifica_ue0->idUe->id;
+
+         //print_r($sql); exit();
+        $query = Yii::$app->db->createCommand($sql)->queryAll();
+        return ($query[0]['total']); 
     }
 
     

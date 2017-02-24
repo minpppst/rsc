@@ -242,7 +242,7 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
      */
     public function getTotal()
     {
-        return \Yii::$app->formatter->asCurrency(($this->subTotal + $this->iva));
+        return \Yii::$app->formatter->asCurrency(($this->subTotal + $this->ivaTotal));
     }
 
     /**
@@ -334,7 +334,37 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
         return true;
     }
 
+    /**
+    *Obtener el total pedido por ue
+    */
+    public function Totalunidad($ue, $accion)
+    {
+        $sql="
+            select 
+                format(sum(((((c.enero+c.febrero+c.marzo+c.abril+c.mayo+c.junio+c.julio+c.agosto+c.septiembre+c.octubre+c.noviembre+c.diciembre) * c.precio) * c.iva)/100)
+                +
+                ((c.enero+c.febrero+c.marzo+c.abril+c.mayo+c.junio+c.julio+c.agosto+c.septiembre+c.octubre+c.noviembre+c.diciembre) * c.precio))
+                , 2, 'de_DE')
+                as total
+                from
+                accion_centralizada_accion_especifica as a 
+                inner join accion_centralizada_ac_especifica_uej b on a.id=b.id_ac_esp
+                inner join accion_centralizada_asignar d on  b.id=d.accion_especifica_ue
+                inner join accion_centralizada_pedido c on d.id=c.asignado
+                where a.id=".$accion." and b.id_ue=".$ue;
 
+         //print_r($sql); exit();
+        $query = Yii::$app->db->createCommand($sql)->queryAll();
+        if(isset($query[0]['total']))
+        {
+            return ($query[0]['total']);     
+        }
+        else
+        {
+            return 0;
+        }
+        
+    }
     
 
 

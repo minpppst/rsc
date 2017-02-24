@@ -80,7 +80,7 @@ $icons=[
             'panel' => [
                 'type' => 'default', 
                 'heading' => '<h4><i class="fa fa-shopping-basket"></i>Accion Centralizada - Requerimientos</h4>',
-                'before'=>'<em><span class="glyphicon glyphicon-briefcase"></span> '.$ue->nombre.'</em>',
+                'before'=>'<em><span class="glyphicon glyphicon-briefcase"></span> '.$ue->nombre.'<br>Total : '.$total_ue->totalunidad($ue->id,$model->id_ac_esp).'</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',
                                 ["bulk-delete"] ,

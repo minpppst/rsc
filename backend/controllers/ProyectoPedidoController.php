@@ -59,19 +59,24 @@ class ProyectoPedidoController extends \common\controllers\BaseController
      */
     public function actionPedido($proyectoEspecifica)
     {
-        //Datos para el gridview['Asignado0.accion_especifica_id' => $proyectoEspecifica]
-        $searchModel = new ProyectoPedidoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         //Otros datos
         $pe = ProyectoAccionEspecifica::find()->where(['id' => $proyectoEspecifica])->one();
         $ue = UnidadEjecutora::find()->where(['id' => $pe->id_unidad_ejecutora])->one();
+        $pedido=new ProyectoPedido();
+
+        //Datos para el gridview['Asignado0.accion_especifica_id' => $proyectoEspecifica]
+        $searchModel = new ProyectoPedidoSearch(['idAccion' => $proyectoEspecifica, 'idunidadejecutora' => $ue->id]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        
+
 
         return $this->render('pedido', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'ue' => $ue,
             'pe' => $pe,
+            'total_ue' => $pedido,
             'proyectoEspecifica' => $proyectoEspecifica
         ]);
     }

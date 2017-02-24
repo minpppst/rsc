@@ -10,6 +10,8 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use machour\yii2\notifications\widgets\NotificationsWidget;
+use common\models\UserPerfil;
+
 
 AppAsset::register($this);
 ?>
@@ -34,9 +36,6 @@ AppAsset::register($this);
         $.get('index.php?r=notifications/notifications/read', {id: id}, function () {
             $('#grading-sys-modal').modal('show');
         });
-
-           
-        
         
       });
     }
@@ -86,6 +85,7 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
     /**
      * Iconos del menu
      */
@@ -99,6 +99,7 @@ AppAsset::register($this);
         'pedido'=>'<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>',
         'asignar'=>'<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>',
         'variable' =>'<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>',
+        'usuario' =>'<span class="fa fa-user" aria-hidden="true"></span>',
     ];
     /*
      * Widget del menu
@@ -111,15 +112,30 @@ AppAsset::register($this);
 
     NavBar::end();
     ?>
+    
     <div class="container">
         <!-- Miga de pan o Hilo de Ariadna -->
         <?= Breadcrumbs::widget([
             'homeLink' => ['label' => 'Inicio', 'url' => ['/site/index']],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+    <!-- Advertencia de completar los datos de perfil -->
+    <?php 
+        if(!Yii::$app->user->isGuest && UserPerfil::find()->where(['id_user' => Yii::$app->user->identity->id])->one()==null)
+        {
+            echo 
+            '  <div class="alert alert-danger alert-dismissible" role="alert" style="width : 500px;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Advertencia!</strong> Debe completar sus datos de perfil (ingrese a perfil).
+                </div>';
+        }
+    ?>
+    <!--fin de advertencia-->
         <?= $content ?>
         
     </div>
+
 </div>
 
 <footer class="footer">

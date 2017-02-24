@@ -87,7 +87,7 @@ echo $pe->id;
             'panel' => [
                 'type' => 'default', 
                 'heading' => '<h4><i class="glyphicon glyphicon-shopping-cart"></i> Requerimientos</h4>',
-                'before'=>'<em><span class="glyphicon glyphicon-briefcase"></span> '.$ue->nombre.'</em>',
+                'before'=>'<em><span class="glyphicon glyphicon-briefcase"></span> '.$ue->nombre.'<br>Total : '.$total_ue->totalunidad($ue->id,$pe->id).'</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',
                                 ["bulk-delete"] ,

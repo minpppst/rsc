@@ -36,22 +36,30 @@ $columns = [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'material',
+        'visible' => $agrupar_partida,
+        
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'unidad_medida',
+        'visible' => $agrupar_partida,
+        
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'presentacion',
+        'visible' => $agrupar_partida,
+        
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'precio',
+        'visible' => $agrupar_partida,
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'iva',
+        'visible' => $agrupar_partida,
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

@@ -194,4 +194,32 @@ class ProyectoUsuarioAsignar extends \yii\db\ActiveRecord
 
         return true;
      }
+
+
+     /**
+     *Obtener el total pedido por ue
+     */
+     public function getTotalunidad()
+    {
+        $sql="
+           select 
+            format(sum(((((c.enero+c.febrero+c.marzo+c.abril+c.mayo+c.junio+c.julio+c.agosto+c.septiembre+c.octubre+c.noviembre+c.diciembre) * c.precio) * c.iva)/100)
+            +
+            ((c.enero+c.febrero+c.marzo+c.abril+c.mayo+c.junio+c.julio+c.agosto+c.septiembre+c.octubre+c.noviembre+c.diciembre) * c.precio))
+            , 2, 'de_DE')
+            as total
+            FROM `proyecto_accion_especifica` as a inner join proyecto_usuario_asignar b on a.id=b.accion_especifica_id inner join proyecto_pedido c on b.id=c.asignado
+                where a.id=".$this->proyectoEspecifica->id." and a.id_unidad_ejecutora=".$this->proyectoEspecifica->id_unidad_ejecutora;
+
+        //print_r($sql); exit();
+        $query = Yii::$app->db->createCommand($sql)->queryAll();
+        if(isset($query[0]['total']))
+        {
+            return ($query[0]['total']);     
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }

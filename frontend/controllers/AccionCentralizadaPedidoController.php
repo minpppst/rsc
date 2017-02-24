@@ -77,8 +77,8 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
         //si no es sysadmin
         if($bandera==1)
         {
-        $dataProvider->query->andWhere(['accion_centralizada_ac_especifica_uej.aprobado' => 0]);
-        $dataProvider->query->andWhere(['accion_centralizada_asignar.estatus' => 1]);
+            $dataProvider->query->andWhere(['accion_centralizada_ac_especifica_uej.aprobado' => 0]);
+            $dataProvider->query->andWhere(['accion_centralizada_asignar.estatus' => 1]);
         }
 
         //Datos de la asignacion

@@ -13,10 +13,13 @@
      $items = [
         //INICIO
         ['label' => $icons['inicio'].' Inicio', 'url' => ['/site/index']],
+        
      ];
 
      if(!Yii::$app->user->isGuest)
      {
+        //perfil
+        $items[]=['label' => $icons['usuario'].' Perfil', 'url' => ['/user-perfil/index']];
         //PROYECTO
         $items[] = ['label' => $icons['proyecto'].' Proyecto', 'url' => ['/proyecto/index'], 'visible' => Yii::$app->user->can('proyecto/index')];
         //ACCION CENTRAL

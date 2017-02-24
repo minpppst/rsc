@@ -14,6 +14,8 @@ class ProyectoPedidoSearch extends ProyectoPedido
 {
     public $nombreMaterial;
     public $proyectoEspecifica;
+    public $idAccion;
+    public $idunidadejecutora;
 
     /**
      * @inheritdoc
@@ -49,6 +51,8 @@ class ProyectoPedidoSearch extends ProyectoPedido
         // Join para la relacion
         $query->joinWith(['idMaterial']);
         $query->joinWith(['asignado0']);
+        // relacion especifica
+        $query->joinWith(['asignado0.proyectoEspecifica']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -91,6 +95,8 @@ class ProyectoPedidoSearch extends ProyectoPedido
 
         $query->andFilterWhere(['like','materiales_servicios.nombre',$this->nombreMaterial]);
         $query->andFilterWhere(['like','proyecto_usuario_asignar.proyecto_especifica',$this->proyectoEspecifica]);
+        $query->andFilterWhere(['proyecto_accion_especifica.id' => $this->idAccion]);
+        $query->andFilterWhere(['proyecto_accion_especifica.id_unidad_ejecutora' => $this->idunidadejecutora]);
 
         return $dataProvider;
     }
