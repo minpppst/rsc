@@ -59,10 +59,19 @@
 		//Items
 		$items[] =	['label' => 'Proyecto', 'icon' => 'fa fa-calendar-check-o', 'url' => ['/proyecto-variables/index']];
 		$items[] =	['label' => 'Accion Centralizada', 'icon' => 'fa fa-calendar-o', 'url' => ['/accion-centralizada-variables/index']];
+		$items[] =	[
+		   		'label' => 'Reportes Planificación', 
+		   		'icon' => 'glyphicon glyphicon-folder-open', 
+		   		'url' => '#',
+		   		'items' => [
+		       		['label' => 'Reporte 1', 'icon' => 'glyphicon glyphicon-list-alt', 'url' => ['/reportes-planificacion/reporte1'],],
+		   		]
+			];
 	}
 
 	//PROPIEDADES
-	if($usuario->can('sysadmin')){
+	if($usuario->can('sysadmin'))
+	{
 		//Header
 		$items[] =	['label' => 'Propiedades', 'options' => ['class' => 'header']];
 		$items[] =	[
@@ -73,6 +82,15 @@
 		       		['label' => 'Reporte 1', 'icon' => 'glyphicon glyphicon-list-alt', 'url' => ['/reportes-presupuesto/reporte1'],],
 		   		]
 			];
+		$items[] =	[
+		   		'label' => 'Reportes Planificación', 
+		   		'icon' => 'glyphicon glyphicon-folder-open', 
+		   		'url' => '#',
+		   		'items' => [
+		       		['label' => 'Reporte 1', 'icon' => 'glyphicon glyphicon-list-alt', 'url' => ['/reportes-planificacion/reporte1'],],
+		   		]
+			];
+
 		$items[] =	[
 		   'label' => 'Partidas', 
 		   'icon' => 'glyphicon glyphicon-list-alt', 

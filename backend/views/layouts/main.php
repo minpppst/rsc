@@ -56,7 +56,9 @@ if (Yii::$app->controller->action->id === 'login') {
     </head>
     <body class="<?= \dmstr\helpers\AdminLteHelper::skinClass() ?> sidebar-mini">
     <?php $this->beginBody() ?>
+    <div><img src="img/cintillo.jpg" width="100%;" height="50px;" ></div>
     <div class="wrapper">
+
 
         <?= $this->render(
             'header.php',

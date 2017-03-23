@@ -23,6 +23,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <link rel="shortcut icon" href="<?php echo Yii::$app->getHomeUrl(); ?>/../favicon.ico" type="image/x-icon" />
     <?php $this->head() ?>
     <script type="text/javascript">
     //llamada al detalle de la observacion
@@ -73,17 +74,20 @@ AppAsset::register($this);
         
     ]);
 ?>
-<body>
-<?php $this->beginBody() ?>
 
+<body>
+
+<?php $this->beginBody() ?>
+<div><img src="img/cintillo.jpg" width="100%;" height="100%;" ></div>
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Roraima',
         'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
+        'options' => 
+            [
+                'class' => 'navbar-inverse navbar-static-top',
+                //'style' => ['top' => '50px;'],
+            ],
     ]);
 
     /**
@@ -112,7 +116,6 @@ AppAsset::register($this);
 
     NavBar::end();
     ?>
-    
     <div class="container">
         <!-- Miga de pan o Hilo de Ariadna -->
         <?= Breadcrumbs::widget([
