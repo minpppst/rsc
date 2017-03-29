@@ -21,14 +21,13 @@ use kartik\grid\GridView;
                 'class'=>'\kartik\grid\DataColumn',
                 'attribute'=>'user_origin',
                 'label' => 'Usuario Origen',
-                'value' => $model->idUserOrigin->username,
-                
+                'value' => isset($model->idUserOrigin) ? $model->idUserOrigin->username : '',
             ],
             [
                 'class'=>'\kartik\grid\DataColumn',
                 'attribute'=>'user_id',
                 'label' => 'Usuario Destino',
-                'value' => $model->idUser->username,
+                'value' => isset($model->idUser) ? $model->idUser->username : '',
                 
             ],
             [

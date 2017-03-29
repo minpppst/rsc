@@ -40,7 +40,8 @@
         "kartik-v/yii2-money": "*",
         "machour/yii2-notifications": "@dev",
         "dilden/yii2-feedback-widget": "dev-master",
-        "johnitvn/yii2-ajaxcrud": "*"
+        "johnitvn/yii2-ajaxcrud": "*",
+        "beaten-sect0r/yii2-db-manager": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

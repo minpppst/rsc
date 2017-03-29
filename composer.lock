@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "13c3edeeb99310a2fdacf462694860b2",
-    "content-hash": "a41a1bb1b0fd6a74c11f5ba9ec524bbf",
+    "content-hash": "407fa727f2e3bdddc75ec9b00355b993",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -65,7 +64,7 @@
                 "yii 2",
                 "yii2"
             ],
-            "time": "2016-07-09 19:09:35"
+            "time": "2016-07-09T19:09:35+00:00"
         },
         {
             "name": "2amigos/yii2-date-picker-widget",
@@ -126,7 +125,7 @@
                 "yii 2",
                 "yii2"
             ],
-            "time": "2015-04-02 11:48:05"
+            "time": "2015-04-02T11:48:05+00:00"
         },
         {
             "name": "almasaeed2010/adminlte",
@@ -166,7 +165,60 @@
                 "theme",
                 "web"
             ],
-            "time": "2016-08-04 23:22:06"
+            "time": "2016-08-04T23:22:06+00:00"
+        },
+        {
+            "name": "beaten-sect0r/yii2-db-manager",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Beaten-Sect0r/yii2-db-manager.git",
+                "reference": "c4853c6a2f578d1823bec7390f61f9f7f49c6552"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Beaten-Sect0r/yii2-db-manager/zipball/c4853c6a2f578d1823bec7390f61f9f7f49c6552",
+                "reference": "c4853c6a2f578d1823bec7390f61f9f7f49c6552",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/process": "2.8.*|3.0.*",
+                "yiisoft/yii2": "~2.0.6",
+                "yiisoft/yii2-bootstrap": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "bootstrap": "bs\\dbManager\\Bootstrap"
+            },
+            "autoload": {
+                "psr-4": {
+                    "bs\\dbManager\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Volkov",
+                    "email": "beatensect0r@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Insolita",
+                    "email": "donnainsolita@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The db dump manager module for Yii2",
+            "keywords": [
+                "backup",
+                "db manager",
+                "dump",
+                "yii2"
+            ],
+            "time": "2016-12-11T11:08:51+00:00"
         },
         {
             "name": "bedezign/yii2-audit",
@@ -227,7 +279,7 @@
                 "trail",
                 "yii2"
             ],
-            "time": "2016-07-28 07:17:52"
+            "time": "2016-07-28T07:17:52+00:00"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -625,7 +677,7 @@
                 "module",
                 "yii2"
             ],
-            "time": "2016-01-03 19:03:13"
+            "time": "2016-01-03T19:03:13+00:00"
         },
         {
             "name": "cebe/markdown",
@@ -685,7 +737,7 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "time": "2016-09-14 20:40:20"
+            "time": "2016-09-14T20:40:20+00:00"
         },
         {
             "name": "cebe/yii2-gravatar",
@@ -728,7 +780,7 @@
                 "gravatar",
                 "yii"
             ],
-            "time": "2013-12-10 17:49:58"
+            "time": "2013-12-10T17:49:58+00:00"
         },
         {
             "name": "dilden/yii2-feedback-widget",
@@ -831,7 +883,7 @@
                 "theme",
                 "yii2"
             ],
-            "time": "2016-07-28 03:57:05"
+            "time": "2016-07-28T03:57:05+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -875,7 +927,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2016-07-16 12:58:58"
+            "time": "2016-07-16T12:58:58+00:00"
         },
         {
             "name": "fxp/composer-asset-plugin",
@@ -931,7 +983,7 @@
                 "npm",
                 "package"
             ],
-            "time": "2016-08-03 07:44:07"
+            "time": "2016-08-03T07:44:07+00:00"
         },
         {
             "name": "johnitvn/yii2-ajaxcrud",
@@ -985,7 +1037,7 @@
                 "template",
                 "yii2"
             ],
-            "time": "2016-03-21 10:56:25"
+            "time": "2016-03-21T10:56:25+00:00"
         },
         {
             "name": "johnitvn/yii2-rbac-plus",
@@ -1029,7 +1081,7 @@
                 }
             ],
             "description": "Database role base access control manager for yii2",
-            "time": "2016-02-16 16:57:33"
+            "time": "2016-02-16T16:57:33+00:00"
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -1126,7 +1178,7 @@
                 "popover",
                 "popover-x"
             ],
-            "time": "2015-03-18 13:08:39"
+            "time": "2015-03-18T13:08:39+00:00"
         },
         {
             "name": "kartik-v/bootstrap-tabs-x",
@@ -1170,7 +1222,7 @@
                 "tabs",
                 "tabs-x"
             ],
-            "time": "2015-06-26 14:48:16"
+            "time": "2015-06-26T14:48:16+00:00"
         },
         {
             "name": "kartik-v/dependent-dropdown",
@@ -1255,7 +1307,7 @@
                 "php",
                 "utf-8"
             ],
-            "time": "2015-05-05 07:34:49"
+            "time": "2015-05-05T07:34:49+00:00"
         },
         {
             "name": "kartik-v/yii2-detail-view",
@@ -1309,7 +1361,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-06-22 01:29:56"
+            "time": "2016-06-22T01:29:56+00:00"
         },
         {
             "name": "kartik-v/yii2-dialog",
@@ -1361,7 +1413,7 @@
                 "modal",
                 "yii2"
             ],
-            "time": "2016-09-13 18:15:26"
+            "time": "2016-09-13T18:15:26+00:00"
         },
         {
             "name": "kartik-v/yii2-editable",
@@ -1464,7 +1516,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-08-16 19:21:27"
+            "time": "2016-08-16T19:21:27+00:00"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -1510,7 +1562,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2015-12-12 18:47:11"
+            "time": "2015-12-12T18:47:11+00:00"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -1561,7 +1613,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-09-04 09:25:29"
+            "time": "2016-09-04T09:25:29+00:00"
         },
         {
             "name": "kartik-v/yii2-money",
@@ -1611,7 +1663,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-06-17 16:48:26"
+            "time": "2015-06-17T16:48:26+00:00"
         },
         {
             "name": "kartik-v/yii2-mpdf",
@@ -1658,7 +1710,7 @@
                 "utf8",
                 "yii2"
             ],
-            "time": "2014-11-10 18:09:37"
+            "time": "2014-11-10T18:09:37+00:00"
         },
         {
             "name": "kartik-v/yii2-popover-x",
@@ -1706,7 +1758,7 @@
                 "popover",
                 "popover-x"
             ],
-            "time": "2016-01-12 16:59:09"
+            "time": "2016-01-12T16:59:09+00:00"
         },
         {
             "name": "kartik-v/yii2-tabs-x",
@@ -1759,7 +1811,7 @@
                 "tabs",
                 "tabs-x"
             ],
-            "time": "2016-09-09 11:33:18"
+            "time": "2016-09-09T11:33:18+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-datepicker",
@@ -1862,7 +1914,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-05-22 10:15:23"
+            "time": "2015-05-22T10:15:23+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-fileinput",
@@ -2105,7 +2157,7 @@
                 "history",
                 "yii2"
             ],
-            "time": "2015-11-11 19:28:55"
+            "time": "2015-11-11T19:28:55+00:00"
         },
         {
             "name": "open-ecommerce/yii2-backuprestore",
@@ -2185,7 +2237,7 @@
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
-            "time": "2016-04-07 12:29:16"
+            "time": "2016-04-07T12:29:16+00:00"
         },
         {
             "name": "rmrevin/yii2-fontawesome",
@@ -2236,7 +2288,7 @@
                 "font",
                 "yii"
             ],
-            "time": "2016-08-31 12:41:25"
+            "time": "2016-08-31T12:41:25+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2289,7 +2341,56 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2016-07-08 11:51:25"
+            "time": "2016-07-08T11:51:25+00:00"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v3.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "768debc5996f599c4372b322d9061dba2a4bf505"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/768debc5996f599c4372b322d9061dba2a4bf505",
+                "reference": "768debc5996f599c4372b322d9061dba2a4bf505",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-07-28T11:13:34+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -2383,7 +2484,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-07-11 13:36:42"
+            "time": "2016-07-11T13:36:42+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2433,7 +2534,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2016-03-17 03:29:28"
+            "time": "2016-03-17T03:29:28+00:00"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -2480,7 +2581,7 @@
                 "extension installer",
                 "yii2"
             ],
-            "time": "2016-02-06 00:49:24"
+            "time": "2016-02-06T00:49:24+00:00"
         },
         {
             "name": "yiisoft/yii2-debug",
@@ -2527,7 +2628,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2016-03-17 03:50:19"
+            "time": "2016-03-17T03:50:19+00:00"
         },
         {
             "name": "yiisoft/yii2-gii",
@@ -2580,7 +2681,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2016-03-18 14:09:46"
+            "time": "2016-03-18T14:09:46+00:00"
         },
         {
             "name": "yiisoft/yii2-jui",
@@ -2630,7 +2731,7 @@
                 "jQuery UI",
                 "yii2"
             ],
-            "time": "2016-07-22 22:26:59"
+            "time": "2016-07-22T22:26:59+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -2680,7 +2781,7 @@
                 "swiftmailer",
                 "yii2"
             ],
-            "time": "2016-09-09 11:48:11"
+            "time": "2016-09-09T11:48:11+00:00"
         }
     ],
     "packages-dev": [
@@ -2730,7 +2831,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-04-29 12:21:54"
+            "time": "2016-04-29T12:21:54+00:00"
         },
         {
             "name": "yiisoft/yii2-codeception",
@@ -2775,7 +2876,8 @@
                 "codeception",
                 "yii2"
             ],
-            "time": "2016-03-17 03:41:26"
+            "abandoned": "codeception/codeception",
+            "time": "2016-03-17T03:41:26+00:00"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -2822,7 +2924,7 @@
                 "faker",
                 "yii2"
             ],
-            "time": "2015-03-01 06:22:44"
+            "time": "2015-03-01T06:22:44+00:00"
         }
     ],
     "aliases": [],

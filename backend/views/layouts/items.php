@@ -218,6 +218,7 @@
 		//Items
 		$items[] =	['label' => 'Auditoría', 'icon' => 'fa fa-code-fork', 'url' => ['/audit']];
 		$items[] =	['label' => 'Debug', 'icon' => 'fa fa-bug', 'url' => ['/debug']];
+		$items[] =	['label' => 'Backup', 'icon' => 'glyphicon glyphicon-export', 'url' => ['/db-manager']];
 		$items[] =	['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest];
 	}
 

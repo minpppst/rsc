@@ -23,7 +23,7 @@ return [
         'label' => 'Usuario Origen',
         'value' => function($model)
         {
-            return $model->idUserOrigin->username;
+            return isset($model->idUserOrigin) ? $model->idUserOrigin->username : '';
         },
                 
     ],
@@ -33,7 +33,7 @@ return [
         'label' => 'Usuario Destino',
         'value' => function($model)
         {
-            return $model->idUser->username;
+            return isset($model->idUser) ? $model->idUser->username : '';
         },
     ],
     [
@@ -41,7 +41,7 @@ return [
         'attribute'=>'key_id',
         'label' => 'Resumen',
         'value' => function($model){
-            return $model->resumen;
+            return isset($model->resumen) ? $model->resumen : '';
         },
         'filter' => false,
 

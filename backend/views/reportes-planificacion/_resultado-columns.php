@@ -713,7 +713,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==9 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['abril']!=0) ? ($model['setiembre_eje']/$model['septiembre'])*100 : '0';
+                        return ($model['abril']!=0) ? ($model['septiembre_eje']/$model['septiembre'])*100 : '0';
                     }
     ],
 
