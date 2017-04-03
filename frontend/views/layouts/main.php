@@ -104,6 +104,7 @@ AppAsset::register($this);
         'asignar'=>'<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>',
         'variable' =>'<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>',
         'usuario' =>'<span class="fa fa-user" aria-hidden="true"></span>',
+        'reporte' => '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>',
     ];
     /*
      * Widget del menu

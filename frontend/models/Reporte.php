@@ -1,6 +1,7 @@
 <?php
 
-namespace backend\models;
+namespace frontend\models;
+use common\models\AccionCentralizadaAsignar;
 use yii\data\ArrayDataProvider;
 
 use Yii;
@@ -11,11 +12,8 @@ use Yii;
  * @property integer $id
  * @property string $nombre
  */
-class ReportePlanificacion extends \yii\db\ActiveRecord
+class Reporte extends \yii\db\ActiveRecord
 {
-
-    
-
     /**
     **sql para generar el reporte con los filtros necesarios
     **@param $pos array
@@ -236,7 +234,7 @@ union all
     **@param $pos array
     **@return array
     **/
-    public function reportepdf1($pos)
+    public function reportepdf1($pos=null)
     {
         //declarando variables del filtro
         $accioncentralizada="";
@@ -246,190 +244,172 @@ union all
         $materiales="";
         $unidades="";
         $partida=""; 
+        $ueaccion=AccionCentralizadaAsignar::find()
+        ->select('accion_centralizada_ac_especifica_uej.id_ue')
+        ->innerjoin('accion_centralizada_ac_especifica_uej', 'accion_centralizada_asignar.accion_especifica_ue=accion_centralizada_ac_especifica_uej.id')
+        ->where(['accion_centralizada_asignar.usuario' => Yii::$app->user->id])
+        ->andwhere(['accion_centralizada_asignar.estatus' => 1])
+        ->Asarray()
+        ->all();
+        $ueproyecto=ProyectoUsuarioAsignar::find()
+        ->select('proyecto_accion_especifica.id_unidad_ejecutora as id_ue')
+        ->innerjoin('proyecto_accion_especifica', 'proyecto_accion_especifica.id=proyecto_usuario_asignar.accion_especifica_id')
+        ->where(['proyecto_usuario_asignar.usuario_id' => Yii::$app->user->id])
+        ->andwhere(['proyecto_usuario_asignar.estatus' => 1])
+        ->Asarray()
+        ->all();
 
-        if($pos['accion_centralizada']!='-1')
+        if($ueaccion!=NULL || $ueproyecto!=NULL)
         {
-            if($pos['accion_centralizada']!='x999')
-            {
-                $accioncentralizada=" and a.id=".$pos['accion_centralizada'];
-            }
+            $unidades1=array_unique(array_merge($ueaccion,$ueproyecto), SORT_REGULAR); 
             
-
-            if(isset($pos['acc_especifica']) && $pos['acc_especifica']!='x999' && $pos['acc_especifica']!='')
+            foreach ($unidades1 as $key => $value) 
             {
-                $accespecifica=" and b.id=".$pos['acc_especifica'];
+                $unidades.="'".$value['id_ue']."',";
             }
-        }
-        else
-        {
-            $accioncentralizada=" and a.id=-1 ";
-        }
-        //verificacion de filtros proyectos
-        if($pos['proyectos']!='-1')
-        {
-            if($pos['proyectos']!='x999')
-            {
-                $proyecto=" and a.id=".$pos['proyectos'];
-            }
+            $unidades=substr($unidades, 0, -1);
             
-            if(isset($pos['proyectos_especifica']) && $pos['proyectos_especifica']!='x999' && $pos['proyectos_especifica']!='')
+            $unidades=" and g.id in (".$unidades.")";
+            if($ueaccion==null)
             {
-                $proyectoespecifica=" and b.id=".$pos['proyectos_especifica'];
+                $unidadesc="and g.id in ('-1')";
             }
-        }
-        else
-        {
-            $proyecto=" and a.id=-1 ";
-        }
+            else
+            {
+                $unidadesc=$unidades;   
+            }
+            if($ueproyecto==null)
+            {
+                $unidadesp="and g.id in ('-1')";
+            }
+            else
+            {
+                $unidadesp=$unidades;   
+            }
 
-        //variables
-        if(isset($pos['variablescentral']) && $pos['variablescentral']!='x999' && $pos['variablescentral']!='')
-        {
-            $variablescentral=" and c.id=".$pos['variablescentral'];
-        }
-        else
-        {
-            $variablescentral="";   
-        }
+        $sql="
 
-        if(isset($pos['variablesproyecto']) && $pos['variablesproyecto']!='x999' && $pos['variablesproyecto']!='')
-        {
-            $variablesproyecto=" and c.id=".$pos['variablesproyecto'];
-        }
-        else
-        {
-            $variablesproyecto="";   
-        }
-        
-        //verificando Filtros de unidad ejecutora
-        if($pos['unidadessejecutoras']!='x999')
-        {
-            $unidades=" and g.id=".$pos['unidadessejecutoras'];
-        }
+        SELECT a.codigo_accion as codigo, a.nombre_accion AS nombre, c.nombre_variable, h.unidad_medida, 
+        e.enero, (e.enero) as enero_acu,
+        e.febrero, 
+        (e.febrero+e.enero) as febrero_acu, 
+        e.marzo, 
+        (e.febrero+e.enero+e.marzo) as marzo_acu,
+        e.abril, (e.febrero+e.enero+e.marzo+e.abril) as abril_acu,
+        e.mayo,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo) as mayo_acu,
+        e.junio,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio) as junio_acu,
+        e.julio,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio) as julio_acu,
+        e.agosto,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto) as agosto_acu,
+        e.septiembre, 
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre) as septiembre_acu,
+        e.octubre,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre) as octubre_acu, 
+        e.noviembre,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre+e.noviembre) as noviembre_acu,
+        e.diciembre,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre+e.noviembre+e.diciembre) as diciembre_acu,
+        f.enero as enero_eje, (f.enero) as enero_acu_eje,
+        f.febrero as febrero_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)) as febrero_acu_eje,
+        f.marzo as marzo_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)) as marzo_acu_eje,
+        f.abril as abril_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)) as abril_acu_eje, f.mayo as mayo_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)) as mayo_acu_eje,
+        f.junio as junio_eje, 
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)) as junio_acu_eje,
+        f.julio as julio_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)) as julio_acu_eje,
+        f.agosto as agosto_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)) as agosto_acu_eje,
+        f.septiembre as septiembre_eje, 
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)) as septiembre_acu_eje,
+        f.octubre as octubre_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)) as octubre_acu_eje,
+        f.noviembre as noviembre_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)+ifnull(f.noviembre,0)) as noviembre_acu_eje,
+        f.diciembre as diciembre_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)+ifnull(f.noviembre,0)+ifnull(f.diciembre,0)) as diciembre_acu_eje,
+        g.nombre as unidad_ejecutora
+        FROM accion_centralizada AS a
+        INNER JOIN accion_centralizada_accion_especifica AS b ON a.id = b.id_ac_centr
+        INNER JOIN accion_centralizada_variables AS c ON b.id = c.acc_accion_especifica
+        INNER JOIN localizacion_acc_variable AS d ON c.id = d.id_variable
+        INNER JOIN accion_centralizada_variable_programacion AS e ON d.id = e.id_localizacion
+        INNER JOIN accion_centralizada_variable_ejecucion AS f ON e.id = f.id_programacion
+        INNER JOIN unidad_ejecutora AS g ON c.unidad_ejecutora = g.id
+        INNER JOIN unidad_medida AS h ON c.unidad_medida=h.id
+        where 1=1 
+        ".$unidadesc."
 
-    $sql="
+    union all
 
-    SELECT a.codigo_accion as codigo, a.nombre_accion AS nombre, c.nombre_variable, h.unidad_medida, 
-    e.enero, (e.enero) as enero_acu,
-    e.febrero, 
-    (e.febrero+e.enero) as febrero_acu, 
-    e.marzo, 
-    (e.febrero+e.enero+e.marzo) as marzo_acu,
-    e.abril, (e.febrero+e.enero+e.marzo+e.abril) as abril_acu,
-    e.mayo,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo) as mayo_acu,
-    e.junio,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio) as junio_acu,
-    e.julio,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio) as julio_acu,
-    e.agosto,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto) as agosto_acu,
-    e.septiembre, 
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre) as septiembre_acu,
-    e.octubre,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre) as octubre_acu, 
-    e.noviembre,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre+e.noviembre) as noviembre_acu,
-    e.diciembre,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre+e.noviembre+e.diciembre) as diciembre_acu,
-    f.enero as enero_eje, (f.enero) as enero_acu_eje,
-    f.febrero as febrero_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)) as febrero_acu_eje,
-    f.marzo as marzo_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)) as marzo_acu_eje,
-    f.abril as abril_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)) as abril_acu_eje, f.mayo as mayo_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)) as mayo_acu_eje,
-    f.junio as junio_eje, 
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)) as junio_acu_eje,
-    f.julio as julio_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)) as julio_acu_eje,
-    f.agosto as agosto_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)) as agosto_acu_eje,
-    f.septiembre as septiembre_eje, 
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)) as septiembre_acu_eje,
-    f.octubre as octubre_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)) as octubre_acu_eje,
-    f.noviembre as noviembre_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)+ifnull(f.noviembre,0)) as noviembre_acu_eje,
-    f.diciembre as diciembre_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)+ifnull(f.noviembre,0)+ifnull(f.diciembre,0)) as diciembre_acu_eje,
-    g.nombre as unidad_ejecutora
-    FROM accion_centralizada AS a
-    INNER JOIN accion_centralizada_accion_especifica AS b ON a.id = b.id_ac_centr
-    INNER JOIN accion_centralizada_variables AS c ON b.id = c.acc_accion_especifica
-    INNER JOIN localizacion_acc_variable AS d ON c.id = d.id_variable
-    INNER JOIN accion_centralizada_variable_programacion AS e ON d.id = e.id_localizacion
-    INNER JOIN accion_centralizada_variable_ejecucion AS f ON e.id = f.id_programacion
-    INNER JOIN unidad_ejecutora AS g ON c.unidad_ejecutora = g.id
-    INNER JOIN unidad_medida AS h ON c.unidad_medida=h.id
-    where 1=1 
-    ".$accioncentralizada.$accespecifica.$variablescentral.$unidades."
-
-union all
-
-    SELECT a.codigo_proyecto as codigo, a.nombre AS nombre, c.nombre_variable, h.unidad_medida, 
-    e.enero, (e.enero) as enero_acu,
-    e.febrero,
-    (e.febrero+e.enero) as febrero_acu,
-    e.marzo,
-    (e.febrero+e.enero+e.marzo) as marzo_acu,
-    e.abril,
-    (e.febrero+e.enero+e.marzo+e.abril) as abril_acu,
-    e.mayo,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo) as mayo_acu,
-    e.junio,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio) as junio_acu,
-    e.julio,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio) as julio_acu,
-    e.agosto,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto) as agosto_acu,
-    e.septiembre,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre) as septiembre_acu,
-    e.octubre,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre) as octubre_acu,
-    e.noviembre,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre+e.noviembre) as noviembre_acu,
-    e.diciembre,
-    (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre+e.noviembre+e.diciembre) as diciembre_acu,
-    f.enero as enero_eje, (f.enero) as enero_acu_eje,
-    f.febrero as febrero_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)) as febrero_acu_eje,
-    f.marzo as marzo_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)) as marzo_acu_eje,
-    f.abril as abril_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)) as abril_acu_eje, f.mayo as mayo_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)) as mayo_acu_eje,
-    f.junio as junio_eje, 
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)) as junio_acu_eje,
-    f.julio as julio_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)) as julio_acu_eje,
-    f.agosto as agosto_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)) as agosto_acu_eje,
-    f.septiembre as septiembre_eje, 
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)) as septiembre_acu_eje,
-    f.octubre as octubre_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)) as octubre_acu_eje,
-    f.noviembre as noviembre_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)+ifnull(f.noviembre,0)) as noviembre_acu_eje,
-    f.diciembre as diciembre_eje,
-    (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)+ifnull(f.noviembre,0)+ifnull(f.diciembre,0)) as diciembre_acu_eje,
-    g.nombre as unidad_ejecutora
-    FROM proyecto AS a
-    INNER JOIN proyecto_accion_especifica AS b ON a.id = b.id_proyecto
-    INNER JOIN proyecto_variables AS c ON b.id = c.accion_especifica
-    INNER JOIN proyecto_variable_localizacion AS d ON c.id = d.id_variable
-    INNER JOIN proyecto_variable_programacion AS e ON d.id = e.id_localizacion
-    INNER JOIN proyecto_variable_ejecucion AS f ON e.id = f.id_programacion
-    INNER JOIN unidad_ejecutora AS g ON c.unidad_ejecutora = g.id
-    INNER JOIN unidad_medida AS h ON c.unidad_medida=h.id
-    where 1=1 
-    ".$proyecto.$proyectoespecifica.$variablesproyecto.$unidades."
-    ";    
-    //Arreglo para el DataProvider
-    $query = Yii::$app->db->createCommand($sql)->queryAll();
-    
-    return $query;
+        SELECT a.codigo_proyecto as codigo, a.nombre AS nombre, c.nombre_variable, h.unidad_medida, 
+        e.enero, (e.enero) as enero_acu,
+        e.febrero,
+        (e.febrero+e.enero) as febrero_acu,
+        e.marzo,
+        (e.febrero+e.enero+e.marzo) as marzo_acu,
+        e.abril,
+        (e.febrero+e.enero+e.marzo+e.abril) as abril_acu,
+        e.mayo,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo) as mayo_acu,
+        e.junio,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio) as junio_acu,
+        e.julio,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio) as julio_acu,
+        e.agosto,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto) as agosto_acu,
+        e.septiembre,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre) as septiembre_acu,
+        e.octubre,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre) as octubre_acu,
+        e.noviembre,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre+e.noviembre) as noviembre_acu,
+        e.diciembre,
+        (e.febrero+e.enero+e.marzo+e.abril+e.mayo+e.junio+e.julio+e.agosto+e.septiembre+e.octubre+e.noviembre+e.diciembre) as diciembre_acu,
+        f.enero as enero_eje, (f.enero) as enero_acu_eje,
+        f.febrero as febrero_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)) as febrero_acu_eje,
+        f.marzo as marzo_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)) as marzo_acu_eje,
+        f.abril as abril_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)) as abril_acu_eje, f.mayo as mayo_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)) as mayo_acu_eje,
+        f.junio as junio_eje, 
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)) as junio_acu_eje,
+        f.julio as julio_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)) as julio_acu_eje,
+        f.agosto as agosto_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)) as agosto_acu_eje,
+        f.septiembre as septiembre_eje, 
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)) as septiembre_acu_eje,
+        f.octubre as octubre_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)) as octubre_acu_eje,
+        f.noviembre as noviembre_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)+ifnull(f.noviembre,0)) as noviembre_acu_eje,
+        f.diciembre as diciembre_eje,
+        (ifnull(f.febrero,0)+ifnull(f.enero,0)+ifnull(f.marzo,0)+ifnull(f.abril,0)+ifnull(f.mayo,0)+ifnull(f.junio,0)+ifnull(f.julio,0)+ifnull(f.agosto,0)+ifnull(f.septiembre,0)+ifnull(f.octubre,0)+ifnull(f.noviembre,0)+ifnull(f.diciembre,0)) as diciembre_acu_eje,
+        g.nombre as unidad_ejecutora
+        FROM proyecto AS a
+        INNER JOIN proyecto_accion_especifica AS b ON a.id = b.id_proyecto
+        INNER JOIN proyecto_variables AS c ON b.id = c.accion_especifica
+        INNER JOIN proyecto_variable_localizacion AS d ON c.id = d.id_variable
+        INNER JOIN proyecto_variable_programacion AS e ON d.id = e.id_localizacion
+        INNER JOIN proyecto_variable_ejecucion AS f ON e.id = f.id_programacion
+        INNER JOIN unidad_ejecutora AS g ON c.unidad_ejecutora = g.id
+        INNER JOIN unidad_medida AS h ON c.unidad_medida=h.id
+        where 1=1 
+        ".$unidadesp."
+        ";    
+        //Arreglo para el DataProvider
+        $query = Yii::$app->db->createCommand($sql)->queryAll();
+        return $query;
+        }// fin de encontrar unidades
     
     }
 

@@ -5,7 +5,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ProyectoAsignar */
-$this->title = 'Generar Reporte 1 Presupuesto';
+$this->title = 'Generar Reporte 1 Planificación';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

@@ -16,10 +16,20 @@ $columns = [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre',
+        'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nombre_variable',
+        'contentOptions' => 
+                [
+                    'style'=>'max-width: 350px;  word-wrap: break-word;
+                    white-space: normal;'
+                ]
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -80,7 +90,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==1 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['enero']!=0) ? ($model['enero_eje']/$model['enero'])*100 : '0';
+                        return ($model['enero']!=0) ? number_format(($model['enero_eje']/$model['enero'])*100,2,',','.') : '0';
                     }
     ],
     [
@@ -98,7 +108,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==1 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['enero']!=0) ? ($model['enero_eje']/$model['enero'])*100 : '0';
+                        return ($model['enero']!=0) ? number_format(($model['enero_eje']/$model['enero'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -159,7 +169,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==2 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['febrero']!=0) ? ($model['febrero_eje']/$model['febrero'])*100 : '0';
+                        return ($model['febrero']!=0) ? number_format(($model['febrero_eje']/$model['febrero'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -178,7 +188,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==2 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['febrero_acu']!=0) ? ($model['febrero_acu_eje']/$model['febrero_acu'])*100 : '0';
+                        return ($model['febrero_acu']!=0) ? number_format(($model['febrero_acu_eje']/$model['febrero_acu'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -258,7 +268,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==3 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['marzo_acu']!=0) ? ($model['marzo_acu_eje']/$model['marzo_acu'])*100 : '0';
+                        return ($model['marzo_acu']!=0) ? number_format(($model['marzo_acu_eje']/$model['marzo_acu'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -338,7 +348,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==4 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['abril_acu']!=0) ? ($model['abril_acu_eje']/$model['abril_acu'])*100 : '0';
+                        return ($model['abril_acu']!=0) ? number_format(($model['abril_acu_eje']/$model['abril_acu'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -417,7 +427,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==5 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['mayo_acu']!=0) ? ($model['mayo_acu_eje']/$model['mayo_acu'])*100 : '0';
+                        return ($model['mayo_acu']!=0) ? number_format(($model['mayo_acu_eje']/$model['mayo_acu'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -495,7 +505,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==6 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['junio_acu']!=0) ? ($model['junio_acu_eje']/$model['junio_acu'])*100 : '0';
+                        return ($model['junio_acu']!=0) ? number_format(($model['junio_acu_eje']/$model['junio_acu'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -574,7 +584,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==7 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['julio_acu']!=0) ? ($model['julio_acu_eje']/$model['julio_acu'])*100 : '0';
+                        return ($model['julio_acu']!=0) ? number_format(($model['julio_acu_eje']/$model['julio_acu'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -653,7 +663,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==8 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['agosto_acu']!=0) ? ($model['agosto_acu_eje']/$model['agosto_acu'])*100 : '0';
+                        return ($model['agosto_acu']!=0) ? number_format(($model['agosto_acu_eje']/$model['agosto_acu'])*100,2,',','.') : '0';
                     }
     ],
     [
@@ -732,7 +742,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==9 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['septiembre_acu']!=0) ? ($model['septiembre_acu_eje']/$model['septiembre_acu'])*100 : '0';
+                        return ($model['septiembre_acu']!=0) ? number_format(($model['septiembre_acu_eje']/$model['septiembre_acu'])*100,2,',','.') : '0';
                     }
     ],
     [
@@ -811,7 +821,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==10 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['octubre_acu']!=0) ? ($model['octubre_acu_eje']/$model['octubre_acu'])*100 : '0';
+                        return ($model['octubre_acu']!=0) ? number_format(($model['octubre_acu_eje']/$model['octubre_acu'])*100,2,',','.') : '0';
                     }
     ],
     [
@@ -869,7 +879,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==11 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['noviembre']!=0) ? ($model['noviembre_eje']/$model['noviembre'])*100 : '0';
+                        return ($model['noviembre']!=0) ? number_format(($model['noviembre_eje']/$model['noviembre'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -888,7 +898,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==11 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['noviembre_acu']!=0) ? ($model['noviembre_acu_eje']/$model['noviembre_acu'])*100 : '0';
+                        return ($model['noviembre_acu']!=0) ? number_format(($model['noviembre_acu_eje']/$model['noviembre_acu'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -947,7 +957,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==12 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['diciembre']!=0) ? ($model['diciembre_eje']/$model['diciembre'])*100 : '0';
+                        return ($model['diciembre']!=0) ? number_format(($model['diciembre_eje']/$model['diciembre'])*100,2,',','.') : '0';
                     }
     ],
 
@@ -966,7 +976,7 @@ $columns = [
         'visible' => $meses['id']=='x999' || $meses['id']==12 ? true : false,
         'value' => function($model)
                     {
-                        return ($model['diciembre_acu']!=0) ? ($model['diciembre_acu_eje']/$model['diciembre_acu'])*100 : '0';
+                        return ($model['diciembre_acu']!=0) ? number_format(($model['diciembre_acu_eje']/$model['diciembre_acu'])*100, 2,',','.') : '0';
                     }
     ],
 

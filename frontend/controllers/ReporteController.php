@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
@@ -17,7 +17,7 @@ use common\models\UnidadEjecutora;
 use common\models\ProyectoAccionEspecifica;
 use backend\models\AccionCentralizadaVariables;
 use backend\models\ProyectoVariables;
-use backend\models\ReportePlanificacion;
+use frontend\models\Reporte;
 use kartik\mpdf\Pdf;
 use yii\data\ArrayDataProvider;
 
@@ -25,7 +25,7 @@ use yii\data\ArrayDataProvider;
 /**
  * ReportesPresupuestoController implements the CRUD actions for Feedback model.
  */
-class ReportesPlanificacionController extends \common\controllers\BaseController
+class ReporteController extends \common\controllers\BaseController
 {
     /**
      * @inheritdoc
@@ -159,18 +159,13 @@ class ReportesPlanificacionController extends \common\controllers\BaseController
     public function actionPdf1()
     {
         
-        $request = Yii::$app->request->get();
-        //print_r($request['model']); exit();  
-        $datos=$request['model'];
-        $reporte=new ReportePlanificacion;
-        $meses['id']=$datos['meses'];
+        
+        $reporte=new Reporte;
         
     // get your HTML raw content without any layouts or scripts
     
     $content = $this->renderPartial('resultado_reportepdf1',[
-        'model' => $reporte->reportepdf1($datos),
-        'meses' => $meses,
-        'post' => Yii::$app->request->post(),
+        'model' => $reporte->reportepdf1(),
         ]);
  
     // setup kartik\mpdf\Pdf component

@@ -5,16 +5,16 @@ use backend\models\ReportePlanificacion;
 <!--<b style='color:red'>bold</b>-->
             
 <!--<a href='http://latcoding.com'>Latcoding.com</a>-->
-<table  width="800px">
+<table  width="100%">
     <tr>
-        <td width="800px;" align="center">
+        <td width="100%;" align="center">
            <b> Ejecución Fisica Mensual</b>
         </td>
     </tr>
 </table>
 <br>
 <!--aqui se recorre el arreglo de las variables-->
-<table border="1" width="800px" style="border-collapse: collapse;">
+<table border="1" width="100%" style="border-collapse: collapse;  margin:auto;">
 
 <?php  
 
@@ -47,97 +47,97 @@ use backend\models\ReportePlanificacion;
             echo 
             "
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
+                    <td align='center'>
                         ".$meses['id']."
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$meses['id']."
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
-                        ".$value[$mes]."
+                    <td align='right'>
+                        ".number_format($value[$mes],0,',','.')."
                     </td>
-                    <td>
-                        ".$value[$mes.'_acu']."
+                    <td align='right'>
+                        ".number_format($value[$mes.'_acu'],0,',','.')."
                     </td>
-                    <td>
-                        ".$value[$mes.'_eje']."
+                    <td align='right'>
+                        ".number_format($value[$mes.'_eje'],0,',','.')."
                     </td>
-                    <td>
-                        ".$value[$mes.'_acu_eje']."
+                    <td align='right'>
+                        ".number_format($value[$mes.'_acu_eje'],0,',','.')."
                     </td>
-                    <td>
-                        ".($value[$mes]-$value[$mes.'_eje'])."
-                    </td>
-                    <td>
+                    <td align='right'>
+                        ".number_format(($value[$mes]-$value[$mes.'_eje']),0,',','.')."
+                    </td >
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value[$mes]!=0 ? ($value[$mes.'_eje']/$value[$mes])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value[$mes]!=0 ? number_format(($value[$mes.'_eje']/$value[$mes])*100,2,',','.') : '-';
                         echo $trimestre."
                     </td>
-                    <td>
-                        ".($value[$mes.'_acu']-$value[$mes.'_acu_eje'])."
+                    <td align='right'>
+                        ".number_format(($value[$mes.'_acu']-$value[$mes.'_acu_eje']),0,',','.')."
                     </td>
-                    <td>
+                    <td align='center'>
                         ";
-                        $trimestre_acu=$value[$mes.'_acu']!=0 ? ($value[$mes.'_acu_eje']/$value[$mes.'_acu'])*100 : '0';
+                        $trimestre_acu=$value[$mes.'_acu']!=0 ? number_format(($value[$mes.'_acu_eje']/$value[$mes.'_acu'])*100,2,',','.') : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
@@ -153,1193 +153,1201 @@ use backend\models\ReportePlanificacion;
     }
     else
     {
-        $i=1;
+        
+
         $meses=ReportePlanificacion::meses();
+        //print_r($meses); exit();
         foreach ($model as $key => $value) 
         {
-            
-            # code...
-            if($proyecto!=$value['nombre'])
+            for($i=0; $i<12; $i++) 
             {
-                $proyecto=$value['nombre'];
+            
+                # code...
+                if($proyecto!=$value['nombre'])
+                {
+                    $proyecto=$value['nombre'];
+                    echo 
+                    "
+                        <tr>
+                            <td colspan='12'>
+                                ".$value['nombre']."
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan='12'>
+                                Mes: Todos
+                            </td>
+                        </tr>
+                    ";
+                    
+                }
                 echo 
                 "
-                    <tr>
-                        <td colspan='12'>
-                            ".$value['nombre']."
+                    <tr bgcolor='#cccccc'>
+                        <td rowspan='2' align='center'>
+                            C&oacute;digo
+                        </td>
+                        <td rowspan='2' align='center'>
+                            Denominaci&oacute;n
+                        </td>
+                        <td rowspan='2' align='center'>
+                            Unidad Medida
+                        </td>
+                        <td colspan='2' align='center'>
+                            Meta Programada
+                        </td>
+                        <td colspan='2' align='center'>
+                            Ejecución
+                        </td>
+                        <td colspan='2' align='center'>
+                            Variación Mensual
+                        </td>
+                        <td colspan='2' align='center'>
+                            Variaci&oacute;n Acumulada
+                        </td>
+                        <td rowspan='2' align='center'>
+                            Unidad Ejecutora
+                        </td>
+                    </tr>
+                    <tr bgcolor='#cccccc'>
+                        <td align='center'>
+                            ".$meses[$i]['nombre']."
+                        </td>
+                        <td align='center'>
+                            Acumulada
+                        </td>
+                        <td align='center'>
+                            ".$meses[$i]['nombre']."
+                        </td>
+                        <td align='center'>
+                            Acumulada
+                        </td>
+                        <td align='center'>
+                            Absoluta
+                        </td>
+                        <td align='center'>
+                            Relativa (%)
+                        </td>
+                        <td align='center'>
+                            Absoluta
+                        </td>
+                        <td align='center'>
+                            Relativa (%)
                         </td>
                     </tr>
                     <tr>
-                        <td colspan='12'>
-                            Mes: Todos
+                        <td align='center'>
+                            ".$value['codigo']."
                         </td>
-                    </tr>
-                ";
-            }
-            echo 
-            "
+                        <td align='center'>
+                            ".$value['nombre_variable']."
+                        </td>
+                        <td align='center'>
+                            ".$value['unidad_medida']."
+                        </td>
+                        <td align='right'>
+                            ".number_format($value[strtolower($meses[$i]['nombre'])],0,',','.')."
+                        </td>
+                        <td align='right'>
+                            ".number_format($value[strtolower($meses[$i]['nombre']).'_acu'],0,',','.')."
+                        </td>
+                        <td align='right'>
+                            ".number_format($value[strtolower($meses[$i]['nombre']).'_eje'],0,',','.')."
+                        </td>
+                        <td align='right'>
+                            ".number_format($value[strtolower($meses[$i]['nombre']).'_acu_eje'],0,',','.')."
+                        </td>
+                        <td align='right'>
+                            ".number_format(($value[strtolower($meses[$i]['nombre'])]-$value[strtolower($meses[$i]['nombre']).'_eje']),0,',','.')."
+                        </td>
+                        <td align='center'>
+                            "; 
+                            //se calcula el trimestral Relativa (%)
+                            $trimestre=$value[strtolower($meses[$i]['nombre'])]!=0 ? number_format(($value[strtolower($meses[$i]['nombre']).'_eje']/$value[strtolower($meses[$i]['nombre'])])*100,2,',','.') : '-';
+                            echo $trimestre."
+                        </td>
+                        <td align='right'>
+                            ".number_format(($value[strtolower($meses[$i]['nombre']).'_acu']-$value[strtolower($meses[$i]['nombre']).'_acu_eje']),0,',','.')."
+                        </td>
+                        <td align='center'>
+                            ";
+                            $trimestre_acu=$value[strtolower($meses[$i]['nombre']).'_acu']!=0 ? number_format(($value[strtolower($meses[$i]['nombre']).'_acu_eje']/$value[strtolower($meses[$i]['nombre']).'_acu'])*100,2,',','.') : '-';
+                            echo $trimestre_acu."
+                        </td>
+                        <td align='center'>
+                            ".$value['unidad_ejecutora']."
+                        </td>
+                    </tr>";
+                }
+                
+                /*
+                
                 <tr bgcolor='#cccccc'>
                     <td rowspan='2'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
-                        Enero
+                    <td align='center'>
+                        Febrero
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
-                        Enero
+                    <td align='center'>
+                        Febrero
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
-                        ".$value['enero']."
+                    <td align='right'>
+                        ".number_format($value['febrero'],0,',','.')."
                     </td>
-                    <td>
-                        ".$value['enero_acu']."
+                    <td align='right'>
+                        ".number_format($value['febrero_acu'],0,',','.')."
                     </td>
-                    <td>
-                        ".$value['enero_eje']."
+                    <td align='right'>
+                        ".number_format($value['febrero_eje'],0,',','.')."
                     </td>
-                    <td>
-                        ".$value['enero_acu_eje']."
+                    <td align='right'>
+                        ".number_format($value['febrero_acu_eje'],0,',','.')."
                     </td>
-                    <td>
-                        ".($value['enero']-$value['enero_eje'])."
+                    <td align='right'>
+                        ".number_format(($value['febrero']-$value['febrero_eje']),0,',','.')."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['enero']!=0 ? ($value['enero_eje']/$value['enero'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['febrero']!=0 ? number_format(($value['febrero_eje']/$value['febrero'])*100,2,',','.') : '-';
                         echo $trimestre."
                     </td>
-                    <td>
-                        ".($value['enero_acu']-$value['enero_acu_eje'])."
+                    <td align='right'>
+                        ".number_format(($value['febrero_acu']-$value['febrero_acu_eje']),0,',','.')."
                     </td>
-                    <td>
+                    <td align='center'>
                         ";
-                        $trimestre_acu=$value['enero_acu']!=0 ? ($value['enero_acu_eje']/$value['enero_acu'])*100 : '0';
+                        $trimestre_acu=$value['febrero_acu']!=0 ? number_format(($value['febrero_acu_eje']/$value['febrero_acu'])*100,2,',','.') : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
-                        ".$value['unidad_ejecutora']."
-                    </td>
-                </tr>
-
-                <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
-                        C&oacute;digo
-                    </td>
-                    <td rowspan='2'>
-                        Denominaci&oacute;n
-                    </td>
-                    <td rowspan='2'>
-                        Unidad Medida
-                    </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
-                    </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
-                    </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
-                    </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Acumulada
-                    </td>
-                    <td rowspan='2'>
-                        Unidad Ejecutora
-                    </td>
-                </tr>
-                <tr bgcolor='#cccccc'>
-                    <td>
-                        Febrero
-                    </td>
-                    <td>
-                        Acumulada
-                    </td>
-                    <td>
-                        Febrero
-                    </td>
-                    <td>
-                        Acumulada
-                    </td>
-                    <td>
-                        Absoluta
-                    </td>
-                    <td>
-                        Relativa
-                    </td>
-                    <td>
-                        Absoluta
-                    </td>
-                    <td>
-                        Relativa
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        ".$value['codigo']."
-                    </td>
-                    <td>
-                        ".$value['nombre_variable']."
-                    </td>
-                    <td>
-                        ".$value['unidad_medida']."
-                    </td>
-                    <td>
-                        ".$value['febrero']."
-                    </td>
-                    <td>
-                        ".$value['febrero_acu']."
-                    </td>
-                    <td>
-                        ".$value['febrero_eje']."
-                    </td>
-                    <td>
-                        ".$value['febrero_acu_eje']."
-                    </td>
-                    <td>
-                        ".($value['febrero']-$value['febrero_eje'])."
-                    </td>
-                    <td>
-                        "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['febrero']!=0 ? ($value['febrero_eje']/$value['febrero'])*100 : '0';
-                        echo $trimestre."
-                    </td>
-                    <td>
-                        ".($value['febrero_acu']-$value['febrero_acu_eje'])."
-                    </td>
-                    <td>
-                        ";
-                        $trimestre_acu=$value['febrero_acu']!=0 ? ($value['febrero_acu_eje']/$value['febrero_acu'])*100 : '0';
-                        echo $trimestre_acu."
-                    </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
 
 
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
+                    <td align='center'>
                         Marzo
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Marzo
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['marzo']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['marzo_acu']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['marzo_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['marzo_acu_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['marzo']-$value['marzo_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['marzo']!=0 ? ($value['marzo_eje']/$value['marzo'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['marzo']!=0 ? ($value['marzo_eje']/$value['marzo'])*100 : '-';
                         echo $trimestre."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['marzo_acu']-$value['marzo_acu_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         ";
-                        $trimestre_acu=$value['marzo_acu']!=0 ? ($value['marzo_acu_eje']/$value['marzo_acu'])*100 : '0';
+                        $trimestre_acu=$value['marzo_acu']!=0 ? ($value['marzo_acu_eje']/$value['marzo_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
 
 
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
+                    <td align='center'>
                         Abril
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Abril
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['abril']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['abril_acu']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['abril_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['abril_acu_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['abril']-$value['abril_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['abril']!=0 ? ($value['abril_eje']/$value['abril'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['abril']!=0 ? ($value['abril_eje']/$value['abril'])*100 : '-';
                         echo $trimestre."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['abril_acu']-$value['abril_acu_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         ";
-                        $trimestre_acu=$value['abril_acu']!=0 ? ($value['abril_acu_eje']/$value['abril_acu'])*100 : '0';
+                        $trimestre_acu=$value['abril_acu']!=0 ? ($value['abril_acu_eje']/$value['abril_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
 
 
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
+                    <td align='center'>
                         mayo
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         mayo
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['mayo']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['mayo_acu']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['mayo_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['mayo_acu_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['mayo']-$value['mayo_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['mayo']!=0 ? ($value['mayo_eje']/$value['mayo'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['mayo']!=0 ? ($value['mayo_eje']/$value['mayo'])*100 : '-';
                         echo $trimestre."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['mayo_acu']-$value['mayo_acu_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         ";
-                        $trimestre_acu=$value['mayo_acu']!=0 ? ($value['mayo_acu_eje']/$value['mayo_acu'])*100 : '0';
+                        $trimestre_acu=$value['mayo_acu']!=0 ? ($value['mayo_acu_eje']/$value['mayo_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
 
 
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
+                    <td align='center'>
                         Junio
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Junio
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['junio']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['junio_acu']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['junio_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['junio_acu_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['junio']-$value['junio_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['junio']!=0 ? ($value['junio_eje']/$value['junio'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['junio']!=0 ? ($value['junio_eje']/$value['junio'])*100 : '-';
                         echo $trimestre."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['junio_acu']-$value['junio_acu_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         ";
-                        $trimestre_acu=$value['junio_acu']!=0 ? ($value['junio_acu_eje']/$value['junio_acu'])*100 : '0';
+                        $trimestre_acu=$value['junio_acu']!=0 ? ($value['junio_acu_eje']/$value['junio_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
 
 
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
+                    <td align='center'>
                         Julio
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Julio
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
+                        Absoluta
+                    </td>
+                    <td align='center'>
+                        Relativa (%)
+                    </td>
+                    <td align='center'>
                         Absoluta
                     </td>
                     <td>
-                        Relativa
-                    </td>
-                    <td>
-                        Absoluta
-                    </td>
-                    <td>
-                        Relativa
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['julio']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['julio_acu']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['julio_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['julio_acu_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['julio']-$value['julio_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['julio']!=0 ? ($value['julio_eje']/$value['julio'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['julio']!=0 ? ($value['julio_eje']/$value['julio'])*100 : '-';
                         echo $trimestre."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['julio_acu']-$value['julio_acu_eje'])."
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['julio_acu']!=0 ? ($value['julio_acu_eje']/$value['julio_acu'])*100 : '0';
+                        $trimestre_acu=$value['julio_acu']!=0 ? ($value['julio_acu_eje']/$value['julio_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
 
 
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
+                    <td align='center'>
                         Agosto
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Agosto
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['agosto']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['agosto_acu']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['agosto_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['agosto_acu_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['agosto']-$value['agosto_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['agosto']!=0 ? ($value['agosto_eje']/$value['agosto'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['agosto']!=0 ? ($value['agosto_eje']/$value['agosto'])*100 : '-';
                         echo $trimestre."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['agosto_acu']-$value['agosto_acu_eje'])."
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['agosto_acu']!=0 ? ($value['agosto_acu_eje']/$value['agosto_acu'])*100 : '0';
+                        $trimestre_acu=$value['agosto_acu']!=0 ? ($value['agosto_acu_eje']/$value['agosto_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
 
 
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
-                        septiembre
+                    <td align='center'>
+                        Septiembre
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
-                        septiembre
+                    <td align='center'>
+                        Septiembre
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['septiembre']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['septiembre_acu']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['septiembre_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['septiembre_acu_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['septiembre']-$value['septiembre_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['septiembre']!=0 ? ($value['septiembre_eje']/$value['septiembre'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['septiembre']!=0 ? ($value['septiembre_eje']/$value['septiembre'])*100 : '-';
                         echo $trimestre."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['septiembre_acu']-$value['septiembre_acu_eje'])."
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['septiembre_acu']!=0 ? ($value['septiembre_acu_eje']/$value['septiembre_acu'])*100 : '0';
+                        $trimestre_acu=$value['septiembre_acu']!=0 ? ($value['septiembre_acu_eje']/$value['septiembre_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
 
 
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
+                    <td align='center'>
                         Octubre
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Octubre
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
-                        ".$value['octubre']."
+                    <td align='right'>
+                        ".number_format($value['octubre'],0,',','.')."
                     </td>
-                    <td>
-                        ".$value['octubre_acu']."
+                    <td align='right'>
+                        ".number_format($value['octubre_acu'],0,',','.')."
                     </td>
-                    <td>
-                        ".$value['octubre_eje']."
+                    <td align='right'>
+                        ".number_format($value['octubre_eje'],0,',','.')."
                     </td>
-                    <td>
-                        ".$value['octubre_acu_eje']."
+                    <td align='right'>
+                        ".number_format($value['octubre_acu_eje'],0,',','.')."
                     </td>
-                    <td>
-                        ".($value['octubre']-$value['octubre_eje'])."
+                    <td align='right'>
+                        ".number_format(($value['octubre']-$value['octubre_eje']),0,',','.')."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['octubre']!=0 ? ($value['octubre_eje']/$value['octubre'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['octubre']!=0 ? number_format(($value['octubre_eje']/$value['octubre'])*100,2,',','.') : '-';
                         echo $trimestre."
                     </td>
-                    <td>
-                        ".($value['octubre_acu']-$value['octubre_acu_eje'])."
+                    <td align='right'>
+                        ".number_format(($value['octubre_acu']-$value['octubre_acu_eje']),2,',','.')."
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['octubre_acu']!=0 ? ($value['octubre_acu_eje']/$value['octubre_acu'])*100 : '0';
+                        $trimestre_acu=$value['octubre_acu']!=0 ? number_format(($value['octubre_acu_eje']/$value['octubre_acu'])*100,2,',','.') : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
 
 
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
+                    <td align='center'>
                         Noviembre
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Noviembre
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['noviembre']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['noviembre_acu']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['noviembre_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['noviembre_acu_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['noviembre']-$value['noviembre_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['noviembre']!=0 ? ($value['noviembre_eje']/$value['noviembre'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['noviembre']!=0 ? ($value['noviembre_eje']/$value['noviembre'])*100 : '-';
                         echo $trimestre."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['noviembre_acu']-$value['noviembre_acu_eje'])."
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['noviembre_acu']!=0 ? ($value['noviembre_acu_eje']/$value['noviembre_acu'])*100 : '0';
+                        $trimestre_acu=$value['noviembre_acu']!=0 ? ($value['noviembre_acu_eje']/$value['noviembre_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
 
 
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Medida
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Programadas
+                    <td colspan='2' align='center'>
+                        Meta Programada
                     </td>
-                    <td colspan='2'>
-                        Metas del Proyecto Ejecutodas
+                    <td colspan='2' align='center'>
+                        Ejecución
                     </td>
-                    <td colspan='2'>
-                        Variaci&oacute;n Trimestre
+                    <td colspan='2' align='center'>
+                        Variación Mensual
                     </td>
-                    <td colspan='2'>
+                    <td colspan='2' align='center'>
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2'>
+                    <td rowspan='2' align='center'>
                         Unidad Ejecutora
                     </td>
                 </tr>
                 <tr bgcolor='#cccccc'>
-                    <td>
+                    <td align='center'>
                         Diciembre
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Diciembre
                     </td>
-                    <td>
+                    <td align='center'>
                         Acumulada
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
-                    <td>
+                    <td align='center'>
                         Absoluta
                     </td>
-                    <td>
-                        Relativa
+                    <td align='center'>
+                        Relativa (%)
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align='center'>
                         ".$value['codigo']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['nombre_variable']."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_medida']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['diciembre']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['diciembre_acu']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['diciembre_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".$value['diciembre_acu_eje']."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['diciembre']-$value['diciembre_eje'])."
                     </td>
-                    <td>
+                    <td align='center'>
                         "; 
-                        //se calcula el trimestral relativa
-                        $trimestre=$value['diciembre']!=0 ? ($value['diciembre_eje']/$value['diciembre'])*100 : '0';
+                        //se calcula el trimestral Relativa (%)
+                        $trimestre=$value['diciembre']!=0 ? ($value['diciembre_eje']/$value['diciembre'])*100 : '-';
                         echo $trimestre."
                     </td>
-                    <td>
+                    <td align='right'>
                         ".($value['diciembre_acu']-$value['diciembre_acu_eje'])."
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['diciembre_acu']!=0 ? ($value['diciembre_acu_eje']/$value['diciembre_acu'])*100 : '0';
+                        $trimestre_acu=$value['diciembre_acu']!=0 ? ($value['diciembre_acu_eje']/$value['diciembre_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
-                    <td>
+                    <td align='center'>
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
-
+*/ echo "
 
                 <tr>
                     <td colspan='12'>

@@ -126,7 +126,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value[$mes]!=0 ? ($value[$mes.'_eje']/$value[$mes])*100 : '0';
+                        $trimestre=$value[$mes]!=0 ? ($value[$mes.'_eje']/$value[$mes])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -134,7 +134,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value[$mes.'_acu']!=0 ? ($value[$mes.'_acu_eje']/$value[$mes.'_acu'])*100 : '0';
+                        $trimestre_acu=$value[$mes.'_acu']!=0 ? ($value[$mes.'_acu_eje']/$value[$mes.'_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -258,7 +258,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['enero']!=0 ? ($value['enero_eje']/$value['enero'])*100 : '0';
+                        $trimestre=$value['enero']!=0 ? ($value['enero_eje']/$value['enero'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -266,7 +266,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['enero_acu']!=0 ? ($value['enero_acu_eje']/$value['enero_acu'])*100 : '0';
+                        $trimestre_acu=$value['enero_acu']!=0 ? ($value['enero_acu_eje']/$value['enero_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -354,7 +354,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['febrero']!=0 ? ($value['febrero_eje']/$value['febrero'])*100 : '0';
+                        $trimestre=$value['febrero']!=0 ? ($value['febrero_eje']/$value['febrero'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -362,7 +362,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['febrero_acu']!=0 ? ($value['febrero_acu_eje']/$value['febrero_acu'])*100 : '0';
+                        $trimestre_acu=$value['febrero_acu']!=0 ? ($value['febrero_acu_eje']/$value['febrero_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -451,7 +451,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['marzo']!=0 ? ($value['marzo_eje']/$value['marzo'])*100 : '0';
+                        $trimestre=$value['marzo']!=0 ? ($value['marzo_eje']/$value['marzo'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -459,7 +459,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['marzo_acu']!=0 ? ($value['marzo_acu_eje']/$value['marzo_acu'])*100 : '0';
+                        $trimestre_acu=$value['marzo_acu']!=0 ? ($value['marzo_acu_eje']/$value['marzo_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -548,7 +548,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['abril']!=0 ? ($value['abril_eje']/$value['abril'])*100 : '0';
+                        $trimestre=$value['abril']!=0 ? ($value['abril_eje']/$value['abril'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -556,7 +556,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['abril_acu']!=0 ? ($value['abril_acu_eje']/$value['abril_acu'])*100 : '0';
+                        $trimestre_acu=$value['abril_acu']!=0 ? ($value['abril_acu_eje']/$value['abril_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -645,7 +645,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['mayo']!=0 ? ($value['mayo_eje']/$value['mayo'])*100 : '0';
+                        $trimestre=$value['mayo']!=0 ? ($value['mayo_eje']/$value['mayo'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -653,7 +653,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['mayo_acu']!=0 ? ($value['mayo_acu_eje']/$value['mayo_acu'])*100 : '0';
+                        $trimestre_acu=$value['mayo_acu']!=0 ? ($value['mayo_acu_eje']/$value['mayo_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -742,7 +742,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['junio']!=0 ? ($value['junio_eje']/$value['junio'])*100 : '0';
+                        $trimestre=$value['junio']!=0 ? ($value['junio_eje']/$value['junio'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -750,7 +750,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['junio_acu']!=0 ? ($value['junio_acu_eje']/$value['junio_acu'])*100 : '0';
+                        $trimestre_acu=$value['junio_acu']!=0 ? ($value['junio_acu_eje']/$value['junio_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -839,7 +839,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['julio']!=0 ? ($value['julio_eje']/$value['julio'])*100 : '0';
+                        $trimestre=$value['julio']!=0 ? ($value['julio_eje']/$value['julio'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -847,7 +847,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['julio_acu']!=0 ? ($value['julio_acu_eje']/$value['julio_acu'])*100 : '0';
+                        $trimestre_acu=$value['julio_acu']!=0 ? ($value['julio_acu_eje']/$value['julio_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -936,7 +936,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['agosto']!=0 ? ($value['agosto_eje']/$value['agosto'])*100 : '0';
+                        $trimestre=$value['agosto']!=0 ? ($value['agosto_eje']/$value['agosto'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -944,7 +944,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['agosto_acu']!=0 ? ($value['agosto_acu_eje']/$value['agosto_acu'])*100 : '0';
+                        $trimestre_acu=$value['agosto_acu']!=0 ? ($value['agosto_acu_eje']/$value['agosto_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -1033,7 +1033,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['septiembre']!=0 ? ($value['septiembre_eje']/$value['septiembre'])*100 : '0';
+                        $trimestre=$value['septiembre']!=0 ? ($value['septiembre_eje']/$value['septiembre'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -1041,7 +1041,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['septiembre_acu']!=0 ? ($value['septiembre_acu_eje']/$value['septiembre_acu'])*100 : '0';
+                        $trimestre_acu=$value['septiembre_acu']!=0 ? ($value['septiembre_acu_eje']/$value['septiembre_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -1130,7 +1130,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['octubre']!=0 ? ($value['octubre_eje']/$value['octubre'])*100 : '0';
+                        $trimestre=$value['octubre']!=0 ? ($value['octubre_eje']/$value['octubre'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -1138,7 +1138,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['octubre_acu']!=0 ? ($value['octubre_acu_eje']/$value['octubre_acu'])*100 : '0';
+                        $trimestre_acu=$value['octubre_acu']!=0 ? ($value['octubre_acu_eje']/$value['octubre_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -1227,7 +1227,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['noviembre']!=0 ? ($value['noviembre_eje']/$value['noviembre'])*100 : '0';
+                        $trimestre=$value['noviembre']!=0 ? ($value['noviembre_eje']/$value['noviembre'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -1235,7 +1235,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['noviembre_acu']!=0 ? ($value['noviembre_acu_eje']/$value['noviembre_acu'])*100 : '0';
+                        $trimestre_acu=$value['noviembre_acu']!=0 ? ($value['noviembre_acu_eje']/$value['noviembre_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
@@ -1324,7 +1324,7 @@ use backend\models\ReportePlanificacion;
                     <td>
                         "; 
                         //se calcula el trimestral relativa
-                        $trimestre=$value['diciembre']!=0 ? ($value['diciembre_eje']/$value['diciembre'])*100 : '0';
+                        $trimestre=$value['diciembre']!=0 ? ($value['diciembre_eje']/$value['diciembre'])*100 : '-';
                         echo $trimestre."
                     </td>
                     <td>
@@ -1332,7 +1332,7 @@ use backend\models\ReportePlanificacion;
                     </td>
                     <td>
                         ";
-                        $trimestre_acu=$value['diciembre_acu']!=0 ? ($value['diciembre_acu_eje']/$value['diciembre_acu'])*100 : '0';
+                        $trimestre_acu=$value['diciembre_acu']!=0 ? ($value['diciembre_acu_eje']/$value['diciembre_acu'])*100 : '-';
                         echo $trimestre_acu."
                     </td>
                     <td>
