@@ -155,7 +155,8 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
         }
         
         
-        if($request->isAjax){
+        if($request->isAjax)
+        {
             /*
             *   Process for ajax request
             */
@@ -167,13 +168,11 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
             if($accion->accion_centralizada_ac_especifica_uej->aprobado==1)
             {
                 return [
-                        
                         'title'=> "Requerimientos",
                         'content'=>'<span class="text-danger">Esta Unidad Ejecutora Ya no Puede Realizar Pedidos </span>',
                         'footer'=> Html::button('Cerrar',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]),
                         ];
             }
-
         
             if($request->isGet)
             {
@@ -187,7 +186,8 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
                                 Html::button('Guardar',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post()) && $model->save())
+            {
                 $model->trigger(AccionCentralizadaPedido::EVENT_NUEVO_PEDIDO); //Notificacion
                 return [
                     'forceReload'=>'true',
@@ -197,7 +197,8 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
                                 Html::a('Otro Requerimiento',['create', 'asignar' => $asignar],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
-            }else{           
+            }else
+            {
                 return [
                     'title'=> "Pedido",
                     'content'=>$this->renderAjax('create', [
@@ -209,22 +210,24 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
         
                 ];         
             }
-        }else{
-
+        }else
+        {
             //verificando que la unidad ejecutora no este aprobada
             $usuario = UserAccounts::findOne(\Yii::$app->user->id);
             $accion=AccionCentralizadaAsignar::find()->where(['usuario'=> $usuario->id])->One();
-            if($accion->accion_centralizada_ac_especifica_uej->aprobado==1){
-            return $this->redirect(['index']);
+            if($accion->accion_centralizada_ac_especifica_uej->aprobado==1)
+            {
+                return $this->redirect(['index']);
             }
-
-
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
+            if ($model->load($request->post()) && $model->save()) 
+            {
                 return $this->redirect(['view', 'id' => $model->id]);
-            } else {
+            } else 
+            {
+                
                 return $this->render('create', [
                     'model' => $model,
                     'materiales' => $materiales1
@@ -492,6 +495,10 @@ class AccionCentralizadaPedidoController extends \common\controllers\BaseControl
 
 
 
+    /** 
+    *borra por lote los pedidos realizados por el usuario.
+    * @return mixed
+    */
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;

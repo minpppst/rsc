@@ -71,10 +71,24 @@ class ProyectoPedido extends \yii\db\ActiveRecord
             [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'precio', 'iva', 'asignado', 'estatus'], 'required'],
             [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'asignado', 'estatus'], 'integer'],
             [['precio'], 'number'],
+            [['id_material'], 'uniques'],
+            [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'asignado', 'estatus'], 'integer', 'min' => 0],
             [['fecha_creacion'], 'safe']
         ];
     }
 
+    /** 
+    * Buscar que los materiales que se cargen sean unicos por unidad ejecutora
+    * @param int $attribute
+    **/
+    public function uniques($attribute)
+    {
+        $existe=ProyectoUsuarioAsignar::find()->Innerjoin('proyecto_pedido','asignado=proyecto_usuario_asignar.id')->where(['accion_especifica_id' =>$this->asignado0->accion_especifica_id])->andWhere(['proyecto_pedido.id_material' => $this->id_material])->all();
+        if($existe)
+        {
+            $this->addError($attribute, 'Error, Material Ya Existe');
+        }
+    }
     /**
      * @inheritdoc
      */

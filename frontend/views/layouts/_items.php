@@ -37,7 +37,7 @@
             [
                 ['label' => $icons['proyecto'].' Proyecto', 'visible' => Yii::$app->user->identity->hasProyectoVariables(), 'url' => ['/proyecto-variable-ejecucion/variables']],
                 ['label' => $icons['acc'].' Acción Centralizada',  'visible' => Yii::$app->user->identity->hasVariables(), 'url' => ['/accion-centralizada-variable-ejecucion/variables']],
-                ['label' => $icons['reporte'].' Reporte',  'visible' => Yii::$app->user->identity->hasVariables(), 'url' => ['/reporte/pdf1']],
+                ['label' => $icons['reporte'].' Reporte',  'visible' => Yii::$app->user->identity->hasVariables(), 'url' => ['/reporte/filtro']],
             ]
         ];
      }

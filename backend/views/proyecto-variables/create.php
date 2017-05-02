@@ -8,6 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Crear Variable Proyecto';
 $this->params['breadcrumbs'][] = ['label' => 'Proyecto Variables', 'url' => ['proyecto-variables/index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="proyecto-variables-create">
     <?= $this->render('_form', [

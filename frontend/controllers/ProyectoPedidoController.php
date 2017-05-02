@@ -442,4 +442,30 @@ class ProyectoPedidoController extends \common\controllers\BaseController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /** 
+    *borra por lote los pedidos realizados por el usuario.
+    * @return mixed
+    */
+    public function actionBulkDelete()
+    {
+        $request = Yii::$app->request;
+        $pks = explode(',',$request->post('pks')); // arreglo o llave primaria
+        
+        foreach ($pks as $key) 
+        {
+            $model=$this->findModel($key);
+            $model->delete();
+        }        
+
+        if($request->isAjax){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>'true']; 
+        }
+        else
+        {
+            return $this->redirect(['/proyecto-pedido/index']);
+        }
+       
+    }
 }

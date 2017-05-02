@@ -68,13 +68,39 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
             [['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],  'default', 'value' => '0'],
             [['id_material', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'asignado', 'estatus'], 'integer', 'min' => 0],
             //[['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],   'min' => 0],
+            [['id_material'], 'uniques'],
             [['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'], 'numero_ingresado'],
             [['precio'], 'number'],
             [['fecha_creacion'], 'safe']
         ];
     }
 
-     public function numero_ingresado($attribute){
+    /** 
+    * Buscar que los materiales que se cargen sean unicos por unidad ejecutora
+    * @param int $attribute
+    **/
+    public function uniques($attribute)
+    {
+        $existe=AccionCentralizadaAsignar::find()
+        ->Innerjoin('accion_centralizada_pedido','asignado=accion_centralizada_asignar.id')
+        ->Innerjoin('accion_centralizada_ac_especifica_uej','accion_centralizada_asignar.accion_especifica_ue=accion_centralizada_ac_especifica_uej.id')
+        ->where(['accion_centralizada_pedido.id_material' =>$this->id_material])
+        ->andWhere(['accion_centralizada_ac_especifica_uej.id_ue' => $this->asignado0->accion_centralizada_ac_especifica_uej->id_ue])
+        ->andWhere(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $this->asignado0->accion_centralizada_ac_especifica_uej->id_ac_esp])
+        ->all();
+
+        if($existe!=null)
+        {
+            $this->addError($attribute, 'Error, Material Ya Existe');
+        }
+    }
+
+    /** 
+    * @param int $attribute
+    * @return mixed
+    **/
+    public function numero_ingresado($attribute)
+    {
 
         if($this->enero<=0 && $this->febrero<=0 && $this->marzo<=0 && $this->abril<=0 && $this->mayo<=0 && $this->junio<=0 && $this->julio<=0 && $this->agosto<=0 && $this->septiembre<=0 && $this->octubre<=0 && $this->noviembre<=0 && $this->diciembre<=0 )
              $this->addError($attribute, 'Error, Necesita Cargar Al Menos Una Cantidad Positiva En Uno De Los Meses');
@@ -341,7 +367,7 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
     {
         $sql="
             select 
-                format(sum(((((c.enero+c.febrero+c.marzo+c.abril+c.mayo+c.junio+c.julio+c.agosto+c.septiembre+c.octubre+c.noviembre+c.diciembre) * c.precio) * c.iva)/100)
+                format(sum(round((((c.enero+c.febrero+c.marzo+c.abril+c.mayo+c.junio+c.julio+c.agosto+c.septiembre+c.octubre+c.noviembre+c.diciembre) * c.precio) * c.iva)/100)
                 +
                 ((c.enero+c.febrero+c.marzo+c.abril+c.mayo+c.junio+c.julio+c.agosto+c.septiembre+c.octubre+c.noviembre+c.diciembre) * c.precio))
                 , 2, 'de_DE')
@@ -353,7 +379,7 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
                 inner join accion_centralizada_pedido c on d.id=c.asignado
                 where a.id=".$accion." and b.id_ue=".$ue;
 
-         //print_r($sql); exit();
+        //print_r($sql); exit();
         $query = Yii::$app->db->createCommand($sql)->queryAll();
         if(isset($query[0]['total']))
         {

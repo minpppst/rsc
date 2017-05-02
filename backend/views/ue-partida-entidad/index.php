@@ -26,8 +26,8 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    Html::a('<i class="glyphicon glyphicon-repeat">Recargar</i>', [''],
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Recargar Grid']).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -37,8 +37,8 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list-alt"></i> Ue Partida Entidads listing',
-                'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
+                'heading' => '<i class="glyphicon glyphicon-list-alt"></i> Lista de Partida Entidades',
+                /*'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
                                 ["bulk-delete"] ,
@@ -51,7 +51,7 @@ CrudAsset::register($this);
                                     'data-confirm-message'=>'Are you sure want to delete this item'
                                 ]),
                         ]).                        
-                        '<div class="clearfix"></div>',
+                        '<div class="clearfix"></div>',*/
             ]
         ])?>
     </div>

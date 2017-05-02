@@ -38,12 +38,12 @@ use frontend\models\Reporte;
                     echo 
                     "
                         <tr>
-                            <td colspan='12'>
+                            <td colspan='14'>
                                 ".$value['nombre']."
                             </td>
                         </tr>
                         <tr>
-                            <td colspan='12'>
+                            <td colspan='14'>
                                 Mes: Todos
                             </td>
                         </tr>
@@ -61,6 +61,9 @@ use frontend\models\Reporte;
                         </td>
                         <td rowspan='2' align='center'>
                             Unidad Medida
+                        </td>
+                        <td rowspan='2' align='center'>
+                            Estado
                         </td>
                         <td colspan='2' align='center'>
                             Meta Programada
@@ -113,7 +116,10 @@ use frontend\models\Reporte;
                         </td>
                         <td align='center'>
                             ".$value['unidad_medida']."
-                        </td> 
+                        </td>
+                        <td align='center'>
+                            ".$value['estado']."
+                        </td>
                         <td align='right'>
                             ".number_format($value[strtolower($meses[$i]['nombre'])],0,',','.')."
                         </td>

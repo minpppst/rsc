@@ -13,13 +13,15 @@ $columnas = [
         'width' => '30px',
     ],
 
-    'id',
     'nombreMaterial',
     'trimestre1',
     'trimestre2',
     'trimestre3',
     'trimestre4',
-    'fecha_creacion',
+    [
+        'attribute' => 'totalTrimestre',
+        'label' => 'Total Unidades'
+    ],
 ];
 //Si es admin
 if(\Yii::$app->authManager->getAssignment('sysadmin',\Yii::$app->user->id) != null)

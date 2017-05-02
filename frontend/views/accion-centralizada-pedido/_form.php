@@ -20,9 +20,9 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class="form-group">
+    <div class="form-group field-accioncentralizadapedido-id_material">
 
-        <label>Material</label>
+        <label class="control-label" for="accioncentralizadapedido-id_material">Material</label>
 
         <?= Select2::widget([
             'model' => $model,
@@ -43,6 +43,7 @@ use yii\helpers\Url;
                 ]
             ]
         ])?>
+        <p class="help-block help-block-error"></p>
 
     </div>
 

@@ -179,6 +179,7 @@ class ReportesPlanificacionController extends \common\controllers\BaseController
         'mode' => Pdf::MODE_CORE, 
         // A4 paper format
         'format' => Pdf::FORMAT_A4, 
+        
         // portrait orientation
         'orientation' => Pdf::ORIENT_LANDSCAPE,//ORIENT_PORTRAIT, 
         // stream to browser inline

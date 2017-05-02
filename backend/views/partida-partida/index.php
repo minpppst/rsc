@@ -44,10 +44,9 @@ CrudAsset::register($this);
             'panel' => [
                 'type' => 'primary', 
                 'heading' => '<i class="glyphicon glyphicon-list-alt"></i> Partidas',
-                'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
-                'after'=>BulkButtonWidget::widget([
+                /*'after'=>BulkButtonWidget::widget([
                             'buttons'=>
-                                Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Eliminar',
+                                Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Borrar',
                                 ["bulk-delete"] ,
                                 [
                                     "class"=>"btn btn-danger btn-xs",
@@ -56,7 +55,7 @@ CrudAsset::register($this);
                                     'data-request-method'=>'post',
                                     'data-confirm-title'=>'¿Está seguro?',
                                     'data-confirm-message'=>'¿Está seguro que desea eliminar los elementos seleccionados?'
-                                ]).' '.
+                                ]),.' '.
                                 Html::a('<i class="glyphicon glyphicon-ban-circle"></i>&nbsp; Desactivar',
                                     ["bulk-desactivar"] ,
                                     [
@@ -78,7 +77,7 @@ CrudAsset::register($this);
                                                     'data-confirm-message'=>'¿Está seguro que desea activar los elementos seleccionados?'
                                                 ]),
                         ]).                        
-                        '<div class="clearfix"></div>',
+                        '<div class="clearfix"></div>',*/
             ]
         ])?>
     </div>

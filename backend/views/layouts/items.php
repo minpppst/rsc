@@ -35,7 +35,7 @@
 	if($usuario->can('sysadmin') || $usuario->can('Planificacion') || $usuario->can('Presupuesto'))
 	{
 		//Header
-		$items[] =	['label' => 'Asginar Usuarios', 'options' => ['class' => 'header']];
+		$items[] =	['label' => 'Asignar Usuarios', 'options' => ['class' => 'header']];
 		//Items
 		$items[] =	['label' => 'Asignar a proyecto', 'icon' => 'fa fa-folder-o', 'url' => ['/proyecto-usuario-asignar/index']];
 		$items[] =	['label' => 'Asignar a acción centralizada', 'icon' => 'fa fa-folder-open-o', 'url' => ['/accion-centralizada-asignar/index']];

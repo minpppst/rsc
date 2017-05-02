@@ -18,7 +18,10 @@ $columnas = [
     'trimestre2',
     'trimestre3',
     'trimestre4',
-    'fecha_creacion',
+    [
+        'attribute' => 'totalTrimestre',
+        'label' => 'Total Unidades'
+    ]
 ];
 
 $columnas[] =

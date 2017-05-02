@@ -15,6 +15,7 @@ use common\models\Proyecto;
 use common\models\MaterialesServicios;
 use common\models\UnidadEjecutora;
 use common\models\ProyectoAccionEspecifica;
+use common\models\Estados;
 use backend\models\AccionCentralizadaVariables;
 use backend\models\ProyectoVariables;
 use frontend\models\Reporte;
@@ -35,50 +36,27 @@ class ReporteController extends \common\controllers\BaseController
         return parent::behaviors();
     }
 
-    public function actionReporte1()
+    /**
+    *Filtro para el reporte
+    *
+    */
+    public function actionFiltro()
    	{
-   		$accioncentralizada= AccionCentralizada::find()->all();
-        array_unshift($accioncentralizada, ['id' => 'x999', 'nombre_accion' => 'Todos']);
-        array_push($accioncentralizada, ['id' => '-1', 'nombre_accion' => 'Ninguno']);
-   		$proyectos= Proyecto::find()->all();
-        array_unshift($proyectos, ['id' => 'x999', 'nombre' => 'Todos']);
-        array_push($proyectos, ['id' => '-1', 'nombre' => 'Ninguno']);
-   		$variablescentral = AccionCentralizadaVariables::find()->all();
-        array_unshift($variablescentral, ['id' => 'x999', 'nombre_variable' => 'Todos']);
-        array_push($variablescentral, ['id' => '-1', 'nombre_variable' => 'Ninguno']);
-        $variablesproyecto = ProyectoVariables::find()->all();
-        array_unshift($variablesproyecto, ['id' => 'x999', 'nombre_variable' => 'Todos']);
-        array_push($variablesproyecto, ['id' => '-1', 'nombre_variable' => 'Ninguno']);
-   		$unidadesejecutoras = UnidadEjecutora::find()->all();
-        array_unshift($unidadesejecutoras, ['id' => 'x999', 'nombre' => 'Todos']);
-        array_push($unidadesejecutoras, ['id' => '-1', 'nombre' => 'Ninguno']);
-        $meses=ReportePlanificacion::meses();
-        array_unshift($meses, ['id' => 'x999', 'nombre' => 'Todos']);
+   		//datos del filtro
+        $accioncentralizada= Reporte::EjecuccionAC();
+   		$proyectos= Reporte::EjecuccionP();
+   		$variablescentral = Reporte::EjecuccionVAC();
+        $variablesproyecto = Reporte::EjecuccionVP();
+        $estados =Reporte::Estados();
         
-        if(Yii::$app->request->post() || Yii::$app->request->get('page'))
-        {
-            $reporte=new ReportePlanificacion;
-            $meses['id']=Yii::$app->request->post('meses');
-            return $this->render('resultado_reporte1',[
-            'model' => $reporte->reporte1(Yii::$app->request->post()),
-            'meses' => $meses,
-            'post' => Yii::$app->request->post(),
-            ]);
-        }
-        else
-        {
-
-       		return $this->render('reporte1',
-       			[
-       				'proyectos' => $proyectos, 
-       				'accion_centralizada' => $accioncentralizada,
-       				'unidadesejecutoras' => $unidadesejecutoras,
-       				'variablesproyecto' => $variablesproyecto,
-                    'variablescentral' => $variablescentral,
-                    'meses' => $meses,
-
-       			]);
-        }
+   		return $this->render('filtro',
+   			[
+   				'proyectos' => $proyectos,
+   				'accion_centralizada' => $accioncentralizada,
+   				'variablesproyecto' => $variablesproyecto,
+                'variablescentral' => $variablescentral,
+                'estados' => $estados,
+   			]);
    	}
 
    	/**
@@ -156,75 +134,49 @@ class ReporteController extends \common\controllers\BaseController
         
     }
 
+    /**
+    * Generar PDF
+    */
     public function actionPdf1()
     {
+        $request = Yii::$app->request;
         
-        
+        /* [accion_centralizada] => x999 [proyectos] => -1 [variablescentral] => x999 [variablesproyecto] => -1 [estados] => x999*/
         $reporte=new Reporte;
-        
-    // get your HTML raw content without any layouts or scripts
-    
-    $content = $this->renderPartial('resultado_reportepdf1',[
-        'model' => $reporte->reportepdf1(),
+        $content = $this->renderPartial('resultado_reportepdf1',[
+        'model' => $reporte->reportepdf1($request->post()),
         ]);
  
-    // setup kartik\mpdf\Pdf component
-    $pdf = new Pdf([
-        // set to use core fonts only
-        'mode' => Pdf::MODE_CORE, 
-        // A4 paper format
-        'format' => Pdf::FORMAT_A4, 
-        // portrait orientation
-        'orientation' => Pdf::ORIENT_LANDSCAPE,//ORIENT_PORTRAIT, 
-        // stream to browser inline
-        'destination' => Pdf::DEST_BROWSER, 
-        // your html content input
-        'content' => $content,  
-        // format content from your own css file if needed or use the
-        // enhanced bootstrap css built by Krajee for mPDF formatting 
-        'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
-        // any css to be embedded if required
-        'cssInline' => '.kv-heading-1{font-size:18px}', 
-         // set mPDF properties on the fly
-        'options' => ['title' => 'Planificación Reporte 1'],
-         // call mPDF methods on the fly
-        'methods' => [ 
-            'SetHeader'=>['<img src="img/cintillo.jpg" height="35px;" width="100%;">'], 
-            'SetFooter'=>['{PAGENO}'],
-            
-        ]
-    ]);
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE, 
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4, 
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_LANDSCAPE,//ORIENT_PORTRAIT, 
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER, 
+            // your html content input
+            'content' => $content,  
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}', 
+             // set mPDF properties on the fly
+            'options' => ['title' => 'Planificación Reporte 1'],
+             // call mPDF methods on the fly
+            'methods' => [ 
+                'SetHeader'=>['<img src="img/cintillo.jpg" height="35px;" width="100%;">'], 
+                'SetFooter'=>['{PAGENO}'],
+                
+            ]
+        ]);
         //$pdf->SetHTMLHeader('<div><img src="img/cintillo.jpg"/></div>');
         $pdf->marginHeader=3;
         return $pdf->render(); 
         
-    }
-
-    public function actionXls1()
-    {
-        //header("Content-type: application/vnd.ms-excel charset=UTF-8");
-        //header("Content-Disposition: attachment;Filename=Planificacion_Reporte1.xls");
-
-        header("Content-type: application/vnd.ms-excel; name='excel'; charset=utf-8");
-        header("Content-Disposition: filename=ficheroExcel.xls");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        $request = Yii::$app->request->get();
-        //print_r($request['model']); exit();  
-        $datos=$request['model'];
-        $reporte=new ReportePlanificacion;
-        $meses['id']=$datos['meses'];
-        // get your HTML raw content without any layouts or scripts
-        
-        $content = $this->renderPartial('resultado_reportexls1',[
-        'model' => $reporte->reportepdf1($datos),
-        'meses' => $meses,
-        'post' => Yii::$app->request->post(),
-        ]);
-        
-        echo utf8_decode($content);
-        exit();
-        //Yii::app()->end();
     }
 
 }

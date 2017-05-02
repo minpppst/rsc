@@ -18,10 +18,10 @@ DepDropAsset::register($this);
 
 <div class="proyecto-variables-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+  <?php $form = ActiveForm::begin(); ?>
 
-    <div class="panel panel-primary">
-  
+  <div class="panel panel-primary">
+
     <div class="panel-heading">
       <span>Proyecto Variables</span>
     </div>
@@ -67,15 +67,16 @@ DepDropAsset::register($this);
       </div>
       <?= $form->field($model, 'localizacion')->dropDownList(ArrayHelper::map($lugares,'id','ambito'),['prompt'=>'Seleccione']) ?>
 
-    <?= $form->field($model, 'impacto')->dropDownList(ArrayHelper::map($impacto, 'id', 'descripcion'), ['prompt' => 'Seleccione']) ?>
+      <?= $form->field($model, 'impacto')->dropDownList(ArrayHelper::map($impacto, 'id', 'descripcion'), ['prompt' => 'Seleccione']) ?>
   
-	<div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Modificar ', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span> Volver', ['index'], ['class' => 'btn btn-primary']) ?>
       </div>
     </div>
   </div>
 
-    <?php ActiveForm::end(); ?>
+  <?php ActiveForm::end(); ?>
     
 </div>
 <?php

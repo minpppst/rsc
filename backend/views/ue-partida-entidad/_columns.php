@@ -50,8 +50,8 @@ return [
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to([$action,'id'=>$key]);
         },
-        'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
-        'updateOptions'=>['role'=>'','title'=>'Update', 'data-toggle'=>'tooltip'],
+        'viewOptions'=>['role'=>'modal-remote','title'=>'Ver','data-toggle'=>'tooltip'],
+        'updateOptions'=>['role'=>'','title'=>'Editar', 'data-toggle'=>'tooltip'],
         
     ],
 
