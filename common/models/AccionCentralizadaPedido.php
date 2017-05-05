@@ -89,7 +89,7 @@ class AccionCentralizadaPedido extends \yii\db\ActiveRecord
         ->andWhere(['accion_centralizada_ac_especifica_uej.id_ac_esp' => $this->asignado0->accion_centralizada_ac_especifica_uej->id_ac_esp])
         ->all();
 
-        if($existe!=null)
+        if($existe!=null && $this->isNewRecord)
         {
             $this->addError($attribute, 'Error, Material Ya Existe');
         }

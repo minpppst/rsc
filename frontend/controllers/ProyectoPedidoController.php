@@ -253,7 +253,7 @@ class ProyectoPedidoController extends \common\controllers\BaseController
             ArrayHelper::toArray( //Convertir a arreglo
                 ArrayHelper::index($materiales,'id') //Indice del arreglo el id del material
             )
-        );      
+        );
 
         if($request->isAjax){
             /*

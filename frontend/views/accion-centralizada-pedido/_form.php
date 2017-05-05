@@ -12,10 +12,7 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\models\AccionCentralizadaPedido */
 /* @var $form yii\widgets\ActiveForm */
-
-
 ?>
-
 <div class="accion-centralizada-pedido-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -141,7 +138,7 @@ use yii\helpers\Url;
         
         <div class="input-group">
             <span class="input-group-addon">Bs.</span>
-            <?= Html::input('text', 'total','', ['placeholder' => 0, 'readonly' => true, 'class' => 'form-control', 'id' => 'total-total' ]) ?>
+            <?= Html::input('text', 'total','', ['placeholder' => 0, 'readonly' => true, 'class' => 'form-control', 'id' => 'total-total' ],['format' => ['number', 2]]) ?>
         </div>
 
     </div>
@@ -271,14 +268,16 @@ use yii\helpers\Url;
             var iva = (sub_total  * iva_precio) / 100;
             var total = sub_total + iva;
 
+            
             //Sub-total
-            $('#subtotal').val(sub_total);
-
+            if(sub_total!=0)
+            $('#subtotal').val(moneda(sub_total));
             //IVA
-            $('#iva').val(iva);
-
+            if(iva!=0)
+            $('#iva').val(moneda(iva));
             //Total
-            $('#total-total').val(total);
+            if(total!=0)
+            $('#total-total').val(moneda(total));
         }
 
         function initTotal()
@@ -297,6 +296,51 @@ use yii\helpers\Url;
 
             calcular();
         }
+
+    /**
+     * Funcion que devuelve un numero separando los separadores de miles
+     * Puede recibir valores negativos y con decimales
+     */
+    function moneda(numero)
+    {
+        // Variable que contendra el resultado final
+        
+        var resultado = "";
+        numero= numero.toString();
+        numero=numero.replace('.', ',');
+        // Si el numero empieza por el valor "-" (numero negativo)
+        if(numero[0]=="-")
+        {
+            // Cogemos el numero eliminando los posibles puntos que tenga, y sin
+            // el signo negativo
+            nuevoNumero=numero.replace(/\./g,'').substring(1);
+        }else{
+            // Cogemos el numero eliminando los posibles puntos que tenga
+            nuevoNumero=numero.replace(/\./g,'');
+        }
+ 
+        // Si tiene decimales, se los quitamos al numero
+        if(numero.indexOf(",")>=0)
+            nuevoNumero=nuevoNumero.substring(0,nuevoNumero.indexOf(","));
+ 
+        // Ponemos un punto cada 3 caracteres
+        for (var j, i = nuevoNumero.length - 1, j = 0; i >= 0; i--, j++)
+            resultado = nuevoNumero.charAt(i) + ((j > 0) && (j % 3 == 0)? ".": "") + resultado;
+ 
+        // Si tiene decimales, se lo añadimos al numero una vez forateado con 
+        // los separadores de miles
+        if(numero.indexOf(",")>=0)
+            resultado+=numero.substring(numero.indexOf(","));
+ 
+        if(numero[0]=="-")
+        {
+            // Devolvemos el valor añadiendo al inicio el signo negativo
+            return "-"+resultado;
+        }else
+        {
+            return resultado;
+        }
+    }
 
     });
 </script>

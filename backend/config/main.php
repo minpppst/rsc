@@ -12,7 +12,28 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => 
+    [
+        'db-manager' => 
+        [
+            'class' => 'bs\dbManager\Module',
+            // path to directory for the dumps
+            'path' => '@backend/backups',
+            // list of registerd db-components
+            'dbList' => ['db'],
+            'as access' => 
+            [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['sysadmin'],
+                    ],
+                ],
+            ],
+        ],
+
+    ],
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',

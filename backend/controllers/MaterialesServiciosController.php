@@ -17,7 +17,7 @@ use common\models\PartidaPartida;
 use common\models\PartidaGenerica;
 use common\models\PartidaEspecifica;
 use common\models\PartidaSubEspecifica;
-use common\models\UnidadMedida;
+use common\models\UnidadMedidaProductos;
 use common\models\Presentacion;
 
 use common\models\UploadForm;
@@ -84,7 +84,7 @@ class MaterialesServiciosController extends \common\controllers\BaseController
         $request = Yii::$app->request;
         $model = new MaterialesServicios(); 
         //Desplegables
-        $unidad_medida = UnidadMedida::find()->all();
+        $unidad_medida = UnidadMedidaProductos::find()->all();
         $presentacion = Presentacion::find()->all();
         //autocompletar
         $sub_especifica = PartidaSubEspecifica::find()
@@ -172,7 +172,7 @@ class MaterialesServiciosController extends \common\controllers\BaseController
         $model = $this->findModel($id);
         $model->cuentapartida=$model->cuenta."-".$model->partida."-".$model->generica."-".$model->especifica."-".$model->subespecifica;
         //Desplegables
-        $unidad_medida = UnidadMedida::find()->all();
+        $unidad_medida = UnidadMedidaProductos::find()->all();
         $presentacion = Presentacion::find()->all();
         //autocompletar
         $sub_especifica = PartidaSubEspecifica::find()
@@ -344,7 +344,7 @@ class MaterialesServiciosController extends \common\controllers\BaseController
                     
 
                     //Unidad de medida $exploded[2]
-                    $unidad_medida = UnidadMedida::find()->where('unidad_medida LIKE "%:unidad_medida%"')
+                    $unidad_medida = UnidadMedidaProductos::find()->where('unidad_medida LIKE "%:unidad_medida%"')
                         ->addParams([':unidad_medida' => $exploded[2]])
                         ->one();
 

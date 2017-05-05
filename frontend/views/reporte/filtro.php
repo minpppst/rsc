@@ -5,13 +5,20 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use kartik\depdrop\DepDrop;
 use kartik\depdrop\DepDropAsset;
+//use app\assets\AppAsset;
+//AppAsset::register($this);
 
+/* @var $this yii\web\View */
+/* @var $model backend\models\ProyectoVariableUsuarios */
+/* @var $form yii\widgets\ActiveForm */
 DepDropAsset::register($this);
+$this->title = 'Reporte';
 ?>
-<?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(['action' =>['pdf1'], 'method' => 'post',]); ?>
+
 <div class="panel panel-info" >
     <div class="panel-heading">
-        <h3 class="panel-title"><i class="glyphicon glyphicon-list-alt"></i> Filtro Acciones - Proyectos</h3>
+        <h3 class="panel-title"><i class="glyphicon glyphicon-list-alt"></i> Filtro </h3>
     </div>
 
     <div class="panel-body">
@@ -36,25 +43,6 @@ DepDropAsset::register($this);
                             <?= Html::dropDownList('proyectos','proyectos',ArrayHelper::map($proyectos,'id','nombre'), ['class' => 'form-control', 'id' => 'proyectos'])?>
                         </td>
                     </tr>
-                     <tr class="danger">
-                        <td style="width: 50%;">
-                            <label class="control-label">    Acción Centralizada Acciones Específicas   </label>
-                        </td>
-                        <td style="width: 50%;">
-                            <label class="control-label">    Proyectos Acciones Específicas   </label>
-                        </td>
-                    </tr>
-                    <tr class="default">
-                        <td style="width: 50%;">
-                            <?= Html::dropDownList('acc_especifica','acc_especifica',[],
-                            ['prompt' => 'Seleccione Acción Central', 'class' => 'form-control', 'id' => 'acc_especifica']
-                            )?>
-                        </td>
-                        <td style="width: 50%;">
-                            <?= Html::dropDownList('proyectos_especifica','proyectos_especifica',[], ['prompt' => 'Seleccione Proyecto','class' => 'form-control', 'id' => 'proyectos_especifica'])?>
-                        </td>
-                    </tr>
-
                 </tbody>
             </table>
             
@@ -63,7 +51,7 @@ DepDropAsset::register($this);
 </div>
 <div class="panel panel-info" >
     <div class="panel-heading">
-        <h3 class="panel-title"><i class="glyphicon glyphicon-list-alt"></i> Filtro Variable - Unidad Ejecutora</h3>
+        <h3 class="panel-title"><i class="glyphicon glyphicon-list-alt"></i> Filtro Variable </h3>
     </div>
 
     <div class="panel-body">
@@ -88,32 +76,20 @@ DepDropAsset::register($this);
                             <?= Html::dropDownList('variablesproyecto','variablesproyecto',ArrayHelper::map($variablesproyecto,'id','nombre_variable'), ['class' => 'form-control', 'id' => 'variablesproyecto'])?>
                         </td>
                     </tr>
-                    <tr class="default">
-                        <td style="width: 50%;">
-                            
+                    <tr >
+                        <td style="width: 50%;" class="danger">
+                            <label class="control-label">    Estados    </label>
                         </td>
                         <td style="width: 50%;">Agrupar Variables
                             <?= Html::checkbox('agruparvariables','', ['selected' => true,  'id' => 'agruparvariables', 'title' => 'Agrupa las variables que esten separadas por estados', 'style' => 'height:20; width: 20px;']) ?>
                         </td>
                     </tr>
-                    <tr class="danger">
-                        <td style="width: 50%;">
-                            <label class="control-label">    Unidades Ejecutoras    </label>
-                        </td>
-                        <td style="width: 50%;">
-                            <label class="control-label">    Meses   </label>
-                        </td>
-                    </tr>
                     <tr class="default">
                         <td style="width: 50%;">
-                            <?= Html::dropDownList('unidadessejecutoras','unidadessejecutoras',ArrayHelper::map($unidadesejecutoras,'id','nombre'), ['class' => 'form-control', 'id' => 'ue'])?>
+                            <?= Html::dropDownList('estados','estados',ArrayHelper::map($estados,'id','nombre'), ['class' => 'form-control', 'id' => 'estados'])?>
                         </td>
-                        <td style="width: 50%;">
-                            <?= Html::dropDownList('meses','meses',ArrayHelper::map($meses,'id','nombre'), ['class' => 'form-control', 'id' => 'meses'])?>
-                        </td>
+
                     </tr>
-
-
                 </tbody>
             </table>
             

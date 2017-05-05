@@ -11,21 +11,23 @@ use backend\models\ReportePlanificacion;
 </table>
 <br>
 <!--aqui se recorre el arreglo de las variables-->
-<table border="1" width="100%" style="border-collapse: collapse;  margin:auto;">
+<table border="1" width="100%" style="border-collapse: collapse;  margin:auto; font-size: 12px;">
 <?php  
     $proyecto="";
+    $salto=0;
     if($meses['id']!='x999')
     {
         $meses['id']=ReportePlanificacion::Nombremes($meses['id']);
         $mes=strtolower($meses['id']);
-        foreach ($model as $key => $value) 
+        //foreach ($model as $key => $value)
+        while (($value = current($model)) !== false)
         {
             # code...
             //print_r($value); exit();
             if($proyecto!=$value['nombre'])
             {
                 $proyecto=$value['nombre'];
-                echo 
+                echo
                 "
                     <tr>
                         <td colspan='12'>
@@ -39,31 +41,32 @@ use backend\models\ReportePlanificacion;
                     </tr>
                 ";
             }
-            echo 
+            echo
             "
                 <tr bgcolor='#cccccc'>
-                    <td rowspan='2' align='center'>
+                    <td rowspan='2' align='center' width='5%'>
                         C&oacute;digo
                     </td>
-                    <td rowspan='2' align='center'>
+                    <td rowspan='2' align='center' width='12%'>
                         Denominaci&oacute;n
                     </td>
-                    <td rowspan='2' align='center'>
+                    <td rowspan='2' align='center' width='10%'>
                         Unidad Medida
                     </td>
-                    <td colspan='2' align='center'>
+                    
+                    <td colspan='2' align='center' width='17%'>
                         Meta Programada
                     </td>
-                    <td colspan='2' align='center'>
+                    <td colspan='2' align='center' width='18%'>
                         Ejecución
                     </td>
-                    <td colspan='2' align='center'>
+                    <td colspan='2' align='center' width='17%'>
                         Variación Mensual
                     </td>
-                    <td colspan='2' align='center'>
+                    <td colspan='2' align='center' width='17%'> 
                         Variaci&oacute;n Acumulada
                     </td>
-                    <td rowspan='2' align='center'>
+                    <td rowspan='2' align='center' width='12%'>
                         Unidad Ejecutora
                     </td>
                 </tr>
@@ -136,6 +139,43 @@ use backend\models\ReportePlanificacion;
                         ".$value['unidad_ejecutora']."
                     </td>
                 </tr>
+                ";
+                $nombreactual=$value['nombre_variable'];
+                $value=next($model);
+
+                if($salto>0 && (strlen($nombreactual)>140) && (isset($value['nombre_variable'])))
+                {
+                    echo 
+                    "</table>
+                    <br>
+                    <table style='page-break-after:always;'>
+                    </br>
+                    </table>
+                    <br>
+                    <table border='1' width='100%' style='border-collapse: collapse;  margin:auto; font-size: 12px;'>
+                    ";
+                    $salto=0;
+                }
+                elseif($salto>1 && (isset($value['nombre_variable'])))
+                {
+                    echo 
+                    "</table>
+                    <br>
+                    <table style='page-break-after:always;'>
+                    </br>
+                    </table>
+                    <br>
+                    <table border='1' width='100%' style='border-collapse: collapse;  margin:auto; font-size: 12px;'>
+                    ";
+                    $salto=0;
+                    
+
+                }else
+                {
+                    $salto++;
+                }
+
+                echo "
                 <tr>
                     <td colspan='12'>
                     &nbsp;
@@ -149,7 +189,7 @@ use backend\models\ReportePlanificacion;
     else
     {
         $meses=ReportePlanificacion::meses();
-        $salto=0;
+        
         echo "<tbody>";
         //foreach ($model as $key => $value) 
 
@@ -177,28 +217,29 @@ use backend\models\ReportePlanificacion;
                 echo 
                 "
                     <tr bgcolor='#cccccc'>
-                        <td rowspan='2' align='center'>
+                        <td rowspan='2' align='center' width='5%'>
                             C&oacute;digo
                         </td>
-                        <td rowspan='2' align='center'>
+                        <td rowspan='2' align='center' width='12%'>
                             Denominaci&oacute;n
                         </td>
-                        <td rowspan='2' align='center'>
+                        <td rowspan='2' align='center' width='10%'>
                             Unidad Medida
                         </td>
-                        <td colspan='2' align='center'>
+                        
+                        <td colspan='2' align='center' width='17%'>
                             Meta Programada
                         </td>
-                        <td colspan='2' align='center'>
+                        <td colspan='2' align='center' width='18%'>
                             Ejecución
                         </td>
-                        <td colspan='2' align='center'>
+                        <td colspan='2' align='center' width='17%'>
                             Variación Mensual
                         </td>
-                        <td colspan='2' align='center'>
+                        <td colspan='2' align='center' width='17%'> 
                             Variaci&oacute;n Acumulada
                         </td>
-                        <td rowspan='2' align='center'>
+                        <td rowspan='2' align='center' width='12%'>
                             Unidad Ejecutora
                         </td>
                     </tr>
@@ -276,7 +317,7 @@ use backend\models\ReportePlanificacion;
                     $nombreactual=$value['nombre_variable'];
                     $value=next($model);
 
-                    if($salto>0 && (strlen($nombreactual)>130) && (isset($value['nombre_variable'])))
+                    if($salto>0 && (strlen($nombreactual)>140) && (isset($value['nombre_variable'])))
                     {
                         echo 
                         "</table>
@@ -285,7 +326,7 @@ use backend\models\ReportePlanificacion;
                         </br>
                         </table>
                         <br>
-                        <table border='1' width='100%' style='border-collapse: collapse;  margin:auto;'>
+                        <table border='1' width='100%' style='border-collapse: collapse;  margin:auto; font-size: 12px;'>
                         ";
                         $salto=0;
                     }
@@ -298,7 +339,7 @@ use backend\models\ReportePlanificacion;
                         </br>
                         </table>
                         <br>
-                        <table border='1' width='100%' style='border-collapse: collapse;  margin:auto;'>
+                        <table border='1' width='100%' style='border-collapse: collapse;  margin:auto; font-size: 12px;'>
                         ";
                         $salto=0;
                         
@@ -331,7 +372,9 @@ use backend\models\ReportePlanificacion;
                     ";
                 }
         };//ultimo for
-        echo "</tbody>";
+        echo "</tbody>
+            </table>
+        ";
     }
 ?>
 </table>

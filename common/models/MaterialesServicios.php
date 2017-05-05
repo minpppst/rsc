@@ -117,7 +117,7 @@ class MaterialesServicios extends \yii\db\ActiveRecord
      */
     public function getUnidadMedida()
     {
-        return $this->hasOne(UnidadMedida::className(), ['id' => 'unidad_medida']);
+        return $this->hasOne(UnidadMedidaProductos::className(), ['id' => 'unidad_medida']);
     }
 
     /**

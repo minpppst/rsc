@@ -57,13 +57,36 @@ class ReportesPlanificacionController extends \common\controllers\BaseController
         
         if(Yii::$app->request->post() || Yii::$app->request->get('page'))
         {
-            $reporte=new ReportePlanificacion;
-            $meses['id']=Yii::$app->request->post('meses');
-            return $this->render('resultado_reporte1',[
-            'model' => $reporte->reporte1(Yii::$app->request->post()),
-            'meses' => $meses,
-            'post' => Yii::$app->request->post(),
-            ]);
+            if(Yii::$app->request->get('page'))
+            {
+                //print_r(Yii::$app->request->get('page')); exit();
+                $post=Yii::$app->request->get('post');
+                $reporte=new ReportePlanificacion;
+                $meses['id']=$post['meses'];
+                //mandadno la paginacion
+                //array_push($post, ['page' => Yii::$app->request->get('page')]);
+                $post['page']= Yii::$app->request->get('page');
+                $agruparvariables=isset($post['agruparvariables']) ? 1 : 0;
+                return $this->render('resultado_reporte1',[
+                'model' => $reporte->reporte1($post),
+                'meses' => $meses,
+                'agruparvariables' => $agruparvariables,
+                'post' => $post,
+                ]);
+            }
+            else
+            {
+                $reporte=new ReportePlanificacion;
+                $meses['id']=Yii::$app->request->post('meses');
+                $agruparvariables=Yii::$app->request->post('agruparvariables')!==null ? 1 : 0;
+                return $this->render('resultado_reporte1',[
+                'model' => $reporte->reporte1(Yii::$app->request->post()),
+                'meses' => $meses,
+                'agruparvariables' => $agruparvariables,
+                'post' => Yii::$app->request->post(),
+                ]);    
+            }
+            
         }
         else
         {
@@ -164,12 +187,14 @@ class ReportesPlanificacionController extends \common\controllers\BaseController
         $datos=$request['model'];
         $reporte=new ReportePlanificacion;
         $meses['id']=$datos['meses'];
+        $agruparvariables=isset($datos['agruparvariables']) ? $datos['agruparvariables'] : 0;
         
     // get your HTML raw content without any layouts or scripts
     
     $content = $this->renderPartial('resultado_reportepdf1',[
         'model' => $reporte->reportepdf1($datos),
         'meses' => $meses,
+        'agruparvariables' => $agruparvariables,
         'post' => Yii::$app->request->post(),
         ]);
  

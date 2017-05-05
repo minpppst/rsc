@@ -40,10 +40,12 @@ $icons=[
             GridView::widget([
                 'dataProvider' => $model,
                 'columns' => require(__DIR__.'/_resultado-columns.php'),
+
                 'panel' => [
+                    
                     'type' => 'default',
                     'heading' => '<span class="fa fa-balance-scale"></span> Reporte',
-                    'after'=>Html::a($icons['PDF'].' PDF', ['reportes-planificacion/pdf1', 'model' => $post, 'meses' => $meses],['target' => '_blank'], ['class' => 'btn btn-group']).' &nbsp; '.Html::a($icons['XLS'].'XLS', ['reportes-planificacion/xls1', 'model' => $post, 'meses' => $meses], ['target' => '_blank'], ['class' => 'btn btn-group']).'<div class="clearfix"></div>',
+                    'after'=>Html::a($icons['PDF'].' PDF', ['reportes-planificacion/pdf1', 'model' => $post, 'meses' => $meses, 'agruparvariables' => $agruparvariables],['target' => '_blank'], ['class' => 'btn btn-group']).' &nbsp; '.Html::a($icons['XLS'].'XLS', ['reportes-planificacion/xls1', 'model' => $post, 'meses' => $meses], ['target' => '_blank'], ['class' => 'btn btn-group']).'<div class="clearfix"></div>',
                 ],
             ]);            
         ?>

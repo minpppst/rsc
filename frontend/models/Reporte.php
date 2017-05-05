@@ -19,7 +19,6 @@ use Yii;
  */
 class Reporte extends \yii\db\ActiveRecord
 {
-    
     /*
     *Obtener array de meses.
     *@return array
@@ -28,7 +27,6 @@ class Reporte extends \yii\db\ActiveRecord
     {
         return $meses=[['id' => 1, 'nombre' =>'Enero'],['id' =>  2, 'nombre'=>'Febrero'],['id' => 3, 'nombre' => 'Marzo'],['id' => 4,'nombre' => 'Abril'],['id' => 5, 'nombre' => 'Mayo'],['id' =>  6, 'nombre' => 'Junio'],[ 'id' => 7, 'nombre' => 'Julio'],['id' => 8, 'nombre' => 'Agosto'],['id'=> 9, 'nombre' => 'Septiembre'],['id'=> 10, 'nombre' => 'Octubre'],['id' => 11, 'nombre' => 'Noviembre'],[ 'id' => 12, 'nombre' => 'Diciembre']];
     }
-
 
     /**
     **sql para generar el reporte con los filtros necesarios
@@ -94,6 +92,7 @@ class Reporte extends \yii\db\ActiveRecord
         ->where(['accion_centralizada_asignar.usuario' => Yii::$app->user->id])
         ->Asarray()
         ->all();
+        
         $ueproyecto=ProyectoUsuarioAsignar::find()
         ->select('proyecto_accion_especifica.id_unidad_ejecutora as id_ue')
         ->innerjoin('proyecto_accion_especifica', 'proyecto_accion_especifica.id=proyecto_usuario_asignar.accion_especifica_id')
@@ -130,7 +129,49 @@ class Reporte extends \yii\db\ActiveRecord
                 $unidadesp=$unidades;   
             }
 
-        $sql="
+        if(isset($pos['agruparvariables']) && $pos['agruparvariables']==1)
+        {
+            $sql="
+
+            SELECT a.codigo_accion as codigo, a.nombre_accion AS nombre, c.nombre_variable, h.unidad_medida, 'Nacional' as estado, 
+            sum(e.enero) as enero,sum(e.enero) as enero_acu, sum(e.febrero) as febrero, (sum(e.febrero)+sum(e.enero)) as febrero_acu, sum(e.marzo) as marzo, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)) as marzo_acu, sum(e.abril) as abril, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)) as abril_acu, sum(e.mayo) as mayo, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)) as mayo_acu, sum(e.junio) as junio, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)) as junio_acu, sum(e.julio) as julio, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)) as julio_acu, sum(e.agosto) as agosto, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)+sum(e.agosto)) as agosto_acu, sum(e.septiembre) as septiembre, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)+sum(e.agosto)+sum(e.septiembre)) as septiembre_acu, sum(e.octubre) as octubre, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)+sum(e.agosto)+sum(e.septiembre)+sum(e.octubre)) as octubre_acu, sum(e.noviembre) as noviembre, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)+sum(e.agosto)+sum(e.septiembre)+sum(e.octubre)+sum(e.noviembre)) as noviembre_acu, sum(e.diciembre) as diciembre, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)+sum(e.agosto)+sum(e.septiembre)+sum(e.octubre)+sum(e.noviembre)+sum(e.diciembre)) as diciembre_acu,
+            sum(f.enero) as enero_eje, (ifnull(sum(f.enero),0)) as enero_acu_eje, sum(f.febrero) as febrero_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)) as febrero_acu_eje, sum(f.marzo) as marzo_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)) as marzo_acu_eje, sum(f.abril) as abril_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)) as abril_acu_eje, sum(f.mayo) as mayo_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)) as mayo_acu_eje, sum(f.junio) as junio_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)) as junio_acu_eje, sum(f.julio) as julio_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)) as julio_acu_eje, sum(f.agosto) as agosto_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)+ifnull(sum(f.agosto),0)) as agosto_acu_eje, sum(f.septiembre) as septiembre_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)+ifnull(sum(f.agosto),0)+ifnull(sum(f.septiembre),0)) as septiembre_acu_eje, sum(f.octubre) as octubre_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)+ifnull(sum(f.agosto),0)+ifnull(sum(f.septiembre),0)+ifnull(sum(f.octubre),0)) as octubre_acu_eje, sum(f.noviembre) as noviembre_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)+ifnull(sum(f.agosto),0)+ifnull(sum(f.septiembre),0)+ifnull(sum(f.octubre),0)+ifnull(sum(f.noviembre),0)) as noviembre_acu_eje, sum(f.diciembre) as diciembre_eje, 
+            (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)+ifnull(sum(f.agosto),0)+ifnull(sum(f.septiembre),0)+ifnull(sum(f.octubre),0)+ifnull(sum(f.noviembre),0)+ifnull(sum(f.diciembre),0)) as diciembre_acu_eje, 
+            g.nombre as unidad_ejecutora 
+            FROM accion_centralizada AS a
+            INNER JOIN accion_centralizada_accion_especifica AS b ON a.id = b.id_ac_centr
+            INNER JOIN accion_centralizada_variables AS c ON b.id = c.acc_accion_especifica
+            INNER JOIN localizacion_acc_variable AS d ON c.id = d.id_variable
+            INNER JOIN accion_centralizada_variable_programacion AS e ON d.id = e.id_localizacion
+            INNER JOIN accion_centralizada_variable_ejecucion AS f ON e.id = f.id_programacion
+            INNER JOIN unidad_ejecutora AS g ON c.unidad_ejecutora = g.id
+            INNER JOIN unidad_medida AS h ON c.unidad_medida=h.id
+            ".$innerjoin."
+            where 1=1 
+            ".$unidadesc.$accioncentralizada.$ACvariable.$estado.$whereNacional."
+
+        union all
+
+            SELECT a.codigo_proyecto as codigo, a.nombre AS nombre, c.nombre_variable, h.unidad_medida, 'Nacional' as estado, 
+        sum(e.enero) as enero,sum(e.enero) as enero_acu, sum(e.febrero) as febrero, (sum(e.febrero)+sum(e.enero)) as febrero_acu, sum(e.marzo) as marzo, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)) as marzo_acu, sum(e.abril) as abril, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)) as abril_acu, sum(e.mayo) as mayo, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)) as mayo_acu, sum(e.junio) as junio, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)) as junio_acu, sum(e.julio) as julio, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)) as julio_acu, sum(e.agosto) as agosto, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)+sum(e.agosto)) as agosto_acu, sum(e.septiembre) as septiembre, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)+sum(e.agosto)+sum(e.septiembre)) as septiembre_acu, sum(e.octubre) as octubre, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)+sum(e.agosto)+sum(e.septiembre)+sum(e.octubre)) as octubre_acu, sum(e.noviembre) as noviembre, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)+sum(e.agosto)+sum(e.septiembre)+sum(e.octubre)+sum(e.noviembre)) as noviembre_acu, sum(e.diciembre) as diciembre, (sum(e.febrero)+sum(e.enero)+sum(e.marzo)+sum(e.abril)+sum(e.mayo)+sum(e.junio)+sum(e.julio)+sum(e.agosto)+sum(e.septiembre)+sum(e.octubre)+sum(e.noviembre)+sum(e.diciembre)) as diciembre_acu,
+        sum(f.enero) as enero_eje, sum(f.enero) as enero_acu_eje, sum(f.febrero) as febrero_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)) as febrero_acu_eje, sum(f.marzo) as marzo_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)) as marzo_acu_eje, sum(f.abril) as abril_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)) as abril_acu_eje, sum(f.mayo) as mayo_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)) as mayo_acu_eje, sum(f.junio) as junio_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)) as junio_acu_eje, sum(f.julio) as julio_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)) as julio_acu_eje, sum(f.agosto) as agosto_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)+ifnull(sum(f.agosto),0)) as agosto_acu_eje, sum(f.septiembre) as septiembre_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)+ifnull(sum(f.agosto),0)+ifnull(sum(f.septiembre),0)) as septiembre_acu_eje, sum(f.octubre) as octubre_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)+ifnull(sum(f.agosto),0)+ifnull(sum(f.septiembre),0)+ifnull(sum(f.octubre),0)) as octubre_acu_eje, sum(f.noviembre) as noviembre_eje, (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)+ifnull(sum(f.agosto),0)+ifnull(sum(f.septiembre),0)+ifnull(sum(f.octubre),0)+ifnull(sum(f.noviembre),0)) as noviembre_acu_eje, sum(f.diciembre) as diciembre_eje, 
+        (ifnull(sum(f.febrero),0)+ifnull(sum(f.enero),0)+ifnull(sum(f.marzo),0)+ifnull(sum(f.abril),0)+ifnull(sum(f.mayo),0)+ifnull(sum(f.junio),0)+ifnull(sum(f.julio),0)+ifnull(sum(f.agosto),0)+ifnull(sum(f.septiembre),0)+ifnull(sum(f.octubre),0)+ifnull(sum(f.noviembre),0)+ifnull(sum(f.diciembre),0)) as diciembre_acu_eje, 
+       g.nombre as unidad_ejecutora 
+            FROM proyecto AS a
+            INNER JOIN proyecto_accion_especifica AS b ON a.id = b.id_proyecto
+            INNER JOIN proyecto_variables AS c ON b.id = c.accion_especifica
+            INNER JOIN proyecto_variable_localizacion AS d ON c.id = d.id_variable
+            INNER JOIN proyecto_variable_programacion AS e ON d.id = e.id_localizacion
+            INNER JOIN proyecto_variable_ejecucion AS f ON e.id = f.id_programacion
+            INNER JOIN unidad_ejecutora AS g ON c.unidad_ejecutora = g.id
+            INNER JOIN unidad_medida AS h ON c.unidad_medida=h.id
+            ".$innerjoin."
+            where 1=1 
+            ".$unidadesp.$proyecto.$Pvariable.$estado.$whereNacional."
+            ";        
+        }else
+        {
+            $sql="
 
         SELECT a.codigo_accion as codigo, a.nombre_accion AS nombre, c.nombre_variable, h.unidad_medida, ".$estadosFiltro."
         e.enero, (e.enero) as enero_acu,
@@ -250,7 +291,9 @@ class Reporte extends \yii\db\ActiveRecord
         ".$innerjoin."
         where 1=1 
         ".$unidadesp.$proyecto.$Pvariable.$estado.$whereNacional."
-        ";    
+        ";        
+        }
+        
         //Arreglo para el DataProvider
         //print_r($sql); exit();
         $query = Yii::$app->db->createCommand($sql)->queryAll();

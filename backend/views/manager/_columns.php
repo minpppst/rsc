@@ -17,14 +17,14 @@ $columns = [
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'username',
-        'label' => 'Usuario'
+        'label' => 'Usuario',
     ],
-    /*
+
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'login',
     ],
-    */    
+
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'created_at',
